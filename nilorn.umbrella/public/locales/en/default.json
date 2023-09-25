@@ -1,9 +1,10 @@
 {
-  "lisa": {
-    "comingHere": "Här kommer jag"
-  },
   "Menu": {
     "hyphome": "Start",
-    "hypproducts": "Produkter"
+    "hypproducts": "Product developments",
+    "hypsource": "Sourcings",
+    "hypclient": "Clients",
+    "hypprojects": "Projects",
+    "hypprice": "Prices"
   }
 }

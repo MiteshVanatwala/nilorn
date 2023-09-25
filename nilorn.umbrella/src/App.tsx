@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useAuth, hasAuthParams } from 'react-oidc-context';
-import { ApiError, OpenAPI } from './api';
+// import { ApiError, OpenAPI } from './api';
 import i18n from './i18n';
 import { MutationCache, QueryClient, QueryClientProvider } from 'react-query';
 import { I18nextProvider } from 'react-i18next';
@@ -16,17 +15,14 @@ function App() {
   // const { showToast } = useToast();
   const mutationCache = new MutationCache({
     onError: async error => {
-      const err = error as ApiError;
-      const alertStatus: AlertStatus = err.status === 500 ? 'error' : 'warning';
+      // const err = error as ApiError;
 
       try {
-        const errObj = JSON.parse(err?.body);
         // showToast({
         //   status: alertStatus,
         //   title: errObj?.title ? errObj?.title : '',
         // });
       } catch (e) {
-        const errArr = err.body as { title: string }[];
         // showToast({
         //   status: alertStatus,
         //   title: errArr[0] ? errArr[0].title : '',

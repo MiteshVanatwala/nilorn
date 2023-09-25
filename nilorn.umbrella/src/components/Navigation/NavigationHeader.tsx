@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 import { images } from '../../assets/';
 import COLORS from '../../theme/Constants/colors';
 import SIZES from '../../theme/Constants/sizes';
-// import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 // import ClientSwitcher from '../User/ClientSwitcher';
 // import UserMenu from '../User/UserMenu';
 import HeaderDivider from './HeaderDivider';
@@ -48,14 +48,11 @@ const NavigationHeader = () => {
                 />
               </Box>
               <HStack m={0} divider={<HeaderDivider />}>
-                <HeaderLink title={t('Menu.hyphome')} path="/" />
                 <HeaderLink title={t('Menu.hypproducts')} path="/products" />
-                {/* <HeaderLink
-                  title={t('Menu.hypordertracking')}
-                  path="/order-tracking"
-                />
-                <HeaderLink title={t('Menu.hypreports')} path="/reports" />
-                <HeaderLink title={t('Menu.hyphelp')} path="/help" /> */}
+                <HeaderLink title={t('Menu.hypsource')} path="/sourcings" />
+                <HeaderLink title={t('Menu.hypclient')} path="/clients" />
+                <HeaderLink title={t('Menu.hypprojects')} path="/projects" />
+                <HeaderLink title={t('Menu.hypprice')} path="/prices" />
               </HStack>
               <HeaderDivider />
             </Flex>
@@ -63,9 +60,9 @@ const NavigationHeader = () => {
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
               <HeaderOrderLink />
-              {/* <UserMenu />
-              <LanguageSwitcher />
-              <ClientSwitcher /> */}
+              {/* <UserMenu /> */}
+              {/* <LanguageSwitcher /> */}
+              {/* <ClientSwitcher /> */}
             </HStack>
           </GridItem>
         </Grid>

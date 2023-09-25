@@ -16,7 +16,7 @@ const HeaderLink: React.FC<Props> = ({ path, title }) => {
       end
       variant="headerLink"
       to={path}
-    >
+      whiteSpace={'nowrap'}>
       {title}
     </LinkComponent>
   );
