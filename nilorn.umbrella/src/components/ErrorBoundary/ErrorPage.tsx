@@ -19,7 +19,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
       alignItems="center"
       justifyContent="center"
       textAlign="center"
-      bgImg={images.request_error}
+      // bgImg={images.request_error}
       bgRepeat="no-repeat"
       bgPos="bottom 1.5rem left 2rem"
       bgSize="auto">
