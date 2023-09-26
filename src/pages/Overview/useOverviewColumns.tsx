@@ -2,6 +2,7 @@ import { Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { OverviewItem } from './mock';
 import { createColumnHelper } from '@tanstack/react-table';
+import StatusBadge from '../../components/Status/StatusBadge';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -29,10 +30,12 @@ const useOverviewColumns = () => {
       header: `${t('PD.Number')}`,
       cell: info => info.getValue(),
     }),
-    // columnHelper.accessor('status', {
-    //   header: `${t('PD.status')}`,
-    //   cell: info => info.getValue(),
-    // }),
+    columnHelper.accessor('status', {
+      header: `${t('PD.status')}`,
+      cell: info => {
+        return <StatusBadge status={info.getValue()} />;
+      },
+    }),
     columnHelper.accessor('artwork', {
       header: `${t('PD.Artwork')}`,
       cell: info => info.getValue(),
