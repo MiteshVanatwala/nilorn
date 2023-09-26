@@ -1,9 +1,8 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import HomePage from '../Home/HomePage';
 import MainApp from './MainApp';
-import ProductPage from '../Product/ProductPage';
+import ProductDevelopment from '../Product/ProductDevelopment';
 import RouteError from '../../components/ErrorBoundary/RouteError';
-import React from 'react';
 import ClientsPage from '../Clients/ClientPage';
 import SourcingsPage from '../Sourcings/SourcingsPage';
 import ProjectsPage from '../Projects/ProjectsPage';
@@ -19,8 +18,8 @@ const router = createBrowserRouter([
         children: [
           { element: <HomePage />, index: true },
           {
-            path: 'products',
-            element: <ProductPage />,
+            path: 'product-development/:id',
+            element: <ProductDevelopment />,
           },
           {
             path: 'clients',
