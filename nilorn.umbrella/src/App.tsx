@@ -1,26 +1,53 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
+import { useEffect } from 'react';
+// import { ApiError, OpenAPI } from './api';
+import i18n from './i18n';
+import { MutationCache, QueryClient, QueryClientProvider } from 'react-query';
+import { I18nextProvider } from 'react-i18next';
+import SpinnerOverlay from './components/Spinner/SpinnerOverlay';
+import { RouterProvider } from 'react-router-dom';
+import router from './pages/MainApp/Router';
+// import { useToast } from './app/hooks/useToast';
+import { AlertStatus } from '@chakra-ui/alert';
+import ErrorPage from './components/ErrorBoundary/ErrorPage';
 
 function App() {
+  // const { showToast } = useToast();
+  const mutationCache = new MutationCache({
+    onError: async error => {
+      // const err = error as ApiError;
+
+      try {
+        // showToast({
+        //   status: alertStatus,
+        //   title: errObj?.title ? errObj?.title : '',
+        // });
+      } catch (e) {
+        // showToast({
+        //   status: alertStatus,
+        //   title: errArr[0] ? errArr[0].title : '',
+        // });
+      }
+    },
+  });
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 20,
+      },
+    },
+    mutationCache,
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
+        <RouterProvider router={router} />
+      </I18nextProvider>
+    </QueryClientProvider>
   );
+
+  // return <SpinnerOverlay />;
 }
 
 export default App;
