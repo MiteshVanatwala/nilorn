@@ -1,0 +1,26 @@
+import { Box, Container } from '@chakra-ui/layout';
+import { SIZES, SPACE } from '../../theme/Constants';
+
+interface Props {
+  children: JSX.Element | JSX.Element[];
+  title?: string;
+  goBack?: boolean;
+}
+
+const ContentPage = ({ children, title, goBack }: Props) => {
+  return (
+    <Container
+      centerContent
+      width={'100%'}
+      maxW={'100%'}
+      mt={SPACE.XL}
+      pb={SPACE.XXL}
+      overflowX={'clip'}>
+      <Box maxW={SIZES.CONTAINER.XL} w={'100%'} position={'relative'}>
+        {children}
+      </Box>
+    </Container>
+  );
+};
+
+export default ContentPage;

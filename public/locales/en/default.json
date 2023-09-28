@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "GoHome": "Go home"
+  },
   "Menu": {
     "hyphome": "Start",
     "hypproducts": "Product developments",
@@ -6,5 +9,20 @@
     "hypclient": "Clients",
     "hypprojects": "Projects",
     "hypprice": "Prices"
+  },
+  "PD": {
+    "image": "Image",
+    "name": "Name",
+    "number": "PD Number",
+    "status": "Status",
+    "artwork": "Artwork",
+    "client": "Client",
+    "type": "ProductType",
+    "productGroup": "Group name",
+    "statusLabel": {
+      "new": "New",
+      "waiting": "Waiting for approval",
+      "done": "Done"
+    }
   }
 }
