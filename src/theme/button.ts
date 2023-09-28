@@ -1,12 +1,13 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react';
 import { SPACE, COLORS, BORDER_RADIUS } from './Constants/';
 import text from './text';
+import fontSizes from './fontSizes';
 
 const primary = defineStyle({
   colorScheme: 'primary',
   color: COLORS.GRAY[90],
   background: COLORS.BLUE[100],
-  fontSize: '1.2rem',
+  fontSize: fontSizes.xs,
   fontWeight: 900,
   px: SPACE.XL,
   height: SPACE.XL,
@@ -19,7 +20,7 @@ const primary = defineStyle({
 const secondary = defineStyle({
   color: COLORS.WHITE,
   background: COLORS.GRAY[70],
-  fontSize: '1.2rem',
+  fontSize: fontSizes.xs,
   fontWeight: 900,
   px: SPACE.XL,
   height: SPACE.XL,
@@ -32,7 +33,7 @@ const secondary = defineStyle({
 const error = defineStyle({
   color: COLORS.WHITE,
   background: COLORS.RED.PRIMARY,
-  fontSize: '1.2rem',
+  fontSize: fontSizes.xs,
   fontWeight: 900,
   px: SPACE.XL,
   height: SPACE.XL,
@@ -44,7 +45,7 @@ const error = defineStyle({
 
 const tableText = defineStyle({
   color: COLORS.GRAY[80],
-  fontSize: '1.2rem',
+  fontSize: fontSizes.xs,
   fontWeight: 700,
   padding: '0',
   borderRadius: 'none',
@@ -133,7 +134,7 @@ const tableButtonDelete = defineStyle({
 });
 
 const tableButtonTextIcon = defineStyle({
-  fontSize: '1.2rem',
+  fontSize: fontSizes.xs,
   fontWeight: 700,
   paddingX: SPACE.SM,
   cursor: 'pointer',

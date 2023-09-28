@@ -1,4 +1,5 @@
 import { SPACE, COLORS } from './Constants/';
+import fontSizes from './fontSizes';
 import text from './text';
 
 export const link = {
@@ -10,7 +11,7 @@ export const link = {
   variants: {
     textLink: {
       color: COLORS.GRAY[80],
-      fontSize: '1.2rem',
+      fontSize: fontSizes.xs,
       fontWeight: 700,
       padding: '0',
       borderRadius: 'none',

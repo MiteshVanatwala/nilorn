@@ -2,6 +2,7 @@ import { Link as LinkComponent } from '@chakra-ui/react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import COLORS from '../../theme/Constants/colors';
+import fontSizes from '../../theme/fontSizes';
 
 interface Props {
   title?: string | JSX.Element;
@@ -16,6 +17,7 @@ const HeaderLink: React.FC<Props> = ({ path, title }) => {
       end
       variant="headerLink"
       to={path}
+      fontSize={fontSizes.xs}
       whiteSpace={'nowrap'}>
       {title}
     </LinkComponent>

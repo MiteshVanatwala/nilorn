@@ -2,6 +2,7 @@ import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 import COLORS from './Constants/colors';
 import text from './text';
 import { tableAnatomy } from '@chakra-ui/anatomy';
+import fontSizes from './fontSizes';
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(tableAnatomy.keys);
@@ -20,7 +21,7 @@ const baseStyle = definePartsStyle({
     borderWidth: 1,
     bg: COLORS.GRAY[80],
     color: COLORS.WHITE,
-    fontSize: '1.2rem',
+    fontSize: fontSizes.xs,
     textTransform: 'none',
   },
   td: {

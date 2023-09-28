@@ -6,6 +6,7 @@ import {
 } from '@chakra-ui/react';
 import COLORS from './Constants/colors';
 import { SPACE } from './Constants';
+import fontSizes from './fontSizes';
 
 const importantValue = (value: string) => {
   return `${value} !important`;
@@ -48,7 +49,7 @@ const light = (props: StyleFunctionProps) =>
 
 const sizes = {
   xs: definePartsStyle({
-    field: { fontSize: '1.2rem', p: SPACE.XXS, height: '2.2rem' },
+    field: { fontSize: fontSizes.xs, p: SPACE.XXS, height: '2.2rem' },
   }),
 };
 
