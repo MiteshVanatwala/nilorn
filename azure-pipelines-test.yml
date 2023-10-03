@@ -7,7 +7,7 @@ trigger:
   - develop
 
 variables:
-  - group: Nilorn.OrderSystem.UI-TEST
+  - group: Nilorn.Umbrella.UI-TEST
 
 pool:
   vmImage: ubuntu-latest
