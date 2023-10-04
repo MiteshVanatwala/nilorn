@@ -1,5 +1,7 @@
 const SIZES = {
   CONTAINER: {
+    XXXS: '20rem',
+
     XXS: '50rem',
     XS: '62rem',
     SM: '72rem',
@@ -11,12 +13,12 @@ const SIZES = {
     MAXH: '10rem',
   },
   ICON: {
-    SM: '1.2rem',
+    SM: '1.4rem',
     MD: '1.6rem',
     LG: '2.4rem',
   },
   FONT: {
-    XS: '1.2rem',
+    XS: '1.4rem',
     SM: '1.6rem',
     MD: '2.4rem',
     LG: '3.2rem',

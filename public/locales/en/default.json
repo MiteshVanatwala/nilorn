@@ -24,5 +24,9 @@
       "waiting": "Waiting for approval",
       "done": "Done"
     }
+  },
+  "Filter": {
+    "Search": "Search by...",
+    "Select": "Select..."
   }
 }

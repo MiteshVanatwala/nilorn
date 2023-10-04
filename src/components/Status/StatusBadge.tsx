@@ -3,6 +3,7 @@ import { Badge } from '@chakra-ui/react';
 import { Status } from '../../pages/Overview/mock';
 import { useTranslation } from 'react-i18next';
 import fontSizes from '../../theme/fontSizes';
+import React from 'react';
 
 type Props = {
   status: Status;
@@ -23,7 +24,7 @@ const StatusBadge = ({ status }: Props) => {
   }, [status]);
 
   return (
-    <Badge variant="subtle" fontSize={fontSizes.SX} colorScheme={color}>
+    <Badge variant="subtle" fontSize={fontSizes.xs} colorScheme={color}>
       {t(`PD.statusLabel.${label}`)}
     </Badge>
   );
