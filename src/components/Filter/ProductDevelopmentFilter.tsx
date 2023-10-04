@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SIZES, SPACE } from '../../theme/Constants';
 import { Button, Flex } from '@chakra-ui/react';
@@ -8,6 +8,7 @@ import fontSizes from '../../theme/fontSizes';
 import { useSearchParams } from 'react-router-dom';
 import Select from '../Form/Select';
 import { SelectOption, getDefaultValueSelect } from './FilterHelper';
+import { useTranslation } from 'react-i18next';
 const exampleOptions = [
   {
     label: 'Coffee',
@@ -29,6 +30,7 @@ const exampleOptions = [
 
 const ProductDevelopmentFilter = () => {
   const form = useForm();
+  const { t } = useTranslation();
 
   let [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>();
@@ -37,21 +39,25 @@ const ProductDevelopmentFilter = () => {
   >(null);
 
   const selectValueQuery = searchParams.get('filter');
+  const searchTermQuery = searchParams.get('search');
 
   useEffect(() => {
-    const searchTerm = searchParams.get('search');
-    setSearchTerm(searchTerm ?? '');
     if (selectValueQuery !== null) {
       setSelectValue(
         getDefaultValueSelect(selectValueQuery ?? '', exampleOptions)
       );
     } else {
       setSelectValue({
-        label: 'Select...',
+        label: `${t(`Filter.Select`)}`,
         value: '',
       });
     }
-  }, [searchParams, selectValueQuery]);
+  }, [selectValueQuery]);
+
+  useEffect(() => {
+    setSearchTerm(searchTermQuery ?? '');
+  }, [searchTermQuery]);
+
   return (
     <Flex
       fontSize={fontSizes.sm}
@@ -70,17 +76,19 @@ const ProductDevelopmentFilter = () => {
           zIndex={10}>
           <InputSearch
             label="Search"
-            placeholder="Search by..."
+            placeholder={t(`Filter.Search`)}
             name="search"
             variant="filled"
             defaultValue={searchTerm}
           />
           {selectValue != null && (
-            <Select
-              defaultValue={selectValue ?? undefined}
-              options={exampleOptions}
-              name={'filter'}
-            />
+            <Suspense>
+              <Select
+                defaultValue={selectValue ?? undefined}
+                options={exampleOptions}
+                name={'filter'}
+              />
+            </Suspense>
           )}
           <Button
             type="submit"
