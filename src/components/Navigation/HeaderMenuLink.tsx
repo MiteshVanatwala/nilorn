@@ -24,15 +24,9 @@ interface ButtonProps {
 
 const HeaderMenuButton = ({ children, onClick: onClickFunc }: ButtonProps) => {
   return (
-    <MenuItem as={'div'} p={'0'} _focus={{ backgroundColor: COLORS.GRAY[5] }}>
-      <LinkComponent
-        onClick={onClickFunc}
-        as={'button'}
-        variant="headerMenuButton"
-      >
-        {children}
-      </LinkComponent>
-    </MenuItem>
+    <LinkComponent onClick={onClickFunc} as={'button'} variant="headerLink">
+      {children}
+    </LinkComponent>
   );
 };
 

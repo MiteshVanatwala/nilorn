@@ -1,14 +1,23 @@
 {
   "Common": {
-    "GoHome": "Go home"
+    "title": "Umbrella",
+    "GoHome": "Go home",
+    "signingIn": "Signing you in...",
+    "signingOut": "Signing you out...",
+    "authError": "Authentication error",
+    "reloadSite": "Reload site",
+    "errorTitle": "An error occured while processing your request"
   },
   "Menu": {
     "hyphome": "Start",
     "hypproducts": "Product developments",
     "hypsource": "Sourcings",
+    "hypchangelog": "Changelog",
     "hypclient": "Clients",
     "hypprojects": "Projects",
-    "hypprice": "Prices"
+    "hypprice": "Prices",
+    "hypuser": "User",
+    "signOut": "Sign out"
   },
   "PD": {
     "image": "Image",

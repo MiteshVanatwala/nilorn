@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   HStack,
+  Heading,
   Image,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
@@ -12,13 +13,9 @@ import { NavLink } from 'react-router-dom';
 import { images } from '../../assets/';
 import COLORS from '../../theme/Constants/colors';
 import SIZES from '../../theme/Constants/sizes';
-import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
-// import ClientSwitcher from '../User/ClientSwitcher';
-// import UserMenu from '../User/UserMenu';
 import HeaderDivider from './HeaderDivider';
 import HeaderLink from './HeaderLink';
-import HeaderOrderLink from './HeaderOrderLink';
-import React from 'react';
+import UserMenu from './UserMenu';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -39,30 +36,29 @@ const NavigationHeader = () => {
           <GridItem
             borderBottom={{ base: `solid 1px ${COLORS.GRAY[30]}`, lg: 'none' }}>
             <Flex alignItems="center">
-              <Box as={NavLink} to={'/'} minWidth={'7.8rem'} height="6.9rem">
-                <Image
-                  src={images.logo}
-                  height="6.9rem"
-                  width="auto"
-                  min-width={'100% !important'}
-                />
-              </Box>
+              <HStack m={0}>
+                <Box as={NavLink} to={'/'} width={'auto'} height="6.9rem">
+                  <Image
+                    src={images.logo}
+                    height="6.9rem"
+                    width="auto"
+                    min-width={'100% !important'}
+                  />
+                </Box>
+              </HStack>
               <HStack m={0} divider={<HeaderDivider />}>
-                <HeaderLink title={t('Menu.hypproducts')} path="/products" />
-                <HeaderLink title={t('Menu.hypsource')} path="/sourcings" />
-                <HeaderLink title={t('Menu.hypclient')} path="/clients" />
-                <HeaderLink title={t('Menu.hypprojects')} path="/projects" />
-                <HeaderLink title={t('Menu.hypprice')} path="/prices" />
+                <HeaderLink
+                  title={<Heading variant={'h5'}>{t('Common.title')}</Heading>}
+                  path={'/'}
+                />
+                <HeaderLink title={t('Menu.hypchangelog')} path="/changelog" />
               </HStack>
               <HeaderDivider />
             </Flex>
           </GridItem>
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
-              <HeaderOrderLink />
-              {/* <UserMenu /> */}
-              {/* <LanguageSwitcher /> */}
-              {/* <ClientSwitcher /> */}
+              <UserMenu />
             </HStack>
           </GridItem>
         </Grid>

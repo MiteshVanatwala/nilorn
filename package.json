@@ -22,7 +22,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
     "react-i18next": "^13.2.2",
-    "react-oidc-context": "^2.3.0",
+    "react-oidc-context": "^2.3.1",
     "react-query": "^3.39.3",
     "react-router": "^6.16.0",
     "react-router-dom": "^6.16.0",
@@ -32,10 +32,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate": "openapi --input https://umbrella-test.nilorn.com/swagger/v1/swagger.json --output ./src/generate"
   },
   "eslintConfig": {
     "extends": [
@@ -54,5 +55,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "openapi-typescript-codegen": "^0.25.0"
   }
 }

@@ -1,19 +1,15 @@
-import { Text } from '@chakra-ui/layout';
-import ContentPage from '../Templates/ContentPage';
+import { Box } from '@chakra-ui/react';
 import OverviewTableContainer from './OverviewTableContainer';
-import { Button } from '@chakra-ui/button';
 import { generateMockData } from './mock';
+import { SPACE } from '../../theme/Constants';
 
 function Overview() {
   const data = generateMockData(25);
 
   return (
-    <ContentPage>
-      <Text>[FILTER]</Text>
-      <Button variant={'primary'}>test</Button>
-
-      <OverviewTableContainer data={data} />
-    </ContentPage>
+    <Box mt={SPACE.XL}>
+      <OverviewTableContainer data={data} />;
+    </Box>
   );
 }
 

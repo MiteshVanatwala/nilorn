@@ -5,8 +5,8 @@ import ProductDevelopment from '../Product/ProductDevelopment';
 import RouteError from '../../components/ErrorBoundary/RouteError';
 import ClientsPage from '../Clients/ClientPage';
 import SourcingsPage from '../Sourcings/SourcingsPage';
-import ProjectsPage from '../Projects/ProjectsPage';
 import PricesPage from '../Prices/PricesPage';
+import SigninOidc from '../Auth/SigninOidc';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +16,7 @@ const router = createBrowserRouter([
       {
         errorElement: <RouteError />,
         children: [
+          { path: 'signin-oidc', element: <SigninOidc /> },
           { element: <HomePage />, index: true },
           {
             path: 'product-development/:id',
@@ -26,12 +27,8 @@ const router = createBrowserRouter([
             element: <ClientsPage />,
           },
           {
-            path: 'sourcings',
+            path: 'changelog',
             element: <SourcingsPage />,
-          },
-          {
-            path: 'projects',
-            element: <ProjectsPage />,
           },
           {
             path: 'prices',

@@ -29,6 +29,11 @@ export const link = {
       display: 'flex',
       alignItems: 'center',
       _activeLink: { backgroundColor: COLORS.GRAY[0], color: COLORS.BLUE[200] },
+      _hover: {
+        bg: COLORS.GRAY[0],
+        color: COLORS.BLUE[200],
+        textDecoration: 'none',
+      },
     },
     headerMenulink: {
       px: SPACE.LG,

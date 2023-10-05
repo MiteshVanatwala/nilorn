@@ -1,18 +1,18 @@
 import React, { Suspense, lazy } from 'react';
 import Overview from '../Overview/Overview';
+import ContentPage from '../Templates/ContentPage';
 const ProductDevelopmentFilter = lazy(
   () => import('../../components/Filter/ProductDevelopmentFilter')
 );
 
 function HomePage() {
   return (
-    <div className="App">
-      <h1>Start page</h1>
+    <ContentPage>
       <Suspense>
         <ProductDevelopmentFilter />
       </Suspense>
       <Overview />
-    </div>
+    </ContentPage>
   );
 }
 

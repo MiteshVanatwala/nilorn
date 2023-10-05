@@ -30,7 +30,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
               {title ? (
                 title
               ) : (
-                <>{t('An error occured while processing your request')}</>
+                <>{t('Common.errorTitle')}</>
               )}
               <Text
                 as="i"
@@ -56,7 +56,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
           <Button
             variant={'secondary'}
             onClick={() => window.location.reload()}>
-            <>{t('Reload site')}</>
+            <>{t('Common.reloadSite')}</>
           </Button>
         )}
       </VStack>

@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
-// import { IDENTITY_CONFIG } from './authConst';
+import { IDENTITY_CONFIG } from './authConst';
 import { AuthProvider } from 'react-oidc-context';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundaries';
 import SpinnerOverlay from './components/Spinner/SpinnerOverlay';
@@ -17,10 +17,10 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ErrorBoundary>
-        <Suspense>
-          {/* <AuthProvider {...IDENTITY_CONFIG}> */}
-          <App />
-          {/* </AuthProvider> */}
+        <Suspense fallback={<SpinnerOverlay />}>
+          <AuthProvider {...IDENTITY_CONFIG}>
+            <App />
+          </AuthProvider>
         </Suspense>
       </ErrorBoundary>
     </ChakraProvider>
