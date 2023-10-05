@@ -13,3 +13,12 @@ export interface FormInputProps {
   hideValidationStyle?: boolean;
   onChange?: (e: any) => void;
 }
+
+export type Status = 'success' | 'error' | 'warning' | 'info';
+
+export type Feedback = {
+  status: Status;
+  title?: string;
+  size?: 'md' | 'sm';
+  description?: string;
+};
