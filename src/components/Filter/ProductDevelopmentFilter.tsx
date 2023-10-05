@@ -9,6 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 import Select from '../Form/Select';
 import { SelectOption, getDefaultValueSelect } from './FilterHelper';
 import { useTranslation } from 'react-i18next';
+import SearchProfile from '../SearchProfile/SearchProfile';
 const exampleOptions = [
   {
     label: 'Coffee',
@@ -102,6 +103,7 @@ const ProductDevelopmentFilter = () => {
           </Button>
         </Flex>
       </FormuQuerySubmit>
+      <SearchProfile />
     </Flex>
   );
 };

@@ -14,7 +14,6 @@ import {
   MultiValue,
 } from 'chakra-react-select';
 import text from '../../theme/text';
-import fontSizes from '../../theme/fontSizes';
 
 const customSelectComponents = {
   DropdownIndicator: (props: any) => (

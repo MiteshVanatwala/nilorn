@@ -2,6 +2,7 @@
   "Common": {
     "title": "Umbrella",
     "GoHome": "Go home",
+    "Cancel": "Cancel",
     "signingIn": "Signing you in...",
     "signingOut": "Signing you out...",
     "authError": "Authentication error",
@@ -20,14 +21,14 @@
     "signOut": "Sign out"
   },
   "PD": {
-    "image": "Image",
-    "name": "Name",
-    "number": "PD Number",
-    "status": "Status",
-    "artwork": "Artwork",
-    "client": "Client",
-    "type": "ProductType",
-    "productGroup": "Group name",
+    "Image": "Image",
+    "Name": "Name",
+    "Number": "PD Number",
+    "Status": "Status",
+    "Artwork": "Artwork",
+    "Client": "Client",
+    "Type": "ProductType",
+    "ProductGroup": "Group name",
     "statusLabel": {
       "new": "New",
       "waiting": "Waiting for approval",
@@ -36,6 +37,8 @@
   },
   "Filter": {
     "Search": "Search by...",
-    "Select": "Select..."
+    "Select": "Select...",
+    "saveSearchProfile": "Save current filter",
+    "searchProfileName": "Custom filter name"
   }
 }

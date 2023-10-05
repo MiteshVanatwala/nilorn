@@ -32,7 +32,7 @@ const useOverviewColumns = () => {
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('status', {
-      header: `${t('PD.status')}`,
+      header: `${t('PD.Status')}`,
       cell: info => {
         return <StatusBadge status={info.getValue()} />;
       },
