@@ -1,6 +1,5 @@
 import { Link as LinkComponent, MenuItem } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
-import COLORS from '../../theme/Constants/colors';
 
 interface LinkProps {
   title: string;
@@ -9,7 +8,7 @@ interface LinkProps {
 
 const HeaderMenuLink = ({ title, path }: LinkProps) => {
   return (
-    <MenuItem as={'div'} p={'0'} _focus={{ backgroundColor: COLORS.GRAY[5] }}>
+    <MenuItem as={'div'} p={'0'}>
       <LinkComponent as={NavLink} to={path} variant="headerMenulink">
         {title}
       </LinkComponent>
@@ -24,9 +23,14 @@ interface ButtonProps {
 
 const HeaderMenuButton = ({ children, onClick: onClickFunc }: ButtonProps) => {
   return (
-    <LinkComponent onClick={onClickFunc} as={'button'} variant="headerLink">
-      {children}
-    </LinkComponent>
+    <MenuItem as={'div'} p={'0'}>
+      <LinkComponent
+        onClick={onClickFunc}
+        as={'button'}
+        variant="headerMenuButton">
+        {children}
+      </LinkComponent>
+    </MenuItem>
   );
 };
 
