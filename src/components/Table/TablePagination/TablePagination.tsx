@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { COLORS, SPACE } from '../../../theme/Constants';
 import PaginationButton from './PaginationButton';
 import { createRangeArray } from '../../../app/utils/common';
+import HeaderDivider from '../../Navigation/HeaderDivider';
 
 type Props = {
   currentPage: number;
@@ -28,6 +29,13 @@ const TablePagination = ({
   currentPageHandler,
   chunkSizeHandler,
 }: Props) => {
+  console.log(
+    currentPage,
+    totalNumPages,
+    totalRecords,
+    currentChunkSize,
+    chunkSizes
+  );
   const { t } = useTranslation();
   const rangeLength = totalNumPages < 5 ? totalNumPages : 5;
   let [rangeStart, setRangeStart] = useState(1);
@@ -67,7 +75,7 @@ const TablePagination = ({
       paddingX={SPACE.SM}
       width={'100%'}
       height={'3.5rem'}
-      bgColor={COLORS.GRAY[60]}
+      bgColor={COLORS.GRAY[80]}
       justifyContent={'space-between'}>
       {/* LEFT */}
       <Text color={COLORS.WHITE} flex={1}>{`${t('Common.Page')} ${
@@ -135,7 +143,7 @@ const TablePagination = ({
       <HStack height={'100%'} spacing={0} flex={1} justifyContent={'flex-end'}>
         <Text color={COLORS.WHITE} pr={'1.2rem'}>{`${t(
           'Common.RowsPerPage'
-        )}:`}</Text>
+        )}`}</Text>
         {chunkSizes.map((size, i) => {
           return (
             <PaginationButton

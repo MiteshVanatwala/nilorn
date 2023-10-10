@@ -6,7 +6,12 @@
     "signingOut": "Signing you out...",
     "authError": "Authentication error",
     "reloadSite": "Reload site",
-    "errorTitle": "An error occured while processing your request"
+    "errorTitle": "An error occured while processing your request",
+    "Page": "Page",
+    "Next": "Next",
+    "Previous": "Previous",
+    "Of": "of",
+    "RowsPerPage": "Rows per page:"
   },
   "Menu": {
     "hyphome": "Start",
