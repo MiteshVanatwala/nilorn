@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { images } from '../../assets';
 import { SPACE, COLORS } from '../../theme/Constants';
 import React from 'react';
 
@@ -27,11 +26,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
         <Box>
           <Heading variant="h1" as="h1" color={COLORS.ERROR}>
             <>
-              {title ? (
-                title
-              ) : (
-                <>{t('Common.errorTitle')}</>
-              )}
+              {title ? title : <>{t('Common.errorTitle')}</>}
               <Text
                 as="i"
                 color={'inherit'}
