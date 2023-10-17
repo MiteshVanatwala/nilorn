@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import fontSizes from '../../theme/fontSizes';
 import { useSearchParams } from 'react-router-dom';
 import ActiveFilterItem from './ActiveFilterItem';
+import ClearAllFilters from './ClearAllFilters';
 
 const ActiveFilters = () => {
   let [searchParams] = useSearchParams();
@@ -29,6 +30,7 @@ const ActiveFilters = () => {
               queryItem={key}></ActiveFilterItem>
           ))
         : null}
+      {searchParamsArray.length ? <ClearAllFilters /> : null}
     </Flex>
   );
 };

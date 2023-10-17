@@ -12,7 +12,7 @@ export default function FormuQuerySubmit({
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [, setSearchParams] = useSearchParams();
 
   //Prepared for api call on filter change
   const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
