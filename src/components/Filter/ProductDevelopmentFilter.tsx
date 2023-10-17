@@ -1,63 +1,49 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { SIZES, SPACE } from '../../theme/Constants';
-import { Button, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import fontSizes from '../../theme/fontSizes';
 import { useSearchParams } from 'react-router-dom';
-import Select from '../Form/Select';
-import { SelectOption, getDefaultValueSelect } from './FilterHelper';
+
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
-const exampleOptions = [
-  {
-    label: 'Coffee',
-    value: 'coffee',
-  },
-  {
-    label: 'Chocolate',
-    value: 'chocolate',
-  },
-  {
-    label: 'Strawberry',
-    value: 'strawberry',
-  },
-  {
-    label: 'Cherry',
-    value: 'cherry',
-  },
-];
+import ActiveFilters from './ActiveFilters';
+
+// const exampleOptions = [
+//   {
+//     label: 'Coffee',
+//     value: 'coffee',
+//   },
+//   {
+//     label: 'Chocolate',
+//     value: 'chocolate',
+//   },
+//   {
+//     label: 'Strawberry',
+//     value: 'strawberry',
+//   },
+//   {
+//     label: 'Cherry',
+//     value: 'cherry',
+//   },
+// ];
 
 const ProductDevelopmentFilter = () => {
-  const form = useForm();
   const { t } = useTranslation();
 
+  const form = useForm();
   let [searchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState<string>();
-  const [selectValue, setSelectValue] = useState<
-    SelectOption | null | undefined
-  >(null);
-
-  const selectValueQuery = searchParams.get('filter');
-  const searchTermQuery = searchParams.get('search');
 
   useEffect(() => {
-    if (selectValueQuery !== null) {
-      setSelectValue(
-        getDefaultValueSelect(selectValueQuery ?? '', exampleOptions)
-      );
-    } else {
-      setSelectValue({
-        label: `${t(`Filter.Select`)}`,
-        value: '',
-      });
-    }
-  }, [selectValueQuery]);
+    const searchParamItems = Array.from(searchParams.keys());
 
-  useEffect(() => {
-    setSearchTerm(searchTermQuery ?? '');
-  }, [searchTermQuery]);
+    searchParamItems.forEach(name => {
+      const value = searchParams.get(name);
+      form.setValue(name, value);
+    });
+  }, [form, searchParams]);
 
   return (
     <Flex
@@ -80,9 +66,8 @@ const ProductDevelopmentFilter = () => {
             placeholder={t(`Filter.Search`)}
             name="search"
             variant="filled"
-            defaultValue={searchTerm}
           />
-          {selectValue != null && (
+          {/* {selectValue != null && (
             <Suspense>
               <Select
                 defaultValue={selectValue ?? undefined}
@@ -90,18 +75,9 @@ const ProductDevelopmentFilter = () => {
                 name={'filter'}
               />
             </Suspense>
-          )}
-          <Button
-            type="submit"
-            lineHeight={'1.5'}
-            fontSize={fontSizes.sm}
-            height={'auto'}
-            padding={'1rem 3.5rem'}
-            minWidth={'none'}
-            variant={'primary'}>
-            Filtrera
-          </Button>
+          )} */}
         </Flex>
+        <ActiveFilters />
       </FormuQuerySubmit>
       <SearchProfile />
     </Flex>

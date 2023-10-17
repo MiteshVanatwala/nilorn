@@ -1,20 +1,13 @@
 import { Box, Input } from '@chakra-ui/react';
-import {
-  FieldError,
-  ValidationRule,
-  get,
-  useFormContext,
-} from 'react-hook-form';
+import { FieldError, ValidationRule, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
-import React, { useEffect, useState } from 'react';
-import { images } from '../../assets';
+import { useEffect } from 'react';
 
 interface Props extends FormInputProps {
   placeholder?: string;
-  defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   isDisabled?: boolean;
   required?: boolean;
@@ -32,7 +25,6 @@ const InputSearch = ({
   placeholder,
   registerOptions,
   helperText,
-  defaultValue,
   required,
   variant = 'standard',
   hideValidationStyle,
@@ -59,10 +51,6 @@ const InputSearch = ({
       required,
       pattern,
     });
-
-  useEffect(() => {
-    setFormContextValue(name, defaultValue);
-  }, [defaultValue, name, setFormContextValue]);
 
   return (
     <ControlWrapper
