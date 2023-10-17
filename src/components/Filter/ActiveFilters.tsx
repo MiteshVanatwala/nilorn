@@ -1,13 +1,12 @@
 import { SIZES, SPACE } from '../../theme/Constants';
 import { Flex } from '@chakra-ui/react';
 import fontSizes from '../../theme/fontSizes';
-import { useSearchParams } from 'react-router-dom';
 import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
+import { useFormContext } from 'react-hook-form';
 
 const ActiveFilters = () => {
-  let [searchParams] = useSearchParams();
-  const searchParamsArray = Array.from(searchParams.entries());
+  const { watch } = useFormContext();
 
   return (
     <Flex
@@ -21,16 +20,20 @@ const ActiveFilters = () => {
       gap={'1rem'}
       flexDirection="row"
       pt={SPACE.LG}>
-      {searchParamsArray.length
-        ? searchParamsArray.map(([key, value]) => (
+      {Object.entries(watch()).map(([key, value]) => {
+        if (value) {
+          return (
             <ActiveFilterItem
               key={key}
-              label={value[0].toUpperCase() + value.slice(1)}
+              label={value[0]?.toUpperCase() + value?.slice(1)}
               value={value}
-              queryItem={key}></ActiveFilterItem>
-          ))
-        : null}
-      {searchParamsArray.length ? <ClearAllFilters /> : null}
+              queryItem={key}
+            />
+          );
+        }
+        return null;
+      })}
+      <ClearAllFilters />
     </Flex>
   );
 };

@@ -1,16 +1,10 @@
-import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
-import { useSearchParams } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
 
 const ClearAllFilters = () => {
-  let [, setSearchParams] = useSearchParams();
   const { reset } = useFormContext();
 
-  const removeAllFilters = () => {
-    reset();
-    setSearchParams();
-  };
   return (
     <Button
       gap={'.5rem'}
@@ -26,7 +20,7 @@ const ClearAllFilters = () => {
       _active={{
         backgroundColor: 'transparent',
       }}
-      onClick={() => removeAllFilters()}>
+      onClick={() => reset()}>
       Clear all
     </Button>
   );

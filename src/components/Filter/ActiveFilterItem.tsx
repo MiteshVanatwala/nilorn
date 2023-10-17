@@ -2,22 +2,17 @@ import { FC } from 'react';
 import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
-import { onFilterChange } from './FilterHelper';
+
 type Props = {
   label: string;
   value: string;
   queryItem: string;
 };
 const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
-  const { setValue: setFormContextValue, getValues } = useFormContext();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const { setValue: setFormContextValue } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    setFormContextValue(queryItem, '');
-
-    const newSearchParams = new URLSearchParams(onFilterChange(getValues()));
-    setSearchParams(newSearchParams);
+    setFormContextValue(queryItem, undefined);
   };
 
   return (

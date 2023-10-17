@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { SIZES, SPACE } from '../../theme/Constants';
 import { Flex } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import fontSizes from '../../theme/fontSizes';
-import { useSearchParams } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
@@ -32,18 +30,7 @@ import ActiveFilters from './ActiveFilters';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
-
   const form = useForm();
-  let [searchParams] = useSearchParams();
-
-  useEffect(() => {
-    const searchParamItems = Array.from(searchParams.keys());
-
-    searchParamItems.forEach(name => {
-      const value = searchParams.get(name);
-      form.setValue(name, value);
-    });
-  }, [form, searchParams]);
 
   return (
     <Flex

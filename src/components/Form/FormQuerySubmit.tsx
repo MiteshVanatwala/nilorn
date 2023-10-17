@@ -12,25 +12,35 @@ export default function FormuQuerySubmit({
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
-  let [, setSearchParams] = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams();
 
-  //Prepared for api call on filter change
-  const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
+  useEffect(() => {
+    const searchParamItems = Array.from(searchParams.keys());
+    searchParamItems.forEach(name => {
+      const value = searchParams.get(name);
+      form.setValue(name, value);
+    });
+  }, []);
 
   function onFormChange(data: FieldValues) {
     const newSearchParams = new URLSearchParams(onFilterChange(data));
     setSearchParams(newSearchParams);
   }
+
+  //Prepared for api call on filter change
+  const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
+
   useEffect(() => {
     // console.log('debouncedSearchTerm', debouncedSearchTerm);
   }, [debouncedSearchTerm]);
+
   return (
     <FormProvider {...form}>
       <form
         style={style}
         onChange={e => {
           form.clearErrors('serverError');
-          form.handleSubmit(data => onFormChange(data))();
+          form.watch(data => onFormChange(data));
         }}>
         {children}
       </form>
