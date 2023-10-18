@@ -1,15 +1,18 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { SIZES, SPACE } from '../../theme/Constants';
-import { Button, Flex } from '@chakra-ui/react';
+import { GRID } from '../../theme/Constants';
+import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
-import fontSizes from '../../theme/fontSizes';
 import { useSearchParams } from 'react-router-dom';
 import Select from '../Form/Select';
-import { SelectOption, getDefaultValueSelect } from './FilterHelper';
+import { getDefaultValueSelect } from './FilterHelper';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
+import AdvanceFilter from './AdvanceFilter';
+import { SelectOption } from '../../app/types/types';
+import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
+
 const exampleOptions = [
   {
     label: 'Coffee',
@@ -32,6 +35,7 @@ const exampleOptions = [
 const ProductDevelopmentFilter = () => {
   const form = useForm();
   const { t } = useTranslation();
+  const advanceFilters = useOverviewAdvanceFilters();
 
   let [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>();
@@ -53,58 +57,63 @@ const ProductDevelopmentFilter = () => {
         value: '',
       });
     }
-  }, [selectValueQuery]);
+  }, [selectValueQuery, t]);
 
   useEffect(() => {
     setSearchTerm(searchTermQuery ?? '');
   }, [searchTermQuery]);
 
   return (
-    <Flex
-      fontSize={fontSizes.sm}
-      grow={1}
-      margin={'0 auto'}
-      maxWidth={SIZES.CONTAINER.XL}
-      alignItems="left"
-      flexDirection="column"
-      pt={SPACE.LG}>
-      <FormuQuerySubmit form={form}>
-        <Flex
-          align={'end'}
-          display={'inline-flex'}
-          flexDirection={'row'}
-          position={'relative'}
-          zIndex={10}>
-          <InputSearch
-            label="Search"
-            placeholder={t(`Filter.Search`)}
-            name="search"
-            variant="filled"
-            defaultValue={searchTerm}
-          />
-          {selectValue != null && (
-            <Suspense>
-              <Select
-                defaultValue={selectValue ?? undefined}
-                options={exampleOptions}
-                name={'filter'}
+    <FormuQuerySubmit form={form}>
+      <Grid
+        templateColumns={GRID.TEMPLATE_COLUMNS}
+        rowGap={GRID.ROW_GAP}
+        columnGap={GRID.COLUM_GAP}>
+        <GridItem colSpan={3}>
+          <HStack gap={GRID.COLUM_GAP}>
+            <Box maxW={'30rem'}>
+              <InputSearch
+                label="Search"
+                placeholder={t(`Filter.Search`)}
+                name="search"
+                variant="filled"
+                defaultValue={searchTerm}
               />
-            </Suspense>
-          )}
-          <Button
-            type="submit"
-            lineHeight={'1.5'}
-            fontSize={fontSizes.sm}
-            height={'auto'}
-            padding={'1rem 3.5rem'}
-            minWidth={'none'}
-            variant={'primary'}>
-            Filtrera
-          </Button>
-        </Flex>
-      </FormuQuerySubmit>
-      <SearchProfile />
-    </Flex>
+            </Box>
+            <Box minW={'24rem'}>
+              {selectValue != null && (
+                <Suspense>
+                  <Select
+                    label={t('PD.Client')}
+                    defaultValue={selectValue ?? undefined}
+                    options={exampleOptions}
+                    name={'filter'}
+                  />
+                </Suspense>
+              )}
+            </Box>
+            <Box minW={'24rem'}>
+              {selectValue != null && (
+                <Suspense>
+                  <Select
+                    label={t('PD.Status')}
+                    defaultValue={selectValue ?? undefined}
+                    options={exampleOptions}
+                    name={'filter'}
+                  />
+                </Suspense>
+              )}
+            </Box>
+          </HStack>
+        </GridItem>
+        <GridItem colSpan={1} colStart={4} justifySelf={'right'}>
+          <SearchProfile />
+        </GridItem>
+        <GridItem colSpan={3}>
+          <AdvanceFilter filters={advanceFilters} />
+        </GridItem>
+      </Grid>
+    </FormuQuerySubmit>
   );
 };
 

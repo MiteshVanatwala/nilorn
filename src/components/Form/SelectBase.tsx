@@ -1,5 +1,4 @@
-import React from 'react';
-import { COLORS, SIZES, SPACE } from '../../theme/Constants';
+import { BORDER_RADIUS, COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { FocusEventHandler } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
@@ -77,10 +76,12 @@ type SelectProps<IsMulti extends boolean = false> = {
   isSearchable?: boolean;
   passRef?: any;
   components?: any;
+  color?: string;
   bgColor?: string;
   groupColor?: string;
   isControlled?: boolean;
   menuPlacement?: 'auto' | 'top';
+  isInCell?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -96,14 +97,17 @@ const SelectBase = <IsMulti extends boolean = false>({
   isMulti,
   isSearchable = false,
   bgColor = COLORS.GRAY[10],
+  color = COLORS.GRAY[80],
   groupColor = COLORS.GRAY[50],
   isControlled = true,
   menuPlacement = 'auto',
+  isInCell,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
-
   return (
     <Select
+      hideSelectedOptions={isInCell && isMulti ? false : isMulti ? true : false}
+      selectedOptionStyle={isInCell && isMulti ? 'check' : undefined}
       isMulti={isMulti}
       isSearchable={isSearchable}
       variant="filled"
@@ -115,16 +119,17 @@ const SelectBase = <IsMulti extends boolean = false>({
       value={isControlled ? value ?? '' : undefined}
       defaultValue={defaultValue}
       options={options}
-      placeholder={placeholder}
+      placeholder={isInCell && isMulti ? '' : placeholder}
       menuPlacement={menuPlacement}
       chakraStyles={{
         control: base => ({
           ...base,
           ...text.baseStyle,
           whiteSpace: 'noWrap',
-          height: isMulti ? 'max-content' : '4.2rem',
+          height: '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
+          color: color,
           _hover: {
             backgroundColor: COLORS.GRAY[20],
             cursor: 'pointer',
@@ -135,10 +140,25 @@ const SelectBase = <IsMulti extends boolean = false>({
           _focus: {
             backgroundColor: COLORS.GRAY[60],
           },
+          _after:
+            isInCell && isMulti
+              ? {
+                  h: '100%',
+                  w: '5rem',
+                  left: '1rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  position: 'absolute',
+                  display: 'flex',
+                  alignItems: 'center',
+                  content: `"${placeholder}"`,
+                }
+              : undefined,
         }),
         valueContainer: base => ({
           ...base,
           backgroundColor: bgColor,
+          height: '100%',
         }),
         menuList: base => ({
           ...base,
@@ -148,22 +168,24 @@ const SelectBase = <IsMulti extends boolean = false>({
           bottom: menuPlacement === 'top' ? '100%' : 'auto',
           padding: '0',
           margin: '0',
-          color: COLORS.GRAY[80],
-          backgroundColor: COLORS.GRAY[20],
+          color: color,
+          backgroundColor: isInCell ? 'white' : COLORS.GRAY[20],
+          boxShadow: isInCell ? `0 0 0 1px ${COLORS.GRAY[50]}` : undefined,
+          borderRadius: isInCell ? BORDER_RADIUS.XS : undefined,
         }),
         placeholder: base => ({
           ...base,
           fontWeight: 900,
-          color: COLORS.GRAY[80],
+          color: color,
         }),
         input: base => ({
           ...base,
-          color: COLORS.GRAY[80],
+          color: color,
         }),
         indicatorsContainer: base => ({
           ...base,
           fontSize: SIZES.ICON.MD,
-          color: COLORS.GRAY[80],
+          color: color,
           backgroundColor: bgColor,
         }),
         option: (base, { isSelected }) => ({
@@ -171,7 +193,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...text.baseStyle,
           whiteSpace: 'nowrap',
           height: SPACE.XL,
-          backgroundColor: COLORS.GRAY[20],
+          backgroundColor: isInCell ? 'transparent' : COLORS.GRAY[20],
           padding: SPACE.XS,
           '&:hover': {
             backgroundColor: COLORS.GRAY[10],
@@ -186,12 +208,16 @@ const SelectBase = <IsMulti extends boolean = false>({
           bgColor: groupColor,
           color: COLORS.WHITE,
         }),
-        multiValue: base => ({
-          ...base,
-          bgColor: COLORS.GRAY[70],
-          paddingX: SPACE.SM,
-          paddingY: SPACE.XS,
-        }),
+        multiValue: base =>
+          isInCell && isMulti
+            ? { display: 'none' }
+            : {
+                ...base,
+                bgColor: COLORS.GRAY[70],
+                paddingX: SPACE.SM,
+                paddingY: SPACE.XS,
+                position: 'relative',
+              },
         multiValueRemove: base => ({
           ...base,
           fontSize: SIZES.FONT.SM,

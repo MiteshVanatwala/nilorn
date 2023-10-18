@@ -7,12 +7,10 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FieldError, FieldErrorsImpl, get } from 'react-hook-form';
+import { FieldError } from 'react-hook-form';
 import COLORS from '../../theme/Constants/colors';
 import { FormInputProps } from '../../app/types/types';
 import { SPACE } from '../../theme/Constants';
-import React from 'react';
-// import { useValidationStyleInFormContext } from '../../app/hooks/useValidationStyle';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -29,7 +27,6 @@ const ControlWrapper = ({
   inline,
   helperText,
   errors,
-  hideValidationStyle,
   children,
 }: Props) => {
   // const error = get(errors, name) as FieldError;
@@ -63,10 +60,8 @@ const ControlWrapper = ({
             w={'auto'}
             htmlFor={name}>
             {label} {required && '*'}
-            {/* {icon} */}
           </FormLabel>
         )}
-
         {description && <FormHelperText>{description}</FormHelperText>}
         <InputGroup display={'block'}>{children}</InputGroup>
       </Stack>

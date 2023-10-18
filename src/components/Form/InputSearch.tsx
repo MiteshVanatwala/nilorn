@@ -1,16 +1,10 @@
-import { Box, Input } from '@chakra-ui/react';
-import {
-  FieldError,
-  ValidationRule,
-  get,
-  useFormContext,
-} from 'react-hook-form';
+import { Input } from '@chakra-ui/react';
+import { FieldError, ValidationRule, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
-import React, { useEffect, useState } from 'react';
-import { images } from '../../assets';
+import React, { useEffect } from 'react';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -72,27 +66,25 @@ const InputSearch = ({
       errors={error}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}>
-      <Box marginRight={'1rem'}>
-        <Input
-          variant={variant}
-          placeholder={placeholder}
-          type={'search'}
-          padding={SPACE.XS}
-          height={'auto'}
-          {...formContextRegRest}
-          onChange={e => {
-            error = undefined;
-            formContextRegOnChange(e);
-            onChange?.(e.target.value);
-            controller?.setValue?.(e.target.value);
-          }}
-          bgColor={COLORS.GRAY[10]}
-          fontSize={fontSizes.sm}
-          maxWidth={SIZES.CONTAINER.SM}
-          disabled={isDisabled}
-          minWidth={SIZES.CONTAINER.XXS}
-        />
-      </Box>
+      <Input
+        variant={variant}
+        placeholder={placeholder}
+        type={'search'}
+        padding={SPACE.XS}
+        height={'auto'}
+        {...formContextRegRest}
+        onChange={e => {
+          error = undefined;
+          formContextRegOnChange(e);
+          onChange?.(e.target.value);
+          controller?.setValue?.(e.target.value);
+        }}
+        bgColor={COLORS.GRAY[10]}
+        fontSize={fontSizes.sm}
+        maxWidth={SIZES.CONTAINER.SM}
+        disabled={isDisabled}
+        minWidth={'30rem'}
+      />
     </ControlWrapper>
   );
 };

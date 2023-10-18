@@ -13,3 +13,13 @@ export interface FormInputProps {
   hideValidationStyle?: boolean;
   onChange?: (e: any) => void;
 }
+
+export type SelectOption<T = any> = {
+  label: any;
+  value: T;
+};
+
+export type AdvanceFilter = {
+  type: 'select' | 'text';
+  name: string;
+};

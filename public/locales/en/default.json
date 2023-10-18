@@ -12,7 +12,8 @@
     "Next": "Next",
     "Previous": "Previous",
     "Of": "of",
-    "RowsPerPage": "Rows per page:"
+    "RowsPerPage": "Rows per page:",
+    "NoOptions": "No options..."
   },
   "Menu": {
     "hyphome": "Start",
@@ -32,8 +33,14 @@
     "Status": "Status",
     "Artwork": "Artwork",
     "Client": "Client",
+    "SubClient": "Sub Client",
     "Type": "ProductType",
     "ProductGroup": "Group name",
+    "ItemCategory": "Item Category",
+    "FoldingType": "Folding Type",
+    "FinishedLength": "Finished Length",
+    "FinishedWidth": "Finished Width",
+    "FinishedHeight": "Finished Height",
     "statusLabel": {
       "new": "New",
       "waiting": "Waiting for approval",
@@ -41,8 +48,11 @@
     }
   },
   "Filter": {
+    "AdvanceFilter": "Advance filters",
     "Search": "Search by...",
     "Select": "Select...",
+    "NumSelected": "{{num}} selected",
+    "SavedFilters": "My saved filters",
     "saveSearchProfile": "Save current filter",
     "searchProfileName": "Custom filter name"
   }

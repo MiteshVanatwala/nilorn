@@ -1,3 +1,5 @@
+import { SelectOption } from "../../app/types/types";
+
 export function getDefaultValueSelect(
   selectValue: string,
   options: SelectOption[]
@@ -7,11 +9,6 @@ export function getDefaultValueSelect(
   ) as SelectOption;
   return defaultValue;
 }
-
-export type SelectOption = {
-  label: any;
-  value: any;
-};
 
 export type GroupSelectOption = {
   label: string;
