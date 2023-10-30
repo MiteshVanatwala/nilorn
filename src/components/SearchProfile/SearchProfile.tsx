@@ -7,30 +7,48 @@ import { SelectOption } from '../Filter/FilterHelper';
 import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
+import { useFormContext } from 'react-hook-form';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption | undefined>();
+  const { setValue, reset } = useFormContext();
 
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
+    reset();
+
     setSelected(option);
+    const optionVal = option.value;
+    const splitOptionVal = optionVal.split('&');
+
+    splitOptionVal.forEach((item: string) => {
+      const splitItem = item.split('=');
+      setValue(splitItem[0], splitItem[1]);
+    });
   };
 
   return (
     <>
       <VStack maxW={'24rem'} alignItems={'left'}>
+        <label>{t('Filter.SavedFilterLabel')}</label>
         <SelectBase
           name="SearchProfile"
           onChange={onChange}
           value={selected}
-          options={[{ label: 'My custom filter', value: 'x' }]}
+          options={[
+            { label: 'My custom filter', value: 'search=testing&filter=hej' },
+            { label: 'My custom filter2', value: 'search=wopop' },
+          ]}
         />
         <Button
+          marginTop={'.5rem'}
+          fontWeight={'500'}
           variant={'secondary'}
-          rightIcon={<i className="ri-save-line" />}
+          height={'3.5rem'}
+          leftIcon={<i className="ri-save-line" />}
           onClick={() => handleModal(<SearchProfileModalContent />)}>
-          {t('Filter.saveSearchProfile')}{' '}
+          {t('Filter.saveSearchProfile')}
         </Button>
       </VStack>
     </>

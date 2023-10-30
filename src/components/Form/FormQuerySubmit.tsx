@@ -22,9 +22,13 @@ export default function FormuQuerySubmit({
     });
   }, []);
 
-  function onFormChange(data: FieldValues) {
-    const newSearchParams = new URLSearchParams(onFilterChange(data));
-    setSearchParams(newSearchParams);
+  useEffect(() => {
+    form.watch(value => formChange());
+  });
+
+  function formChange() {
+    setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));
+    form.clearErrors('serverError');
   }
 
   //Prepared for api call on filter change
@@ -36,12 +40,7 @@ export default function FormuQuerySubmit({
 
   return (
     <FormProvider {...form}>
-      <form
-        style={style}
-        onChange={e => {
-          form.clearErrors('serverError');
-          form.watch(data => onFormChange(data));
-        }}>
+      <form style={style} onChange={e => {}}>
         {children}
       </form>
     </FormProvider>

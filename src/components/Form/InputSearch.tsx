@@ -5,6 +5,7 @@ import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
 import { useEffect } from 'react';
+import { watch } from 'fs';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -60,7 +61,11 @@ const InputSearch = ({
       errors={error}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}>
-      <Box marginRight={'1rem'}>
+      <Box
+        marginRight={{
+          base: '0',
+          md: '1rem',
+        }}>
         <Input
           variant={variant}
           placeholder={placeholder}
@@ -78,7 +83,10 @@ const InputSearch = ({
           fontSize={fontSizes.sm}
           maxWidth={SIZES.CONTAINER.SM}
           disabled={isDisabled}
-          minWidth={SIZES.CONTAINER.XXS}
+          minWidth={{
+            base: '100%',
+            // md: SIZES.CONTAINER.XXS,
+          }}
         />
       </Box>
     </ControlWrapper>
