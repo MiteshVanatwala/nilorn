@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'react-oidc-context';
 import { HeaderMenuButton } from '../Navigation/HeaderMenuLink';
-import { Text } from '@chakra-ui/react';
-import { SPACE } from '../../theme/Constants';
+import HeaderMenu from './HeaderMenu';
 
 const UserMenu = () => {
   const { t } = useTranslation();
@@ -14,17 +13,13 @@ const UserMenu = () => {
     auth.signoutRedirect();
   };
 
-  if (auth.user) {
-    return (
-      <>
-        <Text px={SPACE.LG}>{auth.user?.profile.name}</Text>
-        <HeaderMenuButton onClick={signOut}>
-          <>{t('Menu.signOut')}</>
-        </HeaderMenuButton>
-      </>
-    );
-  }
-  return <></>;
+  return (
+    <HeaderMenu title={t('Menu.hypuser')}>
+      <HeaderMenuButton onClick={signOut}>
+        <>{t('Menu.hyplogout')}</>
+      </HeaderMenuButton>
+    </HeaderMenu>
+  );
 };
 
 export default UserMenu;
