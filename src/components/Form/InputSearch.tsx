@@ -61,11 +61,7 @@ const InputSearch = ({
       errors={error}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}>
-      <Box
-        marginRight={{
-          base: '0',
-          md: '1rem',
-        }}>
+      <Box>
         <Input
           variant={variant}
           placeholder={placeholder}

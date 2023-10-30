@@ -8,6 +8,7 @@ import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
+import { GridItem } from '@chakra-ui/react';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -29,7 +30,12 @@ const SearchProfile = () => {
   };
 
   return (
-    <>
+    <GridItem
+      marginTop={{
+        base: '1rem',
+        md: '0',
+      }}
+      colSpan={2}>
       <VStack maxW={'24rem'} alignItems={'left'}>
         <label>{t('Filter.SavedFilterLabel')}</label>
         <SelectBase
@@ -51,7 +57,7 @@ const SearchProfile = () => {
           {t('Filter.saveSearchProfile')}
         </Button>
       </VStack>
-    </>
+    </GridItem>
   );
 };
 

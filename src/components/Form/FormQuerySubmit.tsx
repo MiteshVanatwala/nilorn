@@ -40,9 +40,7 @@ export default function FormuQuerySubmit({
 
   return (
     <FormProvider {...form}>
-      <form style={style} onChange={e => {}}>
-        {children}
-      </form>
+      <form style={style}>{children}</form>
     </FormProvider>
   );
 }

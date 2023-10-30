@@ -1,23 +1,31 @@
 import { useForm } from 'react-hook-form';
-import { Flex, FormLabel, Grid, GridItem } from '@chakra-ui/react';
+import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import SelectBase from '../Form/SelectBase';
-import { ActionMeta } from 'chakra-react-select';
 import { SelectOption } from './FilterHelper';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
-  const [selected, setSelected] = useState<SelectOption | undefined>();
+  const [selectedClient, setSelectedClient] = useState<
+    SelectOption | undefined
+  >();
+  const [selectedStatus, setSelectedStatus] = useState<
+    SelectOption | undefined
+  >();
 
-  const onChange = (option: any) => {
-    setSelected(option);
-    form.setValue('filter', option.value);
+  const onChange = (option: any, isClient: boolean) => {
+    if (isClient) {
+      setSelectedClient(option);
+    } else {
+      setSelectedStatus(option);
+    }
+    form.setValue(isClient ? 'client' : 'status', option.value);
   };
   return (
     <FormuQuerySubmit form={form}>
@@ -30,10 +38,13 @@ const ProductDevelopmentFilter = () => {
         <GridItem
           colSpan={{
             base: 1,
-            lg: 10,
             md: 10,
           }}>
           <Grid
+            gap={{
+              base: '.5rem',
+              lg: '1rem',
+            }}
             templateColumns={{
               base: '1fr',
               lg: 'repeat(10, 1fr)',
@@ -45,7 +56,6 @@ const ProductDevelopmentFilter = () => {
               colSpan={{
                 base: 1,
                 lg: 4,
-                md: 4,
               }}>
               <InputSearch
                 label="Search"
@@ -57,17 +67,42 @@ const ProductDevelopmentFilter = () => {
             <GridItem
               colSpan={{
                 base: 1,
-                lg: 2,
                 md: 2,
               }}>
-              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="filter">
+              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
                 {t('Filter.Client')}
               </FormLabel>
               <SelectBase
                 defaultValue={undefined}
-                name={'filter'}
-                onChange={onChange}
-                value={selected}
+                name={'client'}
+                onChange={e => {
+                  onChange(e, true);
+                }}
+                value={selectedClient}
+                options={[
+                  {
+                    label: 'Chocolate',
+                    value: 'chocolate',
+                  },
+                  { label: 'Strawberry', value: 'strawberry' },
+                ]}
+              />
+            </GridItem>
+            <GridItem
+              colSpan={{
+                base: 1,
+                md: 2,
+              }}>
+              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
+                {t('Filter.Status')}
+              </FormLabel>
+              <SelectBase
+                defaultValue={undefined}
+                name={'status'}
+                onChange={e => {
+                  onChange(e, false);
+                }}
+                value={selectedStatus}
                 options={[
                   {
                     label: 'Chocolate',
@@ -80,15 +115,7 @@ const ProductDevelopmentFilter = () => {
           </Grid>
           <ActiveFilters />
         </GridItem>
-
-        <GridItem
-          marginTop={{
-            base: '1rem',
-            md: '0',
-          }}
-          colSpan={2}>
-          <SearchProfile />
-        </GridItem>
+        <SearchProfile />
       </Grid>
     </FormuQuerySubmit>
   );
