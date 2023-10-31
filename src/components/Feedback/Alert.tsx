@@ -6,13 +6,7 @@ import {
 } from '@chakra-ui/alert';
 import { VStack } from '@chakra-ui/layout';
 import { SIZES, SPACE } from '../../theme/Constants';
-
-export type Feedback = {
-  status: 'success' | 'error' | 'warning' | 'info';
-  title?: string;
-  size?: 'md' | 'sm';
-  description?: string;
-};
+import { Feedback } from '../../app/types/types';
 
 const Alert = ({ status, title, description, size = 'md' }: Feedback) => {
   const isSmall = size === 'sm';

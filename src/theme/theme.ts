@@ -42,7 +42,7 @@ const theme = extendTheme({
     Input: input,
     FormLabel: { ...formLabel },
     Table: { ...table },
-    MenuList: { ...menu },
+    MenuList: menu,
     Tooltip: tooltip,
     Alert: alert,
     Switch: switchTheme,

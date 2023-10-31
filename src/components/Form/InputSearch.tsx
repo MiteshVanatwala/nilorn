@@ -8,7 +8,6 @@ import React, { useEffect } from 'react';
 
 interface Props extends FormInputProps {
   placeholder?: string;
-  defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   isDisabled?: boolean;
   required?: boolean;
@@ -26,7 +25,6 @@ const InputSearch = ({
   placeholder,
   registerOptions,
   helperText,
-  defaultValue,
   required,
   variant = 'standard',
   hideValidationStyle,
@@ -53,10 +51,6 @@ const InputSearch = ({
       required,
       pattern,
     });
-
-  useEffect(() => {
-    setFormContextValue(name, defaultValue);
-  }, [defaultValue, name, setFormContextValue]);
 
   return (
     <ControlWrapper

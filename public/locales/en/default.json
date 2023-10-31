@@ -24,7 +24,7 @@
     "hypprojects": "Projects",
     "hypprice": "Prices",
     "hypuser": "User",
-    "signOut": "Sign out"
+    "hyplogout": "Log out"
   },
   "PD": {
     "Image": "Image",
@@ -41,6 +41,7 @@
     "FinishedLength": "Finished Length",
     "FinishedWidth": "Finished Width",
     "FinishedHeight": "Finished Height",
+    "save": "Save as..",
     "statusLabel": {
       "new": "New",
       "waiting": "Waiting for approval",
@@ -54,6 +55,9 @@
     "NumSelected": "{{num}} selected",
     "SavedFilters": "My saved filters",
     "saveSearchProfile": "Save current filter",
-    "searchProfileName": "Custom filter name"
+    "searchProfileName": "Custom filter name",
+    "SavedFilterLabel": "My saved filters",
+    "Client": "Client",
+    "Status": "Status"
   }
 }

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
-import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
+import { useEffect } from 'react';
 
 export default function FormuQuerySubmit({
   children,
@@ -11,34 +12,35 @@ export default function FormuQuerySubmit({
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
-  const { formState } = form;
   let [searchParams, setSearchParams] = useSearchParams();
 
-  async function onSubmit(formValues: any): Promise<void> {
-    type QueryParams = Record<string, string | undefined>;
+  useEffect(() => {
+    const searchParamItems = Array.from(searchParams.keys());
+    searchParamItems.forEach(name => {
+      const value = searchParams.get(name);
+      form.setValue(name, value);
+    });
+  }, []);
 
-    const filteredQueryParams: QueryParams = {
-      search: formValues.search,
-      filter: formValues.filter,
-    };
-    const queryParamString = Object.entries(filteredQueryParams)
-      .filter(([_, value]) => value !== undefined)
-      .filter(([_, value]) => value !== '')
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
+  useEffect(() => {
+    form.watch(value => formChange());
+  });
 
-    const newSearchParams = new URLSearchParams(queryParamString);
-    setSearchParams(newSearchParams);
+  function formChange() {
+    setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));
+    form.clearErrors('serverError');
   }
+
+  //Prepared for api call on filter change
+  const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
+
+  useEffect(() => {
+    // console.log('debouncedSearchTerm', debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <FormProvider {...form}>
-      <form
-        style={style}
-        onSubmit={form.handleSubmit(onSubmit)}
-        onChange={() => form.clearErrors('serverError')}>
-        {children}
-      </form>
+      <form style={style}>{children}</form>
     </FormProvider>
   );
 }

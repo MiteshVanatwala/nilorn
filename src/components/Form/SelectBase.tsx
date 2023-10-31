@@ -144,10 +144,10 @@ const SelectBase = <IsMulti extends boolean = false>({
             cursor: 'pointer',
           },
           _focusVisible: {
-            backgroundColor: COLORS.GRAY[60],
+            backgroundColor: COLORS.GRAY[30],
           },
           _focus: {
-            backgroundColor: COLORS.GRAY[60],
+            backgroundColor: COLORS.GRAY[30],
           },
           _after: advanceFilter
             ? {
@@ -165,7 +165,7 @@ const SelectBase = <IsMulti extends boolean = false>({
         }),
         valueContainer: base => ({
           ...base,
-          backgroundColor: bgColor,
+          // backgroundColor: bgColor,
           color: color,
         }),
         menuList: base => ({
@@ -178,7 +178,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           padding: '0',
           margin: '0',
           color: color,
-          backgroundColor: bgColor,
+          // backgroundColor: bgColor,
+          color: COLORS.GRAY[80],
         }),
         placeholder: base => ({
           ...base,
@@ -193,7 +194,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           fontSize: SIZES.ICON.MD,
           color: color,
-          backgroundColor: bgColor,
+          // backgroundColor: bgColor,
         }),
         option: (base, { isSelected }) => ({
           ...base,

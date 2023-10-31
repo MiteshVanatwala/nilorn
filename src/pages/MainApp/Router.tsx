@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import HomePage from '../Home/HomePage';
 import MainApp from './MainApp';
-import ProductDevelopment from '../Product/ProductDevelopment';
+import ProductDevelopmentPage from '../ProductDevelopmentPage/ProductDevelopmentPage';
 import RouteError from '../../components/ErrorBoundary/RouteError';
 import ClientsPage from '../Clients/ClientPage';
 import SourcingsPage from '../Sourcings/SourcingsPage';
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
           { element: <HomePage />, index: true },
           {
             path: 'product-development/:id',
-            element: <ProductDevelopment />,
+            element: <ProductDevelopmentPage />,
           },
           {
             path: 'clients',

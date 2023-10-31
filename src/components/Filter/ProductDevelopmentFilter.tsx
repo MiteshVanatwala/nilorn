@@ -1,117 +1,128 @@
-import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GRID, SPACE } from '../../theme/Constants';
-import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
+import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
-import { useSearchParams } from 'react-router-dom';
-import Select from '../Form/Select';
-import { getDefaultValueSelect } from './FilterHelper';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
-import AdvanceFilter from './AdvanceFilter';
+import ActiveFilters from './ActiveFilters';
+import { useState } from 'react';
+import SelectBase from '../Form/SelectBase';
 import { SelectOption } from '../../app/types/types';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
-
-const exampleOptions = [
-  {
-    label: 'Coffee',
-    value: 'coffee',
-  },
-  {
-    label: 'Chocolate',
-    value: 'chocolate',
-  },
-  {
-    label: 'Strawberry',
-    value: 'strawberry',
-  },
-  {
-    label: 'Cherry',
-    value: 'cherry',
-  },
-];
+import AdvanceFilter from './AdvanceFilter';
 
 const ProductDevelopmentFilter = () => {
-  const form = useForm();
   const { t } = useTranslation();
   const advanceFilters = useOverviewAdvanceFilters();
 
-  let [searchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState<string>();
-  const [selectValue, setSelectValue] = useState<
-    SelectOption | null | undefined
-  >(null);
+  const form = useForm();
+  const [selectedClient, setSelectedClient] = useState<
+    SelectOption | undefined
+  >();
+  const [selectedStatus, setSelectedStatus] = useState<
+    SelectOption | undefined
+  >();
 
-  const selectValueQuery = searchParams.get('filter');
-  const searchTermQuery = searchParams.get('search');
-
-  useEffect(() => {
-    if (selectValueQuery !== null) {
-      setSelectValue(
-        getDefaultValueSelect(selectValueQuery ?? '', exampleOptions)
-      );
+  const onChange = (option: any, isClient: boolean) => {
+    if (isClient) {
+      setSelectedClient(option);
     } else {
-      setSelectValue({
-        label: `${t(`Filter.Select`)}`,
-        value: '',
-      });
+      setSelectedStatus(option);
     }
-  }, [selectValueQuery, t]);
-
-  useEffect(() => {
-    setSearchTerm(searchTermQuery ?? '');
-  }, [searchTermQuery]);
-
+    form.setValue(isClient ? 'client' : 'status', option.value);
+  };
   return (
     <FormuQuerySubmit form={form}>
       <Grid
-        templateColumns={GRID.TEMPLATE_COLUMNS}
-        rowGap={GRID.ROW_GAP}
-        columnGap={GRID.COLUM_GAP}>
-        <GridItem colSpan={3}>
-          <HStack gap={GRID.COLUM_GAP}>
-            <Box maxW={'30rem'}>
+        templateColumns={{
+          base: '1fr',
+          lg: 'repeat(12, 1fr)',
+          md: 'repeat(1, 1fr)',
+        }}>
+        <GridItem
+          colSpan={{
+            base: 1,
+            md: 10,
+          }}>
+          <Grid
+            gap={{
+              base: '.5rem',
+              lg: '1rem',
+            }}
+            templateColumns={{
+              base: '1fr',
+              lg: 'repeat(10, 1fr)',
+              md: 'repeat(1, 1fr)',
+            }}
+            position={'relative'}
+            zIndex={10}>
+            <GridItem
+              colSpan={{
+                base: 1,
+                lg: 4,
+              }}>
               <InputSearch
                 label="Search"
                 placeholder={t(`Filter.Search`)}
                 name="search"
                 variant="filled"
-                defaultValue={searchTerm}
               />
-            </Box>
-            <Box minW={'24rem'}>
-              {selectValue != null && (
-                <Suspense>
-                  <Select
-                    label={t('PD.Client')}
-                    defaultValue={selectValue ?? undefined}
-                    options={exampleOptions}
-                    name={'filter'}
-                  />
-                </Suspense>
-              )}
-            </Box>
-            <Box minW={'24rem'}>
-              {selectValue != null && (
-                <Suspense>
-                  <Select
-                    label={t('PD.Status')}
-                    defaultValue={selectValue ?? undefined}
-                    options={exampleOptions}
-                    name={'filter'}
-                  />
-                </Suspense>
-              )}
-            </Box>
-          </HStack>
-          <Box mt={GRID.ROW_GAP}>
-            <AdvanceFilter filters={advanceFilters} />
-          </Box>
+            </GridItem>
+            <GridItem
+              colSpan={{
+                base: 1,
+                md: 2,
+              }}>
+              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
+                {t('Filter.Client')}
+              </FormLabel>
+              <SelectBase
+                defaultValue={undefined}
+                name={'client'}
+                onChange={e => {
+                  onChange(e, true);
+                }}
+                value={selectedClient}
+                options={[
+                  {
+                    label: 'Chocolate',
+                    value: 'chocolate',
+                  },
+                  { label: 'Strawberry', value: 'strawberry' },
+                ]}
+              />
+            </GridItem>
+            <GridItem
+              colSpan={{
+                base: 1,
+                md: 2,
+              }}>
+              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
+                {t('Filter.Status')}
+              </FormLabel>
+              <SelectBase
+                defaultValue={undefined}
+                name={'status'}
+                onChange={e => {
+                  onChange(e, false);
+                }}
+                value={selectedStatus}
+                options={[
+                  {
+                    label: 'Chocolate',
+                    value: 'chocolate',
+                  },
+                  { label: 'Strawberry', value: 'strawberry' },
+                ]}
+              />
+            </GridItem>
+            <GridItem>
+              <AdvanceFilter filters={advanceFilters} />
+            </GridItem>
+          </Grid>
+          <ActiveFilters />
         </GridItem>
-        <GridItem colSpan={1} colStart={4} justifySelf={'right'}>
-          <SearchProfile />
-        </GridItem>
+        <SearchProfile />
       </Grid>
     </FormuQuerySubmit>
   );

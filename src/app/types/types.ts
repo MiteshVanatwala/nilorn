@@ -23,3 +23,12 @@ export type AdvanceFilter = {
   type: 'select' | 'text';
   name: string;
 };
+
+export type Status = 'success' | 'error' | 'warning' | 'info';
+
+export type Feedback = {
+  status: Status;
+  title?: string;
+  size?: 'md' | 'sm';
+  description?: string;
+};
