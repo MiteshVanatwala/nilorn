@@ -45,6 +45,9 @@
     "Search": "Search by...",
     "Select": "Select...",
     "saveSearchProfile": "Save current filter",
-    "searchProfileName": "Custom filter name"
+    "searchProfileName": "Custom filter name",
+"SavedFilterLabel": "My saved filters",
+"Client": "Client",
+"Status": "Status"
   }
 }

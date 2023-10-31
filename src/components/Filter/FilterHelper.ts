@@ -47,6 +47,8 @@ export function onFilterChange(formValues: FieldValues) {
   const filteredQueryParams: QueryParams = {
     search: formValues.search,
     filter: formValues.filter,
+    status: formValues.status,
+    client: formValues.client,
   };
   const queryParamString = Object.entries(filteredQueryParams)
     .filter(([_, value]) => value !== undefined)

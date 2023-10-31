@@ -9,10 +9,10 @@ type Props = {
   queryItem: string;
 };
 const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
-  const { setValue: setFormContextValue } = useFormContext();
+  const { setValue } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    setFormContextValue(queryItem, undefined);
+    setValue(queryItem, undefined);
   };
 
   return (
