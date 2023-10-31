@@ -18,6 +18,7 @@ import popoverTheme from './Popover';
 import { checkboxTheme } from './checkbox';
 import radioTheme from './radio';
 import numberInput from './numberInput';
+import { accordion } from './accordion';
 
 const theme = extendTheme({
   fonts: fonts,
@@ -49,6 +50,7 @@ const theme = extendTheme({
     Checkbox: checkboxTheme,
     Radio: radioTheme,
     NumberInput: numberInput,
+    Accordion: accordion,
   },
   colors: colors,
 });

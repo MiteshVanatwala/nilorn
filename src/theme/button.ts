@@ -125,11 +125,11 @@ const tableButton = defineStyle({
   },
 });
 
-const tableButtonDelete = defineStyle({
+const deleteBtn = defineStyle({
   ...tableButton,
   _hover: {
-    backgroundColor: COLORS.ERROR,
-    color: '#fff',
+    backgroundColor: COLORS.RED.PRIMARY,
+    color: COLORS.WHITE,
   },
 });
 
@@ -163,7 +163,7 @@ const button = defineStyleConfig({
     menuButton,
     textBtn,
     tableButton,
-    tableButtonDelete,
+    deleteBtn,
     tableButtonTextIcon,
     ghost: {
       '&:hover': {

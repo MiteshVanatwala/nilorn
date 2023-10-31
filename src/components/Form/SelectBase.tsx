@@ -16,15 +16,20 @@ import {
 import text from '../../theme/text';
 
 const customSelectComponents = {
-  DropdownIndicator: (props: any) => (
-    <components.DropdownIndicator {...props}>
-      {props.selectProps.isSearchable ? (
-        <Text as={'i'} className="ri-search-2-line" />
-      ) : (
-        <Text as={'i'} className="ri-arrow-down-s-fill" />
-      )}
-    </components.DropdownIndicator>
-  ),
+  DropdownIndicator: (props: any) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <Text
+          as={'i'}
+          className={
+            props.selectProps.isSearchable
+              ? 'ri-search-2-line'
+              : 'ri-arrow-down-s-fill'
+          }
+        />
+      </components.DropdownIndicator>
+    );
+  },
   NoOptionsMessage: (props: any) => {
     const { t } = useTranslation();
     return (
@@ -77,10 +82,11 @@ type SelectProps<IsMulti extends boolean = false> = {
   isSearchable?: boolean;
   passRef?: any;
   components?: any;
-  bgColor?: string;
   groupColor?: string;
   isControlled?: boolean;
   menuPlacement?: 'auto' | 'top';
+  advanceFilter?: boolean;
+  dark?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -95,15 +101,22 @@ const SelectBase = <IsMulti extends boolean = false>({
   components,
   isMulti,
   isSearchable = false,
-  bgColor = COLORS.GRAY[10],
   groupColor = COLORS.GRAY[50],
   isControlled = true,
   menuPlacement = 'auto',
+  advanceFilter = false,
+  dark = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
+  const color = dark ? COLORS.WHITE : COLORS.GRAY[70];
+  const bgColor = dark ? COLORS.GRAY[70] : COLORS.GRAY[10];
+
   return (
     <Select
+      hideSelectedOptions={false}
+      selectedOptionStyle={advanceFilter ? 'check' : undefined}
+      controlShouldRenderValue={advanceFilter ? false : true}
       isMulti={isMulti}
       isSearchable={isSearchable}
       variant="filled"
@@ -115,7 +128,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       value={isControlled ? value ?? '' : undefined}
       defaultValue={defaultValue}
       options={options}
-      placeholder={placeholder}
+      placeholder={true && isMulti ? '' : placeholder}
       menuPlacement={menuPlacement}
       chakraStyles={{
         control: base => ({
@@ -125,6 +138,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           height: isMulti ? 'max-content' : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
+          color: color,
           _hover: {
             backgroundColor: COLORS.GRAY[20],
             cursor: 'pointer',
@@ -135,35 +149,50 @@ const SelectBase = <IsMulti extends boolean = false>({
           _focus: {
             backgroundColor: COLORS.GRAY[30],
           },
+          _after: advanceFilter
+            ? {
+                h: '100%',
+                w: '5rem',
+                left: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                content: `"${placeholder}"`,
+              }
+            : undefined,
         }),
         valueContainer: base => ({
           ...base,
           // backgroundColor: bgColor,
+          color: color,
         }),
         menuList: base => ({
           ...base,
           rootProps: { position: 'relative' },
           position: 'absolute',
           right: 0,
+          zIndex: 9,
           bottom: menuPlacement === 'top' ? '100%' : 'auto',
           padding: '0',
           margin: '0',
-          color: COLORS.GRAY[80],
-          // backgroundColor: COLORS.GRAY[20],
+          color: color,
+          // backgroundColor: bgColor,
         }),
         placeholder: base => ({
           ...base,
           fontWeight: 900,
-          color: COLORS.GRAY[80],
+          color: color,
         }),
         input: base => ({
           ...base,
-          color: COLORS.GRAY[80],
+          color: color,
         }),
         indicatorsContainer: base => ({
           ...base,
           fontSize: SIZES.ICON.MD,
-          color: COLORS.GRAY[80],
+          color: color,
           // backgroundColor: bgColor,
         }),
         option: (base, { isSelected }) => ({
@@ -186,12 +215,16 @@ const SelectBase = <IsMulti extends boolean = false>({
           bgColor: groupColor,
           color: COLORS.WHITE,
         }),
-        multiValue: base => ({
-          ...base,
-          bgColor: COLORS.GRAY[70],
-          paddingX: SPACE.SM,
-          paddingY: SPACE.XS,
-        }),
+        multiValue: base =>
+          advanceFilter && isMulti
+            ? { display: 'none' }
+            : {
+                ...base,
+                bgColor: COLORS.GRAY[70],
+                paddingX: SPACE.SM,
+                paddingY: SPACE.XS,
+                position: 'relative',
+              },
         multiValueRemove: base => ({
           ...base,
           fontSize: SIZES.FONT.SM,
@@ -202,6 +235,11 @@ const SelectBase = <IsMulti extends boolean = false>({
         multiValueLabel: base => ({
           ...base,
           color: COLORS.WHITE,
+        }),
+        menu: base => ({
+          ...base,
+          zIndex: 9,
+          color: color,
         }),
       }}
     />

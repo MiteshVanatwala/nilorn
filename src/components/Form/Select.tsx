@@ -1,9 +1,9 @@
 import { Controller, FieldError, useFormContext } from 'react-hook-form';
 import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
-import { FormInputProps } from '../../app/types/types';
+import { FormInputProps, SelectOption } from '../../app/types/types';
 import React, { useEffect } from 'react';
-import { GroupSelectOption, SelectOption } from '../Filter/FilterHelper';
+import { GroupSelectOption } from '../Filter/FilterHelper';
 
 interface Props extends Omit<FormInputProps, 'defaultValue'> {
   options: SelectOption[] | GroupSelectOption[];

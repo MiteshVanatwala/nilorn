@@ -7,10 +7,14 @@ import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
 import { useState } from 'react';
 import SelectBase from '../Form/SelectBase';
-import { SelectOption } from './FilterHelper';
+import { SelectOption } from '../../app/types/types';
+import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
+import AdvanceFilter from './AdvanceFilter';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
+  const advanceFilters = useOverviewAdvanceFilters();
+
   const form = useForm();
   const [selectedClient, setSelectedClient] = useState<
     SelectOption | undefined
@@ -113,6 +117,9 @@ const ProductDevelopmentFilter = () => {
               />
             </GridItem>
           </Grid>
+          <GridItem>
+            <AdvanceFilter filters={advanceFilters} />
+          </GridItem>
           <ActiveFilters />
         </GridItem>
         <SearchProfile />
