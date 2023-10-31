@@ -8,24 +8,14 @@ import ActiveFilters from './ActiveFilters';
 import { useState } from 'react';
 import SelectBase from '../Form/SelectBase';
 import { SelectOption } from './FilterHelper';
+import Select from '../Form/Select';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
-  const [selectedClient, setSelectedClient] = useState<
-    SelectOption | undefined
-  >();
-  const [selectedStatus, setSelectedStatus] = useState<
-    SelectOption | undefined
-  >();
 
   const onChange = (option: any, isClient: boolean) => {
-    if (isClient) {
-      setSelectedClient(option);
-    } else {
-      setSelectedStatus(option);
-    }
-    form.setValue(isClient ? 'client' : 'status', option.value);
+    // form.setValue(isClient ? 'client' : 'status', option.value);
   };
   return (
     <FormuQuerySubmit form={form}>
@@ -72,13 +62,11 @@ const ProductDevelopmentFilter = () => {
               <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
                 {t('Filter.Client')}
               </FormLabel>
-              <SelectBase
-                defaultValue={undefined}
+              <Select
                 name={'client'}
                 onChange={e => {
                   onChange(e, true);
                 }}
-                value={selectedClient}
                 options={[
                   {
                     label: 'Chocolate',
@@ -96,19 +84,17 @@ const ProductDevelopmentFilter = () => {
               <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
                 {t('Filter.Status')}
               </FormLabel>
-              <SelectBase
-                defaultValue={undefined}
+              <Select
                 name={'status'}
                 onChange={e => {
                   onChange(e, false);
                 }}
-                value={selectedStatus}
                 options={[
                   {
-                    label: 'Chocolate',
+                    label: 'Chocolate client',
                     value: 'chocolate',
                   },
-                  { label: 'Strawberry', value: 'strawberry' },
+                  { label: 'Strawberry client', value: 'strawberry' },
                 ]}
               />
             </GridItem>

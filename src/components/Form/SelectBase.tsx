@@ -173,13 +173,13 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...text.baseStyle,
           whiteSpace: 'nowrap',
           height: SPACE.XL,
-          backgroundColor: COLORS.GRAY[20],
+          backgroundColor: COLORS.GRAY[10],
           padding: SPACE.XS,
           '&:hover': {
-            backgroundColor: COLORS.GRAY[10],
+            backgroundColor: COLORS.GRAY[20],
           },
           ...(isSelected && {
-            backgroundColor: COLORS.GRAY[10],
+            backgroundColor: COLORS.GRAY[20],
             color: COLORS.BLACK,
           }),
         }),
