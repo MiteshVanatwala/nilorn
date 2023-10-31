@@ -36,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "openapi --input https://umbrella-test.nilorn.com/swagger/v1/swagger.json --output ./src/generate"
+    "generate": "openapi --input https://umbrella-api-test.nilorn.com/swagger/v1/swagger.json --output ./src/generate"
   },
   "eslintConfig": {
     "extends": [
