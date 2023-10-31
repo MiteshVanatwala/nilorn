@@ -1,4 +1,4 @@
-import { extendTheme, Accordion } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 import alert from './alert';
 import button from './button';
 import colors from './Constants/colors';

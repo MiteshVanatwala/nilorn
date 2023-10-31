@@ -116,10 +116,10 @@ const ProductDevelopmentFilter = () => {
                 ]}
               />
             </GridItem>
-            <GridItem>
-              <AdvanceFilter filters={advanceFilters} />
-            </GridItem>
           </Grid>
+          <GridItem>
+            <AdvanceFilter filters={advanceFilters} />
+          </GridItem>
           <ActiveFilters />
         </GridItem>
         <SearchProfile />
