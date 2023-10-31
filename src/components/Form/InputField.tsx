@@ -4,7 +4,6 @@ import { FormInputProps } from '../../app/types/types';
 import { HTMLInputTypeAttribute } from 'react';
 import { COLORS, SPACE } from '../../theme/Constants';
 import ControlWrapper from './ControlWrapper';
-import React from 'react';
 
 interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
@@ -47,6 +46,7 @@ const InputField = ({
         height={'auto'}
         {...register(name, registerOptions)}
         bgColor={variant === 'filled' ? COLORS.GRAY[10] : ''}
+        _hover={{ bg: COLORS.GRAY[20] }}
       />
     </ControlWrapper>
   );

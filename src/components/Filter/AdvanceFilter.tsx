@@ -60,11 +60,15 @@ const AdvanceFilter = ({ filters }: Props) => {
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
-      <AccordionItem overflow={'visible'}>
-        <AccordionButton>
+      <AccordionItem border={'none'} overflow={'visible'}>
+        <AccordionButton
+          w={'auto'}
+          display={'inline-block'}
+          p={'0'}
+          marginTop={SPACE.LG}>
           <HStack
-            gap={SPACE.XL}
-            width="400px"
+            gap={SPACE.LG}
+            width="auto"
             flex={'1'}
             justifyContent={
               (index as number) < 0 ? 'inherit' : 'space-between'
@@ -75,10 +79,16 @@ const AdvanceFilter = ({ filters }: Props) => {
         </AccordionButton>
         <AccordionPanel overflow={'visible'}>
           <Grid
-            templateColumns={GRID.TEMPLATE_COLUMNS}
-            rowGap={GRID.ROW_GAP}
-            columnGap={GRID.COLUM_GAP}>
-            <GridItem colSpan={4}>
+            templateColumns={{
+              base: '1fr',
+              lg: 'repeat(10, 1fr)',
+              md: 'repeat(1, 1fr)',
+            }}
+            gap={{
+              base: '.5rem',
+              lg: '1rem',
+            }}>
+            <GridItem colSpan={2}>
               <Box maxW={'24rem'}>
                 <SelectBase
                   name="ov-advance"
@@ -99,24 +109,33 @@ const AdvanceFilter = ({ filters }: Props) => {
                 />
               </Box>
             </GridItem>
-
+          </Grid>
+          <Grid
+            marginTop={SPACE.MD}
+            templateColumns={{
+              base: '1fr',
+              lg: 'repeat(10, 1fr)',
+              md: 'repeat(1, 1fr)',
+            }}
+            gap={{
+              base: '.5rem',
+              lg: '1rem',
+            }}>
             {selected.map(so => (
-              <GridItem key={so.value.name} position={'relative'}>
-                <>
-                  <IconButton
-                    position={'absolute'}
-                    zIndex={2}
-                    right={0}
-                    top={0}
-                    variant={'deleteBtn'}
-                    aria-label={t('Filter.Remove')}
-                    icon={<i className="ri-close-line" />}
-                    onClick={() => handleRemove(so.value.name)}
-                  />
-                  <ControlWrapper name={so.value.name} label={so.label}>
-                    <InputSwitch option={so} />
-                  </ControlWrapper>
-                </>
+              <GridItem colSpan={2} key={so.value.name} position={'relative'}>
+                <IconButton
+                  position={'absolute'}
+                  zIndex={2}
+                  right={0}
+                  top={0}
+                  variant={'deleteBtn'}
+                  aria-label={t('Filter.Remove')}
+                  icon={<i className="ri-close-line" />}
+                  onClick={() => handleRemove(so.value.name)}
+                />
+                <ControlWrapper name={so.value.name} label={so.label}>
+                  <InputSwitch option={so} />
+                </ControlWrapper>
               </GridItem>
             ))}
           </Grid>

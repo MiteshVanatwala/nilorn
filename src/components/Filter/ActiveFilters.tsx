@@ -27,7 +27,7 @@ const ActiveFilters = () => {
       alignItems="baseline"
       gap={'1rem'}
       flexDirection="row"
-      pt={SPACE.LG}>
+      pt={hasValues ? SPACE.LG : ''}>
       {watchedEntries.map(([key, value]) => {
         if (value) {
           return (

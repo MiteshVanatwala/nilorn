@@ -67,6 +67,7 @@ const InputSearch = ({
         padding={SPACE.XS}
         height={'auto'}
         {...formContextRegRest}
+        _hover={{ bg: COLORS.GRAY[20] }}
         onChange={e => {
           error = undefined;
           formContextRegOnChange(e);

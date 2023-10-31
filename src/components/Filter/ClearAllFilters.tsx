@@ -1,9 +1,11 @@
 import { COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 const ClearAllFilters = () => {
   const { reset } = useFormContext();
+  const { t } = useTranslation();
 
   return (
     <Button
@@ -21,7 +23,7 @@ const ClearAllFilters = () => {
         backgroundColor: 'transparent',
       }}
       onClick={() => reset()}>
-      Clear all
+      {t('Filter.Clear')}
     </Button>
   );
 };
