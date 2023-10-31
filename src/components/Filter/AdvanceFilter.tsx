@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import SelectBase from '../Form/SelectBase';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
@@ -24,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import InputSwitch from './InputSwitch';
 import { GRID, SPACE } from '../../theme/Constants';
+import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
   filters: SelectOption<AdvanceFilterType>[];
@@ -80,19 +80,9 @@ const AdvanceFilter = ({ filters }: Props) => {
             columnGap={GRID.COLUM_GAP}>
             <GridItem colSpan={4}>
               <Box maxW={'24rem'}>
-                <SelectBase
-                  name="ov-advance"
-                  isMulti={true}
+                <AdvanceFilterSelect
                   options={filters}
                   value={selected}
-                  isSearchable={true}
-                  advanceFilter={true}
-                  dark={true}
-                  placeholder={
-                    selected.length
-                      ? `${t('Filter.NumSelected', { num: selected.length })}`
-                      : `${t('Filter.Select')}`
-                  }
                   onChange={(option, event) => {
                     handleSelect(option, event);
                   }}
