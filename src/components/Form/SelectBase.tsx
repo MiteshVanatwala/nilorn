@@ -125,15 +125,17 @@ const SelectBase = <IsMulti extends boolean = false>({
           height: isMulti ? 'max-content' : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
+          borderColor: bgColor,
+          border: '1px solid',
           _hover: {
             backgroundColor: COLORS.GRAY[20],
             cursor: 'pointer',
           },
           _focusVisible: {
-            backgroundColor: COLORS.GRAY[30],
+            borderColor: COLORS.GRAY[60],
           },
           _focus: {
-            backgroundColor: COLORS.GRAY[30],
+            borderColor: COLORS.GRAY[60],
           },
         }),
         valueContainer: base => ({
