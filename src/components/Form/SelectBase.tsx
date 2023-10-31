@@ -1,4 +1,3 @@
-import React from 'react';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { FocusEventHandler } from 'react';
 import { Text } from '@chakra-ui/react';
@@ -12,11 +11,12 @@ import {
   GroupBase,
   OptionsOrGroups,
   MultiValue,
+  DropdownIndicatorProps,
 } from 'chakra-react-select';
 import text from '../../theme/text';
 
 const customSelectComponents = {
-  DropdownIndicator: (props: any) => {
+  DropdownIndicator: (props: DropdownIndicatorProps) => {
     return (
       <components.DropdownIndicator {...props}>
         <Text
@@ -111,6 +111,8 @@ const SelectBase = <IsMulti extends boolean = false>({
 
   const color = dark ? COLORS.WHITE : COLORS.GRAY[70];
   const bgColor = dark ? COLORS.GRAY[70] : COLORS.GRAY[10];
+  const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[30];
+  const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
 
   return (
     <Select
@@ -119,6 +121,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       controlShouldRenderValue={advanceFilter ? false : true}
       isMulti={isMulti}
       isSearchable={isSearchable}
+      isClearable={advanceFilter ? false : undefined}
       variant="filled"
       name={name}
       ref={passRef}
@@ -128,45 +131,31 @@ const SelectBase = <IsMulti extends boolean = false>({
       value={isControlled ? value ?? '' : undefined}
       defaultValue={defaultValue}
       options={options}
-      placeholder={true && isMulti ? '' : placeholder}
+      placeholder={placeholder}
       menuPlacement={menuPlacement}
       chakraStyles={{
         control: base => ({
           ...base,
           ...text.baseStyle,
           whiteSpace: 'noWrap',
-          height: isMulti ? 'max-content' : '4.2rem',
+          height: isMulti && !advanceFilter ? 'max-content' : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '1px solid',
           _hover: {
-            backgroundColor: COLORS.GRAY[20],
+            backgroundColor: hover,
             cursor: 'pointer',
           },
           _focusVisible: {
-            borderColor: COLORS.GRAY[60],
+            backgroundColor: focus,
           },
           _focus: {
-            borderColor: COLORS.GRAY[60],
+            backgroundColor: focus,
           },
-          _after: advanceFilter
-            ? {
-                h: '100%',
-                w: '5rem',
-                left: '1rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                content: `"${placeholder}"`,
-              }
-            : undefined,
         }),
         valueContainer: base => ({
           ...base,
-          // backgroundColor: bgColor,
           color: color,
         }),
         menuList: base => ({
@@ -179,11 +168,10 @@ const SelectBase = <IsMulti extends boolean = false>({
           padding: '0',
           margin: '0',
           color: color,
-          // backgroundColor: bgColor,
         }),
         placeholder: base => ({
           ...base,
-          fontWeight: 900,
+          fontWeight: 400,
           color: color,
         }),
         input: base => ({
@@ -194,7 +182,6 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           fontSize: SIZES.ICON.MD,
           color: color,
-          // backgroundColor: bgColor,
         }),
         option: (base, { isSelected }) => ({
           ...base,
@@ -228,8 +215,6 @@ const SelectBase = <IsMulti extends boolean = false>({
               },
         multiValueRemove: base => ({
           ...base,
-          fontSize: SIZES.FONT.SM,
-          fontWeight: 900,
           color: COLORS.WHITE,
           ml: SPACE.XS,
         }),
