@@ -14,6 +14,16 @@ export interface FormInputProps {
   onChange?: (e: any) => void;
 }
 
+export type SelectOption<T = any> = {
+  label: any;
+  value: T;
+};
+
+export type AdvanceFilter = {
+  type: 'select' | 'text';
+  name: string;
+};
+
 export type Status = 'success' | 'error' | 'warning' | 'info';
 
 export type Feedback = {

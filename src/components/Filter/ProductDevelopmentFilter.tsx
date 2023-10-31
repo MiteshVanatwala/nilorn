@@ -7,11 +7,16 @@ import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
 import { useState } from 'react';
 import SelectBase from '../Form/SelectBase';
+import { SelectOption } from '../../app/types/types';
+import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
+import AdvanceFilter from './AdvanceFilter';
 import { SelectOption } from './FilterHelper';
 import Select from '../Form/Select';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
+  const advanceFilters = useOverviewAdvanceFilters();
+
   const form = useForm();
 
   const onChange = (option: any, isClient: boolean) => {
@@ -99,6 +104,9 @@ const ProductDevelopmentFilter = () => {
               />
             </GridItem>
           </Grid>
+          <GridItem>
+            <AdvanceFilter filters={advanceFilters} />
+          </GridItem>
           <ActiveFilters />
         </GridItem>
         <SearchProfile />

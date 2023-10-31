@@ -1,3 +1,4 @@
+import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 
@@ -10,11 +11,6 @@ export function getDefaultValueSelect(
   ) as SelectOption;
   return defaultValue;
 }
-
-export type SelectOption = {
-  label: any;
-  value: any;
-};
 
 export type GroupSelectOption = {
   label: string;

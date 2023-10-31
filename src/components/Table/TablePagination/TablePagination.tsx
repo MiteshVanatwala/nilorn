@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { COLORS, SPACE } from '../../../theme/Constants';
 import PaginationButton from './PaginationButton';
 import { createRangeArray } from '../../../app/utils/common';
-import HeaderDivider from '../../Navigation/HeaderDivider';
 
 type Props = {
   currentPage: number;
@@ -29,13 +28,6 @@ const TablePagination = ({
   currentPageHandler,
   chunkSizeHandler,
 }: Props) => {
-  console.log(
-    currentPage,
-    totalNumPages,
-    totalRecords,
-    currentChunkSize,
-    chunkSizes
-  );
   const { t } = useTranslation();
   const rangeLength = totalNumPages < 5 ? totalNumPages : 5;
   let [rangeStart, setRangeStart] = useState(1);
