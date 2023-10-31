@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GRID } from '../../theme/Constants';
+import { GRID, SPACE } from '../../theme/Constants';
 import { Box, Grid, GridItem, HStack } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
@@ -105,12 +105,12 @@ const ProductDevelopmentFilter = () => {
               )}
             </Box>
           </HStack>
+          <Box mt={GRID.ROW_GAP}>
+            <AdvanceFilter filters={advanceFilters} />
+          </Box>
         </GridItem>
         <GridItem colSpan={1} colStart={4} justifySelf={'right'}>
           <SearchProfile />
-        </GridItem>
-        <GridItem colSpan={3}>
-          <AdvanceFilter filters={advanceFilters} />
         </GridItem>
       </Grid>
     </FormuQuerySubmit>

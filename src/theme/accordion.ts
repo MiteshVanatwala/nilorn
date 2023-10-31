@@ -8,6 +8,10 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
   container: {
     borderTop: 'none',
+    overflow: 'visible',
+    '.chakra-collapse': {
+      overflow: 'initial !important',
+    },
   },
   icon: {
     color: COLORS.GRAY[80],
