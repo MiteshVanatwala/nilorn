@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, Accordion } from '@chakra-ui/react';
 import alert from './alert';
 import button from './button';
 import colors from './Constants/colors';
@@ -18,6 +18,7 @@ import popoverTheme from './Popover';
 import { checkboxTheme } from './checkbox';
 import radioTheme from './radio';
 import numberInput from './numberInput';
+import { accordion } from './accordion';
 
 const theme = extendTheme({
   fonts: fonts,
@@ -49,6 +50,7 @@ const theme = extendTheme({
     Checkbox: checkboxTheme,
     Radio: radioTheme,
     NumberInput: numberInput,
+    Accordion: accordion,
   },
   colors: colors,
 });
