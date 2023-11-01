@@ -9,6 +9,10 @@ import { RouterProvider } from 'react-router-dom';
 import router from './pages/MainApp/Router';
 import ErrorPage from './components/ErrorBoundary/ErrorPage';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
+import { OpenAPI } from './generate';
+
+OpenAPI.BASE =
+  process.env.REACT_APP_API_URL ?? 'https://umbrella-api-test.nilorn.com';
 
 function App() {
   const auth = useAuth();
@@ -52,11 +56,11 @@ function App() {
   ]);
 
   useEffect(() => {
-    // const token = auth.user?.access_token;
+    const token = auth.user?.access_token;
     if (auth.user?.access_token) {
-      // OpenAPI.HEADERS = {
-      //   Authorization: `Bearer ${token}`,
-      // };
+      OpenAPI.HEADERS = {
+        Authorization: `Bearer ${token}`,
+      };
     }
   }, [auth.user?.access_token]);
 
