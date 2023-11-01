@@ -7,7 +7,7 @@ import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
-import { GridItem } from '@chakra-ui/react';
+import { Box, GridItem } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
 
@@ -44,13 +44,16 @@ const SearchProfile = () => {
             onChange={onChange}
             value={selected}
             options={[
-              { label: 'My custom filter', value: 'search=testing&filter=hej' },
+              {
+                label: 'My custom filter',
+                value: 'search=testing&filter=hej',
+              },
               { label: 'My custom filter2', value: 'search=wopop' },
             ]}
           />
         </ControlWrapper>
         <Button
-          zIndex={'0'}
+          zIndex={'-1'}
           marginTop={'.5rem'}
           fontWeight={'500'}
           variant={'secondary'}
