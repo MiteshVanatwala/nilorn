@@ -8,29 +8,28 @@ import {
 } from 'react';
 
 export type PaginationInfo = {
-  currentPage: number;
-  maxRecordsPerPage: number;
+  pageNumber: number;
+  pageSize: number;
 };
 
 type PaginationContextType = PaginationInfo & {
   totalPages: number;
-  totalRecords: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-  setMaxRecordsPerPage: Dispatch<SetStateAction<number>>;
+  totalCount: number;
+  setPageNumber: Dispatch<SetStateAction<number>>;
+  setPageSize: Dispatch<SetStateAction<number>>;
   setTotalPages: Dispatch<SetStateAction<number>>;
-  setTotalRecords: Dispatch<SetStateAction<number>>;
+  setTotalCount: Dispatch<SetStateAction<number>>;
 };
 
-const defaultState = {
-  currentPage: 1,
-  maxRecordsPerPage: 30,
+const defaultState: PaginationContextType = {
+  pageNumber: 1,
+  pageSize: 30,
   totalPages: 0,
-  totalRecords: 0,
-  setCurrentPage: () => {},
-  setMaxRecordsPerPage: () => {},
+  totalCount: 0,
+  setPageNumber: () => {},
+  setPageSize: () => {},
   setTotalPages: () => {},
-  setTotalRecords: () => {},
-  setSortState: () => {},
+  setTotalCount: () => {},
 };
 
 const PaginationContext = createContext<PaginationContextType>(defaultState);
@@ -43,22 +42,22 @@ export const usePaginationContext = () =>
   useContext<PaginationContextType>(PaginationContext);
 
 const PaginationProvider = ({ children }: PaginationProviderType) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [maxRecordsPerPage, setMaxRecordsPerPage] = useState(30);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(0);
-  const [totalRecords, setTotalRecords] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   return (
     <PaginationContext.Provider
       value={{
-        currentPage,
-        maxRecordsPerPage,
+        pageNumber,
+        pageSize,
         totalPages,
-        totalRecords,
-        setCurrentPage,
-        setMaxRecordsPerPage,
+        totalCount,
+        setPageNumber,
+        setPageSize,
         setTotalPages,
-        setTotalRecords,
+        setTotalCount,
       }}>
       {children}
     </PaginationContext.Provider>

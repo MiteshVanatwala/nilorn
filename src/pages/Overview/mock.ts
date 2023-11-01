@@ -1,49 +1,24 @@
-export enum Status {
-  NEW,
-  WAITING,
-  DONE,
-}
+import {
+  ProductDevelopmentBriefDto,
+  ProductDevelopmentStatus,
+} from '../../generate';
 
-export enum ProductType {
-  BOX,
-  LABEL,
-}
-
-export type OverviewItem = {
-  id: string;
-  image: string;
-  name: string;
-  number: Number;
-  status: Status;
-  artwork: string;
-  client: string;
-  type: ProductType;
-  productGroup: string;
-};
-
-function getRandomEnumValue(enumType: any): any {
-  const enumValues = Object.values(enumType);
-  const randomIndex = Math.floor(Math.random() * enumValues.length);
-  return enumValues[randomIndex];
-}
-
-export function generateMockData(count: number): OverviewItem[] {
-  const mockData: OverviewItem[] = [];
+export function generateMockData(count: number): ProductDevelopmentBriefDto[] {
+  const mockData: ProductDevelopmentBriefDto[] = [];
 
   for (let i = 0; i < count; i++) {
-    const randomStatus: Status = getRandomEnumValue(Status);
-    const randomProduct: ProductType = getRandomEnumValue(ProductType);
+    // const randomProduct: ProductType = getRandomEnumValue(ProductType);
 
-    const mockOverview: OverviewItem = {
-      id: `pd-${i}`,
-      image: `image${i}.jpg`,
+    const mockOverview: ProductDevelopmentBriefDto = {
+      // id: `pd-${i}`,
+      // image: `image${i}.jpg`,
       name: `PD Name ${i}`,
-      number: i + 1,
-      status: randomStatus,
-      artwork: `artwork${i}.jpg`,
-      client: `Client ${i}`,
-      type: randomProduct,
-      productGroup: `Product Group ${i}`,
+      productDevelopmentNo: (i + 1).toString(),
+      status: ProductDevelopmentStatus._0,
+      image: `artwork${i}.jpg`,
+      // client: `Client ${i}`,
+      // type: randomProduct,
+      // productGroup: `Product Group ${i}`,
     };
 
     mockData.push(mockOverview);

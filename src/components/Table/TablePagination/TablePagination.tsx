@@ -6,27 +6,27 @@ import PaginationButton from './PaginationButton';
 import { createRangeArray } from '../../../app/utils/common';
 
 type Props = {
-  currentPage: number;
+  pageNumber: number;
   totalNumPages: number;
-  totalRecords: number;
-  currentChunkSize: number;
+  totalCount: number;
+  currentPageSize: number;
   chunkSizes: number[];
   nextHandler: () => void;
   previousHandler: () => void;
-  currentPageHandler: (page: number) => void;
-  chunkSizeHandler: (chunk: number) => void;
+  pageNumberHandler: (page: number) => void;
+  pageSizeHandler: (chunk: number) => void;
 };
 
 const TablePagination = ({
-  currentPage,
+  pageNumber: currentPage,
   totalNumPages,
-  totalRecords,
-  currentChunkSize,
+  totalCount: totalRecords,
+  currentPageSize: currentChunkSize,
   chunkSizes,
   nextHandler,
   previousHandler,
-  currentPageHandler,
-  chunkSizeHandler,
+  pageNumberHandler: currentPageHandler,
+  pageSizeHandler: chunkSizeHandler,
 }: Props) => {
   const { t } = useTranslation();
   const rangeLength = totalNumPages < 5 ? totalNumPages : 5;
