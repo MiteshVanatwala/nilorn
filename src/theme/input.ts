@@ -59,8 +59,8 @@ const baseStyle = definePartsStyle({
     color: COLORS.GRAY[80],
     fontWeight: 400,
     ':focus-visible': {
-      borderColor: importantValue(COLORS.GRAY[60]),
-      boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
+      borderColor: importantValue(COLORS.GRAY[20]),
+      // boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
     },
     _invalid: {
       borderColor: importantValue(COLORS.ERROR),

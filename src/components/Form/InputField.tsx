@@ -43,10 +43,12 @@ const InputField = ({
         placeholder={placeholder}
         type={type}
         padding={SPACE.XS}
+        border={'2px'}
+        borderColor={COLORS.GRAY[10]}
         height={'auto'}
         {...register(name, registerOptions)}
         bgColor={variant === 'filled' ? COLORS.GRAY[10] : ''}
-        _hover={{ bg: COLORS.GRAY[20] }}
+        _hover={{ borderColor: COLORS.GRAY[20] }}
       />
     </ControlWrapper>
   );

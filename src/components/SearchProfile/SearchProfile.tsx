@@ -50,6 +50,7 @@ const SearchProfile = () => {
           />
         </ControlWrapper>
         <Button
+          zIndex={'0'}
           marginTop={'.5rem'}
           fontWeight={'500'}
           variant={'secondary'}

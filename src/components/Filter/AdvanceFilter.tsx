@@ -22,7 +22,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import InputSwitch from './InputSwitch';
-import { GRID, SPACE } from '../../theme/Constants';
+import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
@@ -62,6 +62,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     <Accordion allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>
         <AccordionButton
+          _hover={{ bg: COLORS.GRAY[0] }}
           w={'auto'}
           display={'inline-block'}
           p={'0'}
