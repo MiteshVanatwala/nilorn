@@ -14,9 +14,9 @@ const UserMenu = () => {
   };
 
   return (
-    <HeaderMenu title={t('Menu.hypuser')}>
+    <HeaderMenu title={t('Menu.HypUser')}>
       <HeaderMenuButton onClick={signOut}>
-        <>{t('Menu.hyplogout')}</>
+        <>{t('Menu.HypLogout')}</>
       </HeaderMenuButton>
     </HeaderMenu>
   );

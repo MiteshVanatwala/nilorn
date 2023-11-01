@@ -56,7 +56,7 @@ const SearchProfile = () => {
           height={'3.5rem'}
           leftIcon={<i className="ri-save-line" />}
           onClick={() => handleModal(<SearchProfileModalContent />)}>
-          {t('Filter.saveSearchProfile')}
+          {t('Filter.SaveSearchProfile')}
         </Button>
       </VStack>
     </GridItem>

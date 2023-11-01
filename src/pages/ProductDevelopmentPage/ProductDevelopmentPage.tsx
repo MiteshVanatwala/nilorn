@@ -24,7 +24,7 @@ function ProductDevelopmentPage() {
     <ContentPage>
       <Heading>ProductDevelopment {id}</Heading>
       <Button variant={'primary'} onClick={() => handleToast('success')}>
-        {t('PD.save')}
+        {t('PD.Save')}
       </Button>
     </ContentPage>
   );

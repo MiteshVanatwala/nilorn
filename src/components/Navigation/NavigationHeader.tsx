@@ -48,10 +48,10 @@ const NavigationHeader = () => {
               </HStack>
               <HStack m={0} divider={<HeaderDivider />}>
                 <HeaderLink
-                  title={<Heading variant={'h5'}>{t('Common.title')}</Heading>}
+                  title={<Heading variant={'h5'}>{t('Common.Title')}</Heading>}
                   path={'/'}
                 />
-                <HeaderLink title={t('Menu.hypchangelog')} path="/changelog" />
+                <HeaderLink title={t('Menu.HypChangelog')} path="/changelog" />
               </HStack>
               <HeaderDivider />
             </Flex>

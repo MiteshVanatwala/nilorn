@@ -1,30 +1,32 @@
 {
   "Common": {
-    "title": "Umbrella",
+    "Title": "Umbrella",
     "GoHome": "Go home",
     "Cancel": "Cancel",
-    "signingIn": "Signing you in...",
-    "signingOut": "Signing you out...",
-    "authError": "Authentication error",
-    "reloadSite": "Reload site",
-    "errorTitle": "An error occured while processing your request",
+    "SigningIn": "Signing you in...",
+    "SigningOut": "Signing you out...",
+    "AuthError": "Authentication error",
+    "ReloadSite": "Reload site",
+    "ErrorTitle": "An error occurred while processing your request",
     "Page": "Page",
     "Next": "Next",
     "Previous": "Previous",
     "Of": "of",
     "RowsPerPage": "Rows per page:",
-    "NoOptions": "No options..."
+    "NoOptions": "No options...",
+    "Loading": "Loading",
+    "Error": "Failed to load content"
   },
   "Menu": {
-    "hyphome": "Start",
-    "hypproducts": "Product developments",
-    "hypsource": "Sourcings",
-    "hypchangelog": "Changelog",
-    "hypclient": "Clients",
-    "hypprojects": "Projects",
-    "hypprice": "Prices",
-    "hypuser": "User",
-    "hyplogout": "Log out"
+    "Hyphome": "Start",
+    "HypProducts": "Product developments",
+    "HypSource": "Sourcings",
+    "HypChangelog": "Changelog",
+    "HypClient": "Clients",
+    "HypProjects": "Projects",
+    "HypPrice": "Prices",
+    "HypUser": "User",
+    "HypLogout": "Log out"
   },
   "PD": {
     "Image": "Image",
@@ -34,18 +36,18 @@
     "Artwork": "Artwork",
     "Client": "Client",
     "SubClient": "Sub Client",
-    "Type": "ProductType",
+    "Type": "Product Type",
     "ProductGroup": "Group name",
     "ItemCategory": "Item Category",
     "FoldingType": "Folding Type",
     "FinishedLength": "Finished Length",
     "FinishedWidth": "Finished Width",
     "FinishedHeight": "Finished Height",
-    "save": "Save as..",
-    "statusLabel": {
-      "new": "New",
-      "waiting": "Waiting for approval",
-      "done": "Done"
+    "Save": "Save as...",
+    "StatusLabel": {
+      "New": "New",
+      "Waiting": "Waiting for approval",
+      "Done": "Done"
     }
   },
   "Filter": {
@@ -54,8 +56,8 @@
     "Select": "Select...",
     "NumSelected": "{{num}} selected",
     "SavedFilters": "My saved filters",
-    "saveSearchProfile": "Save current filter",
-    "searchProfileName": "Custom filter name",
+    "SaveSearchProfile": "Save current filter",
+    "SearchProfileName": "Custom filter name",
     "SavedFilterLabel": "My saved filters",
     "Client": "Client",
     "Status": "Status"

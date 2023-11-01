@@ -27,8 +27,8 @@ const SearchProfileModalContent = () => {
   return (
     <>
       <ModalBody>
-        <ModalHeading title={t('Filter.searchProfileName')} />
-        <ControlWrapper name={'name'} label={t('Filter.searchProfileName')}>
+        <ModalHeading title={t('Filter.SearchProfileName')} />
+        <ControlWrapper name={'name'} label={t('Filter.SearchProfileName')}>
           <Input variant={'standard'} name={'name'} />
         </ControlWrapper>
       </ModalBody>
@@ -39,7 +39,7 @@ const SearchProfileModalContent = () => {
             variant={'primary'}
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
-            <> {t('Filter.saveSearchProfile')}</>
+            <> {t('Filter.SaveSearchProfile')}</>
           </Button>
           <Button
             variant={'secondary'}
