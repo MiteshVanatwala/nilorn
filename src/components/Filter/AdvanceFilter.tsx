@@ -59,7 +59,7 @@ const AdvanceFilter = ({ filters }: Props) => {
   const [index, setIndex] = useState<ExpandedIndex>(0);
 
   return (
-    <Accordion allowToggle index={index} onChange={setIndex}>
+    <Accordion mb={SPACE.SM} allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>
         <AccordionButton
           _hover={{ bg: COLORS.GRAY[0] }}

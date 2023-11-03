@@ -30,7 +30,7 @@ const ActiveFilters = () => {
         lg: SPACE.SM,
       }}
       flexDirection="row"
-      pt={hasValues ? SPACE.LG : ''}>
+      py={hasValues ? SPACE.XS : ''}>
       {watchedEntries.map(([key, value]) => {
         if (value) {
           return (

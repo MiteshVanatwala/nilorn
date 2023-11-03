@@ -38,17 +38,8 @@ export function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 export function onFilterChange(formValues: FieldValues) {
-  type QueryParams = Record<string, string | undefined>;
-
-  const filteredQueryParams: QueryParams = {
-    search: formValues.search,
-    filter: formValues.filter,
-    status: formValues.status,
-    client: formValues.client,
-  };
-  const queryParamString = Object.entries(filteredQueryParams)
-    .filter(([_, value]) => value !== undefined)
-    .filter(([_, value]) => value !== '')
+  const queryParamString = Object.entries(formValues)
+    .filter(([_, value]) => value !== undefined && value !== '')
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
 
