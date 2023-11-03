@@ -2,9 +2,7 @@ import { Input } from '@chakra-ui/react';
 import { FieldError, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { HTMLInputTypeAttribute } from 'react';
-import { COLORS, SPACE } from '../../theme/Constants';
 import ControlWrapper from './ControlWrapper';
-import React from 'react';
 
 interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
@@ -43,10 +41,8 @@ const InputField = ({
         defaultValue={defaultValue}
         placeholder={placeholder}
         type={type}
-        padding={SPACE.XS}
         height={'auto'}
         {...register(name, registerOptions)}
-        bgColor={variant === 'filled' ? COLORS.GRAY[10] : ''}
       />
     </ControlWrapper>
   );

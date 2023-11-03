@@ -16,6 +16,7 @@ import SIZES from '../../theme/Constants/sizes';
 import HeaderDivider from './HeaderDivider';
 import HeaderLink from './HeaderLink';
 import UserMenu from './UserMenu';
+import { GRID } from '../../theme/Constants';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -29,9 +30,9 @@ const NavigationHeader = () => {
       <Box maxW={SIZES.CONTAINER.XL} w={'100%'}>
         <Grid
           templateColumns={{
-            base: '1fr',
-            lg: 'repeat(2, 1fr)',
-            md: 'repeat(1, 1fr)',
+            base: GRID.TEMPLATE_COLUMNS.base,
+            lg: GRID.TEMPLATE_COLUMNS.sm,
+            md: GRID.TEMPLATE_COLUMNS.md,
           }}>
           <GridItem
             borderBottom={{ base: `solid 1px ${COLORS.GRAY[30]}`, lg: 'none' }}>

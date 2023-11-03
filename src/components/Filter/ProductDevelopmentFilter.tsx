@@ -5,39 +5,23 @@ import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
-import { useState } from 'react';
-import SelectBase from '../Form/SelectBase';
-import { SelectOption } from '../../app/types/types';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
+import Select from '../Form/Select';
+import { GRID, SPACE } from '../../theme/Constants';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const advanceFilters = useOverviewAdvanceFilters();
-
   const form = useForm();
-  const [selectedClient, setSelectedClient] = useState<
-    SelectOption | undefined
-  >();
-  const [selectedStatus, setSelectedStatus] = useState<
-    SelectOption | undefined
-  >();
 
-  const onChange = (option: any, isClient: boolean) => {
-    if (isClient) {
-      setSelectedClient(option);
-    } else {
-      setSelectedStatus(option);
-    }
-    form.setValue(isClient ? 'client' : 'status', option.value);
-  };
   return (
     <FormuQuerySubmit form={form}>
       <Grid
         templateColumns={{
-          base: '1fr',
-          lg: 'repeat(12, 1fr)',
-          md: 'repeat(1, 1fr)',
+          base: GRID.TEMPLATE_COLUMNS.base,
+          md: GRID.TEMPLATE_COLUMNS.md,
+          lg: GRID.TEMPLATE_COLUMNS.xl,
         }}>
         <GridItem
           colSpan={{
@@ -46,13 +30,13 @@ const ProductDevelopmentFilter = () => {
           }}>
           <Grid
             gap={{
-              base: '.5rem',
-              lg: '1rem',
+              base: SPACE.XXS,
+              lg: SPACE.SM,
             }}
             templateColumns={{
-              base: '1fr',
-              lg: 'repeat(10, 1fr)',
-              md: 'repeat(1, 1fr)',
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             position={'relative'}
             zIndex={10}>
@@ -76,13 +60,8 @@ const ProductDevelopmentFilter = () => {
               <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
                 {t('Filter.Client')}
               </FormLabel>
-              <SelectBase
-                defaultValue={undefined}
+              <Select
                 name={'client'}
-                onChange={e => {
-                  onChange(e, true);
-                }}
-                value={selectedClient}
                 options={[
                   {
                     label: 'Chocolate',
@@ -100,19 +79,14 @@ const ProductDevelopmentFilter = () => {
               <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
                 {t('Filter.Status')}
               </FormLabel>
-              <SelectBase
-                defaultValue={undefined}
+              <Select
                 name={'status'}
-                onChange={e => {
-                  onChange(e, false);
-                }}
-                value={selectedStatus}
                 options={[
                   {
-                    label: 'Chocolate',
+                    label: 'Chocolate client',
                     value: 'chocolate',
                   },
-                  { label: 'Strawberry', value: 'strawberry' },
+                  { label: 'Strawberry client', value: 'strawberry' },
                 ]}
               />
             </GridItem>

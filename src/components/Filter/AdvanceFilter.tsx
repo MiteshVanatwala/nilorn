@@ -22,7 +22,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import InputSwitch from './InputSwitch';
-import { GRID, SPACE } from '../../theme/Constants';
+import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
@@ -60,11 +60,16 @@ const AdvanceFilter = ({ filters }: Props) => {
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
-      <AccordionItem overflow={'visible'}>
-        <AccordionButton>
+      <AccordionItem border={'none'} overflow={'visible'}>
+        <AccordionButton
+          _hover={{ bg: COLORS.GRAY[0] }}
+          w={'auto'}
+          display={'inline-block'}
+          p={'0'}
+          marginTop={SPACE.LG}>
           <HStack
-            gap={SPACE.XL}
-            width="400px"
+            gap={SPACE.LG}
+            width="auto"
             flex={'1'}
             justifyContent={
               (index as number) < 0 ? 'inherit' : 'space-between'
@@ -75,10 +80,16 @@ const AdvanceFilter = ({ filters }: Props) => {
         </AccordionButton>
         <AccordionPanel overflow={'visible'}>
           <Grid
-            templateColumns={GRID.TEMPLATE_COLUMNS}
-            rowGap={GRID.ROW_GAP}
-            columnGap={GRID.COLUM_GAP}>
-            <GridItem colSpan={4}>
+            templateColumns={{
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
+            }}
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}>
+            <GridItem colSpan={2}>
               <Box maxW={'24rem'}>
                 <AdvanceFilterSelect
                   options={filters}
@@ -89,24 +100,33 @@ const AdvanceFilter = ({ filters }: Props) => {
                 />
               </Box>
             </GridItem>
-
+          </Grid>
+          <Grid
+            marginTop={SPACE.MD}
+            templateColumns={{
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
+            }}
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}>
             {selected.map(so => (
-              <GridItem key={so.value.name} position={'relative'}>
-                <>
-                  <IconButton
-                    position={'absolute'}
-                    zIndex={2}
-                    right={0}
-                    top={0}
-                    variant={'deleteBtn'}
-                    aria-label={t('Filter.Remove')}
-                    icon={<i className="ri-close-line" />}
-                    onClick={() => handleRemove(so.value.name)}
-                  />
-                  <ControlWrapper name={so.value.name} label={so.label}>
-                    <InputSwitch option={so} />
-                  </ControlWrapper>
-                </>
+              <GridItem colSpan={2} key={so.value.name} position={'relative'}>
+                <IconButton
+                  position={'absolute'}
+                  zIndex={2}
+                  right={0}
+                  top={0}
+                  variant={'deleteBtn'}
+                  aria-label={t('Filter.Remove')}
+                  icon={<i className="ri-close-line" />}
+                  onClick={() => handleRemove(so.value.name)}
+                />
+                <ControlWrapper name={so.value.name} label={so.label}>
+                  <InputSwitch option={so} />
+                </ControlWrapper>
               </GridItem>
             ))}
           </Grid>

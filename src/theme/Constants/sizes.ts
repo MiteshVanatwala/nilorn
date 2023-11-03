@@ -1,7 +1,6 @@
 const SIZES = {
   CONTAINER: {
     XXXS: '20rem',
-
     XXS: '50rem',
     XS: '62rem',
     SM: '72rem',

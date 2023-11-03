@@ -51,7 +51,7 @@
     }
   },
   "Filter": {
-    "AdvanceFilter": "Advance filters",
+    "AdvanceFilter": "Advanced filters",
     "Search": "Search by...",
     "Select": "Select...",
     "NumSelected": "{{num}} selected",
@@ -60,6 +60,8 @@
     "SearchProfileName": "Custom filter name",
     "SavedFilterLabel": "My saved filters",
     "Client": "Client",
-    "Status": "Status"
+    "Status": "Status",
+    "Clear": "Clear all",
+    "Enter": "Enter"
   }
 }

@@ -7,9 +7,10 @@ import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
-import { GridItem } from '@chakra-ui/react';
+import { Box, GridItem } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
+import { SPACE } from '../../theme/Constants';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -33,7 +34,7 @@ const SearchProfile = () => {
   return (
     <GridItem
       marginTop={{
-        base: '1rem',
+        base: SPACE.XS,
         md: '0',
       }}
       colSpan={2}>
@@ -44,13 +45,17 @@ const SearchProfile = () => {
             onChange={onChange}
             value={selected}
             options={[
-              { label: 'My custom filter', value: 'search=testing&filter=hej' },
+              {
+                label: 'My custom filter',
+                value: 'search=testing&filter=hej',
+              },
               { label: 'My custom filter2', value: 'search=wopop' },
             ]}
           />
         </ControlWrapper>
         <Button
-          marginTop={'.5rem'}
+          zIndex={'-1'}
+          marginTop={SPACE.XXS}
           fontWeight={'500'}
           variant={'secondary'}
           height={'3.5rem'}

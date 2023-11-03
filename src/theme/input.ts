@@ -18,6 +18,18 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const standard = (props: StyleFunctionProps) =>
   definePartsStyle({
     ...theme.components.Input.variants?.flushed(props),
+    field: {
+      ...theme.components.Input.variants?.flushed(props).field,
+      borderBottom: '2px',
+      borderRadius: '0',
+      paddingX: '0',
+      borderBottomColor: COLORS.GRAY[60],
+
+      ':focus-visible': {
+        borderColor: importantValue(COLORS.GRAY[60]),
+        boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
+      },
+    },
   });
 
 const outline = (props: StyleFunctionProps) =>
@@ -28,6 +40,28 @@ const outline = (props: StyleFunctionProps) =>
       padding: SPACE.XS,
       borderRadius: 0,
       borderColor: COLORS.GRAY[20],
+    },
+  });
+
+const filled = (props: StyleFunctionProps) =>
+  definePartsStyle({
+    ...theme.components.Input.variants?.filled(props),
+    field: {
+      ...theme.components.Input.variants?.filled(props).field,
+      borderColor: COLORS.GRAY[10],
+      bgColor: COLORS.GRAY[10],
+      border: '2px solid',
+      paddingX: SPACE.XS,
+      paddingY: '.85rem',
+
+      _hover: {
+        borderColor: COLORS.GRAY[20],
+        bgColor: COLORS.GRAY[10],
+      },
+      _focusWithin: {
+        borderColor: COLORS.GRAY[20],
+        bgColor: COLORS.GRAY[10],
+      },
     },
   });
 
@@ -59,12 +93,10 @@ const baseStyle = definePartsStyle({
     color: COLORS.GRAY[80],
     fontWeight: 400,
     ':focus-visible': {
-      borderColor: importantValue(COLORS.GRAY[60]),
-      boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
+      borderColor: importantValue(COLORS.GRAY[20]),
     },
     _invalid: {
       borderColor: importantValue(COLORS.ERROR),
-      boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.ERROR),
     },
   },
 });
@@ -76,6 +108,7 @@ const input = defineMultiStyleConfig({
     standard,
     light,
     outline,
+    filled,
   },
   defaultProps: { variant: 'standard' },
 });

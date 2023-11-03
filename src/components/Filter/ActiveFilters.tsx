@@ -4,11 +4,17 @@ import fontSizes from '../../theme/fontSizes';
 import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ActiveFilters = () => {
   const { watch } = useFormContext();
   let [hasValues, setHasValues] = useState<boolean>(false);
+  const watchedEntries = Object.entries(watch());
+
+  useEffect(() => {
+    const foundValue = watchedEntries.some(([key, value]) => value);
+    setHasValues(foundValue);
+  }, [watchedEntries]);
 
   return (
     <Flex
@@ -19,14 +25,14 @@ const ActiveFilters = () => {
       margin={'0 auto'}
       maxWidth={SIZES.CONTAINER.XL}
       alignItems="baseline"
-      gap={'1rem'}
+      gap={{
+        base: SPACE.XXS,
+        lg: SPACE.SM,
+      }}
       flexDirection="row"
-      pt={SPACE.LG}>
-      {Object.entries(watch()).map(([key, value]) => {
+      pt={hasValues ? SPACE.LG : ''}>
+      {watchedEntries.map(([key, value]) => {
         if (value) {
-          if (!hasValues) {
-            setHasValues(true);
-          }
           return (
             <ActiveFilterItem
               key={key}
@@ -35,10 +41,6 @@ const ActiveFilters = () => {
               queryItem={key}
             />
           );
-        } else {
-          if (hasValues) {
-            setHasValues(false);
-          }
         }
         return null;
       })}

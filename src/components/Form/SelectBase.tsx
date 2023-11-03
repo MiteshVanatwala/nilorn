@@ -141,16 +141,22 @@ const SelectBase = <IsMulti extends boolean = false>({
           height: isMulti && !advanceFilter ? 'max-content' : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
-          color: color,
+          borderColor: bgColor,
+          border: '2px solid',
+          zIndex: '10',
+
           _hover: {
-            backgroundColor: hover,
+            borderColor: hover,
             cursor: 'pointer',
+            backgroundColor: bgColor,
           },
           _focusVisible: {
-            backgroundColor: focus,
+            borderColor: focus,
+            backgroundColor: bgColor,
           },
           _focus: {
-            backgroundColor: focus,
+            borderColor: focus,
+            backgroundColor: bgColor,
           },
         }),
         valueContainer: base => ({
@@ -187,13 +193,13 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...text.baseStyle,
           whiteSpace: 'nowrap',
           height: SPACE.XL,
-          backgroundColor: COLORS.GRAY[20],
+          backgroundColor: COLORS.GRAY[10],
           padding: SPACE.XS,
           '&:hover': {
-            backgroundColor: COLORS.GRAY[10],
+            backgroundColor: COLORS.GRAY[20],
           },
           ...(isSelected && {
-            backgroundColor: COLORS.GRAY[10],
+            backgroundColor: COLORS.GRAY[20],
             color: COLORS.BLACK,
           }),
         }),

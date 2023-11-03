@@ -4,7 +4,7 @@ import { FormInputProps } from '../../app/types/types';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -64,7 +64,7 @@ const InputSearch = ({
         variant={variant}
         placeholder={placeholder}
         type={'search'}
-        padding={SPACE.XS}
+        paddingY={'.85rem'}
         height={'auto'}
         {...formContextRegRest}
         onChange={e => {
@@ -73,7 +73,6 @@ const InputSearch = ({
           onChange?.(e.target.value);
           controller?.setValue?.(e.target.value);
         }}
-        bgColor={COLORS.GRAY[10]}
         fontSize={fontSizes.sm}
         maxWidth={SIZES.CONTAINER.SM}
         disabled={isDisabled}
