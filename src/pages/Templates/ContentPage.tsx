@@ -13,6 +13,7 @@ const ContentPage = ({ children, title, goBack }: Props) => {
       centerContent
       width={'100%'}
       maxW={'100%'}
+      height={'100%'}
       mt={SPACE.XL}
       pb={SPACE.XXL}
       overflowX={'clip'}>

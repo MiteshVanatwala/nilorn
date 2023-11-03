@@ -1,5 +1,5 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react';
-import { SPACE, COLORS, BORDER_RADIUS } from './Constants/';
+import { SPACE, COLORS, BORDER_RADIUS, SIZES } from './Constants/';
 import text from './text';
 import fontSizes from './fontSizes';
 
@@ -29,67 +29,6 @@ const secondary = defineStyle({
     background: COLORS.GRAY[80],
   },
 });
-
-const error = defineStyle({
-  color: COLORS.WHITE,
-  background: COLORS.RED.PRIMARY,
-  fontSize: fontSizes.xs,
-  fontWeight: 900,
-  px: SPACE.XL,
-  height: SPACE.XL,
-  letterSpacing: '0.5px',
-  _hover: {
-    background: COLORS.RED.LIGHT,
-  },
-});
-
-const tableText = defineStyle({
-  color: COLORS.GRAY[80],
-  fontSize: fontSizes.xs,
-  fontWeight: 700,
-  padding: '0',
-  borderRadius: 'none',
-  height: '2rem',
-  border: 'none',
-  boxShadow: `0 1px 0 0 ${COLORS.GRAY[60]}`,
-  cursor: 'pointer',
-  _hover: {
-    boxShadow: `0 2px 0 0 ${COLORS.GRAY[80]}`,
-  },
-});
-
-const backButton = defineStyle({
-  ...text.variants.bodyBlack,
-  type: 'button',
-  padding: '0rem',
-  i: {
-    transition: 'transform 250ms ease-in-out',
-  },
-  _hover: {
-    i: {
-      transform: 'translateX(-0.8rem)',
-    },
-  },
-});
-const nextButton = defineStyle({
-  ...text.variants.bodyBlack,
-  type: 'button',
-  position: 'absolute',
-  bottom: '-5.2rem',
-  right: '0',
-  padding: '0rem',
-  color: COLORS.GRAY[80],
-  i: {
-    transition: 'transform 250ms ease-in-out',
-  },
-  _hover: {
-    color: COLORS.BLACK,
-    i: {
-      transform: 'translateX(+0.8rem)',
-    },
-  },
-});
-
 const menuButton = defineStyle({
   ...text.variants.bodyBlack,
   borderRadius: 0,
@@ -101,7 +40,6 @@ const menuButton = defineStyle({
   color: COLORS.GRAY[80],
   _hover: { backgroundColor: COLORS.GRAY[0], color: COLORS.BLUE[200] },
 });
-
 const textBtn = defineStyle({
   ...text.variants.bodyBold,
   color: COLORS.BLACK,
@@ -133,22 +71,11 @@ const deleteBtn = defineStyle({
   },
 });
 
-const tableButtonTextIcon = defineStyle({
-  fontSize: fontSizes.xs,
-  fontWeight: 700,
-  paddingX: SPACE.SM,
-  cursor: 'pointer',
-  _hover: {
-    backgroundColor: COLORS.GRAY[70],
-    color: '#fff',
-  },
-});
-
 const button = defineStyleConfig({
   defaultProps: {},
   baseStyle: {
     borderRadius: BORDER_RADIUS.SM,
-    fontSize: '1.6rem',
+    fontSize: SIZES.FONT.SM,
     _disabled: {
       pointerEvents: 'none',
     },
@@ -156,16 +83,12 @@ const button = defineStyleConfig({
   variants: {
     primary,
     secondary,
-    error,
-    tableText,
-    backButton,
-    nextButton,
     menuButton,
     textBtn,
     tableButton,
     deleteBtn,
-    tableButtonTextIcon,
     ghost: {
+      height: SPACE.XL,
       '&:hover': {
         color: '#000',
       },

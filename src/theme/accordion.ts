@@ -1,6 +1,6 @@
 import { accordionAnatomy } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
-import { COLORS, SIZES, SPACE } from './Constants';
+import { BORDER_RADIUS, COLORS, SIZES, SPACE } from './Constants';
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(accordionAnatomy.keys);
@@ -23,7 +23,36 @@ const baseStyle = definePartsStyle({
   },
 });
 
+const card = definePartsStyle({
+  root: {
+    width: '100%',
+  },
+  button: {
+    bgColor: COLORS.GRAY[80],
+    borderRadius: BORDER_RADIUS.SM,
+    p: SPACE.SM,
+    _hover: {
+      bgColor: COLORS.GRAY[70],
+    },
+    '&[aria-expanded="true"]': {
+      borderBottomRadius: 0,
+    },
+  },
+  container: {
+    mb: SPACE.MD,
+  },
+  panel: {
+    p: SPACE.SM,
+    borderBottomRadius: BORDER_RADIUS.SM,
+    border: `1px solid ${COLORS.GRAY[30]}`,
+  },
+  icon: {
+    color: COLORS.WHITE,
+  },
+});
+
 export const accordion = defineMultiStyleConfig({
   defaultProps: {},
+  variants: { card },
   baseStyle,
 });

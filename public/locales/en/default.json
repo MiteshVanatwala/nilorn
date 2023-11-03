@@ -15,7 +15,13 @@
     "RowsPerPage": "Rows per page:",
     "NoOptions": "No options...",
     "Loading": "Loading",
-    "Error": "Failed to load content"
+    "Error": "Failed to load content",
+    "SendTo": "Send to:",
+    "Save": "Save",
+    "CahngeStatus": "Chnage status",
+    "More": "More",
+    "Delete": "Delete",
+    "LastChanged": "Last changed:"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -43,7 +49,6 @@
     "FinishedLength": "Finished Length",
     "FinishedWidth": "Finished Width",
     "FinishedHeight": "Finished Height",
-    "Save": "Save as...",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",

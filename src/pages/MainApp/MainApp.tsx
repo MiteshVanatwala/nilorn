@@ -6,7 +6,7 @@ import { ModalProvider } from '../../app/context/ModalContext';
 
 function MainApp() {
   return (
-    <Flex h={'auto'} minH={'100%'} flexDirection="column" p={0}>
+    <Flex h={'100%'} minH={'100%'} flexDirection="column" p={0}>
       <ModalProvider>
         <NavigationHeader />
         <Outlet />
