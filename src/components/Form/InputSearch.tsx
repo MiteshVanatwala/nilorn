@@ -4,7 +4,7 @@ import { FormInputProps } from '../../app/types/types';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface Props extends FormInputProps {
   placeholder?: string;

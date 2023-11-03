@@ -16,7 +16,7 @@ const InputSwitch = ({ option }: Props) => {
         <InputField
           placeholder={`${t('Filter.Enter')} ${option.label}`}
           variant="filled"
-          name={option.value.type}
+          name={option.label.toLowerCase().replace(/ /g, '')}
         />
       );
     case 'select':
