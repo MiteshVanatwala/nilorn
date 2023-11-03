@@ -18,10 +18,12 @@ function OverviewTableContainer() {
     pageSize,
     totalPages,
     totalCount,
+    sortState,
     setPageNumber,
     setPageSize,
     setTotalPages,
     setTotalCount,
+    setSortState,
   } = usePaginationContext();
 
   const { data, isError, isSuccess, isLoading, isFetching } =
@@ -49,7 +51,11 @@ function OverviewTableContainer() {
       {data?.items ? (
         <>
           {(isLoading || isFetching) && <SpinnerOverlay />}
-          <OverviewTable data={data?.items} />
+          <OverviewTable
+            data={data?.items}
+            sortState={sortState}
+            setSortState={setSortState}
+          />
           <TablePagination
             pageNumber={pageNumber}
             totalNumPages={totalPages}

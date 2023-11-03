@@ -82,6 +82,7 @@ export function useProductDevelopmentsTest() {
       ),
     {
       retry: 1,
+      enabled: false,
     }
   );
 }

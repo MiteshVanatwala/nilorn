@@ -12,6 +12,7 @@ const useOverviewColumns = () => {
   const columns = [
     columnHelper.accessor('imageUrl', {
       header: `${t('PD.Image')}`,
+      enableSorting: false,
       cell: info => {
         if (!info.getValue()) {
           return <></>;

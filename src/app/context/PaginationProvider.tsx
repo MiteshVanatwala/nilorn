@@ -1,3 +1,4 @@
+import { SortingState } from '@tanstack/table-core';
 import {
   createContext,
   Dispatch,
@@ -10,6 +11,7 @@ import {
 export type PaginationInfo = {
   pageNumber: number;
   pageSize: number;
+  sortState: SortingState;
 };
 
 type PaginationContextType = PaginationInfo & {
@@ -19,6 +21,7 @@ type PaginationContextType = PaginationInfo & {
   setPageSize: Dispatch<SetStateAction<number>>;
   setTotalPages: Dispatch<SetStateAction<number>>;
   setTotalCount: Dispatch<SetStateAction<number>>;
+  setSortState: Dispatch<SetStateAction<SortingState>>;
 };
 
 const defaultState: PaginationContextType = {
@@ -26,10 +29,12 @@ const defaultState: PaginationContextType = {
   pageSize: 25,
   totalPages: 0,
   totalCount: 0,
+  sortState: [],
   setPageNumber: () => {},
   setPageSize: () => {},
   setTotalPages: () => {},
   setTotalCount: () => {},
+  setSortState: () => {},
 };
 
 const PaginationContext = createContext<PaginationContextType>(defaultState);
@@ -46,6 +51,7 @@ const PaginationProvider = ({ children }: PaginationProviderType) => {
   const [pageSize, setPageSize] = useState(25);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [sortState, setSortState] = useState<SortingState>([]);
 
   return (
     <PaginationContext.Provider
@@ -54,10 +60,12 @@ const PaginationProvider = ({ children }: PaginationProviderType) => {
         pageSize,
         totalPages,
         totalCount,
+        sortState,
         setPageNumber,
         setPageSize,
         setTotalPages,
         setTotalCount,
+        setSortState,
       }}>
       {children}
     </PaginationContext.Provider>

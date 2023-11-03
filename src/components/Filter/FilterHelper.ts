@@ -1,4 +1,5 @@
 import { FilterKeys } from '../../app/types/types';
+import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
@@ -84,4 +85,8 @@ export function useFilterSearchParams(name: FilterKeys): string | undefined {
   const [searchParams] = useSearchParams();
 
   return searchParams.get(name) ?? undefined;
+}
+
+export function getSortValue(columnSort: ColumnSort) {
+  return `${columnSort.id}${columnSort.desc ? 'Desc' : 'Asc'}`;
 }
