@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Badge } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import fontSizes from '../../theme/fontSizes';
-import { ProductDevelopmentStatus } from '../../generate';
+import { ProductDevelopmentStatus } from '../../app/generate';
 
 type Props = {
   status?: ProductDevelopmentStatus;

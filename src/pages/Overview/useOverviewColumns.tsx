@@ -2,8 +2,7 @@ import { Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
-import React from 'react';
-import { ProductDevelopmentBriefDto } from '../../generate';
+import { ProductDevelopmentBriefDto } from '../../app/generate';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
