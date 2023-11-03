@@ -64,13 +64,9 @@ const InputSearch = ({
         variant={variant}
         placeholder={placeholder}
         type={'search'}
-        paddingX={SPACE.XS}
         paddingY={'.85rem'}
         height={'auto'}
-        border={'2px solid'}
-        borderColor={COLORS.GRAY[10]}
         {...formContextRegRest}
-        _hover={{ borderColor: COLORS.GRAY[20] }}
         onChange={e => {
           error = undefined;
           formContextRegOnChange(e);

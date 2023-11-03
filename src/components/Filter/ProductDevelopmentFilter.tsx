@@ -7,25 +7,21 @@ import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
-// import { SelectOption } from './FilterHelper';
 import Select from '../Form/Select';
+import { GRID } from '../../theme/Constants';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const advanceFilters = useOverviewAdvanceFilters();
-
   const form = useForm();
 
-  const onChange = (option: any, isClient: boolean) => {
-    // form.setValue(isClient ? 'client' : 'status', option.value);
-  };
   return (
     <FormuQuerySubmit form={form}>
       <Grid
         templateColumns={{
-          base: '1fr',
-          lg: 'repeat(12, 1fr)',
-          md: 'repeat(1, 1fr)',
+          base: GRID.TEMPLATE_COLUMNS.base,
+          md: GRID.TEMPLATE_COLUMNS.md,
+          lg: GRID.TEMPLATE_COLUMNS.xl,
         }}>
         <GridItem
           colSpan={{
@@ -38,9 +34,9 @@ const ProductDevelopmentFilter = () => {
               lg: '1rem',
             }}
             templateColumns={{
-              base: '1fr',
-              lg: 'repeat(10, 1fr)',
-              md: 'repeat(1, 1fr)',
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             position={'relative'}
             zIndex={10}>
@@ -66,9 +62,6 @@ const ProductDevelopmentFilter = () => {
               </FormLabel>
               <Select
                 name={'client'}
-                onChange={e => {
-                  onChange(e, true);
-                }}
                 options={[
                   {
                     label: 'Chocolate',
@@ -88,9 +81,6 @@ const ProductDevelopmentFilter = () => {
               </FormLabel>
               <Select
                 name={'status'}
-                onChange={e => {
-                  onChange(e, false);
-                }}
                 options={[
                   {
                     label: 'Chocolate client',

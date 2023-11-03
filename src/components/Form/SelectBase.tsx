@@ -148,12 +148,15 @@ const SelectBase = <IsMulti extends boolean = false>({
           _hover: {
             borderColor: hover,
             cursor: 'pointer',
+            backgroundColor: bgColor,
           },
           _focusVisible: {
             borderColor: focus,
+            backgroundColor: bgColor,
           },
           _focus: {
             borderColor: focus,
+            backgroundColor: bgColor,
           },
         }),
         valueContainer: base => ({

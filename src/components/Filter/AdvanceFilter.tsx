@@ -81,9 +81,9 @@ const AdvanceFilter = ({ filters }: Props) => {
         <AccordionPanel overflow={'visible'}>
           <Grid
             templateColumns={{
-              base: '1fr',
-              lg: 'repeat(10, 1fr)',
-              md: 'repeat(1, 1fr)',
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
               base: '.5rem',
@@ -104,9 +104,9 @@ const AdvanceFilter = ({ filters }: Props) => {
           <Grid
             marginTop={SPACE.MD}
             templateColumns={{
-              base: '1fr',
-              lg: 'repeat(10, 1fr)',
-              md: 'repeat(1, 1fr)',
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
               base: '.5rem',

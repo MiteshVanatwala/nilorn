@@ -31,6 +31,28 @@ const outline = (props: StyleFunctionProps) =>
     },
   });
 
+const filled = (props: StyleFunctionProps) =>
+  definePartsStyle({
+    ...theme.components.Input.variants?.filled(props),
+    field: {
+      ...theme.components.Input.variants?.filled(props).field,
+      borderColor: COLORS.GRAY[10],
+      bgColor: COLORS.GRAY[10],
+      border: '2px solid',
+      paddingX: SPACE.XS,
+      paddingY: '.85rem',
+
+      _hover: {
+        borderColor: COLORS.GRAY[20],
+        bgColor: COLORS.GRAY[10],
+      },
+      _focusWithin: {
+        borderColor: COLORS.GRAY[20],
+        bgColor: COLORS.GRAY[10],
+      },
+    },
+  });
+
 const light = (props: StyleFunctionProps) =>
   definePartsStyle({
     ...theme.components.Input.variants?.flushed(props),
@@ -74,6 +96,7 @@ const input = defineMultiStyleConfig({
     standard,
     light,
     outline,
+    filled,
   },
   defaultProps: { variant: 'standard' },
 });
