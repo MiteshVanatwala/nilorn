@@ -1,7 +1,7 @@
 import {
   ProductDevelopmentBriefDto,
   ProductDevelopmentStatus,
-} from '../../generate';
+} from '../../app/generate';
 
 export function generateMockData(count: number): ProductDevelopmentBriefDto[] {
   const mockData: ProductDevelopmentBriefDto[] = [];

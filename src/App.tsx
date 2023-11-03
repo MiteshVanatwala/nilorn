@@ -9,7 +9,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './pages/MainApp/Router';
 import ErrorPage from './components/ErrorBoundary/ErrorPage';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
-import { OpenAPI } from './generate';
+import { OpenAPI } from './app/generate';
 
 OpenAPI.BASE =
   process.env.REACT_APP_API_URL ?? 'https://umbrella-api-test.nilorn.com';

@@ -5,7 +5,7 @@ import { THeadRow } from '../../components/Table/THeadRow';
 import { COLORS } from '../../theme/Constants';
 import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
-import { ProductDevelopmentBriefDto } from '../../generate';
+import { ProductDevelopmentBriefDto } from '../../app/generate';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];

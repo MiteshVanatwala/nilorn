@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
-import { ProductDevelopmentsService } from '../../generate';
+import { ProductDevelopmentsService } from '../../app/generate';
 
 export function useProductDevelopments(pageNumber?: number, pageSize?: number) {
   return useQuery(
