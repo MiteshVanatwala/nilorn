@@ -1,17 +1,21 @@
 import TablePagination from '../../components/Table/TablePagination/TablePagination';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
-import { useLayoutEffect } from 'react';
 import { useProductDevelopmentsFilter } from '../../app/api/Overview';
+import { useEffect, useLayoutEffect } from 'react';
 import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import { Skeleton } from '@chakra-ui/skeleton';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
+import { SORT } from '../../components/Form/FormQuerySubmit';
+import { getSortValue } from '../../components/Filter/FilterHelper';
+import { useFormContext } from 'react-hook-form';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
 function OverviewTableContainer() {
   const { t } = useTranslation();
+  const { setValue, unregister } = useFormContext();
 
   const {
     pageNumber,
@@ -41,6 +45,14 @@ function OverviewTableContainer() {
     setTotalCount,
     setTotalPages,
   ]);
+
+  useEffect(() => {
+    if (sortState[0]) {
+      setValue(SORT, getSortValue(sortState[0]));
+    } else {
+      unregister(SORT);
+    }
+  }, [setValue, unregister, sortState]);
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;

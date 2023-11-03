@@ -24,14 +24,6 @@ export default function FormuQuerySubmit({
   const { sortState } = usePaginationContext();
 
   useEffect(() => {
-    if (sortState[0]) {
-      form.setValue(SORT, getSortValue(sortState[0]));
-    } else {
-      form.unregister(SORT);
-    }
-  }, [form, sortState]);
-
-  useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
     searchParamItems.forEach(name => {
       const value = searchParams.get(name);
