@@ -73,7 +73,6 @@ const InputSearch = ({
           onChange?.(e.target.value);
           controller?.setValue?.(e.target.value);
         }}
-        bgColor={COLORS.GRAY[10]}
         fontSize={fontSizes.sm}
         maxWidth={SIZES.CONTAINER.SM}
         disabled={isDisabled}
