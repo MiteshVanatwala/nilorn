@@ -9,7 +9,7 @@ const ClearAllFilters = () => {
 
   return (
     <Button
-      gap={'.5rem'}
+      gap={SPACE.XXS}
       textDecoration={'underline'}
       alignItems={'center'}
       px={'0'}

@@ -10,6 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import { Box, GridItem } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
+import { SPACE } from '../../theme/Constants';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -33,7 +34,7 @@ const SearchProfile = () => {
   return (
     <GridItem
       marginTop={{
-        base: '1rem',
+        base: SPACE.XS,
         md: '0',
       }}
       colSpan={2}>
@@ -54,7 +55,7 @@ const SearchProfile = () => {
         </ControlWrapper>
         <Button
           zIndex={'-1'}
-          marginTop={'.5rem'}
+          marginTop={SPACE.XXS}
           fontWeight={'500'}
           variant={'secondary'}
           height={'3.5rem'}

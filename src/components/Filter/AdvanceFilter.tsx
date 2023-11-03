@@ -86,8 +86,8 @@ const AdvanceFilter = ({ filters }: Props) => {
               lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
-              base: '.5rem',
-              lg: '1rem',
+              base: SPACE.XXS,
+              lg: SPACE.SM,
             }}>
             <GridItem colSpan={2}>
               <Box maxW={'24rem'}>
@@ -109,8 +109,8 @@ const AdvanceFilter = ({ filters }: Props) => {
               lg: GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
-              base: '.5rem',
-              lg: '1rem',
+              base: SPACE.XXS,
+              lg: SPACE.SM,
             }}>
             {selected.map(so => (
               <GridItem colSpan={2} key={so.value.name} position={'relative'}>

@@ -8,7 +8,7 @@ import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
 import Select from '../Form/Select';
-import { GRID } from '../../theme/Constants';
+import { GRID, SPACE } from '../../theme/Constants';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
@@ -30,8 +30,8 @@ const ProductDevelopmentFilter = () => {
           }}>
           <Grid
             gap={{
-              base: '.5rem',
-              lg: '1rem',
+              base: SPACE.XXS,
+              lg: SPACE.SM,
             }}
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,

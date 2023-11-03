@@ -25,7 +25,10 @@ const ActiveFilters = () => {
       margin={'0 auto'}
       maxWidth={SIZES.CONTAINER.XL}
       alignItems="baseline"
-      gap={'1rem'}
+      gap={{
+        base: SPACE.XXS,
+        lg: SPACE.SM,
+      }}
       flexDirection="row"
       pt={hasValues ? SPACE.LG : ''}>
       {watchedEntries.map(([key, value]) => {
