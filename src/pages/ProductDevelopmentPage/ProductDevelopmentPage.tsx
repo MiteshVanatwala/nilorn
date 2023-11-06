@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
-import { Grid, GridItem, VStack } from '@chakra-ui/layout';
+import { Grid, GridItem, Text, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
 import { SPACE } from '../../theme/Constants';
 import TopSection from './TopSection';
 import BottomSection from './BottomSection';
 import { Accordion } from '@chakra-ui/accordion';
 import AccordionItem from '../../components/AccordionItem/AccordionItem';
+import ImagePopup from '../../components/ImagePopup/ImagePopup';
+import Popup, {
+  PopupPosition,
+  PopupTrigger,
+} from '../../components/Popup/Popup';
+import { IconButton } from '@chakra-ui/button';
 
 function ProductDevelopmentPage() {
   const { productNo } = useParams();
@@ -43,6 +49,24 @@ function ProductDevelopmentPage() {
         <Grid>
           <GridItem ref={ref}>
             <VStack spacing={SPACE.XL}>
+              <ImagePopup
+                alt={'alt'}
+                src={
+                  'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
+                }
+              />
+              <Popup
+                isPortal={false}
+                trigger={PopupTrigger.CLICK}
+                position={PopupPosition.ABOVE}
+                triggerElement={
+                  <IconButton
+                    aria-label="cangelog"
+                    icon={<Text as={'i'} className={'ri-history-line'} />}
+                  />
+                }
+                content={<>Changelog</>}
+              />
               <Accordion
                 variant={'card'}
                 defaultIndex={[0, 1, 3]}
