@@ -143,7 +143,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '2px solid',
-          zIndex: '10',
+          zIndex: 'dropdown',
 
           _hover: {
             borderColor: hover,

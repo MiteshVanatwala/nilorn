@@ -66,6 +66,7 @@ const AdvanceFilter = ({ filters }: Props) => {
           w={'auto'}
           display={'inline-block'}
           p={'0'}
+          zIndex={'dropdown'}
           marginTop={SPACE.LG}>
           <HStack
             gap={SPACE.LG}
