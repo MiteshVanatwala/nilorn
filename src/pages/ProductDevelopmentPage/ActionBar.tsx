@@ -5,6 +5,8 @@ import { Status } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../../app/hooks/useToast';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
+import { Image } from '@chakra-ui/react';
+import { images } from '../../assets/';
 
 const ActionBar = () => {
   const { t } = useTranslation();
@@ -18,15 +20,28 @@ const ActionBar = () => {
   };
   return (
     <VStack align={'left'}>
-      <HStack>
+      <HStack
+        justifyContent={{
+          base: 'start',
+          md: 'end',
+        }}
+        flexWrap={{
+          base: 'wrap',
+          md: 'nowrap',
+        }}
+        gap={{
+          base: SPACE.XXS,
+          lg: SPACE.XS,
+        }}>
         <IconButton
           variant={'ghost'}
           aria-label={t('PD.Artwork')}
           icon={
-            <Text
-              as={'i'}
-              fontSize={SIZES.ICON.LG}
-              className="ri-file-pdf-line"
+            <Image
+              src={images.pdf}
+              height="3.2rem"
+              objectFit={'contain'}
+              width="auto"
             />
           }
         />
@@ -41,6 +56,16 @@ const ActionBar = () => {
             }
           />
           <MenuList>
+            <MenuItem
+              icon={
+                <Text
+                  as={'i'}
+                  fontSize={SIZES.ICON.MD}
+                  className="ri-delete-bin-line"
+                />
+              }>
+              {t('PD.ShowChanges')}
+            </MenuItem>
             <MenuItem
               icon={
                 <Text
@@ -83,7 +108,6 @@ const ActionBar = () => {
           </Menu>
         </ButtonGroup>
       </HStack>
-      <Text>{t('Common.LastChanged')} [DATE-TIME]</Text>
     </VStack>
   );
 };

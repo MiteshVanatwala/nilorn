@@ -39,6 +39,7 @@ export function useDebounce<T>(value: T, delay: number): T {
 }
 export function onFilterChange(formValues: FieldValues) {
   const queryParamString = Object.entries(formValues)
+    .filter(([key, _]) => key !== 'currentFilter')
     .filter(([_, value]) => value !== undefined && value !== '')
     .map(([key, value]) => `${key}=${value}`)
     .join('&');

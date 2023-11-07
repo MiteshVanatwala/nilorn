@@ -1,8 +1,10 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { BOX_SHADOW, COLORS } from '../../theme/Constants';
+import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import ContentSection from '../Templates/ContentSection';
 import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable';
 import ActionBar from './ActionBar';
+import { Image, VStack } from '@chakra-ui/react';
+import TRANSITION from '../../theme/Constants/transition';
 
 type Props = {
   productNo: string;
@@ -11,28 +13,108 @@ type Props = {
 const TopSection = ({ productNo, scrolledPast }: Props) => {
   return (
     <Box
+      py={{
+        base: SPACE.XS,
+        md: scrolledPast ? SPACE.XXS : SPACE.MD,
+      }}
       position={'sticky'}
       top={0}
       zIndex={99}
       bgColor={COLORS.WHITE}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
       <ContentSection>
-        <Grid>
-          <GridItem>
-            <HStack>
-              <Text>
-                {'#'}
-                {productNo}
-              </Text>
-              <Heading>
-                <Editable defaultValue="ProductDevelopment">
-                  <EditablePreview />
-                  <EditableInput />
-                </Editable>
-              </Heading>
+        <Grid
+          templateColumns={{
+            base: GRID.TEMPLATE_COLUMNS.base,
+            md: GRID.TEMPLATE_COLUMNS.lg,
+            lg: GRID.TEMPLATE_COLUMNS.xl,
+          }}
+          gap={{
+            base: SPACE.XXS,
+            md: SPACE.SM,
+          }}>
+          <GridItem
+            transition={TRANSITION.EASEOUT}
+            colSpan={{
+              base: 1,
+              md: scrolledPast ? 5 : 6,
+              lg: 5,
+            }}>
+            <HStack
+              flexDir={{
+                base: 'column',
+                md: 'row',
+              }}
+              transition={TRANSITION.EASEOUT}
+              gap={{
+                base: SPACE.XXS,
+                md: scrolledPast ? SPACE.XXS : SPACE.MD,
+              }}
+              alignItems={'top'}>
+              <Image
+                maxHeight={scrolledPast ? '0' : 'none'}
+                maxWidth={scrolledPast ? '0' : 'none'}
+                visibility={scrolledPast ? 'hidden' : 'visible'}
+                width={'60'}
+                height={'60'}
+                objectFit={'cover'}
+                src="https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg"></Image>
+              <VStack
+                transition={TRANSITION.EASEOUT}
+                gap={{
+                  base: scrolledPast ? SPACE.XS : SPACE.XXS,
+                  md: scrolledPast ? SPACE.MD : SPACE.XS,
+                }}
+                flexDir={scrolledPast ? 'row' : 'column'}
+                py={{
+                  base: '0',
+                  lg: scrolledPast ? SPACE.XXS : SPACE.MD,
+                }}
+                alignItems={scrolledPast ? 'center' : 'flex-start'}>
+                <Heading
+                  transition={TRANSITION.EASEOUT}
+                  fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}>
+                  <Editable defaultValue="ProductDevelopment">
+                    <EditablePreview />
+                    <EditableInput />
+                  </Editable>
+                </Heading>
+                <Text>
+                  {'#'}
+                  {productNo}
+                </Text>
+              </VStack>
             </HStack>
+          </GridItem>
+          <GridItem
+            py={{
+              base: scrolledPast ? '0' : SPACE.XXS,
+              md: scrolledPast ? SPACE.XXS : SPACE.SM,
+              lg: scrolledPast ? SPACE.XXS : SPACE.LG,
+            }}
+            display={'flex'}
+            flexDir={scrolledPast ? 'row' : 'column'}
+            gap={{
+              base: SPACE.XXS,
+              md: SPACE.XS,
+            }}
+            transition={TRANSITION.EASEOUT}
+            alignItems={scrolledPast ? 'center' : 'flex-start'}
+            colSpan={{
+              base: 1,
+              md: 3,
+              lg: 2,
+            }}>
+            <Text fontWeight={scrolledPast ? '600' : 'normal'}>Client</Text>
+            <p>Project</p>
+          </GridItem>
+          <GridItem
+            colSpan={{
+              base: 1,
+              md: 10,
+              lg: 5,
+            }}>
             <ActionBar />
-            {scrolledPast && 'sticky'}
           </GridItem>
         </Grid>
       </ContentSection>

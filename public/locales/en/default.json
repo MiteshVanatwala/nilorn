@@ -49,6 +49,8 @@
     "FinishedLength": "Finished Length",
     "FinishedWidth": "Finished Width",
     "FinishedHeight": "Finished Height",
+    "Delete": "Delete",
+    "ShowChanges": "Show changes",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
@@ -62,6 +64,8 @@
     "NumSelected": "{{num}} selected",
     "SavedFilters": "My saved filters",
     "SaveSearchProfile": "Save current filter",
+    "UpdateSearchProfile": "Update current filter",
+    "SaveCustomFilter": "Save custom filter",
     "SearchProfileName": "Custom filter name",
     "SavedFilterLabel": "My saved filters",
     "Client": "Client",

@@ -21,7 +21,7 @@ const secondary = defineStyle({
   color: COLORS.WHITE,
   background: COLORS.GRAY[70],
   fontSize: fontSizes.xs,
-  fontWeight: 900,
+  fontWeight: 500,
   px: SPACE.XL,
   height: SPACE.XL,
   letterSpacing: '0.5px',
