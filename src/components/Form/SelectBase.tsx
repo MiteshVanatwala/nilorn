@@ -114,11 +114,6 @@ const SelectBase = <IsMulti extends boolean = false>({
   const bgColor = dark ? COLORS.GRAY[70] : COLORS.GRAY[10];
   const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[30];
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
-  const { setValue: setFormContextValue } = useFormContext();
-
-  useEffect(() => {
-    setFormContextValue(name, defaultValue?.value);
-  }, [defaultValue, name, setFormContextValue]);
 
   return (
     <Select

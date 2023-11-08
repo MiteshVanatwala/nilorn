@@ -39,35 +39,38 @@ const ProductDevelopmentFilter = () => {
     },
     { label: 'Strawberry', value: 'strawberry' },
   ];
+  const formStatusValue = form.getValues('status');
+  const formClientValue = form.getValues('client');
 
   useEffect(() => {
-    Object.entries(form.getValues()).forEach(([key, value]) => {
-      statusOptions?.forEach(filterItem => {
-        if (
-          filterItem &&
-          'value' in filterItem &&
-          filterItem.value &&
-          filterItem.value === value
-        ) {
-          if (filterItem !== undefined) {
-            setDefaultStatusFilter(filterItem);
-          }
+    statusOptions?.forEach(filterItem => {
+      if (
+        filterItem &&
+        'value' in filterItem &&
+        filterItem.value &&
+        filterItem.value === formStatusValue
+      ) {
+        if (filterItem !== undefined) {
+          setDefaultStatusFilter(filterItem);
         }
-      });
-      clientOptions?.forEach(clientItem => {
-        if (
-          clientItem &&
-          'value' in clientItem &&
-          clientItem.value &&
-          clientItem.value === value
-        ) {
-          if (clientItem !== undefined) {
-            setDefaultClientFilter(clientItem);
-          }
-        }
-      });
+      }
     });
-  }, []);
+  }, [formStatusValue]);
+
+  useEffect(() => {
+    clientOptions?.forEach(clientItem => {
+      if (
+        clientItem &&
+        'value' in clientItem &&
+        clientItem.value &&
+        clientItem.value === formClientValue
+      ) {
+        if (clientItem !== undefined) {
+          setDefaultClientFilter(clientItem);
+        }
+      }
+    });
+  }, [formClientValue]);
 
   return (
     <FormuQuerySubmit form={form}>
@@ -130,6 +133,7 @@ const ProductDevelopmentFilter = () => {
               <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
                 {t('Filter.Status')}
               </FormLabel>
+
               {defaultStatusFilter !== null && (
                 <Select
                   name={'status'}
