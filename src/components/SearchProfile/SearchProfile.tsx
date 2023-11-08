@@ -29,7 +29,7 @@ const SearchProfile = () => {
       const splitItem = item.split('=');
       setValue(splitItem[0], splitItem[1]);
     });
-    setValue('currentFilter', option.label);
+    setValue('ActiveSearchProfile', option.label);
   };
 
   return (
@@ -69,7 +69,7 @@ const SearchProfile = () => {
           onClick={() =>
             handleModal(
               <SearchProfileModalContent
-                currentFilter={getValues('currentFilter')}
+                ActiveSearchProfile={getValues('ActiveSearchProfile')}
               />
             )
           }>

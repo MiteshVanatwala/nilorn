@@ -13,7 +13,7 @@ const ActiveFilters = () => {
 
   useEffect(() => {
     const foundValue = watchedEntries
-      .filter(([key, _]) => key !== 'currentFilter')
+      .filter(([key, _]) => key !== 'ActiveSearchProfile')
       .some(([_, value]) => value);
     setHasValues(foundValue);
   }, [watchedEntries]);
@@ -34,7 +34,7 @@ const ActiveFilters = () => {
       flexDirection="row"
       py={hasValues ? SPACE.XS : ''}>
       {watchedEntries
-        .filter(([key, _]) => key !== 'currentFilter')
+        .filter(([key, _]) => key !== 'ActiveSearchProfile')
         .map(([key, value]) => {
           if (value) {
             return (

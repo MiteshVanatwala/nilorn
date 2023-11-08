@@ -13,10 +13,10 @@ import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
 type Props = {
-  currentFilter?: string;
+  ActiveSearchProfile?: string;
 };
 
-const SearchProfileModalContent = ({ currentFilter }: Props) => {
+const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [filter, setFilter] = useState<string | undefined>();
@@ -30,8 +30,8 @@ const SearchProfileModalContent = ({ currentFilter }: Props) => {
   };
 
   useEffect(() => {
-    setFilter(currentFilter);
-  }, [currentFilter]);
+    setFilter(ActiveSearchProfile);
+  }, [ActiveSearchProfile]);
 
   return (
     <>
