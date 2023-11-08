@@ -16,7 +16,7 @@ const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
-  const { setValue, reset } = useFormContext();
+  const { setValue, reset, getValues } = useFormContext();
 
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
     reset();
@@ -29,6 +29,7 @@ const SearchProfile = () => {
       const splitItem = item.split('=');
       setValue(splitItem[0], splitItem[1]);
     });
+    setValue('ActiveSearchProfile', option.label);
   };
 
   return (
@@ -39,28 +40,39 @@ const SearchProfile = () => {
       }}
       colSpan={2}>
       <VStack maxW={'24rem'} alignItems={'left'}>
-        <ControlWrapper name="SearchProfile" label={t('Filter.SavedFilters')}>
-          <SelectBase
-            name="SearchProfile"
-            onChange={onChange}
-            value={selected}
-            options={[
-              {
-                label: 'My custom filter',
-                value: 'search=testing&filter=hej',
-              },
-              { label: 'My custom filter2', value: 'search=wopop' },
-            ]}
-          />
+        <ControlWrapper
+          zIndex={'dropdown'}
+          name="SearchProfile"
+          label={t('Filter.SavedFilters')}>
+          <Box zIndex={'dropdown'}>
+            <SelectBase
+              name="SearchProfile"
+              onChange={onChange}
+              value={selected}
+              options={[
+                {
+                  label: 'My custom filter',
+                  value: 'search=testing&filter=hej',
+                },
+                { label: 'My custom filter2', value: 'search=wopop' },
+              ]}
+            />
+          </Box>
         </ControlWrapper>
         <Button
-          zIndex={'-1'}
+          zIndex={'0'}
           marginTop={SPACE.XXS}
           fontWeight={'500'}
           variant={'secondary'}
           height={'3.5rem'}
           leftIcon={<i className="ri-save-line" />}
-          onClick={() => handleModal(<SearchProfileModalContent />)}>
+          onClick={() =>
+            handleModal(
+              <SearchProfileModalContent
+                ActiveSearchProfile={getValues('ActiveSearchProfile')}
+              />
+            )
+          }>
           {t('Filter.SaveSearchProfile')}
         </Button>
       </VStack>

@@ -12,7 +12,9 @@ const ActiveFilters = () => {
   const watchedEntries = Object.entries(watch());
 
   useEffect(() => {
-    const foundValue = watchedEntries.some(([key, value]) => value);
+    const foundValue = watchedEntries
+      .filter(([key, _]) => key !== 'ActiveSearchProfile')
+      .some(([_, value]) => value);
     setHasValues(foundValue);
   }, [watchedEntries]);
 
@@ -31,19 +33,21 @@ const ActiveFilters = () => {
       }}
       flexDirection="row"
       py={hasValues ? SPACE.XS : ''}>
-      {watchedEntries.map(([key, value]) => {
-        if (value) {
-          return (
-            <ActiveFilterItem
-              key={key}
-              label={value[0]?.toUpperCase() + value?.slice(1)}
-              value={value}
-              queryItem={key}
-            />
-          );
-        }
-        return null;
-      })}
+      {watchedEntries
+        .filter(([key, _]) => key !== 'ActiveSearchProfile')
+        .map(([key, value]) => {
+          if (value) {
+            return (
+              <ActiveFilterItem
+                key={key}
+                label={value[0]?.toUpperCase() + value?.slice(1)}
+                value={value}
+                queryItem={key}
+              />
+            );
+          }
+          return null;
+        })}
       {hasValues && <ClearAllFilters />}
     </Flex>
   );

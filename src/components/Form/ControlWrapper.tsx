@@ -16,6 +16,7 @@ interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
   children: ReactNode;
   errors?: FieldError | undefined;
+  zIndex?: string;
 }
 
 const ControlWrapper = ({
@@ -28,6 +29,7 @@ const ControlWrapper = ({
   helperText,
   errors,
   children,
+  zIndex,
 }: Props) => {
   // const error = get(errors, name) as FieldError;
   const error = errors;
@@ -63,7 +65,9 @@ const ControlWrapper = ({
           </FormLabel>
         )}
         {description && <FormHelperText>{description}</FormHelperText>}
-        <InputGroup display={'block'}>{children}</InputGroup>
+        <InputGroup zIndex={zIndex} display={'block'}>
+          {children}
+        </InputGroup>
       </Stack>
 
       {helperText && (

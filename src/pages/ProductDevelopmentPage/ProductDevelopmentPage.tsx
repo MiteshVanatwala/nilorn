@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
 import { Grid, GridItem, Text, VStack } from '@chakra-ui/layout';
