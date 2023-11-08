@@ -71,6 +71,7 @@
     "Client": "Client",
     "Status": "Status",
     "Clear": "Clear all",
-    "Enter": "Enter"
+    "Enter": "Enter",
+    "Remove": "Remove filter"
   }
 }
