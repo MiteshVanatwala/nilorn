@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
@@ -31,7 +31,7 @@ type Props = {
 
 const AdvanceFilter = ({ filters }: Props) => {
   const { t } = useTranslation();
-  const { unregister } = useFormContext();
+  const { unregister, getValues } = useFormContext();
 
   const [selected, setSelected] = useState<
     MultiValue<SelectOption<AdvanceFilterType>>
@@ -58,6 +58,27 @@ const AdvanceFilter = ({ filters }: Props) => {
 
   const [index, setIndex] = useState<ExpandedIndex>(0);
 
+  useEffect(() => {
+    const activeAdvancedFilterArr: SelectOption[] = [];
+
+    Object.entries(getValues()).forEach(([key, value]) => {
+      filters?.forEach(filterItem => {
+        if (
+          filterItem &&
+          'value' in filterItem &&
+          filterItem.value &&
+          filterItem.value.name === key
+        ) {
+          if (filterItem !== undefined) {
+            activeAdvancedFilterArr.push(filterItem);
+          }
+        }
+      });
+    });
+    if (activeAdvancedFilterArr.length) {
+      setSelected(activeAdvancedFilterArr);
+    }
+  }, [getValues, filters]);
   return (
     <Accordion mb={SPACE.SM} allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>

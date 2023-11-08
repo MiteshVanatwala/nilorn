@@ -2,7 +2,6 @@ import { Controller, FieldError, useFormContext } from 'react-hook-form';
 import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { FormInputProps, SelectOption } from '../../app/types/types';
-import { useEffect } from 'react';
 import { GroupSelectOption } from '../Filter/FilterHelper';
 
 interface Props extends Omit<FormInputProps, 'defaultValue'> {
@@ -25,16 +24,9 @@ const Select = ({
   hideValidationStyle,
   searchable = true,
 }: Props) => {
-  const {
-    control,
-    setValue: setFormContextValue,
-    formState,
-  } = useFormContext();
+  const { control, formState } = useFormContext();
   let error = formState.errors?.[name] as FieldError | undefined;
 
-  useEffect(() => {
-    setFormContextValue(name, defaultValue?.value);
-  }, [defaultValue, name, setFormContextValue]);
   return (
     <ControlWrapper
       name={name}
