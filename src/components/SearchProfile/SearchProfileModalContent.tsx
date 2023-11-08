@@ -19,7 +19,7 @@ type Props = {
 const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
-  const [filter, setFilter] = useState<string | undefined>();
+  const [searchProfile, setSearchProfile] = useState<string | undefined>();
 
   const onCancel = () => {
     close();
@@ -30,7 +30,7 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
   };
 
   useEffect(() => {
-    setFilter(ActiveSearchProfile);
+    setSearchProfile(ActiveSearchProfile);
   }, [ActiveSearchProfile]);
 
   return (
@@ -38,18 +38,18 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
       <ModalBody>
         <ModalHeading
           title={
-            filter !== undefined
+            searchProfile !== undefined
               ? t('Filter.UpdateSearchProfile')
               : t('Filter.SaveSearchProfile')
           }
         />
         <ControlWrapper name={'name'} label={t('Filter.SearchProfileName')}>
           <Input
-            defaultValue={filter ?? undefined}
+            defaultValue={searchProfile ?? undefined}
             variant={'standard'}
             name={'name'}
             onChange={e => {
-              setFilter(undefined);
+              setSearchProfile(undefined);
             }}
           />
         </ControlWrapper>
@@ -62,7 +62,7 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
             <>
-              {filter !== undefined
+              {searchProfile !== undefined
                 ? t('Filter.UpdateSearchProfile')
                 : t('Filter.SaveSearchProfile')}
             </>
