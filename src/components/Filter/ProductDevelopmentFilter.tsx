@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { useTranslation } from 'react-i18next';
@@ -7,22 +7,13 @@ import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
-import Select from '../Form/Select';
 import { GRID, SPACE } from '../../theme/Constants';
-import { useEffect, useState } from 'react';
-import { SelectOption } from '../../app/types/types';
+import FilterSelect from './FilterSelect';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const advanceFilters = useOverviewAdvanceFilters();
   const form = useForm();
-
-  const [defaultStatusFilter, setDefaultStatusFilter] = useState<
-    SelectOption<string> | undefined | null
-  >(null);
-  const [defaultClientFilter, setDefaultClientFilter] = useState<
-    SelectOption<string> | undefined | null
-  >(null);
 
   const clientOptions = [
     {
@@ -39,38 +30,6 @@ const ProductDevelopmentFilter = () => {
     },
     { label: 'Strawberry', value: 'strawberry' },
   ];
-  const formStatusValue = form.getValues('status');
-  const formClientValue = form.getValues('client');
-
-  useEffect(() => {
-    statusOptions?.forEach(filterItem => {
-      if (
-        filterItem &&
-        'value' in filterItem &&
-        filterItem.value &&
-        filterItem.value === formStatusValue
-      ) {
-        if (filterItem !== undefined) {
-          setDefaultStatusFilter(filterItem);
-        }
-      }
-    });
-  }, [formStatusValue]);
-
-  useEffect(() => {
-    clientOptions?.forEach(clientItem => {
-      if (
-        clientItem &&
-        'value' in clientItem &&
-        clientItem.value &&
-        clientItem.value === formClientValue
-      ) {
-        if (clientItem !== undefined) {
-          setDefaultClientFilter(clientItem);
-        }
-      }
-    });
-  }, [formClientValue]);
 
   return (
     <FormuQuerySubmit form={form}>
@@ -114,33 +73,28 @@ const ProductDevelopmentFilter = () => {
                 base: 1,
                 md: 2,
               }}>
-              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
-                {t('Filter.Client')}
-              </FormLabel>
-              {defaultClientFilter !== null && (
-                <Select
-                  name={'client'}
-                  defaultValue={defaultClientFilter}
-                  options={clientOptions}
-                />
-              )}
+              <FilterSelect
+                formLabel={t('Filter.Client')}
+                name={'client'}
+                defaultValue={clientOptions.find(
+                  c => c.value === form.getValues('client')
+                )}
+                options={clientOptions}
+              />
             </GridItem>
             <GridItem
               colSpan={{
                 base: 1,
                 md: 2,
               }}>
-              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
-                {t('Filter.Status')}
-              </FormLabel>
-
-              {defaultStatusFilter !== null && (
-                <Select
-                  name={'status'}
-                  defaultValue={defaultStatusFilter}
-                  options={statusOptions}
-                />
-              )}
+              <FilterSelect
+                formLabel={t('Filter.Status')}
+                name={'status'}
+                defaultValue={statusOptions.find(
+                  c => c.value === form.getValues('status')
+                )}
+                options={statusOptions}
+              />
             </GridItem>
           </Grid>
           <GridItem>

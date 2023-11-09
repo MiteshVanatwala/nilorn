@@ -1,0 +1,33 @@
+import { FC } from 'react';
+import Select from '../Form/Select';
+import { FormLabel } from '@chakra-ui/react';
+
+type Props = {
+  name: string;
+  defaultValue: any;
+  options: any;
+  formLabel?: string;
+};
+
+const FilterSelect: FC<Props> = ({
+  name,
+  defaultValue,
+  options,
+  formLabel,
+}) => {
+  return (
+    <>
+      {formLabel && (
+        <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor={name}>
+          {formLabel}
+        </FormLabel>
+      )}
+      {defaultValue && (
+        <Select name={name} defaultValue={defaultValue} options={options} />
+      )}
+      {!defaultValue && <Select name={name} options={options} />}
+    </>
+  );
+};
+
+export default FilterSelect;

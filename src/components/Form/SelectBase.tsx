@@ -1,5 +1,5 @@
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
-import { FocusEventHandler, useEffect } from 'react';
+import { FocusEventHandler } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +14,6 @@ import {
   DropdownIndicatorProps,
 } from 'chakra-react-select';
 import text from '../../theme/text';
-import { useFormContext } from 'react-hook-form';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
