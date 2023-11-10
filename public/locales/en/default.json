@@ -3,6 +3,8 @@
     "Title": "Umbrella",
     "GoHome": "Go home",
     "Cancel": "Cancel",
+    "Yes": "Yes",
+    "No": "No",
     "SigningIn": "Signing you in...",
     "SigningOut": "Signing you out...",
     "AuthError": "Authentication error",
@@ -21,6 +23,9 @@
     "CahngeStatus": "Chnage status",
     "More": "More",
     "Delete": "Delete",
+    "Remove": "Remove",
+    "Add": "Add",
+    "Download": "Download",
     "LastChanged": "Last changed:"
   },
   "Menu": {
@@ -51,6 +56,7 @@
     "FinishedHeight": "Finished Height",
     "Delete": "Delete",
     "ShowChanges": "Show changes",
+    "Attachments": "Attachments",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
