@@ -29,6 +29,15 @@ const secondary = defineStyle({
     background: COLORS.GRAY[80],
   },
 });
+
+const secondarySmall = defineStyle({
+  ...secondary,
+  px: SPACE.SM,
+  py: SPACE.XXS,
+  fontSize: SIZES.FONT.XXS,
+  height: 'auto',
+});
+
 const menuButton = defineStyle({
   ...text.variants.bodyBlack,
   borderRadius: 0,
@@ -40,6 +49,7 @@ const menuButton = defineStyle({
   color: COLORS.GRAY[80],
   _hover: { backgroundColor: COLORS.GRAY[0], color: COLORS.BLUE[200] },
 });
+
 const textBtn = defineStyle({
   ...text.variants.bodyBold,
   color: COLORS.BLACK,
@@ -83,6 +93,7 @@ const button = defineStyleConfig({
   variants: {
     primary,
     secondary,
+    secondarySmall,
     menuButton,
     textBtn,
     tableButton,

@@ -17,6 +17,7 @@ const SIZES = {
     LG: '2.4rem',
   },
   FONT: {
+    XXS: '1.2rem',
     XS: '1.4rem',
     SM: '1.6rem',
     MD: '2.4rem',
