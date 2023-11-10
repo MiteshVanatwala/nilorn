@@ -7,6 +7,7 @@ import { useToast } from '../../app/hooks/useToast';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../assets/';
+import { useWatch } from 'react-hook-form';
 
 const ActionBar = () => {
   const { t } = useTranslation();
@@ -18,6 +19,8 @@ const ActionBar = () => {
       description: 'Toaster messages',
     });
   };
+  const artwork = useWatch({ name: 'artwork' });
+
   return (
     <VStack align={'left'}>
       <HStack
@@ -33,18 +36,20 @@ const ActionBar = () => {
           base: SPACE.XXS,
           lg: SPACE.XS,
         }}>
-        <IconButton
-          variant={'ghost'}
-          aria-label={t('PD.Artwork')}
-          icon={
-            <Image
-              src={images.pdf}
-              height="3.2rem"
-              objectFit={'contain'}
-              width="auto"
-            />
-          }
-        />
+        {artwork && (
+          <IconButton
+            variant={'ghost'}
+            aria-label={t('PD.Artwork')}
+            icon={
+              <Image
+                src={images.pdf}
+                height="3.2rem"
+                objectFit={'contain'}
+                width="auto"
+              />
+            }
+          />
+        )}
         <Menu>
           <MenuButton
             as={IconButton}
