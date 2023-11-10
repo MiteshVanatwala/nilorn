@@ -17,6 +17,7 @@ const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
 
   return (
     <Button
+      backgroundColor={COLORS.WHITE}
       gap={SPACE.XXS}
       alignItems={'center'}
       border={`solid 1px ${COLORS.GRAY[30]}`}
@@ -24,7 +25,6 @@ const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
       py={SPACE.XXS}
       rightIcon={<i className="ri-close-line" />}
       borderRadius={BORDER_RADIUS.SM}
-      backgroundColor={'transparent'}
       _hover={{
         backgroundColor: COLORS.GRAY[10],
       }}

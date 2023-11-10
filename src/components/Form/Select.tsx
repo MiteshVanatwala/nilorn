@@ -34,6 +34,7 @@ const Select = ({
       required={registerOptions?.required}
       errors={error}
       helperText={helperText}
+      zIndex="dropdown"
       hideValidationStyle={hideValidationStyle}>
       <Controller
         control={control}

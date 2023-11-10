@@ -18,6 +18,7 @@ import ControlWrapper from '../Form/ControlWrapper';
 import {
   SelectOption,
   AdvanceFilter as AdvanceFilterType,
+  SelectOptionDefaultValue,
 } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
@@ -26,7 +27,7 @@ import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
-  filters: SelectOption<AdvanceFilterType>[];
+  filters: SelectOptionDefaultValue<AdvanceFilterType>[];
 };
 
 const AdvanceFilter = ({ filters }: Props) => {
@@ -34,7 +35,7 @@ const AdvanceFilter = ({ filters }: Props) => {
   const { unregister, getValues } = useFormContext();
 
   const [selected, setSelected] = useState<
-    MultiValue<SelectOption<AdvanceFilterType>>
+    MultiValue<SelectOptionDefaultValue<AdvanceFilterType>>
   >([]);
 
   const handleSelect = (
@@ -59,7 +60,7 @@ const AdvanceFilter = ({ filters }: Props) => {
   const [index, setIndex] = useState<ExpandedIndex>(0);
 
   useEffect(() => {
-    const activeAdvancedFilterArr: SelectOption[] = [];
+    const activeAdvancedFilterArr: SelectOptionDefaultValue[] = [];
 
     Object.entries(getValues()).forEach(([key, value]) => {
       filters?.forEach(filterItem => {
@@ -70,6 +71,9 @@ const AdvanceFilter = ({ filters }: Props) => {
           filterItem.value.name === key
         ) {
           if (filterItem !== undefined) {
+            if (value !== undefined) {
+              filterItem.defaultValue = value;
+            }
             activeAdvancedFilterArr.push(filterItem);
           }
         }
@@ -146,8 +150,11 @@ const AdvanceFilter = ({ filters }: Props) => {
                   icon={<i className="ri-close-line" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
-                <ControlWrapper name={so.value.name} label={so.label}>
-                  <InputSwitch option={so} />
+                <ControlWrapper
+                  zIndex={'dropdown'}
+                  name={so.value.name}
+                  label={so.label}>
+                  <InputSwitch defaultValue={so.defaultValue} option={so} />
                 </ControlWrapper>
               </GridItem>
             ))}

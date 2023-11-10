@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import Select from '../Form/Select';
 import { FormLabel } from '@chakra-ui/react';
+import { SelectOption } from '../../app/types/types';
 
 type Props = {
   name: string;
-  defaultValue: any;
+  defaultValue?: SelectOption;
   options: any;
   formLabel?: string;
 };
