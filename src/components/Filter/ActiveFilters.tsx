@@ -40,7 +40,11 @@ const ActiveFilters = () => {
             return (
               <ActiveFilterItem
                 key={key}
-                label={value[0]?.toUpperCase() + value?.slice(1)}
+                label={
+                  value?.label
+                    ? value.label
+                    : value[0]?.toUpperCase() + value?.slice(1)
+                }
                 value={value}
                 queryItem={key}
               />
