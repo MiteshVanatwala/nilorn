@@ -2,20 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
 import { Grid, GridItem, Text, VStack } from '@chakra-ui/layout';
-import { Skeleton } from '@chakra-ui/skeleton';
 import { SPACE } from '../../theme/Constants';
 import TopSection from './TopSection';
 import BottomSection from './BottomSection';
 import { Accordion } from '@chakra-ui/accordion';
-import AccordionItem from '../../components/AccordionItem/AccordionItem';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
 import Popup, {
   PopupPosition,
   PopupTrigger,
 } from '../../components/Popup/Popup';
 import { IconButton } from '@chakra-ui/button';
-import AttachmentSection from './Sections/AttachmentSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import AttachmentSection from './Sections/AttachmentSection';
 
 function ProductDevelopmentPage() {
   const { productNo } = useParams();
@@ -79,9 +77,7 @@ function ProductDevelopmentPage() {
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}
                   allowMultiple>
-                  <AccordionItem title="[TITLE]">
-                    <AttachmentSection />
-                  </AccordionItem>
+                  <AttachmentSection />
                 </Accordion>
               </VStack>
             </GridItem>
