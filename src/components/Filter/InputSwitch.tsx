@@ -1,14 +1,20 @@
 import { useTranslation } from 'react-i18next';
 import { AdvanceFilter, SelectOption } from '../../app/types/types';
 import InputField from '../Form/InputField';
-import Select from '../Form/Select';
+import FilterSelect from './FilterSelect';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
+  defaultValue?: string;
 };
 
-const InputSwitch = ({ option }: Props) => {
+const InputSwitch = ({ option, defaultValue }: Props) => {
   const { t } = useTranslation();
+
+  const options = [
+    { label: 'hejsan', value: 'hejsan' },
+    { label: 'hejsan2', value: 'hejsan2' },
+  ];
 
   switch (option.value.type) {
     case 'text':
@@ -20,7 +26,13 @@ const InputSwitch = ({ option }: Props) => {
         />
       );
     case 'select':
-      return <Select name={option.value.name} options={[]} />;
+      return (
+        <FilterSelect
+          name={option.value.name}
+          defaultValue={options.find(c => c.value === defaultValue)}
+          options={options}
+        />
+      );
   }
 };
 

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { FormLabel, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { useTranslation } from 'react-i18next';
@@ -7,13 +7,29 @@ import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
-import Select from '../Form/Select';
 import { GRID, SPACE } from '../../theme/Constants';
+import FilterSelect from './FilterSelect';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const advanceFilters = useOverviewAdvanceFilters();
   const form = useForm();
+
+  const clientOptions = [
+    {
+      label: 'Chocolate client',
+      value: 'chocolate',
+    },
+    { label: 'Strawberry client', value: 'strawberry' },
+  ];
+
+  const statusOptions = [
+    {
+      label: 'Chocolate',
+      value: 'chocolate',
+    },
+    { label: 'Strawberry', value: 'strawberry' },
+  ];
 
   return (
     <FormuQuerySubmit form={form}>
@@ -57,18 +73,13 @@ const ProductDevelopmentFilter = () => {
                 base: 1,
                 md: 2,
               }}>
-              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="client">
-                {t('Filter.Client')}
-              </FormLabel>
-              <Select
+              <FilterSelect
+                formLabel={t('Filter.Client')}
                 name={'client'}
-                options={[
-                  {
-                    label: 'Chocolate',
-                    value: 'chocolate',
-                  },
-                  { label: 'Strawberry', value: 'strawberry' },
-                ]}
+                defaultValue={clientOptions.find(
+                  c => c.value === form.getValues('client')
+                )}
+                options={clientOptions}
               />
             </GridItem>
             <GridItem
@@ -76,18 +87,13 @@ const ProductDevelopmentFilter = () => {
                 base: 1,
                 md: 2,
               }}>
-              <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor="status">
-                {t('Filter.Status')}
-              </FormLabel>
-              <Select
+              <FilterSelect
+                formLabel={t('Filter.Status')}
                 name={'status'}
-                options={[
-                  {
-                    label: 'Chocolate client',
-                    value: 'chocolate',
-                  },
-                  { label: 'Strawberry client', value: 'strawberry' },
-                ]}
+                defaultValue={statusOptions.find(
+                  c => c.value === form.getValues('status')
+                )}
+                options={statusOptions}
               />
             </GridItem>
           </Grid>

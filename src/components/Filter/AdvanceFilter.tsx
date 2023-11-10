@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
@@ -18,6 +18,7 @@ import ControlWrapper from '../Form/ControlWrapper';
 import {
   SelectOption,
   AdvanceFilter as AdvanceFilterType,
+  SelectOptionDefaultValue,
 } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
@@ -26,15 +27,15 @@ import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
-  filters: SelectOption<AdvanceFilterType>[];
+  filters: SelectOptionDefaultValue<AdvanceFilterType>[];
 };
 
 const AdvanceFilter = ({ filters }: Props) => {
   const { t } = useTranslation();
-  const { unregister } = useFormContext();
+  const { unregister, getValues } = useFormContext();
 
   const [selected, setSelected] = useState<
-    MultiValue<SelectOption<AdvanceFilterType>>
+    MultiValue<SelectOptionDefaultValue<AdvanceFilterType>>
   >([]);
 
   const handleSelect = (
@@ -58,6 +59,30 @@ const AdvanceFilter = ({ filters }: Props) => {
 
   const [index, setIndex] = useState<ExpandedIndex>(0);
 
+  useEffect(() => {
+    const activeAdvancedFilterArr: SelectOptionDefaultValue[] = [];
+
+    Object.entries(getValues()).forEach(([key, value]) => {
+      filters?.forEach(filterItem => {
+        if (
+          filterItem &&
+          'value' in filterItem &&
+          filterItem.value &&
+          filterItem.value.name === key
+        ) {
+          if (filterItem !== undefined) {
+            if (value !== undefined) {
+              filterItem.defaultValue = value;
+            }
+            activeAdvancedFilterArr.push(filterItem);
+          }
+        }
+      });
+    });
+    if (activeAdvancedFilterArr.length) {
+      setSelected(activeAdvancedFilterArr);
+    }
+  }, [getValues, filters]);
   return (
     <Accordion mb={SPACE.SM} allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>
@@ -125,8 +150,11 @@ const AdvanceFilter = ({ filters }: Props) => {
                   icon={<i className="ri-close-line" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
-                <ControlWrapper name={so.value.name} label={so.label}>
-                  <InputSwitch option={so} />
+                <ControlWrapper
+                  zIndex={'dropdown'}
+                  name={so.value.name}
+                  label={so.label}>
+                  <InputSwitch defaultValue={so.defaultValue} option={so} />
                 </ControlWrapper>
               </GridItem>
             ))}
