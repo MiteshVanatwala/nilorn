@@ -1,4 +1,4 @@
-import { HStack, Text, IconButton, Box } from '@chakra-ui/react';
+import { HStack, Text, IconButton, Box, Tooltip } from '@chakra-ui/react';
 import DownloadButton from '../../components/Button/DownloadButton';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../theme/Constants';
@@ -18,19 +18,27 @@ export const File = ({
   const { t } = useTranslation();
   return (
     <HStack justifyContent={'space-between'}>
-      <Text>
-        <Text as={'i'} className={iconClass} mr={SPACE.XS} />
-        {name}
-      </Text>
+      <Tooltip label={name}>
+        <Text noOfLines={1}>
+          <Text as={'i'} className={iconClass} mr={SPACE.XS} />
+          {name}
+        </Text>
+      </Tooltip>
       <Box minW={'5rem'}>
-        <IconButton
-          variant={'deleteBtn'}
-          aria-label={t('Common.Remove')}
-          icon={<i className={'ri-close-line'} />}
-          mr={0}
-          onClick={() => onRemove(name)}
+        <Tooltip label={t('Common.Remove')}>
+          <IconButton
+            variant={'deleteBtn'}
+            aria-label={t('Common.Remove')}
+            icon={<i className={'ri-close-line'} />}
+            mr={0}
+            onClick={() => onRemove(name)}
+          />
+        </Tooltip>
+        <DownloadButton
+          fileName={name}
+          url={url}
+          tooltipText={t('Common.Download')}
         />
-        <DownloadButton fileName={name} url={url} />
       </Box>
     </HStack>
   );
