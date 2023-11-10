@@ -1,10 +1,11 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
+import { GRID, SIZES, SPACE } from '../../../theme/Constants';
 import { useFormContext } from 'react-hook-form';
 import File from '../../File/File';
 import UploadFile from '../../File/UploadFile';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
+import { images } from '../../../assets';
 
 const ARTWORK: string = 'artwork';
 const ATTACHMERNTS: string = 'attachments';
@@ -57,7 +58,14 @@ const AttachmentSection = () => {
             <File
               name={artwork}
               url="#"
-              iconClass="ri-file-pdf-line"
+              icon={
+                <Image
+                  src={images.pdf}
+                  height={SIZES.ICON.SM}
+                  objectFit={'contain'}
+                  width="auto"
+                />
+              }
               onRemove={() => unregister(ARTWORK)}
             />
           )}

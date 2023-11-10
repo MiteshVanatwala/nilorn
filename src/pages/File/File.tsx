@@ -7,24 +7,31 @@ type Props = {
   name: string;
   url: string;
   onRemove: (name: string) => void;
-  iconClass?: string;
+  icon?: JSX.Element;
 };
 export const File = ({
   name,
   url,
   onRemove,
-  iconClass = 'ri-file-3-line',
+  icon = <Text as={'i'} className={'ri-file-3-line'} />,
 }: Props) => {
   const { t } = useTranslation();
   return (
     <HStack justifyContent={'space-between'}>
       <Tooltip label={name}>
         <Text noOfLines={1}>
-          <Text as={'i'} className={iconClass} mr={SPACE.XS} />
+          <Box mr={SPACE.XS} display={'inline-block'}>
+            {icon}
+          </Box>
           {name}
         </Text>
       </Tooltip>
       <Box minW={'5rem'}>
+        <DownloadButton
+          fileName={name}
+          url={url}
+          tooltipText={t('Common.Download')}
+        />
         <Tooltip label={t('Common.Remove')}>
           <IconButton
             variant={'deleteBtn'}
@@ -34,11 +41,6 @@ export const File = ({
             onClick={() => onRemove(name)}
           />
         </Tooltip>
-        <DownloadButton
-          fileName={name}
-          url={url}
-          tooltipText={t('Common.Download')}
-        />
       </Box>
     </HStack>
   );
