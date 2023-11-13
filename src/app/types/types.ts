@@ -18,11 +18,6 @@ export type SelectOption<T = any> = {
   label: any;
   value: T;
 };
-export type SelectOptionDefaultValue<T = any> = {
-  label: any;
-  value: T;
-  defaultValue?: string;
-};
 
 export type AdvanceFilter = {
   type: 'select' | 'text';
