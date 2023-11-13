@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/button';
 import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
 import SelectBase from '../Form/SelectBase';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
@@ -17,10 +17,12 @@ const SearchProfile = () => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
   const { setValue, reset, getValues } = useFormContext();
+  const [activeSearchProfile, setActiveSearchProfile] =
+    useState<boolean>(false);
 
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
     reset();
-
+    setActiveSearchProfile(true);
     setSelected(option);
     const optionVal = option.value;
     const splitOptionVal = optionVal.split('&');
@@ -31,7 +33,12 @@ const SearchProfile = () => {
     });
     setValue('ActiveSearchProfile', option.label);
   };
-
+  useEffect(() => {
+    if (!activeSearchProfile) {
+      setValue('ActiveSearchProfile', '');
+      setSelected(undefined);
+    }
+  }, [activeSearchProfile, setValue]);
   return (
     <GridItem
       marginTop={{
@@ -69,11 +76,14 @@ const SearchProfile = () => {
           onClick={() =>
             handleModal(
               <SearchProfileModalContent
-                ActiveSearchProfile={getValues('ActiveSearchProfile')}
+                activeSearchProfile={setActiveSearchProfile}
+                activeSearchProfileName={getValues('ActiveSearchProfile')}
               />
             )
           }>
-          {t('Filter.SaveSearchProfile')}
+          {activeSearchProfile
+            ? t('Filter.UpdateSearchProfile')
+            : t('Filter.SaveSearchProfile')}
         </Button>
       </VStack>
     </GridItem>

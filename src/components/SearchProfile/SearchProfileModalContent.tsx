@@ -13,10 +13,14 @@ import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
 type Props = {
-  ActiveSearchProfile?: string;
+  activeSearchProfileName?: string;
+  activeSearchProfile(val: boolean): void;
 };
 
-const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
+const SearchProfileModalContent = ({
+  activeSearchProfile,
+  activeSearchProfileName,
+}: Props) => {
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [searchProfile, setSearchProfile] = useState<string | undefined>();
@@ -30,17 +34,17 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
   };
 
   useEffect(() => {
-    setSearchProfile(ActiveSearchProfile);
-  }, [ActiveSearchProfile]);
+    setSearchProfile(activeSearchProfileName);
+  }, [activeSearchProfileName]);
 
   return (
     <>
       <ModalBody>
         <ModalHeading
           title={
-            searchProfile !== undefined
-              ? t('Filter.UpdateSearchProfile')
-              : t('Filter.SaveSearchProfile')
+            !searchProfile
+              ? t('Filter.SaveSearchProfile')
+              : t('Filter.UpdateSearchProfile')
           }
         />
         <ControlWrapper name={'name'} label={t('Filter.SearchProfileName')}>
@@ -50,6 +54,7 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
             name={'name'}
             onChange={e => {
               setSearchProfile(undefined);
+              activeSearchProfile(false);
             }}
           />
         </ControlWrapper>
@@ -62,16 +67,16 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
             <>
-              {searchProfile !== undefined
-                ? t('Filter.UpdateSearchProfile')
-                : t('Filter.SaveSearchProfile')}
+              {!searchProfile
+                ? t('Filter.SaveSearchProfile')
+                : t('Filter.UpdateSearchProfile')}
             </>
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
             rightIcon={<i className="ri-close-line" />}>
-            <> {t('Common.Cancel')}</>
+            {t('Common.Cancel')}
           </Button>
         </HStack>
       </ModalFooter>
