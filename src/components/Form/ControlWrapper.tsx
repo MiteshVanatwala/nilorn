@@ -49,7 +49,6 @@ const ControlWrapper = ({
         spacing={0}>
         {label && (
           <FormLabel
-            fontWeight={'300'}
             paddingBottom={SPACE.XXS}
             marginBottom={SPACE.XXS}
             whiteSpace={inline ? 'nowrap' : 'normal'}

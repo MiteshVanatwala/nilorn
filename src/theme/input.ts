@@ -20,10 +20,10 @@ const standard = (props: StyleFunctionProps) =>
     ...theme.components.Input.variants?.flushed(props),
     field: {
       ...theme.components.Input.variants?.flushed(props).field,
-      borderBottom: '2px',
+      borderBottom: '1px',
       borderRadius: '0',
       paddingX: '0',
-      borderBottomColor: COLORS.GRAY[60],
+      borderBottomColor: COLORS.GRAY[20],
 
       ':focus-visible': {
         borderColor: importantValue(COLORS.GRAY[60]),

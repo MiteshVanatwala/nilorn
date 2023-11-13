@@ -14,6 +14,8 @@ import Popup, {
 import { IconButton } from '@chakra-ui/button';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
+import GeneralSection from './Sections/GeneralSection';
+import ProductDesignSection from './Sections/ProductDesignSection';
 
 function ProductDevelopmentPage() {
   const { productNo } = useParams();
@@ -54,7 +56,7 @@ function ProductDevelopmentPage() {
         <ContentPage>
           <Grid>
             <GridItem ref={ref}>
-              <VStack spacing={SPACE.XL}>
+              <VStack spacing={SPACE.MD}>
                 <ImagePopup
                   alt={'alt'}
                   src={
@@ -73,6 +75,18 @@ function ProductDevelopmentPage() {
                   }
                   content={<>Changelog</>}
                 />
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <GeneralSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <ProductDesignSection />
+                </Accordion>
                 <Accordion
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}

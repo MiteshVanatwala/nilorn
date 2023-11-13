@@ -5,7 +5,7 @@ import {
   AccordionPanel,
 } from '@chakra-ui/accordion';
 import { HStack, Heading } from '@chakra-ui/layout';
-import { COLORS } from '../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 
 type Props = {
   title: string;
@@ -14,7 +14,7 @@ type Props = {
 
 const AccordionItem = ({ title, children }: Props) => {
   return (
-    <ChakraAccordionItem>
+    <ChakraAccordionItem mb={'0'}>
       <AccordionButton>
         <HStack w={'100%'} justifyContent={'space-between'}>
           <Heading variant={'bodyBold'} color={COLORS.WHITE}>
