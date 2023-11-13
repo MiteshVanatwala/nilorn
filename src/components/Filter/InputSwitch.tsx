@@ -6,10 +6,9 @@ import { useFormContext } from 'react-hook-form';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
-  defaultValue?: string;
 };
 
-const InputSwitch = ({ option, defaultValue }: Props) => {
+const InputSwitch = ({ option }: Props) => {
   const { t } = useTranslation();
   const form = useFormContext();
 

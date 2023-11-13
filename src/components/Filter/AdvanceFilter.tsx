@@ -18,7 +18,6 @@ import ControlWrapper from '../Form/ControlWrapper';
 import {
   SelectOption,
   AdvanceFilter as AdvanceFilterType,
-  SelectOptionDefaultValue,
 } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
@@ -27,7 +26,7 @@ import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 
 type Props = {
-  filters: SelectOptionDefaultValue<AdvanceFilterType>[];
+  filters: SelectOption<AdvanceFilterType>[];
 };
 
 const AdvanceFilter = ({ filters }: Props) => {
@@ -35,7 +34,7 @@ const AdvanceFilter = ({ filters }: Props) => {
   const { unregister, getValues } = useFormContext();
 
   const [selected, setSelected] = useState<
-    MultiValue<SelectOptionDefaultValue<AdvanceFilterType>>
+    MultiValue<SelectOption<AdvanceFilterType>>
   >([]);
 
   const handleSelect = (
@@ -60,7 +59,7 @@ const AdvanceFilter = ({ filters }: Props) => {
   const [index, setIndex] = useState<ExpandedIndex>(0);
 
   useEffect(() => {
-    const activeAdvancedFilterArr: SelectOptionDefaultValue[] = [];
+    const activeAdvancedFilterArr: SelectOption[] = [];
 
     Object.entries(getValues()).forEach(([key, value]) => {
       filters?.forEach(filterItem => {
@@ -71,9 +70,6 @@ const AdvanceFilter = ({ filters }: Props) => {
           filterItem.value.name === key
         ) {
           if (filterItem !== undefined) {
-            if (value !== undefined) {
-              filterItem.defaultValue = value;
-            }
             activeAdvancedFilterArr.push(filterItem);
           }
         }
@@ -154,7 +150,7 @@ const AdvanceFilter = ({ filters }: Props) => {
                   zIndex={'dropdown'}
                   name={so.value.name}
                   label={so.label}>
-                  <InputSwitch defaultValue={so.defaultValue} option={so} />
+                  <InputSwitch option={so} />
                 </ControlWrapper>
               </GridItem>
             ))}
