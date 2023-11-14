@@ -54,7 +54,7 @@ const ProductDesignSection = () => {
               <InputField
                 label={`${t('PD.FinishedLengthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'itemNumber'}
+                name={'finishedLength'}
               />
             </GridItem>
             <GridItem
@@ -66,7 +66,7 @@ const ProductDesignSection = () => {
               <InputField
                 label={`${t('PD.FinishedWidthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'freightIncluded'}
+                name={'finishedWidth'}
               />
             </GridItem>
             <GridItem
@@ -78,7 +78,7 @@ const ProductDesignSection = () => {
               <InputField
                 label={`${t('PD.FinishedHeightMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'sampleQuantity'}
+                name={'finishedHeight'}
               />
             </GridItem>
           </Grid>
