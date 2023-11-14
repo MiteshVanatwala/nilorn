@@ -52,10 +52,7 @@ const ControlWrapper = ({
             paddingBottom={SPACE.XXS}
             marginBottom={SPACE.XXS}
             whiteSpace={inline ? 'nowrap' : 'normal'}
-            color={
-              error ? COLORS.ERROR : ''
-              // color
-            }
+            color={error ? COLORS.ERROR : COLORS.GRAY[80]}
             opacity={label === '-' ? 0 : 100}
             mb="0"
             w={'auto'}

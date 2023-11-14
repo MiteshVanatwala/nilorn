@@ -19,7 +19,7 @@ const FilterSelect: FC<Props> = ({
   return (
     <>
       {formLabel && (
-        <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor={name}>
+        <FormLabel mb={'.4rem'} htmlFor={name}>
           {formLabel}
         </FormLabel>
       )}
