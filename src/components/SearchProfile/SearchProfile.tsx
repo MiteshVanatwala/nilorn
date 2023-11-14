@@ -11,34 +11,43 @@ import { Box, GridItem } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
 import { SPACE } from '../../theme/Constants';
+import { useSearchProfile } from '../../app/api/SearchProfile';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
-  const { setValue, reset, getValues } = useFormContext();
   const [activeSearchProfile, setActiveSearchProfile] =
     useState<boolean>(false);
-
+  const { setValue, reset, getValues } = useFormContext();
+  let { data } = useSearchProfile();
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
     reset();
     setActiveSearchProfile(true);
     setSelected(option);
     const optionVal = option.value;
     const splitOptionVal = optionVal.split('&');
-
     splitOptionVal.forEach((item: string) => {
       const splitItem = item.split('=');
       setValue(splitItem[0], splitItem[1]);
     });
     setValue('ActiveSearchProfile', option.label);
   };
+  const transformToSearchProfileDto = (option: any) => ({
+    label: option.name || null,
+    value: option.query || null,
+  });
+
   useEffect(() => {
     if (!activeSearchProfile) {
       setValue('ActiveSearchProfile', '');
       setSelected(undefined);
     }
   }, [activeSearchProfile, setValue]);
+
+  const options = data?.map((option, index) => {
+    return transformToSearchProfileDto(option);
+  });
   return (
     <GridItem
       marginTop={{
@@ -56,13 +65,7 @@ const SearchProfile = () => {
               name="SearchProfile"
               onChange={onChange}
               value={selected}
-              options={[
-                {
-                  label: 'My custom filter',
-                  value: 'search=testing&filter=hej',
-                },
-                { label: 'My custom filter2', value: 'search=wopop' },
-              ]}
+              options={options}
             />
           </Box>
         </ControlWrapper>
@@ -89,5 +92,4 @@ const SearchProfile = () => {
     </GridItem>
   );
 };
-
 export default SearchProfile;

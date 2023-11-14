@@ -12,6 +12,8 @@ import { SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
+import { useUpdateSearchProfile } from '../../app/api/SearchProfile';
+import { useToast } from '../../app/hooks/useToast';
 type Props = {
   activeSearchProfileName?: string;
   activeSearchProfile(val: boolean): void;
@@ -21,22 +23,53 @@ const SearchProfileModalContent = ({
   activeSearchProfile,
   activeSearchProfileName,
 }: Props) => {
+  const { showToast } = useToast();
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [searchProfile, setSearchProfile] = useState<string | undefined>();
 
+  const [searchProfileName, setSearchProfileName] = useState<
+    string | undefined
+  >();
+  const {
+    mutate: updateSearchProfile,
+    isSuccess,
+    isError,
+  } = useUpdateSearchProfile();
   const onCancel = () => {
     close();
   };
-
-  const onSubmit = () => {
-    close();
-  };
-
+  async function onSubmit(): Promise<void> {
+    const queryString = window.location.href.split('?')[1];
+    const data = {
+      name: searchProfileName,
+      query: queryString,
+    };
+    updateSearchProfile(data);
+  }
   useEffect(() => {
     setSearchProfile(activeSearchProfileName);
+    setSearchProfileName(activeSearchProfileName);
   }, [activeSearchProfileName]);
-
+  useEffect(() => {
+    if (isSuccess) {
+      showToast({
+        status: 'success',
+        description: 'Search profile saved',
+      });
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
+  useEffect(() => {
+    if (isError) {
+      showToast({
+        status: 'error',
+        description: 'Error while saving search profile',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
   return (
     <>
       <ModalBody>
@@ -47,14 +80,18 @@ const SearchProfileModalContent = ({
               : t('Filter.UpdateSearchProfile')
           }
         />
-        <ControlWrapper name={'name'} label={t('Filter.SearchProfileName')}>
+        <ControlWrapper
+          name={'searchProfileName'}
+          label={t('Filter.SearchProfileName')}>
           <Input
             defaultValue={searchProfile ?? undefined}
             variant={'standard'}
-            name={'name'}
+            name={'searchProfileName'}
             onChange={e => {
               setSearchProfile(undefined);
               activeSearchProfile(false);
+
+              setSearchProfileName(e.target.value);
             }}
           />
         </ControlWrapper>
@@ -67,21 +104,20 @@ const SearchProfileModalContent = ({
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
             <>
-              {!searchProfile
-                ? t('Filter.SaveSearchProfile')
-                : t('Filter.UpdateSearchProfile')}
+              {searchProfile !== undefined
+                ? t('Filter.UpdateSearchProfile')
+                : t('Filter.SaveSearchProfile')}
             </>
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
             rightIcon={<i className="ri-close-line" />}>
-            {t('Common.Cancel')}
+            <> {t('Common.Cancel')}</>
           </Button>
         </HStack>
       </ModalFooter>
     </>
   );
 };
-
 export default SearchProfileModalContent;
