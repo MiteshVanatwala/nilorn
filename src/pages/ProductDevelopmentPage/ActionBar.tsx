@@ -79,7 +79,7 @@ const ActionBar = () => {
                   className="ri-delete-bin-line"
                 />
               }>
-              {t('PD.Delete')}
+              {t('Common.Delete')}
             </MenuItem>
           </MenuList>
         </Menu>

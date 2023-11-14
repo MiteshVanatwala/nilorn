@@ -54,9 +54,9 @@
     "FinishedLength": "Finished Length",
     "FinishedWidth": "Finished Width",
     "FinishedHeight": "Finished Height",
-    "Delete": "Delete",
     "ShowChanges": "Show changes",
     "Attachments": "Attachments",
+    "IncludeClosed": "Include rejected and aprroved",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",

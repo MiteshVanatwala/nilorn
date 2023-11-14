@@ -37,10 +37,20 @@ export function useDebounce<T>(value: T, delay: number): T {
   );
   return debouncedValue;
 }
+
 export function onFilterChange(formValues: FieldValues) {
-  const queryParamString = Object.entries(formValues)
-    .filter(([key, _]) => key !== 'ActiveSearchProfile')
-    .filter(([_, value]) => value !== undefined && value !== '')
+  const output = Object.entries(formValues).reduce((result, [key, value]) => {
+    if (key !== 'ActiveSearchProfile' && value !== undefined && value !== '') {
+      if (typeof value === 'string') {
+        result[key] = value;
+      } else if (value && typeof value === 'object' && 'value' in value) {
+        result[key] = value.value;
+      }
+    }
+    return result;
+  }, {} as Record<string, string>);
+
+  const queryParamString = Object.entries(output)
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
 

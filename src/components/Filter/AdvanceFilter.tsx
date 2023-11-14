@@ -6,7 +6,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box,
   ExpandedIndex,
   Grid,
   GridItem,
@@ -24,6 +23,7 @@ import { useFormContext } from 'react-hook-form';
 import InputSwitch from './InputSwitch';
 import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
+import FilterSwitch from './FilterSwitch';
 
 type Props = {
   filters: SelectOption<AdvanceFilterType>[];
@@ -110,17 +110,23 @@ const AdvanceFilter = ({ filters }: Props) => {
             gap={{
               base: SPACE.XXS,
               lg: SPACE.SM,
-            }}>
+            }}
+            alignItems={'center'}>
             <GridItem colSpan={2}>
-              <Box maxW={'24rem'}>
-                <AdvanceFilterSelect
-                  options={filters}
-                  value={selected}
-                  onChange={(option, event) => {
-                    handleSelect(option, event);
-                  }}
-                />
-              </Box>
+              <AdvanceFilterSelect
+                options={filters}
+                value={selected}
+                onChange={(option, event) => {
+                  handleSelect(option, event);
+                }}
+              />
+            </GridItem>
+            <GridItem colSpan={3}>
+              <FilterSwitch
+                defaultChecked={false}
+                label={t('PD.IncludeClosed')}
+                name="includeClosed"
+              />
             </GridItem>
           </Grid>
           <Grid
