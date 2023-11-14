@@ -90,7 +90,6 @@ const SearchProfileModalContent = ({
             onChange={e => {
               setSearchProfile(undefined);
               activeSearchProfile(false);
-
               setSearchProfileName(e.target.value);
             }}
           />
@@ -103,17 +102,15 @@ const SearchProfileModalContent = ({
             variant={'primary'}
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
-            <>
-              {searchProfile !== undefined
-                ? t('Filter.UpdateSearchProfile')
-                : t('Filter.SaveSearchProfile')}
-            </>
+            {searchProfile !== undefined
+              ? t('Filter.UpdateSearchProfile')
+              : t('Filter.SaveSearchProfile')}
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
             rightIcon={<i className="ri-close-line" />}>
-            <> {t('Common.Cancel')}</>
+            {t('Common.Cancel')}
           </Button>
         </HStack>
       </ModalFooter>
