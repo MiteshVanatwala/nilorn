@@ -78,6 +78,18 @@ const GeneralSection = () => {
               }}
               colSpan={2}>
               <InputField
+                label={`${t('PD.TargetSales')}`}
+                placeholder={`${t('Common.Placeholder')}`}
+                name={'targetSales'}
+              />
+            </GridItem>
+            <GridItem
+              mb={{
+                base: SPACE.SM,
+                lg: '0',
+              }}
+              colSpan={2}>
+              <InputField
                 label={`${t('PD.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
