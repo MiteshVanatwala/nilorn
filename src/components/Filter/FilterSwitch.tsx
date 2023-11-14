@@ -11,7 +11,6 @@ type Props = {
 
 const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
   const { setValue, unregister } = useFormContext();
-
   const [checked, setChecked] = useState<boolean>(defaultChecked);
 
   const onChange = useCallback(
@@ -24,6 +23,9 @@ const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
     },
     [name, setValue, label, unregister]
   );
+  useEffect(() => {
+    setChecked(defaultChecked);
+  }, [defaultChecked]);
 
   useEffect(() => {
     onChange(checked);
@@ -32,7 +34,7 @@ const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
   return (
     <FormControl display="flex" alignItems="center">
       <Switch
-        defaultChecked={defaultChecked}
+        isChecked={checked}
         id={name}
         onChange={e => setChecked(e.target?.checked)}
       />
