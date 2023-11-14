@@ -123,7 +123,10 @@ const AdvanceFilter = ({ filters }: Props) => {
             </GridItem>
             <GridItem colSpan={3}>
               <FilterSwitch
-                defaultChecked={false}
+                defaultChecked={
+                  getValues('includeClosed') === 'true' ||
+                  getValues('includeClosed')?.value
+                }
                 label={t('PD.IncludeClosed')}
                 name="includeClosed"
               />
