@@ -8,11 +8,13 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { CreateProductDevelopmentCommand } from './models/CreateProductDevelopmentCommand';
+export type { DeleteSearchProfileCommand } from './models/DeleteSearchProfileCommand';
 export type { GetProductDevelopmentDto } from './models/GetProductDevelopmentDto';
 export type { ProductDevelopmentBriefDto } from './models/ProductDevelopmentBriefDto';
 export type { ProductDevelopmentBriefDtoPaginatedList } from './models/ProductDevelopmentBriefDtoPaginatedList';
-export { ProductDevelopmentStatus } from './models/ProductDevelopmentStatus';
 export type { SearchProfileDto } from './models/SearchProfileDto';
+export { Status } from './models/Status';
+export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 
 export { ProductDevelopmentsService } from './services/ProductDevelopmentsService';
 export { SearchProfilesService } from './services/SearchProfilesService';

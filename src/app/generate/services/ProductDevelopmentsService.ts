@@ -49,6 +49,71 @@ requestBody?: CreateProductDevelopmentCommand,
     }
 
     /**
+     * @param pageNumber 
+     * @param pageSize 
+     * @param searchQuery 
+     * @param number 
+     * @param name 
+     * @param description 
+     * @param itemNo 
+     * @param statusName 
+     * @param clientName 
+     * @param subClientName 
+     * @param itemCategoryCode 
+     * @param productGroupName 
+     * @param foldingTypeName 
+     * @param finishedLength 
+     * @param finishedWidth 
+     * @param finishedHeight 
+     * @param sampleQuantity 
+     * @returns ProductDevelopmentBriefDtoPaginatedList Success
+     * @throws ApiError
+     */
+    public static getApiProductDevelopmentsFilter(
+pageNumber?: number,
+pageSize?: number,
+searchQuery?: string,
+number?: string,
+name?: string,
+description?: string,
+itemNo?: string,
+statusName?: string,
+clientName?: string,
+subClientName?: string,
+itemCategoryCode?: string,
+productGroupName?: string,
+foldingTypeName?: string,
+finishedLength?: number,
+finishedWidth?: number,
+finishedHeight?: number,
+sampleQuantity?: number,
+): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/ProductDevelopments/Filter',
+            query: {
+                'PageNumber': pageNumber,
+                'PageSize': pageSize,
+                'SearchQuery': searchQuery,
+                'Number': number,
+                'Name': name,
+                'Description': description,
+                'ItemNo': itemNo,
+                'StatusName': statusName,
+                'ClientName': clientName,
+                'SubClientName': subClientName,
+                'ItemCategoryCode': itemCategoryCode,
+                'ProductGroupName': productGroupName,
+                'FoldingTypeName': foldingTypeName,
+                'FinishedLength': finishedLength,
+                'FinishedWidth': finishedWidth,
+                'FinishedHeight': finishedHeight,
+                'SampleQuantity': sampleQuantity,
+            },
+        });
+    }
+
+    /**
      * @returns string Success
      * @throws ApiError
      */
