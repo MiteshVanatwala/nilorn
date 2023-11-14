@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
 
-export function useProductDevelopments(pageNumber?: number, pageSize?: number) {
+export function useProductDevelopments(pageNumber: number, pageSize?: number) {
   return useQuery(
     [QueryKeysEnum.Overview, pageNumber, pageSize],
     () =>
@@ -12,6 +12,7 @@ export function useProductDevelopments(pageNumber?: number, pageSize?: number) {
       ).then(res => res),
     {
       retry: 1,
+      enabled: pageNumber > 0,
     }
   );
 }

@@ -67,6 +67,7 @@
     "FreightIncluded": "Freight Included",
     "SampleQuantity": "Sample Quantity",
     "ProudctDesign": "Proudct design",
+    "IncludeClosed": "Include rejected and aprroved",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
