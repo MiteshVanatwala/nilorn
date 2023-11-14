@@ -1,13 +1,11 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../theme/Constants';
-// import { useFormContext } from 'react-hook-form';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 
 const GeneralSection = () => {
-  // const form = useFormContext();
   const { t } = useTranslation();
 
   const options = [
@@ -33,7 +31,7 @@ const GeneralSection = () => {
           }}>
           <Select
             options={options}
-            name="test"
+            name="itemCategory"
             label={`${t('PD.ItemCategory')}`}
             placeholder={`${t('Filter.Select')}`}
           />
@@ -49,7 +47,7 @@ const GeneralSection = () => {
           }}>
           <Select
             options={options}
-            name="test"
+            name="productGroup"
             label={`${t('PD.ProductGroup')}`}
             placeholder={`${t('Filter.Select')}`}
           />
