@@ -18,13 +18,11 @@ export default function FormuQuerySubmit({
     const searchParamItems = Array.from(searchParams.keys());
     searchParamItems.forEach(name => {
       const value = searchParams.get(name);
-      form.setValue(name, value);
+      const decodedValue = decodeURIComponent(value ?? '');
+      form.setValue(name, decodedValue);
     });
-  }, []);
-
-  useEffect(() => {
     form.watch(value => formChange());
-  });
+  }, []);
 
   function formChange() {
     setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));
