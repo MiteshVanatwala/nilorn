@@ -25,10 +25,10 @@ const ProductDevelopmentFilter = () => {
 
   const statusOptions = [
     {
-      label: 'Chocolate',
-      value: 'chocolate',
+      label: 'New status',
+      value: 'new',
     },
-    { label: 'Strawberry', value: 'strawberry' },
+    { label: 'Done status', value: 'done' },
   ];
 
   return (
@@ -74,10 +74,12 @@ const ProductDevelopmentFilter = () => {
                 md: 2,
               }}>
               <FilterSelect
-                formLabel={t('Filter.Client')}
+                label={t('Filter.Client')}
                 name={'client'}
                 defaultValue={clientOptions.find(
-                  c => c.value === form.getValues('client')
+                  c =>
+                    c.value === form.getValues('client') ||
+                    c.value === form.getValues('client')?.value
                 )}
                 options={clientOptions}
               />
@@ -88,10 +90,12 @@ const ProductDevelopmentFilter = () => {
                 md: 2,
               }}>
               <FilterSelect
-                formLabel={t('Filter.Status')}
+                label={t('Filter.Status')}
                 name={'status'}
                 defaultValue={statusOptions.find(
-                  c => c.value === form.getValues('status')
+                  c =>
+                    c.value === form.getValues('status') ||
+                    c.value === form.getValues('status')?.value
                 )}
                 options={statusOptions}
               />

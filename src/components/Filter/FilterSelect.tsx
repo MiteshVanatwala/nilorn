@@ -1,32 +1,33 @@
 import { FC } from 'react';
 import Select from '../Form/Select';
-import { FormLabel } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   name: string;
   defaultValue?: SelectOption;
   options: any;
-  formLabel?: string;
+  label?: string;
 };
 
-const FilterSelect: FC<Props> = ({
-  name,
-  defaultValue,
-  options,
-  formLabel,
-}) => {
+const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
+  const { setValue, getValues } = useFormContext();
+  if (defaultValue) {
+    if (getValues(name)?.value !== defaultValue?.value) {
+      setValue(name, defaultValue);
+    }
+  }
   return (
     <>
-      {formLabel && (
-        <FormLabel fontWeight={'400'} mb={'.4rem'} htmlFor={name}>
-          {formLabel}
-        </FormLabel>
-      )}
       {defaultValue && (
-        <Select name={name} defaultValue={defaultValue} options={options} />
+        <Select
+          label={label}
+          name={name}
+          defaultValue={defaultValue}
+          options={options}
+        />
       )}
-      {!defaultValue && <Select name={name} options={options} />}
+      {!defaultValue && <Select label={label} name={name} options={options} />}
     </>
   );
 };
