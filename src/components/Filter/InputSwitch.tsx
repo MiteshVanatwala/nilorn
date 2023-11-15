@@ -30,7 +30,9 @@ const InputSwitch = ({ option }: Props) => {
         <FilterSelect
           name={option.value.name}
           defaultValue={options.find(
-            c => c.value === form.getValues(option.value.name)
+            c =>
+              c.value === form.getValues(option.value.name) ||
+              c.value === form.getValues(option.value.name)?.value
           )}
           options={options}
         />

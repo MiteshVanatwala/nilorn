@@ -26,7 +26,8 @@
     "Remove": "Remove",
     "Add": "Add",
     "Download": "Download",
-    "LastChanged": "Last changed:"
+    "LastChanged": "Last changed:",
+    "NoMatch": "Sorry, we could not find any results"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -57,6 +58,11 @@
     "ShowChanges": "Show changes",
     "Attachments": "Attachments",
     "IncludeClosed": "Include rejected and aprroved",
+    "SourcingCompany": "Sourcing company",
+    "OPcomp": "Operations  company",
+    "StockLoaction": "Stock loaction",
+    "Vendor": "Vendor",
+    "Members": "Members",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
@@ -78,6 +84,6 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter"
+    "Remove": "Remove filter",
   }
 }

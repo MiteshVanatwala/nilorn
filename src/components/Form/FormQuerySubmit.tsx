@@ -25,7 +25,6 @@ export default function FormuQuerySubmit({
   }, []);
 
   function formChange() {
-    console.log('formChange');
     setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));
     form.clearErrors('serverError');
   }

@@ -6,6 +6,7 @@ import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import { Skeleton } from '@chakra-ui/skeleton';
+import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
@@ -23,10 +24,8 @@ function OverviewTableContainer() {
     setTotalCount,
   } = usePaginationContext();
 
-  const { data, isError, isSuccess } = useProductDevelopmentsFilter(
-    pageNumber,
-    pageSize
-  );
+  const { data, isError, isSuccess, isLoading, isFetching } =
+    useProductDevelopmentsFilter(pageNumber, pageSize);
 
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
@@ -49,6 +48,7 @@ function OverviewTableContainer() {
     <Skeleton isLoaded={isSuccess}>
       {data?.items ? (
         <>
+          {isLoading || (isFetching && <SpinnerOverlay />)}
           <OverviewTable data={data?.items} />
           <TablePagination
             pageNumber={pageNumber}
@@ -63,7 +63,7 @@ function OverviewTableContainer() {
           />
         </>
       ) : (
-        <>no rows</>
+        <Alert status="info" title={`${t('Common.NoMatch')}`} />
       )}
     </Skeleton>
   );
