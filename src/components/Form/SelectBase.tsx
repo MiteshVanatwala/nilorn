@@ -111,7 +111,7 @@ const SelectBase = <IsMulti extends boolean = false>({
 
   const color = dark ? COLORS.WHITE : COLORS.GRAY[70];
   const bgColor = dark ? COLORS.GRAY[70] : COLORS.GRAY[10];
-  const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[30];
+  const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[60];
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
 
   return (
@@ -143,8 +143,6 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '2px solid',
-          zIndex: 'dropdown',
-
           _hover: {
             borderColor: hover,
             cursor: 'pointer',

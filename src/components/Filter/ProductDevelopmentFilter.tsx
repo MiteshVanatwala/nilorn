@@ -64,7 +64,7 @@ const ProductDevelopmentFilter = () => {
               <InputSearch
                 label="Search"
                 placeholder={t(`Filter.Search`)}
-                name="search"
+                name="searchQuery"
                 variant="filled"
               />
             </GridItem>

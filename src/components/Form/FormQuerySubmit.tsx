@@ -20,11 +20,9 @@ export default function FormuQuerySubmit({
       const value = searchParams.get(name);
       form.setValue(name, value);
     });
-  }, []);
-
-  useEffect(() => {
     form.watch(value => formChange());
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function formChange() {
     setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));

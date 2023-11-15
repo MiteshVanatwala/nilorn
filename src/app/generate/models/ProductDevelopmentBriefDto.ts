@@ -3,11 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ProductDevelopmentStatus } from './ProductDevelopmentStatus';
-
 export type ProductDevelopmentBriefDto = {
-    productDevelopmentNo?: string | null;
+    imageUrl?: string | null;
+    number?: string | null;
     name?: string | null;
-    status?: ProductDevelopmentStatus;
-    image?: string | null;
+    status?: string | null;
+    versions?: number;
+    artworkUrl?: string | null;
+    client?: string | null;
+    project?: string | null;
+    productGroup?: string | null;
 };
