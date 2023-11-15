@@ -9,6 +9,7 @@ interface Props extends FormInputProps {
   placeholder?: string;
   defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
+
   isDisabled?: boolean;
 }
 

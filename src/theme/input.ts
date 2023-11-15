@@ -18,18 +18,6 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const standard = (props: StyleFunctionProps) =>
   definePartsStyle({
     ...theme.components.Input.variants?.flushed(props),
-    field: {
-      ...theme.components.Input.variants?.flushed(props).field,
-      borderBottom: '2px',
-      borderRadius: '0',
-      paddingX: '0',
-      borderBottomColor: COLORS.GRAY[60],
-
-      ':focus-visible': {
-        borderColor: importantValue(COLORS.GRAY[60]),
-        boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
-      },
-    },
   });
 
 const outline = (props: StyleFunctionProps) =>
@@ -59,8 +47,8 @@ const filled = (props: StyleFunctionProps) =>
         bgColor: COLORS.GRAY[10],
       },
       _focusWithin: {
-        borderColor: COLORS.GRAY[20],
         bgColor: COLORS.GRAY[10],
+        boxShadow: importantValue('none'),
       },
     },
   });
@@ -93,7 +81,8 @@ const baseStyle = definePartsStyle({
     color: COLORS.GRAY[80],
     fontWeight: 400,
     ':focus-visible': {
-      borderColor: importantValue(COLORS.GRAY[20]),
+      borderColor: importantValue(COLORS.GRAY[60]),
+      boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
     },
     _invalid: {
       borderColor: importantValue(COLORS.ERROR),

@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { Badge } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import fontSizes from '../../theme/fontSizes';
-import { ProductDevelopmentStatus } from '../../app/generate';
+import { Status } from '../../app/generate';
 
 type Props = {
-  status?: ProductDevelopmentStatus;
+  status?: Status;
 };
 
 const StatusBadge = ({ status }: Props) => {
@@ -13,11 +13,11 @@ const StatusBadge = ({ status }: Props) => {
   const { color, label } = useMemo(() => {
     // TODO: Request enum name not index.
     switch (status) {
-      case ProductDevelopmentStatus._0:
+      case Status._0:
         return { color: 'blue', label: 'New' };
-      case ProductDevelopmentStatus._1:
+      case Status._1:
         return { color: 'yellow', label: 'Waiting' };
-      case ProductDevelopmentStatus._2:
+      case Status._2:
         return { color: 'green', label: 'Done' };
       default:
         return { color: 'blue', label: 'New' };

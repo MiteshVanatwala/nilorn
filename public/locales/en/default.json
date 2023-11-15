@@ -26,7 +26,9 @@
     "Remove": "Remove",
     "Add": "Add",
     "Download": "Download",
-    "LastChanged": "Last changed:"
+    "LastChanged": "Last changed:",
+    "Placeholder": "Enter value",
+    "NoMatch": "Sorry, we could not find any results"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -51,12 +53,28 @@
     "ProductGroup": "Group name",
     "ItemCategory": "Item Category",
     "FoldingType": "Folding Type",
+    "Folding": "Folding",
     "FinishedLength": "Finished Length",
+    "FinishedLengthMM": "Finished length (mm)",
     "FinishedWidth": "Finished Width",
+    "FinishedWidthMM": "Finished width (mm)",
     "FinishedHeight": "Finished Height",
+    "FinishedHeightMM": "Finished height (mm)",
+    "TargetSales": "Target Sales Price",
+    "Delete": "Delete",
     "ShowChanges": "Show changes",
     "Attachments": "Attachments",
+    "General": "General",
+    "ItemNumber": "Item No.",
+    "FreightIncluded": "Freight Included",
+    "SampleQuantity": "Sample Quantity",
+    "ProudctDesign": "Proudct design",
     "IncludeClosed": "Include rejected and aprroved",
+    "SourcingCompany": "Sourcing company",
+    "OPcomp": "Operations  company",
+    "StockLoaction": "Stock loaction",
+    "Vendor": "Vendor",
+    "Members": "Members",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
@@ -78,6 +96,6 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter"
+    "Remove": "Remove filter",
   }
 }

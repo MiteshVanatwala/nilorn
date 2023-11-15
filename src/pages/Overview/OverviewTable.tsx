@@ -36,9 +36,7 @@ const OverviewTable = ({ data }: Props) => {
               row={row}
               bgColor={bgColor}
               onClick={() =>
-                navigate(
-                  `product-development/${row.original.productDevelopmentNo}`
-                )
+                navigate(`product-development/${row.original.number}`)
               }
               key={i}
             />
