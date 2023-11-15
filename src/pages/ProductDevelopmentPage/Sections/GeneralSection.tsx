@@ -14,17 +14,8 @@ const GeneralSection = () => {
   ];
   return (
     <AccordionItem title={`${t('PD.General')}`}>
-      <Grid
-        gap={{
-          base: SPACE.XXS,
-          lg: SPACE.MD,
-        }}
-        templateColumns={GRID.TEMPLATE_COLUMNS}>
+      <Grid gap={GRID.GRID_GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
-          mb={{
-            base: SPACE.SM,
-            lg: SPACE.XS,
-          }}
           colSpan={{
             base: 12,
             lg: 2,
@@ -37,10 +28,6 @@ const GeneralSection = () => {
           />
         </GridItem>
         <GridItem
-          mb={{
-            base: SPACE.SM,
-            lg: '0',
-          }}
           colSpan={{
             base: 12,
             lg: 2,
@@ -53,54 +40,29 @@ const GeneralSection = () => {
           />
         </GridItem>
         <GridItem colSpan={12}>
-          <Grid
-            gap={{
-              base: SPACE.XXS,
-              lg: SPACE.MD,
-            }}
-            templateColumns={GRID.TEMPLATE_COLUMNS}>
-            <GridItem
-              mb={{
-                base: SPACE.SM,
-                lg: '0',
-              }}
-              colSpan={2}>
+          <Grid gap={GRID.GRID_GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
+            <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'itemNumber'}
               />
             </GridItem>
-            <GridItem
-              mb={{
-                base: SPACE.SM,
-                lg: '0',
-              }}
-              colSpan={2}>
+            <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.TargetSales')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'targetSales'}
               />
             </GridItem>
-            <GridItem
-              mb={{
-                base: SPACE.SM,
-                lg: '0',
-              }}
-              colSpan={2}>
+            <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
               />
             </GridItem>
-            <GridItem
-              mb={{
-                base: SPACE.SM,
-                lg: '0',
-              }}
-              colSpan={2}>
+            <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
