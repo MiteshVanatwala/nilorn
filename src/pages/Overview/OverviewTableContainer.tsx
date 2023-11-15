@@ -1,10 +1,7 @@
 import TablePagination from '../../components/Table/TablePagination/TablePagination';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useLayoutEffect } from 'react';
-import {
-  useProductDevelopments,
-  useProductDevelopmentsFilter,
-} from '../../app/api/Overview';
+import { useProductDevelopmentsFilter } from '../../app/api/Overview';
 import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
@@ -26,12 +23,10 @@ function OverviewTableContainer() {
     setTotalCount,
   } = usePaginationContext();
 
-  const { data, isError, isSuccess } = useProductDevelopments(
+  const { data, isError, isSuccess } = useProductDevelopmentsFilter(
     pageNumber,
     pageSize
   );
-
-  const { data: dataF } = useProductDevelopmentsFilter(pageNumber, pageSize);
 
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
