@@ -14,6 +14,7 @@ import Popup, {
 import { IconButton } from '@chakra-ui/button';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
+import MemberSection from './Sections/MemberSection';
 
 function ProductDevelopmentPage() {
   const { productNo } = useParams();
@@ -73,6 +74,12 @@ function ProductDevelopmentPage() {
                   }
                   content={<>Changelog</>}
                 />
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <MemberSection />
+                </Accordion>
                 <Accordion
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}

@@ -57,6 +57,8 @@
     "ShowChanges": "Show changes",
     "Attachments": "Attachments",
     "IncludeClosed": "Include rejected and aprroved",
+    "Members": "Members",
+    "AddMember": "Add member",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
