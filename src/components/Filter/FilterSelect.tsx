@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Select from '../Form/Select';
 import { SelectOption } from '../../app/types/types';
 import { useFormContext } from 'react-hook-form';
@@ -6,17 +6,21 @@ import { useFormContext } from 'react-hook-form';
 type Props = {
   name: string;
   defaultValue?: SelectOption;
-  options: any;
+  options: SelectOption[];
   label?: string;
 };
 
 const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
   const { setValue, getValues } = useFormContext();
-  if (defaultValue) {
-    if (getValues(name)?.value !== defaultValue?.value) {
-      setValue(name, defaultValue);
+
+  useEffect(() => {
+    if (defaultValue) {
+      if (getValues(name)?.value !== defaultValue?.value) {
+        setValue(name, defaultValue);
+      }
     }
-  }
+  }, [defaultValue, getValues, name, setValue]);
+
   return (
     <>
       {defaultValue && (

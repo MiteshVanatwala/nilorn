@@ -38,7 +38,6 @@ const ControlWrapper = ({
   // );
   return (
     <FormControl
-      className="linnes"
       isInvalid={error ? true : false}
       sx={{
         position: 'relative',

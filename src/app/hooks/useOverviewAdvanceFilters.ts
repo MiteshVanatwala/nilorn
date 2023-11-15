@@ -6,17 +6,10 @@ export const useOverviewAdvanceFilters = (): SelectOption<AdvanceFilter>[] => {
 
   return [
     {
-      label: t('PD.SubClient'),
-      value: {
-        type: 'text',
-        name: 'subClient',
-      },
-    },
-    {
       label: t('PD.ItemCategory'),
       value: {
-        type: 'text',
-        name: 'category',
+        type: 'select',
+        name: 'itemCategoryCode',
       },
     },
     {
@@ -30,21 +23,28 @@ export const useOverviewAdvanceFilters = (): SelectOption<AdvanceFilter>[] => {
       label: t('PD.FoldingType'),
       value: {
         type: 'select',
-        name: 'folding',
+        name: 'foldingTypeName',
       },
     },
     {
       label: t('PD.FinishedLength'),
       value: {
         type: 'text',
-        name: 'flength',
+        name: 'finishedLength',
       },
     },
     {
       label: t('PD.FinishedWidth'),
       value: {
         type: 'text',
-        name: 'fwidth',
+        name: 'finishedWidth',
+      },
+    },
+    {
+      label: t('PD.FinishedHeight'),
+      value: {
+        type: 'text',
+        name: 'sampleQuantity',
       },
     },
     {
@@ -52,6 +52,41 @@ export const useOverviewAdvanceFilters = (): SelectOption<AdvanceFilter>[] => {
       value: {
         type: 'text',
         name: 'fheight',
+      },
+    },
+    {
+      label: t('PD.SourcingCompany'),
+      value: {
+        type: 'text',
+        name: 'sourcingCompany',
+      },
+    },
+    {
+      label: t('PD.StockLoaction'),
+      value: {
+        type: 'text',
+        name: 'stockLocation',
+      },
+    },
+    {
+      label: t('PD.Vendor'),
+      value: {
+        type: 'text',
+        name: 'vendor',
+      },
+    },
+    {
+      label: t('PD.OPcomp'),
+      value: {
+        type: 'text',
+        name: 'opComp',
+      },
+    },
+    {
+      label: t('PD.Members'),
+      value: {
+        type: 'text',
+        name: 'members',
       },
     },
   ];

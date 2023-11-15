@@ -27,7 +27,8 @@
     "Add": "Add",
     "Download": "Download",
     "LastChanged": "Last changed:",
-    "Placeholder": "Enter value"
+    "Placeholder": "Enter value",
+    "NoMatch": "Sorry, we could not find any results"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -69,6 +70,11 @@
     "SampleQuantity": "Sample Quantity",
     "ProudctDesign": "Proudct design",
     "IncludeClosed": "Include rejected and aprroved",
+    "SourcingCompany": "Sourcing company",
+    "OPcomp": "Operations  company",
+    "StockLoaction": "Stock loaction",
+    "Vendor": "Vendor",
+    "Members": "Members",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
@@ -90,6 +96,6 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter"
+    "Remove": "Remove filter",
   }
 }
