@@ -27,10 +27,11 @@ function ProductDevelopmentPage() {
     const handleScroll = () => {
       if (ref.current) {
         const { top } = ref.current.getBoundingClientRect();
+
         if (top < 0 && !isSticky) {
           setScrolledPast(true);
           setSticky(true);
-        } else if (top > 0 && isSticky) {
+        } else if (top > 0 && isSticky && window.scrollY < 70) {
           setScrolledPast(false);
           setSticky(false);
         }
