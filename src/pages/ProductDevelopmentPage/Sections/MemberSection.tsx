@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
@@ -36,33 +36,11 @@ const MemberSection = () => {
 
   const memberGrid = () => {
     const grids = [];
-    for (let i = 0; i < members.length; i += 18) {
-      const gridMembers = members.slice(i, i + 18);
+    for (let i = 0; i < members.length; i += 6) {
+      const sixMembers = members.slice(i, i + 6);
       grids.push(
-        <Grid
-          className="grid"
-          mb={{
-            xl: SPACE.MD,
-          }}
-          columnGap={{
-            base: SPACE.XXS,
-            lg: SPACE.MD,
-          }}
-          autoFlow={{
-            base: 'row',
-            xl: 'column',
-          }}
-          templateRows={{
-            xl: 'repeat(6, 1fr)',
-          }}
-          templateColumns={{
-            base: GRID.TEMPLATE_COLUMNS.base,
-            // lg: 'repeat(1, 1fr)',
-            xl: 'repeat(3, 1fr)',
-          }}
-          autoColumns={'initial'}
-          key={`${i / 18}`}>
-          {gridMembers.map((member, index) => (
+        <GridItem>
+          {sixMembers.map((member, index) => (
             <Member
               key={member.memberId}
               even={index % 2 !== 0}
@@ -71,7 +49,7 @@ const MemberSection = () => {
               role={member.role}
             />
           ))}
-        </Grid>
+        </GridItem>
       );
     }
     return grids;
@@ -79,49 +57,33 @@ const MemberSection = () => {
 
   return (
     <AccordionItem title={t('PD.Members')}>
-      <>
+      <Flex
+        gap={SPACE.MD}
+        justifyContent={{
+          base: 'flex-start',
+          xl: 'space-between',
+        }}
+        alignItems={'baseline'}
+        flexDirection={{
+          base: 'column',
+          xl: 'row-reverse',
+        }}>
+        <Button variant={'secondary'}>{t('PD.AddMember')}</Button>
         <Grid
-          autoFlow={{
-            base: 'row',
-            xl: 'column',
+          w="full"
+          templateColumns={{
+            xl: 'repeat(3, 1fr)',
           }}
           columnGap={{
-            base: SPACE.XXS,
-            lg: SPACE.MD,
+            xl: SPACE.MD,
           }}
-          templateColumns={{
-            // base: GRID.TEMPLATE_COLUMNS.base,
-            // lg: 'repeat(9, 1fr)',
-            xl: 'repeat(7, 1fr)',
+          rowGap={{
+            base: 0,
+            xl: SPACE.MD,
           }}>
-          <GridItem
-            mb={SPACE.XS}
-            colSpan={{
-              base: 1,
-            }}
-            colStart={{
-              base: 1,
-              xl: 7,
-            }}
-            justifySelf={{
-              base: 'start',
-              xl: 'end',
-            }}
-            // rowSpan={6}
-          >
-            <Button variant={'secondary'}>{t('PD.AddMember')}</Button>
-          </GridItem>
-          <GridItem
-            className="item"
-            colSpan={{
-              base: 1,
-              lg: 9,
-              xl: 6,
-            }}>
-            <>{memberGrid()}</>
-          </GridItem>
+          {memberGrid()}
         </Grid>
-      </>
+      </Flex>
     </AccordionItem>
   );
 };
