@@ -18,7 +18,7 @@ export const Member = ({ name, id, role, even, onRemove }: Props) => {
       bgColor={even ? COLORS.GRAY[5] : COLORS.WHITE}
       colSpan={{
         base: 1,
-        xl: 4,
+        xl: 1,
       }}>
       <Grid
         px={SPACE.XS}

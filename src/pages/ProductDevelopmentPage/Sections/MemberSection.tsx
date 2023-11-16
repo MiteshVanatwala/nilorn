@@ -14,7 +14,24 @@ const MemberSection = () => {
     },
     { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
     { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHU', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
+    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
+    { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
+    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
+    { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
+    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHUu', role: 'Designer' },
+    { name: 'Linnea Karlsson', memberId: 'SELIKAg', role: 'Administrator' },
+    // { name: 'Jonas Boyd', memberId: 'SEJOBOa', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHUy', role: 'Designer' },
   ];
 
   const memberGrid = () => {
@@ -23,6 +40,7 @@ const MemberSection = () => {
       const gridMembers = members.slice(i, i + 18);
       grids.push(
         <Grid
+          className="grid"
           mb={{
             xl: SPACE.MD,
           }}
@@ -34,32 +52,16 @@ const MemberSection = () => {
             base: 'row',
             xl: 'column',
           }}
+          templateRows={{
+            xl: 'repeat(6, 1fr)',
+          }}
           templateColumns={{
             base: GRID.TEMPLATE_COLUMNS.base,
-            lg: 'repeat(9, 1fr)',
-            xl: 'repeat(14, 1fr)',
+            // lg: 'repeat(1, 1fr)',
+            xl: 'repeat(3, 1fr)',
           }}
+          autoColumns={'initial'}
           key={`${i / 18}`}>
-          <GridItem
-            mb={SPACE.XS}
-            colSpan={{
-              base: 1,
-              lg: 8,
-              xl: 2,
-            }}
-            colStart={{
-              base: 1,
-              xl: 13,
-            }}
-            justifySelf={{
-              base: 'start',
-              xl: 'end',
-            }}
-            rowSpan={6}>
-            {i === 0 && (
-              <Button variant={'secondary'}>{t('PD.AddMember')}</Button>
-            )}
-          </GridItem>
           {gridMembers.map((member, index) => (
             <Member
               key={member.memberId}
@@ -77,7 +79,49 @@ const MemberSection = () => {
 
   return (
     <AccordionItem title={t('PD.Members')}>
-      <>{memberGrid()}</>
+      <>
+        <Grid
+          autoFlow={{
+            base: 'row',
+            xl: 'column',
+          }}
+          columnGap={{
+            base: SPACE.XXS,
+            lg: SPACE.MD,
+          }}
+          templateColumns={{
+            // base: GRID.TEMPLATE_COLUMNS.base,
+            // lg: 'repeat(9, 1fr)',
+            xl: 'repeat(7, 1fr)',
+          }}>
+          <GridItem
+            mb={SPACE.XS}
+            colSpan={{
+              base: 1,
+            }}
+            colStart={{
+              base: 1,
+              xl: 7,
+            }}
+            justifySelf={{
+              base: 'start',
+              xl: 'end',
+            }}
+            // rowSpan={6}
+          >
+            <Button variant={'secondary'}>{t('PD.AddMember')}</Button>
+          </GridItem>
+          <GridItem
+            className="item"
+            colSpan={{
+              base: 1,
+              lg: 9,
+              xl: 6,
+            }}>
+            <>{memberGrid()}</>
+          </GridItem>
+        </Grid>
+      </>
     </AccordionItem>
   );
 };

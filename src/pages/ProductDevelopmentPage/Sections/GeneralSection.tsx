@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
+import { GRID } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
@@ -14,7 +14,7 @@ const GeneralSection = () => {
   ];
   return (
     <AccordionItem title={`${t('PD.General')}`}>
-      <Grid gap={GRID.GRID_GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
+      <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
           colSpan={{
             base: 12,
@@ -40,7 +40,7 @@ const GeneralSection = () => {
           />
         </GridItem>
         <GridItem colSpan={12}>
-          <Grid gap={GRID.GRID_GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
+          <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.ItemNumber')}`}
