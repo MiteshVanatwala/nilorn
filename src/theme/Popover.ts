@@ -1,6 +1,6 @@
 import { popoverAnatomy } from '@chakra-ui/anatomy';
 import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
-import { COLORS, SPACE } from './Constants';
+import { BOX_SHADOW, COLORS, SPACE } from './Constants';
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(popoverAnatomy.keys);
@@ -13,6 +13,7 @@ const baseStyle = definePartsStyle({
   },
   popper: {
     zIndex: 999,
+    boxShadow: BOX_SHADOW.CARD,
   },
 });
 
@@ -20,6 +21,7 @@ const small = definePartsStyle({
   content: {
     p: 0,
   },
+  body: { p: 0 },
 });
 
 const popoverTheme = defineMultiStyleConfig({

@@ -15,12 +15,11 @@ const SmallTable = <T extends object>({ table }: Props<T>) => {
           zIndex={999}
           gridTemplateColumns={`repeat(${
             table.getHeaderGroups()[0].headers.length
-          }, auto)`}
-          border={`solid 1px ${COLORS.GRAY[10]}`}>
+          }, auto)`}>
           {table.getHeaderGroups()[0].headers.map(header => (
             <GridItem
               key={header.id}
-              bgColor={COLORS.GRAY[80]}
+              bgColor={COLORS.GRAY[60]}
               color={COLORS.WHITE}
               py={SPACE.XXS}
               px={SPACE.XS}>
