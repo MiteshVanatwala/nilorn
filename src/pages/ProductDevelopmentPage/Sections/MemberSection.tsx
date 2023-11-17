@@ -1,8 +1,9 @@
-import { Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
+import { SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Member from '../../Members/Member';
+import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 
 const MemberSection = () => {
   const { t } = useTranslation();
@@ -14,32 +15,17 @@ const MemberSection = () => {
     },
     { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
     { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHUk', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKAd', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBOg', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHUu', role: 'Designer' },
-    { name: 'Linnea Karlsson', memberId: 'SELIKAg', role: 'Administrator' },
-    // { name: 'Jonas Boyd', memberId: 'SEJOBOa', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHUy', role: 'Designer' },
+    { name: 'Johan Huynh', memberId: 'SEJOHU', role: 'Designer' },
   ];
-
+  function addMember() {
+    console.log('add member');
+  }
   const memberGrid = () => {
     const grids = [];
     for (let i = 0; i < members.length; i += 6) {
       const sixMembers = members.slice(i, i + 6);
       grids.push(
-        <GridItem>
+        <GridItem key={i}>
           {sixMembers.map((member, index) => (
             <Member
               key={member.memberId}
@@ -68,7 +54,17 @@ const MemberSection = () => {
           base: 'column',
           xl: 'row-reverse',
         }}>
-        <Button variant={'secondary'}>{t('PD.AddMember')}</Button>
+        <Box minW={'20rem'}>
+          <AdvanceFilterSelect
+            placeholder={t('PD.AddMember')}
+            options={[]}
+            onChange={(option, event) => {
+              addMember();
+            }}
+            value={[]}
+          />
+        </Box>
+
         <Grid
           w="full"
           templateColumns={{
