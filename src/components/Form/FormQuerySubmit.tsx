@@ -22,6 +22,7 @@ export default function FormuQuerySubmit({
       form.setValue(name, decodedValue);
     });
     form.watch(value => formChange());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function formChange() {

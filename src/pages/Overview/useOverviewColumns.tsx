@@ -1,27 +1,27 @@
-import { Image } from '@chakra-ui/react';
+// import { Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
-import { ProductDevelopmentBriefDto } from '../../app/generate';
+import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
 
   const columnHelper = createColumnHelper<ProductDevelopmentBriefDto>();
   const columns = [
-    columnHelper.accessor('image', {
-      header: `${t('PD.Image')}`,
-      cell: info => {
-        return (
-          <Image
-            boxSize="30px"
-            objectFit="cover"
-            src={`${info.getValue() ?? ''}`}
-            alt={`${info.getValue() ?? ''}`}
-          />
-        );
-      },
-    }),
+    // columnHelper.accessor('image', {
+    //   header: `${t('PD.Image')}`,
+    //   cell: info => {
+    //     return (
+    //       <Image
+    //         boxSize="30px"
+    //         objectFit="cover"
+    //         src={info.getValue() ?? ''}
+    //         alt={info.getValue() ?? ''}
+    //       />
+    //     );
+    //   },
+    // }),
     columnHelper.accessor('name', {
       header: `${t('PD.Name')}`,
       cell: info => info.getValue(),
@@ -32,7 +32,7 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
-      cell: info => <StatusBadge status={info.getValue()} />,
+      cell: info => <StatusBadge status={Status._0} />,
     }),
     // columnHelper.accessor('artwork', {
     //   header: `${t('PD.Artwork')}`,

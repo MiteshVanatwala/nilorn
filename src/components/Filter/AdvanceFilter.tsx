@@ -112,7 +112,7 @@ const AdvanceFilter = ({ filters }: Props) => {
               lg: SPACE.SM,
             }}
             alignItems={'center'}>
-            <GridItem colSpan={2}>
+            <GridItem colSpan={2} zIndex={9}>
               <AdvanceFilterSelect
                 options={filters}
                 value={selected}
@@ -156,9 +156,9 @@ const AdvanceFilter = ({ filters }: Props) => {
                   onClick={() => handleRemove(so.value.name)}
                 />
                 <ControlWrapper
-                  zIndex={'dropdown'}
                   name={so.value.name}
-                  label={so.label}>
+                  label={so.label}
+                  zIndex={'8'}>
                   <InputSwitch option={so} />
                 </ControlWrapper>
               </GridItem>

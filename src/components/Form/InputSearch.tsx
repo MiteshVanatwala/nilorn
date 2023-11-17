@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react';
 import { FieldError, ValidationRule, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
-import { COLORS, SIZES, SPACE } from '../../theme/Constants';
+import { SIZES } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
 import ControlWrapper from './ControlWrapper';
 import { useEffect } from 'react';

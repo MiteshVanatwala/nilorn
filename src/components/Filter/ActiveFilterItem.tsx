@@ -18,6 +18,7 @@ const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
   return (
     <Button
       backgroundColor={COLORS.WHITE}
+      zIndex={6}
       gap={SPACE.XXS}
       alignItems={'center'}
       border={`solid 1px ${COLORS.GRAY[30]}`}

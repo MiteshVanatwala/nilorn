@@ -14,6 +14,9 @@ import Popup, {
 import { IconButton } from '@chakra-ui/button';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
+import GeneralSection from './Sections/GeneralSection';
+import ProductDesignSection from './Sections/ProductDesignSection';
+import MemberSection from './Sections/MemberSection';
 
 function ProductDevelopmentPage() {
   const { productNo } = useParams();
@@ -27,10 +30,11 @@ function ProductDevelopmentPage() {
     const handleScroll = () => {
       if (ref.current) {
         const { top } = ref.current.getBoundingClientRect();
+
         if (top < 0 && !isSticky) {
           setScrolledPast(true);
           setSticky(true);
-        } else if (top > 0 && isSticky) {
+        } else if (top > 0 && isSticky && window.scrollY < 70) {
           setScrolledPast(false);
           setSticky(false);
         }
@@ -54,7 +58,7 @@ function ProductDevelopmentPage() {
         <ContentPage>
           <Grid>
             <GridItem ref={ref}>
-              <VStack spacing={SPACE.XL}>
+              <VStack spacing={SPACE.MD}>
                 <ImagePopup
                   alt={'alt'}
                   src={
@@ -73,6 +77,24 @@ function ProductDevelopmentPage() {
                   }
                   content={<>Changelog</>}
                 />
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <GeneralSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <ProductDesignSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <MemberSection />
+                </Accordion>
                 <Accordion
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}
