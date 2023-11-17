@@ -20,7 +20,7 @@ const SearchProfile = () => {
   const [activeSearchProfile, setActiveSearchProfile] =
     useState<boolean>(false);
   const { setValue, reset, getValues } = useFormContext();
-  let { data } = useSearchProfile();
+  let { data: options } = useSearchProfile();
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
     reset();
     setActiveSearchProfile(true);
@@ -33,10 +33,6 @@ const SearchProfile = () => {
     });
     setValue('ActiveSearchProfile', option.label);
   };
-  const transformToSearchProfileDto = (option: any) => ({
-    label: option.label || null,
-    value: option.value || null,
-  });
 
   useEffect(() => {
     if (!activeSearchProfile) {
@@ -45,9 +41,6 @@ const SearchProfile = () => {
     }
   }, [activeSearchProfile, setValue]);
 
-  const options = data?.map((option, index) => {
-    return transformToSearchProfileDto(option);
-  });
   return (
     <GridItem
       marginTop={{
