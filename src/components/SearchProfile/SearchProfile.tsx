@@ -29,13 +29,13 @@ const SearchProfile = () => {
     const splitOptionVal = optionVal.split('&');
     splitOptionVal.forEach((item: string) => {
       const splitItem = item.split('=');
-      setValue(splitItem[0], splitItem[1]);
+      setValue(splitItem[0], splitItem[1].replace(/[\s+]/g, ' '));
     });
     setValue('ActiveSearchProfile', option.label);
   };
   const transformToSearchProfileDto = (option: any) => ({
-    label: option.name || null,
-    value: option.query || null,
+    label: option.label || null,
+    value: option.value || null,
   });
 
   useEffect(() => {

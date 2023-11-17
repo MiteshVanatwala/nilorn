@@ -13,7 +13,7 @@ export function useSearchProfile() {
   );
 }
 
-export function useUpdateSearchProfile() {
+export const useCreateOrUpdateSearchProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
@@ -27,4 +27,4 @@ export function useUpdateSearchProfile() {
       },
     }
   );
-}
+};

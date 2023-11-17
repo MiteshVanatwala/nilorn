@@ -12,8 +12,8 @@ import { SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
-import { useUpdateSearchProfile } from '../../app/api/SearchProfile';
 import { useToast } from '../../app/hooks/useToast';
+import { useCreateOrUpdateSearchProfile } from '../../app/api/SearchProfile';
 type Props = {
   activeSearchProfileName?: string;
   activeSearchProfile(val: boolean): void;
@@ -32,10 +32,11 @@ const SearchProfileModalContent = ({
     string | undefined
   >();
   const {
-    mutate: updateSearchProfile,
+    mutate: createOrUpdateSearchProfile,
     isSuccess,
     isError,
-  } = useUpdateSearchProfile();
+  } = useCreateOrUpdateSearchProfile();
+
   const onCancel = () => {
     close();
   };
@@ -45,7 +46,7 @@ const SearchProfileModalContent = ({
       name: searchProfileName,
       query: queryString,
     };
-    updateSearchProfile(data);
+    createOrUpdateSearchProfile(data);
   }
   useEffect(() => {
     setSearchProfile(activeSearchProfileName);
