@@ -45,6 +45,7 @@ function App() {
       !auth.activeNavigator &&
       !auth.isLoading
     ) {
+      sessionStorage.setItem('redirectUrl', window.location.href);
       auth.signinRedirect();
     }
   }, [
@@ -96,6 +97,12 @@ function App() {
   }
 
   if (auth.isAuthenticated && !auth.isLoading) {
+    const redirectUrl = sessionStorage.getItem('redirectUrl');
+    sessionStorage.removeItem('redirectUrl');
+
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    }
     return (
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>
