@@ -4,6 +4,6 @@
 /* eslint-disable */
 
 export type SearchProfileDto = {
-    name?: string | null;
-    query?: string | null;
+    label?: string | null;
+    value?: string | null;
 };

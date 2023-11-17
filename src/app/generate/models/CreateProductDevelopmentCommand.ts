@@ -11,7 +11,7 @@ export type CreateProductDevelopmentCommand = {
     description?: string | null;
     itemNo?: string | null;
     status?: Status;
-    clientId?: string;
+    clientId?: string | null;
     subClientId?: string | null;
     projectId?: string | null;
     itemCategoryId?: string | null;
