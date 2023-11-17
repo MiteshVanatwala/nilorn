@@ -25,9 +25,15 @@ type Props = {
     actionMeta: ActionMeta<SelectOption<AdvanceFilter>>
   ) => void;
   value: MultiValue<SelectOption<AdvanceFilter>>;
+  placeholder?: string;
 };
 
-const AdvanceFilterSelect = ({ options, value, onChange }: Props) => {
+const AdvanceFilterSelect = ({
+  options,
+  value,
+  onChange,
+  placeholder,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -43,6 +49,8 @@ const AdvanceFilterSelect = ({ options, value, onChange }: Props) => {
       placeholder={
         value.length
           ? `${t('Filter.NumSelected', { num: value.length })}`
+          : placeholder
+          ? placeholder
           : `${t('Filter.Select')}`
       }
       onChange={(option, event) => {

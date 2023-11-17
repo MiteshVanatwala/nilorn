@@ -11,7 +11,7 @@ const GRID = {
   ROW_GAP: SPACE.XL,
   COLUM_GAP: '3.6rem', // Not common used elsewhere
   GAP_COMPOSITION: '7.6rem',
-  GRID_GAP: {
+  GAP: {
     base: SPACE.SM,
     lg: SPACE.MD,
   },

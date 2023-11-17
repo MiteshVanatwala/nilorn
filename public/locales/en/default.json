@@ -75,6 +75,7 @@
     "StockLoaction": "Stock loaction",
     "Vendor": "Vendor",
     "Members": "Members",
+    "AddMember": "Add member",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
@@ -96,6 +97,6 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter",
+    "Remove": "Remove filter"
   }
 }
