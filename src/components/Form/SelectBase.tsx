@@ -14,7 +14,6 @@ import {
   DropdownIndicatorProps,
 } from 'chakra-react-select';
 import text from '../../theme/text';
-import { SearchProfileDto } from '../../app/generate';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
@@ -56,8 +55,7 @@ type SelectProps<IsMulti extends boolean = false> = {
           value: any;
         }>
       >
-    | undefined
-    | SearchProfileDto[];
+    | undefined;
   placeholder?: string;
   isMulti?: IsMulti;
   onChange: (

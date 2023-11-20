@@ -1,7 +1,6 @@
 import { Button } from '@chakra-ui/button';
 import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
-import SelectBase from '../Form/SelectBase';
 import { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +11,7 @@ import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
 import { SPACE } from '../../theme/Constants';
 import { useSearchProfile } from '../../app/api/SearchProfile';
+import SelectBase from '../Form/SelectBase';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -20,7 +20,10 @@ const SearchProfile = () => {
   const [activeSearchProfile, setActiveSearchProfile] =
     useState<boolean>(false);
   const { setValue, reset, getValues } = useFormContext();
-  let { data: options } = useSearchProfile();
+
+  let { data } = useSearchProfile();
+  let options: SelectOption[];
+
   const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
     reset();
     setActiveSearchProfile(true);
@@ -40,6 +43,15 @@ const SearchProfile = () => {
       setSelected(undefined);
     }
   }, [activeSearchProfile, setValue]);
+
+  if (data) {
+    options = data.map((selectBase: any) => ({
+      label: selectBase?.label ?? '',
+      value: selectBase?.value ?? '',
+    }));
+  } else {
+    options = [];
+  }
 
   return (
     <GridItem

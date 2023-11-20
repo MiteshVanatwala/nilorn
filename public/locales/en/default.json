@@ -93,6 +93,8 @@
     "SaveCustomFilter": "Save custom filter",
     "SearchProfileName": "Custom filter name",
     "SavedFilterLabel": "My saved filters",
+    "FilterSaved": "Filter saved",
+    "FilterUpdated": "Filter updated",
     "Client": "Client",
     "Status": "Status",
     "Clear": "Clear all",

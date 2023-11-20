@@ -56,7 +56,10 @@ const SearchProfileModalContent = ({
     if (isSuccess) {
       showToast({
         status: 'success',
-        description: 'Search profile saved',
+        description:
+          searchProfile !== undefined
+            ? t('Filter.FilterUpdated')
+            : t('Filter.FilterSaved'),
       });
       close();
     }
