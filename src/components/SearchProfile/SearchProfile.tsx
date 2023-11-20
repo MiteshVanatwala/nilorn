@@ -32,7 +32,7 @@ const SearchProfile = () => {
     const splitOptionVal = optionVal.split('&');
     splitOptionVal.forEach((item: string) => {
       const splitItem = item.split('=');
-      setValue(splitItem[0], splitItem[1].replace(/[\s+]/g, ' '));
+      setValue(splitItem[0], splitItem[1]?.replace(/[\s+]/g, ' '));
     });
     setValue('ActiveSearchProfile', option.label);
   };
