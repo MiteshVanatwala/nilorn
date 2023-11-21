@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, VStack } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFil
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import FilterSelect from './FilterSelect';
+import CreateProductDevelopment from './CreateProductDevelopment';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
@@ -106,7 +107,28 @@ const ProductDevelopmentFilter = () => {
           </GridItem>
           <ActiveFilters />
         </GridItem>
-        <SearchProfile />
+        <GridItem
+          marginTop={{
+            base: SPACE.XS,
+            md: '0',
+          }}
+          colSpan={2}>
+          <VStack
+            pb={{ base: SPACE.XXS, lg: SPACE.MD }}
+            alignItems={{
+              base: 'start',
+              lg: 'end',
+            }}
+            h={'full'}
+            justifyContent={'space-between'}
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}>
+            <SearchProfile />
+            <CreateProductDevelopment />
+          </VStack>
+        </GridItem>
       </Grid>
     </FormuQuerySubmit>
   );

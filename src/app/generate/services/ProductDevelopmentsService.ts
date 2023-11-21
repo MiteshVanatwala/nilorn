@@ -52,16 +52,12 @@ requestBody?: CreateProductDevelopmentCommand,
      * @param pageNumber 
      * @param pageSize 
      * @param searchQuery 
-     * @param number 
-     * @param name 
-     * @param description 
-     * @param itemNo 
-     * @param statusName 
-     * @param clientName 
-     * @param subClientName 
-     * @param itemCategoryCode 
-     * @param productGroupName 
-     * @param foldingTypeName 
+     * @param clientNames 
+     * @param projects 
+     * @param statuses 
+     * @param itemCategory 
+     * @param productGroup 
+     * @param foldingType 
      * @param finishedLength 
      * @param finishedWidth 
      * @param finishedHeight 
@@ -73,16 +69,12 @@ requestBody?: CreateProductDevelopmentCommand,
 pageNumber?: number,
 pageSize?: number,
 searchQuery?: string,
-number?: string,
-name?: string,
-description?: string,
-itemNo?: string,
-statusName?: string,
-clientName?: string,
-subClientName?: string,
-itemCategoryCode?: string,
-productGroupName?: string,
-foldingTypeName?: string,
+clientNames?: string,
+projects?: string,
+statuses?: string,
+itemCategory?: string,
+productGroup?: string,
+foldingType?: string,
 finishedLength?: number,
 finishedWidth?: number,
 finishedHeight?: number,
@@ -95,16 +87,12 @@ sampleQuantity?: number,
                 'PageNumber': pageNumber,
                 'PageSize': pageSize,
                 'SearchQuery': searchQuery,
-                'Number': number,
-                'Name': name,
-                'Description': description,
-                'ItemNo': itemNo,
-                'StatusName': statusName,
-                'ClientName': clientName,
-                'SubClientName': subClientName,
-                'ItemCategoryCode': itemCategoryCode,
-                'ProductGroupName': productGroupName,
-                'FoldingTypeName': foldingTypeName,
+                'ClientNames': clientNames,
+                'Projects': projects,
+                'Statuses': statuses,
+                'ItemCategory': itemCategory,
+                'ProductGroup': productGroup,
+                'FoldingType': foldingType,
                 'FinishedLength': finishedLength,
                 'FinishedWidth': finishedWidth,
                 'FinishedHeight': finishedHeight,

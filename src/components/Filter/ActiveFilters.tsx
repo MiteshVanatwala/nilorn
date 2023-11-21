@@ -32,7 +32,8 @@ const ActiveFilters = () => {
         lg: SPACE.SM,
       }}
       flexDirection="row"
-      py={hasValues ? SPACE.XS : ''}>
+      pb={{ base: SPACE.XXS, lg: SPACE.MD }}
+      pt={hasValues ? SPACE.XS : ''}>
       {watchedEntries
         .filter(([key, _]) => key !== 'ActiveSearchProfile')
         .map(([key, value]) => {

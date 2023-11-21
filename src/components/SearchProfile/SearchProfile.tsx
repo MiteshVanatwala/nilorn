@@ -7,7 +7,7 @@ import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
-import { Box, GridItem } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
 import ControlWrapper from '../Form/ControlWrapper';
 import { SPACE } from '../../theme/Constants';
@@ -33,50 +33,43 @@ const SearchProfile = () => {
   };
 
   return (
-    <GridItem
-      marginTop={{
-        base: SPACE.XS,
-        md: '0',
-      }}
-      colSpan={2}>
-      <VStack maxW={'24rem'} alignItems={'left'}>
-        <ControlWrapper
-          zIndex={'dropdown'}
-          name="SearchProfile"
-          label={t('Filter.SavedFilters')}>
-          <Box zIndex={'dropdown'}>
-            <SelectBase
-              name="SearchProfile"
-              onChange={onChange}
-              value={selected}
-              options={[
-                {
-                  label: 'My custom filter',
-                  value: 'search=testing&filter=hej',
-                },
-                { label: 'My custom filter2', value: 'search=wopop' },
-              ]}
+    <VStack maxW={'24rem'} alignItems={'left'}>
+      <ControlWrapper
+        zIndex={'dropdown'}
+        name="SearchProfile"
+        label={t('Filter.SavedFilters')}>
+        <Box zIndex={'dropdown'}>
+          <SelectBase
+            name="SearchProfile"
+            onChange={onChange}
+            value={selected}
+            options={[
+              {
+                label: 'My custom filter',
+                value: 'search=testing&filter=hej',
+              },
+              { label: 'My custom filter2', value: 'search=wopop' },
+            ]}
+          />
+        </Box>
+      </ControlWrapper>
+      <Button
+        zIndex={'0'}
+        marginTop={SPACE.XXS}
+        fontWeight={'500'}
+        variant={'secondary'}
+        height={'3.5rem'}
+        leftIcon={<i className="ri-save-line" />}
+        onClick={() =>
+          handleModal(
+            <SearchProfileModalContent
+              ActiveSearchProfile={getValues('ActiveSearchProfile')}
             />
-          </Box>
-        </ControlWrapper>
-        <Button
-          zIndex={'0'}
-          marginTop={SPACE.XXS}
-          fontWeight={'500'}
-          variant={'secondary'}
-          height={'3.5rem'}
-          leftIcon={<i className="ri-save-line" />}
-          onClick={() =>
-            handleModal(
-              <SearchProfileModalContent
-                ActiveSearchProfile={getValues('ActiveSearchProfile')}
-              />
-            )
-          }>
-          {t('Filter.SaveSearchProfile')}
-        </Button>
-      </VStack>
-    </GridItem>
+          )
+        }>
+        {t('Filter.SaveSearchProfile')}
+      </Button>
+    </VStack>
   );
 };
 

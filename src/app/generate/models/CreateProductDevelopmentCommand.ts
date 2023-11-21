@@ -11,12 +11,12 @@ export type CreateProductDevelopmentCommand = {
     description?: string | null;
     itemNo?: string | null;
     status?: Status;
-    clientId?: string;
+    clientId?: string | null;
     subClientId?: string | null;
     projectId?: string | null;
-    itemCategoryId?: string | null;
-    productGroupId?: string | null;
-    foldingTypeId?: string | null;
+    itemCategoryCode?: string | null;
+    productGroupCode?: string | null;
+    foldingTypeCode?: string | null;
     finishedLength?: number | null;
     finishedWidth?: number | null;
     finishedHeight?: number | null;

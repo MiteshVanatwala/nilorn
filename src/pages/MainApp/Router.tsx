@@ -23,6 +23,10 @@ const router = createBrowserRouter([
             element: <ProductDevelopmentPage />,
           },
           {
+            path: 'product-development/create',
+            element: <ProductDevelopmentPage />,
+          },
+          {
             path: 'clients',
             element: <ClientsPage />,
           },
