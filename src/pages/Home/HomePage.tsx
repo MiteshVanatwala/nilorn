@@ -9,7 +9,7 @@ function HomePage() {
   return (
     <ContentPage>
       <Suspense>
-        <ProductDevelopmentFilter >
+        <ProductDevelopmentFilter />
       </Suspense>
       <Overview />
     </ContentPage>

@@ -43,12 +43,14 @@ export function onFilterChange(formValues: FieldValues) {
     if (key !== 'ActiveSearchProfile' && value !== undefined && value !== '') {
       if (typeof value === 'string') {
         result[key] = value;
+      } else if (Array.isArray(value)) {
+        result[key] = (value as SelectOption[]).map(v => v.value) as string[];
       } else if (value && typeof value === 'object' && 'value' in value) {
         result[key] = value.value;
       }
     }
     return result;
-  }, {} as Record<string, string>);
+  }, {} as Record<string, string | string[]>);
 
   const queryParamString = Object.entries(output)
     .map(([key, value]) => `${key}=${value}`)
