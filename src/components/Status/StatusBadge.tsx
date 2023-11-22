@@ -13,11 +13,11 @@ const StatusBadge = ({ status }: Props) => {
   const { color, label } = useMemo(() => {
     // TODO: Request enum name not index.
     switch (status) {
-      case Status._0:
+      case Status.NEW:
         return { color: 'blue', label: 'New' };
-      case Status._1:
+      case Status.DESIGN:
         return { color: 'yellow', label: 'Waiting' };
-      case Status._2:
+      case Status.ARTWORK:
         return { color: 'green', label: 'Done' };
       default:
         return { color: 'blue', label: 'New' };
