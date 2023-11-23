@@ -1,10 +1,11 @@
 import { SIZES, SPACE } from '../../theme/Constants';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import fontSizes from '../../theme/fontSizes';
 import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { SelectOption } from '../../app/types/types';
 
 const ActiveFilters = () => {
   const { watch } = useFormContext();
@@ -36,7 +37,15 @@ const ActiveFilters = () => {
       {watchedEntries
         .filter(([key, _]) => key !== 'ActiveSearchProfile')
         .map(([key, value]) => {
-          if (value) {
+          if (Array.isArray(value)) {
+            return (
+              <Box border={'solid 2px grey'}>
+                {(value as SelectOption[]).map(v => (
+                  <>{v?.label}</>
+                ))}
+              </Box>
+            );
+          } else if (value) {
             return (
               <ActiveFilterItem
                 key={key}

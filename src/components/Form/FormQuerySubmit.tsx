@@ -13,7 +13,7 @@ export default function FormuQuerySubmit({
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
   const navigate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
@@ -24,12 +24,8 @@ export default function FormuQuerySubmit({
     form.watch(value => formChange());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  let params = new URLSearchParams();
 
   function formChange() {
-    // navigate('?foo=' + ['bar', 'tar']);
-    // setSearchParams({ ...searchParams, sort: ['hej', 'foo'] });
-
     navigate(`?` + onFilterChange(form.getValues()));
     form.clearErrors('serverError');
   }
