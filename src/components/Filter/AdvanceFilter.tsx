@@ -80,7 +80,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     }
   }, [getValues, filters]);
   return (
-    <Accordion mb={SPACE.SM} allowToggle index={index} onChange={setIndex}>
+    <Accordion allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>
         <AccordionButton
           _hover={{ bg: COLORS.GRAY[0] }}
@@ -133,7 +133,7 @@ const AdvanceFilter = ({ filters }: Props) => {
             </GridItem>
           </Grid>
           <Grid
-            marginTop={SPACE.MD}
+            marginTop={selected.length > 0 ? SPACE.MD : ''}
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
               md: GRID.TEMPLATE_COLUMNS.md,
@@ -159,7 +159,7 @@ const AdvanceFilter = ({ filters }: Props) => {
                   name={so.value.name}
                   label={so.label}
                   zIndex={'8'}>
-                  <InputSwitch option={so} />
+                  <InputSwitch filterLabel={so.label} option={so} />
                 </ControlWrapper>
               </GridItem>
             ))}

@@ -1,16 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { AdvanceFilter, SelectOption } from '../../app/types/types';
-import InputField from '../Form/InputField';
 import FilterSelect from './FilterSelect';
 import { useFormContext } from 'react-hook-form';
 import { findMultiDefaultValues } from './FilterHelper';
 import useFilterOptions from '../../app/hooks/useFilterOption';
+import InputFieldFilter from '../Form/InputFieldFilter';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
+  filterLabel?: string;
 };
 
-const InputSwitch = ({ option }: Props) => {
+const InputSwitch = ({ option, filterLabel }: Props) => {
   const { t } = useTranslation();
   const form = useFormContext();
 
@@ -20,7 +21,7 @@ const InputSwitch = ({ option }: Props) => {
   switch (option.value.type) {
     case 'text':
       return (
-        <InputField
+        <InputFieldFilter
           placeholder={`${t('Filter.Enter')} ${option.label}`}
           variant="filled"
           name={optionValueName}

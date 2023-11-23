@@ -17,7 +17,7 @@ const ActiveFilters = () => {
   useEffect(() => {
     const foundValue = watchedEntries
       .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
-      .some(([_, value]) => value);
+      .some(([_, value]) => value?.label);
     setHasValues(foundValue);
   }, [watchedEntries]);
   return (
@@ -53,7 +53,7 @@ const ActiveFilters = () => {
               <ActiveFilterItem
                 key={key}
                 label={label}
-                value={key}
+                // value={key}
                 queryItem={key}
               />
             );
@@ -62,7 +62,7 @@ const ActiveFilters = () => {
               <ActiveFilterItem
                 key={key}
                 label={value?.label ? value.label : value}
-                value={value}
+                // value={value}
                 queryItem={key}
               />
             );

@@ -18,9 +18,13 @@ export function getDefaultValueSelect(
 
 export type GroupSelectOption = {
   label: string;
-  options: SelectOption[];
+  options: SelectOptionFilter[];
 };
-
+export type SelectOptionFilter = {
+  label: string;
+  value: string;
+  filterName: string;
+};
 export function useDebounce<T>(value: T, delay: number): T {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);

@@ -105,7 +105,7 @@ const ProductDevelopmentFilter = () => {
                 label={t('Filter.Status')}
                 name={'statuses'}
                 defaultValue={findMultiDefaultValues(
-                  clientOptions,
+                  statusOptions,
                   form.getValues('statuses')
                 )}
                 options={statusOptions}

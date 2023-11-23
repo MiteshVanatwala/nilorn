@@ -1,18 +1,22 @@
 import { FC } from 'react';
 import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
-import { Button } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 
 type Props = {
   label: string;
-  value: string;
   queryItem: string;
+  filterLabel?: string;
 };
-const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
-  const { setValue } = useFormContext();
+const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
+  const { resetField, setValue } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    setValue(queryItem, undefined);
+    if (queryItem === 'includeClosed') {
+      setValue(queryItem, undefined);
+    } else {
+      resetField(queryItem);
+    }
   };
 
   return (
@@ -31,7 +35,10 @@ const ActiveFilterItem: FC<Props> = ({ label, value, queryItem }) => {
       }}
       onClick={() => removeFilterItem(queryItem)}
       borderColor={COLORS.GRAY[30]}>
-      {label}
+      <Text>
+        {filterLabel ? filterLabel + ': ' : ''}
+        {label}
+      </Text>
     </Button>
   );
 };
