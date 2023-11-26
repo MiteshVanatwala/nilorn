@@ -55,6 +55,25 @@ export function onFilterChange(formValues: FieldValues) {
   const queryParamString = Object.entries(output)
     .map(([key, value]) => `${key}=${value}`)
     .join('&');
-
   return queryParamString;
+}
+
+export function findMultiDefaultValues(
+  allOptions: SelectOption[],
+  filterParam: string | SelectOption[]
+): SelectOption[] | undefined {
+  if (filterParam === undefined) {
+    return undefined;
+  }
+  if (Array.isArray(filterParam)) {
+    return filterParam;
+  } else if (typeof filterParam === 'string') {
+    const filterValues = filterParam.split(',').map(value => value.trim());
+
+    const filteredObjects = allOptions.filter(obj =>
+      filterValues.includes(obj.value)
+    );
+
+    return filteredObjects;
+  }
 }

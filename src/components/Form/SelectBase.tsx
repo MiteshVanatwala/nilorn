@@ -14,6 +14,7 @@ import {
   DropdownIndicatorProps,
 } from 'chakra-react-select';
 import text from '../../theme/text';
+import { SelectOption } from '../../app/types/types';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
@@ -60,12 +61,8 @@ type SelectProps<IsMulti extends boolean = false> = {
   isMulti?: IsMulti;
   onChange: (
     newValue:
-      | (true extends IsMulti
-          ? MultiValue<{ label: string; value: any }>
-          : never)
-      | (false extends IsMulti
-          ? SingleValue<{ label: string; value: any }>
-          : never),
+      | (true extends IsMulti ? MultiValue<SelectOption> : never)
+      | (false extends IsMulti ? SingleValue<SelectOption> : never),
     actionMeta: ActionMeta<{
       label: string;
       value: any;
@@ -78,14 +75,14 @@ type SelectProps<IsMulti extends boolean = false> = {
         value: any;
       }>
     | undefined;
-  defaultValue?: { label: string; value: string };
+  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
   isSearchable?: boolean;
   passRef?: any;
   components?: any;
   groupColor?: string;
   isControlled?: boolean;
   menuPlacement?: 'auto' | 'top';
-  advanceFilter?: boolean;
+  showSelectedCount?: boolean;
   dark?: boolean;
 };
 
@@ -104,7 +101,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   groupColor = COLORS.GRAY[50],
   isControlled = true,
   menuPlacement = 'auto',
-  advanceFilter = false,
+  showSelectedCount = false,
   dark = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
@@ -117,11 +114,11 @@ const SelectBase = <IsMulti extends boolean = false>({
   return (
     <Select
       hideSelectedOptions={false}
-      selectedOptionStyle={advanceFilter ? 'check' : undefined}
-      controlShouldRenderValue={advanceFilter ? false : true}
+      selectedOptionStyle={showSelectedCount ? 'check' : undefined}
+      controlShouldRenderValue={showSelectedCount ? false : true}
       isMulti={isMulti}
       isSearchable={isSearchable}
-      isClearable={advanceFilter ? false : undefined}
+      isClearable={showSelectedCount ? false : undefined}
       variant="filled"
       name={name}
       ref={passRef}
@@ -138,7 +135,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           ...text.baseStyle,
           whiteSpace: 'noWrap',
-          height: isMulti && !advanceFilter ? 'max-content' : '4.2rem',
+          height: isMulti && !showSelectedCount ? 'max-content' : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
           borderColor: bgColor,
@@ -207,7 +204,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           color: COLORS.WHITE,
         }),
         multiValue: base =>
-          advanceFilter && isMulti
+          showSelectedCount && isMulti
             ? { display: 'none' }
             : {
                 ...base,

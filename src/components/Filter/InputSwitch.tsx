@@ -3,6 +3,7 @@ import { AdvanceFilter, SelectOption } from '../../app/types/types';
 import InputField from '../Form/InputField';
 import FilterSelect from './FilterSelect';
 import { useFormContext } from 'react-hook-form';
+import { findMultiDefaultValues } from './FilterHelper';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
@@ -29,10 +30,9 @@ const InputSwitch = ({ option }: Props) => {
       return (
         <FilterSelect
           name={option.value.name}
-          defaultValue={options.find(
-            c =>
-              c.value === form.getValues(option.value.name) ||
-              c.value === form.getValues(option.value.name)?.value
+          defaultValue={findMultiDefaultValues(
+            options,
+            form.getValues(option.value.name)
           )}
           options={options}
         />
