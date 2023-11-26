@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SearchProfileDto = {
-    label?: string | null;
-    value?: string | null;
+export type OpCompDto = {
+    name?: string | null;
+    isSourcingCompany?: boolean;
+    currencyCode?: string | null;
 };

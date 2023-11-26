@@ -5,6 +5,7 @@
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { GetProductDevelopmentDto } from '../models/GetProductDevelopmentDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
+import type { Status } from '../models/Status';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -51,42 +52,34 @@ requestBody?: CreateProductDevelopmentCommand,
     /**
      * @param pageNumber 
      * @param pageSize 
+     * @param sortKey 
      * @param searchQuery 
-     * @param number 
-     * @param name 
-     * @param description 
-     * @param itemNo 
-     * @param statusName 
-     * @param clientName 
-     * @param subClientName 
-     * @param itemCategoryCode 
-     * @param productGroupName 
-     * @param foldingTypeName 
-     * @param finishedLength 
-     * @param finishedWidth 
-     * @param finishedHeight 
-     * @param sampleQuantity 
+     * @param clients 
+     * @param projects 
+     * @param statuses 
+     * @param itemCategories 
+     * @param productGroups 
+     * @param foldingTypes 
+     * @param finishedLengths 
+     * @param finishedWidths 
+     * @param finishedHeights 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsFilter(
 pageNumber?: number,
 pageSize?: number,
+sortKey?: string,
 searchQuery?: string,
-number?: string,
-name?: string,
-description?: string,
-itemNo?: string,
-statusName?: string,
-clientName?: string,
-subClientName?: string,
-itemCategoryCode?: string,
-productGroupName?: string,
-foldingTypeName?: string,
-finishedLength?: number,
-finishedWidth?: number,
-finishedHeight?: number,
-sampleQuantity?: number,
+clients?: string,
+projects?: string,
+statuses?: string,
+itemCategories?: string,
+productGroups?: string,
+foldingTypes?: string,
+finishedLengths?: string,
+finishedWidths?: string,
+finishedHeights?: string,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -94,21 +87,17 @@ sampleQuantity?: number,
             query: {
                 'PageNumber': pageNumber,
                 'PageSize': pageSize,
+                'SortKey': sortKey,
                 'SearchQuery': searchQuery,
-                'Number': number,
-                'Name': name,
-                'Description': description,
-                'ItemNo': itemNo,
-                'StatusName': statusName,
-                'ClientName': clientName,
-                'SubClientName': subClientName,
-                'ItemCategoryCode': itemCategoryCode,
-                'ProductGroupName': productGroupName,
-                'FoldingTypeName': foldingTypeName,
-                'FinishedLength': finishedLength,
-                'FinishedWidth': finishedWidth,
-                'FinishedHeight': finishedHeight,
-                'SampleQuantity': sampleQuantity,
+                'Clients': clients,
+                'Projects': projects,
+                'Statuses': statuses,
+                'ItemCategories': itemCategories,
+                'ProductGroups': productGroups,
+                'FoldingTypes': foldingTypes,
+                'FinishedLengths': finishedLengths,
+                'FinishedWidths': finishedWidths,
+                'FinishedHeights': finishedHeights,
             },
         });
     }
@@ -137,6 +126,28 @@ id: string,
             url: '/api/ProductDevelopments/{Id}',
             path: {
                 'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param status 
+     * @returns GetProductDevelopmentDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductDevelopments(
+id: string,
+status?: Status,
+): CancelablePromise<GetProductDevelopmentDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/ProductDevelopments/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'status': status,
             },
         });
     }

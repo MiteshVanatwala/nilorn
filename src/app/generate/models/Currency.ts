@@ -3,7 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SearchProfileDto = {
-    label?: string | null;
-    value?: string | null;
+export type Currency = {
+    code?: string | null;
+    description?: string | null;
+    unitRounding?: number | null;
 };

@@ -4,11 +4,11 @@
 /* eslint-disable */
 
 export enum Status {
-    '_0' = 0,
-    '_1' = 1,
-    '_2' = 2,
-    '_3' = 3,
-    '_4' = 4,
-    '_5' = 5,
-    '_6' = 6,
+    NEW = 'New',
+    DESIGN = 'Design',
+    ARTWORK = 'Artwork',
+    SOURCING = 'Sourcing',
+    CALCULATION = 'Calculation',
+    APPROVED = 'Approved',
+    REJECTED = 'Rejected',
 }
