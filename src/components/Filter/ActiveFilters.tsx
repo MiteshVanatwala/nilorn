@@ -17,7 +17,7 @@ const ActiveFilters = () => {
   useEffect(() => {
     const foundValue = watchedEntries
       .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
-      .some(([_, value]) => value?.label);
+      .some(([_, value]) => value?.label || (value && value[0]));
     setHasValues(foundValue);
   }, [watchedEntries]);
   return (
