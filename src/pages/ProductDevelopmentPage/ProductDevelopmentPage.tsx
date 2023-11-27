@@ -12,12 +12,13 @@ import Popup, {
   PopupTrigger,
 } from '../../components/Popup/Popup';
 import { IconButton } from '@chakra-ui/button';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
 import ProductDesignSection from './Sections/ProductDesignSection';
 import MemberSection from './Sections/MemberSection';
 import Form, { apiUrl } from '../../components/Form/Form';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   createNew?: boolean;
@@ -25,6 +26,7 @@ type Props = {
 function ProductDevelopmentPage(props: Props) {
   const { productNo } = useParams();
   const form = useForm();
+  const { t } = useTranslation();
 
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
@@ -52,7 +54,10 @@ function ProductDevelopmentPage(props: Props) {
   }, [isSticky]);
 
   return (
-    <Form postUrl={apiUrl + 'ProductDevelopments'} form={form}>
+    <Form
+      postUrl={apiUrl + 'ProductDevelopments'}
+      form={form}
+      successMsg={`${t('PD.Created')}`}>
       <TopSection
         createNew
         productNo={productNo ?? ''}

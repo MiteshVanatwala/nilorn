@@ -14,11 +14,13 @@ export default function Form({
   style,
   form,
   postUrl,
+  successMsg,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
   postUrl: string;
+  successMsg?: string;
 }): JSX.Element {
   const { formState } = form;
   const { showToast } = useToast();
@@ -35,7 +37,7 @@ export default function Form({
       showToast({
         status: 'success',
         title: `${t('Common.Success')}`,
-        description: `${t('PD.Created')}`,
+        description: successMsg ?? '',
       });
     } else {
       const serverErrorMessage = await parseServerErrorMsg(resp);
