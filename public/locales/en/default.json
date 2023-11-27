@@ -82,6 +82,12 @@
       "Done": "Done"
     }
   },
+  "Changelog": {
+    "To": "To",
+    "From": "From",
+    "By": "User",
+    "When": "When"
+  },
   "Filter": {
     "AdvanceFilter": "Advanced filters",
     "Search": "Search by...",
