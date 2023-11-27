@@ -22,9 +22,11 @@ const SearchProfile = () => {
   const { setValue, reset, getValues } = useFormContext();
 
   let { data } = useSearchProfile();
-  let options: SelectOption[];
 
-  const onChange = (option: any, actionMeta: ActionMeta<SelectOption>) => {
+  const onChange = (
+    option: SelectOption,
+    actionMeta: ActionMeta<SelectOption>
+  ) => {
     reset();
     setActiveSearchProfile(true);
     setSelected(option);
@@ -44,15 +46,6 @@ const SearchProfile = () => {
     }
   }, [activeSearchProfile, setValue]);
 
-  if (data) {
-    options = data.map((selectBase: any) => ({
-      label: selectBase?.label ?? '',
-      value: selectBase?.value ?? '',
-    }));
-  } else {
-    options = [];
-  }
-
   return (
     <GridItem
       marginTop={{
@@ -70,7 +63,7 @@ const SearchProfile = () => {
               name="SearchProfile"
               onChange={onChange}
               value={selected}
-              options={options}
+              options={data as SelectOption[]}
             />
           </Box>
         </ControlWrapper>

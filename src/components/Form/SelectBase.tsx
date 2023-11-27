@@ -14,6 +14,7 @@ import {
   DropdownIndicatorProps,
 } from 'chakra-react-select';
 import text from '../../theme/text';
+import { SelectOption } from '../../app/types/types';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
@@ -63,9 +64,7 @@ type SelectProps<IsMulti extends boolean = false> = {
       | (true extends IsMulti
           ? MultiValue<{ label: string; value: any }>
           : never)
-      | (false extends IsMulti
-          ? SingleValue<{ label: string; value: any }>
-          : never),
+      | (false extends IsMulti ? SelectOption : never),
     actionMeta: ActionMeta<{
       label: string;
       value: any;

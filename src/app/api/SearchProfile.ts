@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import QueryKeysEnum from './queryKeys';
-import { SearchProfilesService } from '../generate';
+import { SearchProfilesService, UpsertSearchProfileCommand } from '../generate';
 
 export function useSearchProfile() {
   return useQuery(
@@ -17,7 +17,7 @@ export const useCreateOrUpdateSearchProfile = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: any) =>
+    (body: UpsertSearchProfileCommand) =>
       SearchProfilesService.postApiSearchProfiles(body).then(
         response => response
       ),
