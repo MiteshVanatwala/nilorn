@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react';
 import { Controller, FieldError, useFormContext } from 'react-hook-form';
 import { FormInputProps, SelectOption } from '../../app/types/types';
-import { HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute, useEffect } from 'react';
 import ControlWrapper from './ControlWrapper';
 
 interface Props extends FormInputProps {
@@ -22,7 +22,7 @@ const InputFieldFilter = ({
   isDisabled = false,
   filterLabel,
 }: Props) => {
-  const { formState, setValue, control } = useFormContext();
+  const { formState, setValue, control, getValues } = useFormContext();
   let error = formState.errors?.[name] as FieldError | undefined;
   const handleChange = (e: any) => {
     setValue(name, {
@@ -31,7 +31,17 @@ const InputFieldFilter = ({
       filterLabel: filterLabel,
     });
   };
-
+  useEffect(() => {
+    if (defaultValue) {
+      if (typeof getValues(name) === 'string') {
+        setValue(name, {
+          value: defaultValue,
+          label: defaultValue,
+          filterLabel: filterLabel,
+        });
+      }
+    }
+  }, [defaultValue, getValues, name, setValue, filterLabel]);
   return (
     <ControlWrapper name={name} errors={error}>
       <Controller

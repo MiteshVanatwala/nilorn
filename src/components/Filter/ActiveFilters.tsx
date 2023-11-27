@@ -57,12 +57,25 @@ const ActiveFilters = () => {
                 queryItem={key}
               />
             );
-          } else if (value) {
+          } else if (
+            value &&
+            value?.length &&
+            typeof value?.value === 'string'
+          ) {
             return (
               <ActiveFilterItem
-                key={key}
-                label={value?.label ? value.label : value}
-                // value={value}
+                // key={index}
+                label={value?.label}
+                filterLabel={value?.filterLabel ?? value?.label}
+                queryItem={key}
+              />
+            );
+          } else if (value && value?.label) {
+            return (
+              <ActiveFilterItem
+                // key={index}
+                label={value?.label}
+                filterLabel={value?.filterLabel ?? ''}
                 queryItem={key}
               />
             );
