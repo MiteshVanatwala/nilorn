@@ -21,7 +21,6 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
         defaultValue.forEach(dv => {
           if (getValues(name)?.value !== dv?.value) {
             tmp.push(dv);
-            console.log(getValues(name));
           }
         });
         setValue(name, defaultValue);
@@ -33,8 +32,8 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
     <>
       {defaultValue && (
         <Select
-          isMulti={true}
-          showSelectedCount={true}
+          isMulti
+          showSelectedCount
           label={label}
           name={name}
           defaultValue={defaultValue}
@@ -42,7 +41,13 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
         />
       )}
       {!defaultValue && (
-        <Select isMulti label={label} name={name} options={options} />
+        <Select
+          isMulti
+          showSelectedCount
+          label={label}
+          name={name}
+          options={options}
+        />
       )}
     </>
   );
