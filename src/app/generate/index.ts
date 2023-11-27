@@ -18,11 +18,15 @@ export type { ProductDevelopmentBriefDtoPaginatedList } from './models/ProductDe
 export { Role } from './models/Role';
 export type { SalespersonPurchaserBriefDto } from './models/SalespersonPurchaserBriefDto';
 export type { SearchProfileDto } from './models/SearchProfileDto';
+export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export { Status } from './models/Status';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 
 export { ClientService } from './services/ClientService';
+export { MetaService } from './services/MetaService';
 export { ProductDevelopmentsService } from './services/ProductDevelopmentsService';
+export { SalesPersonPurchasersService } from './services/SalesPersonPurchasersService';
 export { SearchProfilesService } from './services/SearchProfilesService';
+export { SourcingCompaniesService } from './services/SourcingCompaniesService';
 export { VendorsService } from './services/VendorsService';

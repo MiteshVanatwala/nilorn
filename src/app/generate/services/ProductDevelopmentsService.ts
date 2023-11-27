@@ -5,6 +5,7 @@
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { GetProductDevelopmentDto } from '../models/GetProductDevelopmentDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
+import type { Status } from '../models/Status';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -125,6 +126,28 @@ id: string,
             url: '/api/ProductDevelopments/{Id}',
             path: {
                 'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param status 
+     * @returns GetProductDevelopmentDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductDevelopments(
+id: string,
+status?: Status,
+): CancelablePromise<GetProductDevelopmentDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/ProductDevelopments/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'status': status,
             },
         });
     }

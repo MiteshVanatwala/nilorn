@@ -11,4 +11,5 @@ export enum Role {
     PURCHASER = 'Purchaser',
     PRODUCT_DEVELOPER = 'ProductDeveloper',
     DESIGNER = 'Designer',
+    ADMIN = 'Admin',
 }

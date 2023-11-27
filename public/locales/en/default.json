@@ -82,9 +82,19 @@
     "Created": "Proudct Development created",
     "StatusLabel": {
       "New": "New",
-      "Waiting": "Waiting for approval",
-      "Done": "Done"
+      "Design": "Design",
+      "Artwork": "Artwork",
+      "Sourcing": "Sourcing",
+      "Calcualtion": "Calcualtion",
+      "Approved": "Approved",
+      "Rejected": "Rejected"
     }
+  },
+  "Changelog": {
+    "To": "To",
+    "From": "From",
+    "By": "User",
+    "When": "When"
   },
   "Filter": {
     "AdvanceFilter": "Advanced filters",

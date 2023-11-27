@@ -32,6 +32,9 @@ const COLORS = {
     PRIMARY: '#724E32',
     DARK: '#44260b',
   },
+  YELLOW: {
+    LIGHT: '#FBDB9E',
+  },
   ERROR: '#C61618',
   WHITE: '#FFF',
   BLACK: '#000',

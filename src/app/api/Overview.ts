@@ -24,7 +24,8 @@ export function useProductDevelopmentsFilter(
 ) {
   const [searchParams] = useSearchParams();
 
-  // const x = getValues();
+  const sortKey = searchParams.get('sortKey') ?? undefined;
+
   const searchQuery = searchParams.get('searchQuery') ?? undefined;
   const number = searchParams.get('number') ?? undefined;
   const name = searchParams.get('name') ?? undefined;
@@ -33,13 +34,12 @@ export function useProductDevelopmentsFilter(
   const statuses = searchParams.get('statusName') ?? undefined;
   const clients = searchParams.get('clientName') ?? undefined;
   const subClientName = searchParams.get('subClientName') ?? undefined;
-  const itemCategories = searchParams.get('itemCategoryCode') ?? undefined;
-  const productGroups = searchParams.get('productGroupName') ?? undefined;
-  const foldingTypes = searchParams.get('foldingTypeName') ?? undefined;
-  const sortKey = searchParams.get('sortKey') ?? undefined;
-  const finishedLengths = searchParams.get('finishedLength') ?? undefined;
-  const finishedWidths = searchParams.get('finishedWidth') ?? undefined;
-  const finishedHeights = searchParams.get('finishedHeight') ?? undefined;
+  const itemCategoryCode = searchParams.get('itemCategoryCode') ?? undefined;
+  const productGroupName = searchParams.get('productGroupName') ?? undefined;
+  const foldingTypeName = searchParams.get('foldingTypeName') ?? undefined;
+  const finishedLength = searchParams.get('finishedLength') ?? undefined;
+  const finishedWidth = searchParams.get('finishedWidth') ?? undefined;
+  const finishedHeight = searchParams.get('finishedHeight') ?? undefined;
   const sampleQuantity = searchParams.get('sampleQuantity') ?? undefined;
 
   return useQuery(
@@ -64,16 +64,21 @@ export function useProductDevelopmentsFilter(
         pageNumber,
         pageSize,
         sortKey,
-        searchQuery,
-        statuses,
-        clients,
-        itemCategories,
-        productGroups,
-        foldingTypes,
-        finishedLengths,
-        finishedWidths,
-        finishedHeights,
-        sampleQuantity
+        searchQuery
+        // number,
+        // name,
+        // description,
+        // itemNo,
+        // statusName,
+        // clientName,
+        // subClientName,
+        // itemCategoryCode,
+        // productGroupName,
+        // foldingTypeName
+        // finishedLength,
+        // finishedWidth,
+        // finishedHeight
+        // sampleQuantity
       ).then(res => res),
     {
       retry: 0,

@@ -9,6 +9,7 @@ import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFil
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import FilterSelect from './FilterSelect';
+import { findMultiDefaultValues } from './FilterHelper';
 import CreateProductDevelopment from './CreateProductDevelopment';
 
 const ProductDevelopmentFilter = () => {
@@ -22,6 +23,14 @@ const ProductDevelopmentFilter = () => {
       value: 'chocolate',
     },
     { label: 'Strawberry client', value: 'strawberry' },
+    {
+      label: 'Apple client',
+      value: 'apple',
+    },
+    {
+      label: 'Banana client',
+      value: 'banana',
+    },
   ];
 
   const statusOptions = [
@@ -77,10 +86,9 @@ const ProductDevelopmentFilter = () => {
               <FilterSelect
                 label={t('Filter.Client')}
                 name={'client'}
-                defaultValue={clientOptions.find(
-                  c =>
-                    c.value === form.getValues('client') ||
-                    c.value === form.getValues('client')?.value
+                defaultValue={findMultiDefaultValues(
+                  clientOptions,
+                  form.getValues('client')
                 )}
                 options={clientOptions}
               />
@@ -93,10 +101,9 @@ const ProductDevelopmentFilter = () => {
               <FilterSelect
                 label={t('Filter.Status')}
                 name={'status'}
-                defaultValue={statusOptions.find(
-                  c =>
-                    c.value === form.getValues('status') ||
-                    c.value === form.getValues('status')?.value
+                defaultValue={findMultiDefaultValues(
+                  clientOptions,
+                  form.getValues('status')
                 )}
                 options={statusOptions}
               />

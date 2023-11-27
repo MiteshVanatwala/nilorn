@@ -23,6 +23,7 @@ type Props = {
   content?: JSX.Element;
   position?: PopupPosition;
   isPortal?: boolean;
+  size?: 'small';
 };
 
 const Popup = ({
@@ -31,6 +32,7 @@ const Popup = ({
   content,
   position = PopupPosition.BELOW,
   isPortal,
+  size,
 }: Props) => {
   const popupContent = (
     <PopoverContent onClick={e => e.stopPropagation()}>
@@ -42,7 +44,8 @@ const Popup = ({
     <Popover
       trigger={trigger}
       placement={position === PopupPosition.ABOVE ? 'top' : 'bottom'}
-      closeOnBlur={true}>
+      closeOnBlur={true}
+      size={size}>
       <PopoverTrigger>{triggerElement}</PopoverTrigger>
       {isPortal ? <Portal>{popupContent}</Portal> : popupContent}
     </Popover>

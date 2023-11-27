@@ -5,7 +5,7 @@ import {
   AccordionPanel,
 } from '@chakra-ui/accordion';
 import { HStack, Heading } from '@chakra-ui/layout';
-import { COLORS, SIZES, SPACE } from '../../theme/Constants';
+import { COLORS } from '../../theme/Constants';
 
 type Props = {
   title: string;

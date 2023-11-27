@@ -62,19 +62,17 @@ const textBtn = defineStyle({
   },
 });
 
-const tableButton = defineStyle({
-  fontSize: '1.6rem',
-  fontWeight: 100,
-  p: '0rem',
+const iconBtn = defineStyle({
+  fontSize: SIZES.FONT.XS,
+  p: 0,
   cursor: 'pointer',
   _hover: {
-    backgroundColor: COLORS.GRAY[60],
-    color: '#fff',
+    bg: COLORS.GRAY[10],
   },
 });
 
 const deleteBtn = defineStyle({
-  ...tableButton,
+  ...iconBtn,
   _hover: {
     backgroundColor: COLORS.RED.PRIMARY,
     color: COLORS.WHITE,
@@ -96,7 +94,7 @@ const button = defineStyleConfig({
     secondarySmall,
     menuButton,
     textBtn,
-    tableButton,
+    iconBtn,
     deleteBtn,
     ghost: {
       height: SPACE.XL,

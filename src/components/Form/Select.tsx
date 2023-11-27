@@ -3,16 +3,20 @@ import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { FormInputProps, SelectOption } from '../../app/types/types';
 import { GroupSelectOption } from '../Filter/FilterHelper';
+import { MultiValue } from 'chakra-react-select';
+import { useTranslation } from 'react-i18next';
 
-interface Props extends Omit<FormInputProps, 'defaultValue'> {
+interface Props<IsMulti extends boolean = false>
+  extends Omit<FormInputProps, 'defaultValue'> {
   options: SelectOption[] | GroupSelectOption[];
   placeholder?: string;
-  defaultValue?: SelectOption | undefined;
-  isMulti?: boolean;
+  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  isMulti?: IsMulti;
   searchable?: boolean;
+  showSelectedCount?: boolean;
 }
 
-const Select = ({
+const Select = <IsMulti extends boolean = false>({
   name,
   label,
   options,
@@ -20,11 +24,13 @@ const Select = ({
   registerOptions,
   helperText,
   defaultValue,
-  isMulti = false,
+  isMulti,
   hideValidationStyle,
   searchable = true,
-}: Props) => {
-  const { control, formState } = useFormContext();
+  showSelectedCount = false,
+}: Props<IsMulti>) => {
+  const { t } = useTranslation();
+  const { control, formState, getValues } = useFormContext();
   let error = formState.errors?.[name] as FieldError | undefined;
 
   return (
@@ -40,7 +46,7 @@ const Select = ({
         control={control}
         name={name}
         rules={registerOptions}
-        defaultValue={defaultValue?.value}
+        defaultValue={defaultValue}
         render={({ field: { onChange, onBlur, name, ref } }) => {
           return (
             <SelectBase
@@ -48,6 +54,7 @@ const Select = ({
               isControlled={false}
               name={name}
               passRef={ref}
+              showSelectedCount={showSelectedCount}
               onChange={
                 isMulti
                   ? onChange
@@ -56,7 +63,13 @@ const Select = ({
               onBlur={onBlur}
               defaultValue={defaultValue}
               options={options}
-              placeholder={placeholder}
+              placeholder={
+                showSelectedCount && getValues(name)?.length
+                  ? `${t('Filter.NumSelected', {
+                      num: getValues(name)?.length,
+                    })}`
+                  : placeholder
+              }
               isSearchable={searchable}
             />
           );

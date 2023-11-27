@@ -1,5 +1,5 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
 
@@ -12,7 +12,8 @@ export default function FormuQuerySubmit({
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
-  let [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
@@ -25,7 +26,7 @@ export default function FormuQuerySubmit({
   }, []);
 
   function formChange() {
-    setSearchParams(new URLSearchParams(onFilterChange(form.getValues())));
+    navigate(`?` + onFilterChange(form.getValues()));
     form.clearErrors('serverError');
   }
 
