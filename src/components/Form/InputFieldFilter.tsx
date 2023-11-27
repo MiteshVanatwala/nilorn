@@ -24,13 +24,7 @@ const InputFieldFilter = ({
 }: Props) => {
   const { formState, setValue, control, getValues } = useFormContext();
   let error = formState.errors?.[name] as FieldError | undefined;
-  const handleChange = (e: any) => {
-    setValue(name, {
-      value: e.target.value,
-      label: e.target.value,
-      filterLabel: filterLabel,
-    });
-  };
+
   useEffect(() => {
     if (defaultValue) {
       if (typeof getValues(name) === 'string') {
@@ -41,14 +35,15 @@ const InputFieldFilter = ({
         });
       }
     }
-  }, [defaultValue, getValues, name, setValue, filterLabel]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ControlWrapper name={name} errors={error}>
       <Controller
         control={control}
         name={name}
         defaultValue={defaultValue}
-        render={({ field: { value } }) => {
+        render={({ field: { value, onChange } }) => {
           return (
             <Input
               variant={variant}
@@ -58,7 +53,13 @@ const InputFieldFilter = ({
               type={type}
               height={'auto'}
               name={name}
-              onChange={handleChange}
+              onChange={e => {
+                setValue(name, {
+                  value: e.target.value,
+                  label: e.target.value,
+                  filterLabel: filterLabel,
+                });
+              }}
             />
           );
         }}
