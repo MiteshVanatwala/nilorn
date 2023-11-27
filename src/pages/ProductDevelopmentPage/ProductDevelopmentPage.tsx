@@ -23,7 +23,8 @@ import { useTranslation } from 'react-i18next';
 type Props = {
   createNew?: boolean;
 };
-function ProductDevelopmentPage(props: Props) {
+
+function ProductDevelopmentPage({ createNew }: Props) {
   const { productNo } = useParams();
   const form = useForm();
   const { t } = useTranslation();
@@ -35,8 +36,6 @@ function ProductDevelopmentPage(props: Props) {
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
-        const { top } = ref.current.getBoundingClientRect();
-
         if (window.scrollY > 0 && !isSticky) {
           setScrolledPast(true);
           setSticky(true);
@@ -59,7 +58,7 @@ function ProductDevelopmentPage(props: Props) {
       form={form}
       successMsg={`${t('PD.Created')}`}>
       <TopSection
-        createNew
+        createNew={createNew}
         productNo={productNo ?? ''}
         scrolledPast={scrolledPast}
       />
@@ -99,10 +98,10 @@ function ProductDevelopmentPage(props: Props) {
               </Accordion>
               <Accordion
                 variant={'card'}
-                defaultIndex={props.createNew ? undefined : [0, 1, 3]}
+                defaultIndex={createNew ? undefined : [0, 1, 3]}
                 alignItems={scrolledPast ? 'center' : 'flex-start'}
                 allowMultiple>
-                <MemberSection createNew={props.createNew} />
+                <MemberSection createNew />
               </Accordion>
               <Accordion
                 variant={'card'}

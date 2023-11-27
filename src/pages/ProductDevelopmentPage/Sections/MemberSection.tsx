@@ -1,7 +1,6 @@
 import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
-// import Alert from '../../components/Feedback/Alert';
 import { useTranslation } from 'react-i18next';
-import { COLORS, SPACE } from '../../../theme/Constants';
+import { SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Member from '../../Members/Member';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
