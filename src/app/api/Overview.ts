@@ -24,7 +24,8 @@ export function useProductDevelopmentsFilter(
 ) {
   const [searchParams] = useSearchParams();
 
-  // const x = getValues();
+  const sortKey = searchParams.get('sortKey') ?? undefined;
+
   const searchQuery = searchParams.get('searchQuery') ?? undefined;
   const number = searchParams.get('number') ?? undefined;
   const name = searchParams.get('name') ?? undefined;
@@ -36,28 +37,17 @@ export function useProductDevelopmentsFilter(
   const itemCategoryCode = searchParams.get('itemCategoryCode') ?? undefined;
   const productGroupName = searchParams.get('productGroupName') ?? undefined;
   const foldingTypeName = searchParams.get('foldingTypeName') ?? undefined;
-  const finishedLength =
-    searchParams.get('finishedLength') !== null
-      ? Number(searchParams.get('finishedLength'))
-      : undefined;
-  const finishedWidth =
-    searchParams.get('finishedWidth') !== null
-      ? Number(searchParams.get('finishedWidth'))
-      : undefined;
-  const finishedHeight =
-    searchParams.get('finishedHeight') !== null
-      ? Number(searchParams.get('finishedHeight'))
-      : undefined;
-  const sampleQuantity =
-    searchParams.get('sampleQuantity') !== null
-      ? Number(searchParams.get('sampleQuantity'))
-      : undefined;
+  const finishedLength = searchParams.get('finishedLength') ?? undefined;
+  const finishedWidth = searchParams.get('finishedWidth') ?? undefined;
+  const finishedHeight = searchParams.get('finishedHeight') ?? undefined;
+  const sampleQuantity = searchParams.get('sampleQuantity') ?? undefined;
 
   return useQuery(
     [
       QueryKeysEnum.Overview,
       pageNumber,
       pageSize,
+      sortKey,
       searchQuery,
       number,
       name,
@@ -78,21 +68,22 @@ export function useProductDevelopmentsFilter(
       ProductDevelopmentsService.getApiProductDevelopmentsFilter(
         pageNumber,
         pageSize,
-        searchQuery,
-        number,
-        name,
-        description,
-        itemNo,
-        statusName,
-        clientName,
-        subClientName,
-        itemCategoryCode,
-        productGroupName,
-        foldingTypeName,
-        finishedLength,
-        finishedWidth,
-        finishedHeight,
-        sampleQuantity
+        sortKey,
+        searchQuery
+        // number,
+        // name,
+        // description,
+        // itemNo,
+        // statusName,
+        // clientName,
+        // subClientName,
+        // itemCategoryCode,
+        // productGroupName,
+        // foldingTypeName
+        // finishedLength,
+        // finishedWidth,
+        // finishedHeight
+        // sampleQuantity
       ).then(res => res),
     {
       retry: 0,

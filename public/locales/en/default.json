@@ -78,8 +78,12 @@
     "AddMember": "Add member",
     "StatusLabel": {
       "New": "New",
-      "Waiting": "Waiting for approval",
-      "Done": "Done"
+      "Design": "Design",
+      "Artwork": "Artwork",
+      "Sourcing": "Sourcing",
+      "Calcualtion": "Calcualtion",
+      "Approved": "Approved",
+      "Rejected": "Rejected"
     }
   },
   "Changelog": {
