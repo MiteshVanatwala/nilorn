@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import {
   ActionMeta,
   Select,
-  SingleValue,
   components,
   PropsValue,
   GroupBase,
@@ -62,11 +61,8 @@ type SelectProps<IsMulti extends boolean = false> = {
   onChange: (
     newValue:
       | (true extends IsMulti ? MultiValue<SelectOption> : never)
-      | (false extends IsMulti ? SingleValue<SelectOption> : never),
-    actionMeta: ActionMeta<{
-      label: string;
-      value: any;
-    }>
+      | (false extends IsMulti ? SelectOption : never),
+    actionMeta: ActionMeta<SelectOption>
   ) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   value?:

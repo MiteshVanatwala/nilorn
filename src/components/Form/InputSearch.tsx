@@ -51,7 +51,6 @@ const InputSearch = ({
       required,
       pattern,
     });
-
   return (
     <ControlWrapper
       name={name}

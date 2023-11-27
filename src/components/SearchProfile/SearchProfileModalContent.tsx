@@ -12,44 +12,89 @@ import { SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
+import { useToast } from '../../app/hooks/useToast';
+import { useCreateOrUpdateSearchProfile } from '../../app/api/SearchProfile';
 type Props = {
-  ActiveSearchProfile?: string;
+  activeSearchProfileName?: string;
+  activeSearchProfile(val: boolean): void;
 };
 
-const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
+const SearchProfileModalContent = ({
+  activeSearchProfile,
+  activeSearchProfileName,
+}: Props) => {
+  const { showToast } = useToast();
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [searchProfile, setSearchProfile] = useState<string | undefined>();
 
+  const [searchProfileName, setSearchProfileName] = useState<
+    string | undefined
+  >();
+  const {
+    mutate: createOrUpdateSearchProfile,
+    isSuccess,
+    isError,
+  } = useCreateOrUpdateSearchProfile();
+
   const onCancel = () => {
     close();
   };
-
-  const onSubmit = () => {
-    close();
-  };
-
+  async function onSubmit(): Promise<void> {
+    const queryString = window.location.href.split('?')[1];
+    const data = {
+      name: searchProfileName,
+      query: queryString,
+    };
+    createOrUpdateSearchProfile(data);
+  }
   useEffect(() => {
-    setSearchProfile(ActiveSearchProfile);
-  }, [ActiveSearchProfile]);
-
+    setSearchProfile(activeSearchProfileName);
+    setSearchProfileName(activeSearchProfileName);
+  }, [activeSearchProfileName]);
+  useEffect(() => {
+    if (isSuccess) {
+      showToast({
+        status: 'success',
+        description:
+          searchProfile !== undefined
+            ? t('Filter.FilterUpdated')
+            : t('Filter.FilterSaved'),
+      });
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
+  useEffect(() => {
+    if (isError) {
+      showToast({
+        status: 'error',
+        description: 'Error while saving search profile',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
   return (
     <>
       <ModalBody>
         <ModalHeading
           title={
-            searchProfile !== undefined
-              ? t('Filter.UpdateSearchProfile')
-              : t('Filter.SaveSearchProfile')
+            !searchProfile
+              ? t('Filter.SaveSearchProfile')
+              : t('Filter.UpdateSearchProfile')
           }
         />
-        <ControlWrapper name={'name'} label={t('Filter.SearchProfileName')}>
+        <ControlWrapper
+          name={'searchProfileName'}
+          label={t('Filter.SearchProfileName')}>
           <Input
             defaultValue={searchProfile ?? undefined}
             variant={'standard'}
-            name={'name'}
+            name={'searchProfileName'}
             onChange={e => {
               setSearchProfile(undefined);
+              activeSearchProfile(false);
+              setSearchProfileName(e.target.value);
             }}
           />
         </ControlWrapper>
@@ -61,22 +106,19 @@ const SearchProfileModalContent = ({ ActiveSearchProfile }: Props) => {
             variant={'primary'}
             onClick={onSubmit}
             rightIcon={<i className="ri-save-line" />}>
-            <>
-              {searchProfile !== undefined
-                ? t('Filter.UpdateSearchProfile')
-                : t('Filter.SaveSearchProfile')}
-            </>
+            {searchProfile !== undefined
+              ? t('Filter.UpdateSearchProfile')
+              : t('Filter.SaveSearchProfile')}
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
             rightIcon={<i className="ri-close-line" />}>
-            <> {t('Common.Cancel')}</>
+            {t('Common.Cancel')}
           </Button>
         </HStack>
       </ModalFooter>
     </>
   );
 };
-
 export default SearchProfileModalContent;

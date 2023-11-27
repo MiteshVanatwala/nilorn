@@ -24,6 +24,7 @@ const ActiveFilters = () => {
       display={'inline-flex'}
       fontSize={fontSizes.sm}
       grow={1}
+      flexWrap={'wrap'}
       w={'100%'}
       margin={'0 auto'}
       maxWidth={SIZES.CONTAINER.XL}
