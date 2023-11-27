@@ -1,6 +1,6 @@
 import { HStack, VStack } from '@chakra-ui/layout';
 import { SPACE } from '../../theme/Constants';
-import { Button, ButtonGroup } from '@chakra-ui/button';
+import { Button } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 
 const ActionBarCreateNew = () => {
@@ -21,9 +21,9 @@ const ActionBarCreateNew = () => {
           base: SPACE.XXS,
           lg: SPACE.XS,
         }}>
-        <ButtonGroup isAttached variant="primary">
-          <Button type="submit">{t('PD.CreateNew')}</Button>
-        </ButtonGroup>
+        <Button variant="primary" type="submit">
+          {t('PD.CreateNew')}
+        </Button>
       </HStack>
     </VStack>
   );
