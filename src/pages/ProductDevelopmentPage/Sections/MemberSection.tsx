@@ -1,11 +1,15 @@
 import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
+// import Alert from '../../components/Feedback/Alert';
 import { useTranslation } from 'react-i18next';
-import { SPACE } from '../../../theme/Constants';
+import { COLORS, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Member from '../../Members/Member';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
-
-const MemberSection = () => {
+import Alert from '../../../components/Feedback/Alert';
+type Props = {
+  createNew?: boolean;
+};
+const MemberSection = ({ createNew }: Props) => {
   const { t } = useTranslation();
   const members = [
     {
@@ -54,31 +58,36 @@ const MemberSection = () => {
           base: 'column',
           xl: 'row-reverse',
         }}>
-        <Box minW={'20rem'}>
-          <AdvanceFilterSelect
-            placeholder={t('PD.AddMember')}
-            options={[]}
-            onChange={(option, event) => {
-              addMember();
-            }}
-            value={[]}
-          />
-        </Box>
-
-        <Grid
-          w="full"
-          templateColumns={{
-            xl: 'repeat(3, 1fr)',
-          }}
-          columnGap={{
-            xl: SPACE.MD,
-          }}
-          rowGap={{
-            base: 0,
-            xl: SPACE.MD,
-          }}>
-          {memberGrid()}
-        </Grid>
+        {createNew ? (
+          <Alert status="info" title={`${t('PD.MemberInfo')}`} />
+        ) : (
+          <>
+            <Box minW={'20rem'}>
+              <AdvanceFilterSelect
+                placeholder={t('PD.AddMember')}
+                options={[]}
+                onChange={(option, event) => {
+                  addMember();
+                }}
+                value={[]}
+              />
+            </Box>
+            <Grid
+              w="full"
+              templateColumns={{
+                xl: 'repeat(3, 1fr)',
+              }}
+              columnGap={{
+                xl: SPACE.MD,
+              }}
+              rowGap={{
+                base: 0,
+                xl: SPACE.MD,
+              }}>
+              {memberGrid()}
+            </Grid>
+          </>
+        )}
       </Flex>
     </AccordionItem>
   );

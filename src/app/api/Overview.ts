@@ -30,68 +30,49 @@ export function useProductDevelopmentsFilter(
   const name = searchParams.get('name') ?? undefined;
   const description = searchParams.get('description') ?? undefined;
   const itemNo = searchParams.get('itemNo') ?? undefined;
-  const statusName = searchParams.get('statusName') ?? undefined;
-  const clientName = searchParams.get('clientName') ?? undefined;
+  const statuses = searchParams.get('statusName') ?? undefined;
+  const clients = searchParams.get('clientName') ?? undefined;
   const subClientName = searchParams.get('subClientName') ?? undefined;
-  const itemCategoryCode = searchParams.get('itemCategoryCode') ?? undefined;
-  const productGroupName = searchParams.get('productGroupName') ?? undefined;
-  const foldingTypeName = searchParams.get('foldingTypeName') ?? undefined;
-  const finishedLength =
-    searchParams.get('finishedLength') !== null
-      ? Number(searchParams.get('finishedLength'))
-      : undefined;
-  const finishedWidth =
-    searchParams.get('finishedWidth') !== null
-      ? Number(searchParams.get('finishedWidth'))
-      : undefined;
-  const finishedHeight =
-    searchParams.get('finishedHeight') !== null
-      ? Number(searchParams.get('finishedHeight'))
-      : undefined;
-  const sampleQuantity =
-    searchParams.get('sampleQuantity') !== null
-      ? Number(searchParams.get('sampleQuantity'))
-      : undefined;
+  const itemCategories = searchParams.get('itemCategoryCode') ?? undefined;
+  const productGroups = searchParams.get('productGroupName') ?? undefined;
+  const foldingTypes = searchParams.get('foldingTypeName') ?? undefined;
+  const sortKey = searchParams.get('sortKey') ?? undefined;
+  const finishedLengths = searchParams.get('finishedLength') ?? undefined;
+  const finishedWidths = searchParams.get('finishedWidth') ?? undefined;
+  const finishedHeights = searchParams.get('finishedHeight') ?? undefined;
+  const sampleQuantity = searchParams.get('sampleQuantity') ?? undefined;
 
   return useQuery(
     [
       QueryKeysEnum.Overview,
       pageNumber,
       pageSize,
+      sortKey,
       searchQuery,
-      number,
-      name,
-      description,
-      itemNo,
-      statusName,
-      clientName,
-      subClientName,
-      itemCategoryCode,
-      productGroupName,
-      foldingTypeName,
-      finishedLength,
-      finishedWidth,
-      finishedHeight,
+      statuses,
+      clients,
+      itemCategories,
+      productGroups,
+      foldingTypes,
+      finishedLengths,
+      finishedWidths,
+      finishedHeights,
       sampleQuantity,
     ],
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsFilter(
         pageNumber,
         pageSize,
+        sortKey,
         searchQuery,
-        number,
-        name,
-        description,
-        itemNo,
-        statusName,
-        clientName,
-        subClientName,
-        itemCategoryCode,
-        productGroupName,
-        foldingTypeName,
-        finishedLength,
-        finishedWidth,
-        finishedHeight,
+        statuses,
+        clients,
+        itemCategories,
+        productGroups,
+        foldingTypes,
+        finishedLengths,
+        finishedWidths,
+        finishedHeights,
         sampleQuantity
       ).then(res => res),
     {

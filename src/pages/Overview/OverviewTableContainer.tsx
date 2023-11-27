@@ -48,7 +48,7 @@ function OverviewTableContainer() {
     <Skeleton isLoaded={isSuccess}>
       {data?.items ? (
         <>
-          {isLoading || (isFetching && <SpinnerOverlay />)}
+          {(isLoading || isFetching) && <SpinnerOverlay />}
           <OverviewTable data={data?.items} />
           <TablePagination
             pageNumber={pageNumber}

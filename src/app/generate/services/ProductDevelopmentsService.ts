@@ -51,34 +51,34 @@ requestBody?: CreateProductDevelopmentCommand,
     /**
      * @param pageNumber 
      * @param pageSize 
+     * @param sortKey 
      * @param searchQuery 
-     * @param clientNames 
+     * @param clients 
      * @param projects 
      * @param statuses 
-     * @param itemCategory 
-     * @param productGroup 
-     * @param foldingType 
-     * @param finishedLength 
-     * @param finishedWidth 
-     * @param finishedHeight 
-     * @param sampleQuantity 
+     * @param itemCategories 
+     * @param productGroups 
+     * @param foldingTypes 
+     * @param finishedLengths 
+     * @param finishedWidths 
+     * @param finishedHeights 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsFilter(
 pageNumber?: number,
 pageSize?: number,
+sortKey?: string,
 searchQuery?: string,
-clientNames?: string,
+clients?: string,
 projects?: string,
 statuses?: string,
-itemCategory?: string,
-productGroup?: string,
-foldingType?: string,
-finishedLength?: number,
-finishedWidth?: number,
-finishedHeight?: number,
-sampleQuantity?: number,
+itemCategories?: string,
+productGroups?: string,
+foldingTypes?: string,
+finishedLengths?: string,
+finishedWidths?: string,
+finishedHeights?: string,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -86,17 +86,17 @@ sampleQuantity?: number,
             query: {
                 'PageNumber': pageNumber,
                 'PageSize': pageSize,
+                'SortKey': sortKey,
                 'SearchQuery': searchQuery,
-                'ClientNames': clientNames,
+                'Clients': clients,
                 'Projects': projects,
                 'Statuses': statuses,
-                'ItemCategory': itemCategory,
-                'ProductGroup': productGroup,
-                'FoldingType': foldingType,
-                'FinishedLength': finishedLength,
-                'FinishedWidth': finishedWidth,
-                'FinishedHeight': finishedHeight,
-                'SampleQuantity': sampleQuantity,
+                'ItemCategories': itemCategories,
+                'ProductGroups': productGroups,
+                'FoldingTypes': foldingTypes,
+                'FinishedLengths': finishedLengths,
+                'FinishedWidths': finishedWidths,
+                'FinishedHeights': finishedHeights,
             },
         });
     }

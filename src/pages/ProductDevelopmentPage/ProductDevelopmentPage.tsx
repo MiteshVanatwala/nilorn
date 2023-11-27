@@ -12,15 +12,19 @@ import Popup, {
   PopupTrigger,
 } from '../../components/Popup/Popup';
 import { IconButton } from '@chakra-ui/button';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
 import ProductDesignSection from './Sections/ProductDesignSection';
 import MemberSection from './Sections/MemberSection';
+import Form, { apiUrl } from '../../components/Form/Form';
 
-function ProductDevelopmentPage() {
+type Props = {
+  createNew?: boolean;
+};
+function ProductDevelopmentPage(props: Props) {
   const { productNo } = useParams();
-  const methods = useForm();
+  const form = useForm();
 
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
@@ -31,10 +35,10 @@ function ProductDevelopmentPage() {
       if (ref.current) {
         const { top } = ref.current.getBoundingClientRect();
 
-        if (top < 0 && !isSticky) {
+        if (window.scrollY > 0 && !isSticky) {
           setScrolledPast(true);
           setSticky(true);
-        } else if (top > 0 && isSticky && window.scrollY < 70) {
+        } else if (window.scrollY === 0 && isSticky) {
           setScrolledPast(false);
           setSticky(false);
         }
@@ -47,67 +51,66 @@ function ProductDevelopmentPage() {
     };
   }, [isSticky]);
 
-  const onSave = (data: FieldValues) => {
-    console.log(data);
-  };
-
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={() => methods.handleSubmit(onSave)}>
-        <TopSection productNo={productNo ?? ''} scrolledPast={scrolledPast} />
-        <ContentPage>
-          <Grid>
-            <GridItem ref={ref}>
-              <VStack spacing={SPACE.MD}>
-                <ImagePopup
-                  alt={'alt'}
-                  src={
-                    'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
-                  }
-                />
-                <Popup
-                  isPortal={false}
-                  trigger={PopupTrigger.CLICK}
-                  position={PopupPosition.ABOVE}
-                  triggerElement={
-                    <IconButton
-                      aria-label="cangelog"
-                      icon={<Text as={'i'} className={'ri-history-line'} />}
-                    />
-                  }
-                  content={<>Changelog</>}
-                />
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
-                  <GeneralSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
-                  <ProductDesignSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
-                  <MemberSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
-                  <AttachmentSection />
-                </Accordion>
-              </VStack>
-            </GridItem>
-          </Grid>
-        </ContentPage>
-        <BottomSection />
-      </form>
-    </FormProvider>
+    <Form postUrl={apiUrl + 'ProductDevelopments'} form={form}>
+      <TopSection
+        createNew
+        productNo={productNo ?? ''}
+        scrolledPast={scrolledPast}
+      />
+      <ContentPage>
+        <Grid>
+          <GridItem ref={ref}>
+            <VStack spacing={SPACE.MD}>
+              <ImagePopup
+                alt={'alt'}
+                src={
+                  'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
+                }
+              />
+              <Popup
+                isPortal={false}
+                trigger={PopupTrigger.CLICK}
+                position={PopupPosition.ABOVE}
+                triggerElement={
+                  <IconButton
+                    aria-label="cangelog"
+                    icon={<Text as={'i'} className={'ri-history-line'} />}
+                  />
+                }
+                content={<>Changelog</>}
+              />
+              <Accordion
+                variant={'card'}
+                defaultIndex={[0, 1, 3]}
+                allowMultiple>
+                <GeneralSection />
+              </Accordion>
+              <Accordion
+                variant={'card'}
+                defaultIndex={[0, 1, 3]}
+                allowMultiple>
+                <ProductDesignSection />
+              </Accordion>
+              <Accordion
+                variant={'card'}
+                defaultIndex={props.createNew ? undefined : [0, 1, 3]}
+                alignItems={scrolledPast ? 'center' : 'flex-start'}
+                allowMultiple>
+                <MemberSection createNew={props.createNew} />
+              </Accordion>
+              <Accordion
+                variant={'card'}
+                defaultIndex={[0, 1, 3]}
+                allowMultiple>
+                <AttachmentSection />
+              </Accordion>
+            </VStack>
+          </GridItem>
+        </Grid>
+      </ContentPage>
+      <BottomSection />
+    </Form>
   );
 }
 

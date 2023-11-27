@@ -5,12 +5,14 @@ import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable';
 import ActionBar from './ActionBar';
 import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
+import ActionBarCreateNew from './ActionBarCreateNew';
 
 type Props = {
   productNo: string;
   scrolledPast: boolean;
+  createNew?: boolean;
 };
-const TopSection = ({ productNo, scrolledPast }: Props) => {
+const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
   return (
     <Box
       py={{
@@ -74,13 +76,15 @@ const TopSection = ({ productNo, scrolledPast }: Props) => {
                 <Heading
                   transition={TRANSITION.EASEOUT}
                   fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}>
-                  <Editable defaultValue="ProductDevelopment">
+                  <Editable
+                    isPreviewFocusable={true}
+                    defaultValue="ProductDevelopment">
                     <EditablePreview />
                     <EditableInput />
                   </Editable>
                 </Heading>
                 <Text>
-                  {'#'}
+                  {!createNew && '#'}
                   {productNo}
                 </Text>
               </VStack>
@@ -114,7 +118,7 @@ const TopSection = ({ productNo, scrolledPast }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar />
+            {createNew ? <ActionBarCreateNew /> : <ActionBar />}
           </GridItem>
         </Grid>
       </ContentSection>

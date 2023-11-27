@@ -20,7 +20,7 @@
     "Error": "Failed to load content",
     "SendTo": "Send to:",
     "Save": "Save",
-    "CahngeStatus": "Chnage status",
+    "CahngeStatus": "Change status",
     "More": "More",
     "Delete": "Delete",
     "Remove": "Remove",
@@ -28,7 +28,8 @@
     "Download": "Download",
     "LastChanged": "Last changed:",
     "Placeholder": "Enter value",
-    "NoMatch": "Sorry, we could not find any results"
+    "NoMatch": "Sorry, we could not find any results",
+    "Success": "Success"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -76,6 +77,9 @@
     "Vendor": "Vendor",
     "Members": "Members",
     "AddMember": "Add member",
+    "MemberInfo": "Members can only be added after the product development is created",
+    "CreateNew": "Create Product Development",
+    "Created": "Proudct Development created",
     "StatusLabel": {
       "New": "New",
       "Waiting": "Waiting for approval",
