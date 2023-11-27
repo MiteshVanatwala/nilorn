@@ -4,7 +4,8 @@ import fontSizes from '../../theme/fontSizes';
 import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { SelectOption } from '../../app/types/types';
 
 const ActiveFilters = () => {
   const { watch } = useFormContext();
@@ -37,7 +38,24 @@ const ActiveFilters = () => {
       {watchedEntries
         .filter(([key, _]) => key !== 'ActiveSearchProfile')
         .map(([key, value]) => {
-          if (value) {
+          if (
+            (typeof value === 'string' && value.includes(',')) ||
+            value === undefined
+          ) {
+            return <Fragment key={value} />;
+          } else if (Array.isArray(value) && value?.length > 0) {
+            const label = (value as SelectOption<string>[])
+              .map(v => v.label)
+              .join(', ');
+            return (
+              <ActiveFilterItem
+                key={key}
+                label={label}
+                value={key}
+                queryItem={key}
+              />
+            );
+          } else if (value) {
             return (
               <ActiveFilterItem
                 key={key}

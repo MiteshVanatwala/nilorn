@@ -2,10 +2,11 @@ import { FC, useEffect } from 'react';
 import Select from '../Form/Select';
 import { SelectOption } from '../../app/types/types';
 import { useFormContext } from 'react-hook-form';
+import { MultiValue } from 'chakra-react-select';
 
 type Props = {
   name: string;
-  defaultValue?: SelectOption;
+  defaultValue?: MultiValue<SelectOption>;
   options: SelectOption[];
   label?: string;
 };
@@ -15,7 +16,13 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
 
   useEffect(() => {
     if (defaultValue) {
-      if (getValues(name)?.value !== defaultValue?.value) {
+      if (typeof getValues(name) === 'string') {
+        let tmp: SelectOption[] = [];
+        defaultValue.forEach(dv => {
+          if (getValues(name)?.value !== dv?.value) {
+            tmp.push(dv);
+          }
+        });
         setValue(name, defaultValue);
       }
     }
@@ -25,13 +32,23 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
     <>
       {defaultValue && (
         <Select
+          isMulti
+          showSelectedCount
           label={label}
           name={name}
           defaultValue={defaultValue}
           options={options}
         />
       )}
-      {!defaultValue && <Select label={label} name={name} options={options} />}
+      {!defaultValue && (
+        <Select
+          isMulti
+          showSelectedCount
+          label={label}
+          name={name}
+          options={options}
+        />
+      )}
     </>
   );
 };
