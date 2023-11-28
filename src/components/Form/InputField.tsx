@@ -1,5 +1,5 @@
 import { Input } from '@chakra-ui/react';
-import { FieldError, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
@@ -9,7 +9,6 @@ interface Props extends FormInputProps {
   placeholder?: string;
   defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
-
   isDisabled?: boolean;
 }
 
@@ -25,15 +24,17 @@ const InputField = ({
   hideValidationStyle,
   isDisabled = false,
 }: Props) => {
-  const { register, formState } = useFormContext();
-  let error = formState.errors?.[name] as FieldError | undefined;
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <ControlWrapper
       name={name}
       label={label}
       required={registerOptions?.required}
-      errors={error}
+      errors={errors}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}>
       <Input

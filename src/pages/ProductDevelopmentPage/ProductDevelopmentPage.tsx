@@ -12,12 +12,13 @@ import Popup, {
   PopupTrigger,
 } from '../../components/Popup/Popup';
 import { IconButton } from '@chakra-ui/button';
-import { useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
 import ProductDesignSection from './Sections/ProductDesignSection';
 import MemberSection from './Sections/MemberSection';
-import Form, { apiUrl } from '../../components/Form/Form';
+import { useToast } from '../../app/hooks/useToast';
+import { useCreateProductDevelopment } from '../../app/api/CreateProductDevelopment';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -32,11 +33,18 @@ function ProductDevelopmentPage({ createNew }: Props) {
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
+  const {
+    mutate: createProductDevelopment,
+    isSuccess,
+    isError,
+  } = useCreateProductDevelopment();
 
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
         if (window.scrollY > 0 && !isSticky) {
+          console.log(window.scrollY, scrolledPast);
           setScrolledPast(true);
           setSticky(true);
         } else if (window.scrollY === 0 && isSticky) {
@@ -50,71 +58,90 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
-
+  function submitForm(form: FieldValues) {
+    async function onSubmit(form: FieldValues): Promise<void> {
+      createProductDevelopment(form);
+      if (isSuccess) {
+        showToast({
+          status: 'success',
+          description: `${t('PD.Created')}`,
+        });
+      }
+      if (isError) {
+        showToast({
+          status: 'error',
+          description: `${t('PD.Error')}`,
+        });
+      }
+    }
+    onSubmit(form);
+  }
   return (
-    <Form
-      postUrl={apiUrl + 'ProductDevelopments'}
-      form={form}
-      successMsg={`${t('PD.Created')}`}>
-      <TopSection
-        createNew={createNew}
-        productNo={productNo ?? ''}
-        scrolledPast={scrolledPast}
-      />
-      <ContentPage>
-        <Grid>
-          <GridItem ref={ref}>
-            <VStack spacing={SPACE.MD}>
-              <ImagePopup
-                alt={'alt'}
-                src={
-                  'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
-                }
-              />
-              <Popup
-                isPortal={false}
-                trigger={PopupTrigger.CLICK}
-                position={PopupPosition.ABOVE}
-                triggerElement={
-                  <IconButton
-                    aria-label="cangelog"
-                    icon={<Text as={'i'} className={'ri-history-line'} />}
-                  />
-                }
-                content={<>Changelog</>}
-              />
-              <Accordion
-                variant={'card'}
-                defaultIndex={[0, 1, 3]}
-                allowMultiple>
-                <GeneralSection />
-              </Accordion>
-              <Accordion
-                variant={'card'}
-                defaultIndex={[0, 1, 3]}
-                allowMultiple>
-                <ProductDesignSection />
-              </Accordion>
-              <Accordion
-                variant={'card'}
-                defaultIndex={createNew ? undefined : [0, 1, 3]}
-                alignItems={scrolledPast ? 'center' : 'flex-start'}
-                allowMultiple>
-                <MemberSection createNew />
-              </Accordion>
-              <Accordion
-                variant={'card'}
-                defaultIndex={[0, 1, 3]}
-                allowMultiple>
-                <AttachmentSection />
-              </Accordion>
-            </VStack>
-          </GridItem>
-        </Grid>
-      </ContentPage>
-      <BottomSection />
-    </Form>
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(submitForm)}
+        onChange={() => form.clearErrors('serverError')}>
+        <TopSection
+          createNew={createNew}
+          productNo={productNo ?? ''}
+          scrolledPast={scrolledPast}
+        />
+        <ContentPage>
+          <Grid>
+            <GridItem ref={ref}>
+              <VStack spacing={SPACE.MD}>
+                <ImagePopup
+                  alt={'alt'}
+                  src={
+                    'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
+                  }
+                />
+                <Popup
+                  isPortal={false}
+                  trigger={PopupTrigger.CLICK}
+                  position={PopupPosition.ABOVE}
+                  triggerElement={
+                    <IconButton
+                      aria-label="cangelog"
+                      icon={<Text as={'i'} className={'ri-history-line'} />}
+                    />
+                  }
+                  content={<>Changelog</>}
+                />
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <GeneralSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <ProductDesignSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={createNew ? undefined : [0, 1, 3]}
+                  alignItems={scrolledPast ? 'center' : 'flex-start'}
+                  allowMultiple>
+                  <MemberSection createNew />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <AttachmentSection />
+                </Accordion>
+              </VStack>
+            </GridItem>
+          </Grid>
+        </ContentPage>
+        <BottomSection />
+      </form>
+    </FormProvider>
   );
 }
 

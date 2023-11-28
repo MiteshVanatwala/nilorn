@@ -80,6 +80,7 @@
     "MemberInfo": "Members can only be added after the product development is created",
     "CreateNew": "Create Product Development",
     "Created": "Proudct Development created",
+    "Error": "Something went wrong",
     "StatusLabel": {
       "New": "New",
       "Design": "Design",
@@ -115,5 +116,8 @@
     "Enter": "Enter",
     "Remove": "Remove filter",
     "Create": "Create new"
+  },
+  "Errors": {
+    "Required": "The field is required"
   }
 }

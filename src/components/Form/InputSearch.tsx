@@ -1,5 +1,5 @@
 import { Input } from '@chakra-ui/react';
-import { FieldError, ValidationRule, useFormContext } from 'react-hook-form';
+import { ValidationRule, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { SIZES } from '../../theme/Constants';
 import fontSizes from '../../theme/fontSizes';
@@ -34,11 +34,12 @@ const InputSearch = ({
   onChange,
 }: Props) => {
   const {
+    clearErrors,
     setValue: setFormContextValue,
-    formState,
+    formState: { errors },
     register: formContextRegister,
   } = useFormContext();
-  let error = formState.errors?.[name] as FieldError | undefined;
+
   const controllerValue = controller?.value;
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const InputSearch = ({
       name={name}
       label={label}
       required={registerOptions?.required}
-      errors={error}
+      errors={errors}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}>
       <Input
@@ -67,7 +68,7 @@ const InputSearch = ({
         height={'auto'}
         {...formContextRegRest}
         onChange={e => {
-          error = undefined;
+          clearErrors(name);
           formContextRegOnChange(e);
           onChange?.(e.target.value);
           controller?.setValue?.(e.target.value);

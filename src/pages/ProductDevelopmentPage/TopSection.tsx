@@ -1,11 +1,10 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import ContentSection from '../Templates/ContentSection';
-import { Editable, EditableInput, EditablePreview } from '@chakra-ui/editable';
 import ActionBar from './ActionBar';
 import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
-import ActionBarCreateNew from './ActionBarCreateNew';
+import EditableInputField from '../../components/Form/EditableInputField';
 
 type Props = {
   productNo: string;
@@ -76,12 +75,16 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 <Heading
                   transition={TRANSITION.EASEOUT}
                   fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}>
-                  <Editable
-                    isPreviewFocusable={true}
-                    defaultValue="ProductDevelopment">
-                    <EditablePreview />
-                    <EditableInput />
-                  </Editable>
+                  <EditableInputField
+                    fontWeight="700"
+                    letterSpacing="0.02em"
+                    placeholder="Product Development *"
+                    variant="filled"
+                    scrolledPast={scrolledPast}
+                    hideValidationStyle={true}
+                    name="name"
+                    registerOptions={{ required: true }}
+                  />
                 </Heading>
                 <Text>
                   {!createNew && '#'}
@@ -118,7 +121,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            {createNew ? <ActionBarCreateNew /> : <ActionBar />}
+            <ActionBar createNew={createNew} />
           </GridItem>
         </Grid>
       </ContentSection>
