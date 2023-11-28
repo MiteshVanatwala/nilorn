@@ -15,6 +15,7 @@ export type { GetProductDevelopmentDto } from './models/GetProductDevelopmentDto
 export type { OpCompDto } from './models/OpCompDto';
 export type { ProductDevelopmentBriefDto } from './models/ProductDevelopmentBriefDto';
 export type { ProductDevelopmentBriefDtoPaginatedList } from './models/ProductDevelopmentBriefDtoPaginatedList';
+export type { ProjectDto } from './models/ProjectDto';
 export { Role } from './models/Role';
 export type { SalespersonPurchaserBriefDto } from './models/SalespersonPurchaserBriefDto';
 export type { SearchProfileDto } from './models/SearchProfileDto';
@@ -26,6 +27,7 @@ export type { VendorDto } from './models/VendorDto';
 export { ClientService } from './services/ClientService';
 export { MetaService } from './services/MetaService';
 export { ProductDevelopmentsService } from './services/ProductDevelopmentsService';
+export { ProjectsService } from './services/ProjectsService';
 export { SalesPersonPurchasersService } from './services/SalesPersonPurchasersService';
 export { SearchProfilesService } from './services/SearchProfilesService';
 export { SourcingCompaniesService } from './services/SourcingCompaniesService';

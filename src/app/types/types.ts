@@ -54,3 +54,8 @@ export type Feedback = {
   size?: 'md' | 'sm';
   description?: string;
 };
+export enum FieldState {
+  'NEUTRAL',
+  'VALID',
+  'ERROR',
+}

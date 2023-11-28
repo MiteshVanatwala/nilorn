@@ -1,21 +1,27 @@
 import {
   FormControl,
-  FormErrorMessage,
   FormHelperText,
   FormLabel,
   InputGroup,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, get } from 'react-hook-form';
 import COLORS from '../../theme/Constants/colors';
 import { FormInputProps } from '../../app/types/types';
 import { SPACE } from '../../theme/Constants';
+import { useValidationStyleInFormContext } from '../../app/hooks/useValidationStyle';
+import { useTranslation } from 'react-i18next';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
   children: ReactNode;
-  errors?: FieldError | undefined;
+  errors?: Partial<
+    FieldErrorsImpl<{
+      [key: string]: any;
+    }>
+  >;
   zIndex?: string;
 }
 
@@ -30,12 +36,14 @@ const ControlWrapper = ({
   errors,
   children,
   zIndex,
+  hideValidationStyle,
 }: Props) => {
-  // const error = get(errors, name) as FieldError;
-  const error = errors;
-  // const { color, icon } = useValidationStyleInFormContext(
-  //   hideValidationStyle ? '' : name
-  // );
+  const error = get(errors, name) as FieldError;
+  const { t } = useTranslation();
+  const { color } = useValidationStyleInFormContext(
+    hideValidationStyle ? '' : name
+  );
+
   return (
     <FormControl
       isInvalid={error ? true : false}
@@ -51,7 +59,7 @@ const ControlWrapper = ({
             paddingBottom={SPACE.XXS}
             marginBottom={SPACE.XXS}
             whiteSpace={inline ? 'nowrap' : 'normal'}
-            color={error ? COLORS.ERROR : COLORS.GRAY[80]}
+            color={error ? COLORS.ERROR : color}
             opacity={label === '-' ? 0 : 100}
             mb="0"
             w={'auto'}
@@ -70,15 +78,8 @@ const ControlWrapper = ({
           <>{helperText}</>
         </FormHelperText>
       )}
-      {error?.message && (
-        <FormErrorMessage color={COLORS.ERROR} position={'absolute'}>
-          <>{error?.message}</>
-        </FormErrorMessage>
-      )}
-      {error?.type === 'pattern' && (
-        <FormErrorMessage color={COLORS.ERROR} position={'absolute'}>
-          <>Enter a valid value</>
-        </FormErrorMessage>
+      {error?.type === 'required' && !hideValidationStyle && (
+        <Text color={COLORS.ERROR}>{t(`Errors.Required`)}</Text>
       )}
     </FormControl>
   );

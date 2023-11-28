@@ -1,4 +1,4 @@
-import { Controller, FieldError, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { FormInputProps, SelectOption } from '../../app/types/types';
@@ -30,15 +30,18 @@ const Select = <IsMulti extends boolean = false>({
   showSelectedCount = false,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
-  const { control, formState, getValues } = useFormContext();
-  let error = formState.errors?.[name] as FieldError | undefined;
+  const {
+    control,
+    formState: { errors },
+    getValues,
+  } = useFormContext();
 
   return (
     <ControlWrapper
       name={name}
       label={label}
       required={registerOptions?.required}
-      errors={error}
+      errors={errors}
       helperText={helperText}
       zIndex="dropdown"
       hideValidationStyle={hideValidationStyle}>
