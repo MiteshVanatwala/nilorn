@@ -102,7 +102,7 @@ const ActionBar = ({ createNew }: Props) => {
                 <MenuButton
                   as={IconButton}
                   padding={SPACE.SM}
-                  aria-label={t('Common.CahngeStatus')}
+                  aria-label={t('Common.ChangeStatus')}
                   borderLeft={`1px solid ${COLORS.WHITE}`}
                   icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
                 />
