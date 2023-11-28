@@ -4,6 +4,7 @@ import InputField from '../Form/InputField';
 import FilterSelect from './FilterSelect';
 import { useFormContext } from 'react-hook-form';
 import { findMultiDefaultValues } from './FilterHelper';
+import useFilterOptions from '../../app/hooks/useFilterOption';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
@@ -13,26 +14,25 @@ const InputSwitch = ({ option }: Props) => {
   const { t } = useTranslation();
   const form = useFormContext();
 
-  const options = [
-    { label: 'hejsan', value: 'hejsan' },
-    { label: 'hejsan2', value: 'hejsan2' },
-  ];
+  const optionValueName = option.value.name;
+  const options = useFilterOptions(optionValueName);
+
   switch (option.value.type) {
     case 'text':
       return (
         <InputField
           placeholder={`${t('Filter.Enter')} ${option.label}`}
           variant="filled"
-          name={option.value.name}
+          name={optionValueName}
         />
       );
     case 'select':
       return (
         <FilterSelect
-          name={option.value.name}
+          name={optionValueName}
           defaultValue={findMultiDefaultValues(
             options,
-            form.getValues(option.value.name)
+            form.getValues(optionValueName)
           )}
           options={options}
         />
