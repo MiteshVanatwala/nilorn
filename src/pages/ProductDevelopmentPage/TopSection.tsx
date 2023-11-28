@@ -5,6 +5,7 @@ import ActionBar from './ActionBar';
 import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import EditableInputField from '../../components/Form/EditableInputField';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   productNo: string;
@@ -12,6 +13,8 @@ type Props = {
   createNew?: boolean;
 };
 const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <Box
       py={{
@@ -78,7 +81,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                   <EditableInputField
                     fontWeight="700"
                     letterSpacing="0.02em"
-                    placeholder="Product Development *"
+                    placeholder={`${t(`PD.PDNamePlaceholder`)}`}
                     variant="filled"
                     scrolledPast={scrolledPast}
                     hideValidationStyle={true}

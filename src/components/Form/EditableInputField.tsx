@@ -44,7 +44,8 @@ const EditableInputField = ({
   const error = get(errors, name) as FieldError;
 
   return (
-    <Editable isPreviewFocusable={true} placeholder={placeholder}>
+    <Editable
+      placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
       <EditablePreview
         py={'.85rem'}
         px={SPACE.XS}
@@ -67,7 +68,6 @@ const EditableInputField = ({
           variant={variant}
           disabled={isDisabled}
           defaultValue={defaultValue}
-          placeholder={placeholder}
           type={type}
           height={'auto'}
           {...register(name, registerOptions)}

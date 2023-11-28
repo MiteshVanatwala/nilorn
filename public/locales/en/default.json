@@ -79,6 +79,7 @@
     "AddMember": "Add member",
     "MemberInfo": "Members can only be added after the product development is created",
     "CreateNew": "Create Product Development",
+    "PDNamePlaceholder": "Product Development",
     "Created": "Proudct Development created",
     "Error": "Something went wrong",
     "StatusLabel": {
