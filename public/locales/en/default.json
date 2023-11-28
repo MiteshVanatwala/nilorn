@@ -110,5 +110,9 @@
     "Clear": "Clear all",
     "Enter": "Enter",
     "Remove": "Remove filter"
+  },
+  "Errors": {
+    "EmptyFilter": "Filter can not be empty",
+    "FilterName": "Filter name is required"
   }
 }
