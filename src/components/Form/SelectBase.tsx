@@ -19,14 +19,7 @@ const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
     return (
       <components.DropdownIndicator {...props}>
-        <Text
-          as={'i'}
-          className={
-            props.selectProps.isSearchable
-              ? 'ri-search-2-line'
-              : 'ri-arrow-down-s-fill'
-          }
-        />
+        <Text as={'i'} className={'ri-arrow-down-s-fill'} />
       </components.DropdownIndicator>
     );
   },

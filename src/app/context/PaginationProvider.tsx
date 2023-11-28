@@ -23,7 +23,7 @@ type PaginationContextType = PaginationInfo & {
 
 const defaultState: PaginationContextType = {
   pageNumber: 1,
-  pageSize: 30,
+  pageSize: 25,
   totalPages: 0,
   totalCount: 0,
   setPageNumber: () => {},
@@ -43,7 +43,7 @@ export const usePaginationContext = () =>
 
 const PaginationProvider = ({ children }: PaginationProviderType) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(30);
+  const [pageSize, setPageSize] = useState(25);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
 

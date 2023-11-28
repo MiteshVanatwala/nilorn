@@ -1,55 +1,67 @@
-// import { Image } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
+import NowrapText from '../../components/Text/NowrapText';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
 
   const columnHelper = createColumnHelper<ProductDevelopmentBriefDto>();
   const columns = [
-    // columnHelper.accessor('image', {
-    //   header: `${t('PD.Image')}`,
-    //   cell: info => {
-    //     return (
-    //       <Image
-    //         boxSize="30px"
-    //         objectFit="cover"
-    //         src={info.getValue() ?? ''}
-    //         alt={info.getValue() ?? ''}
-    //       />
-    //     );
-    //   },
-    // }),
+    columnHelper.accessor('imageUrl', {
+      header: `${t('PD.Image')}`,
+      cell: info => {
+        if (!info.getValue()) {
+          return <></>;
+        }
+        return (
+          <Image
+            boxSize="30px"
+            objectFit="cover"
+            src={info.getValue() ?? ''}
+            alt={''}
+          />
+        );
+      },
+    }),
     columnHelper.accessor('name', {
       header: `${t('PD.Name')}`,
-      cell: info => info.getValue(),
+      cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('productDevelopmentNo', {
       header: `${t('PD.Number')}`,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('version', {
+      header: `${t('PD.Version')}`,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
       cell: info => <StatusBadge status={info.getValue() as Status} />,
     }),
-    // columnHelper.accessor('artwork', {
-    //   header: `${t('PD.Artwork')}`,
-    //   cell: info => info.getValue(),
-    // }),
-    // columnHelper.accessor('client', {
-    //   header: `${t('PD.Client')}`,
-    //   cell: info => info.getValue(),
-    // }),
-    // columnHelper.accessor('type', {
-    //   header: `${t('PD.type')}`,
-    //   cell: info => info.getValue(),
-    // }),
-    // columnHelper.accessor('productGroup', {
-    //   header: `${t('PD.ProductGroup')}`,
-    //   cell: info => info.getValue(),
-    // }),
+    columnHelper.accessor('artwork', {
+      header: `${t('PD.Artwork')}`,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('client', {
+      header: `${t('PD.Client')}`,
+      cell: info => <NowrapText text={info.getValue() ?? ''} />,
+    }),
+    columnHelper.accessor('project', {
+      header: `${t('PD.Project')}`,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('productGroup', {
+      header: `${t('PD.ProductGroup')}`,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('sourcingCompapeies', {
+      header: `${t('PD.SourcingCompapeies')}`,
+      cell: info => info.getValue(),
+    }),
   ];
 
   return columns;

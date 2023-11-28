@@ -1,6 +1,8 @@
+import { FilterKeys } from '../../app/types/types';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -76,4 +78,10 @@ export function findMultiDefaultValues(
 
     return filteredObjects;
   }
+}
+
+export function useFilterSearchParams(name: FilterKeys): string | undefined {
+  const [searchParams] = useSearchParams();
+
+  return searchParams.get(name) ?? undefined;
 }

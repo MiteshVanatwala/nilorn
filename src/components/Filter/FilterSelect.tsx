@@ -1,11 +1,11 @@
 import { FC, useEffect } from 'react';
 import Select from '../Form/Select';
-import { SelectOption } from '../../app/types/types';
+import { FilterKeys, SelectOption } from '../../app/types/types';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'chakra-react-select';
 
 type Props = {
-  name: string;
+  name: FilterKeys;
   defaultValue?: MultiValue<SelectOption>;
   options: SelectOption[];
   label?: string;

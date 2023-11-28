@@ -42,7 +42,7 @@ const ActiveFilters = () => {
             (typeof value === 'string' && value.includes(',')) ||
             value === undefined
           ) {
-            return <Fragment key={value} />;
+            return <Fragment key={key} />;
           } else if (Array.isArray(value) && value?.length > 0) {
             const label = (value as SelectOption<string>[])
               .map(v => v.label)
