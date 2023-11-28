@@ -23,7 +23,7 @@ const PaginationButton = ({
       height={'100%'}
       borderRadius={0}
       color={disabled ? COLORS.GRAY[30] : COLORS.WHITE}
-      bgColor={active ? COLORS.GRAY[80] : 'transparent'}
+      bgColor={active ? COLORS.GRAY[60] : 'transparent'}
       _hover={{
         bg: COLORS.GRAY[70],
       }}
