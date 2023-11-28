@@ -1,5 +1,25 @@
 import { RegisterOptions, ValidationRule } from 'react-hook-form';
 
+export type FilterKeys =
+  | 'pageNumber'
+  | 'pageSize'
+  | 'sortKey'
+  | 'searchQuery'
+  | 'clients'
+  | 'projects'
+  | 'statuses'
+  | 'itemCategories'
+  | 'productGroups'
+  | 'foldingTypes'
+  | 'finishedLengths'
+  | 'finishedWidths'
+  | 'finishedHeights'
+  | 'sourcingCompanies'
+  | 'stockLocation'
+  | 'vendor'
+  | 'opComp'
+  | 'salespersonPurchaser';
+
 export interface FormInputProps {
   name: string;
   id?: string;
@@ -21,7 +41,9 @@ export type SelectOption<T = any> = {
 
 export type AdvanceFilter = {
   type: 'select' | 'text';
-  name: string;
+  name: FilterKeys;
+  options?: SelectOption[];
+  test?: any;
 };
 
 export type Status = 'success' | 'error' | 'warning' | 'info';

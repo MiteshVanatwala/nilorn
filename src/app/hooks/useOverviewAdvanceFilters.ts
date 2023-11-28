@@ -9,56 +9,49 @@ export const useOverviewAdvanceFilters = (): SelectOption<AdvanceFilter>[] => {
       label: t('PD.ItemCategory'),
       value: {
         type: 'select',
-        name: 'itemCategoryCode',
+        name: 'itemCategories',
       },
     },
     {
       label: t('PD.ProductGroup'),
       value: {
         type: 'text',
-        name: 'productGroup',
+        name: 'productGroups',
       },
     },
     {
       label: t('PD.FoldingType'),
       value: {
         type: 'select',
-        name: 'foldingTypeName',
+        name: 'foldingTypes',
+      },
+    },
+    {
+      label: t('PD.Projects'),
+      value: {
+        type: 'select',
+        name: 'projects',
       },
     },
     {
       label: t('PD.FinishedLength'),
       value: {
         type: 'text',
-        name: 'finishedLength',
+        name: 'finishedLengths',
       },
     },
     {
       label: t('PD.FinishedWidth'),
       value: {
         type: 'text',
-        name: 'finishedWidth',
+        name: 'finishedWidths',
       },
     },
     {
       label: t('PD.FinishedHeight'),
       value: {
         type: 'text',
-        name: 'sampleQuantity',
-      },
-    },
-    {
-      label: t('PD.FinishedHeight'),
-      value: {
-        type: 'text',
-        name: 'fheight',
-      },
-    },
-    {
-      label: t('PD.SourcingCompany'),
-      value: {
-        type: 'text',
-        name: 'sourcingCompany',
+        name: 'finishedHeights',
       },
     },
     {
@@ -71,22 +64,22 @@ export const useOverviewAdvanceFilters = (): SelectOption<AdvanceFilter>[] => {
     {
       label: t('PD.Vendor'),
       value: {
-        type: 'text',
+        type: 'select',
         name: 'vendor',
       },
     },
     {
       label: t('PD.OPcomp'),
       value: {
-        type: 'text',
+        type: 'select',
         name: 'opComp',
       },
     },
     {
-      label: t('PD.Members'),
+      label: t('PD.SalespersonPurchaser'),
       value: {
-        type: 'text',
-        name: 'members',
+        type: 'select',
+        name: 'salespersonPurchaser',
       },
     },
   ];

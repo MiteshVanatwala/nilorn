@@ -10,6 +10,8 @@ import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import FilterSelect from './FilterSelect';
 import { findMultiDefaultValues } from './FilterHelper';
+import useFilterOptions from '../../app/hooks/useFilterOption';
+import { useStatusOptions } from '../../app/hooks/useStatus';
 import CreateProductDevelopment from './CreateProductDevelopment';
 
 const ProductDevelopmentFilter = () => {
@@ -17,29 +19,8 @@ const ProductDevelopmentFilter = () => {
   const advanceFilters = useOverviewAdvanceFilters();
   const form = useForm();
 
-  const clientOptions = [
-    {
-      label: 'Chocolate client',
-      value: 'chocolate',
-    },
-    { label: 'Strawberry client', value: 'strawberry' },
-    {
-      label: 'Apple client',
-      value: 'apple',
-    },
-    {
-      label: 'Banana client',
-      value: 'banana',
-    },
-  ];
-
-  const statusOptions = [
-    {
-      label: 'New status',
-      value: 'new',
-    },
-    { label: 'Done status', value: 'done' },
-  ];
+  const clientOptions = useFilterOptions('clients');
+  const statusOptions = useStatusOptions();
 
   return (
     <FormuQuerySubmit form={form}>
@@ -85,10 +66,10 @@ const ProductDevelopmentFilter = () => {
               }}>
               <FilterSelect
                 label={t('Filter.Client')}
-                name={'client'}
+                name={'clients'}
                 defaultValue={findMultiDefaultValues(
                   clientOptions,
-                  form.getValues('client')
+                  form.getValues('clients')
                 )}
                 options={clientOptions}
               />
@@ -100,10 +81,10 @@ const ProductDevelopmentFilter = () => {
               }}>
               <FilterSelect
                 label={t('Filter.Status')}
-                name={'status'}
+                name={'statuses'}
                 defaultValue={findMultiDefaultValues(
                   clientOptions,
-                  form.getValues('status')
+                  form.getValues('statuses')
                 )}
                 options={statusOptions}
               />

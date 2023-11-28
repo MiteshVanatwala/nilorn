@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
-import { useSearchParams } from 'react-router-dom';
+import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 
 export function useProductDevelopments(pageNumber: number, pageSize?: number) {
   return useQuery(
@@ -22,25 +22,17 @@ export function useProductDevelopmentsFilter(
   pageNumber?: number,
   pageSize?: number
 ) {
-  const [searchParams] = useSearchParams();
-
-  const sortKey = searchParams.get('sortKey') ?? undefined;
-
-  const searchQuery = searchParams.get('searchQuery') ?? undefined;
-  const number = searchParams.get('number') ?? undefined;
-  const name = searchParams.get('name') ?? undefined;
-  const description = searchParams.get('description') ?? undefined;
-  const itemNo = searchParams.get('itemNo') ?? undefined;
-  const statuses = searchParams.get('statusName') ?? undefined;
-  const clients = searchParams.get('clientName') ?? undefined;
-  const subClientName = searchParams.get('subClientName') ?? undefined;
-  const itemCategoryCode = searchParams.get('itemCategoryCode') ?? undefined;
-  const productGroupName = searchParams.get('productGroupName') ?? undefined;
-  const foldingTypeName = searchParams.get('foldingTypeName') ?? undefined;
-  const finishedLength = searchParams.get('finishedLength') ?? undefined;
-  const finishedWidth = searchParams.get('finishedWidth') ?? undefined;
-  const finishedHeight = searchParams.get('finishedHeight') ?? undefined;
-  const sampleQuantity = searchParams.get('sampleQuantity') ?? undefined;
+  const sortKey = useFilterSearchParams('sortKey');
+  const searchQuery = useFilterSearchParams('searchQuery');
+  const clients = useFilterSearchParams('clients');
+  const projects = useFilterSearchParams('projects');
+  const statuses = useFilterSearchParams('statuses');
+  const itemCategories = useFilterSearchParams('itemCategories');
+  const productGroups = useFilterSearchParams('productGroups');
+  const foldingTypes = useFilterSearchParams('foldingTypes');
+  const finishedLengths = useFilterSearchParams('finishedLengths');
+  const finishedWidths = useFilterSearchParams('finishedWidths');
+  const finishedHeights = useFilterSearchParams('finishedHeights');
 
   return useQuery(
     [
@@ -49,36 +41,31 @@ export function useProductDevelopmentsFilter(
       pageSize,
       sortKey,
       searchQuery,
-      statuses,
-      clients,
-      itemCategories,
-      productGroups,
-      foldingTypes,
+      clients, // TODO, search on no?
+      projects,
+      statuses, // TODO, always return 500, whats expected?
+      itemCategories, // TODO: No data yet.
+      productGroups, // TODO: No data yet.
+      foldingTypes, // TODO: No data yet.
       finishedLengths,
       finishedWidths,
       finishedHeights,
-      sampleQuantity,
     ],
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsFilter(
         pageNumber,
         pageSize,
         sortKey,
-        searchQuery
-        // number,
-        // name,
-        // description,
-        // itemNo,
-        // statusName,
-        // clientName,
-        // subClientName,
-        // itemCategoryCode,
-        // productGroupName,
-        // foldingTypeName
-        // finishedLength,
-        // finishedWidth,
-        // finishedHeight
-        // sampleQuantity
+        searchQuery,
+        clients,
+        projects,
+        statuses,
+        itemCategories,
+        productGroups,
+        foldingTypes,
+        finishedLengths,
+        finishedWidths,
+        finishedHeights
       ).then(res => res),
     {
       retry: 0,
