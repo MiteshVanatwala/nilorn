@@ -16,7 +16,7 @@ const mapClientsToOptions = (clients?: ClientDto[]) => {
   return (
     clients?.map(c => ({
       label: c.name,
-      value: c.no,
+      value: c.name,
     })) ?? []
   );
 };
