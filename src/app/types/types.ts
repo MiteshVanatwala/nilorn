@@ -20,6 +20,8 @@ export type FilterKeys =
   | 'opComp'
   | 'salespersonPurchaser';
 
+export const SORT_KEY: FilterKeys = 'sortKey';
+
 export interface FormInputProps {
   name: string;
   id?: string;

@@ -4,6 +4,7 @@ import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
+import { SortingState } from '@tanstack/table-core';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -87,6 +88,14 @@ export function useFilterSearchParams(name: FilterKeys): string | undefined {
   return searchParams.get(name) ?? undefined;
 }
 
-export function getSortValue(columnSort: ColumnSort) {
+export function getSortValue(columnSort: ColumnSort): string {
   return `${columnSort.id}${columnSort.desc ? 'D' : 'A'}`;
+}
+
+export function getSortState(sortValue: string): SortingState {
+  const match = sortValue.match(/([a-zA-Z]+)([a-zA-Z\d])$/);
+  const [, id, value] = match as [string, string, string];
+  const result: { id: string; value: string } = { id, value };
+
+  return [{ id: result.id, desc: result.value === 'D' }];
 }

@@ -5,7 +5,7 @@ import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
-import { SelectOption } from '../../app/types/types';
+import { SORT_KEY, SelectOption } from '../../app/types/types';
 
 const ActiveFilters = () => {
   const { watch } = useFormContext();
@@ -14,7 +14,7 @@ const ActiveFilters = () => {
 
   useEffect(() => {
     const foundValue = watchedEntries
-      .filter(([key, _]) => key !== 'ActiveSearchProfile')
+      .filter(([key, _]) => key !== 'ActiveSearchProfile' && key !== SORT_KEY)
       .some(([_, value]) => value);
     setHasValues(foundValue);
   }, [watchedEntries]);
@@ -37,7 +37,7 @@ const ActiveFilters = () => {
       pb={{ base: SPACE.XXS, lg: SPACE.MD }}
       pt={hasValues ? SPACE.XS : ''}>
       {watchedEntries
-        .filter(([key, _]) => key !== 'ActiveSearchProfile')
+        .filter(([key, _]) => key !== 'ActiveSearchProfile' && key !== SORT_KEY)
         .map(([key, value]) => {
           if (
             (typeof value === 'string' && value.includes(',')) ||

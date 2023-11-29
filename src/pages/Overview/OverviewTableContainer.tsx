@@ -6,14 +6,16 @@ import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import { SORT } from '../../components/Form/FormQuerySubmit';
-import { getSortValue } from '../../components/Filter/FilterHelper';
-import { useFormContext } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
+import { SORT_KEY } from '../../app/types/types';
+import { getSortState } from '../../components/Filter/FilterHelper';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
 function OverviewTableContainer() {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const initSort = searchParams.get(SORT_KEY);
 
   const {
     pageNumber,
@@ -28,8 +30,10 @@ function OverviewTableContainer() {
     setSortState,
   } = usePaginationContext();
 
-  const { data, isError, isSuccess, isLoading, isFetching } =
-    useProductDevelopmentsFilter(pageNumber, pageSize);
+  const { data, isError, isLoading, isFetching } = useProductDevelopmentsFilter(
+    pageNumber,
+    pageSize
+  );
 
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
@@ -44,31 +48,35 @@ function OverviewTableContainer() {
     setTotalPages,
   ]);
 
+  useEffect(() => {
+    if (initSort) {
+      setSortState(getSortState(initSort));
+    }
+  }, [setSortState, initSort]);
+
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
   }
 
   return (
     <>
-      <>
-        {(isLoading || isFetching) && <SpinnerOverlay />}
-        <OverviewTable
-          data={data?.items ?? []}
-          sortState={sortState}
-          setSortState={setSortState}
-        />
-        <TablePagination
-          pageNumber={pageNumber}
-          totalNumPages={totalPages}
-          totalCount={totalCount}
-          currentPageSize={pageSize}
-          chunkSizes={CHUNK_SIZES}
-          nextHandler={() => setPageNumber(pageNumber + 1)}
-          previousHandler={() => setPageNumber(pageNumber - 1)}
-          pageNumberHandler={(num: number) => setPageNumber(num)}
-          pageSizeHandler={(size: number) => setPageSize(size)}
-        />
-      </>
+      {(isLoading || isFetching) && <SpinnerOverlay />}
+      <OverviewTable
+        data={data?.items ?? []}
+        sortState={sortState}
+        setSortState={setSortState}
+      />
+      <TablePagination
+        pageNumber={pageNumber}
+        totalNumPages={totalPages}
+        totalCount={totalCount}
+        currentPageSize={pageSize}
+        chunkSizes={CHUNK_SIZES}
+        nextHandler={() => setPageNumber(pageNumber + 1)}
+        previousHandler={() => setPageNumber(pageNumber - 1)}
+        pageNumberHandler={(num: number) => setPageNumber(num)}
+        pageSizeHandler={(size: number) => setPageSize(size)}
+      />
     </>
   );
 }

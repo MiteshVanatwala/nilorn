@@ -69,20 +69,8 @@ export function useProductDevelopmentsFilter(
       ).then(res => res),
     {
       retry: 0,
-    }
-  );
-}
-
-export function useProductDevelopmentsTest() {
-  return useQuery(
-    [],
-    () =>
-      ProductDevelopmentsService.getApiProductDevelopmentsTest().then(
-        res => res
-      ),
-    {
-      retry: 1,
-      enabled: false,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
     }
   );
 }
