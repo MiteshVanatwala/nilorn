@@ -1,5 +1,5 @@
-import { useForm } from 'react-hook-form';
-import { Grid, GridItem, VStack } from '@chakra-ui/react';
+import { useForm, useFormContext } from 'react-hook-form';
+import { Grid, GridItem, Input, VStack } from '@chakra-ui/react';
 import InputSearch from '../Form/InputSearch';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
@@ -8,22 +8,37 @@ import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFil
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import FilterSelect from './FilterSelect';
-import { findMultiDefaultValues } from './FilterHelper';
+import { findMultiDefaultValues, getSortValue } from './FilterHelper';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import { useStatusOptions } from '../../app/hooks/useStatus';
 import CreateProductDevelopment from './CreateProductDevelopment';
-import FormuQuerySubmit from '../Form/FormQuerySubmit';
+import FormuQuerySubmit, { SORT } from '../Form/FormQuerySubmit';
+import { usePaginationContext } from '../../app/context/PaginationProvider';
+import { useEffect } from 'react';
+import InputField from '../Form/InputField';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
-  const form = useForm();
+  const { setValue, unregister, getValues } = useFormContext();
   const advanceFilters = useOverviewAdvanceFilters();
 
   const clientOptions = useFilterOptions('clients');
   const statusOptions = useStatusOptions();
 
+  const { sortState } = usePaginationContext();
+
+  useEffect(() => {
+    if (sortState[0]?.id) {
+      setValue(SORT, getSortValue(sortState[0]));
+    } else {
+      unregister(SORT);
+    }
+  }, [sortState]);
+
   return (
-    <FormuQuerySubmit form={form}>
+    <>
+      <Input onChange={e => setValue('tst', e.target.value)} />
+      <InputField name="linnea" />
       <Grid
         templateColumns={{
           base: GRID.TEMPLATE_COLUMNS.base,
@@ -69,10 +84,14 @@ const ProductDevelopmentFilter = () => {
                 name={'clients'}
                 defaultValue={findMultiDefaultValues(
                   clientOptions,
-                  form.getValues('clients')
+                  getValues('clients')
                 )}
                 options={clientOptions}
               />
+            </GridItem>
+            <GridItem>
+              <h1>{sortState[0]?.id ?? 'no sort'}</h1>
+              <h1>{sortState[0]?.desc ? 'DESC' : 'ASC'}</h1>
             </GridItem>
             <GridItem
               colSpan={{
@@ -84,7 +103,7 @@ const ProductDevelopmentFilter = () => {
                 name={'statuses'}
                 defaultValue={findMultiDefaultValues(
                   clientOptions,
-                  form.getValues('statuses')
+                  getValues('statuses')
                 )}
                 options={statusOptions}
               />
@@ -118,7 +137,7 @@ const ProductDevelopmentFilter = () => {
           </VStack>
         </GridItem>
       </Grid>
-    </FormuQuerySubmit>
+    </>
   );
 };
 

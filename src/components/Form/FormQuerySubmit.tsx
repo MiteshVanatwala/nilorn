@@ -1,14 +1,9 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  getSortValue,
-  onFilterChange,
-  useDebounce,
-} from '../Filter/FilterHelper';
+import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
-import { usePaginationContext } from '../../app/context/PaginationProvider';
 
-export const SORT: string = 'sort';
+export const SORT: string = 'sortKey';
 
 export default function FormuQuerySubmit({
   children,
@@ -21,7 +16,6 @@ export default function FormuQuerySubmit({
 }): JSX.Element {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
-  const { sortState } = usePaginationContext();
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
@@ -35,6 +29,7 @@ export default function FormuQuerySubmit({
   }, []);
 
   function formChange() {
+    console.log('form.getValues()', form.getValues());
     navigate(`?` + onFilterChange(form.getValues()));
     form.clearErrors('serverError');
   }

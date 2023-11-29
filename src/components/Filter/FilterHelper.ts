@@ -88,5 +88,5 @@ export function useFilterSearchParams(name: FilterKeys): string | undefined {
 }
 
 export function getSortValue(columnSort: ColumnSort) {
-  return `${columnSort.id}${columnSort.desc ? 'Desc' : 'Asc'}`;
+  return `${columnSort.id}${columnSort.desc ? 'D' : 'A'}`;
 }

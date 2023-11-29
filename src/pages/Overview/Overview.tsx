@@ -10,16 +10,16 @@ const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 function Overview() {
   const form = useForm();
   return (
-    <FormuQuerySubmit form={form}>
+    <PaginationProvider>
+      <FormuQuerySubmit form={form}>
+        <Suspense>
+          <ProductDevelopmentFilter />
+        </Suspense>
+      </FormuQuerySubmit>
       <Suspense>
-        <ProductDevelopmentFilter />
+        <OverviewTableContainer />
       </Suspense>
-      <Suspense>
-        <PaginationProvider>
-          <OverviewTableContainer />
-        </PaginationProvider>
-      </Suspense>
-    </FormuQuerySubmit>
+    </PaginationProvider>
   );
 }
 
