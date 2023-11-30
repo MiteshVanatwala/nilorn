@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
@@ -26,16 +26,24 @@ import AdvanceFilterSelect from './AdvanceFilterSelect';
 import FilterSwitch from './FilterSwitch';
 
 type Props = {
-  filters: SelectOption<AdvanceFilterType>[];
+  filters: AdvanceFilterType[];
 };
 
 const AdvanceFilter = ({ filters }: Props) => {
   const { t } = useTranslation();
   const { unregister, getValues } = useFormContext();
-
   const [selected, setSelected] = useState<
     MultiValue<SelectOption<AdvanceFilterType>>
   >([]);
+
+  const options = useMemo(
+    () =>
+      filters.map(f => ({
+        label: t(`PD.FilterLabel.${f.name}`),
+        value: f,
+      })),
+    [filters, t]
+  );
 
   const handleSelect = (
     selectedOption: MultiValue<SelectOption<AdvanceFilterType>> | undefined,
@@ -62,7 +70,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     const activeAdvancedFilterArr: SelectOption[] = [];
 
     Object.entries(getValues()).forEach(([key, value]) => {
-      filters?.forEach(filterItem => {
+      options?.forEach(filterItem => {
         if (
           filterItem &&
           'value' in filterItem &&
@@ -78,7 +86,8 @@ const AdvanceFilter = ({ filters }: Props) => {
     if (activeAdvancedFilterArr.length) {
       setSelected(activeAdvancedFilterArr);
     }
-  }, [getValues, filters]);
+  }, [getValues, filters, options]);
+
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
       <AccordionItem border={'none'} overflow={'visible'}>
@@ -114,7 +123,7 @@ const AdvanceFilter = ({ filters }: Props) => {
             alignItems={'center'}>
             <GridItem colSpan={2} zIndex={9}>
               <AdvanceFilterSelect
-                options={filters}
+                options={options}
                 value={selected}
                 onChange={(option, event) => {
                   handleSelect(option, event);
