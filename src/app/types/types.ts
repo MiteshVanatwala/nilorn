@@ -18,9 +18,8 @@ export type FilterKeys =
   | 'stockLocation'
   | 'vendor'
   | 'opComp'
-  | 'salespersonPurchaser';
-
-export const SORT_KEY: FilterKeys = 'sortKey';
+  | 'salespersonPurchaser'
+  | 'ActiveSearchProfile';
 
 export interface FormInputProps {
   name: string;

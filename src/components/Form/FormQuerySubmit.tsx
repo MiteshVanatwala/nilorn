@@ -3,8 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
 
-export const SORT: string = 'sortKey';
-
 export default function FormuQuerySubmit({
   children,
   style,
@@ -19,6 +17,7 @@ export default function FormuQuerySubmit({
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
+
     searchParamItems.forEach(name => {
       const value = searchParams.get(name);
       const decodedValue = decodeURIComponent(value ?? '');
@@ -29,7 +28,6 @@ export default function FormuQuerySubmit({
   }, []);
 
   function formChange() {
-    console.log('form.getValues()', form.getValues());
     navigate(`?` + onFilterChange(form.getValues()));
     form.clearErrors('serverError');
   }

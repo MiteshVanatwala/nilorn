@@ -3,27 +3,12 @@ import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 
-export function useProductDevelopments(pageNumber: number, pageSize?: number) {
-  return useQuery(
-    [QueryKeysEnum.Overview, pageNumber, pageSize],
-    () =>
-      ProductDevelopmentsService.getApiProductDevelopments(
-        pageNumber,
-        pageSize
-      ).then(res => res),
-    {
-      retry: 1,
-      enabled: pageNumber > 0,
-    }
-  );
-}
-
 export function useProductDevelopmentsFilter(
-  pageNumber?: number,
-  pageSize?: number
+  pageNumber: number,
+  pageSize: number
 ) {
   const sortKey = useFilterSearchParams('sortKey');
-  const searchQuery = useFilterSearchParams('searchQuery');
+  const searchQuery = useFilterSearchParams('searchQuery', 400);
   const clients = useFilterSearchParams('clients');
   const projects = useFilterSearchParams('projects');
   const statuses = useFilterSearchParams('statuses');
@@ -71,6 +56,9 @@ export function useProductDevelopmentsFilter(
       retry: 0,
       keepPreviousData: true,
       refetchOnWindowFocus: false,
+      cacheTime: 1000 * 20,
+      staleTime: 1000 * 20,
+      enabled: pageNumber > 0 && pageSize > 0,
     }
   );
 }

@@ -45,8 +45,8 @@ export function useDebounce<T>(value: T, delay: number): T {
 export function onFilterChange(formValues: FieldValues) {
   const output = Object.entries(formValues).reduce((result, [key, value]) => {
     if (key !== 'ActiveSearchProfile' && value !== undefined && value !== '') {
-      if (typeof value === 'string') {
-        result[key] = value;
+      if (typeof value === 'string' || typeof value === 'number') {
+        result[key] = value.toString();
       } else if (Array.isArray(value)) {
         result[key] = (value as SelectOption[]).map(v => v.value) as string[];
       } else if (value && typeof value === 'object' && 'value' in value) {
@@ -82,10 +82,14 @@ export function findMultiDefaultValues(
   }
 }
 
-export function useFilterSearchParams(name: FilterKeys): string | undefined {
-  const [searchParams] = useSearchParams();
+export function useFilterSearchParams(
+  name: FilterKeys,
+  delay: number = 0
+): string | undefined {
+  const [searchParam] = useSearchParams();
+  const value = useDebounce(searchParam.get(name), delay);
 
-  return searchParams.get(name) ?? undefined;
+  return value ?? undefined;
 }
 
 export function getSortValue(columnSort: ColumnSort): string {

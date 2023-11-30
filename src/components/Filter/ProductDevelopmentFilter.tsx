@@ -15,7 +15,6 @@ import CreateProductDevelopment from './CreateProductDevelopment';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useEffect } from 'react';
-import { SORT_KEY } from '../../app/types/types';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
@@ -25,13 +24,25 @@ const ProductDevelopmentFilter = () => {
   const clientOptions = useFilterOptions('clients');
   const statusOptions = useStatusOptions();
 
-  const { sortState } = usePaginationContext();
+  const { sortState, pageSize, pageNumber } = usePaginationContext();
 
   useEffect(() => {
     if (sortState[0]?.id) {
-      form.setValue(SORT_KEY, getSortValue(sortState[0]));
+      form.setValue('sortKey', getSortValue(sortState[0]));
     }
   }, [form, sortState]);
+
+  useEffect(() => {
+    if (pageNumber > 0) {
+      form.setValue('pageNumber', pageNumber);
+    }
+  }, [form, pageNumber]);
+
+  useEffect(() => {
+    if (pageSize > 0) {
+      form.setValue('pageSize', pageSize);
+    }
+  }, [form, pageSize]);
 
   return (
     <FormuQuerySubmit form={form}>

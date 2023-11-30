@@ -6,16 +6,18 @@ import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import { useSearchParams } from 'react-router-dom';
-import { SORT_KEY } from '../../app/types/types';
-import { getSortState } from '../../components/Filter/FilterHelper';
+import {
+  getSortState,
+  useFilterSearchParams,
+} from '../../components/Filter/FilterHelper';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
 function OverviewTableContainer() {
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
-  const initSort = searchParams.get(SORT_KEY);
+  const initSort = useFilterSearchParams('sortKey');
+  const initPageNumber = useFilterSearchParams('pageNumber');
+  const initPageSize = useFilterSearchParams('pageSize');
 
   const {
     pageNumber,
@@ -38,12 +40,18 @@ function OverviewTableContainer() {
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
     setTotalCount(data?.totalCount ?? 0);
-    setPageNumber(data?.pageNumber ?? 1);
+    setPageNumber(
+      initPageNumber ? Number(initPageNumber) : data?.pageNumber ?? 1
+    );
+    setPageSize(initPageSize ? Number(initPageSize) : CHUNK_SIZES[0]);
   }, [
     data?.pageNumber,
     data?.totalCount,
     data?.totalPages,
+    initPageNumber,
+    initPageSize,
     setPageNumber,
+    setPageSize,
     setTotalCount,
     setTotalPages,
   ]);
