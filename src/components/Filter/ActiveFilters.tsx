@@ -6,10 +6,12 @@ import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
 import { FilterKeys, SelectOption } from '../../app/types/types';
+import { useTranslation } from 'react-i18next';
 
 const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
+  const { t } = useTranslation();
   const { watch } = useFormContext();
   let [hasValues, setHasValues] = useState<boolean>(false);
   const watchedEntries = Object.entries(watch());
@@ -17,9 +19,10 @@ const ActiveFilters = () => {
   useEffect(() => {
     const foundValue = watchedEntries
       .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
-      .some(([_, value]) => value?.label || (value && value[0]));
+      .some(([_, value]) => value);
     setHasValues(foundValue);
   }, [watchedEntries]);
+
   return (
     <Flex
       display={'inline-flex'}
@@ -53,29 +56,16 @@ const ActiveFilters = () => {
               <ActiveFilterItem
                 key={key}
                 label={label}
-                // value={key}
                 queryItem={key}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
               />
             );
-          } else if (
-            value &&
-            value?.length &&
-            typeof value?.value === 'string'
-          ) {
+          } else if (value) {
             return (
               <ActiveFilterItem
-                // key={index}
-                label={value?.label}
-                filterLabel={value?.filterLabel ?? value?.label}
-                queryItem={key}
-              />
-            );
-          } else if (value && value?.label) {
-            return (
-              <ActiveFilterItem
-                // key={index}
-                label={value?.label}
-                filterLabel={value?.filterLabel ?? ''}
+                key={key}
+                label={value?.label ? value.label : value}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
                 queryItem={key}
               />
             );

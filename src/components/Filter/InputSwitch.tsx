@@ -4,7 +4,7 @@ import FilterSelect from './FilterSelect';
 import { useFormContext } from 'react-hook-form';
 import { findMultiDefaultValues } from './FilterHelper';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import InputFieldFilter from '../Form/InputFieldFilter';
+import InputField from '../Form/InputField';
 
 type Props = {
   option: SelectOption<AdvanceFilter>;
@@ -21,7 +21,7 @@ const InputSwitch = ({ option, filterLabel }: Props) => {
   switch (option.value.type) {
     case 'text':
       return (
-        <InputFieldFilter
+        <InputField
           placeholder={`${t('Filter.Enter')} ${option.label}`}
           variant="filled"
           name={optionValueName}

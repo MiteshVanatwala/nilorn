@@ -86,7 +86,6 @@
     "PDNamePlaceholder": "Product Development",
     "Created": "Proudct Development created",
     "Error": "Something went wrong",
-    "Projects": "Projects",
     "StatusLabel": {
       "New": "New",
       "Design": "Design",
@@ -95,6 +94,22 @@
       "Calcualtion": "Calcualtion",
       "Approved": "Approved",
       "Rejected": "Rejected"
+    },
+    "FilterLabel": {
+      "searchQuery": "",
+      "clients": "Clients",
+      "statuses": "Statuses",
+      "itemCategories": "Item category",
+      "productGroups": "Product group",
+      "foldingTypes": "Folding types",
+      "projects": "Project",
+      "finishedLengths": "Finished Length",
+      "finishedWidths": "Finished Width",
+      "finishedHeights": "Finished Height",
+      "vendor": "Vendor",
+      "stockLocation": "Stock Location",
+      "oPcomp": "Operations company",
+      "salespersonPurchaser": "Member"
     }
   },
   "Changelog": {
