@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { GetProductDevelopmentDto } from '../models/GetProductDevelopmentDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { Status } from '../models/Status';
@@ -34,18 +33,61 @@ pageSize?: number,
     }
 
     /**
-     * @param requestBody 
+     * @param no 
+     * @param name 
+     * @param description 
+     * @param itemNo 
+     * @param status 
+     * @param imageUrl 
+     * @param clientNo 
+     * @param project 
+     * @param itemCategoryCode 
+     * @param productGroupCode 
+     * @param foldingType 
+     * @param finishedLength 
+     * @param finishedWidth 
+     * @param finishedHeight 
+     * @param sampleQuantity 
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-requestBody?: CreateProductDevelopmentCommand,
+no?: string,
+name?: string,
+description?: string,
+itemNo?: string,
+status?: Status,
+imageUrl?: string,
+clientNo?: string,
+project?: string,
+itemCategoryCode?: string,
+productGroupCode?: string,
+foldingType?: string,
+finishedLength?: number,
+finishedWidth?: number,
+finishedHeight?: number,
+sampleQuantity?: number,
 ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments',
-            body: requestBody,
-            mediaType: 'application/json',
+            query: {
+                'No': no,
+                'Name': name,
+                'Description': description,
+                'ItemNo': itemNo,
+                'Status': status,
+                'ImageUrl': imageUrl,
+                'ClientNo': clientNo,
+                'Project': project,
+                'ItemCategoryCode': itemCategoryCode,
+                'ProductGroupCode': productGroupCode,
+                'FoldingType': foldingType,
+                'FinishedLength': finishedLength,
+                'FinishedWidth': finishedWidth,
+                'FinishedHeight': finishedHeight,
+                'SampleQuantity': sampleQuantity,
+            },
         });
     }
 
@@ -103,17 +145,6 @@ finishedHeights?: string,
     }
 
     /**
-     * @returns string Success
-     * @throws ApiError
-     */
-    public static getApiProductDevelopmentsTest(): CancelablePromise<string> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/ProductDevelopments/test',
-        });
-    }
-
-    /**
      * @param id 
      * @returns GetProductDevelopmentDto Success
      * @throws ApiError
@@ -125,7 +156,7 @@ id: string,
             method: 'GET',
             url: '/api/ProductDevelopments/{Id}',
             path: {
-                'id': id,
+                'Id': id,
             },
         });
     }
