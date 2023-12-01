@@ -70,7 +70,7 @@ export function findMultiDefaultValues(
   allOptions: SelectOption[],
   filterParam: string | SelectOption[]
 ): SelectOption[] | undefined {
-  if (filterParam === undefined) {
+  if (filterParam === undefined || allOptions.length === 0) {
     return undefined;
   }
   if (Array.isArray(filterParam)) {
