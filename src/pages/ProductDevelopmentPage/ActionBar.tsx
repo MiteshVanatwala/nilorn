@@ -1,4 +1,4 @@
-import { HStack, Text, VStack } from '@chakra-ui/layout';
+import { HStack, Text, VStack, Box } from '@chakra-ui/layout';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { Status } from '../../app/types/types';
@@ -8,9 +8,12 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../assets/';
 import { useWatch } from 'react-hook-form';
+import { useStatusOptions } from '../../app/hooks/useStatus';
+
 type Props = {
   createNew?: boolean;
 };
+
 const ActionBar = ({ createNew }: Props) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
@@ -22,6 +25,7 @@ const ActionBar = ({ createNew }: Props) => {
     });
   };
   const artwork = useWatch({ name: 'artwork' });
+  const statusOptions = useStatusOptions(true);
 
   return (
     <VStack align={'left'}>
@@ -97,7 +101,7 @@ const ActionBar = ({ createNew }: Props) => {
               {t('Common.Save')}
             </Button>
             <ButtonGroup isAttached variant="primary">
-              <Button>{t('Common.SendTo')} [NEXT-STATUS]</Button>
+              <Button>{t('Common.SendTo')} </Button>
               <Menu>
                 <MenuButton
                   as={IconButton}
@@ -107,16 +111,16 @@ const ActionBar = ({ createNew }: Props) => {
                   icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
                 />
                 <MenuList>
-                  {new Array(5).fill(null).map(_ => (
+                  {statusOptions.map(s => (
                     <MenuItem
                       icon={
-                        <Text
-                          as={'i'}
-                          className="ri-checkbox-blank-fill"
-                          color={'blue'}
-                        />
+                        <Box
+                          w={'6px'}
+                          h={'6px'}
+                          borderRadius={'2px'}
+                          bg={s.color}></Box>
                       }>
-                      [STATUS]
+                      {s.label}
                     </MenuItem>
                   ))}
                 </MenuList>

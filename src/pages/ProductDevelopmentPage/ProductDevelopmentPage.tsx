@@ -1,17 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
-import { Grid, GridItem, Text, VStack } from '@chakra-ui/layout';
+import { Grid, GridItem, VStack } from '@chakra-ui/layout';
 import { SPACE } from '../../theme/Constants';
 import TopSection from './TopSection';
 import BottomSection from './BottomSection';
 import { Accordion } from '@chakra-ui/accordion';
-import ImagePopup from '../../components/ImagePopup/ImagePopup';
-import Popup, {
-  PopupPosition,
-  PopupTrigger,
-} from '../../components/Popup/Popup';
-import { IconButton } from '@chakra-ui/button';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
@@ -60,6 +54,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
+
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       createProductDevelopment(form);
@@ -92,24 +87,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
           <Grid>
             <GridItem ref={ref}>
               <VStack spacing={SPACE.MD}>
-                <ImagePopup
-                  alt={'alt'}
-                  src={
-                    'https://img.freepik.com/premium-vector/umbrella-vector-sketch-illustrations_183342-139.jpg?w=360'
-                  }
-                />
-                <Popup
-                  isPortal={false}
-                  trigger={PopupTrigger.CLICK}
-                  position={PopupPosition.ABOVE}
-                  triggerElement={
-                    <IconButton
-                      aria-label="cangelog"
-                      icon={<Text as={'i'} className={'ri-history-line'} />}
-                    />
-                  }
-                  content={<>Changelog</>}
-                />
                 <Accordion
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}
