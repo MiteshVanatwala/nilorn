@@ -1,36 +1,21 @@
 import { useMemo } from 'react';
 import { Badge, Box, HStack, Text } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import fontSizes from '../../theme/fontSizes';
 import { Status } from '../../app/generate';
 import { COLORS, SPACE } from '../../theme/Constants';
+import { useStatusOptions } from '../../app/hooks/useStatus';
 
 type Props = {
   status?: Status;
 };
 
 const StatusBadge = ({ status }: Props) => {
-  const { t } = useTranslation();
+  const statusOptions = useStatusOptions();
   const { color, label } = useMemo(() => {
-    switch (status) {
-      case Status.NEW:
-        return { color: 'blue', label: 'New' };
-      case Status.DESIGN:
-        return { color: 'purple', label: 'Design' };
-      case Status.ARTWORK:
-        return { color: 'blue', label: 'Artwork' };
-      case Status.SOURCING:
-        return { color: 'gray', label: 'Sourcing' };
-      case Status.CALCULATION:
-        return { color: 'blue', label: 'Calcualtion' };
-      case Status.APPROVED:
-        return { color: 'green', label: 'Approved' };
-      case Status.REJECTED:
-        return { color: 'red', label: 'Rejected' };
-      default:
-        return { color: 'blue', label: 'New' };
-    }
-  }, [status]);
+    return (
+      statusOptions.find(s => s.value === status) || { label: '', color: '' }
+    );
+  }, [status, statusOptions]);
 
   return (
     <Badge
@@ -44,7 +29,7 @@ const StatusBadge = ({ status }: Props) => {
           variant={'bodyRegular'}
           color={COLORS.BLACK}
           textTransform={'capitalize'}>
-          {t(`PD.StatusLabel.${label}`)}
+          {label}
         </Text>
       </HStack>
     </Badge>
