@@ -3,10 +3,10 @@ import HomePage from '../Home/HomePage';
 import MainApp from './MainApp';
 import ProductDevelopmentPage from '../ProductDevelopmentPage/ProductDevelopmentPage';
 import RouteError from '../../components/ErrorBoundary/RouteError';
-import ClientsPage from '../Clients/ClientPage';
 import SourcingsPage from '../Sourcings/SourcingsPage';
 import PricesPage from '../Prices/PricesPage';
 import SigninOidc from '../Auth/SigninOidc';
+import ProductionsPage from '../Productions/ProductionsPage';
 
 const router = createBrowserRouter([
   {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
             element: <ProductDevelopmentPage createNew />,
           },
           {
-            path: 'clients',
-            element: <ClientsPage />,
+            path: 'production',
+            element: <ProductionsPage />,
           },
           {
             path: 'changelog',

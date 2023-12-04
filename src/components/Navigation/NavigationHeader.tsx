@@ -52,7 +52,10 @@ const NavigationHeader = () => {
                   title={<Heading variant={'h5'}>{t('Common.Title')}</Heading>}
                   path={'/'}
                 />
-                <HeaderLink title={t('Menu.HypChangelog')} path="/changelog" />
+                <HeaderLink
+                  title={t('Menu.HypProduction')}
+                  path="/production"
+                />
               </HStack>
               <HeaderDivider />
             </Flex>
