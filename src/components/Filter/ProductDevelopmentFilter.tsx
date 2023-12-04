@@ -4,7 +4,7 @@ import InputSearch from '../Form/InputSearch';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
-import { useOverviewAdvanceFilters } from '../../app/hooks/useOverviewAdvanceFilters';
+import { getOverviewAdvanceFilters } from '../../app/utils/getOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import FilterSelect from './FilterSelect';
@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
-  const advanceFilters = useOverviewAdvanceFilters();
+  const advanceFilters = getOverviewAdvanceFilters();
 
   const clientOptions = useFilterOptions('clients');
   const statusOptions = useStatusOptions();
@@ -105,7 +105,7 @@ const ProductDevelopmentFilter = () => {
                 label={t('Filter.Status')}
                 name={'statuses'}
                 defaultValue={findMultiDefaultValues(
-                  clientOptions,
+                  statusOptions,
                   form.getValues('statuses')
                 )}
                 options={statusOptions}

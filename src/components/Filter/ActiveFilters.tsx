@@ -6,10 +6,12 @@ import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
 import { FilterKeys, SelectOption } from '../../app/types/types';
+import { useTranslation } from 'react-i18next';
 
 const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
+  const { t } = useTranslation();
   const { watch } = useFormContext();
   let [hasValues, setHasValues] = useState<boolean>(false);
   const watchedEntries = Object.entries(watch());
@@ -17,9 +19,10 @@ const ActiveFilters = () => {
   useEffect(() => {
     const foundValue = watchedEntries
       .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
-      .some(([_, value]) => value);
+      .some(([_, value]) => value?.label || (value && value[0]));
     setHasValues(foundValue);
   }, [watchedEntries]);
+
   return (
     <Flex
       display={'inline-flex'}
@@ -44,6 +47,11 @@ const ActiveFilters = () => {
             (typeof value === 'string' && value.includes(',')) ||
             value === undefined
           ) {
+            return <Fragment key={value} />;
+          } else if (
+            (typeof value === 'string' && value.includes(',')) ||
+            value === undefined
+          ) {
             return <Fragment key={key} />;
           } else if (Array.isArray(value) && value?.length > 0) {
             const label = (value as SelectOption<string>[])
@@ -53,16 +61,20 @@ const ActiveFilters = () => {
               <ActiveFilterItem
                 key={key}
                 label={label}
-                value={key}
                 queryItem={key}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
               />
             );
-          } else if (value) {
+          } else if (
+            value &&
+            value?.length &&
+            typeof value?.value === 'string'
+          ) {
             return (
               <ActiveFilterItem
                 key={key}
                 label={value?.label ? value.label : value}
-                value={value}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
                 queryItem={key}
               />
             );
