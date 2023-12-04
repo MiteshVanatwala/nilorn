@@ -120,10 +120,11 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter",
-    "Create": "Create new"
+    "Remove": "Remove filter"
   },
   "Errors": {
-    "Required": "The field is required"
+    "Required": "The field is required",
+    "EmptyFilter": "Filter can not be empty",
+    "FilterName": "Filter name is required"
   }
 }
