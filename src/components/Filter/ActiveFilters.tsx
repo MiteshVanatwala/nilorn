@@ -5,7 +5,9 @@ import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
-import { SelectOption } from '../../app/types/types';
+import { FilterKeys, SelectOption } from '../../app/types/types';
+
+const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
   const { watch } = useFormContext();
@@ -14,11 +16,10 @@ const ActiveFilters = () => {
 
   useEffect(() => {
     const foundValue = watchedEntries
-      .filter(([key, _]) => key !== 'ActiveSearchProfile')
+      .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
       .some(([_, value]) => value);
     setHasValues(foundValue);
   }, [watchedEntries]);
-
   return (
     <Flex
       display={'inline-flex'}
@@ -34,9 +35,10 @@ const ActiveFilters = () => {
         lg: SPACE.SM,
       }}
       flexDirection="row"
-      py={hasValues ? SPACE.XS : ''}>
+      pb={{ base: SPACE.XXS, lg: SPACE.MD }}
+      pt={hasValues ? SPACE.XS : ''}>
       {watchedEntries
-        .filter(([key, _]) => key !== 'ActiveSearchProfile')
+        .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
         .map(([key, value]) => {
           if (
             (typeof value === 'string' && value.includes(',')) ||
@@ -59,11 +61,7 @@ const ActiveFilters = () => {
             return (
               <ActiveFilterItem
                 key={key}
-                label={
-                  value?.label
-                    ? value.label
-                    : value[0]?.toUpperCase() + value?.slice(1)
-                }
+                label={value?.label ? value.label : value}
                 value={value}
                 queryItem={key}
               />

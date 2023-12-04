@@ -20,7 +20,7 @@
     "Error": "Failed to load content",
     "SendTo": "Send to:",
     "Save": "Save",
-    "CahngeStatus": "Chnage status",
+    "ChangeStatus": "Change status",
     "More": "More",
     "Delete": "Delete",
     "Remove": "Remove",
@@ -28,7 +28,8 @@
     "Download": "Download",
     "LastChanged": "Last changed:",
     "Placeholder": "Enter value",
-    "NoMatch": "Sorry, we could not find any results"
+    "NoMatch": "Sorry, we could not find any results",
+    "Success": "Success"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -80,6 +81,12 @@
     "AddMember": "Add member",
     "SalespersonPurchaser": "Member",
     "Version": "Version",
+    "MemberInfo": "Members can only be added after the product development is created",
+    "CreateNew": "Create Product Development",
+    "PDNamePlaceholder": "Product Development",
+    "Created": "Proudct Development created",
+    "Error": "Something went wrong",
+    "Projects": "Projects",
     "StatusLabel": {
       "New": "New",
       "Design": "Design",
@@ -116,6 +123,7 @@
     "Remove": "Remove filter"
   },
   "Errors": {
+    "Required": "The field is required",
     "EmptyFilter": "Filter can not be empty",
     "FilterName": "Filter name is required"
   }

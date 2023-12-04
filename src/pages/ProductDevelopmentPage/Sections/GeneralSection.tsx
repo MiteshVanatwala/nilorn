@@ -48,6 +48,7 @@ const GeneralSection = () => {
                 label={`${t('PD.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'itemNumber'}
+                registerOptions={{ required: true }}
               />
             </GridItem>
             <GridItem colSpan={2}>

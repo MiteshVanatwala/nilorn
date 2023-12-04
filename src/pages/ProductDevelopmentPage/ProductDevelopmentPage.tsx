@@ -17,24 +17,37 @@ import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
 import ProductDesignSection from './Sections/ProductDesignSection';
 import MemberSection from './Sections/MemberSection';
+import { useToast } from '../../app/hooks/useToast';
+import { useCreateProductDevelopment } from '../../app/api/CreateProductDevelopment';
+import { useTranslation } from 'react-i18next';
 
-function ProductDevelopmentPage() {
+type Props = {
+  createNew?: boolean;
+};
+
+function ProductDevelopmentPage({ createNew }: Props) {
   const { productNo } = useParams();
-  const methods = useForm();
+  const form = useForm();
+  const { t } = useTranslation();
 
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
+  const {
+    mutate: createProductDevelopment,
+    isSuccess,
+    isError,
+  } = useCreateProductDevelopment();
 
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
-        const { top } = ref.current.getBoundingClientRect();
-
-        if (top < 0 && !isSticky) {
+        if (window.scrollY > 0 && !isSticky) {
+          console.log(window.scrollY, scrolledPast);
           setScrolledPast(true);
           setSticky(true);
-        } else if (top > 0 && isSticky && window.scrollY < 70) {
+        } else if (window.scrollY === 0 && isSticky) {
           setScrolledPast(false);
           setSticky(false);
         }
@@ -45,16 +58,36 @@ function ProductDevelopmentPage() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
-
-  const onSave = (data: FieldValues) => {
-    console.log(data);
-  };
-
+  function submitForm(form: FieldValues) {
+    async function onSubmit(form: FieldValues): Promise<void> {
+      createProductDevelopment(form);
+      if (isSuccess) {
+        showToast({
+          status: 'success',
+          description: `${t('PD.Created')}`,
+        });
+      }
+      if (isError) {
+        showToast({
+          status: 'error',
+          description: `${t('PD.Error')}`,
+        });
+      }
+    }
+    onSubmit(form);
+  }
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={() => methods.handleSubmit(onSave)}>
-        <TopSection productNo={productNo ?? ''} scrolledPast={scrolledPast} />
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(submitForm)}
+        onChange={() => form.clearErrors('serverError')}>
+        <TopSection
+          createNew={createNew}
+          productNo={productNo ?? ''}
+          scrolledPast={scrolledPast}
+        />
         <ContentPage>
           <Grid>
             <GridItem ref={ref}>
@@ -91,9 +124,10 @@ function ProductDevelopmentPage() {
                 </Accordion>
                 <Accordion
                   variant={'card'}
-                  defaultIndex={[0, 1, 3]}
+                  defaultIndex={createNew ? undefined : [0, 1, 3]}
+                  alignItems={scrolledPast ? 'center' : 'flex-start'}
                   allowMultiple>
-                  <MemberSection />
+                  <MemberSection createNew />
                 </Accordion>
                 <Accordion
                   variant={'card'}

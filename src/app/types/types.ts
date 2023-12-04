@@ -18,7 +18,8 @@ export type FilterKeys =
   | 'stockLocation'
   | 'vendor'
   | 'opComp'
-  | 'salespersonPurchaser';
+  | 'salespersonPurchaser'
+  | 'ActiveSearchProfile';
 
 export interface FormInputProps {
   name: string;
@@ -54,3 +55,8 @@ export type Feedback = {
   size?: 'md' | 'sm';
   description?: string;
 };
+export enum FieldState {
+  'NEUTRAL',
+  'VALID',
+  'ERROR',
+}
