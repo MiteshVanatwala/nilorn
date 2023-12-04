@@ -45,7 +45,7 @@ const MemberSection = ({ createNew }: Props) => {
   };
 
   return (
-    <AccordionItem title={t('PD.Members')}>
+    <AccordionItem title={t('PD.AccordionLabels.Members')}>
       <Flex
         gap={SPACE.MD}
         justifyContent={{

@@ -20,6 +20,7 @@ import MemberSection from './Sections/MemberSection';
 import { useToast } from '../../app/hooks/useToast';
 import { useCreateProductDevelopment } from '../../app/api/CreateProductDevelopment';
 import { useTranslation } from 'react-i18next';
+import SourcingSection from './Sections/SourcingSection';
 
 type Props = {
   createNew?: boolean;
@@ -134,6 +135,13 @@ function ProductDevelopmentPage({ createNew }: Props) {
                   defaultIndex={[0, 1, 3]}
                   allowMultiple>
                   <AttachmentSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  // alignItems={scrolledPast ? 'center' : 'flex-start'}
+                  allowMultiple>
+                  <SourcingSection />
                 </Accordion>
               </VStack>
             </GridItem>
