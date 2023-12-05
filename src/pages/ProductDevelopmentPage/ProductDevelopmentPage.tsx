@@ -116,7 +116,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
                 <Accordion
                   variant={'card'}
                   defaultIndex={[0, 1, 3]}
-                  // alignItems={scrolledPast ? 'center' : 'flex-start'}
                   allowMultiple>
                   <SourcingSection />
                 </Accordion>
