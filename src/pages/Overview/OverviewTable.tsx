@@ -1,24 +1,35 @@
 import { Table, Tbody, Thead } from '@chakra-ui/table';
 import useOverviewColumns from './useOverviewColumns';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import {
+  SortingState,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { THeadRow } from '../../components/Table/THeadRow';
 import { COLORS } from '../../theme/Constants';
 import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
+  sortState: SortingState;
+  setSortState: Dispatch<SetStateAction<SortingState>>;
 };
 
-const OverviewTable = ({ data }: Props) => {
+const OverviewTable = ({ data, sortState, setSortState }: Props) => {
   const navigate = useNavigate();
   const columns = useOverviewColumns();
 
   const table = useReactTable({
     columns,
     data,
+    onSortingChange: setSortState,
     getCoreRowModel: getCoreRowModel(),
+    state: {
+      sorting: sortState,
+    },
   });
 
   return (

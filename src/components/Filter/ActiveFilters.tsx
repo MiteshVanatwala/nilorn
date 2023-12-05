@@ -5,17 +5,21 @@ import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
 import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
-import { SelectOption } from '../../app/types/types';
+import { FilterKeys, SelectOption } from '../../app/types/types';
+import { useTranslation } from 'react-i18next';
+
+const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
+  const { t } = useTranslation();
   const { watch } = useFormContext();
   let [hasValues, setHasValues] = useState<boolean>(false);
   const watchedEntries = Object.entries(watch());
 
   useEffect(() => {
     const foundValue = watchedEntries
-      .filter(([key, _]) => key !== 'ActiveSearchProfile')
-      .some(([_, value]) => value);
+      .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
+      .some(([_, value]) => value?.label || (value && value[0]));
     setHasValues(foundValue);
   }, [watchedEntries]);
 
@@ -37,9 +41,14 @@ const ActiveFilters = () => {
       pb={{ base: SPACE.XXS, lg: SPACE.MD }}
       pt={hasValues ? SPACE.XS : ''}>
       {watchedEntries
-        .filter(([key, _]) => key !== 'ActiveSearchProfile')
+        .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
         .map(([key, value]) => {
           if (
+            (typeof value === 'string' && value.includes(',')) ||
+            value === undefined
+          ) {
+            return <Fragment key={value} />;
+          } else if (
             (typeof value === 'string' && value.includes(',')) ||
             value === undefined
           ) {
@@ -52,20 +61,20 @@ const ActiveFilters = () => {
               <ActiveFilterItem
                 key={key}
                 label={label}
-                value={key}
                 queryItem={key}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
               />
             );
-          } else if (value) {
+          } else if (
+            value &&
+            value?.length &&
+            typeof value?.value === 'string'
+          ) {
             return (
               <ActiveFilterItem
                 key={key}
-                label={
-                  value?.label
-                    ? value.label
-                    : value[0]?.toUpperCase() + value?.slice(1)
-                }
-                value={value}
+                label={value?.label ? value.label : value}
+                filterLabel={t(`PD.FilterLabel.${key}`)}
                 queryItem={key}
               />
             );

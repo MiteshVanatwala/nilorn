@@ -18,7 +18,9 @@ export type FilterKeys =
   | 'stockLocation'
   | 'vendor'
   | 'opComp'
-  | 'salespersonPurchaser';
+  | 'salespersonPurchaser'
+  | 'includeClosed'
+  | 'ActiveSearchProfile';
 
 export interface FormInputProps {
   name: string;
@@ -43,7 +45,6 @@ export type AdvanceFilter = {
   type: 'select' | 'text';
   name: FilterKeys;
   options?: SelectOption[];
-  test?: any;
 };
 
 export type Status = 'success' | 'error' | 'warning' | 'info';

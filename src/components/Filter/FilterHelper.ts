@@ -1,8 +1,10 @@
 import { FilterKeys } from '../../app/types/types';
+import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
+import { SortingState } from '@tanstack/table-core';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -16,9 +18,13 @@ export function getDefaultValueSelect(
 
 export type GroupSelectOption = {
   label: string;
-  options: SelectOption[];
+  options: SelectOptionFilter[];
 };
-
+export type SelectOptionFilter = {
+  label: string;
+  value: string;
+  filterName: string;
+};
 export function useDebounce<T>(value: T, delay: number): T {
   // State and setters for debounced value
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -43,8 +49,8 @@ export function useDebounce<T>(value: T, delay: number): T {
 export function onFilterChange(formValues: FieldValues) {
   const output = Object.entries(formValues).reduce((result, [key, value]) => {
     if (key !== 'ActiveSearchProfile' && value !== undefined && value !== '') {
-      if (typeof value === 'string') {
-        result[key] = value;
+      if (typeof value === 'string' || typeof value === 'number') {
+        result[key] = value.toString();
       } else if (Array.isArray(value)) {
         result[key] = (value as SelectOption[]).map(v => v.value) as string[];
       } else if (value && typeof value === 'object' && 'value' in value) {
@@ -64,7 +70,7 @@ export function findMultiDefaultValues(
   allOptions: SelectOption[],
   filterParam: string | SelectOption[]
 ): SelectOption[] | undefined {
-  if (filterParam === undefined) {
+  if (filterParam === undefined || allOptions.length === 0) {
     return undefined;
   }
   if (Array.isArray(filterParam)) {
@@ -80,8 +86,24 @@ export function findMultiDefaultValues(
   }
 }
 
-export function useFilterSearchParams(name: FilterKeys): string | undefined {
-  const [searchParams] = useSearchParams();
+export function useFilterSearchParams(
+  name: FilterKeys,
+  delay: number = 0
+): string | undefined {
+  const [searchParam] = useSearchParams();
+  const value = useDebounce(searchParam.get(name), delay);
 
-  return searchParams.get(name) ?? undefined;
+  return value ?? undefined;
+}
+
+export function getSortValue(columnSort: ColumnSort): string {
+  return `${columnSort.id}${columnSort.desc ? 'D' : 'A'}`;
+}
+
+export function getSortState(sortValue: string): SortingState {
+  const match = sortValue.match(/([a-zA-Z]+)([a-zA-Z\d])$/);
+  const [, id, value] = match as [string, string, string];
+  const result: { id: string; value: string } = { id, value };
+
+  return [{ id: result.id, desc: result.value === 'D' }];
 }

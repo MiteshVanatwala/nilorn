@@ -12,6 +12,7 @@ const useOverviewColumns = () => {
   const columns = [
     columnHelper.accessor('imageUrl', {
       header: `${t('PD.Image')}`,
+      enableSorting: false,
       cell: info => {
         if (!info.getValue()) {
           return <></>;
@@ -30,11 +31,11 @@ const useOverviewColumns = () => {
       header: `${t('PD.Name')}`,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
-    columnHelper.accessor('productDevelopmentNo', {
+    columnHelper.accessor('number', {
       header: `${t('PD.Number')}`,
       cell: info => info.getValue(),
     }),
-    columnHelper.accessor('version', {
+    columnHelper.accessor('versions', {
       header: `${t('PD.Version')}`,
       cell: info => info.getValue(),
     }),
@@ -59,7 +60,7 @@ const useOverviewColumns = () => {
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('sourcingCompapeies', {
-      header: `${t('PD.SourcingCompapeies')}`,
+      header: `${t('PD.SourcingCompanies')}`,
       cell: info => info.getValue(),
     }),
   ];

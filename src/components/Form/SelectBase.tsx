@@ -73,6 +73,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   menuPlacement?: 'auto' | 'top';
   showSelectedCount?: boolean;
   dark?: boolean;
+  invisible?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -92,11 +93,20 @@ const SelectBase = <IsMulti extends boolean = false>({
   menuPlacement = 'auto',
   showSelectedCount = false,
   dark = false,
+  invisible = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
-  const color = dark ? COLORS.WHITE : COLORS.GRAY[70];
-  const bgColor = dark ? COLORS.GRAY[70] : COLORS.GRAY[10];
+  const color = dark
+    ? COLORS.WHITE
+    : invisible
+    ? COLORS.GRAY[80]
+    : COLORS.GRAY[70];
+  const bgColor = dark
+    ? COLORS.GRAY[70]
+    : invisible
+    ? COLORS.WHITE
+    : COLORS.GRAY[10];
   const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[60];
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
 
@@ -124,7 +134,12 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           ...text.baseStyle,
           whiteSpace: 'noWrap',
-          height: isMulti && !showSelectedCount ? 'max-content' : '4.2rem',
+          height:
+            isMulti && !showSelectedCount
+              ? 'max-content'
+              : invisible
+              ? 'auto'
+              : '4.2rem',
           w: '100%',
           backgroundColor: bgColor,
           borderColor: bgColor,
@@ -145,6 +160,7 @@ const SelectBase = <IsMulti extends boolean = false>({
         }),
         valueContainer: base => ({
           ...base,
+          padding: invisible ? '0' : base.padding,
           color: color,
         }),
         menuList: base => ({
@@ -171,6 +187,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           fontSize: SIZES.ICON.MD,
           color: color,
+          display: invisible ? 'none' : 'relative',
         }),
         option: (base, { isSelected }) => ({
           ...base,

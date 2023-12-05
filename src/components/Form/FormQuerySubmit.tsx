@@ -17,6 +17,7 @@ export default function FormuQuerySubmit({
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
+
     searchParamItems.forEach(name => {
       const value = searchParams.get(name);
       const decodedValue = decodeURIComponent(value ?? '');

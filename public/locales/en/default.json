@@ -102,6 +102,22 @@
       "Attachments": "Attachments",
       "ProductDesign": "Product design",
       "General": "General"
+    },
+    "FilterLabel": {
+      "searchQuery": "",
+      "clients": "Clients",
+      "statuses": "Statuses",
+      "itemCategories": "Item category",
+      "productGroups": "Product group",
+      "foldingTypes": "Folding types",
+      "projects": "Project",
+      "finishedLengths": "Finished Length",
+      "finishedWidths": "Finished Width",
+      "finishedHeights": "Finished Height",
+      "vendor": "Vendor",
+      "stockLocation": "Stock Location",
+      "oPcomp": "Operations company",
+      "salespersonPurchaser": "Member"
     }
   },
   "Changelog": {
@@ -127,10 +143,11 @@
     "Status": "Status",
     "Clear": "Clear all",
     "Enter": "Enter",
-    "Remove": "Remove filter",
-    "Create": "Create new"
+    "Remove": "Remove filter"
   },
   "Errors": {
-    "Required": "The field is required"
+    "Required": "The field is required",
+    "EmptyFilter": "Filter can not be empty",
+    "FilterName": "Filter name is required"
   }
 }

@@ -6,6 +6,8 @@ import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import EditableInputField from '../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
+import Select from '../../components/Form/Select';
+import useFilterOptions from '../../app/hooks/useFilterOption';
 
 type Props = {
   productNo: string;
@@ -14,6 +16,7 @@ type Props = {
 };
 const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
+  const clientOptions = useFilterOptions('clients');
 
   return (
     <Box
@@ -89,7 +92,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                     registerOptions={{ required: true }}
                   />
                 </Heading>
-                <Text>
+                <Text px={SPACE.SM}>
                   {!createNew && '#'}
                   {productNo}
                 </Text>
@@ -115,8 +118,25 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               md: 3,
               lg: 2,
             }}>
-            <Text fontWeight={scrolledPast ? '600' : 'normal'}>Client</Text>
-            <p>Project</p>
+            {createNew ? (
+              <Box zIndex={9} width={'100%'}>
+                <Select
+                  placeholder={t('PD.Client')}
+                  name="client"
+                  options={clientOptions}
+                />
+              </Box>
+            ) : (
+              <Text p={SPACE.XXS}>[CLIENT]</Text>
+            )}
+            <Box zIndex={8} width={'100%'}>
+              <Select
+                placeholder={t('PD.Project')}
+                name="project"
+                invisible={!createNew}
+                options={clientOptions}
+              />
+            </Box>
           </GridItem>
           <GridItem
             colSpan={{

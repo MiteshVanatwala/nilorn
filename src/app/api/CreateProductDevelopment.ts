@@ -1,18 +1,15 @@
 import { useMutation } from 'react-query';
-import {
-  CreateProductDevelopmentCommand,
-  ProductDevelopmentsService,
-} from '../generate';
+import { ProductDevelopmentsService } from '../generate';
 
 export const useCreateProductDevelopment = () => {
   return useMutation(
-    (body: CreateProductDevelopmentCommand) =>
+    // TODO: Waiting for API
+    (body: any) =>
       ProductDevelopmentsService.postApiProductDevelopments(body).then(
         response => response
       ),
     {
       onSuccess: async () => {
-        // queryClient.invalidateQueries([QueryKeysEnum.SearchProfiles]);
         console.log('success');
       },
     }

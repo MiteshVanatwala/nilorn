@@ -4,11 +4,12 @@ import {
   Button,
   HStack,
   Input,
+  Text,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../app/context/ModalContext';
-import { SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import ControlWrapper from '../Form/ControlWrapper';
 
@@ -27,6 +28,8 @@ const SearchProfileModalContent = ({
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [searchProfile, setSearchProfile] = useState<string | undefined>();
+  const [errorMsgQuery, setErrorMsgQuery] = useState<string | undefined>();
+  const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
 
   const [searchProfileName, setSearchProfileName] = useState<
     string | undefined
@@ -46,7 +49,17 @@ const SearchProfileModalContent = ({
       name: searchProfileName,
       query: queryString,
     };
-    createOrUpdateSearchProfile(data);
+    if (queryString === undefined) {
+      setErrorMsgQuery(`${t('Errors.EmptyFilter')}`);
+    } else setErrorMsgQuery(undefined);
+    if (searchProfileName === '') {
+      setErrorMsgName(`${t('Errors.FilterName')}`);
+    } else {
+      setErrorMsgName(undefined);
+    }
+    if (searchProfileName !== '' && queryString) {
+      createOrUpdateSearchProfile(data);
+    }
   }
   useEffect(() => {
     setSearchProfile(activeSearchProfileName);
@@ -97,6 +110,8 @@ const SearchProfileModalContent = ({
               setSearchProfileName(e.target.value);
             }}
           />
+          {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
+          {errorMsgQuery && <Text color={COLORS.ERROR}>{errorMsgQuery}</Text>}
         </ControlWrapper>
       </ModalBody>
       <ModalFooter justifyContent={'center'}>

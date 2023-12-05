@@ -1,10 +1,19 @@
-import OverviewTableContainer from './OverviewTableContainer';
+import { Suspense, lazy } from 'react';
 import { PaginationProvider } from '../../app/context/PaginationProvider';
+const ProductDevelopmentFilter = lazy(
+  () => import('../../components/Filter/ProductDevelopmentFilter')
+);
+const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 
 function Overview() {
   return (
     <PaginationProvider>
-      <OverviewTableContainer />
+      <Suspense>
+        <ProductDevelopmentFilter />
+      </Suspense>
+      <Suspense>
+        <OverviewTableContainer />
+      </Suspense>
     </PaginationProvider>
   );
 }
