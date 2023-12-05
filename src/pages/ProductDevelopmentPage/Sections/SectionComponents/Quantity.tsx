@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID } from '../../../../theme/Constants';
-import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../../../components/Form/InputField';
 

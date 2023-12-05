@@ -1,17 +1,6 @@
-import {
-  AccordionButton,
-  AccordionIcon,
-  AccordionPanel,
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { COLORS, GRID, SPACE } from '../../../theme/Constants';
+import { GRID, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 import InputField from '../../../components/Form/InputField';
