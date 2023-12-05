@@ -21,12 +21,6 @@ const Quantity = () => {
     name: 'quantities',
   });
 
-  //TODO - ONLY TO GET VALUES WHEN API IS MISSING
-  useEffect(() => {
-    append({ value: '1' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Grid
       templateColumns={{
