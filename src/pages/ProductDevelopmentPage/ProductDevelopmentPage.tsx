@@ -14,6 +14,7 @@ import MemberSection from './Sections/MemberSection';
 import { useToast } from '../../app/hooks/useToast';
 import { useCreateProductDevelopment } from '../../app/api/CreateProductDevelopment';
 import { useTranslation } from 'react-i18next';
+import SourcingSection from './Sections/SourcingSection';
 
 type Props = {
   createNew?: boolean;
@@ -38,7 +39,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
     const handleScroll = () => {
       if (ref.current) {
         if (window.scrollY > 0 && !isSticky) {
-          console.log(window.scrollY, scrolledPast);
           setScrolledPast(true);
           setSticky(true);
         } else if (window.scrollY === 0 && isSticky) {
@@ -111,6 +111,12 @@ function ProductDevelopmentPage({ createNew }: Props) {
                   defaultIndex={[0, 1, 3]}
                   allowMultiple>
                   <AttachmentSection />
+                </Accordion>
+                <Accordion
+                  variant={'card'}
+                  defaultIndex={[0, 1, 3]}
+                  allowMultiple>
+                  <SourcingSection />
                 </Accordion>
               </VStack>
             </GridItem>

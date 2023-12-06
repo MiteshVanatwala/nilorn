@@ -13,7 +13,7 @@ const GeneralSection = () => {
     { label: 'hejsan2', value: 'hejsan2' },
   ];
   return (
-    <AccordionItem title={`${t('PD.General')}`}>
+    <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
           zIndex={1}
@@ -24,7 +24,7 @@ const GeneralSection = () => {
           <Select
             options={options}
             name="itemCategory"
-            label={`${t('PD.ItemCategory')}`}
+            label={`${t('PD.FormContent.ItemCategory')}`}
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>
@@ -37,7 +37,7 @@ const GeneralSection = () => {
           <Select
             options={options}
             name="productGroup"
-            label={`${t('PD.ProductGroup')}`}
+            label={`${t('PD.FormContent.ProductGroup')}`}
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>
@@ -45,31 +45,33 @@ const GeneralSection = () => {
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <GridItem colSpan={2}>
               <InputField
-                label={`${t('PD.ItemNumber')}`}
+                label={`${t('PD.FormContent.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'itemNumber'}
                 registerOptions={{ required: true }}
               />
             </GridItem>
+
             <GridItem colSpan={2}>
               <InputField
-                label={`${t('PD.TargetSales')}`}
+                label={`${t('PD.FormContent.TargetSales')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'targetSales'}
               />
             </GridItem>
             <GridItem colSpan={2}>
               <InputField
-                label={`${t('PD.FreightIncluded')}`}
+                label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
               />
             </GridItem>
             <GridItem colSpan={2}>
               <InputField
-                label={`${t('PD.SampleQuantity')}`}
+                label={`${t('PD.FormContent.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'sampleQuantity'}
+                registerOptions={{ valueAsNumber: true }}
               />
             </GridItem>
           </Grid>

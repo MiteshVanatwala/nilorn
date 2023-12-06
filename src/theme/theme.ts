@@ -6,6 +6,7 @@ import fonts from './fonts';
 import { formLabel } from './form';
 import heading from './heading';
 import input from './input';
+import textarea from './textarea';
 import { link } from './link';
 import SIZES from './Constants/sizes';
 import { table } from './table';
@@ -51,6 +52,7 @@ const theme = extendTheme({
     Radio: radioTheme,
     NumberInput: numberInput,
     Accordion: accordion,
+    Textarea: textarea,
   },
   colors: colors,
 });
