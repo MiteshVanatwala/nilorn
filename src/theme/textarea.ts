@@ -7,6 +7,7 @@ import {
 import COLORS from './Constants/colors';
 import { SPACE } from './Constants';
 import fontSizes from './fontSizes';
+import input from './input';
 
 const importantValue = (value: string) => {
   return `${value} !important`;
@@ -14,49 +15,23 @@ const importantValue = (value: string) => {
 
 const { definePartsStyle } = createMultiStyleConfigHelpers(inputAnatomy.keys);
 const standard = defineStyle({
-  borderColor: COLORS.GRAY[20],
   borderRadius: '0',
   borderBottom: '1px solid' + COLORS.GRAY[20],
   px: '0',
-  paddingTop: '0',
-  paddingBottom: '0.5625rem',
-  textColor: COLORS.GRAY[80],
-  fontWeight: 400,
-  ':focus-visible': {
-    borderColor: importantValue(COLORS.GRAY[60]),
-    boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
-  },
-  _invalid: {
-    borderColor: importantValue(COLORS.ERROR),
-  },
+  pt: '0',
 });
 const outline = defineStyle({
-  borderColor: COLORS.GRAY[20],
-  borderRadius: SPACE.XXS,
   border: '1px solid' + COLORS.GRAY[20],
   padding: SPACE.XS,
-  paddingBottom: '0.5625rem',
-  textColor: COLORS.GRAY[80],
-  fontWeight: 400,
-  ':focus-visible': {
-    borderColor: importantValue(COLORS.GRAY[60]),
-    boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
-  },
-  _invalid: {
-    borderColor: importantValue(COLORS.ERROR),
-  },
+  paddingTop: '0.5625rem',
 });
 
 const filled = defineStyle({
   bgColor: COLORS.GRAY[10],
   paddingX: SPACE.XS,
-  paddingY: '.85rem',
-  borderRadius: SPACE.XXS,
+  paddingTop: '0.5625rem',
   border: '2px solid' + COLORS.GRAY[20],
-  padding: SPACE.XS,
-  paddingBottom: '0.5625rem',
-  textColor: COLORS.GRAY[80],
-  fontWeight: 400,
+
   _hover: {
     borderColor: COLORS.GRAY[20],
     bgColor: COLORS.GRAY[10],
@@ -74,16 +49,8 @@ const sizes = {
 };
 
 const baseStyle = definePartsStyle({
-  paddingBottom: '0.5625rem',
-  color: COLORS.GRAY[80],
-  fontWeight: 400,
-  ':focus-visible': {
-    borderColor: importantValue(COLORS.GRAY[60]),
-    boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
-  },
-  _invalid: {
-    borderColor: importantValue(COLORS.ERROR),
-  },
+  ...input.baseStyle?.field,
+
   field: {},
 });
 export const textarea = defineStyleConfig({
