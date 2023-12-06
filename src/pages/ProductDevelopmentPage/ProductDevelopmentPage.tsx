@@ -39,7 +39,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
     const handleScroll = () => {
       if (ref.current) {
         if (window.scrollY > 0 && !isSticky) {
-          console.log(window.scrollY, scrolledPast);
           setScrolledPast(true);
           setSticky(true);
         } else if (window.scrollY === 0 && isSticky) {

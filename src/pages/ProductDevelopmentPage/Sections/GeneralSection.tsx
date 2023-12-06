@@ -51,6 +51,7 @@ const GeneralSection = () => {
                 registerOptions={{ required: true }}
               />
             </GridItem>
+
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.TargetSales')}`}
@@ -70,6 +71,7 @@ const GeneralSection = () => {
                 label={`${t('PD.FormContent.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'sampleQuantity'}
+                registerOptions={{ valueAsNumber: true }}
               />
             </GridItem>
           </Grid>
