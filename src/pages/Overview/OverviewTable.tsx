@@ -46,9 +46,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
             <TBodyRow
               row={row}
               bgColor={bgColor}
-              onClick={() =>
-                navigate(`product-development/${row.original.number}`)
-              }
+              onClick={() => navigate(`product-development/${row.original.no}`)}
               key={i}
             />
           );
