@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type ProductDevelopmentBriefDto = {
+    no?: string | null;
     imageUrl?: string | null;
     itemNumber?: string | null;
     name?: string | null;
@@ -25,4 +26,5 @@ export type ProductDevelopmentBriefDto = {
     finishedWidth?: number | null;
     finishedHeight?: number | null;
     sampleQuantity?: number | null;
+    sourcings?: Array<string> | null;
 };
