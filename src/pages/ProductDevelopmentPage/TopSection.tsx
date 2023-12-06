@@ -1,13 +1,22 @@
-import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
+import {
+  Box,
+  Grid,
+  GridItem,
+  HStack,
+  Heading,
+  Link,
+  Text,
+} from '@chakra-ui/layout';
 import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import ContentSection from '../Templates/ContentSection';
 import ActionBar from './ActionBar';
-import { Image, VStack } from '@chakra-ui/react';
+import { IconButton, Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import EditableInputField from '../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
+import fonts from '../../theme/fonts';
 
 type Props = {
   productNo: string;
@@ -30,7 +39,28 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
       bgColor={COLORS.WHITE}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
       <ContentSection>
+        <Link href={sessionStorage.getItem('prevFilter') ?? '/'}>
+          <IconButton
+            display={scrolledPast ? 'none' : 'inline-flex'}
+            aria-label={t(`PD.BackToOverview`)}
+            bg={COLORS.WHITE}
+            color={COLORS.GRAY[90]}
+            as={'i'}
+            mb={SPACE.MD}
+            className={'ri-arrow-left-s-line'}>
+            <Text
+              fontFamily={fonts.body}
+              variant={'bodyBold'}
+              pr={SPACE.XXS}
+              ml={'1rem'}
+              color={COLORS.GRAY[90]}>
+              {t(`PD.BackToOverview`)}
+            </Text>
+          </IconButton>
+        </Link>
+
         <Grid
+          alignItems={scrolledPast ? 'center' : ''}
           templateColumns={{
             base: GRID.TEMPLATE_COLUMNS.base,
             md: GRID.TEMPLATE_COLUMNS.lg,
