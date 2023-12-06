@@ -4,7 +4,7 @@ import { ProductionQuery } from './ProductionsTableContainer';
 export const productions: ProductionQuery[] = [
   {
     productDevelopment: {
-      number: '001',
+      no: '001',
       client: 'ABC Corp',
       artworkUrl: '#',
       imageUrl:
@@ -90,7 +90,7 @@ export const productions: ProductionQuery[] = [
   },
   {
     productDevelopment: {
-      number: '002',
+      no: '002',
       client: 'XYZ Ltd',
       artworkUrl: '#',
       imageUrl:
@@ -176,7 +176,7 @@ export const productions: ProductionQuery[] = [
   },
   {
     productDevelopment: {
-      number: '003',
+      no: '003',
       client: 'LMN Inc',
       artworkUrl: '#',
       imageUrl:
@@ -262,7 +262,7 @@ export const productions: ProductionQuery[] = [
   },
   {
     productDevelopment: {
-      number: '003',
+      no: '003',
       client: 'LMN Inc',
       artworkUrl: '#',
       imageUrl:

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../theme/Constants';
 
 const ProductDevelopmentCell = ({
-  number,
+  no,
   name,
   artworkUrl,
   imageUrl,
@@ -19,7 +19,7 @@ const ProductDevelopmentCell = ({
     <Box>
       <VStack spacing={SPACE.MD} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
-          <Text>#{number}</Text>
+          <Text>#{no}</Text>
 
           {artworkUrl && (
             <IconButton

@@ -53,7 +53,7 @@ const ProductionsTable = ({ productions }: Props) => {
                         {vendor.qtyPur.map((qty, qtyIndex) => (
                           <Tr
                             bgColor={bgColor}
-                            key={`${production.productDevelopment.number}-${sourcingIndex}-${vendorIndex}-${qtyIndex}`}>
+                            key={`${production.productDevelopment.no}-${sourcingIndex}-${vendorIndex}-${qtyIndex}`}>
                             {sourcingIndex === 0 &&
                               vendorIndex === 0 &&
                               qtyIndex === 0 && (
