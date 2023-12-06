@@ -1,6 +1,6 @@
-import { AdvanceFilter } from '../types/types';
+import { FilterInput } from '../types/types';
 
-export const getOverviewAdvanceFilters = (): AdvanceFilter[] => {
+export const getOverviewAdvanceFilters = (): FilterInput[] => {
   return [
     {
       type: 'select',

@@ -13,10 +13,9 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react';
-import ControlWrapper from '../Form/ControlWrapper';
 import {
   SelectOption,
-  AdvanceFilter as AdvanceFilterType,
+  FilterInput as AdvanceFilterType,
 } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
@@ -64,7 +63,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     setSelected(selected.filter(opt => opt.value.name !== name));
   };
 
-  const [index, setIndex] = useState<ExpandedIndex>(0);
+  const [index, setIndex] = useState<ExpandedIndex>(-1);
 
   useEffect(() => {
     const activeAdvancedFilterArr: SelectOption[] = [];
@@ -164,12 +163,7 @@ const AdvanceFilter = ({ filters }: Props) => {
                   icon={<i className="ri-close-line" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
-                <ControlWrapper
-                  name={so.value.name}
-                  label={so.label}
-                  zIndex={'8'}>
-                  <InputSwitch filterLabel={so.label} option={so} />
-                </ControlWrapper>
+                <InputSwitch option={so} />
               </GridItem>
             ))}
           </Grid>

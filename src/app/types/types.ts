@@ -5,6 +5,7 @@ export type FilterKeys =
   | 'pageSize'
   | 'sortKey'
   | 'searchQuery'
+  | 'number'
   | 'clients'
   | 'projects'
   | 'statuses'
@@ -41,10 +42,9 @@ export type SelectOption<T = any> = {
   value: T;
 };
 
-export type AdvanceFilter = {
+export type FilterInput = {
   type: 'select' | 'text';
   name: FilterKeys;
-  options?: SelectOption[];
 };
 
 export type Status = 'success' | 'error' | 'warning' | 'info';

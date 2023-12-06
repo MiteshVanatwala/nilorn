@@ -48,11 +48,6 @@ const ActiveFilters = () => {
             value === undefined
           ) {
             return <Fragment key={value} />;
-          } else if (
-            (typeof value === 'string' && value.includes(',')) ||
-            value === undefined
-          ) {
-            return <Fragment key={key} />;
           } else if (Array.isArray(value) && value?.length > 0) {
             const label = (value as SelectOption<string>[])
               .map(v => v.label)
@@ -65,16 +60,20 @@ const ActiveFilters = () => {
                 filterLabel={t(`PD.FilterLabel.${key}`)}
               />
             );
-          } else if (
-            value &&
-            value?.length &&
-            typeof value?.value === 'string'
-          ) {
+          } else if (value && value?.length && typeof value === 'string') {
             return (
               <ActiveFilterItem
                 key={key}
-                label={value?.label ? value.label : value}
+                label={value}
                 filterLabel={t(`PD.FilterLabel.${key}`)}
+                queryItem={key}
+              />
+            );
+          } else if (value?.label && typeof value?.value === 'boolean') {
+            return (
+              <ActiveFilterItem
+                key={key}
+                label={value?.label}
                 queryItem={key}
               />
             );

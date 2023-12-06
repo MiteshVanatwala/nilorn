@@ -4,7 +4,6 @@
 /* eslint-disable */
 
 export type ProductDevelopmentBriefDto = {
-<<<<<<< HEAD
     no?: string | null;
     imageUrl?: string | null;
     itemNumber?: string | null;
@@ -28,29 +27,4 @@ export type ProductDevelopmentBriefDto = {
     finishedHeight?: number | null;
     sampleQuantity?: number | null;
     sourcings?: Array<string> | null;
-=======
-  number: string;
-  imageUrl?: string | null;
-  itemNumber?: string | null;
-  name?: string | null;
-  status?: string | null;
-  versions?: number;
-  artworkUrl?: string | null;
-  client?: string | null;
-  clientId?: string | null;
-  subClient?: string | null;
-  subClientId?: string | null;
-  project?: string | null;
-  projectId?: string | null;
-  productGroup?: string | null;
-  productGroupCode?: string | null;
-  description?: string | null;
-  itemCategoryCode?: string | null;
-  foldingTypeCode?: string | null;
-  finishedLength?: number | null;
-  finishedWidth?: number | null;
-  finishedHeight?: number | null;
-  sampleQuantity?: number | null;
-  sourcings?: Array<string> | null;
->>>>>>> bafc99b (Generate api and dependecies)
 };

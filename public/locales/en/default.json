@@ -122,7 +122,9 @@
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
       "oPcomp": "Operations company",
-      "salespersonPurchaser": "Member"
+      "salespersonPurchaser": "Members",
+      "sourcingCompanies": "Sourcing companies",
+      "number": "Product development number"
     }
   },
   "Production": {
