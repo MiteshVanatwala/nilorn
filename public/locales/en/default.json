@@ -22,6 +22,7 @@
     "Save": "Save",
     "ChangeStatus": "Change status",
     "More": "More",
+    "Edit": "Edit",
     "Delete": "Delete",
     "Remove": "Remove",
     "Add": "Add",
@@ -120,6 +121,17 @@
       "oPcomp": "Operations company",
       "salespersonPurchaser": "Member"
     }
+  },
+  "Production": {
+    "ProductDevelopments": "Product developments",
+    "Release": "Release for sales",
+    "Comment": "Comment",
+    "SL": "SL",
+    "BL": "BL",
+    "MOQ": "MOQ",
+    "Cur": "Comment",
+    "Qty": "Qty",
+    "PUR": "Pur"
   },
   "Changelog": {
     "To": "To",
