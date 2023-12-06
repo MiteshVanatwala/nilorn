@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GetProductDevelopmentDto } from '../models/GetProductDevelopmentDto';
+import type { ProductDevelopmentBriefDto } from '../models/ProductDevelopmentBriefDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { Status } from '../models/Status';
 
@@ -33,61 +34,18 @@ pageSize?: number,
     }
 
     /**
-     * @param no 
-     * @param name 
-     * @param description 
-     * @param itemNo 
-     * @param status 
-     * @param imageUrl 
-     * @param clientNo 
-     * @param project 
-     * @param itemCategoryCode 
-     * @param productGroupCode 
-     * @param foldingType 
-     * @param finishedLength 
-     * @param finishedWidth 
-     * @param finishedHeight 
-     * @param sampleQuantity 
+     * @param requestBody 
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-no?: string,
-name?: string,
-description?: string,
-itemNo?: string,
-status?: Status,
-imageUrl?: string,
-clientNo?: string,
-project?: string,
-itemCategoryCode?: string,
-productGroupCode?: string,
-foldingType?: string,
-finishedLength?: number,
-finishedWidth?: number,
-finishedHeight?: number,
-sampleQuantity?: number,
+requestBody?: GetProductDevelopmentDto,
 ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments',
-            query: {
-                'No': no,
-                'Name': name,
-                'Description': description,
-                'ItemNo': itemNo,
-                'Status': status,
-                'ImageUrl': imageUrl,
-                'ClientNo': clientNo,
-                'Project': project,
-                'ItemCategoryCode': itemCategoryCode,
-                'ProductGroupCode': productGroupCode,
-                'FoldingType': foldingType,
-                'FinishedLength': finishedLength,
-                'FinishedWidth': finishedWidth,
-                'FinishedHeight': finishedHeight,
-                'SampleQuantity': sampleQuantity,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -169,17 +127,36 @@ id: string,
      */
     public static patchApiProductDevelopments(
 id: string,
-status?: Status,
+status: Status,
 ): CancelablePromise<GetProductDevelopmentDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/ProductDevelopments/{id}/{status}',
+            path: {
+                'id': id,
+                'status': status,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param requestBody 
+     * @returns ProductDevelopmentBriefDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductDevelopments1(
+id: string,
+requestBody?: ProductDevelopmentBriefDto,
+): CancelablePromise<ProductDevelopmentBriefDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{id}',
             path: {
                 'id': id,
             },
-            query: {
-                'status': status,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

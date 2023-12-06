@@ -34,7 +34,7 @@ const AttachmentSection = () => {
 
   return (
     <AccordionItem
-      title={`${t('PD.Attachments')} (${
+      title={`${t('PD.AccordionLabels.Attachments')} (${
         (attachments?.length ?? 0) + (artwork ? 1 : 0)
       })`}>
       <Grid
@@ -72,7 +72,7 @@ const AttachmentSection = () => {
         </GridItem>
         <GridItem colSpan={12}>
           <UploadFile
-            heading={t('PD.Attachments')}
+            heading={t('PD.AccordionLabels.Attachments')}
             onUpload={uploadAttachments}
             multiple={true}
           />
