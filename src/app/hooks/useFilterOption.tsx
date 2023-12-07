@@ -17,7 +17,7 @@ const mapClientsToOptions = (clients?: ClientDto[]) => {
   return (
     clients?.map(c => ({
       label: c.name,
-      value: c.name,
+      value: c.no,
     })) ?? []
   );
 };
@@ -53,7 +53,7 @@ const mapSalesPersonPurchasersToOptions = (
   );
 };
 
-const useFilterOptions = (name: FilterKeys) => {
+const useFilterOptions = (name?: FilterKeys) => {
   const { data: clients } = useClients(name === 'clients');
   const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
@@ -63,6 +63,10 @@ const useFilterOptions = (name: FilterKeys) => {
     name === 'salespersonPurchaser'
   );
   const statuses = useStatusOptions();
+
+  if (!name) {
+    return [];
+  }
 
   const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
     vendor: mapVendorsToOptions(vendors),

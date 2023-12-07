@@ -4,13 +4,15 @@ import { GRID } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
+import { useFormContext } from 'react-hook-form';
 
 const ProductDesignSection = () => {
   const { t } = useTranslation();
+  const { getValues } = useFormContext();
 
   const options = [
-    { label: 'hejsan', value: 'hejsan' },
-    { label: 'hejsan2', value: 'hejsan2' },
+    { label: 'FTC001', value: 'FTC001' },
+    { label: 'FTC002', value: 'FTC002' },
   ];
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.ProductDesign')}`}>
@@ -23,8 +25,11 @@ const ProductDesignSection = () => {
           }}>
           <Select
             options={options}
-            name="folding"
+            name="foldingTypeCode"
             label={`${t('PD.FormContent.Folding')}`}
+            defaultValue={options.find(
+              o => o.value === getValues('foldingTypeCode')
+            )}
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>

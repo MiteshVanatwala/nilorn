@@ -11,9 +11,11 @@ import AttachmentSection from './Sections/AttachmentSection';
 import GeneralSection from './Sections/GeneralSection';
 import ProductDesignSection from './Sections/ProductDesignSection';
 import MemberSection from './Sections/MemberSection';
-import { useToast } from '../../app/hooks/useToast';
-import { useCreateProductDevelopment } from '../../app/api/CreateProductDevelopment';
-import { useTranslation } from 'react-i18next';
+import {
+  useCreateProductDevelopment,
+  useProductDevelopment,
+  useUpdateProductDevelopment,
+} from '../../app/api/productDevelopment';
 import SourcingSection from './Sections/SourcingSection';
 
 type Props = {
@@ -22,18 +24,21 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { productNo } = useParams();
-  const form = useForm();
-  const { t } = useTranslation();
+  const { data } = useProductDevelopment(productNo ?? '');
+  const form = useForm({
+    defaultValues: {
+      ...data,
+    },
+  });
 
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { showToast } = useToast();
-  const {
-    mutate: createProductDevelopment,
-    isSuccess,
-    isError,
-  } = useCreateProductDevelopment();
+
+  const { mutate: createProductDevelopment } = useCreateProductDevelopment();
+  const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
+    productNo ?? ''
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,27 +68,18 @@ function ProductDevelopmentPage({ createNew }: Props) {
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
-      createProductDevelopment(form);
-      if (isSuccess) {
-        showToast({
-          status: 'success',
-          description: `${t('PD.Created')}`,
-        });
-      }
-      if (isError) {
-        showToast({
-          status: 'error',
-          description: `${t('PD.Error')}`,
-        });
+      if (createNew) {
+        createProductDevelopment(form);
+      } else {
+        updateProductDevelopment(form);
       }
     }
     onSubmit(form);
   }
+
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(submitForm)}
-        onChange={() => form.clearErrors('serverError')}>
+      <form onSubmit={form.handleSubmit(submitForm)}>
         <TopSection
           createNew={createNew}
           productNo={productNo ?? ''}

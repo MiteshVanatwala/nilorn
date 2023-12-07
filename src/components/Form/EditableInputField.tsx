@@ -40,12 +40,14 @@ const EditableInputField = ({
   const {
     register,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const error = get(errors, name) as FieldError;
 
   return (
     <Editable
-      placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
+      placeholder={placeholder + (registerOptions?.required ? ' *' : '')}
+      defaultValue={getValues(name)}>
       <EditablePreview
         py={'.85rem'}
         px={SPACE.XS}
