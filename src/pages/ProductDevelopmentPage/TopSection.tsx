@@ -13,11 +13,11 @@ import { useFormContext } from 'react-hook-form';
 import StatusBadge from '../../components/Status/StatusBadge';
 
 type Props = {
-  productNo: string;
+  no: string;
   scrolledPast: boolean;
   createNew?: boolean;
 };
-const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const projectsOptions = useFilterOptions('projects');
@@ -99,7 +99,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 </Heading>
                 <Text px={SPACE.SM}>
                   {!createNew && '#'}
-                  {productNo}
+                  {no}
                 </Text>
                 <StatusBadge status={getValues('status')} />
               </VStack>
@@ -152,7 +152,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar createNew={createNew} no={productNo} />
+            <ActionBar createNew={createNew} no={no} />
           </GridItem>
         </Grid>
       </ContentSection>

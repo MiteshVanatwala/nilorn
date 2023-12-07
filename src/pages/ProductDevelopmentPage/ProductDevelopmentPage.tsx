@@ -23,8 +23,8 @@ type Props = {
 };
 
 function ProductDevelopmentPage({ createNew }: Props) {
-  const { productNo } = useParams();
-  const { data } = useProductDevelopment(productNo ?? '');
+  const { no } = useParams();
+  const { data } = useProductDevelopment(no ?? '');
   const form = useForm({
     defaultValues: {
       ...data,
@@ -37,7 +37,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
-    productNo ?? ''
+    no ?? ''
   );
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
       <form onSubmit={form.handleSubmit(submitForm)}>
         <TopSection
           createNew={createNew}
-          productNo={productNo ?? ''}
+          no={no ?? ''}
           scrolledPast={scrolledPast}
         />
         <ContentPage>
