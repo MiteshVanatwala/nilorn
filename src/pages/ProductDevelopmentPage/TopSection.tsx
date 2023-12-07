@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import fonts from '../../theme/fonts';
+import BackLink from './BackLink';
 
 type Props = {
   productNo: string;
@@ -39,26 +40,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
       bgColor={COLORS.WHITE}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
       <ContentSection>
-        <Link href={sessionStorage.getItem('prevFilter') ?? '/'}>
-          <IconButton
-            display={scrolledPast ? 'none' : 'inline-flex'}
-            aria-label={t(`PD.BackToOverview`)}
-            bg={COLORS.WHITE}
-            color={COLORS.GRAY[90]}
-            as={'i'}
-            mb={SPACE.MD}
-            className={'ri-arrow-left-s-line'}>
-            <Text
-              fontFamily={fonts.body}
-              variant={'bodyBold'}
-              pr={SPACE.XXS}
-              ml={'1rem'}
-              color={COLORS.GRAY[90]}>
-              {t(`PD.BackToOverview`)}
-            </Text>
-          </IconButton>
-        </Link>
-
+        <BackLink scrolledPast={scrolledPast} />
         <Grid
           alignItems={scrolledPast ? 'center' : ''}
           templateColumns={{
