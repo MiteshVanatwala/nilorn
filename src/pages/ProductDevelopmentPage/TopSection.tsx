@@ -129,6 +129,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   placeholder={t('PD.Client')}
                   name="clientNo"
                   options={clientOptions}
+                  registerOptions={{ required: true }}
                 />
               </Box>
             ) : (

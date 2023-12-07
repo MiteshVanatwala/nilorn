@@ -70,7 +70,6 @@
     "MemberInfo": "Members can only be added after the product development is created",
     "CreateNew": "Create Product Development",
     "PDNamePlaceholder": "Product Development",
-    "Created": "Proudct Development created",
     "Error": "Something went wrong",
     "BackToOverview": "Back to overview",
     "FormContent": {
@@ -127,6 +126,13 @@
       "salespersonPurchaser": "Members",
       "sourcingCompanies": "Sourcing companies",
       "number": "Product development number"
+    },
+    "Feedback": {
+      "Success": {
+        "Update": "Product development have been saved.",
+        "UpdateStatus": "Product development status have been updated to {{status}}.",
+        "Created": " Product development has been created."
+      }
     }
   },
   "Production": {

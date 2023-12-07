@@ -21,7 +21,7 @@ export const useCreateProductDevelopment = () => {
       onSuccess: async () => {
         showToast({
           status: 'success',
-          description: `${t('PD.Created')}`,
+          description: `${t('PD.Feedback.Success.Created')}`,
         });
       },
       onError: async (err: ApiError) => {
@@ -46,7 +46,7 @@ export const useUpdateProductDevelopment = (no: string) => {
       onSuccess: async () => {
         showToast({
           status: 'success',
-          description: `${t('PD.Update')}`,
+          description: `${t('PD.Feedback.Success.Update')}`,
         });
       },
       onError: async (err: ApiError) => {
@@ -68,10 +68,12 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
         response => response
       ),
     {
-      onSuccess: async () => {
+      onSuccess: async (res: GetProductDevelopmentDto) => {
         showToast({
           status: 'success',
-          description: `${t('PD.UpdateStatus')}`,
+          description: `${t('PD.Feedback.Success.UpdateStatus', {
+            status: res.status,
+          })}`,
         });
       },
       onError: async (err: ApiError) => {
