@@ -91,33 +91,12 @@ function ProductDevelopmentPage({ createNew }: Props) {
               <VStack spacing={SPACE.MD}>
                 <Accordion
                   variant={'card'}
-                  defaultIndex={[0, 1, 3]}
+                  defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3]}
                   allowMultiple>
                   <GeneralSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
                   <ProductDesignSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={createNew ? undefined : [0, 1, 3]}
-                  alignItems={scrolledPast ? 'center' : 'flex-start'}
-                  allowMultiple>
-                  <MemberSection createNew />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
+                  <MemberSection createNew={createNew} />
                   <AttachmentSection />
-                </Accordion>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={[0, 1, 3]}
-                  allowMultiple>
                   <SourcingSection />
                 </Accordion>
               </VStack>
