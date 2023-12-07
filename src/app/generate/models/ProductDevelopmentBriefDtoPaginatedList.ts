@@ -10,6 +10,4 @@ export type ProductDevelopmentBriefDtoPaginatedList = {
     pageNumber?: number;
     readonly totalPages?: number;
     readonly totalCount?: number;
-    readonly hasPreviousPage?: boolean;
-    readonly hasNextPage?: boolean;
 };

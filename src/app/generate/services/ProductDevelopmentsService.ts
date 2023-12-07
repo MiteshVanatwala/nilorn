@@ -63,6 +63,8 @@ requestBody?: GetProductDevelopmentDto,
      * @param finishedLengths 
      * @param finishedWidths 
      * @param finishedHeights 
+     * @param sourcingCompanies 
+     * @param includeClosed 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
@@ -80,6 +82,8 @@ foldingTypes?: string,
 finishedLengths?: string,
 finishedWidths?: string,
 finishedHeights?: string,
+sourcingCompanies?: string,
+includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -98,65 +102,67 @@ finishedHeights?: string,
                 'FinishedLengths': finishedLengths,
                 'FinishedWidths': finishedWidths,
                 'FinishedHeights': finishedHeights,
+                'SourcingCompanies': sourcingCompanies,
+                'IncludeClosed': includeClosed,
             },
         });
     }
 
     /**
-     * @param id 
+     * @param no 
      * @returns GetProductDevelopmentDto Success
      * @throws ApiError
      */
     public static getApiProductDevelopments1(
-id: string,
+no: string,
 ): CancelablePromise<GetProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/ProductDevelopments/{Id}',
+            url: '/api/ProductDevelopments/{no}',
             path: {
-                'Id': id,
+                'no': no,
             },
         });
     }
 
     /**
-     * @param id 
-     * @param status 
-     * @returns GetProductDevelopmentDto Success
-     * @throws ApiError
-     */
-    public static patchApiProductDevelopments(
-id: string,
-status: Status,
-): CancelablePromise<GetProductDevelopmentDto> {
-        return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/api/ProductDevelopments/{id}/{status}',
-            path: {
-                'id': id,
-                'status': status,
-            },
-        });
-    }
-
-    /**
-     * @param id 
+     * @param no 
      * @param requestBody 
      * @returns ProductDevelopmentBriefDto Success
      * @throws ApiError
      */
-    public static patchApiProductDevelopments1(
-id: string,
+    public static patchApiProductDevelopments(
+no: string,
 requestBody?: ProductDevelopmentBriefDto,
 ): CancelablePromise<ProductDevelopmentBriefDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/api/ProductDevelopments/{id}',
+            url: '/api/ProductDevelopments/{no}',
             path: {
-                'id': id,
+                'no': no,
             },
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param no 
+     * @param status 
+     * @returns GetProductDevelopmentDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductDevelopments1(
+no: string,
+status: Status,
+): CancelablePromise<GetProductDevelopmentDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/ProductDevelopments/{no}/{status}',
+            path: {
+                'no': no,
+                'status': status,
+            },
         });
     }
 
