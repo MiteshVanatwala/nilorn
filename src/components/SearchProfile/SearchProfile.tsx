@@ -49,7 +49,7 @@ const SearchProfile = () => {
       }}
       colSpan={2}>
       <VStack maxW={'24rem'} alignItems={'left'}>
-        <Box zIndex={'dropdown'}>
+        <Box>
           <FormLabel
             paddingBottom={SPACE.XXS}
             marginBottom={SPACE.XXS}

@@ -30,7 +30,8 @@
     "LastChanged": "Last changed:",
     "Placeholder": "Enter value",
     "NoMatch": "Sorry, we could not find any results",
-    "Success": "Success"
+    "Success": "Success",
+    "CreateNew": "Create new"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -64,6 +65,7 @@
     "AddMember": "Add member",
     "AddSourcing": "Add sourcing",
     "SalespersonPurchaser": "Member",
+    "ProductGroup": "Product group",
     "Version": "Version",
     "MemberInfo": "Members can only be added after the product development is created",
     "CreateNew": "Create Product Development",

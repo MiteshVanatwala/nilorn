@@ -10,7 +10,7 @@ const CreateProductDevelopment = () => {
           alignSelf={'end'}
           leftIcon={<i className="ri-add-line" />}
           variant={'primary'}>
-          {t('Filter.Create')}
+          {t('Common.CreateNew')}
         </Button>
       </Link>
     </Box>

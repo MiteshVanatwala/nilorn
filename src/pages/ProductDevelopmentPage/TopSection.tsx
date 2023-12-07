@@ -27,7 +27,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
       }}
       position={'sticky'}
       top={0}
-      zIndex={99}
+      zIndex={89}
       bgColor={COLORS.WHITE}
       transition={TRANSITION.EASEOUT}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
