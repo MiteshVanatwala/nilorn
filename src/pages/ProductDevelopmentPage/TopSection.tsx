@@ -8,6 +8,7 @@ import EditableInputField from '../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
+import BackLink from './BackLink';
 
 type Props = {
   productNo: string;
@@ -28,9 +29,12 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
       top={0}
       zIndex={99}
       bgColor={COLORS.WHITE}
+      transition={TRANSITION.EASEOUT}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
       <ContentSection>
+        <BackLink scrolledPast={scrolledPast} />
         <Grid
+          alignItems={scrolledPast ? 'center' : ''}
           templateColumns={{
             base: GRID.TEMPLATE_COLUMNS.base,
             md: GRID.TEMPLATE_COLUMNS.lg,

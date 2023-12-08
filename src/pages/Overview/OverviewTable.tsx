@@ -31,7 +31,10 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       sorting: sortState,
     },
   });
-
+  const handleClick = (url: string) => {
+    sessionStorage.setItem('prevFilter', window.location.href);
+    navigate(url);
+  };
   return (
     <Table>
       <Thead>
@@ -46,7 +49,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
             <TBodyRow
               row={row}
               bgColor={bgColor}
-              onClick={() => navigate(`product-development/${row.original.no}`)}
+              onClick={() => handleClick(`product-development/${row.original.no}`)}
               key={i}
             />
           );
