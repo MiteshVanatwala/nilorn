@@ -1,22 +1,13 @@
-import {
-  Box,
-  Grid,
-  GridItem,
-  HStack,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/layout';
+import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import ContentSection from '../Templates/ContentSection';
 import ActionBar from './ActionBar';
-import { IconButton, Image, VStack } from '@chakra-ui/react';
+import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import EditableInputField from '../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import fonts from '../../theme/fonts';
 import BackLink from './BackLink';
 
 type Props = {
@@ -38,6 +29,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
       top={0}
       zIndex={99}
       bgColor={COLORS.WHITE}
+      transition={TRANSITION.EASEOUT}
       boxShadow={scrolledPast ? BOX_SHADOW.CARD : 'none'}>
       <ContentSection>
         <BackLink scrolledPast={scrolledPast} />
