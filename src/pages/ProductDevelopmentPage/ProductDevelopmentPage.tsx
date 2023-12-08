@@ -38,7 +38,13 @@ function ProductDevelopmentPage({ createNew }: Props) {
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
-        if (window.scrollY > 0 && !isSticky) {
+        const topSection = document.getElementById('top-section');
+
+        if (
+          topSection?.offsetHeight &&
+          window.scrollY > topSection?.offsetHeight &&
+          !isSticky
+        ) {
           setScrolledPast(true);
           setSticky(true);
         } else if (window.scrollY === 0 && isSticky) {

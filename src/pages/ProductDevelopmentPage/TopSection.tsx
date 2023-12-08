@@ -21,6 +21,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
 
   return (
     <Box
+      id="top-section"
       py={{
         base: SPACE.XS,
         md: scrolledPast ? SPACE.XXS : SPACE.MD,
@@ -45,7 +46,6 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
             md: SPACE.SM,
           }}>
           <GridItem
-            transition={TRANSITION.EASEOUT}
             colSpan={{
               base: 1,
               md: scrolledPast ? 5 : 6,
@@ -56,22 +56,20 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 base: 'column',
                 md: 'row',
               }}
-              transition={TRANSITION.EASEOUT}
               gap={{
                 base: SPACE.XXS,
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
               <Image
-                maxHeight={scrolledPast ? '0' : 'none'}
-                maxWidth={scrolledPast ? '0' : 'none'}
+                maxHeight={scrolledPast ? '0' : '20rem'}
+                maxWidth={scrolledPast ? '0' : '20rem'}
                 visibility={scrolledPast ? 'hidden' : 'visible'}
                 width={'60'}
                 height={'60'}
                 objectFit={'cover'}
                 src="https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg"></Image>
               <VStack
-                transition={TRANSITION.EASEOUT}
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,
                   md: scrolledPast ? SPACE.MD : SPACE.XS,
@@ -83,7 +81,6 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 }}
                 alignItems={scrolledPast ? 'center' : 'flex-start'}>
                 <Heading
-                  transition={TRANSITION.EASEOUT}
                   fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}>
                   <EditableInputField
                     fontWeight="700"
@@ -115,7 +112,6 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               base: SPACE.XXS,
               md: SPACE.XS,
             }}
-            transition={TRANSITION.EASEOUT}
             alignItems={scrolledPast ? 'center' : 'flex-start'}
             colSpan={{
               base: 1,
