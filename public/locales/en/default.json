@@ -89,7 +89,8 @@
       "Folding": "Folding",
       "PurchaserPrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
-      "Quantities": "Quantities"
+      "Quantities": "Quantities",
+      "ClientRequirements": "Client Requirements"
     },
     "StatusLabel": {
       "New": "New",
