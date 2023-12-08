@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from 'react-query';
 import {
   ApiError,
-  GetProductDevelopmentDto,
+  ProductDevelopmentBriefDto,
+  ProductDevelopmentDto,
   ProductDevelopmentsService,
   Status,
 } from '../generate';
@@ -13,7 +14,7 @@ export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   return useMutation(
-    (body: GetProductDevelopmentDto) =>
+    (body: ProductDevelopmentDto) =>
       ProductDevelopmentsService.postApiProductDevelopments(body).then(
         response => response
       ),
@@ -38,7 +39,9 @@ export const useUpdateProductDevelopment = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   return useMutation(
-    (body: GetProductDevelopmentDto) =>
+    (
+      body: ProductDevelopmentBriefDto // TODO: Chnage to ProductDevelopmentDto
+    ) =>
       ProductDevelopmentsService.patchApiProductDevelopments(no, body).then(
         response => response
       ),
@@ -68,7 +71,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
         response => response
       ),
     {
-      onSuccess: async (res: GetProductDevelopmentDto) => {
+      onSuccess: async (res: ProductDevelopmentDto) => {
         showToast({
           status: 'success',
           description: `${t('PD.Feedback.Success.UpdateStatus', {
