@@ -19,6 +19,8 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions('clients');
 
+  //TODO remvove hard coded value
+  const showingChanges = true;
   return (
     <Box
       py={{
@@ -148,7 +150,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar createNew={createNew} />
+            <ActionBar showingChanges={showingChanges} createNew={createNew} />
           </GridItem>
         </Grid>
       </ContentSection>
