@@ -31,7 +31,7 @@ const useOverviewColumns = () => {
       header: `${t('PD.Name')}`,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
-    columnHelper.accessor('number', {
+    columnHelper.accessor('no', {
       header: `${t('PD.Number')}`,
       cell: info => info.getValue(),
     }),
@@ -59,9 +59,9 @@ const useOverviewColumns = () => {
       header: `${t('PD.ProductGroup')}`,
       cell: info => info.getValue(),
     }),
-    columnHelper.accessor('sourcingCompapeies', {
+    columnHelper.accessor('sourcings', {
       header: `${t('PD.SourcingCompanies')}`,
-      cell: info => info.getValue(),
+      cell: info => info.getValue()?.join(', '),
     }),
   ];
 

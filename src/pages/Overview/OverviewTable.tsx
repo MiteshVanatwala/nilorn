@@ -49,7 +49,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
             <TBodyRow
               row={row}
               bgColor={bgColor}
-              onClick={() => handleClick(`product-development/${row.original}`)}
+              onClick={() => handleClick(`product-development/${row.original.no}`)}
               key={i}
             />
           );

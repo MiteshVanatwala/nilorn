@@ -1,0 +1,292 @@
+import { Status } from '../../app/generate';
+import { ProductionQuery } from './ProductionsTableContainer';
+
+export const productions: ProductionQuery[] = [
+  {
+    productDevelopment: {
+      no: '001',
+      client: 'ABC Corp',
+      artworkUrl: '#',
+      imageUrl:
+        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      status: Status.CALCULATION.toString(),
+    },
+    sourcing: [
+      {
+        name: 'Sourcing A',
+        productions: [
+          {
+            id: '1',
+            vendorName: 'Vendor 1',
+            comment: 'Good quality',
+            sl: 1,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 100, pur: 50 },
+              { qty: 200, pur: 100 },
+              { qty: 150, pur: 75 },
+            ],
+          },
+          {
+            id: '2',
+            vendorName: 'Vendor 2',
+            comment: 'On-time delivery',
+            sl: 2,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 50, pur: 30 },
+              { qty: 120, pur: 70 },
+              { qty: 80, pur: 40 },
+            ],
+          },
+          {
+            id: '2.2',
+            vendorName: 'Vendor 2.2',
+            comment: 'On-time delivery',
+            sl: 22,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 50, pur: 30 },
+              { qty: 120, pur: 70 },
+              { qty: 80, pur: 40 },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'Sourcing B',
+        productions: [
+          {
+            id: '3',
+            vendorName: 'Vendor 3',
+            comment: 'Excellent service',
+            sl: 3,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 80, pur: 45 },
+              { qty: 150, pur: 90 },
+              { qty: 200, pur: 120 },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    productDevelopment: {
+      no: '002',
+      client: 'XYZ Ltd',
+      artworkUrl: '#',
+      imageUrl:
+        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      status: Status.SOURCING.toString(),
+    },
+    sourcing: [
+      {
+        name: 'Sourcing C',
+        productions: [
+          {
+            id: '5',
+            vendorName: 'Vendor 5',
+            comment: 'Fast shipping',
+            sl: 5,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 120, pur: 70 },
+              { qty: 180, pur: 100 },
+              { qty: 220, pur: 130 },
+            ],
+          },
+          {
+            id: '6',
+            vendorName: 'Vendor 6',
+            comment: 'Flexible payment terms',
+            sl: 6,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 40, pur: 20 },
+              { qty: 80, pur: 40 },
+              { qty: 120, pur: 60 },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'Sourcing D',
+        productions: [
+          {
+            id: '7',
+            vendorName: 'Vendor 7',
+            comment: 'Highly recommended',
+            sl: 7,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 90, pur: 50 },
+              { qty: 130, pur: 80 },
+              { qty: 170, pur: 100 },
+            ],
+          },
+          {
+            id: '8',
+            vendorName: 'Vendor 8',
+            comment: 'Quality control',
+            sl: 8,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 60, pur: 30 },
+              { qty: 100, pur: 50 },
+              { qty: 140, pur: 80 },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    productDevelopment: {
+      no: '003',
+      client: 'LMN Inc',
+      artworkUrl: '#',
+      imageUrl:
+        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      status: Status.SOURCING.toString(),
+    },
+    sourcing: [
+      {
+        name: 'Sourcing E',
+        productions: [
+          {
+            id: '9',
+            vendorName: 'Vendor 9',
+            comment: 'Competitive pricing',
+            sl: 9,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 200, pur: 100 },
+              { qty: 250, pur: 120 },
+              { qty: 300, pur: 150 },
+            ],
+          },
+          {
+            id: '10',
+            vendorName: 'Vendor 10',
+            comment: 'Consistent performance',
+            sl: 10,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 70, pur: 40 },
+              { qty: 110, pur: 60 },
+              { qty: 150, pur: 80 },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'Sourcing F',
+        productions: [
+          {
+            id: '11',
+            vendorName: 'Vendor 11',
+            comment: 'Great customer support',
+            sl: 11,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 120, pur: 60 },
+              { qty: 160, pur: 90 },
+              { qty: 200, pur: 120 },
+            ],
+          },
+          {
+            id: '12',
+            vendorName: 'Vendor 12',
+            comment: 'Environmentally friendly',
+            sl: 12,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [
+              { qty: 80, pur: 40 },
+              { qty: 120, pur: 60 },
+              { qty: 160, pur: 80 },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    productDevelopment: {
+      no: '003',
+      client: 'LMN Inc',
+      artworkUrl: '#',
+      imageUrl:
+        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      status: Status.SOURCING.toString(),
+    },
+    sourcing: [
+      {
+        name: 'Sourcing G',
+        productions: [
+          {
+            id: '12',
+            vendorName: 'Vendor 12',
+            comment: 'Great customer support',
+            sl: 12,
+            bl: 0,
+            moq: 0,
+            tool: 0,
+            sample: 0,
+            cur: 'USD',
+            qtyPur: [{ qty: 100000, pur: 0.34 }],
+          },
+        ],
+      },
+    ],
+  },
+];

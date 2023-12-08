@@ -1,14 +1,13 @@
 import { Button } from '@chakra-ui/button';
 import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
-import { Box, GridItem } from '@chakra-ui/react';
+import { Box, FormLabel, GridItem } from '@chakra-ui/react';
 import { SelectOption } from '../../app/types/types';
-import ControlWrapper from '../Form/ControlWrapper';
 import { SPACE } from '../../theme/Constants';
 import { useSearchProfile } from '../../app/api/SearchProfile';
 import SelectBase from '../Form/SelectBase';
@@ -19,7 +18,10 @@ const SearchProfile = () => {
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
   const [activeSearchProfile, setActiveSearchProfile] =
     useState<boolean>(false);
-  const { setValue, reset, getValues } = useFormContext();
+  const [activeSearchProfileName, setActiveSearchProfileName] =
+    useState<string>('');
+  const [defaultSearchProfile, setDefaultSearchProfile] = useState<string>('');
+  const { setValue, reset } = useFormContext();
 
   let { data } = useSearchProfile();
 
@@ -34,17 +36,10 @@ const SearchProfile = () => {
     const splitOptionVal = optionVal.split('&');
     splitOptionVal.forEach((item: string) => {
       const splitItem = item.split('=');
-      setValue(splitItem[0], splitItem[1]?.replace(/[\s+]/g, ' '));
+      setValue(splitItem[0], decodeURIComponent(splitItem[1]));
     });
-    setValue('ActiveSearchProfile', option.label);
+    setActiveSearchProfileName(option.label);
   };
-
-  useEffect(() => {
-    if (!activeSearchProfile) {
-      setValue('ActiveSearchProfile', '');
-      setSelected(undefined);
-    }
-  }, [activeSearchProfile, setValue]);
 
   return (
     <GridItem
@@ -54,19 +49,36 @@ const SearchProfile = () => {
       }}
       colSpan={2}>
       <VStack maxW={'24rem'} alignItems={'left'}>
-        <ControlWrapper
-          zIndex={'dropdown'}
-          name="SearchProfile"
-          label={t('Filter.SavedFilters')}>
-          <Box zIndex={'dropdown'}>
+        <Box zIndex={'dropdown'}>
+          <FormLabel
+            paddingBottom={SPACE.XXS}
+            marginBottom={SPACE.XXS}
+            mb="0"
+            w={'auto'}
+            htmlFor={'SearchProfile'}>
+            {t('Filter.SavedFilters')}
+          </FormLabel>
+          {defaultSearchProfile && (
+            <SelectBase
+              name="SearchProfile"
+              onChange={onChange}
+              value={
+                data?.find(
+                  c => c.label === defaultSearchProfile
+                ) as SelectOption
+              }
+              options={data as SelectOption[]}
+            />
+          )}
+          {!defaultSearchProfile && (
             <SelectBase
               name="SearchProfile"
               onChange={onChange}
               value={selected}
               options={data as SelectOption[]}
             />
-          </Box>
-        </ControlWrapper>
+          )}
+        </Box>
         <Button
           zIndex={'0'}
           marginTop={SPACE.XXS}
@@ -78,7 +90,9 @@ const SearchProfile = () => {
             handleModal(
               <SearchProfileModalContent
                 activeSearchProfile={setActiveSearchProfile}
-                activeSearchProfileName={getValues('ActiveSearchProfile')}
+                setActiveSearchProfileName={setActiveSearchProfileName}
+                activeSearchProfileName={activeSearchProfileName}
+                setDefaultSearchProfile={setDefaultSearchProfile}
               />
             )
           }>

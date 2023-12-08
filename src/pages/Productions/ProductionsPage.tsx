@@ -1,10 +1,11 @@
-import React from 'react';
+import ContentPage from '../Templates/ContentPage';
+import ProductionsTableContainer from './ProductionsTableContainer';
 
 function ProductionsPage() {
   return (
-    <div className="App">
-      <p>Productions page</p>
-    </div>
+    <ContentPage>
+      <ProductionsTableContainer />
+    </ContentPage>
   );
 }
 
