@@ -12,9 +12,10 @@ import { useStatusOptions } from '../../app/hooks/useStatus';
 
 type Props = {
   createNew?: boolean;
+  showingChanges: boolean;
 };
 
-const ActionBar = ({ createNew }: Props) => {
+const ActionBar = ({ createNew, showingChanges }: Props) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const handleToast = (status: Status) => {
@@ -78,10 +79,10 @@ const ActionBar = ({ createNew }: Props) => {
                     <Text
                       as={'i'}
                       fontSize={SIZES.ICON.MD}
-                      className="ri-delete-bin-line"
+                      className="ri-history-line"
                     />
                   }>
-                  {t('PD.ShowChanges')}
+                  {showingChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
                 <MenuItem
                   icon={
