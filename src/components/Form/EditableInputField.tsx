@@ -10,7 +10,6 @@ import { HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
 import SIZES from '../../theme/Constants/sizes';
 import { COLORS, SPACE } from '../../theme/Constants';
-import TRANSITION from '../../theme/Constants/transition';
 
 interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
@@ -53,7 +52,6 @@ const EditableInputField = ({
         border={'2px solid white'}
         color={error ? COLORS.ERROR : ''}
         fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}
-        transition={TRANSITION.EASEOUT}
       />
       <ControlWrapper
         name={name}
@@ -72,7 +70,6 @@ const EditableInputField = ({
           defaultValue={defaultValue}
           type={type}
           height={'auto'}
-          transition={TRANSITION.EASEOUT}
           {...register(name, registerOptions)}
         />
       </ControlWrapper>
