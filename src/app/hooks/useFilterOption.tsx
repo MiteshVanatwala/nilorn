@@ -62,7 +62,7 @@ const useFilterOptions = (name?: FilterKeys) => {
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
     name === 'salespersonPurchaser'
   );
-  const statuses = useStatusOptions();
+  const { statuses } = useStatusOptions();
 
   if (!name) {
     return [];

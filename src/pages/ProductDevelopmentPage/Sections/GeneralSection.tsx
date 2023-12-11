@@ -74,7 +74,7 @@ const GeneralSection = () => {
               <InputField
                 label={`${t('PD.FormContent.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'itemNo'} //TODO
+                name={'itemNo'}
                 registerOptions={{ required: true }}
               />
             </GridItem>
@@ -83,14 +83,14 @@ const GeneralSection = () => {
               <InputField
                 label={`${t('PD.FormContent.TargetSales')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'targetSales'} //TODO
+                name={'targetSales'}
               />
             </GridItem>
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'freightIncluded'} //TODO
+                name={'freightIncluded'}
               />
             </GridItem>
             <GridItem colSpan={2}>

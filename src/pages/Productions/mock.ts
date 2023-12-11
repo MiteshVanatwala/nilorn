@@ -9,7 +9,7 @@ export const productions: ProductionQuery[] = [
       artworkUrl: '#',
       imageUrl:
         'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
-      status: Status.CALCULATION.toString(),
+      status: Status.CALCULATION,
     },
     sourcing: [
       {
@@ -95,7 +95,7 @@ export const productions: ProductionQuery[] = [
       artworkUrl: '#',
       imageUrl:
         'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
-      status: Status.SOURCING.toString(),
+      status: Status.SOURCING,
     },
     sourcing: [
       {
@@ -181,7 +181,7 @@ export const productions: ProductionQuery[] = [
       artworkUrl: '#',
       imageUrl:
         'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
-      status: Status.SOURCING.toString(),
+      status: Status.SOURCING,
     },
     sourcing: [
       {
@@ -267,7 +267,7 @@ export const productions: ProductionQuery[] = [
       artworkUrl: '#',
       imageUrl:
         'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
-      status: Status.SOURCING.toString(),
+      status: Status.SOURCING,
     },
     sourcing: [
       {
