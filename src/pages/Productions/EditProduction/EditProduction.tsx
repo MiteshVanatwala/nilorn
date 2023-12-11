@@ -1,0 +1,105 @@
+import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { FormProvider, useForm } from 'react-hook-form';
+import EditProductionTopSection from './EditProductionTopSection';
+import InputField from '../../../components/Form/InputField';
+import { GRID, SPACE } from '../../../theme/Constants';
+import TextArea from '../../../components/Form/TextArea';
+import Select from '../../../components/Form/Select';
+import QuantityPurchase from '../QuantityPurchase';
+
+const EditProduction = () => {
+  const { t } = useTranslation();
+  const form = useForm();
+
+  return (
+    <Box mb={SPACE.LG} px={SPACE.SM}>
+      <FormProvider {...form}>
+        <form>
+          <EditProductionTopSection productNo="2" scrolledPast={false} />
+          <Grid
+            templateColumns={{
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.sm,
+            }}
+            gap={{
+              base: SPACE.XXS,
+              md: SPACE.SM,
+            }}>
+            <GridItem
+              gap={{
+                base: SPACE.XXS,
+                md: SPACE.SM,
+              }}>
+              <TextArea
+                name="comment"
+                placeholder={`Enter ${t('Production.Comment')}`}
+                label={t('Production.Comment')}
+              />
+            </GridItem>
+            <GridItem
+              gap={{
+                base: SPACE.XXS,
+                md: SPACE.SM,
+              }}>
+              <QuantityPurchase />
+            </GridItem>
+            <GridItem>
+              <Grid
+                gap={GRID.GAP}
+                templateColumns={{
+                  base: GRID.TEMPLATE_COLUMNS.base,
+                  md: GRID.TEMPLATE_COLUMNS.sm,
+                  lg: 'repeat(3, 1fr)',
+                }}>
+                <GridItem colSpan={1}>
+                  <InputField
+                    label={`${t('Production.SL')}`}
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={'SL'}
+                  />
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <InputField
+                    label={`${t('Production.BL')}`}
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={'BL'}
+                  />
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <InputField
+                    label={`${t('Production.MOQ')}`}
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={'MOQ'}
+                  />
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <InputField
+                    label={`${t('Production.Tool')}`}
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={'Tool'}
+                  />
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <InputField
+                    label={`${t('Production.Sample')}`}
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={'Sample'}
+                  />
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <Select
+                    label={`${t('Production.Currency')}`}
+                    options={[{ value: 'test', label: 'wopop' }]}
+                    name={'Currency'}></Select>
+                </GridItem>
+              </Grid>
+            </GridItem>
+          </Grid>
+        </form>
+      </FormProvider>
+    </Box>
+  );
+};
+
+export default EditProduction;

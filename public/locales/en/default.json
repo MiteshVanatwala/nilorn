@@ -137,7 +137,10 @@
     "MOQ": "MOQ",
     "Cur": "Comment",
     "Qty": "Qty",
-    "PUR": "Pur"
+    "PUR": "PUR",
+    "Tool": "Tool",
+    "Currency": "Currency",
+    "Sample": "Sample"
   },
   "Changelog": {
     "To": "To",

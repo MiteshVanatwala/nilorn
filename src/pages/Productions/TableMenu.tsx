@@ -8,9 +8,13 @@ import {
 } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { ModalContext } from '../../app/context/ModalContext';
+import EditProduction from './EditProduction/EditProduction';
 
 const TabelMenu = () => {
   const { t } = useTranslation();
+  const { handleModal } = useContext(ModalContext);
 
   return (
     <Menu>
@@ -23,7 +27,7 @@ const TabelMenu = () => {
       />
       <MenuList lineHeight={1.5}>
         <MenuItem
-          onClick={() => console.log('Edit')}
+          onClick={() => handleModal(<EditProduction />)}
           icon={
             <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
           }>
