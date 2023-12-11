@@ -4,6 +4,8 @@ import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import { useTranslation } from 'react-i18next';
 import ActionBarEditProduction from './ActionBarEditProduction';
+import StatusBadge from '../../../components/Status/StatusBadge';
+import { Status } from '../../../app/generate';
 
 type Props = {
   productNo: string;
@@ -12,6 +14,8 @@ type Props = {
 const EditProductionTopSection = ({ productNo, scrolledPast }: Props) => {
   const { t } = useTranslation();
 
+  //TODO remove hard coded status
+  const status = Status.NEW;
   return (
     <Box
       py={{
@@ -71,10 +75,17 @@ const EditProductionTopSection = ({ productNo, scrolledPast }: Props) => {
               <Heading fontSize={SIZES.FONT.SM}>
                 Lorem ipsum dolor sit ametets
               </Heading>
-              <Text>
-                {'#'}
-                {productNo}
-              </Text>
+              <HStack gap={SPACE.SM}>
+                <Text variant={'bodyBold'}>Woven Label Text</Text>
+                <Text>NEA</Text>
+              </HStack>
+              <HStack gap={SPACE.SM}>
+                <StatusBadge status={status as Status} />
+                <Text>
+                  {'#'}
+                  {productNo}
+                </Text>
+              </HStack>
             </VStack>
           </HStack>
         </GridItem>
