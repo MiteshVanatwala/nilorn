@@ -21,6 +21,7 @@ export type { SearchProfileDto } from './models/SearchProfileDto';
 export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export type { SourcingDto } from './models/SourcingDto';
 export { Status } from './models/Status';
+export type { UpdateProductDevelopmentDto } from './models/UpdateProductDevelopmentDto';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 
