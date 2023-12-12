@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GetProductDevelopmentDto } from '../models/GetProductDevelopmentDto';
-import type { ProductDevelopmentBriefDto } from '../models/ProductDevelopmentBriefDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
+import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
+import type { UpdateProductDevelopmentDto } from '../models/UpdateProductDevelopmentDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -39,7 +39,7 @@ pageSize?: number,
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-requestBody?: GetProductDevelopmentDto,
+requestBody?: ProductDevelopmentDto,
 ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -110,12 +110,12 @@ includeClosed?: boolean,
 
     /**
      * @param no 
-     * @returns GetProductDevelopmentDto Success
+     * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static getApiProductDevelopments1(
 no: string,
-): CancelablePromise<GetProductDevelopmentDto> {
+): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/{no}',
@@ -128,13 +128,13 @@ no: string,
     /**
      * @param no 
      * @param requestBody 
-     * @returns ProductDevelopmentBriefDto Success
+     * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments(
 no: string,
-requestBody?: ProductDevelopmentBriefDto,
-): CancelablePromise<ProductDevelopmentBriefDto> {
+requestBody?: UpdateProductDevelopmentDto,
+): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}',
@@ -149,13 +149,13 @@ requestBody?: ProductDevelopmentBriefDto,
     /**
      * @param no 
      * @param status 
-     * @returns GetProductDevelopmentDto Success
+     * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments1(
 no: string,
 status: Status,
-): CancelablePromise<GetProductDevelopmentDto> {
+): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}/{status}',
