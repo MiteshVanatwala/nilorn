@@ -9,20 +9,19 @@ import { Status } from '../../../app/generate';
 
 type Props = {
   productNo: string;
-  scrolledPast: boolean;
 };
-const EditProductionTopSection = ({ productNo, scrolledPast }: Props) => {
+const EditProductionTopSection = ({ productNo }: Props) => {
   const { t } = useTranslation();
 
   //TODO remove hard coded status
   const status = Status.NEW;
+
   return (
     <Box
       py={{
         base: SPACE.XS,
-        md: scrolledPast ? SPACE.XXS : SPACE.MD,
+        md: SPACE.MD,
       }}
-      position={'sticky'}
       top={0}
       zIndex={89}
       bgColor={COLORS.WHITE}
@@ -51,7 +50,7 @@ const EditProductionTopSection = ({ productNo, scrolledPast }: Props) => {
             }}
             gap={{
               base: SPACE.XXS,
-              md: scrolledPast ? SPACE.XXS : SPACE.MD,
+              md: SPACE.MD,
             }}
             alignItems={'top'}>
             <Image

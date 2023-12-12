@@ -7,11 +7,7 @@ import { Image } from '@chakra-ui/react';
 import { images } from '../../../assets';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-type Props = {
-  createNew?: boolean;
-};
-
-const ActionBarEditProduction = ({ createNew }: Props) => {
+const ActionBarEditProduction = () => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
@@ -104,7 +100,13 @@ const ActionBarEditProduction = ({ createNew }: Props) => {
           </Menu>
         </ButtonGroup>
       </HStack>
-      <Text align={'right'}>Last edited [DATETIME]</Text>
+      <Text
+        align={{
+          base: 'left',
+          lg: 'right',
+        }}>
+        Last edited [DATETIME]
+      </Text>
     </VStack>
   );
 };

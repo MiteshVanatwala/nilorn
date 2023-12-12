@@ -16,7 +16,7 @@ const EditProduction = () => {
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
         <form>
-          <EditProductionTopSection productNo="2" scrolledPast={false} />
+          <EditProductionTopSection productNo="2" />
           <Grid
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
@@ -38,6 +38,10 @@ const EditProduction = () => {
               />
             </GridItem>
             <GridItem
+              my={{
+                base: SPACE.SM,
+                lg: '0',
+              }}
               gap={{
                 base: SPACE.XXS,
                 md: SPACE.SM,
