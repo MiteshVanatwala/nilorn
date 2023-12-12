@@ -94,6 +94,7 @@ const EditProduction = () => {
                 <GridItem colSpan={1}>
                   <Select
                     label={`${t('Production.Currency')}`}
+                    //TODO add currencies
                     options={[{ value: 'sek', label: 'SEK' }]}
                     name={'Currency'}></Select>
                 </GridItem>
