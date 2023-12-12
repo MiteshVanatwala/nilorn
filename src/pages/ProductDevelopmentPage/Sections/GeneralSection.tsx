@@ -5,17 +5,29 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import TextArea from '../../../components/Form/TextArea';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { useProductGroup } from '../../../app/api/FilterInfo';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
+  const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
 
-  const options = [
-    { label: 'IC001', value: 'IC001' },
-    { label: 'IC002', value: 'IC002' },
-    { label: 'IC003', value: 'IC003' },
-  ];
+  const itemCategories = useFilterOptions('itemCategories');
+  const { data: productGroupsTmp } = useProductGroup(
+    (itemCategoryCode as string) ?? ''
+  );
+  const productGroups =
+    productGroupsTmp?.map(
+      (s => ({
+        label: s,
+        value: s,
+      })) ?? []
+    ) ?? [];
+
+  console.log('itemCategoryCode', itemCategoryCode);
+
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -43,10 +55,10 @@ const GeneralSection = () => {
             lg: 2,
           }}>
           <Select
-            options={options}
+            options={itemCategories}
             name="itemCategoryCode"
             label={`${t('PD.FormContent.ItemCategory')}`}
-            defaultValue={options.find(
+            defaultValue={itemCategories.find(
               o => o.value === getValues('itemCategoryCode')
             )}
             placeholder={`${t('Filter.Select')}`}
@@ -59,10 +71,10 @@ const GeneralSection = () => {
             lg: 2,
           }}>
           <Select
-            options={options}
+            options={productGroups}
             name="productGroupCode"
             label={`${t('PD.FormContent.ProductGroup')}`}
-            defaultValue={options.find(
+            defaultValue={productGroups.find(
               o => o.value === getValues('productGroupCode')
             )}
             placeholder={`${t('Filter.Select')}`}
@@ -90,7 +102,9 @@ const GeneralSection = () => {
               <InputField
                 label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
+                type="number"
                 name={'freightIncluded'}
+                registerOptions={{ valueAsNumber: true }}
               />
             </GridItem>
             <GridItem colSpan={2}>

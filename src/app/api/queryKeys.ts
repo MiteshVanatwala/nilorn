@@ -7,6 +7,9 @@ enum QueryKeysEnum {
   Vendors = 'Vendors',
   Productions = 'Productions',
   ProductDevelopment = 'ProductDevelopment',
+  FoldingTyp = 'FoldingType',
+  ItemCategory = 'ItemCategory',
+  ProductGroup = 'ProductGroup',
 }
 
 export default QueryKeysEnum;

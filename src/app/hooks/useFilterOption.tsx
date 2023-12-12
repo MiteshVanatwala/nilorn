@@ -1,5 +1,8 @@
 import {
   useClients,
+  useFoldingType,
+  useItemCategory,
+  useProductGroup,
   useSalesPersonPurchasers,
   useSourcingCompanies,
   useVendors,
@@ -53,15 +56,28 @@ const mapSalesPersonPurchasersToOptions = (
   );
 };
 
+const mapStringToOptions = (strArr?: string[]) => {
+  return (
+    strArr?.map(a => ({
+      label: a,
+      value: a,
+    })) ?? []
+  );
+};
+
 const useFilterOptions = (name?: FilterKeys) => {
-  const { data: clients } = useClients(name === 'clients');
-  const { data: vendors } = useVendors(name === 'vendor');
+  const { data: clients } = useClients(name !== 'clients');
+  const { data: vendors } = useVendors(name !== 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
-    name === 'sourcingCompanies'
+    name !== 'sourcingCompanies'
   );
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
-    name === 'salespersonPurchaser'
+    name !== 'salespersonPurchaser'
   );
+  const { data: foldingTypes } = useFoldingType(name !== 'foldingTypes');
+  const { data: itemCategories } = useItemCategory(name !== 'itemCategories');
+  const { data: productGroups } = useProductGroup('', name !== 'productGroups');
+
   const { statuses } = useStatusOptions();
 
   if (!name) {
@@ -76,6 +92,9 @@ const useFilterOptions = (name?: FilterKeys) => {
     ),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
+    foldingTypes: mapStringToOptions(foldingTypes),
+    itemCategories: mapStringToOptions(itemCategories),
+    productGroups: mapStringToOptions(productGroups),
   };
 
   return dataMap[name] || [];
