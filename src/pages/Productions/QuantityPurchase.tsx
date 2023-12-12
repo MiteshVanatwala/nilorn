@@ -70,6 +70,7 @@ const QuantityPurchase = () => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${formName}.${index}.qty`}
                       type="number"
+                      registerOptions={{ valueAsNumber: true }}
                     />
                   </Box>
                   <Box w={'50%'}>
@@ -77,6 +78,7 @@ const QuantityPurchase = () => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${formName}.${index}.pur`}
                       type="number"
+                      registerOptions={{ valueAsNumber: true }}
                     />
                   </Box>
                 </HStack>

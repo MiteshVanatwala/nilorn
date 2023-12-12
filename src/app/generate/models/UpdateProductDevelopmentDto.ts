@@ -3,19 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
-import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
-export type ProductDevelopmentDto = {
-    no?: string | null;
+export type UpdateProductDevelopmentDto = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
     status?: Status;
-    imageUrl?: string | null;
-    artworkUrl?: string | null;
-    client?: string | null;
     projectId?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
@@ -26,7 +20,4 @@ export type ProductDevelopmentDto = {
     sampleQuantity?: number | null;
     targetSalesPrice?: string | null;
     freightIncluded?: number;
-    versions?: number | null;
-    sourcings?: Array<SourcingDto> | null;
-    salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
 };
