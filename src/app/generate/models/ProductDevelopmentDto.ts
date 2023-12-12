@@ -16,7 +16,8 @@ export type ProductDevelopmentDto = {
     imageUrl?: string | null;
     artworkUrl?: string | null;
     client?: string | null;
-    projectId?: string | null;
+    clientId?: string | null;
+    project?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
     foldingTypeCode?: string | null;

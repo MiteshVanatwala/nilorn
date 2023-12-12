@@ -1,32 +1,35 @@
 import { HStack, Text, VStack, Box } from '@chakra-ui/layout';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
-import { Status } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
-import { useToast } from '../../app/hooks/useToast';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../assets/';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useStatusOptions } from '../../app/hooks/useStatus';
+import { useUpdateProductDevelopmentWithStatus } from '../../app/api/productDevelopment';
+import { Status } from '../../app/generate';
 
 type Props = {
+  no: string;
   createNew?: boolean;
   showingChanges: boolean;
 };
 
-const ActionBar = ({ createNew, showingChanges }: Props) => {
+const ActionBar = ({ createNew, showingChanges, no }: Props) => {
   const { t } = useTranslation();
-  const { showToast } = useToast();
-  const handleToast = (status: Status) => {
-    showToast({
-      status: status,
-      title: 'Toaster title',
-      description: 'Toaster messages',
-    });
-  };
   const artwork = useWatch({ name: 'artwork' });
-  const statusOptions = useStatusOptions(true);
+  const { trigger, getValues } = useFormContext();
+  const { statuses, getNextStatus } = useStatusOptions(true);
+  const nextStatus = getNextStatus(getValues('status') as Status);
+  const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+
+  async function submitStatus(status: Status): Promise<void> {
+    const res = await trigger();
+    if (!res) {
+      updateStatus(status);
+    }
+  }
 
   return (
     <VStack align={'left'}>
@@ -96,13 +99,15 @@ const ActionBar = ({ createNew, showingChanges }: Props) => {
                 </MenuItem>
               </MenuList>
             </Menu>
-            <Button
-              variant={'secondary'}
-              onClick={() => handleToast('success')}>
+            <Button variant={'secondary'} type="submit">
               {t('Common.Save')}
             </Button>
             <ButtonGroup isAttached variant="primary">
-              <Button>{t('Common.SendTo')} </Button>
+              {nextStatus && (
+                <Button onClick={() => submitStatus(nextStatus)}>
+                  {t('Common.SendTo')} {nextStatus}
+                </Button>
+              )}
               <Menu>
                 <MenuButton
                   as={IconButton}
@@ -112,8 +117,10 @@ const ActionBar = ({ createNew, showingChanges }: Props) => {
                   icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
                 />
                 <MenuList>
-                  {statusOptions.map(s => (
+                  {statuses.map(s => (
                     <MenuItem
+                      key={s.value}
+                      onClick={() => submitStatus(s.value)}
                       icon={
                         <Box
                           w={'6px'}
@@ -129,7 +136,6 @@ const ActionBar = ({ createNew, showingChanges }: Props) => {
             </ButtonGroup>
           </>
         )}
-
         {createNew && (
           <Button variant="primary" type="submit">
             {t('PD.CreateNew')}

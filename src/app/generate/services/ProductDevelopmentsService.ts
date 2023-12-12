@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ProductDevelopmentBriefDto } from '../models/ProductDevelopmentBriefDto';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
-import type { UpdateProductDevelopmentDto } from '../models/UpdateProductDevelopmentDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -128,13 +128,13 @@ no: string,
     /**
      * @param no 
      * @param requestBody 
-     * @returns ProductDevelopmentDto Success
+     * @returns ProductDevelopmentBriefDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments(
 no: string,
-requestBody?: UpdateProductDevelopmentDto,
-): CancelablePromise<ProductDevelopmentDto> {
+requestBody?: ProductDevelopmentBriefDto,
+): CancelablePromise<ProductDevelopmentBriefDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}',

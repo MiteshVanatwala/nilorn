@@ -19,7 +19,7 @@ const AccordionItem = ({
   headlineColor = COLORS.WHITE,
 }: Props) => {
   return (
-    <ChakraAccordionItem borderBottom={'none'} mb={'0'}>
+    <ChakraAccordionItem>
       <AccordionButton>
         <HStack w={'100%'} justifyContent={'space-between'}>
           <Heading variant={'bodyBold'} color={headlineColor}>

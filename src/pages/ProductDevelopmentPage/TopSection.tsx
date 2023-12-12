@@ -9,15 +9,19 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import BackLink from './BackLink';
+import { useFormContext } from 'react-hook-form';
+import StatusBadge from '../../components/Status/StatusBadge';
 
 type Props = {
-  productNo: string;
+  no: string;
   scrolledPast: boolean;
   createNew?: boolean;
 };
-const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
-  const clientOptions = useFilterOptions('clients');
+  const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
+  const projectsOptions = useFilterOptions('projects');
+  const { getValues } = useFormContext();
 
   //TODO remvove hard coded value
   const showingChanges = true;
@@ -70,7 +74,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 width={'60'}
                 height={'60'}
                 objectFit={'cover'}
-                src="https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg"></Image>
+                src={getValues('imageUrl')}></Image>
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,
@@ -97,8 +101,9 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
                 </Heading>
                 <Text px={SPACE.SM}>
                   {!createNew && '#'}
-                  {productNo}
+                  {no}
                 </Text>
+                <StatusBadge status={getValues('status')} />
               </VStack>
             </HStack>
           </GridItem>
@@ -124,19 +129,23 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               <Box zIndex={9} width={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}
-                  name="client"
+                  name="clientNo"
                   options={clientOptions}
+                  registerOptions={{ required: true }}
                 />
               </Box>
             ) : (
-              <Text p={SPACE.XXS}>[CLIENT]</Text>
+              <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
             <Box zIndex={8} width={'100%'}>
               <Select
                 placeholder={t('PD.Project')}
                 name="project"
                 invisible={!createNew}
-                options={clientOptions}
+                options={projectsOptions}
+                defaultValue={projectsOptions.find(
+                  co => co.value === getValues('project')
+                )}
               />
             </Box>
           </GridItem>
@@ -146,7 +155,7 @@ const TopSection = ({ productNo, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar showingChanges={showingChanges} createNew={createNew} />
+            <ActionBar showingChanges={showingChanges} createNew={createNew} no={no}/>
           </GridItem>
         </Grid>
       </ContentSection>

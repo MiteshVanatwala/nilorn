@@ -19,7 +19,7 @@ const router = createBrowserRouter([
           { path: 'signin-oidc', element: <SigninOidc /> },
           { element: <HomePage />, index: true },
           {
-            path: 'product-development/:productNo',
+            path: 'product-development/:no',
             element: <ProductDevelopmentPage />,
           },
           {
