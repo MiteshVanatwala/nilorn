@@ -40,6 +40,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         helperText={helperText}
         hideValidationStyle={hideValidationStyle}>
         <Textarea
+          lineHeight={1.5}
           resize="none"
           minH={minHeight}
           as={ResizeTextarea}

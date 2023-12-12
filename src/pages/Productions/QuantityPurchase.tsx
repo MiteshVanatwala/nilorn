@@ -41,7 +41,8 @@ const QuantityPurchase = () => {
         <HStack gap={SPACE.LG}>
           <FormLabel
             mr={'0'}
-            mb={{
+            mb={0}
+            pb={{
               base: SPACE.SM,
               md: SPACE.XXS,
             }}
@@ -49,11 +50,12 @@ const QuantityPurchase = () => {
             {t('PD.FormContent.Quantities')}
           </FormLabel>
           <FormLabel
-            mb={{
+            pb={{
               base: SPACE.SM,
               md: SPACE.XXS,
             }}
             mr={'0'}
+            mb={0}
             w={'50%'}>
             {t('Production.PUR')}
           </FormLabel>
