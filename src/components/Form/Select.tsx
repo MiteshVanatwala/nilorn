@@ -15,6 +15,7 @@ interface Props<IsMulti extends boolean = false>
   searchable?: boolean;
   showSelectedCount?: boolean;
   invisible?: boolean;
+  components?: any;
 }
 
 const Select = <IsMulti extends boolean = false>({
@@ -30,6 +31,7 @@ const Select = <IsMulti extends boolean = false>({
   searchable = true,
   showSelectedCount = false,
   invisible = false,
+  components,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -76,6 +78,7 @@ const Select = <IsMulti extends boolean = false>({
                   : placeholder
               }
               isSearchable={searchable}
+              components={components}
             />
           );
         }}

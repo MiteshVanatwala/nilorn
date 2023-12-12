@@ -11,11 +11,12 @@ import useFilterOptions from '../../app/hooks/useFilterOption';
 import BackLink from './BackLink';
 import { useFormContext } from 'react-hook-form';
 import StatusBadge from '../../components/Status/StatusBadge';
+import ProjectSelect from './Sections/SectionComponents/ProjectSelect';
 
 type Props = {
   no: string;
   scrolledPast: boolean;
-  createNew?: boolean;
+  createNew: boolean;
 };
 const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
@@ -138,15 +139,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
             <Box zIndex={8} width={'100%'}>
-              <Select
-                placeholder={t('PD.Project')}
-                name="project"
-                invisible={!createNew}
-                options={projectsOptions}
-                defaultValue={projectsOptions.find(
-                  co => co.value === getValues('project')
-                )}
-              />
+              <ProjectSelect options={projectsOptions} createNew={createNew} />
             </Box>
           </GridItem>
           <GridItem
@@ -155,7 +148,11 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar showingChanges={showingChanges} createNew={createNew} no={no}/>
+            <ActionBar
+              showingChanges={showingChanges}
+              createNew={createNew}
+              no={no}
+            />
           </GridItem>
         </Grid>
       </ContentSection>

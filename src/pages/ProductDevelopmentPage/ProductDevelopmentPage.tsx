@@ -19,7 +19,7 @@ import {
 import SourcingSection from './Sections/SourcingSection';
 
 type Props = {
-  createNew?: boolean;
+  createNew: boolean;
 };
 
 function ProductDevelopmentPage({ createNew }: Props) {
