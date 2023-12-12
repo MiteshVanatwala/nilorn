@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from 'react-query';
 import {
   ApiError,
-  ProductDevelopmentBriefDto,
   ProductDevelopmentDto,
   ProductDevelopmentsService,
   Status,
@@ -39,9 +38,7 @@ export const useUpdateProductDevelopment = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   return useMutation(
-    (
-      body: ProductDevelopmentBriefDto // TODO: Chnage to ProductDevelopmentDto
-    ) =>
+    (body: ProductDevelopmentDto) =>
       ProductDevelopmentsService.patchApiProductDevelopments(no, body).then(
         response => response
       ),
