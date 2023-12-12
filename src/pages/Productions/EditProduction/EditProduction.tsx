@@ -60,14 +60,14 @@ const EditProduction = () => {
                   <InputField
                     label={`${t('Production.SL')}`}
                     placeholder={`${t('Common.Placeholder')}`}
-                    name={'SL'}
+                    name={'SampleLeadTime'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
                   <InputField
                     label={`${t('Production.BL')}`}
                     placeholder={`${t('Common.Placeholder')}`}
-                    name={'BL'}
+                    name={'ProductionLeadTime'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -88,7 +88,7 @@ const EditProduction = () => {
                   <InputField
                     label={`${t('Production.Sample')}`}
                     placeholder={`${t('Common.Placeholder')}`}
-                    name={'Sample'}
+                    name={'SampleCharge'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
