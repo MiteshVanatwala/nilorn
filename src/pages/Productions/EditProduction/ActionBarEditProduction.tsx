@@ -94,7 +94,7 @@ const ActionBarEditProduction = () => {
             />
             <MenuList>
               <MenuItem onClick={() => handleSaveAndRelease()}>
-                Save and release
+                {t('Production.SaveAndRelease')}
               </MenuItem>
             </MenuList>
           </Menu>
@@ -105,7 +105,7 @@ const ActionBarEditProduction = () => {
           base: 'left',
           lg: 'right',
         }}>
-        Last edited [DATETIME]
+        {t('Production.LastEdited')} [DATETIME]
       </Text>
     </VStack>
   );

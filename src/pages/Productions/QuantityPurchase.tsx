@@ -37,21 +37,32 @@ const QuantityPurchase = () => {
         base: GRID.TEMPLATE_COLUMNS.base,
         md: GRID.TEMPLATE_COLUMNS.lg,
       }}>
-      <GridItem
-        colStart={{
-          base: 1,
-          xl: 4,
-        }}
-        colSpan={4}>
-        <HStack gap={SPACE.XL}>
-          <FormLabel w={'50%'}>{t('PD.FormContent.Quantities')}</FormLabel>
-          <FormLabel w={'50%'}>{t('Production.PUR')}</FormLabel>
+      <GridItem colSpan={4}>
+        <HStack gap={SPACE.LG}>
+          <FormLabel
+            mr={'0'}
+            mb={{
+              base: SPACE.SM,
+              md: SPACE.XXS,
+            }}
+            w={'50%'}>
+            {t('PD.FormContent.Quantities')}
+          </FormLabel>
+          <FormLabel
+            mb={{
+              base: SPACE.SM,
+              md: SPACE.XXS,
+            }}
+            mr={'0'}
+            w={'50%'}>
+            {t('Production.PUR')}
+          </FormLabel>
         </HStack>
-        <VStack gap={SPACE.MD} alignItems={'baseline'}>
+        <VStack gap={SPACE.SM} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
               <Box w={'100%'} key={item.id} position={'relative'}>
-                <HStack gap={SPACE.XL} w={'100%'}>
+                <HStack gap={SPACE.LG} w={'100%'}>
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}

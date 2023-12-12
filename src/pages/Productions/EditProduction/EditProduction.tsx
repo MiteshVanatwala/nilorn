@@ -24,16 +24,13 @@ const EditProduction = () => {
             }}
             gap={{
               base: SPACE.XXS,
-              md: SPACE.SM,
+              md: SPACE.MD,
+              lg: SPACE.LG,
             }}>
-            <GridItem
-              gap={{
-                base: SPACE.XXS,
-                md: SPACE.SM,
-              }}>
+            <GridItem>
               <TextArea
                 name="comment"
-                placeholder={`Enter ${t('Production.Comment')}`}
+                placeholder={`${t('Production.CommentPlaceholder')}`}
                 label={t('Production.Comment')}
               />
             </GridItem>
