@@ -1,6 +1,6 @@
-import { Box, Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
+import { Accordion, Box, Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
+import { COLORS, GRID, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 import InputField from '../../../components/Form/InputField';
@@ -41,46 +41,48 @@ const SourcingSection = ({ createNew }: Props) => {
             />
           </Box>
           <Box w={'100%'}>
-            <AccordionItem title="NEA">
-              <>
-                <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
-                  <GridItem
-                    colSpan={{
-                      base: 1,
-                      xl: 6,
-                    }}>
-                    <VStack gap={GRID.GAP}>
-                      <TextArea
-                        minHeight="0"
-                        placeholder="test"
-                        label={'Label'}
-                        name={'rk'}
-                      />
-                      <InputField
-                        placeholder="test"
-                        label={`${t('PD.FormContent.PurchaserPrice')}`}
-                        name={'r'}
-                      />
-                    </VStack>
-                  </GridItem>
-                  <GridItem
-                    colSpan={{
-                      base: 1,
-                      xl: 2,
-                    }}
-                    colEnd={{
-                      base: 1,
-                      xl: 13,
-                    }}
-                    colStart={{
-                      base: 1,
-                      xl: 11,
-                    }}>
-                    <Quantity />
-                  </GridItem>
-                </Grid>
-              </>
-            </AccordionItem>
+            <Accordion allowMultiple variant={'light'}>
+              <AccordionItem headlineColor={COLORS.GRAY[80]} title="NEA">
+                <>
+                  <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
+                    <GridItem
+                      colSpan={{
+                        base: 1,
+                        xl: 6,
+                      }}>
+                      <VStack gap={GRID.GAP}>
+                        <TextArea
+                          minHeight="0"
+                          placeholder={`${t('Common.Placeholder')}`}
+                          label={`${t('PD.FormContent.ClientRequirements')}`}
+                          name={'ClientRequirements '}
+                        />
+                        <InputField
+                          placeholder={`${t('Common.Placeholder')}`}
+                          label={`${t('PD.FormContent.PurchaserPrice')}`}
+                          name={'r'}
+                        />
+                      </VStack>
+                    </GridItem>
+                    <GridItem
+                      colSpan={{
+                        base: 1,
+                        xl: 2,
+                      }}
+                      colEnd={{
+                        base: 1,
+                        xl: 13,
+                      }}
+                      colStart={{
+                        base: 1,
+                        xl: 11,
+                      }}>
+                      <Quantity />
+                    </GridItem>
+                  </Grid>
+                </>
+              </AccordionItem>
+            </Accordion>
           </Box>
         </>
       </Flex>

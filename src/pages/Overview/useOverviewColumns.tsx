@@ -43,7 +43,7 @@ const useOverviewColumns = () => {
       header: `${t('PD.Status')}`,
       cell: info => <StatusBadge status={info.getValue() as Status} />,
     }),
-    columnHelper.accessor('artwork', {
+    columnHelper.accessor('artworkUrl', {
       header: `${t('PD.Artwork')}`,
       cell: info => info.getValue(),
     }),

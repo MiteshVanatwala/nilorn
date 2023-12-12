@@ -3,10 +3,10 @@ import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 
-export function useProductDevelopmentsFilter(
-  pageNumber: number,
-  pageSize: number
-) {
+export function useProductDevelopmentsFilter() {
+  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
+  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
+
   const sortKey = useFilterSearchParams('sortKey');
   const searchQuery = useFilterSearchParams('searchQuery', 400);
   const clients = useFilterSearchParams('clients');

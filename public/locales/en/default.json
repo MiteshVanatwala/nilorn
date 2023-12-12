@@ -90,7 +90,8 @@
       "Folding": "Folding",
       "PurchaserPrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
-      "Quantities": "Quantities"
+      "Quantities": "Quantities",
+      "ClientRequirements": "Client Requirements"
     },
     "StatusLabel": {
       "New": "New",
@@ -123,7 +124,9 @@
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
       "oPcomp": "Operations company",
-      "salespersonPurchaser": "Member"
+      "salespersonPurchaser": "Members",
+      "sourcingCompanies": "Sourcing companies",
+      "number": "Product development number"
     }
   },
   "Production": {

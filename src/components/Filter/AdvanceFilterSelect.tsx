@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Text } from '@chakra-ui/react';
 import { COLORS } from '../../theme/Constants';
-import { AdvanceFilter, SelectOption } from '../../app/types/types';
+import { FilterInput, SelectOption } from '../../app/types/types';
 
 const DropdownIndicator = (props: DropdownIndicatorProps) => {
   return (
@@ -19,12 +19,12 @@ const DropdownIndicator = (props: DropdownIndicatorProps) => {
 };
 
 type Props = {
-  options: SelectOption<AdvanceFilter>[];
+  options: SelectOption<FilterInput>[];
   onChange: (
-    selectedOption: MultiValue<SelectOption<AdvanceFilter>> | undefined,
-    actionMeta: ActionMeta<SelectOption<AdvanceFilter>>
+    selectedOption: MultiValue<SelectOption<FilterInput>> | undefined,
+    actionMeta: ActionMeta<SelectOption<FilterInput>>
   ) => void;
-  value: MultiValue<SelectOption<AdvanceFilter>>;
+  value: MultiValue<SelectOption<FilterInput>>;
   placeholder?: string;
 };
 

@@ -1,7 +1,6 @@
-import TablePagination from '../../components/Table/TablePagination/TablePagination';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useProductDevelopmentsFilter } from '../../app/api/Overview';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
@@ -10,51 +9,16 @@ import {
   getSortState,
   useFilterSearchParams,
 } from '../../components/Filter/FilterHelper';
+import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
-
 function OverviewTableContainer() {
   const { t } = useTranslation();
   const initSort = useFilterSearchParams('sortKey');
-  const initPageNumber = useFilterSearchParams('pageNumber');
-  const initPageSize = useFilterSearchParams('pageSize');
+  const { sortState, setSortState } = usePaginationContext();
 
-  const {
-    pageNumber,
-    pageSize,
-    totalPages,
-    totalCount,
-    sortState,
-    setPageNumber,
-    setPageSize,
-    setTotalPages,
-    setTotalCount,
-    setSortState,
-  } = usePaginationContext();
-
-  const { data, isError, isLoading, isFetching } = useProductDevelopmentsFilter(
-    pageNumber,
-    pageSize
-  );
-
-  useLayoutEffect(() => {
-    setTotalPages(data?.totalPages ?? 0);
-    setTotalCount(data?.totalCount ?? 0);
-    setPageNumber(
-      initPageNumber ? Number(initPageNumber) : data?.pageNumber ?? 1
-    );
-    setPageSize(initPageSize ? Number(initPageSize) : CHUNK_SIZES[0]);
-  }, [
-    data?.pageNumber,
-    data?.totalCount,
-    data?.totalPages,
-    initPageNumber,
-    initPageSize,
-    setPageNumber,
-    setPageSize,
-    setTotalCount,
-    setTotalPages,
-  ]);
+  const { data, isError, isLoading, isFetching } =
+    useProductDevelopmentsFilter();
 
   useEffect(() => {
     if (initSort) {
@@ -74,17 +38,7 @@ function OverviewTableContainer() {
         sortState={sortState}
         setSortState={setSortState}
       />
-      <TablePagination
-        pageNumber={pageNumber}
-        totalNumPages={totalPages}
-        totalCount={totalCount}
-        currentPageSize={pageSize}
-        chunkSizes={CHUNK_SIZES}
-        nextHandler={() => setPageNumber(pageNumber + 1)}
-        previousHandler={() => setPageNumber(pageNumber - 1)}
-        pageNumberHandler={(num: number) => setPageNumber(num)}
-        pageSizeHandler={(size: number) => setPageSize(size)}
-      />
+      <TablePaginationContainer data={data} chunkSizes={CHUNK_SIZES} />
     </>
   );
 }

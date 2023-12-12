@@ -45,7 +45,6 @@ const Select = <IsMulti extends boolean = false>({
       required={registerOptions?.required}
       errors={errors}
       helperText={helperText}
-      zIndex="dropdown"
       hideValidationStyle={hideValidationStyle}>
       <Controller
         control={control}

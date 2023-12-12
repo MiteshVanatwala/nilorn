@@ -5,6 +5,7 @@ enum QueryKeysEnum {
   SalesPersonPurchasers = 'SalesPersonPurchasers',
   SourcingCompanies = 'SourcingCompanies',
   Vendors = 'Vendors',
+  Productions = 'Productions',
 }
 
 export default QueryKeysEnum;

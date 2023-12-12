@@ -68,7 +68,7 @@ const ControlWrapper = ({
           </FormLabel>
         )}
         {description && <FormHelperText>{description}</FormHelperText>}
-        <InputGroup zIndex={zIndex} display={'block'}>
+        <InputGroup isolation={'auto'} zIndex={zIndex} display={'block'}>
           {children}
         </InputGroup>
       </Stack>

@@ -10,14 +10,19 @@ import { COLORS } from '../../theme/Constants';
 type Props = {
   title: string;
   children: JSX.Element;
+  headlineColor?: string;
 };
 
-const AccordionItem = ({ title, children }: Props) => {
+const AccordionItem = ({
+  title,
+  children,
+  headlineColor = COLORS.WHITE,
+}: Props) => {
   return (
-    <ChakraAccordionItem mb={'0'}>
+    <ChakraAccordionItem borderBottom={'none'} mb={'0'}>
       <AccordionButton>
         <HStack w={'100%'} justifyContent={'space-between'}>
-          <Heading variant={'bodyBold'} color={COLORS.WHITE}>
+          <Heading variant={'bodyBold'} color={headlineColor}>
             {title}
           </Heading>
           <AccordionIcon />

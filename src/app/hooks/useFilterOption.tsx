@@ -11,6 +11,7 @@ import {
   VendorDto,
 } from '../generate';
 import { FilterKeys, SelectOption } from '../types/types';
+import { useStatusOptions } from './useStatus';
 
 const mapClientsToOptions = (clients?: ClientDto[]) => {
   return (
@@ -61,6 +62,7 @@ const useFilterOptions = (name: FilterKeys) => {
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
     name === 'salespersonPurchaser'
   );
+  const statuses = useStatusOptions();
 
   const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
     vendor: mapVendorsToOptions(vendors),
@@ -69,6 +71,7 @@ const useFilterOptions = (name: FilterKeys) => {
       salesPersonPurchasers
     ),
     clients: mapClientsToOptions(clients),
+    statuses: statuses,
   };
 
   return dataMap[name] || [];
