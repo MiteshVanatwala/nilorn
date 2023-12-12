@@ -23,7 +23,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     defaultValue,
     variant = 'standard',
     hideValidationStyle,
-    minHeight,
+    minHeight = '0',
     isDisabled = false,
   }: Props) => {
     const {
