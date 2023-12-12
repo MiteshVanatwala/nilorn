@@ -52,7 +52,6 @@ const SourcingSection = ({ createNew }: Props) => {
                       }}>
                       <VStack gap={GRID.GAP}>
                         <TextArea
-                          minHeight="0"
                           placeholder={`${t('Common.Placeholder')}`}
                           label={`${t('PD.FormContent.ClientRequirements')}`}
                           name={'ClientRequirements '}

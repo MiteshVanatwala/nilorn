@@ -139,13 +139,19 @@
   "Production": {
     "ProductDevelopments": "Product developments",
     "Release": "Release for sales",
+    "SaveAndRelease": "Save and release",
     "Comment": "Comment",
+    "CommentPlaceholder": "Enter comment",
     "SL": "SL",
     "BL": "BL",
     "MOQ": "MOQ",
     "Cur": "Comment",
     "Qty": "Qty",
-    "PUR": "Pur"
+    "PUR": "PUR",
+    "Tool": "Tool",
+    "Currency": "Currency",
+    "Sample": "Sample",
+    "LastEdited": "Last edited"
   },
   "Changelog": {
     "To": "To",
