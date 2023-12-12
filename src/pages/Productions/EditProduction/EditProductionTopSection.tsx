@@ -79,11 +79,11 @@ const EditProductionTopSection = ({ productNo }: Props) => {
                 <Text>NEA</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
-                <StatusBadge status={status as Status} />
                 <Text>
                   {'#'}
                   {productNo}
                 </Text>
+                <StatusBadge status={status as Status} />
               </HStack>
             </VStack>
           </HStack>
