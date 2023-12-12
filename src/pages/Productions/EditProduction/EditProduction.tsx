@@ -30,7 +30,7 @@ const EditProduction = () => {
             <GridItem>
               <TextArea
                 name="comment"
-                placeholder={`${t('Production.CommentPlaceholder')}`}
+                placeholder={t('Production.CommentPlaceholder')}
                 label={t('Production.Comment')}
               />
             </GridItem>
