@@ -104,6 +104,7 @@ const ActionBarEditProduction = ({ createNew }: Props) => {
           </Menu>
         </ButtonGroup>
       </HStack>
+      <Text align={'right'}>Last edited [DATETIME]</Text>
     </VStack>
   );
 };
