@@ -13,9 +13,10 @@ import { Status } from '../../app/generate';
 type Props = {
   no: string;
   createNew?: boolean;
+  showingChanges: boolean;
 };
 
-const ActionBar = ({ createNew, no }: Props) => {
+const ActionBar = ({ createNew, showingChanges, no }: Props) => {
   const { t } = useTranslation();
   const artwork = useWatch({ name: 'artwork' });
   const { trigger, getValues } = useFormContext();
@@ -81,10 +82,10 @@ const ActionBar = ({ createNew, no }: Props) => {
                     <Text
                       as={'i'}
                       fontSize={SIZES.ICON.MD}
-                      className="ri-delete-bin-line"
+                      className="ri-history-line"
                     />
                   }>
-                  {t('PD.ShowChanges')}
+                  {showingChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
                 <MenuItem
                   icon={

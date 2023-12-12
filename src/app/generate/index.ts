@@ -21,12 +21,16 @@ export type { SearchProfileDto } from './models/SearchProfileDto';
 export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export type { SourcingDto } from './models/SourcingDto';
 export { Status } from './models/Status';
+export type { UpdateProductDevelopmentDto } from './models/UpdateProductDevelopmentDto';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 
 export { ClientService } from './services/ClientService';
+export { FoldingTypeService } from './services/FoldingTypeService';
+export { ItemCategoryService } from './services/ItemCategoryService';
 export { MetaService } from './services/MetaService';
 export { ProductDevelopmentsService } from './services/ProductDevelopmentsService';
+export { ProductGroupService } from './services/ProductGroupService';
 export { ProjectsService } from './services/ProjectsService';
 export { SalesPersonPurchasersService } from './services/SalesPersonPurchasersService';
 export { SearchProfilesService } from './services/SearchProfilesService';

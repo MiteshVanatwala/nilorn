@@ -23,6 +23,8 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const projectsOptions = useFilterOptions('projects');
   const { getValues } = useFormContext();
 
+  //TODO remvove hard coded value
+  const showingChanges = true;
   return (
     <Box
       id="top-section"
@@ -153,7 +155,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar createNew={createNew} no={no} />
+            <ActionBar showingChanges={showingChanges} createNew={createNew} no={no}/>
           </GridItem>
         </Grid>
       </ContentSection>
