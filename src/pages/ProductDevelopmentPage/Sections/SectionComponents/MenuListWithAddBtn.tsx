@@ -3,7 +3,7 @@ import { SelectOption } from '../../../../app/types/types';
 import { MenuListProps } from 'chakra-react-select';
 import { Box, Button } from '@chakra-ui/react';
 import { useModal } from '../../../../app/hooks/useModal';
-import { SPACE } from '../../../../theme/Constants';
+import { COLORS, SPACE } from '../../../../theme/Constants';
 import AddProjectModal from './AddProjectModal';
 
 const MenuListWithAddBtn = ({
@@ -16,8 +16,10 @@ const MenuListWithAddBtn = ({
   const { handleModal } = useModal();
 
   return (
-    <Box pb={SPACE.XL}>
+    <Box bg={COLORS.GRAY[10]}>
       <Button
+        ml={SPACE.XXS}
+        mt={SPACE.XXS}
         variant={'secondarySmall'}
         onClick={() =>
           handleModal(<AddProjectModal setDefaultProject={setDefaultProject} />)
