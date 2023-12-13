@@ -1,21 +1,28 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
-import ContentSection from '../Templates/ContentSection';
-import ActionBar from './ActionBar';
+import {
+  BOX_SHADOW,
+  COLORS,
+  GRID,
+  SIZES,
+  SPACE,
+} from '../../../theme/Constants';
+import ContentSection from '../../Templates/ContentSection';
+import ActionBar from './SectionComponents/ActionBar';
 import { Image, VStack } from '@chakra-ui/react';
-import TRANSITION from '../../theme/Constants/transition';
-import EditableInputField from '../../components/Form/EditableInputField';
+import TRANSITION from '../../../theme/Constants/transition';
+import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
-import Select from '../../components/Form/Select';
-import useFilterOptions from '../../app/hooks/useFilterOption';
-import BackLink from './BackLink';
+import Select from '../../../components/Form/Select';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
+import BackLink from './SectionComponents/BackLink';
 import { useFormContext } from 'react-hook-form';
-import StatusBadge from '../../components/Status/StatusBadge';
+import StatusBadge from '../../../components/Status/StatusBadge';
+import ProjectSelect from './SectionComponents/ProjectSelect';
 
 type Props = {
   no: string;
   scrolledPast: boolean;
-  createNew?: boolean;
+  createNew: boolean;
 };
 const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
@@ -137,17 +144,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             ) : (
               <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
-            <Box zIndex={8} width={'100%'}>
-              <Select
-                placeholder={t('PD.Project')}
-                name="project"
-                invisible={!createNew}
-                options={projectsOptions}
-                defaultValue={projectsOptions.find(
-                  co => co.value === getValues('project')
-                )}
-              />
-            </Box>
+            <ProjectSelect options={projectsOptions} createNew={createNew} />
           </GridItem>
           <GridItem
             colSpan={{
@@ -155,7 +152,11 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: 5,
             }}>
-            <ActionBar showingChanges={showingChanges} createNew={createNew} no={no}/>
+            <ActionBar
+              showingChanges={showingChanges}
+              createNew={createNew}
+              no={no}
+            />
           </GridItem>
         </Grid>
       </ContentSection>
