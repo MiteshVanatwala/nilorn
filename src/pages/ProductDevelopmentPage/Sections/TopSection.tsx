@@ -144,9 +144,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             ) : (
               <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
-            <Box zIndex={8} width={'100%'}>
-              <ProjectSelect options={projectsOptions} createNew={createNew} />
-            </Box>
+            <ProjectSelect options={projectsOptions} createNew={createNew} />
           </GridItem>
           <GridItem
             colSpan={{

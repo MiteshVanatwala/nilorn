@@ -4,6 +4,7 @@ import { SelectOption } from '../../../../app/types/types';
 import { useState } from 'react';
 import SelectBase from '../../../../components/Form/SelectBase';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
+import { Box } from '@chakra-ui/react';
 
 type Props = {
   options: SelectOption[];
@@ -27,7 +28,7 @@ const ProjectSelect = ({ options, createNew }: Props) => {
     setSelected(option);
   };
   return (
-    <>
+    <Box zIndex={8} width={'100%'}>
       {defaultProject && (
         <SelectBase
           placeholder={t('PD.Project')}
@@ -66,7 +67,7 @@ const ProjectSelect = ({ options, createNew }: Props) => {
           }}
         />
       )}
-    </>
+    </Box>
   );
 };
 
