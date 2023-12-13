@@ -7,7 +7,7 @@ import {
   Text,
   FormLabel,
 } from '@chakra-ui/react';
-import { useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../app/context/ModalContext';
 import { COLORS, SPACE } from '../../theme/Constants';
@@ -88,8 +88,11 @@ const SearchProfileModalContent = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
+  const onFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+  };
   return (
-    <>
+    <form onSubmit={onFormSubmit}>
       <ModalBody>
         <ModalHeading title={t('Filter.SaveSearchProfile')} />
         <FormLabel
@@ -133,7 +136,7 @@ const SearchProfileModalContent = ({
           </Button>
         </HStack>
       </ModalFooter>
-    </>
+    </form>
   );
 };
 export default SearchProfileModalContent;
