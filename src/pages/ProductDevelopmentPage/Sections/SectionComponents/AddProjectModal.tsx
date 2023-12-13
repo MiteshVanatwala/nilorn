@@ -21,7 +21,7 @@ const AddProjectModal = ({ setDefaultProject }: Props) => {
   const { close } = useContext(ModalContext);
   const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
 
-  const [projectName, setProjectName] = useState<string | undefined>('');
+  const [projectName, setProjectName] = useState<string>('');
   const onCancel = () => {
     close();
   };
@@ -33,7 +33,7 @@ const AddProjectModal = ({ setDefaultProject }: Props) => {
     }
     if (projectName !== '') {
       //TODO Create project
-      setDefaultProject(projectName ?? '');
+      setDefaultProject(projectName);
       close();
     }
   }
