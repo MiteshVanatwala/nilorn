@@ -1,8 +1,8 @@
 import { Link, Text } from '@chakra-ui/layout';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../../../theme/Constants';
 import { IconButton } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import fonts from '../../theme/fonts';
+import fonts from '../../../../theme/fonts';
 
 type Props = {
   scrolledPast: boolean;

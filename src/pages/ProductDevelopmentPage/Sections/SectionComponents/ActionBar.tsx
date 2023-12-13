@@ -1,14 +1,14 @@
 import { HStack, Text, VStack, Box } from '@chakra-ui/layout';
-import { COLORS, SIZES, SPACE } from '../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
-import { images } from '../../assets/';
+import { images } from '../../../../assets';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useStatusOptions } from '../../app/hooks/useStatus';
-import { useUpdateProductDevelopmentWithStatus } from '../../app/api/productDevelopment';
-import { Status } from '../../app/generate';
+import { useStatusOptions } from '../../../../app/hooks/useStatus';
+import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
+import { Status } from '../../../../app/generate';
 
 type Props = {
   no: string;

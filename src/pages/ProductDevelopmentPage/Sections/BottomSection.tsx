@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem } from '@chakra-ui/layout';
-import ContentSection from '../Templates/ContentSection';
-import { COLORS } from '../../theme/Constants';
+import ContentSection from '../../Templates/ContentSection';
+import { COLORS } from '../../../theme/Constants';
 
 const BottomSection = () => {
   return (

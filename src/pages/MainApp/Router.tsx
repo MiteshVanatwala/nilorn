@@ -20,7 +20,7 @@ const router = createBrowserRouter([
           { element: <HomePage />, index: true },
           {
             path: 'product-development/:no',
-            element: <ProductDevelopmentPage />,
+            element: <ProductDevelopmentPage createNew={false} />,
           },
           {
             path: 'product-development/create',
