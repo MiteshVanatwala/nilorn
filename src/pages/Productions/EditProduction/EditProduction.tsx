@@ -78,7 +78,7 @@ const EditProduction = () => {
                   <InputField
                     label={`${t('Production.Tool')}`}
                     placeholder={`${t('Common.Placeholder')}`}
-                    name={'Tool'}
+                    name={'ToolCharge'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -93,7 +93,7 @@ const EditProduction = () => {
                     label={`${t('Production.Currency')}`}
                     //TODO add currencies
                     options={[{ value: 'sek', label: 'SEK' }]}
-                    name={'Currency'}></Select>
+                    name={'CurrencyCode'}></Select>
                 </GridItem>
               </Grid>
             </GridItem>
