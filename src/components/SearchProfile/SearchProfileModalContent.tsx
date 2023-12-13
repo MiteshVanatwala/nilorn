@@ -14,6 +14,8 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import { useToast } from '../../app/hooks/useToast';
 import { useCreateOrUpdateSearchProfile } from '../../app/api/SearchProfile';
+import FormLabelComponent from '../Form/FormLabelComponent';
+import { FieldError } from 'react-hook-form';
 type Props = {
   activeSearchProfileName?: string;
   activeSearchProfile(val: boolean): void;
@@ -32,7 +34,9 @@ const SearchProfileModalContent = ({
   const { close } = useContext(ModalContext);
   const [errorMsgQuery, setErrorMsgQuery] = useState<string | undefined>();
   const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
-
+  const errorFieldMsg: FieldError = {
+    type: 'required',
+  };
   const [searchProfileName, setSearchProfileName] = useState<
     string | undefined
   >(activeSearchProfileName);
@@ -95,16 +99,11 @@ const SearchProfileModalContent = ({
     <form onSubmit={onFormSubmit}>
       <ModalBody>
         <ModalHeading title={t('Filter.SaveSearchProfile')} />
-        <FormLabel
-          paddingBottom={SPACE.XXS}
-          marginBottom={SPACE.XXS}
-          whiteSpace={'normal'}
-          opacity={100}
-          mb="0"
-          w={'auto'}
-          htmlFor={'searchProfileName'}>
-          {t('Filter.SearchProfileName')} {'*'}
-        </FormLabel>
+        <FormLabelComponent
+          error={errorMsgName ? errorFieldMsg : undefined}
+          label={`${t('Filter.SearchProfileName')} *`}
+          name={'searchProfileName'}
+        />
         <Input
           defaultValue={activeSearchProfileName ?? undefined}
           variant={'standard'}
@@ -114,6 +113,7 @@ const SearchProfileModalContent = ({
             setSearchProfileName(e.target.value);
             setActiveSearchProfileName(e.target.value);
             setDefaultSearchProfile('');
+            setErrorMsgName(undefined);
           }}
         />
         {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
