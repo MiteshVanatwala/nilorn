@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import {
   Button,
-  FormLabel,
   HStack,
   Input,
   ModalBody,
@@ -12,6 +11,7 @@ import { COLORS, SPACE } from '../../../../theme/Constants';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
 import { FormEvent, useContext, useState } from 'react';
 import { ModalContext } from '../../../../app/context/ModalContext';
+import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
 type Props = {
   setDefaultProject(val: string): void;
 };
@@ -44,19 +44,13 @@ const AddProjectModal = ({ setDefaultProject }: Props) => {
     <form onSubmit={onFormSubmit}>
       <ModalBody>
         <ModalHeading title={t('PD.AddProject')} />
-        <FormLabel
-          paddingBottom={SPACE.XXS}
-          marginBottom={SPACE.XXS}
-          whiteSpace={'normal'}
-          opacity={100}
-          mb="0"
-          w={'auto'}
-          htmlFor={'searchProfileName'}>
-          {t('PD.ProjectName')} {'*'}
-        </FormLabel>
+        <FormLabelComponent
+          label={`${t('PD.ProjectName')} *`}
+          name={'projectName'}
+        />
         <Input
           variant={'standard'}
-          name={'searchProfileName'}
+          name={'projectName'}
           onChange={e => {
             setProjectName(e.target.value);
           }}

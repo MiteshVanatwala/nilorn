@@ -1,7 +1,6 @@
 import {
   FormControl,
   FormHelperText,
-  FormLabel,
   InputGroup,
   Stack,
   Text,
@@ -10,9 +9,9 @@ import { ReactNode } from 'react';
 import { FieldError, FieldErrorsImpl, get } from 'react-hook-form';
 import COLORS from '../../theme/Constants/colors';
 import { FormInputProps } from '../../app/types/types';
-import { SPACE } from '../../theme/Constants';
 import { useValidationStyleInFormContext } from '../../app/hooks/useValidationStyle';
 import { useTranslation } from 'react-i18next';
+import FormLabelComponent from './FormLabelComponent';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -55,17 +54,13 @@ const ControlWrapper = ({
         direction={inline ? 'row' : 'column'}
         spacing={0}>
         {label && (
-          <FormLabel
-            paddingBottom={SPACE.XXS}
-            marginBottom={SPACE.XXS}
-            whiteSpace={inline ? 'nowrap' : 'normal'}
-            color={error ? COLORS.ERROR : color}
-            opacity={label === '-' ? 0 : 100}
-            mb="0"
-            w={'auto'}
-            htmlFor={name}>
-            {label} {required && '*'}
-          </FormLabel>
+          <FormLabelComponent
+            required={required}
+            name={name}
+            label={label}
+            error={error}
+            color={color}
+          />
         )}
         {description && <FormHelperText>{description}</FormHelperText>}
         <InputGroup isolation={'auto'} zIndex={zIndex} display={'block'}>

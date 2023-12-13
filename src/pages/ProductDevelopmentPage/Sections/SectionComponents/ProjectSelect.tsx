@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
 import { useState } from 'react';
-import SelectBase from '../../../../components/Form/SelectBase';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
 import { Box } from '@chakra-ui/react';
+import Select from '../../../../components/Form/Select';
 
 type Props = {
   options: SelectOption[];
@@ -13,9 +13,8 @@ type Props = {
 
 const ProjectSelect = ({ options, createNew }: Props) => {
   const { t } = useTranslation();
-  const { reset } = useFormContext();
+  const { getValues } = useFormContext();
   const [defaultProject, setDefaultProject] = useState<string>('');
-  const [selected, setSelected] = useState<SelectOption>();
 
   //TODO add options from api
   options = [
@@ -23,22 +22,19 @@ const ProjectSelect = ({ options, createNew }: Props) => {
     { label: 'Project2', value: 'Project2' },
   ];
   const onChange = (option: SelectOption) => {
-    reset();
     setDefaultProject('');
-    setSelected(option);
   };
   return (
     <Box zIndex={8} width={'100%'}>
       {defaultProject && (
-        <SelectBase
+        <Select
           placeholder={t('PD.Project')}
           name="project"
           invisible={!createNew}
           options={options}
           onChange={onChange}
-          value={
-            options.find(co => co.label === defaultProject) as SelectOption
-          }
+          registerOptions={{ required: true }}
+          defaultValue={options.find(o => o.label === getValues('project'))}
           components={{
             MenuList: (props: any) => (
               <MenuListWithAddBtn
@@ -50,13 +46,13 @@ const ProjectSelect = ({ options, createNew }: Props) => {
         />
       )}
       {!defaultProject && (
-        <SelectBase
-          placeholder={t('PD.Project')}
+        <Select
+          placeholder={t('PD.Project') + ' *'}
           name="project"
           invisible={!createNew}
           onChange={onChange}
+          registerOptions={{ required: true }}
           options={options}
-          value={selected}
           components={{
             MenuList: (props: any) => (
               <MenuListWithAddBtn
