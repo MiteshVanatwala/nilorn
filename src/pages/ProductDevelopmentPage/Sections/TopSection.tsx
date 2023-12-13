@@ -1,17 +1,23 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { BOX_SHADOW, COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
-import ContentSection from '../Templates/ContentSection';
-import ActionBar from './ActionBar';
+import {
+  BOX_SHADOW,
+  COLORS,
+  GRID,
+  SIZES,
+  SPACE,
+} from '../../../theme/Constants';
+import ContentSection from '../../Templates/ContentSection';
+import ActionBar from './SectionComponents/ActionBar';
 import { Image, VStack } from '@chakra-ui/react';
-import TRANSITION from '../../theme/Constants/transition';
-import EditableInputField from '../../components/Form/EditableInputField';
+import TRANSITION from '../../../theme/Constants/transition';
+import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
-import Select from '../../components/Form/Select';
-import useFilterOptions from '../../app/hooks/useFilterOption';
-import BackLink from './BackLink';
+import Select from '../../../components/Form/Select';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
+import BackLink from './SectionComponents/BackLink';
 import { useFormContext } from 'react-hook-form';
-import StatusBadge from '../../components/Status/StatusBadge';
-import ProjectSelect from './Sections/SectionComponents/ProjectSelect';
+import StatusBadge from '../../../components/Status/StatusBadge';
+import ProjectSelect from './SectionComponents/ProjectSelect';
 
 type Props = {
   no: string;
