@@ -65,6 +65,8 @@
     "StockLoaction": "Stock loaction",
     "AddMember": "Add member",
     "AddSourcing": "Add sourcing",
+    "AddProject": "Add new project",
+    "ProjectName": "Project name",
     "SalespersonPurchaser": "Member",
     "ProductGroup": "Product group",
     "Version": "Version",
@@ -181,6 +183,7 @@
   "Errors": {
     "Required": "The field is required",
     "EmptyFilter": "Filter can not be empty",
-    "FilterName": "Filter name is required"
+    "FilterName": "Filter name is required",
+    "ProjectName": "Project name is required"
   }
 }

@@ -3,8 +3,8 @@ import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
 import { Grid, GridItem, VStack } from '@chakra-ui/layout';
 import { SPACE } from '../../theme/Constants';
-import TopSection from './TopSection';
-import BottomSection from './BottomSection';
+import TopSection from './Sections/TopSection';
+import BottomSection from './Sections/BottomSection';
 import { Accordion } from '@chakra-ui/accordion';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import AttachmentSection from './Sections/AttachmentSection';
@@ -19,7 +19,7 @@ import {
 import SourcingSection from './Sections/SourcingSection';
 
 type Props = {
-  createNew?: boolean;
+  createNew: boolean;
 };
 
 function ProductDevelopmentPage({ createNew }: Props) {
