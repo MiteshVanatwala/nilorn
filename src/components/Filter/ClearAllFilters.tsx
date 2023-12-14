@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 const ClearAllFilters = () => {
-  const { reset } = useFormContext();
+  const { reset, getValues, setValue } = useFormContext();
   const { t } = useTranslation();
 
   return (
@@ -22,7 +22,12 @@ const ClearAllFilters = () => {
       _active={{
         backgroundColor: 'transparent',
       }}
-      onClick={() => reset()}>
+      onClick={() => {
+        const pageSize = getValues('pageSize');
+        reset();
+        setValue('pageSize', pageSize ?? 25);
+        setValue('pageNumber', 1);
+      }}>
       {t('Filter.Clear')}
     </Button>
   );
