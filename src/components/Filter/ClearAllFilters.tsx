@@ -25,7 +25,7 @@ const ClearAllFilters = () => {
       onClick={() => {
         const pageSize = getValues('pageSize');
         reset();
-        setValue('pageSize', pageSize);
+        setValue('pageSize', pageSize ?? 25);
         setValue('pageNumber', 1);
       }}>
       {t('Filter.Clear')}
