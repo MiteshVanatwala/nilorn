@@ -108,7 +108,7 @@ const AdvanceFilter = ({ filters }: Props) => {
             <AccordionIcon />
           </HStack>
         </AccordionButton>
-        <AccordionPanel overflow={'visible'}>
+        <AccordionPanel pl={0} overflow={'visible'}>
           <Grid
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
