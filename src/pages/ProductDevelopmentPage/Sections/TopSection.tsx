@@ -26,8 +26,8 @@ type Props = {
 };
 const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
-  const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
-  const projectsOptions = useFilterOptions('projects');
+  const clientOptions = useFilterOptions(createNew ? 'client' : undefined);
+  const projectsOptions = useFilterOptions('project');
   const { getValues } = useFormContext();
 
   //TODO remvove hard coded value

@@ -20,7 +20,7 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
   const { t } = useTranslation();
   const artwork = useWatch({ name: 'artwork' });
   const { trigger, getValues } = useFormContext();
-  const { statuses, getNextStatus } = useStatusOptions(true);
+  const { status, getNextStatus } = useStatusOptions(true);
   const nextStatus = getNextStatus(getValues('status') as Status);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
@@ -117,7 +117,7 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
                   icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
                 />
                 <MenuList>
-                  {statuses.map(s => (
+                  {status.map(s => (
                     <MenuItem
                       key={s.value}
                       onClick={() => submitStatus(s.value)}

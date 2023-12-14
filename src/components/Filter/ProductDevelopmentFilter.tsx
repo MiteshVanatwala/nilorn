@@ -21,16 +21,16 @@ const ProductDevelopmentFilter = () => {
 
   const filterInputs: SelectOption<FilterInput>[] = [
     {
-      label: t('PD.FilterLabel.clients'),
-      value: { name: 'clients', type: 'select' },
+      label: t('PD.FilterLabel.client'),
+      value: { name: 'client', type: 'select' },
     },
     {
-      label: t('PD.FilterLabel.statuses'),
-      value: { name: 'statuses', type: 'select' },
+      label: t('PD.FilterLabel.status'),
+      value: { name: 'status', type: 'select' },
     },
     {
       label: t('PD.FilterLabel.projects'),
-      value: { name: 'projects', type: 'select' },
+      value: { name: 'project', type: 'select' },
     },
   ];
 

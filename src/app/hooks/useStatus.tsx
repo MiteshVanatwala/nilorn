@@ -4,7 +4,7 @@ import { Status } from '../generate';
 export const useStatusOptions = (includeClosed?: boolean) => {
   const { t } = useTranslation();
 
-  const statuses = [
+  const status = [
     {
       label: t('PD.StatusLabel.New'),
       value: Status.NEW,
@@ -33,7 +33,7 @@ export const useStatusOptions = (includeClosed?: boolean) => {
   ];
 
   if (includeClosed) {
-    statuses.push(
+    status.push(
       {
         label: t('PD.StatusLabel.Approved'),
         value: Status.APPROVED,
@@ -48,14 +48,12 @@ export const useStatusOptions = (includeClosed?: boolean) => {
   }
 
   const getNextStatus = (currentStatus: Status) => {
-    const currentIndex = statuses.findIndex(
-      item => item.value === currentStatus
-    );
-    if (currentIndex !== -1 && currentIndex < statuses.length - 1) {
-      return statuses[currentIndex + 1].value;
+    const currentIndex = status.findIndex(item => item.value === currentStatus);
+    if (currentIndex !== -1 && currentIndex < status.length - 1) {
+      return status[currentIndex + 1].value;
     }
     return null; // return null if the current status is the last one in the array
   };
 
-  return { statuses, getNextStatus };
+  return { status, getNextStatus };
 };

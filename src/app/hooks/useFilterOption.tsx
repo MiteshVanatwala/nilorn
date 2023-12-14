@@ -54,7 +54,7 @@ const mapSalesPersonPurchasersToOptions = (
 };
 
 const useFilterOptions = (name?: FilterKeys) => {
-  const { data: clients } = useClients(name === 'clients');
+  const { data: client } = useClients(name === 'client');
   const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
     name === 'sourcingCompanies'
@@ -62,7 +62,7 @@ const useFilterOptions = (name?: FilterKeys) => {
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
     name === 'salespersonPurchaser'
   );
-  const { statuses } = useStatusOptions();
+  const { status } = useStatusOptions();
 
   if (!name) {
     return [];
@@ -74,8 +74,8 @@ const useFilterOptions = (name?: FilterKeys) => {
     salespersonPurchaser: mapSalesPersonPurchasersToOptions(
       salesPersonPurchasers
     ),
-    clients: mapClientsToOptions(clients),
-    statuses: statuses,
+    client: mapClientsToOptions(client),
+    status: status,
   };
 
   return dataMap[name] || [];

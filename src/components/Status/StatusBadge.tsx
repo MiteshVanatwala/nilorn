@@ -10,7 +10,7 @@ type Props = {
 };
 
 const StatusBadge = ({ status }: Props) => {
-  const { statuses } = useStatusOptions();
+  const { status: statuses } = useStatusOptions();
   const { color, label } = useMemo(() => {
     return statuses.find(s => s.value === status) || { label: '', color: '' };
   }, [status, statuses]);

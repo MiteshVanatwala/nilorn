@@ -12,7 +12,7 @@ export const getProductionsAdvanceFilters = (): FilterInput[] => {
     },
     {
       type: 'select',
-      name: 'statuses',
+      name: 'status',
     },
   ];
 };
