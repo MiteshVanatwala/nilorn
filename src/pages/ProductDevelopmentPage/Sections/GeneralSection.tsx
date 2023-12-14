@@ -8,6 +8,7 @@ import TextArea from '../../../components/Form/TextArea';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
+import { SelectOption } from '../../../app/types/types';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
@@ -15,16 +16,10 @@ const GeneralSection = () => {
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
 
   const itemCategories = useFilterOptions('itemCategories');
-  const { data: productGroupsTmp } = useProductGroup(
-    (itemCategoryCode as string) ?? ''
+  const { data: productGroups } = useProductGroup(
+    typeof itemCategoryCode === 'string' ?? false,
+    itemCategoryCode as string
   );
-  const productGroups =
-    productGroupsTmp?.map(
-      (s => ({
-        label: s,
-        value: s,
-      })) ?? []
-    ) ?? [];
 
   console.log('itemCategoryCode', itemCategoryCode);
 
@@ -71,12 +66,16 @@ const GeneralSection = () => {
             lg: 2,
           }}>
           <Select
-            options={productGroups}
+            options={(productGroups as SelectOption[]) ?? []}
             name="productGroupCode"
             label={`${t('PD.FormContent.ProductGroup')}`}
-            defaultValue={productGroups.find(
-              o => o.value === getValues('productGroupCode')
-            )}
+            defaultValue={
+              productGroups
+                ? (productGroups as SelectOption[]).find(
+                    o => o.value === getValues('productGroupCode')
+                  )
+                : undefined
+            }
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { DeleteSearchProfileCommand } from '../models/DeleteSearchProfileCommand';
-import type { SearchProfileDto } from '../models/SearchProfileDto';
+import type { OptionItem } from '../models/OptionItem';
 import type { UpsertSearchProfileCommand } from '../models/UpsertSearchProfileCommand';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -13,10 +13,10 @@ import { request as __request } from '../core/request';
 export class SearchProfilesService {
 
     /**
-     * @returns SearchProfileDto Success
+     * @returns OptionItem Success
      * @throws ApiError
      */
-    public static getApiSearchProfiles(): CancelablePromise<Array<SearchProfileDto>> {
+    public static getApiSearchProfiles(): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/SearchProfiles',

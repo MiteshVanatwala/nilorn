@@ -2,6 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { OptionItem } from '../models/OptionItem';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -10,17 +12,17 @@ export class ProductGroupService {
 
     /**
      * @param itemCategoryCode 
-     * @returns string Success
+     * @returns OptionItem Success
      * @throws ApiError
      */
-    public static getApiProductGroup(
-itemCategoryCode: string,
-): CancelablePromise<Array<string>> {
+    public static getApiProductGroupFilter(
+itemCategoryCode?: string,
+): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/ProductGroup/{itemCategoryCode}',
-            path: {
-                'itemCategoryCode': itemCategoryCode,
+            url: '/api/ProductGroup/Filter',
+            query: {
+                'ItemCategoryCode': itemCategoryCode,
             },
         });
     }

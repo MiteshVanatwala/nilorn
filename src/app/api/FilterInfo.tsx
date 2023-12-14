@@ -18,6 +18,7 @@ export function useClients(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
@@ -30,6 +31,7 @@ export function useVendors(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
@@ -42,6 +44,7 @@ export function useSourcingCompanies(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
@@ -57,6 +60,7 @@ export function useSalesPersonPurchasers(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
@@ -69,6 +73,7 @@ export function useFoldingType(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
@@ -81,23 +86,26 @@ export function useItemCategory(enable: boolean = true) {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }
 
 export function useProductGroup(
-  itemCategoryCode: string,
-  enable: boolean = true
+  enable: boolean = true,
+  itemCategoryCode?: string
 ) {
-  console.log('use', itemCategoryCode);
   return useQuery(
     [QueryKeysEnum.ProductGroup, itemCategoryCode],
     () =>
-      ProductGroupService.getApiProductGroup(itemCategoryCode).then(res => res),
+      ProductGroupService.getApiProductGroupFilter(itemCategoryCode).then(
+        res => res
+      ),
     {
       cacheTime: Infinity,
       staleTime: Infinity,
       enabled: enable,
+      retry: 0,
     }
   );
 }

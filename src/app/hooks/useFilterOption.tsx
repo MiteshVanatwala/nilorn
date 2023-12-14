@@ -56,27 +56,24 @@ const mapSalesPersonPurchasersToOptions = (
   );
 };
 
-const mapStringToOptions = (strArr?: string[]) => {
-  return (
-    strArr?.map(a => ({
-      label: a,
-      value: a,
-    })) ?? []
-  );
-};
-
 const useFilterOptions = (name?: FilterKeys) => {
-  const { data: clients } = useClients(name !== 'clients');
-  const { data: vendors } = useVendors(name !== 'vendor');
+  const { data: clients } = useClients(name === 'clients' ?? false);
+  const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
-    name !== 'sourcingCompanies'
+    name === 'sourcingCompanies' ?? false
   );
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
-    name !== 'salespersonPurchaser'
+    name === 'salespersonPurchaser' ?? false
   );
-  const { data: foldingTypes } = useFoldingType(name !== 'foldingTypes');
-  const { data: itemCategories } = useItemCategory(name !== 'itemCategories');
-  const { data: productGroups } = useProductGroup('', name !== 'productGroups');
+  const { data: foldingTypes } = useFoldingType(
+    name === 'foldingTypes' ?? false
+  );
+  const { data: itemCategories } = useItemCategory(
+    name === 'itemCategories' ?? false
+  );
+  const { data: productGroups } = useProductGroup(
+    name === 'productGroups' ?? false
+  );
 
   const { statuses } = useStatusOptions();
 
@@ -92,9 +89,9 @@ const useFilterOptions = (name?: FilterKeys) => {
     ),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
-    foldingTypes: mapStringToOptions(foldingTypes),
-    itemCategories: mapStringToOptions(itemCategories),
-    productGroups: mapStringToOptions(productGroups),
+    foldingTypes: foldingTypes as SelectOption[],
+    itemCategories: itemCategories as SelectOption[],
+    productGroups: productGroups as SelectOption[],
   };
 
   return dataMap[name] || [];

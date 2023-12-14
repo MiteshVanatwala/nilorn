@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type SearchProfileDto = {
+export type OptionItem = {
     label?: string | null;
     value?: string | null;
 };

@@ -10,7 +10,7 @@ export const useOverviewAdvanceFilters = (): SelectOption<FilterInput>[] => {
     },
     {
       label: t(`PD.FilterLabel.productGroups`),
-      value: { type: 'text', name: 'productGroups' },
+      value: { type: 'select', name: 'productGroups' },
     },
     {
       label: t(`PD.FilterLabel.foldingTypes`),
