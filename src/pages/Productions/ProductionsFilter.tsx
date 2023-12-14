@@ -19,12 +19,12 @@ const ProductionsFilter = () => {
       value: { name: 'vendor', type: 'select' },
     },
     {
-      label: t('PD.FilterLabel.client'),
-      value: { name: 'client', type: 'select' },
+      label: t('PD.FilterLabel.clients'),
+      value: { name: 'clients', type: 'select' },
     },
     {
       label: t('PD.FilterLabel.projects'),
-      value: { name: 'project', type: 'select' },
+      value: { name: 'projects', type: 'select' },
     },
     {
       label: t('PD.FilterLabel.number'),
