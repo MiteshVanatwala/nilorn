@@ -28,6 +28,10 @@ const ProductDevelopmentFilter = () => {
       label: t('PD.FilterLabel.statuses'),
       value: { name: 'statuses', type: 'select' },
     },
+    {
+      label: t('PD.FilterLabel.projects'),
+      value: { name: 'projects', type: 'select' },
+    },
   ];
 
   const { sortState, pageSize, pageNumber } = usePaginationContext();

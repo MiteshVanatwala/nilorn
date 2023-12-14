@@ -15,10 +15,6 @@ export const getOverviewAdvanceFilters = (): FilterInput[] => {
       name: 'foldingTypes',
     },
     {
-      type: 'select',
-      name: 'projects',
-    },
-    {
       type: 'text',
       name: 'finishedLengths',
     },
