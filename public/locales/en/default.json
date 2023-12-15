@@ -75,6 +75,7 @@
     "PDNamePlaceholder": "Product Development",
     "Error": "Something went wrong",
     "BackToOverview": "Back to overview",
+    "ProjectCreated": "Project created",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
@@ -184,6 +185,8 @@
     "Required": "The field is required",
     "EmptyFilter": "Filter can not be empty",
     "FilterName": "Filter name is required",
-    "ProjectName": "Project name is required"
+    "ProjectName": "Project name is required",
+    "SearchProfileSave": "Error while saving search profile",
+    "ProjectCreate": "Error while creating project"
   }
 }
