@@ -35,10 +35,8 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
       }}
       onClick={() => removeFilterItem(queryItem)}
       borderColor={COLORS.GRAY[30]}>
-      <Text>
-        {filterLabel ? filterLabel + ': ' : ''}
-        {label}
-      </Text>
+      <Text variant={'bodyBold'}>{filterLabel ? filterLabel + ': ' : ''}</Text>
+      <Text variant={'bodyRegular'}> {label}</Text>
     </Button>
   );
 };

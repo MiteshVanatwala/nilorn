@@ -115,8 +115,8 @@
     },
     "FilterLabel": {
       "searchQuery": "",
-      "clients": "Clients",
-      "statuses": "Statuses",
+      "clients": "Client",
+      "statuses": "Status",
       "itemCategories": "Item category",
       "productGroups": "Product group",
       "foldingTypes": "Folding types",

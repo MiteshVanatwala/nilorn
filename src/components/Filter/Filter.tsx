@@ -30,7 +30,7 @@ const Filter = ({ hasSearch, filterInputs }: Props) => {
         <GridItem
           colSpan={{
             base: 1,
-            lg: 4,
+            lg: 3,
           }}>
           <InputSearch
             label="Search"

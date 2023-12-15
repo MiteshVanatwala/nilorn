@@ -17,10 +17,6 @@ export const useOverviewAdvanceFilters = (): SelectOption<FilterInput>[] => {
       value: { type: 'select', name: 'foldingTypes' },
     },
     {
-      label: t(`PD.FilterLabel.projects`),
-      value: { type: 'select', name: 'projects' },
-    },
-    {
       label: t(`PD.FilterLabel.finishedLengths`),
       value: { type: 'text', name: 'finishedLengths' },
     },

@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
@@ -11,6 +11,7 @@ import { SelectOption } from '../../app/types/types';
 import { SPACE } from '../../theme/Constants';
 import { useSearchProfile } from '../../app/api/SearchProfile';
 import SelectBase from '../Form/SelectBase';
+import { useSearchParams } from 'react-router-dom';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -22,7 +23,7 @@ const SearchProfile = () => {
     useState<string>('');
   const [defaultSearchProfile, setDefaultSearchProfile] = useState<string>('');
   const { setValue, reset } = useFormContext();
-
+  let [searchParams] = useSearchParams();
   let { data } = useSearchProfile();
 
   const onChange = (
@@ -40,7 +41,19 @@ const SearchProfile = () => {
     });
     setActiveSearchProfileName(option.label);
   };
+  useEffect(() => {
+    const searchParamItems = Array.from(searchParams.keys());
 
+    if (
+      searchParamItems.length === 2 &&
+      searchParamItems.indexOf('pageSize') > -1 &&
+      searchParamItems.indexOf('pageNumber') > -1
+    ) {
+      setDefaultSearchProfile('');
+      setSelected(undefined);
+      setActiveSearchProfile(false);
+    }
+  }, [searchParams]);
   return (
     <GridItem
       marginTop={{
@@ -58,26 +71,18 @@ const SearchProfile = () => {
             htmlFor={'SearchProfile'}>
             {t('Filter.SavedFilters')}
           </FormLabel>
-          {defaultSearchProfile && (
-            <SelectBase
-              name="SearchProfile"
-              onChange={onChange}
-              value={
-                data?.find(
-                  c => c.label === defaultSearchProfile
-                ) as SelectOption
-              }
-              options={data as SelectOption[]}
-            />
-          )}
-          {!defaultSearchProfile && (
-            <SelectBase
-              name="SearchProfile"
-              onChange={onChange}
-              value={selected}
-              options={data as SelectOption[]}
-            />
-          )}
+          <SelectBase
+            name="SearchProfile"
+            onChange={onChange}
+            value={
+              defaultSearchProfile
+                ? (data?.find(
+                    c => c.label === defaultSearchProfile
+                  ) as SelectOption)
+                : selected
+            }
+            options={data as SelectOption[]}
+          />
         </Box>
         <Button
           zIndex={'0'}
