@@ -7,7 +7,7 @@ import { FilterInput, SelectOption } from '../../app/types/types';
 import ActiveFilters from '../../components/Filter/ActiveFilters';
 import Filter from '../../components/Filter/Filter';
 import AdvanceFilter from '../../components/Filter/AdvanceFilter';
-import { getProductionsAdvanceFilters } from './getProductionsAdvanceFilters';
+import { useProductionsAdvanceFilters } from './useProductionsAdvanceFilters';
 
 const ProductionsFilter = () => {
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ const ProductionsFilter = () => {
       value: { name: 'sourcingCompanies', type: 'select' },
     },
   ];
-  const advanceFilters = getProductionsAdvanceFilters();
+  const advanceFilters = useProductionsAdvanceFilters();
 
   return (
     <FormuQuerySubmit form={form}>

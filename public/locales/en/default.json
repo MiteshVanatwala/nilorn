@@ -125,7 +125,7 @@
       "finishedHeights": "Finished Height",
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
-      "oPcomp": "Operations company",
+      "opComp": "Operations company",
       "salespersonPurchaser": "Members",
       "sourcingCompanies": "Sourcing companies",
       "number": "Product development number"

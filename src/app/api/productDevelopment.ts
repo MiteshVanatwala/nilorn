@@ -90,7 +90,7 @@ export const useProductDevelopment = (no: string) => {
   return useQuery(
     [QueryKeysEnum.ProductDevelopment],
     () =>
-      ProductDevelopmentsService.getApiProductDevelopments1('EUC190526').then(
+      ProductDevelopmentsService.getApiProductDevelopments1(no).then(
         res => res
       ),
     {

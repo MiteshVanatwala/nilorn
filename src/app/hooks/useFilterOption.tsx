@@ -1,5 +1,8 @@
 import {
   useClients,
+  useFoldingType,
+  useItemCategory,
+  useProductGroup,
   useSalesPersonPurchasers,
   useSourcingCompanies,
   useVendors,
@@ -54,14 +57,24 @@ const mapSalesPersonPurchasersToOptions = (
 };
 
 const useFilterOptions = (name?: FilterKeys) => {
-  const { data: clients } = useClients(name === 'clients');
+  const { data: clients } = useClients(name === 'clients' ?? false);
   const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
-    name === 'sourcingCompanies'
+    name === 'sourcingCompanies' ?? false
   );
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
-    name === 'salespersonPurchaser'
+    name === 'salespersonPurchaser' ?? false
   );
+  const { data: foldingTypes } = useFoldingType(
+    name === 'foldingTypes' ?? false
+  );
+  const { data: itemCategories } = useItemCategory(
+    name === 'itemCategories' ?? false
+  );
+  const { data: productGroups } = useProductGroup(
+    name === 'productGroups' ?? false
+  );
+
   const { statuses } = useStatusOptions();
 
   if (!name) {
@@ -76,6 +89,9 @@ const useFilterOptions = (name?: FilterKeys) => {
     ),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
+    foldingTypes: foldingTypes as SelectOption[],
+    itemCategories: itemCategories as SelectOption[],
+    productGroups: productGroups as SelectOption[],
   };
 
   return dataMap[name] || [];

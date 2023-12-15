@@ -5,15 +5,13 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import { useFormContext } from 'react-hook-form';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
 
 const ProductDesignSection = () => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
-  const options = [
-    { label: 'FTC001', value: 'FTC001' },
-    { label: 'FTC002', value: 'FTC002' },
-  ];
+  const foldingTypes = useFilterOptions('foldingTypes');
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.ProductDesign')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -24,10 +22,10 @@ const ProductDesignSection = () => {
             lg: 2,
           }}>
           <Select
-            options={options}
+            options={foldingTypes}
             name="foldingTypeCode"
             label={`${t('PD.FormContent.Folding')}`}
-            defaultValue={options.find(
+            defaultValue={foldingTypes.find(
               o => o.value === getValues('foldingTypeCode')
             )}
             placeholder={`${t('Filter.Select')}`}
