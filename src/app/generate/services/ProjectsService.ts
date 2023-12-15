@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { OptionItem } from '../models/OptionItem';
 import type { ProjectDto } from '../models/ProjectDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -18,6 +19,23 @@ export class ProjectsService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Projects',
+        });
+    }
+
+    /**
+     * @param clientNo 
+     * @returns OptionItem Success
+     * @throws ApiError
+     */
+    public static getApiProjectsOptionItem(
+clientNo?: string,
+): CancelablePromise<Array<OptionItem>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Projects/OptionItem',
+            query: {
+                'clientNo': clientNo,
+            },
         });
     }
 

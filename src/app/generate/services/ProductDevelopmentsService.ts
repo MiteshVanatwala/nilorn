@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
@@ -39,7 +40,7 @@ pageSize?: number,
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-requestBody?: ProductDevelopmentDto,
+requestBody?: CreateProductDevelopmentCommand,
 ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',

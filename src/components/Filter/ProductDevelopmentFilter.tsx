@@ -3,7 +3,7 @@ import { Grid, GridItem, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import SearchProfile from '../SearchProfile/SearchProfile';
 import ActiveFilters from './ActiveFilters';
-import { getOverviewAdvanceFilters } from '../../app/utils/getOverviewAdvanceFilters';
+import { useOverviewAdvanceFilters } from '../../pages/Overview/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
 import { getSortValue } from './FilterHelper';
@@ -17,7 +17,7 @@ import { FilterInput, SelectOption } from '../../app/types/types';
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
-  const advanceFilters = getOverviewAdvanceFilters();
+  const advanceFilters = useOverviewAdvanceFilters();
 
   const filterInputs: SelectOption<FilterInput>[] = [
     {

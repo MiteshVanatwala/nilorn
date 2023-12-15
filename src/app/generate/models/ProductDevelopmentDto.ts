@@ -8,15 +8,11 @@ import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
 export type ProductDevelopmentDto = {
-    no?: string | null;
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
     status?: Status;
-    imageUrl?: string | null;
-    artworkUrl?: string | null;
-    client?: string | null;
-    projectId?: string | null;
+    projectCode?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
     foldingTypeCode?: string | null;
@@ -25,7 +21,12 @@ export type ProductDevelopmentDto = {
     finishedHeight?: number | null;
     sampleQuantity?: number | null;
     targetSalesPrice?: string | null;
-    freightIncluded?: number;
+    freightIncluded?: number | null;
+    no?: string | null;
+    imageUrl?: string | null;
+    artworkUrl?: string | null;
+    client?: string | null;
+    clientNo?: string | null;
     versions?: number | null;
     sourcings?: Array<SourcingDto> | null;
     salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;

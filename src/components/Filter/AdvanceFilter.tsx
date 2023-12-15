@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
@@ -16,6 +16,7 @@ import {
 import {
   SelectOption,
   FilterInput as AdvanceFilterType,
+  FilterInput,
 } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
@@ -25,7 +26,7 @@ import AdvanceFilterSelect from './AdvanceFilterSelect';
 import FilterSwitch from './FilterSwitch';
 
 type Props = {
-  filters: AdvanceFilterType[];
+  filters: SelectOption<FilterInput>[];
 };
 
 const AdvanceFilter = ({ filters }: Props) => {
@@ -34,15 +35,6 @@ const AdvanceFilter = ({ filters }: Props) => {
   const [selected, setSelected] = useState<
     MultiValue<SelectOption<AdvanceFilterType>>
   >([]);
-
-  const options = useMemo(
-    () =>
-      filters.map(f => ({
-        label: t(`PD.FilterLabel.${f.name}`),
-        value: f,
-      })),
-    [filters, t]
-  );
 
   const handleSelect = (
     selectedOption: MultiValue<SelectOption<AdvanceFilterType>> | undefined,
@@ -69,7 +61,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     const activeAdvancedFilterArr: SelectOption[] = [];
 
     Object.entries(getValues()).forEach(([key, value]) => {
-      options?.forEach(filterItem => {
+      filters?.forEach(filterItem => {
         if (
           filterItem &&
           'value' in filterItem &&
@@ -85,7 +77,7 @@ const AdvanceFilter = ({ filters }: Props) => {
     if (activeAdvancedFilterArr.length) {
       setSelected(activeAdvancedFilterArr);
     }
-  }, [getValues, filters, options]);
+  }, [getValues, filters]);
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
@@ -122,7 +114,7 @@ const AdvanceFilter = ({ filters }: Props) => {
             alignItems={'center'}>
             <GridItem colSpan={2} zIndex={9}>
               <AdvanceFilterSelect
-                options={options}
+                options={filters}
                 value={selected}
                 onChange={(option, event) => {
                   handleSelect(option, event);

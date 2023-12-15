@@ -8,16 +8,17 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { ClientDto } from './models/ClientDto';
+export type { CreateProductDevelopmentCommand } from './models/CreateProductDevelopmentCommand';
 export type { Currency } from './models/Currency';
 export type { DeleteSearchProfileCommand } from './models/DeleteSearchProfileCommand';
 export type { OpCompDto } from './models/OpCompDto';
+export type { OptionItem } from './models/OptionItem';
 export type { ProductDevelopmentBriefDto } from './models/ProductDevelopmentBriefDto';
 export type { ProductDevelopmentBriefDtoPaginatedList } from './models/ProductDevelopmentBriefDtoPaginatedList';
 export type { ProductDevelopmentDto } from './models/ProductDevelopmentDto';
 export type { ProjectDto } from './models/ProjectDto';
 export { Role } from './models/Role';
 export type { SalespersonPurchaserBriefDto } from './models/SalespersonPurchaserBriefDto';
-export type { SearchProfileDto } from './models/SearchProfileDto';
 export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export type { SourcingDto } from './models/SourcingDto';
 export { Status } from './models/Status';
