@@ -9,27 +9,23 @@ import SelectBase from '../../../../components/Form/SelectBase';
 type Props = {
   options: SelectOption[];
   createNew: boolean;
+  clientNo: string;
 };
 
-const ProjectSelect = ({ options, createNew }: Props) => {
+const ProjectSelect = ({ options, createNew, clientNo }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const [defaultProject, setDefaultProject] = useState<string>();
   const [selected, setSelected] = useState<SelectOption>();
-
-  //TODO add options from api
-  options = [
-    { label: 'Project1', value: 'Project1' },
-    { label: 'Project2', value: 'Project2' },
-  ];
+  const inputName = 'projectCode';
   const onChange = (option: SelectOption) => {
     setDefaultProject('');
-    setValue('project', option.label);
+    setValue(inputName, option.label);
     setSelected(option);
   };
   useEffect(() => {
     if (defaultProject !== '') {
-      setValue('project', defaultProject);
+      setValue(inputName, defaultProject);
     }
   }, [defaultProject, setValue]);
 
@@ -43,13 +39,14 @@ const ProjectSelect = ({ options, createNew }: Props) => {
         options={options}
         value={
           defaultProject !== ''
-            ? (options.find(co => co.label === defaultProject) as SelectOption)
+            ? (options?.find(co => co.label === defaultProject) as SelectOption)
             : selected
         }
         components={{
           MenuList: (props: any) => (
             <MenuListWithAddBtn
               setDefaultProject={setDefaultProject}
+              clientNo={clientNo}
               {...props}
             />
           ),

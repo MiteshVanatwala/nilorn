@@ -9,14 +9,18 @@ import {
 } from '@chakra-ui/react';
 import { COLORS, SPACE } from '../../../../theme/Constants';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../../../app/context/ModalContext';
 import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
+import { useCreateProject } from '../../../../app/api/Projects';
+import { useToast } from '../../../../app/hooks/useToast';
 type Props = {
   setDefaultProject(val: string): void;
+  clientNo: string;
 };
 
-const AddProjectModal = ({ setDefaultProject }: Props) => {
+const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
+  const { showToast } = useToast();
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
@@ -25,6 +29,7 @@ const AddProjectModal = ({ setDefaultProject }: Props) => {
   const onCancel = () => {
     close();
   };
+  const { mutate: createProject, isSuccess, isError } = useCreateProject();
   async function onSubmit(): Promise<void> {
     if (projectName === '') {
       setErrorMsgName(`${t('Errors.ProjectName')}`);
@@ -32,14 +37,37 @@ const AddProjectModal = ({ setDefaultProject }: Props) => {
       setErrorMsgName(undefined);
     }
     if (projectName !== '') {
-      //TODO Create project
+      const projectData = {
+        clientNo: clientNo,
+        projectCode: projectName,
+      };
+      createProject(projectData);
       setDefaultProject(projectName);
-      close();
     }
   }
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+  useEffect(() => {
+    if (isSuccess) {
+      close();
+
+      showToast({
+        status: 'success',
+        description: t('PD.ProjectCreated'),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
+  useEffect(() => {
+    if (isError) {
+      showToast({
+        status: 'error',
+        description: t('Errors.ProjectCreate'),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>

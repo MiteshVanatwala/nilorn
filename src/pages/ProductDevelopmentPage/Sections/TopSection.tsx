@@ -19,6 +19,7 @@ import { useFormContext } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjects } from '../../../app/api/Projects';
+import { SelectOption } from '../../../app/types/types';
 
 type Props = {
   no: string;
@@ -29,8 +30,8 @@ type Props = {
 const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
-  const projectsOptions = useGetProjects(clientNo);
   const { getValues } = useFormContext();
+  let { data: projectOptions } = useGetProjects(clientNo);
 
   //TODO remvove hard coded value
   const showingChanges = true;
@@ -146,7 +147,11 @@ const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
             ) : (
               <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
-            <ProjectSelect options={projectsOptions} createNew={createNew} />
+            <ProjectSelect
+              options={projectOptions as SelectOption[]}
+              createNew={createNew}
+              clientNo={clientNo}
+            />
           </GridItem>
           <GridItem
             colSpan={{
