@@ -32,7 +32,7 @@ const ActiveFilters = () => {
       w={'100%'}
       margin={'0 auto'}
       maxWidth={SIZES.CONTAINER.XL}
-      alignItems="baseline"
+      alignItems="center"
       gap={{
         base: SPACE.XXS,
         lg: SPACE.SM,

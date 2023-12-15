@@ -37,7 +37,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
   };
   return (
     <Table>
-      <Thead>
+      <Thead position={'sticky'} top={0}>
         {table.getHeaderGroups().map((headerGroup, i) => (
           <THeadRow key={i} headerGroup={headerGroup} />
         ))}
@@ -49,7 +49,9 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
             <TBodyRow
               row={row}
               bgColor={bgColor}
-              onClick={() => handleClick(`product-development/${row.original.no}`)}
+              onClick={() =>
+                handleClick(`product-development/${row.original.no}`)
+              }
               key={i}
             />
           );

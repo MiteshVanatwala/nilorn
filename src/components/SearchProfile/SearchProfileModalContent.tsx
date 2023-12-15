@@ -5,7 +5,6 @@ import {
   HStack,
   Input,
   Text,
-  FormLabel,
 } from '@chakra-ui/react';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
