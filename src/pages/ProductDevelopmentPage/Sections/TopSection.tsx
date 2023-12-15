@@ -18,16 +18,18 @@ import BackLink from './SectionComponents/BackLink';
 import { useFormContext } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
+import { useGetProjects } from '../../../app/api/Projects';
 
 type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
+  clientNo: string;
 };
-const TopSection = ({ no, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
-  const projectsOptions = useFilterOptions('projects');
+  const projectsOptions = useGetProjects(clientNo);
   const { getValues } = useFormContext();
 
   //TODO remvove hard coded value

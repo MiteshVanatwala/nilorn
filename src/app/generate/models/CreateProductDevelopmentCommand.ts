@@ -5,7 +5,7 @@
 
 import type { Status } from './Status';
 
-export type UpdateProductDevelopmentDto = {
+export type CreateProductDevelopmentCommand = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
@@ -20,5 +20,5 @@ export type UpdateProductDevelopmentDto = {
     sampleQuantity?: number | null;
     targetSalesPrice?: string | null;
     freightIncluded?: number | null;
-    projectId?: string | null;
+    clientNo?: string | null;
 };
