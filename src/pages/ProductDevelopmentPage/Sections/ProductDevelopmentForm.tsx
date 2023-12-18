@@ -20,14 +20,12 @@ type Props = {
   createNew: boolean;
   defaultValues?: FieldValues;
   scrolledPast: boolean;
-  clientNo: string;
 };
 
 function ProductDevelopmentForm({
   createNew,
   defaultValues,
   scrolledPast,
-  clientNo,
 }: Props) {
   const { no } = useParams();
 
@@ -62,7 +60,6 @@ function ProductDevelopmentForm({
           createNew={createNew}
           no={no ?? ''}
           scrolledPast={scrolledPast}
-          clientNo={clientNo}
         />
         <ContentPage>
           <Grid>

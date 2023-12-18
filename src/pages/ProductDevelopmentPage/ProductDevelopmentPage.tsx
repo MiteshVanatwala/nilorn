@@ -41,7 +41,8 @@ function ProductDevelopmentPage({ createNew }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
-
+  if (isLoading) {
+    return <SpinnerOverlay />;
   }
   if (!isLoading) {
     return (
@@ -49,11 +50,9 @@ function ProductDevelopmentPage({ createNew }: Props) {
         scrolledPast={scrolledPast}
         defaultValues={data as FieldValues}
         createNew={createNew}
-        clientNo={data?.clientNo?.toString() ?? ''}
       />
     );
   }
   return <></>;
 }
-
 export default ProductDevelopmentPage;
