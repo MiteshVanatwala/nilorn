@@ -29,7 +29,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
         ) {
           setScrolledPast(true);
           setSticky(true);
-          console.log(scrolledPast);
         } else if (window.scrollY === 0 && isSticky) {
           setScrolledPast(false);
           setSticky(false);

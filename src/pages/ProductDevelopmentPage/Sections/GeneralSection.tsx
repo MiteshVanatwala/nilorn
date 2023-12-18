@@ -102,7 +102,6 @@ const GeneralSection = ({ defaultValues }: Props) => {
                 label={`${t('PD.FormContent.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'itemNo'}
-                registerOptions={{ required: true }}
               />
             </GridItem>
 

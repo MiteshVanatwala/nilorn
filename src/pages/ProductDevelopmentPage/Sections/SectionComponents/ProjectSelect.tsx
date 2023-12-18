@@ -25,7 +25,6 @@ const ProjectSelect = ({
   const [defaultProject, setDefaultProject] = useState<string>();
   const [selected, setSelected] = useState<SelectOption>();
   const inputName = 'projectCode';
-  const client = useWatch({ name: 'client' });
   const onChange = (option: SelectOption) => {
     setDefaultProject('');
     setValue(inputName, option.label);
@@ -40,7 +39,7 @@ const ProjectSelect = ({
   return (
     <Box
       zIndex={8}
-      width={'auto'}
+      width={scrolledPast ? 'auto' : '100%'}
       minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
       <SelectBase
         onChange={onChange}
@@ -48,7 +47,7 @@ const ProjectSelect = ({
         name={inputName}
         invisible={!createNew}
         options={options}
-        isDisabled={!client}
+        isDisabled={!clientNo}
         value={
           defaultProject !== ''
             ? (options?.find(co => co.label === defaultProject) as SelectOption)
