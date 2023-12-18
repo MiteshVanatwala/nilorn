@@ -118,7 +118,9 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {!createNew && '#'}
                   {no}
                 </Text>
-                <StatusBadge status={getValues('status')} />
+                <Box mx={SPACE.XS}>
+                  <StatusBadge status={getValues('status')} />
+                </Box>
               </VStack>
             </HStack>
           </GridItem>

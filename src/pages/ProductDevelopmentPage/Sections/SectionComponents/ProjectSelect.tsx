@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
 import { useEffect, useState } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
@@ -25,6 +25,7 @@ const ProjectSelect = ({
   const [defaultProject, setDefaultProject] = useState<string>();
   const [selected, setSelected] = useState<SelectOption>();
   const inputName = 'projectCode';
+  const client = useWatch({ name: 'client' });
   const onChange = (option: SelectOption) => {
     setDefaultProject('');
     setValue(inputName, option.label);
@@ -35,6 +36,7 @@ const ProjectSelect = ({
       setValue(inputName, defaultProject);
     }
   }, [defaultProject, setValue]);
+
   return (
     <Box
       zIndex={8}
@@ -46,6 +48,7 @@ const ProjectSelect = ({
         name={inputName}
         invisible={!createNew}
         options={options}
+        isDisabled={!client}
         value={
           defaultProject !== ''
             ? (options?.find(co => co.label === defaultProject) as SelectOption)
