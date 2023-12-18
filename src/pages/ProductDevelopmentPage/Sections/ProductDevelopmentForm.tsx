@@ -35,8 +35,6 @@ function ProductDevelopmentForm({
     },
   });
 
-  const ref = useRef<HTMLDivElement>(null);
-
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
     no ?? ''
@@ -63,7 +61,7 @@ function ProductDevelopmentForm({
         />
         <ContentPage>
           <Grid>
-            <GridItem ref={ref}>
+            <GridItem>
               <VStack spacing={SPACE.MD}>
                 <Accordion
                   variant={'card'}

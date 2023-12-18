@@ -4,6 +4,7 @@ import { FieldValues } from 'react-hook-form';
 import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
+import { Box } from '@chakra-ui/react';
 
 type Props = {
   createNew: boolean;
@@ -28,6 +29,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
         ) {
           setScrolledPast(true);
           setSticky(true);
+          console.log(scrolledPast);
         } else if (window.scrollY === 0 && isSticky) {
           setScrolledPast(false);
           setSticky(false);
@@ -46,11 +48,13 @@ function ProductDevelopmentPage({ createNew }: Props) {
   }
   if (!isLoading) {
     return (
-      <ProductDevelopmentForm
-        scrolledPast={scrolledPast}
-        defaultValues={data as FieldValues}
-        createNew={createNew}
-      />
+      <Box ref={ref}>
+        <ProductDevelopmentForm
+          scrolledPast={scrolledPast}
+          defaultValues={data as FieldValues}
+          createNew={createNew}
+        />
+      </Box>
     );
   }
   return <></>;
