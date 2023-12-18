@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../../components/Form/Select';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import BackLink from './SectionComponents/BackLink';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjects } from '../../../app/api/Projects';
@@ -139,7 +139,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 3,
               lg: 2,
             }}>
-            {createNew ? (
+            {createNew || !getValues('client') ? (
               <Box zIndex={9} width={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}

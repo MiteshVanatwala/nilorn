@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import QueryKeysEnum from './queryKeys';
-import { CreateProjectCommand, ProjectsService } from '../generate';
+import { ApiError, CreateProjectCommand, ProjectsService } from '../generate';
+import { useToast } from '../hooks/useToast';
+import { useTranslation } from 'react-i18next';
 
 export function useGetProjects(clientNo: string, enable: boolean = true) {
   return useQuery(
@@ -16,6 +18,8 @@ export function useGetProjects(clientNo: string, enable: boolean = true) {
 
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
 
   return useMutation(
     (body: CreateProjectCommand) =>
@@ -23,6 +27,16 @@ export const useCreateProject = () => {
     {
       onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        showToast({
+          status: 'success',
+          description: t('PD.ProjectCreated'),
+        });
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: t('Errors.ProjectCreate'),
+        });
       },
     }
   );
