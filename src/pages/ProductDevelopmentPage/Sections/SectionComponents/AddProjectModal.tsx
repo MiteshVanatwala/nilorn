@@ -58,7 +58,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError]);
+  }, [isSuccess]);
   useEffect(() => {
     if (isError) {
       showToast({
