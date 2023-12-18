@@ -1,22 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import ContentPage from '../Templates/ContentPage';
 import { useParams } from 'react-router';
-import { Grid, GridItem, VStack } from '@chakra-ui/layout';
-import { SPACE } from '../../theme/Constants';
-import TopSection from './Sections/TopSection';
-import BottomSection from './Sections/BottomSection';
-import { Accordion } from '@chakra-ui/accordion';
-import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import AttachmentSection from './Sections/AttachmentSection';
-import GeneralSection from './Sections/GeneralSection';
-import ProductDesignSection from './Sections/ProductDesignSection';
-import MemberSection from './Sections/MemberSection';
-import {
-  useCreateProductDevelopment,
-  useProductDevelopment,
-  useUpdateProductDevelopment,
-} from '../../app/api/productDevelopment';
-import SourcingSection from './Sections/SourcingSection';
+import { FieldValues } from 'react-hook-form';
+import { useProductDevelopment } from '../../app/api/productDevelopment';
+import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
+import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 
 type Props = {
   createNew: boolean;
@@ -24,21 +11,10 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { no } = useParams();
-  const { data } = useProductDevelopment(no ?? '');
-  const form = useForm({
-    defaultValues: {
-      ...data,
-    },
-  });
-
+  const { data, isLoading } = useProductDevelopment(no ?? '');
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
-  const { mutate: createProductDevelopment } = useCreateProductDevelopment();
-  const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
-    no ?? ''
-  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,48 +42,20 @@ function ProductDevelopmentPage({ createNew }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
 
-  function submitForm(form: FieldValues) {
-    async function onSubmit(form: FieldValues): Promise<void> {
-      if (createNew) {
-        createProductDevelopment(form);
-      } else {
-        updateProductDevelopment(form);
-      }
-    }
-    onSubmit(form);
+  if (isLoading) {
+    return <SpinnerOverlay />;
   }
-
-  return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)}>
-        <TopSection
-          createNew={createNew}
-          no={no ?? ''}
-          scrolledPast={scrolledPast}
-          clientNo={data?.clientNo ?? ''}
-        />
-        <ContentPage>
-          <Grid>
-            <GridItem ref={ref}>
-              <VStack spacing={SPACE.MD}>
-                <Accordion
-                  variant={'card'}
-                  defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3]}
-                  allowMultiple>
-                  <GeneralSection />
-                  <ProductDesignSection />
-                  <MemberSection createNew={createNew} />
-                  <AttachmentSection />
-                  <SourcingSection />
-                </Accordion>
-              </VStack>
-            </GridItem>
-          </Grid>
-        </ContentPage>
-        <BottomSection />
-      </form>
-    </FormProvider>
-  );
+  if (!isLoading) {
+    return (
+      <ProductDevelopmentForm
+        scrolledPast={scrolledPast}
+        defaultValues={data as FieldValues}
+        createNew={createNew}
+        clientNo={data?.clientNo?.toString() ?? ''}
+      />
+    );
+  }
+  return <></>;
 }
 
 export default ProductDevelopmentPage;

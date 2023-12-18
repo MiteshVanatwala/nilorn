@@ -40,28 +40,27 @@ const EditableInputField = ({
   const {
     register,
     formState: { errors },
-    getValues,
   } = useFormContext();
   const error = get(errors, name) as FieldError;
 
   return (
-    <Editable
-      placeholder={placeholder + (registerOptions?.required ? ' *' : '')}
-      defaultValue={getValues(name)}>
-      <EditablePreview
-        py={'.85rem'}
-        px={SPACE.XS}
-        border={'2px solid white'}
-        color={error ? COLORS.ERROR : ''}
-        fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}
-      />
-      <ControlWrapper
-        name={name}
-        label={label}
-        required={registerOptions?.required}
-        errors={errors}
-        helperText={helperText}
-        hideValidationStyle={hideValidationStyle}>
+    <ControlWrapper
+      name={name}
+      label={label}
+      required={registerOptions?.required}
+      errors={errors}
+      helperText={helperText}
+      hideValidationStyle={hideValidationStyle}>
+      <Editable
+        defaultValue={defaultValue?.toString()}
+        placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
+        <EditablePreview
+          py={'.85rem'}
+          px={SPACE.XS}
+          border={'2px solid white'}
+          color={error ? COLORS.ERROR : ''}
+          fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}
+        />
         <Input
           fontSize={scrolledPast ? SIZES.FONT.SM : SIZES.FONT.MD}
           letterSpacing={letterSpacing}
@@ -69,13 +68,12 @@ const EditableInputField = ({
           as={EditableInput}
           variant={variant}
           disabled={isDisabled}
-          defaultValue={defaultValue}
           type={type}
           height={'auto'}
           {...register(name, registerOptions)}
         />
-      </ControlWrapper>
-    </Editable>
+      </Editable>
+    </ControlWrapper>
   );
 };
 

@@ -105,6 +105,7 @@ const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
                     variant="filled"
                     scrolledPast={scrolledPast}
                     hideValidationStyle={true}
+                    defaultValue={getValues('name')}
                     name="name"
                     registerOptions={{ required: true }}
                   />
