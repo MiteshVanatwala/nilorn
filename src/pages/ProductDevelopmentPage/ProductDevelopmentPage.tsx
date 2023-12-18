@@ -84,7 +84,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
           createNew={createNew}
           no={no ?? ''}
           scrolledPast={scrolledPast}
-          clientNo={data?.clientNo ?? ''}
         />
         <ContentPage>
           <Grid>
