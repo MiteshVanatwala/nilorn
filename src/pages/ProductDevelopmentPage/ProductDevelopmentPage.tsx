@@ -42,8 +42,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
 
-  if (isLoading) {
-    return <SpinnerOverlay />;
   }
   if (!isLoading) {
     return (

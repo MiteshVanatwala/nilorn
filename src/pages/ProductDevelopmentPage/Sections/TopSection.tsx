@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../../components/Form/Select';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import BackLink from './SectionComponents/BackLink';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjects } from '../../../app/api/Projects';
@@ -25,13 +25,17 @@ type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
-  clientNo: string;
 };
-const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
-  let { data: projectOptions } = useGetProjects(clientNo);
+  const clientNo = useWatch({ name: 'clientNo' });
+
+  let { data: projectOptions } = useGetProjects(
+    clientNo,
+    typeof clientNo === 'string' ?? false
+  );
 
   //TODO remvove hard coded value
   const showingChanges = true;
@@ -136,7 +140,7 @@ const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
               md: 3,
               lg: 2,
             }}>
-            {createNew ? (
+            {createNew || !getValues('client') ? (
               <Box zIndex={9} width={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}

@@ -28,13 +28,12 @@ const ProjectSelect = ({ options, createNew, clientNo }: Props) => {
       setValue(inputName, defaultProject);
     }
   }, [defaultProject, setValue]);
-
   return (
     <Box zIndex={8} width={'100%'}>
       <SelectBase
         onChange={onChange}
         placeholder={t('PD.Project')}
-        name="project"
+        name={inputName}
         invisible={!createNew}
         options={options}
         value={
