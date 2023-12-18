@@ -25,13 +25,17 @@ type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
-  clientNo: string;
 };
-const TopSection = ({ no, scrolledPast, createNew, clientNo }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
-  let { data: projectOptions } = useGetProjects(clientNo);
+  const clientNo = useWatch({ name: 'clientNo' });
+
+  let { data: projectOptions } = useGetProjects(
+    clientNo,
+    typeof clientNo === 'string' ?? false
+  );
 
   //TODO remvove hard coded value
   const showingChanges = true;
