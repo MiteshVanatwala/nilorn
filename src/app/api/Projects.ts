@@ -32,7 +32,7 @@ export const useCreateProject = () => {
           description: t('PD.ProjectCreated'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           title: t('Errors.ProjectCreate'),
