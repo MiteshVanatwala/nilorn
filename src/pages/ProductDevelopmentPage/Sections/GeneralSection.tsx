@@ -21,8 +21,6 @@ const GeneralSection = () => {
     itemCategoryCode as string
   );
 
-  console.log('itemCategoryCode', itemCategoryCode);
-
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>

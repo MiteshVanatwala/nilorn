@@ -10,6 +10,7 @@ enum QueryKeysEnum {
   FoldingTyp = 'FoldingType',
   ItemCategory = 'ItemCategory',
   ProductGroup = 'ProductGroup',
+  Projects = 'Projects',
 }
 
 export default QueryKeysEnum;

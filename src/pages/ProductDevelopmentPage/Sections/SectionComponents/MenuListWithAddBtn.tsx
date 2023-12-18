@@ -9,8 +9,10 @@ import AddProjectModal from './AddProjectModal';
 const MenuListWithAddBtn = ({
   children,
   setDefaultProject,
+  clientNo,
 }: MenuListProps<SelectOption, boolean, any> & {
   setDefaultProject: (val: string) => void;
+  clientNo: string;
 }) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
@@ -22,7 +24,12 @@ const MenuListWithAddBtn = ({
         mt={SPACE.XXS}
         variant={'secondarySmall'}
         onClick={() =>
-          handleModal(<AddProjectModal setDefaultProject={setDefaultProject} />)
+          handleModal(
+            <AddProjectModal
+              clientNo={clientNo}
+              setDefaultProject={setDefaultProject}
+            />
+          )
         }
         rightIcon={<i className={'ri-add-line'} />}>
         {t('Common.Add')}

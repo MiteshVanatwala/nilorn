@@ -9,6 +9,7 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { ClientDto } from './models/ClientDto';
 export type { CreateProductDevelopmentCommand } from './models/CreateProductDevelopmentCommand';
+export type { CreateProjectCommand } from './models/CreateProjectCommand';
 export type { Currency } from './models/Currency';
 export type { DeleteSearchProfileCommand } from './models/DeleteSearchProfileCommand';
 export type { OpCompDto } from './models/OpCompDto';

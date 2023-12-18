@@ -15,9 +15,11 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../../components/Form/Select';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import BackLink from './SectionComponents/BackLink';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
+import { useGetProjects } from '../../../app/api/Projects';
+import { SelectOption } from '../../../app/types/types';
 
 type Props = {
   no: string;
@@ -27,8 +29,13 @@ type Props = {
 const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
-  const projectsOptions = useFilterOptions('projects');
   const { getValues } = useFormContext();
+  const clientNo = useWatch({ name: 'clientNo' });
+
+  let { data: projectOptions } = useGetProjects(
+    clientNo,
+    typeof clientNo === 'string' ?? false
+  );
 
   //TODO remvove hard coded value
   const showingChanges = true;
@@ -132,7 +139,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 3,
               lg: 2,
             }}>
-            {createNew ? (
+            {createNew || !getValues('client') ? (
               <Box zIndex={9} width={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}
@@ -144,7 +151,11 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             ) : (
               <Text p={SPACE.XXS}>{getValues('client')}</Text>
             )}
-            <ProjectSelect options={projectsOptions} createNew={createNew} />
+            <ProjectSelect
+              options={projectOptions as SelectOption[]}
+              createNew={createNew}
+              clientNo={clientNo}
+            />
           </GridItem>
           <GridItem
             colSpan={{

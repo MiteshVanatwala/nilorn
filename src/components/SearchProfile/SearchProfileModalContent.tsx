@@ -86,7 +86,7 @@ const SearchProfileModalContent = ({
     if (isError) {
       showToast({
         status: 'error',
-        description: 'Error while saving search profile',
+        description: t('Errors.SearchProfileSave'),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
