@@ -3,12 +3,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import { CreateProjectCommand, ProjectsService } from '../generate';
 
-export function useGetProjects(clientNo: string) {
+export function useGetProjects(clientNo: string, enable: boolean = true) {
   return useQuery(
     [QueryKeysEnum.Projects, clientNo],
     () => ProjectsService.getFilterOption().then(res => res),
     {
       retry: 1,
+      enabled: enable,
     }
   );
 }
