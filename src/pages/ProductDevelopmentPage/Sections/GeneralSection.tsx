@@ -84,10 +84,8 @@ const GeneralSection = () => {
                 label={`${t('PD.FormContent.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'itemNo'}
-                registerOptions={{ required: true }}
               />
             </GridItem>
-
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.TargetSales')}`}
