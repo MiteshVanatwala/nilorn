@@ -101,6 +101,8 @@ const GeneralSection = ({ defaultValues }: Props) => {
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.FreightIncluded')}`}
+                placeholder={`${t('Common.Placeholder')}`}
+                type="number"
                 name={'freightIncluded'}
                 registerOptions={{ valueAsNumber: true }}
               />
