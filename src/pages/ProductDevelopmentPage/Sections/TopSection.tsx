@@ -20,6 +20,7 @@ import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjects } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
+import PDImage from './SectionComponents/PDImage';
 
 type Props = {
   no: string;
@@ -81,14 +82,10 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
-              <Image
-                maxHeight={scrolledPast ? '0' : '20rem'}
-                maxWidth={scrolledPast ? '0' : '20rem'}
-                visibility={scrolledPast ? 'hidden' : 'visible'}
-                width={'60'}
-                height={'60'}
-                objectFit={'cover'}
-                src={getValues('imageUrl')}></Image>
+              <PDImage
+                imageUrl={getValues('imageUrl')}
+                scrolledPast={scrolledPast}
+              />
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,
