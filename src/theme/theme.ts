@@ -9,7 +9,7 @@ import input from './input';
 import textarea from './textarea';
 import { link } from './link';
 import SIZES from './Constants/sizes';
-import { table } from './table';
+import table from './table';
 import text from './text';
 import menu from './menu';
 import { tooltip } from './tooltip';
@@ -42,7 +42,7 @@ const theme = extendTheme({
     Button: { ...button },
     Input: input,
     FormLabel: { ...formLabel },
-    Table: { ...table },
+    Table: table,
     MenuList: menu,
     Tooltip: tooltip,
     Alert: alert,

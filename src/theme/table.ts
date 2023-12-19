@@ -10,11 +10,12 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
   borderWidth: '0.1rem',
   borderColor: COLORS.GRAY[80],
+  py: '10rem',
+
   tr: {
     height: '3.5rem',
   },
   th: {
-    py: 0,
     px: '0.6rem',
     height: '3.5rem',
     borderColor: COLORS.GRAY[60],
@@ -23,6 +24,7 @@ const baseStyle = definePartsStyle({
     color: COLORS.WHITE,
     fontSize: fontSizes.xs,
     textTransform: 'none',
+    py: '1rem',
   },
   td: {
     ...text.variants.bodyRegular,
@@ -35,10 +37,19 @@ const baseStyle = definePartsStyle({
   },
 });
 
+const sizes = {
+  lg: definePartsStyle({
+    td: { py: '1rem' },
+  }),
+};
 export const table = defineMultiStyleConfig({
+  baseStyle,
+  sizes: sizes,
+
   defaultProps: {
     size: 'lg',
     variant: 'default',
   },
-  baseStyle,
 });
+
+export default table;
