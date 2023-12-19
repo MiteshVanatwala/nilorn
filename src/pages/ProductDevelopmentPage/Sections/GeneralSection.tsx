@@ -5,16 +5,12 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import TextArea from '../../../components/Form/TextArea';
-import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 
-type Props = {
-  defaultValues?: FieldValues;
-};
-
-const GeneralSection = ({ defaultValues }: Props) => {
+const GeneralSection = () => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
@@ -81,7 +77,6 @@ const GeneralSection = ({ defaultValues }: Props) => {
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>
-
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <GridItem colSpan={2}>
