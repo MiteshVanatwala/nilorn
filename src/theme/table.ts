@@ -34,6 +34,7 @@ const baseStyle = definePartsStyle({
     px: '0.6rem',
     py: 0,
     height: '3.5rem',
+    verticalAlign: 'middle',
   },
 });
 
