@@ -24,10 +24,7 @@ const GeneralSection = ({ defaultValues }: Props) => {
     typeof itemCategoryCode === 'string' ?? false,
     itemCategoryCode as string
   );
-  const freightValues = [
-    { label: 'Yes', value: '1' },
-    { label: 'No', value: '0' },
-  ];
+
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -84,17 +81,7 @@ const GeneralSection = ({ defaultValues }: Props) => {
             placeholder={`${t('Filter.Select')}`}
           />
         </GridItem>
-        <GridItem colSpan={2}>
-          <Select
-            label={`${t('PD.FormContent.FreightIncluded')}`}
-            name={'freightIncluded'}
-            registerOptions={{ valueAsNumber: true }}
-            options={freightValues}
-            defaultValue={freightValues.find(
-              o => o.value === getValues('freightIncluded')?.toString()
-            )}
-          />
-        </GridItem>
+
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <GridItem colSpan={2}>
@@ -104,7 +91,6 @@ const GeneralSection = ({ defaultValues }: Props) => {
                 name={'itemNo'}
               />
             </GridItem>
-
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.TargetSales')}`}
@@ -112,7 +98,13 @@ const GeneralSection = ({ defaultValues }: Props) => {
                 name={'targetSales'}
               />
             </GridItem>
-
+            <GridItem colSpan={2}>
+              <InputField
+                label={`${t('PD.FormContent.FreightIncluded')}`}
+                name={'freightIncluded'}
+                registerOptions={{ valueAsNumber: true }}
+              />
+            </GridItem>
             <GridItem colSpan={2}>
               <InputField
                 label={`${t('PD.FormContent.SampleQuantity')}`}
