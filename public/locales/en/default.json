@@ -60,7 +60,7 @@
     "HideChanges": "Hide changes",
     "IncludeClosed": "Include rejected and aprroved",
     "SourcingCompany": "Sourcing company",
-    "SourcingCompanies": "Sourcing companies",
+    "SourcingCompanies": "Sourcing company",
     "OPcomp": "Operations  company",
     "StockLoaction": "Stock loaction",
     "AddMember": "Add member",
@@ -128,7 +128,7 @@
       "stockLocation": "Stock Location",
       "opComp": "Operations company",
       "salespersonPurchaser": "Members",
-      "sourcingCompanies": "Sourcing companies",
+      "sourcingCompanies": "Sourcing company",
       "number": "Product development number"
     },
     "Feedback": {

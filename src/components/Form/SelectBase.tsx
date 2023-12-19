@@ -74,6 +74,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   showSelectedCount?: boolean;
   dark?: boolean;
   invisible?: boolean;
+  isDisabled?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -90,6 +91,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   isSearchable = false,
   groupColor = COLORS.GRAY[50],
   isControlled = true,
+  isDisabled,
   menuPlacement = 'auto',
   showSelectedCount = false,
   dark = false,
@@ -121,6 +123,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       variant="filled"
       name={name}
       ref={passRef}
+      isDisabled={isDisabled}
       onChange={onChange as any}
       onBlur={onBlur}
       components={customComponents}

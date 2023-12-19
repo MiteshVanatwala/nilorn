@@ -1,14 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import QueryKeysEnum from './queryKeys';
-import { ApiError, CreateProjectCommand, ProjectsService } from '../generate';
+import { CreateProjectCommand, ProjectsService } from '../generate';
 import { useToast } from '../hooks/useToast';
 import { useTranslation } from 'react-i18next';
 
 export function useGetProjects(clientNo: string, enable: boolean = true) {
   return useQuery(
     [QueryKeysEnum.Projects, clientNo],
-    () => ProjectsService.getFilterOption().then(res => res),
+    () => ProjectsService.getFilterOption(clientNo).then(res => res),
     {
       retry: 1,
       enabled: enable,

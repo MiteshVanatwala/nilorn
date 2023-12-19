@@ -109,6 +109,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                     variant="filled"
                     scrolledPast={scrolledPast}
                     hideValidationStyle={true}
+                    defaultValue={getValues('name')}
                     name="name"
                     registerOptions={{ required: true }}
                   />
@@ -117,7 +118,9 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {!createNew && '#'}
                   {no}
                 </Text>
-                <StatusBadge status={getValues('status')} />
+                <Box mx={SPACE.XS}>
+                  <StatusBadge status={getValues('status')} />
+                </Box>
               </VStack>
             </HStack>
           </GridItem>
@@ -137,7 +140,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             colSpan={{
               base: 1,
               md: 3,
-              lg: 2,
+              lg: 3,
             }}>
             {createNew || !getValues('client') ? (
               <Box zIndex={9} width={'100%'}>
@@ -155,13 +158,14 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               options={projectOptions as SelectOption[]}
               createNew={createNew}
               clientNo={clientNo}
+              scrolledPast={scrolledPast}
             />
           </GridItem>
           <GridItem
             colSpan={{
               base: 1,
               md: 10,
-              lg: 5,
+              lg: 4,
             }}>
             <ActionBar
               showingChanges={showingChanges}
