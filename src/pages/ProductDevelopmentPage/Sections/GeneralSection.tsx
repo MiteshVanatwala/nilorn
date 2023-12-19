@@ -47,15 +47,17 @@ const GeneralSection = () => {
             base: 12,
             lg: 2,
           }}>
-          <Select
-            options={itemCategories}
-            name="itemCategoryCode"
-            label={`${t('PD.FormContent.ItemCategory')}`}
-            defaultValue={itemCategories.find(
-              o => o.value === getValues('itemCategoryCode')
-            )}
-            placeholder={`${t('Filter.Select')}`}
-          />
+          {itemCategories?.length && (
+            <Select
+              options={itemCategories}
+              name="itemCategoryCode"
+              label={`${t('PD.FormContent.ItemCategory')}`}
+              defaultValue={itemCategories.find(
+                o => o.value === itemCategoryCode
+              )}
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
         </GridItem>
         <GridItem
           zIndex={1}
@@ -67,6 +69,7 @@ const GeneralSection = () => {
             options={(productGroups as SelectOption[]) ?? []}
             name="productGroupCode"
             label={`${t('PD.FormContent.ProductGroup')}`}
+            isDisabled={!itemCategoryCode}
             defaultValue={
               productGroups
                 ? (productGroups as SelectOption[]).find(

@@ -4,14 +4,15 @@ import { GRID } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
-import { useFormContext } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 
 const ProductDesignSection = () => {
   const { t } = useTranslation();
-  const { getValues } = useFormContext();
 
+  const foldingTypeCode = useWatch({ name: 'foldingTypeCode' });
   const foldingTypes = useFilterOptions('foldingTypes');
+
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.ProductDesign')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -21,15 +22,15 @@ const ProductDesignSection = () => {
             base: 12,
             lg: 2,
           }}>
-          <Select
-            options={foldingTypes}
-            name="foldingTypeCode"
-            label={`${t('PD.FormContent.Folding')}`}
-            defaultValue={foldingTypes.find(
-              o => o.value === getValues('foldingTypeCode')
-            )}
-            placeholder={`${t('Filter.Select')}`}
-          />
+          {foldingTypes?.length && (
+            <Select
+              options={foldingTypes}
+              name="foldingTypeCode"
+              label={`${t('PD.FormContent.Folding')}`}
+              defaultValue={foldingTypes.find(o => o.value === foldingTypeCode)}
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
         </GridItem>
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
