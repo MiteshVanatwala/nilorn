@@ -20,7 +20,7 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
   const { t } = useTranslation();
   const artwork = useWatch({ name: 'artwork' });
   const { trigger, getValues } = useFormContext();
-  const { statuses, getNextStatus } = useStatusOptions(true);
+  const { statuses, getNextStatus } = useStatusOptions();
   const nextStatus = getNextStatus(getValues('status') as Status);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
