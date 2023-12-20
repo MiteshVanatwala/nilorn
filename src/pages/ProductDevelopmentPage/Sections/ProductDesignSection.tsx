@@ -6,6 +6,7 @@ import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import { useWatch } from 'react-hook-form';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
+import { SelectOption } from '../../../app/types/types';
 
 const ProductDesignSection = () => {
   const { t } = useTranslation();
@@ -22,12 +23,20 @@ const ProductDesignSection = () => {
             base: 12,
             lg: 2,
           }}>
-          {foldingTypes?.length && (
+          {foldingTypeCode && foldingTypes?.length && (
             <Select
-              options={foldingTypes}
+              options={(foldingTypes as SelectOption[]) ?? []}
               name="foldingTypeCode"
               label={`${t('PD.FormContent.Folding')}`}
               defaultValue={foldingTypes.find(o => o.value === foldingTypeCode)}
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
+          {(!foldingTypeCode || !foldingTypes?.length) && (
+            <Select
+              options={(foldingTypes as SelectOption[]) ?? []}
+              name="foldingTypeCode"
+              label={`${t('PD.FormContent.Folding')}`}
               placeholder={`${t('Filter.Select')}`}
             />
           )}
