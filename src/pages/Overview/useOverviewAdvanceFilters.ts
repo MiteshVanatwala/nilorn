@@ -29,16 +29,16 @@ export const useOverviewAdvanceFilters = (): SelectOption<FilterInput>[] => {
       value: { type: 'text', name: 'finishedHeights' },
     },
     {
-      label: t(`PD.FilterLabel.stockLocation`),
-      value: { type: 'text', name: 'stockLocation' },
-    },
-    {
       label: t(`PD.FilterLabel.vendor`),
       value: { type: 'select', name: 'vendor' },
     },
     {
       label: t(`PD.FilterLabel.opComp`),
       value: { type: 'select', name: 'opComp' },
+    },
+    {
+      label: t(`PD.FilterLabel.sourcingCompanies`),
+      value: { type: 'select', name: 'sourcingCompanies' },
     },
     {
       label: t(`PD.FilterLabel.salespersonPurchaser`),

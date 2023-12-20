@@ -65,7 +65,6 @@ requestBody?: CreateProductDevelopmentCommand,
      * @param finishedWidths 
      * @param finishedHeights 
      * @param sourcingCompanies 
-     * @param stockLocations 
      * @param vendors 
      * @param opComps 
      * @param salesPersonPurchasers 
@@ -88,7 +87,6 @@ finishedLengths?: string,
 finishedWidths?: string,
 finishedHeights?: string,
 sourcingCompanies?: string,
-stockLocations?: string,
 vendors?: string,
 opComps?: string,
 salesPersonPurchasers?: string,
@@ -112,7 +110,6 @@ includeClosed?: boolean,
                 'FinishedWidths': finishedWidths,
                 'FinishedHeights': finishedHeights,
                 'SourcingCompanies': sourcingCompanies,
-                'StockLocations': stockLocations,
                 'Vendors': vendors,
                 'OpComps': opComps,
                 'SalesPersonPurchasers': salesPersonPurchasers,
