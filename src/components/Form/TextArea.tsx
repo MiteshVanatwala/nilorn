@@ -10,7 +10,6 @@ interface Props extends FormInputProps {
   defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   isDisabled?: boolean;
-  minHeight?: string;
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, Props>(
@@ -23,7 +22,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     defaultValue,
     variant = 'standard',
     hideValidationStyle,
-    minHeight = '3.7rem',
     isDisabled = false,
   }: Props) => {
     const {
@@ -42,7 +40,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         <Textarea
           lineHeight={1.5}
           resize="none"
-          // minH={minHeight}
           as={ResizeTextarea}
           variant={variant}
           disabled={isDisabled}

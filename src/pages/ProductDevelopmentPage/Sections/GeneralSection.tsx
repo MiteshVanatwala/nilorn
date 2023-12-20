@@ -31,7 +31,6 @@ const GeneralSection = () => {
             lg: 6,
           }}>
           <TextArea
-            minHeight="0"
             label={`${t('PD.FormContent.Description')}`}
             name={'description'}
           />
