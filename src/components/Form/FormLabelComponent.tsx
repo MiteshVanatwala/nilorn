@@ -2,7 +2,6 @@ import { FormLabel } from '@chakra-ui/react';
 import { FieldError } from 'react-hook-form';
 import COLORS from '../../theme/Constants/colors';
 import { FormInputProps } from '../../app/types/types';
-import { SPACE } from '../../theme/Constants';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -20,8 +19,7 @@ const FormLabelComponent = ({
 }: Props) => {
   return (
     <FormLabel
-      paddingBottom={SPACE.XXS}
-      marginBottom={SPACE.XXS}
+      paddingBottom={'.2rem'}
       whiteSpace={inline ? 'nowrap' : 'normal'}
       color={error ? COLORS.ERROR : color}
       opacity={label === '-' ? 0 : 100}

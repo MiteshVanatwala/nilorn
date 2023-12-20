@@ -26,12 +26,11 @@ export const useStatusOptions = (includeClosed?: boolean) => {
       color: 'gray',
     },
     {
-      label: t('PD.StatusLabel.Calcualtion'),
+      label: t('PD.StatusLabel.Calculation'),
       value: Status.CALCULATION,
       color: 'blue',
     },
   ];
-
   if (includeClosed) {
     statuses.push(
       {

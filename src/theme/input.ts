@@ -40,8 +40,7 @@ const filled = (props: StyleFunctionProps) =>
       bgColor: COLORS.GRAY[10],
       border: '2px solid',
       paddingX: SPACE.XS,
-      paddingY: '.85rem',
-
+      paddingY: '.45rem',
       _hover: {
         borderColor: COLORS.GRAY[20],
         bgColor: COLORS.GRAY[10],
@@ -77,8 +76,9 @@ const sizes = {
 
 const baseStyle = definePartsStyle({
   field: {
-    paddingBottom: '0.5625rem',
+    paddingBottom: '0.2rem',
     color: COLORS.GRAY[80],
+    h: '3.7rem',
     fontWeight: 400,
     ':focus-visible': {
       borderColor: importantValue(COLORS.GRAY[60]),

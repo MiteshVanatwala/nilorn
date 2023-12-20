@@ -23,7 +23,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     defaultValue,
     variant = 'standard',
     hideValidationStyle,
-    minHeight = '0',
+    minHeight = '3.7rem',
     isDisabled = false,
   }: Props) => {
     const {
@@ -42,7 +42,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         <Textarea
           lineHeight={1.5}
           resize="none"
-          minH={minHeight}
+          // minH={minHeight}
           as={ResizeTextarea}
           variant={variant}
           disabled={isDisabled}

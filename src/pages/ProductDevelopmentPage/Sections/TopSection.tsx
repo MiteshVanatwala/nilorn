@@ -42,9 +42,9 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   return (
     <Box
       id="top-section"
-      py={{
+      pt={{
         base: SPACE.XS,
-        md: scrolledPast ? SPACE.XXS : SPACE.MD,
+        md: scrolledPast ? SPACE.XXS : SPACE.SM,
       }}
       position={'sticky'}
       top={0}
@@ -119,7 +119,10 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {no}
                 </Text>
                 <Box mx={SPACE.XS}>
-                  <StatusBadge status={getValues('status')} />
+                  <StatusBadge
+                    includeClosed={true}
+                    status={getValues('status')}
+                  />
                 </Box>
               </VStack>
             </HStack>

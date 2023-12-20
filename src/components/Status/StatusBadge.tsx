@@ -4,13 +4,21 @@ import fontSizes from '../../theme/fontSizes';
 import { Status } from '../../app/generate';
 import { COLORS, SPACE } from '../../theme/Constants';
 import { useStatusOptions } from '../../app/hooks/useStatus';
+import { useSearchParams } from 'react-router-dom';
 
 type Props = {
   status?: Status;
+  includeClosed?: boolean;
 };
 
-const StatusBadge = ({ status }: Props) => {
-  const { statuses } = useStatusOptions();
+const StatusBadge = ({ status, includeClosed }: Props) => {
+  let [searchParams] = useSearchParams();
+
+  if (!includeClosed) {
+    includeClosed = searchParams.get('includeClosed') ? true : false;
+  }
+
+  const { statuses } = useStatusOptions(includeClosed);
   const { color, label } = useMemo(() => {
     return statuses.find(s => s.value === status) || { label: '', color: '' };
   }, [status, statuses]);
