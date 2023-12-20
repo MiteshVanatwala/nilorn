@@ -58,8 +58,6 @@ const mapSalesPersonPurchasersToOptions = (
 };
 
 const useFilterOptions = (name?: FilterKeys) => {
-  let [searchParams] = useSearchParams();
-
   const { data: clients } = useClients(name === 'clients' ?? false);
   const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useSourcingCompanies(
@@ -77,9 +75,8 @@ const useFilterOptions = (name?: FilterKeys) => {
   const { data: productGroups } = useProductGroup(
     name === 'productGroups' ?? false
   );
-  const includeClosed = searchParams.get('includeClosed') ? true : false;
 
-  const { statuses } = useStatusOptions(includeClosed);
+  const { statuses } = useStatusOptions();
 
   if (!name) {
     return [];

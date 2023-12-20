@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Status } from '../generate';
 
-export const useStatusOptions = (includeClosed?: boolean) => {
+export const useStatusOptions = () => {
   const { t } = useTranslation();
 
   const statuses = [
@@ -30,21 +30,17 @@ export const useStatusOptions = (includeClosed?: boolean) => {
       value: Status.CALCULATION,
       color: 'blue',
     },
+    {
+      label: t('PD.StatusLabel.Approved'),
+      value: Status.APPROVED,
+      color: 'green',
+    },
+    {
+      label: t('PD.StatusLabel.Rejected'),
+      value: Status.REJECTED,
+      color: 'red',
+    },
   ];
-  if (includeClosed) {
-    statuses.push(
-      {
-        label: t('PD.StatusLabel.Approved'),
-        value: Status.APPROVED,
-        color: 'green',
-      },
-      {
-        label: t('PD.StatusLabel.Rejected'),
-        value: Status.REJECTED,
-        color: 'red',
-      }
-    );
-  }
 
   const getNextStatus = (currentStatus: Status) => {
     const currentIndex = statuses.findIndex(

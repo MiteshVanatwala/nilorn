@@ -119,10 +119,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {no}
                 </Text>
                 <Box mx={SPACE.XS}>
-                  <StatusBadge
-                    includeClosed={true}
-                    status={getValues('status')}
-                  />
+                  <StatusBadge status={getValues('status')} />
                 </Box>
               </VStack>
             </HStack>
