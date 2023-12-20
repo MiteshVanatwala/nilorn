@@ -21,4 +21,21 @@ export class SalesPersonPurchasersService {
         });
     }
 
+    /**
+     * @param no 
+     * @returns SalespersonPurchaserBriefDto Success
+     * @throws ApiError
+     */
+    public static getApiSalesPersonPurchasersFilter(
+no?: string,
+): CancelablePromise<Array<SalespersonPurchaserBriefDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/SalesPersonPurchasers/Filter',
+            query: {
+                'no': no,
+            },
+        });
+    }
+
 }

@@ -65,6 +65,10 @@ requestBody?: CreateProductDevelopmentCommand,
      * @param finishedWidths 
      * @param finishedHeights 
      * @param sourcingCompanies 
+     * @param stockLocations 
+     * @param vendors 
+     * @param opComps 
+     * @param salesPersonPurchasers 
      * @param includeClosed 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
@@ -84,6 +88,10 @@ finishedLengths?: string,
 finishedWidths?: string,
 finishedHeights?: string,
 sourcingCompanies?: string,
+stockLocations?: string,
+vendors?: string,
+opComps?: string,
+salesPersonPurchasers?: string,
 includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
@@ -104,6 +112,10 @@ includeClosed?: boolean,
                 'FinishedWidths': finishedWidths,
                 'FinishedHeights': finishedHeights,
                 'SourcingCompanies': sourcingCompanies,
+                'StockLocations': stockLocations,
+                'Vendors': vendors,
+                'OpComps': opComps,
+                'SalesPersonPurchasers': salesPersonPurchasers,
                 'IncludeClosed': includeClosed,
             },
         });

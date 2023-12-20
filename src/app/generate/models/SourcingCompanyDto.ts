@@ -3,11 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
-
 export type SourcingCompanyDto = {
     name?: string | null;
+    code?: string | null;
     isSourcingCompany?: boolean;
     currencyCode?: string | null;
-    salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
 };
