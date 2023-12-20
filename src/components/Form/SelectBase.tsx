@@ -169,7 +169,6 @@ const SelectBase = <IsMulti extends boolean = false>({
           pt: '0',
           height: '3.7rem',
           mt: '-2px',
-          top: '0',
         }),
 
         menuList: base => ({
