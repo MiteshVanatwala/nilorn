@@ -58,7 +58,7 @@
     "Delete": "Delete",
     "ShowChanges": "Show changes",
     "HideChanges": "Hide changes",
-    "IncludeClosed": "Include rejected and aprroved",
+    "IncludeClosed": "Include rejected and approved",
     "SourcingCompany": "Sourcing company",
     "SourcingCompanies": "Sourcing company",
     "OPcomp": "Operations  company",
@@ -76,6 +76,8 @@
     "Error": "Something went wrong",
     "BackToOverview": "Back to overview",
     "ProjectCreated": "Project created",
+    "BrowseFile": "Browse files...",
+    "ClickPaste": "Click and paste from clipboard",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
