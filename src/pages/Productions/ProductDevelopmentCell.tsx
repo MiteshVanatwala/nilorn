@@ -9,7 +9,7 @@ const ProductDevelopmentCell = ({
   no,
   name,
   artworkUrl,
-  imageUrl,
+  thumbnailData,
   status,
   project,
 }: ProductDevelopmentBriefDto) => {
@@ -38,8 +38,8 @@ const ProductDevelopmentCell = ({
           )}
         </HStack>
         <Text variant={'bodyBigBlack'}>{name}</Text>
-        {imageUrl && (
-          <Image height={'8rem'} objectFit={'cover'} src={imageUrl} />
+        {thumbnailData && (
+          <Image height={'8rem'} objectFit={'cover'} src={thumbnailData} />
         )}
         {project && <Text>{project}</Text>}
         <StatusBadge status={status as Status} />

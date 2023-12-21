@@ -10,7 +10,7 @@ const useOverviewColumns = () => {
 
   const columnHelper = createColumnHelper<ProductDevelopmentBriefDto>();
   const columns = [
-    columnHelper.accessor('imageUrl', {
+    columnHelper.accessor('thumbnailData', {
       header: `${t('PD.Image')}`,
       enableSorting: false,
       cell: info => {
