@@ -31,7 +31,6 @@ const PDImageModal = ({ imageUrl, onUpload }: Props) => {
       inputRef.current.click();
     }
   };
-  imageUrl = '';
   if (imageUrl) {
     return (
       <Box

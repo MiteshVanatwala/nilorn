@@ -2,19 +2,23 @@ import { useTranslation } from 'react-i18next';
 import { Image } from '@chakra-ui/react';
 import { useModal } from '../../../../app/hooks/useModal';
 import PDImageModal from './PDImageModal';
+import { useState } from 'react';
 
 type Props = {
   imageUrl: string;
   scrolledPast: boolean;
 };
-const uploadPDImage = (uploaded: string[]) => {
-  console.log('uploaded', uploaded);
-};
+
 const PDImage = ({ imageUrl, scrolledPast }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
-  imageUrl =
-    'https://upload.wikimedia.org/wikipedia/commons/f/f0/Gavle_goat_2019.jpg';
+  const [pdImage, setPdImage] = useState<string>(imageUrl);
+
+  const uploadPDImage = (uploaded: string[]) => {
+    console.log('uploaded', uploaded);
+    // setPdImage(uploaded);
+  };
+
   return (
     <Image
       maxHeight={scrolledPast ? '0' : '20rem'}
@@ -26,7 +30,7 @@ const PDImage = ({ imageUrl, scrolledPast }: Props) => {
       cursor={'pointer'}
       onClick={() =>
         handleModal(
-          <PDImageModal imageUrl={imageUrl} onUpload={uploadPDImage} />
+          <PDImageModal imageUrl={pdImage} onUpload={uploadPDImage} />
         )
       }
       src={imageUrl}></Image>
