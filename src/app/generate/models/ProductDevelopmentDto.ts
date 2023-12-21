@@ -23,7 +23,7 @@ export type ProductDevelopmentDto = {
     targetSalesPrice?: string | null;
     freightIncluded?: number | null;
     no?: string | null;
-    imageUrl?: string | null;
+    thumbnailData?: string | null;
     artworkUrl?: string | null;
     client?: string | null;
     clientNo?: string | null;

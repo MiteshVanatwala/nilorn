@@ -22,6 +22,7 @@ export type { ProductionDto } from './models/ProductionDto';
 export type { ProjectDto } from './models/ProjectDto';
 export { Role } from './models/Role';
 export type { SalespersonPurchaserBriefDto } from './models/SalespersonPurchaserBriefDto';
+export type { SalespersonPurchaserDto } from './models/SalespersonPurchaserDto';
 export type { SourcedProductionDto } from './models/SourcedProductionDto';
 export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export type { SourcingDto } from './models/SourcingDto';

@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { SalespersonPurchaserBriefDto } from '../models/SalespersonPurchaserBriefDto';
+import type { SalespersonPurchaserDto } from '../models/SalespersonPurchaserDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -35,6 +36,17 @@ no?: string,
             query: {
                 'no': no,
             },
+        });
+    }
+
+    /**
+     * @returns SalespersonPurchaserDto Success
+     * @throws ApiError
+     */
+    public static getApiSalesPersonPurchasersCurrent(): CancelablePromise<SalespersonPurchaserDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/SalesPersonPurchasers/Current',
         });
     }
 
