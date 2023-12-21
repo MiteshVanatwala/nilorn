@@ -9,6 +9,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
+import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
@@ -46,21 +47,26 @@ const GeneralSection = () => {
             base: 12,
             lg: 2,
           }}>
-          {/* {itemCategories?.length && ( */}
-          <Select
-            options={(itemCategories as SelectOption[]) ?? []}
-            name="itemCategoryCode"
-            label={`${t('PD.FormContent.ItemCategory')}`}
-            defaultValue={
-              itemCategories && itemCategoryCode
-                ? (itemCategories as SelectOption[]).find(
-                    o => o.value === itemCategoryCode
-                  )
-                : undefined
-            }
-            placeholder={`${t('Filter.Select')}`}
-          />
-          {/* )} */}
+          {itemCategories?.length ? (
+            <Select
+              options={(itemCategories as SelectOption[]) ?? []}
+              name="itemCategoryCode"
+              label={`${t('PD.FormContent.ItemCategory')}`}
+              defaultValue={
+                itemCategories && itemCategoryCode
+                  ? (itemCategories as SelectOption[]).find(
+                      o => o.value === itemCategoryCode
+                    )
+                  : undefined
+              }
+              placeholder={`${t('Filter.Select')}`}
+            />
+          ) : (
+            <SelectSkeleton
+              name="itemCategoryCode"
+              label={`${t('PD.FormContent.ItemCategory')}`}
+            />
+          )}
         </GridItem>
         <GridItem
           zIndex={1}

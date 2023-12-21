@@ -7,6 +7,7 @@ import InputField from '../../../components/Form/InputField';
 import { useWatch } from 'react-hook-form';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
+import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 
 const ProductDesignSection = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const ProductDesignSection = () => {
             base: 12,
             lg: 2,
           }}>
-          {foldingTypeCode && foldingTypes?.length && (
+          {foldingTypes?.length ? (
             <Select
               options={(foldingTypes as SelectOption[]) ?? []}
               name="foldingTypeCode"
@@ -31,13 +32,10 @@ const ProductDesignSection = () => {
               defaultValue={foldingTypes.find(o => o.value === foldingTypeCode)}
               placeholder={`${t('Filter.Select')}`}
             />
-          )}
-          {(!foldingTypeCode || !foldingTypes?.length) && (
-            <Select
-              options={(foldingTypes as SelectOption[]) ?? []}
+          ) : (
+            <SelectSkeleton
               name="foldingTypeCode"
               label={`${t('PD.FormContent.Folding')}`}
-              placeholder={`${t('Filter.Select')}`}
             />
           )}
         </GridItem>
