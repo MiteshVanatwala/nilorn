@@ -176,12 +176,12 @@ const SelectBase = <IsMulti extends boolean = false>({
           rootProps: { position: 'relative' },
           position: 'absolute',
           right: 0,
-          zIndex: 9,
           bottom: menuPlacement === 'top' ? '100%' : 'auto',
           padding: '0',
           margin: '0',
           color: color,
           maxW: '22rem',
+          bg: COLORS.GRAY[10],
         }),
         placeholder: base => ({
           ...base,
