@@ -46,17 +46,21 @@ const GeneralSection = () => {
             base: 12,
             lg: 2,
           }}>
-          {itemCategories?.length && (
-            <Select
-              options={itemCategories}
-              name="itemCategoryCode"
-              label={`${t('PD.FormContent.ItemCategory')}`}
-              defaultValue={itemCategories.find(
-                o => o.value === itemCategoryCode
-              )}
-              placeholder={`${t('Filter.Select')}`}
-            />
-          )}
+          {/* {itemCategories?.length && ( */}
+          <Select
+            options={(itemCategories as SelectOption[]) ?? []}
+            name="itemCategoryCode"
+            label={`${t('PD.FormContent.ItemCategory')}`}
+            defaultValue={
+              itemCategories && itemCategoryCode
+                ? (itemCategories as SelectOption[]).find(
+                    o => o.value === itemCategoryCode
+                  )
+                : undefined
+            }
+            placeholder={`${t('Filter.Select')}`}
+          />
+          {/* )} */}
         </GridItem>
         <GridItem
           zIndex={1}
