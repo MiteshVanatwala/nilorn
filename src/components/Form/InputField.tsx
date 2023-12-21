@@ -43,7 +43,6 @@ const InputField = ({
         defaultValue={defaultValue}
         placeholder={placeholder}
         type={type}
-        height={'auto'}
         {...register(name, registerOptions)}
       />
     </ControlWrapper>

@@ -50,7 +50,9 @@ const sizes = {
 
 const baseStyle = definePartsStyle({
   ...input.baseStyle?.field,
-
+  maxH: '23rem',
+  minH: '2.8rem',
+  overflowY: 'auto',
   field: {},
 });
 export const textarea = defineStyleConfig({

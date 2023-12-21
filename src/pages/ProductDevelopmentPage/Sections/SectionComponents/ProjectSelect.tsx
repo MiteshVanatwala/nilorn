@@ -37,10 +37,7 @@ const ProjectSelect = ({
   }, [defaultProject, setValue]);
 
   return (
-    <Box
-      zIndex={8}
-      width={scrolledPast ? 'auto' : '100%'}
-      minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
+    <Box zIndex={8} minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
       <SelectBase
         onChange={onChange}
         placeholder={t('PD.Project')}
