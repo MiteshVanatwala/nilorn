@@ -5,7 +5,7 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import TextArea from '../../../components/Form/TextArea';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
@@ -13,8 +13,8 @@ import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
-  const { getValues } = useFormContext();
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
+  const productGroupCode = useWatch({ name: 'productGroupCode' });
 
   const itemCategories = useFilterOptions('itemCategories');
   const { data: productGroups } = useProductGroup(
@@ -71,20 +71,31 @@ const GeneralSection = () => {
             base: 12,
             lg: 2,
           }}>
-          <Select
-            options={(productGroups as SelectOption[]) ?? []}
-            name="productGroupCode"
-            label={`${t('PD.FormContent.ProductGroup')}`}
-            isDisabled={!itemCategoryCode}
-            defaultValue={
-              productGroups
-                ? (productGroups as SelectOption[]).find(
-                    o => o.value === getValues('productGroupCode')
-                  )
-                : undefined
-            }
-            placeholder={`${t('Filter.Select')}`}
-          />
+          {productGroups?.length && (
+            <Select
+              options={(productGroups as SelectOption[]) ?? []}
+              name="productGroupCode"
+              label={`${t('PD.FormContent.ProductGroup')}`}
+              isDisabled={!itemCategoryCode}
+              defaultValue={
+                productGroups && productGroupCode
+                  ? (productGroups as SelectOption[]).find(
+                      o => o.value === productGroupCode
+                    )
+                  : undefined
+              }
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
+          {!productGroups?.length && (
+            <Select
+              options={[]}
+              name="productGroupCode"
+              label={`${t('PD.FormContent.ProductGroup')}`}
+              isDisabled={true}
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
         </GridItem>
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>

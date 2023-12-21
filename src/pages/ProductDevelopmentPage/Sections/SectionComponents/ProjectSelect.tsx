@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
 import { useEffect, useState } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
