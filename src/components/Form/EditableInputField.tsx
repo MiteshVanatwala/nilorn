@@ -55,7 +55,7 @@ const EditableInputField = ({
         defaultValue={defaultValue?.toString()}
         placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
         <EditablePreview
-          py={'.85rem'}
+          py={'.45rem'}
           px={SPACE.XS}
           border={'2px solid white'}
           color={error ? COLORS.ERROR : ''}
