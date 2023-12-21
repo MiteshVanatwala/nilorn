@@ -164,7 +164,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             colSpan={{
               base: 1,
               md: 10,
-              lg: 4,
+              lg: scrolledPast ? 4 : 5,
             }}>
             <ActionBar
               showingChanges={showingChanges}
