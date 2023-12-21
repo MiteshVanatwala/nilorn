@@ -142,8 +142,9 @@ const SelectBase = <IsMulti extends boolean = false>({
               ? 'max-content'
               : invisible
               ? 'auto'
-              : '4.2rem',
+              : '3.7rem',
           w: '100%',
+          pt: '0',
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '2px solid',
@@ -165,7 +166,11 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           padding: invisible ? '0' : base.padding,
           color: color,
+          pt: '0',
+          height: '3.7rem',
+          mt: '-2px',
         }),
+
         menuList: base => ({
           ...base,
           rootProps: { position: 'relative' },
@@ -176,6 +181,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           padding: '0',
           margin: '0',
           color: color,
+          maxW: '22rem',
         }),
         placeholder: base => ({
           ...base,
@@ -186,19 +192,25 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           color: color,
         }),
-        indicatorsContainer: base => ({
+        clearIndicator: base => ({
           ...base,
           fontSize: SIZES.ICON.MD,
           color: color,
+        }),
+        indicatorsContainer: base => ({
           display: invisible ? 'none' : 'relative',
         }),
+
         option: (base, { isSelected }) => ({
           ...base,
           ...text.baseStyle,
-          whiteSpace: 'nowrap',
           height: SPACE.XL,
           backgroundColor: COLORS.GRAY[10],
-          padding: SPACE.XS,
+          px: SPACE.XS,
+          py: SPACE.XXS,
+          maxW: '22rem',
+          wordWrap: 'break-word',
+          h: 'auto',
           '&:hover': {
             backgroundColor: COLORS.GRAY[20],
           },

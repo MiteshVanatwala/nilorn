@@ -10,7 +10,7 @@ const baseStyle = definePartsStyle({
     width: '100%',
   },
   container: {
-    mb: SPACE.MD,
+    mb: SPACE.SM,
     borderTop: 'none',
     overflow: 'visible',
     '.chakra-collapse': {
@@ -20,7 +20,8 @@ const baseStyle = definePartsStyle({
   button: {
     borderRadius: BORDER_RADIUS.SM,
     border: 'none',
-    p: SPACE.SM,
+    px: SPACE.SM,
+    py: SPACE.XS,
   },
   icon: {
     color: COLORS.GRAY[80],
@@ -28,7 +29,7 @@ const baseStyle = definePartsStyle({
   },
   panel: {
     px: SPACE.SM,
-    py: SPACE.MD,
+    py: SPACE.SM,
   },
 });
 
@@ -62,8 +63,8 @@ const light = definePartsStyle({
     color: COLORS.GRAY[80],
   },
 });
+
 export const accordion = defineMultiStyleConfig({
-  defaultProps: {},
   variants: { card, light },
   baseStyle,
 });

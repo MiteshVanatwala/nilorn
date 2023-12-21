@@ -64,8 +64,6 @@ const InputSearch = ({
         variant={variant}
         placeholder={placeholder}
         type={'search'}
-        paddingY={'.85rem'}
-        height={'auto'}
         {...formContextRegRest}
         onChange={e => {
           clearErrors(name);
