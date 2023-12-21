@@ -40,8 +40,9 @@ const Filter = ({ hasSearch, filterInputs }: Props) => {
           />
         </GridItem>
       )}
-      {filterInputs.map(input => (
+      {filterInputs.map((input, i) => (
         <GridItem
+          key={`Filter-${i}`}
           colSpan={{
             base: 1,
             md: 2,

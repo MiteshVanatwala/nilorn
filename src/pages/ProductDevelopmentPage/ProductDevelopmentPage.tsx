@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { FieldValues } from 'react-hook-form';
 import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { Box } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { useToast } from '../../app/hooks/useToast';
+import NotFoundPage from '../NotFound/NotFoundPage';
 
 type Props = {
   createNew: boolean;
@@ -18,9 +17,6 @@ function ProductDevelopmentPage({ createNew }: Props) {
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const {t} = useTranslation();
-  const { showToast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,16 +44,12 @@ function ProductDevelopmentPage({ createNew }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
 
-  if (isLoading) {
-    return <SpinnerOverlay />;
+  if (isError) {
+    return <NotFoundPage />;
   }
 
-  if (isError) {
-    navigate('/404');
-    showToast({
-      status: 'warning',
-      title: `${t('PD.Error.NotFound', {no: no})}`,
-    });
+  if (isLoading) {
+    return <SpinnerOverlay />;
   }
 
   if (!isLoading) {

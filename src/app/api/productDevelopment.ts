@@ -14,17 +14,17 @@ export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const navigate = useNavigate();
-  
+
   return useMutation(
     (body: ProductDevelopmentDto) =>
-    ProductDevelopmentsService.postApiProductDevelopments(body).then(
-      response => response
+      ProductDevelopmentsService.postApiProductDevelopments(body).then(
+        response => response
       ),
-      {
-        onSuccess: async (no: string) => {
+    {
+      onSuccess: async (no: string) => {
         showToast({
           status: 'success',
-          description: `${t('PD.Feedback.Success.Created', {no: no})}`,
+          description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
         navigate(`/product-development/${no}`);
       },
@@ -98,7 +98,7 @@ export const useProductDevelopment = (no: string) => {
         res => res
       ),
     {
-      retry: 1,
+      retry: 0,
       enabled: no !== '',
     }
   );

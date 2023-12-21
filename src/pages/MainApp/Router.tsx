@@ -25,7 +25,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'product-development/create',
-            element: <ProductDevelopmentPage createNew />,
+            element: <ProductDevelopmentPage createNew={true} />,
           },
           {
             path: 'production',
