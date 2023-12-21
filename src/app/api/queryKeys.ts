@@ -13,6 +13,7 @@ enum QueryKeysEnum {
   Projects = 'Projects',
   OpComp = 'OpComp',
   Option = 'Option',
+  User = 'User',
 }
 
 export default QueryKeysEnum;

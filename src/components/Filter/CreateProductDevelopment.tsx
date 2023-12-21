@@ -1,20 +1,27 @@
 import { Box, Button, Link } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { useCurrentUser } from '../../app/api/User';
+import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 
 const CreateProductDevelopment = () => {
   const { t } = useTranslation();
-  return (
-    <Box textAlign={'right'}>
-      <Link href={'/product-development/create'}>
-        <Button
-          alignSelf={'end'}
-          leftIcon={<i className="ri-add-line" />}
-          variant={'primary'}>
-          {t('Common.CreateNew')}
-        </Button>
-      </Link>
-    </Box>
-  );
+  const { data: user } = useCurrentUser();
+
+  if (user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role)) {
+    return (
+      <Box textAlign={'right'}>
+        <Link href={'/product-development/create'}>
+          <Button
+            alignSelf={'end'}
+            leftIcon={<i className="ri-add-line" />}
+            variant={'primary'}>
+            {t('Common.CreateNew')}
+          </Button>
+        </Link>
+      </Box>
+    );
+  }
+  return <></>;
 };
 
 export default CreateProductDevelopment;
