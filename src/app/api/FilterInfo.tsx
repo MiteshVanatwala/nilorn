@@ -7,7 +7,6 @@ import {
   OpCompService,
   ProductGroupService,
   SalesPersonPurchasersService,
-  SourcingCompaniesService,
   VendorsService,
 } from '../generate';
 
