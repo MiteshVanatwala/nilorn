@@ -25,19 +25,30 @@ const ProjectSelect = ({
   const [defaultProject, setDefaultProject] = useState<string>();
   const [selected, setSelected] = useState<SelectOption>();
   const inputName = 'projectCode';
+  const project = useWatch({ name: inputName });
+
   const onChange = (option: SelectOption) => {
     setDefaultProject('');
     setValue(inputName, option.label);
     setSelected(option);
   };
   useEffect(() => {
-    if (defaultProject !== '') {
-      setValue(inputName, defaultProject);
+    if (!project) {
+      setSelected(undefined);
+      setDefaultProject(undefined);
     }
-  }, [defaultProject, setValue]);
+  }, [project]);
+  useEffect(() => {
+    if (defaultProject) {
+      setSelected(options?.find(co => co.label === defaultProject));
+    }
+  }, [defaultProject, options]);
 
   return (
-    <Box zIndex={8} minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
+    <Box
+      zIndex={8}
+      w={'100%'}
+      minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
       <SelectBase
         onChange={onChange}
         placeholder={t('PD.Project')}
@@ -46,8 +57,8 @@ const ProjectSelect = ({
         options={options}
         isDisabled={!clientNo}
         value={
-          defaultProject !== ''
-            ? (options?.find(co => co.label === defaultProject) as SelectOption)
+          project !== ''
+            ? (options?.find(co => co.label === project) as SelectOption)
             : selected
         }
         components={{

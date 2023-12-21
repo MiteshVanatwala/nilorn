@@ -4,9 +4,9 @@ import {
   ClientService,
   FoldingTypeService,
   ItemCategoryService,
+  OpCompService,
   ProductGroupService,
   SalesPersonPurchasersService,
-  SourcingCompaniesService,
   VendorsService,
 } from '../generate';
 
@@ -36,10 +36,16 @@ export function useVendors(enable: boolean = true) {
   );
 }
 
-export function useSourcingCompanies(enable: boolean = true) {
+export function useOpCompOption(
+  enable: boolean = true,
+  isSourcingCompany: boolean = false
+) {
   return useQuery(
-    [QueryKeysEnum.SourcingCompanies],
-    () => SourcingCompaniesService.getApiSourcingCompanies().then(res => res),
+    [QueryKeysEnum.OpComp, QueryKeysEnum.Option, isSourcingCompany],
+    () =>
+      OpCompService.getApiOpCompFilterOption(isSourcingCompany).then(
+        res => res
+      ),
     {
       cacheTime: Infinity,
       staleTime: Infinity,

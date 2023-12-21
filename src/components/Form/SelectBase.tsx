@@ -182,6 +182,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           margin: '0',
           color: color,
           maxW: '22rem',
+          bg: COLORS.GRAY[10],
         }),
         placeholder: base => ({
           ...base,

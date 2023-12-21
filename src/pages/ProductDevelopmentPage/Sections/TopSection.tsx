@@ -139,11 +139,10 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             alignItems={scrolledPast ? 'center' : 'flex-start'}
             colSpan={{
               base: 1,
-              md: 3,
-              lg: 3,
+              md: scrolledPast ? 3 : 2,
             }}>
             {createNew || !getValues('client') ? (
-              <Box zIndex={9} width={'100%'}>
+              <Box zIndex={9} w={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}
                   name="clientNo"
@@ -165,7 +164,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
             colSpan={{
               base: 1,
               md: 10,
-              lg: 4,
+              lg: scrolledPast ? 4 : 5,
             }}>
             <ActionBar
               showingChanges={showingChanges}

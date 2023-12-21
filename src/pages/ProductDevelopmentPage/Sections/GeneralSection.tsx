@@ -26,7 +26,6 @@ const GeneralSection = () => {
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 6,
@@ -42,7 +41,6 @@ const GeneralSection = () => {
             lg: 6,
           }}></GridItem>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 2,
@@ -69,7 +67,6 @@ const GeneralSection = () => {
           )}
         </GridItem>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 2,
