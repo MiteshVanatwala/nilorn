@@ -18,6 +18,11 @@ export function useProductDevelopmentsFilter() {
   const finishedLengths = useFilterSearchParams('finishedLengths');
   const finishedWidths = useFilterSearchParams('finishedWidths');
   const finishedHeights = useFilterSearchParams('finishedHeights');
+  const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
+  const vendors = useFilterSearchParams('vendor');
+  const opComps = useFilterSearchParams('opComp');
+  const salespersonPurchaser = useFilterSearchParams('salespersonPurchaser');
+  const includeClosed = useFilterSearchParams('includeClosed');
 
   return useQuery(
     [
@@ -26,15 +31,20 @@ export function useProductDevelopmentsFilter() {
       pageSize,
       sortKey,
       searchQuery,
-      clients, // TODO, search on no?
+      clients,
       projects,
-      statuses, // TODO, always return 500, whats expected?
-      itemCategories, // TODO: No data yet.
-      productGroups, // TODO: No data yet.
-      foldingTypes, // TODO: No data yet.
+      statuses,
+      itemCategories,
+      productGroups,
+      foldingTypes,
       finishedLengths,
       finishedWidths,
       finishedHeights,
+      sourcingCompanies,
+      vendors,
+      opComps,
+      salespersonPurchaser,
+      includeClosed,
     ],
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsFilter(
@@ -50,7 +60,13 @@ export function useProductDevelopmentsFilter() {
         foldingTypes,
         finishedLengths,
         finishedWidths,
-        finishedHeights
+        finishedHeights,
+        sourcingCompanies,
+        vendors,
+        // @ts-ignore // more the 15 props
+        opComps,
+        salespersonPurchaser,
+        !!includeClosed
       ).then(res => res),
     {
       retry: 0,

@@ -7,6 +7,7 @@ import SourcingsPage from '../Sourcings/SourcingsPage';
 import PricesPage from '../Prices/PricesPage';
 import SigninOidc from '../Auth/SigninOidc';
 import ProductionsPage from '../Productions/ProductionsPage';
+import NotFoundPage from '../NotFound/NotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'product-development/create',
-            element: <ProductDevelopmentPage createNew />,
+            element: <ProductDevelopmentPage createNew={true} />,
           },
           {
             path: 'production',
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
             path: 'prices',
             element: <PricesPage />,
           },
+          { path: '*', element: <NotFoundPage /> },
         ],
       },
     ],

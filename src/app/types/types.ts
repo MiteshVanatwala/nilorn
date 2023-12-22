@@ -16,7 +16,6 @@ export type FilterKeys =
   | 'finishedWidths'
   | 'finishedHeights'
   | 'sourcingCompanies'
-  | 'stockLocation'
   | 'vendor'
   | 'opComp'
   | 'salespersonPurchaser'

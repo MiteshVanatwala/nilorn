@@ -7,8 +7,7 @@ export const productions: ProductionQuery[] = [
       no: '001',
       client: 'ABC Corp',
       artworkUrl: '#',
-      imageUrl:
-        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      thumbnailData: '',
       status: Status.CALCULATION,
     },
     sourcing: [
@@ -93,8 +92,7 @@ export const productions: ProductionQuery[] = [
       no: '002',
       client: 'XYZ Ltd',
       artworkUrl: '#',
-      imageUrl:
-        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      thumbnailData: '',
       status: Status.SOURCING,
     },
     sourcing: [
@@ -179,8 +177,7 @@ export const productions: ProductionQuery[] = [
       no: '003',
       client: 'LMN Inc',
       artworkUrl: '#',
-      imageUrl:
-        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      thumbnailData: '',
       status: Status.SOURCING,
     },
     sourcing: [
@@ -265,8 +262,7 @@ export const productions: ProductionQuery[] = [
       no: '003',
       client: 'LMN Inc',
       artworkUrl: '#',
-      imageUrl:
-        'https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg',
+      thumbnailData: '',
       status: Status.SOURCING,
     },
     sourcing: [

@@ -10,7 +10,7 @@ const useOverviewColumns = () => {
 
   const columnHelper = createColumnHelper<ProductDevelopmentBriefDto>();
   const columns = [
-    columnHelper.accessor('imageUrl', {
+    columnHelper.accessor('thumbnailData', {
       header: `${t('PD.Image')}`,
       enableSorting: false,
       cell: info => {
@@ -37,6 +37,7 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('versions', {
       header: `${t('PD.Version')}`,
+      enableSorting: false,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('status', {
@@ -45,6 +46,7 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('artworkUrl', {
       header: `${t('PD.Artwork')}`,
+      enableSorting: false,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('client', {
@@ -61,6 +63,7 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('sourcings', {
       header: `${t('PD.SourcingCompanies')}`,
+      enableSorting: false,
       cell: info => info.getValue()?.join(', '),
     }),
   ];

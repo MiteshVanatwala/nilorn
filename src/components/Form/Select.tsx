@@ -16,6 +16,7 @@ interface Props<IsMulti extends boolean = false>
   showSelectedCount?: boolean;
   invisible?: boolean;
   components?: any;
+  isDisabled?: boolean;
 }
 
 const Select = <IsMulti extends boolean = false>({
@@ -32,6 +33,7 @@ const Select = <IsMulti extends boolean = false>({
   showSelectedCount = false,
   invisible = false,
   components,
+  isDisabled = false,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -58,6 +60,7 @@ const Select = <IsMulti extends boolean = false>({
             <SelectBase
               isMulti={isMulti}
               isControlled={false}
+              isDisabled={isDisabled}
               name={name}
               invisible={invisible}
               passRef={ref}

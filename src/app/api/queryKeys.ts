@@ -11,6 +11,9 @@ enum QueryKeysEnum {
   ItemCategory = 'ItemCategory',
   ProductGroup = 'ProductGroup',
   Projects = 'Projects',
+  OpComp = 'OpComp',
+  Option = 'Option',
+  User = 'User',
 }
 
 export default QueryKeysEnum;

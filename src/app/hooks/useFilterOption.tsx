@@ -1,17 +1,15 @@
-import { useSearchParams } from 'react-router-dom';
 import {
   useClients,
   useFoldingType,
   useItemCategory,
+  useOpCompOption,
   useProductGroup,
   useSalesPersonPurchasers,
-  useSourcingCompanies,
   useVendors,
 } from '../api/FilterInfo';
 import {
   ClientDto,
   SalespersonPurchaserBriefDto,
-  SourcingCompanyDto,
   VendorDto,
 } from '../generate';
 import { FilterKeys, SelectOption } from '../types/types';
@@ -35,17 +33,6 @@ const mapVendorsToOptions = (vendors?: VendorDto[]) => {
   );
 };
 
-const mapSourcingCompaniesToOptions = (
-  sourcingCompanies?: SourcingCompanyDto[]
-) => {
-  return (
-    sourcingCompanies?.map(sc => ({
-      label: sc.name,
-      value: sc.name,
-    })) ?? []
-  );
-};
-
 const mapSalesPersonPurchasersToOptions = (
   salesPersonPurchasers?: SalespersonPurchaserBriefDto[]
 ) => {
@@ -60,9 +47,11 @@ const mapSalesPersonPurchasersToOptions = (
 const useFilterOptions = (name?: FilterKeys) => {
   const { data: clients } = useClients(name === 'clients' ?? false);
   const { data: vendors } = useVendors(name === 'vendor');
-  const { data: sourcingCompanies } = useSourcingCompanies(
-    name === 'sourcingCompanies' ?? false
+  const { data: sourcingCompanies } = useOpCompOption(
+    name === 'sourcingCompanies' ?? false,
+    true
   );
+  const { data: opComp } = useOpCompOption(name === 'opComp' ?? false);
   const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
     name === 'salespersonPurchaser' ?? false
   );
@@ -84,12 +73,13 @@ const useFilterOptions = (name?: FilterKeys) => {
 
   const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
     vendor: mapVendorsToOptions(vendors),
-    sourcingCompanies: mapSourcingCompaniesToOptions(sourcingCompanies),
     salespersonPurchaser: mapSalesPersonPurchasersToOptions(
       salesPersonPurchasers
     ),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
+    sourcingCompanies: sourcingCompanies as SelectOption[],
+    opComp: opComp as SelectOption[],
     foldingTypes: foldingTypes as SelectOption[],
     itemCategories: itemCategories as SelectOption[],
     productGroups: productGroups as SelectOption[],

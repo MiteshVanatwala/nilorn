@@ -8,21 +8,25 @@ import {
 import QueryKeysEnum from './queryKeys';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
+import { useNavigate } from 'react-router';
 
 export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const navigate = useNavigate();
+
   return useMutation(
     (body: ProductDevelopmentDto) =>
       ProductDevelopmentsService.postApiProductDevelopments(body).then(
         response => response
       ),
     {
-      onSuccess: async () => {
+      onSuccess: async (no: string) => {
         showToast({
           status: 'success',
-          description: `${t('PD.Feedback.Success.Created')}`,
+          description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
+        navigate(`/product-development/${no}`);
       },
       onError: async (err: ApiError) => {
         showToast({
@@ -94,7 +98,7 @@ export const useProductDevelopment = (no: string) => {
         res => res
       ),
     {
-      retry: 1,
+      retry: 0,
       enabled: no !== '',
     }
   );

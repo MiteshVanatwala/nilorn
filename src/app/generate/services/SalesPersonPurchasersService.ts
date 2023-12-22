@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { SalespersonPurchaserBriefDto } from '../models/SalespersonPurchaserBriefDto';
+import type { SalespersonPurchaserDto } from '../models/SalespersonPurchaserDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -18,6 +19,34 @@ export class SalesPersonPurchasersService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/SalesPersonPurchasers',
+        });
+    }
+
+    /**
+     * @param no 
+     * @returns SalespersonPurchaserBriefDto Success
+     * @throws ApiError
+     */
+    public static getApiSalesPersonPurchasersFilter(
+no?: string,
+): CancelablePromise<Array<SalespersonPurchaserBriefDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/SalesPersonPurchasers/Filter',
+            query: {
+                'no': no,
+            },
+        });
+    }
+
+    /**
+     * @returns SalespersonPurchaserDto Success
+     * @throws ApiError
+     */
+    public static getApiSalesPersonPurchasersCurrent(): CancelablePromise<SalespersonPurchaserDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/SalesPersonPurchasers/Current',
         });
     }
 

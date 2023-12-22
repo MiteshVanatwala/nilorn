@@ -3,10 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { OpCompDto } from './OpCompDto';
 import type { Role } from './Role';
 
-export type SalespersonPurchaserBriefDto = {
+export type SalespersonPurchaserDto = {
     code?: string | null;
     name?: string | null;
+    opComp?: OpCompDto;
+    email?: string | null;
+    username?: string | null;
     role?: Role;
 };

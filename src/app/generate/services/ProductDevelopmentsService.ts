@@ -65,6 +65,9 @@ requestBody?: CreateProductDevelopmentCommand,
      * @param finishedWidths 
      * @param finishedHeights 
      * @param sourcingCompanies 
+     * @param vendors 
+     * @param opComps 
+     * @param salesPersonPurchasers 
      * @param includeClosed 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
@@ -84,6 +87,9 @@ finishedLengths?: string,
 finishedWidths?: string,
 finishedHeights?: string,
 sourcingCompanies?: string,
+vendors?: string,
+opComps?: string,
+salesPersonPurchasers?: string,
 includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
@@ -104,6 +110,9 @@ includeClosed?: boolean,
                 'FinishedWidths': finishedWidths,
                 'FinishedHeights': finishedHeights,
                 'SourcingCompanies': sourcingCompanies,
+                'Vendors': vendors,
+                'OpComps': opComps,
+                'SalesPersonPurchasers': salesPersonPurchasers,
                 'IncludeClosed': includeClosed,
             },
         });
@@ -164,6 +173,46 @@ status: Status,
                 'no': no,
                 'status': status,
             },
+        });
+    }
+
+    /**
+     * @param no 
+     * @returns string Success
+     * @throws ApiError
+     */
+    public static getApiProductDevelopmentsImage(
+no: string,
+): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/ProductDevelopments/{no}/Image',
+            path: {
+                'no': no,
+            },
+        });
+    }
+
+    /**
+     * @param no 
+     * @param formData 
+     * @returns any Success
+     * @throws ApiError
+     */
+    public static putApiProductDevelopmentsImage(
+no: string,
+formData?: {
+file?: Blob;
+},
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/ProductDevelopments/{no}/Image',
+            path: {
+                'no': no,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
         });
     }
 

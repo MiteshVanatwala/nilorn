@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
 import { useEffect, useState } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
 import { Box } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
 import { SIZES } from '../../../../theme/Constants';
+import ControlWrapper from '../../../../components/Form/ControlWrapper';
 
 type Props = {
   options: SelectOption[];
@@ -21,45 +22,80 @@ const ProjectSelect = ({
   scrolledPast,
 }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { errors },
+    clearErrors,
+  } = useFormContext();
   const [defaultProject, setDefaultProject] = useState<string>();
-  const [selected, setSelected] = useState<SelectOption>();
+  const [clientStartVal, setClientStartVal] = useState<SelectOption>();
   const inputName = 'projectCode';
+  const project = useWatch({ name: inputName });
+  const clientNumberWatch = useWatch({ name: 'clientNo' });
+
   const onChange = (option: SelectOption) => {
     setDefaultProject('');
     setValue(inputName, option.label);
-    setSelected(option);
+    clearErrors(inputName);
   };
   useEffect(() => {
-    if (defaultProject !== '') {
+    if (!project) {
+      setDefaultProject(undefined);
+    }
+  }, [project]);
+  useEffect(() => {
+    if (defaultProject) {
       setValue(inputName, defaultProject);
     }
   }, [defaultProject, setValue]);
 
+  useEffect(() => {
+    if (clientStartVal !== clientNumberWatch && !defaultProject) {
+      setValue(inputName, '');
+      setClientStartVal(clientNumberWatch);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clientNumberWatch]);
   return (
-    <Box zIndex={8} minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
-      <SelectBase
-        onChange={onChange}
-        placeholder={t('PD.Project')}
-        name={inputName}
-        invisible={!createNew}
-        options={options}
-        isDisabled={!clientNo}
-        value={
-          defaultProject !== ''
-            ? (options?.find(co => co.label === defaultProject) as SelectOption)
-            : selected
-        }
-        components={{
-          MenuList: (props: any) => (
-            <MenuListWithAddBtn
-              setDefaultProject={setDefaultProject}
-              clientNo={clientNo}
-              {...props}
-            />
-          ),
-        }}
-      />
+    <Box
+      zIndex={8}
+      w={'100%'}
+      minW={scrolledPast ? '15rem' : SIZES.CONTAINER.XXXS}>
+      <ControlWrapper errors={errors} required={true} name={inputName}>
+        <Controller
+          name={inputName}
+          rules={{ required: true }}
+          defaultValue={
+            project !== ''
+              ? (options?.find(co => co.label === project) as SelectOption)
+              : undefined
+          }
+          render={() => {
+            return (
+              <SelectBase
+                onChange={onChange}
+                placeholder={t('PD.Project')}
+                name={inputName}
+                invisible={!createNew}
+                options={options}
+                isDisabled={!clientNo}
+                value={
+                  options?.find(co => co.label === project) as SelectOption
+                }
+                components={{
+                  MenuList: (props: any) => (
+                    <MenuListWithAddBtn
+                      setDefaultProject={setDefaultProject}
+                      clientNo={clientNo}
+                      {...props}
+                    />
+                  ),
+                }}
+              />
+            );
+          }}
+        />
+      </ControlWrapper>
     </Box>
   );
 };

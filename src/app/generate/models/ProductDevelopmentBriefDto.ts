@@ -7,7 +7,7 @@ import type { Status } from './Status';
 
 export type ProductDevelopmentBriefDto = {
     no?: string | null;
-    imageUrl?: string | null;
+    thumbnailData?: string | null;
     name?: string | null;
     status?: Status;
     versions?: number;
@@ -15,6 +15,5 @@ export type ProductDevelopmentBriefDto = {
     client?: string | null;
     project?: string | null;
     productGroup?: string | null;
-    description?: string | null;
     sourcings?: Array<string> | null;
 };

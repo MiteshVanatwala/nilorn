@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { COLORS } from '../../theme/Constants';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';

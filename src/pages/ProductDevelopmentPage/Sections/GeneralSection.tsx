@@ -9,23 +9,34 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
+import SelectSkeleton from '../../../components/Form/SelectSkeleton';
+import { useEffect, useState } from 'react';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
-  const { getValues } = useFormContext();
+  const { setValue } = useFormContext();
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
+  const productGroupCode = useWatch({ name: 'productGroupCode' });
+  const [itemCategoryCodeStartVal, setItemCategoryCodeStartVal] =
+    useState<string>(itemCategoryCode);
 
   const itemCategories = useFilterOptions('itemCategories');
   const { data: productGroups } = useProductGroup(
     typeof itemCategoryCode === 'string' ?? false,
     itemCategoryCode as string
   );
+  useEffect(() => {
+    if (itemCategoryCodeStartVal !== itemCategoryCode) {
+      setValue('productGroupCode', '');
+      setItemCategoryCodeStartVal(itemCategoryCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemCategoryCode]);
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 6,
@@ -41,40 +52,61 @@ const GeneralSection = () => {
             lg: 6,
           }}></GridItem>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 2,
           }}>
-          <Select
-            options={itemCategories}
-            name="itemCategoryCode"
-            label={`${t('PD.FormContent.ItemCategory')}`}
-            defaultValue={itemCategories.find(
-              o => o.value === getValues('itemCategoryCode')
-            )}
-            placeholder={`${t('Filter.Select')}`}
-          />
+          {itemCategories?.length ? (
+            <Select
+              options={(itemCategories as SelectOption[]) ?? []}
+              name="itemCategoryCode"
+              label={`${t('PD.FormContent.ItemCategory')}`}
+              defaultValue={
+                itemCategories && itemCategoryCode
+                  ? (itemCategories as SelectOption[]).find(
+                      o => o.value === itemCategoryCode
+                    )
+                  : undefined
+              }
+              placeholder={`${t('Filter.Select')}`}
+            />
+          ) : (
+            <SelectSkeleton
+              name="itemCategoryCode"
+              label={`${t('PD.FormContent.ItemCategory')}`}
+            />
+          )}
         </GridItem>
         <GridItem
-          zIndex={1}
           colSpan={{
             base: 12,
             lg: 2,
           }}>
-          <Select
-            options={(productGroups as SelectOption[]) ?? []}
-            name="productGroupCode"
-            label={`${t('PD.FormContent.ProductGroup')}`}
-            defaultValue={
-              productGroups
-                ? (productGroups as SelectOption[]).find(
-                    o => o.value === getValues('productGroupCode')
-                  )
-                : undefined
-            }
-            placeholder={`${t('Filter.Select')}`}
-          />
+          {productGroups?.length && productGroupCode !== '' && (
+            <Select
+              options={(productGroups as SelectOption[]) ?? []}
+              name="productGroupCode"
+              label={`${t('PD.FormContent.ProductGroup')}`}
+              isDisabled={!itemCategoryCode}
+              defaultValue={
+                productGroups && productGroupCode
+                  ? (productGroups as SelectOption[]).find(
+                      o => o.value === productGroupCode
+                    )
+                  : undefined
+              }
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
+          {(!productGroups?.length || productGroupCode === '') && (
+            <Select
+              options={(productGroups as SelectOption[]) ?? []}
+              name="productGroupCode"
+              label={`${t('PD.FormContent.ProductGroup')}`}
+              isDisabled={!itemCategoryCode}
+              placeholder={`${t('Filter.Select')}`}
+            />
+          )}
         </GridItem>
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -89,7 +121,7 @@ const GeneralSection = () => {
               <InputField
                 label={`${t('PD.FormContent.TargetSales')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                name={'targetSales'}
+                name={'targetSalesPrice'}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -106,6 +138,7 @@ const GeneralSection = () => {
                 label={`${t('PD.FormContent.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'sampleQuantity'}
+                type="number"
                 registerOptions={{ valueAsNumber: true }}
               />
             </GridItem>
