@@ -51,7 +51,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
           <Button
             variant={'secondary'}
             onClick={() => window.location.reload()}>
-            <>{t('Common.reloadSite')}</>
+            <>{t('Common.ReloadSite')}</>
           </Button>
         )}
       </VStack>
