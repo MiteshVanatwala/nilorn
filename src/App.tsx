@@ -82,18 +82,9 @@ function App() {
   }
 
   if (auth.error) {
-    switch (auth.error.message) {
-      case 'login_required':
-        auth.signinRedirect();
-        return <SpinnerOverlay />;
-      default:
-        return (
-          <ErrorPage
-            title={t('Common.authError')}
-            messages={auth.error.message}
-          />
-        );
-    }
+    return (
+      <ErrorPage title={t('Common.AuthError')} messages={auth.error.message} />
+    );
   }
 
   if (auth.isAuthenticated && !auth.isLoading) {

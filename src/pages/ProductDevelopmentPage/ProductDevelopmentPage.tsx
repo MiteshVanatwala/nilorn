@@ -64,7 +64,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return <SpinnerOverlay />;
   }
 
-  if (isSuccess && isUserSuccess) {
+  if ((createNew && isSuccess) || isUserSuccess) {
     return (
       <Box ref={ref}>
         <ProductDevelopmentForm
