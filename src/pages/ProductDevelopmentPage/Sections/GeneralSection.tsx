@@ -5,22 +5,33 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Select from '../../../components/Form/Select';
 import InputField from '../../../components/Form/InputField';
 import TextArea from '../../../components/Form/TextArea';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
+import { useEffect, useState } from 'react';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
+  const { setValue } = useFormContext();
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
+  const [itemCategoryCodeStartVal, setItemCategoryCodeStartVal] =
+    useState<string>(itemCategoryCode);
 
   const itemCategories = useFilterOptions('itemCategories');
   const { data: productGroups } = useProductGroup(
     typeof itemCategoryCode === 'string' ?? false,
     itemCategoryCode as string
   );
+  useEffect(() => {
+    if (itemCategoryCodeStartVal !== itemCategoryCode) {
+      setValue('productGroupCode', '');
+      setItemCategoryCodeStartVal(itemCategoryCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemCategoryCode]);
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
@@ -71,7 +82,7 @@ const GeneralSection = () => {
             base: 12,
             lg: 2,
           }}>
-          {productGroups?.length && (
+          {productGroups?.length && productGroupCode !== '' && (
             <Select
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
@@ -87,12 +98,12 @@ const GeneralSection = () => {
               placeholder={`${t('Filter.Select')}`}
             />
           )}
-          {!productGroups?.length && (
+          {(!productGroups?.length || productGroupCode === '') && (
             <Select
-              options={[]}
+              options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
-              isDisabled={true}
+              isDisabled={!itemCategoryCode}
               placeholder={`${t('Filter.Select')}`}
             />
           )}
