@@ -73,7 +73,7 @@ export function useSalesPersonPurchasers(enable: boolean = true) {
 
 export function useFoldingType(enable: boolean = true) {
   return useQuery(
-    [QueryKeysEnum.FoldingTyp],
+    [QueryKeysEnum.FoldingType],
     () => FoldingTypeService.getApiFoldingType().then(res => res),
     {
       cacheTime: Infinity,

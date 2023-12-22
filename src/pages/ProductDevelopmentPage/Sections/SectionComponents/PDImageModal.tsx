@@ -5,33 +5,49 @@ import {
   Button,
   Grid,
   GridItem,
-  Input,
   Text,
+  Input,
 } from '@chakra-ui/react';
 import { COLORS, SPACE } from '../../../../theme/Constants';
-import { ChangeEvent, useRef } from 'react';
-import { handleFileUpload } from '../../../../app/utils/file';
+import { useRef } from 'react';
+import { useGetPDImage, useUploadPDImage } from '../../../../app/api/PDImage';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import InputField from '../../../../components/Form/InputField';
 
 type Props = {
   imageUrl: string;
-  onUpload: (fileNames: string[]) => void;
+  no: string;
 };
 
-const PDImageModal = ({ imageUrl, onUpload }: Props) => {
+const PDImageModal = ({ imageUrl, no }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const form = useForm();
 
-  const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
-    onUpload(handleFileUpload(e));
-  };
+  let { data: pdImage } = useGetPDImage(
+    no,
+    imageUrl !== undefined ? true : false
+  );
+
+  const { mutate: uploadProductDevelopmentImage } = useUploadPDImage(no);
 
   const onButtonClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
-  if (imageUrl) {
+
+  function submitForm(form: FieldValues) {
+    async function onSubmit(form: FieldValues): Promise<void> {
+      const data = {
+        file: form.file[0] as Blob,
+      };
+      uploadProductDevelopmentImage(data);
+    }
+    onSubmit(form);
+  }
+
+  if (imageUrl !== undefined) {
     return (
       <Box
         py={{
@@ -52,16 +68,14 @@ const PDImageModal = ({ imageUrl, onUpload }: Props) => {
         />
         <Grid gridAutoFlow={'column'} gap={SPACE.SM}>
           <GridItem>
-            <Input
-              type={'file'}
-              display={'none'}
-              ref={inputRef}
-              multiple={false}
-              onChange={onFileUpload}
-            />
-            <Button w={'100%'} variant={'secondary'} onClick={onButtonClick}>
-              {t('PD.BrowseFile')}
-            </Button>
+            <FormProvider {...form}>
+              <form onChange={form.handleSubmit(submitForm)}>
+                <InputField type={'file'} name="file" />
+                <Button variant={'secondary'} onClick={onButtonClick}>
+                  {t('PD.BrowseFile')}
+                </Button>
+              </form>
+            </FormProvider>
           </GridItem>
           <GridItem>
             <Button
@@ -103,29 +117,19 @@ const PDImageModal = ({ imageUrl, onUpload }: Props) => {
         base: SPACE.XS,
         md: SPACE.XXL,
       }}>
-      <Image
-        loading="lazy"
-        mx={'auto'}
-        maxW={450}
-        width={450}
-        mb={SPACE.XL}
-        src={imageUrl + '?width=450'}
-      />
       <Grid gridAutoFlow={'column'} gap={SPACE.SM} justifyContent={'center'}>
         <GridItem>
           <Text align={'center'} mb={SPACE.MD}>
             or
           </Text>
-          <Input
-            type={'file'}
-            display={'none'}
-            ref={inputRef}
-            multiple={false}
-            onChange={onFileUpload}
-          />
-          <Button variant={'secondary'} onClick={onButtonClick}>
-            {t('PD.BrowseFile')}
-          </Button>
+          <FormProvider {...form}>
+            <form onChange={form.handleSubmit(submitForm)}>
+              <InputField type={'file'} name="file" />
+              <Button variant={'secondary'} onClick={onButtonClick}>
+                {t('PD.BrowseFile')}
+              </Button>
+            </form>
+          </FormProvider>
         </GridItem>
       </Grid>
     </Box>

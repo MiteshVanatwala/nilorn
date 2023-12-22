@@ -1,23 +1,15 @@
-import { useTranslation } from 'react-i18next';
 import { Image } from '@chakra-ui/react';
 import { useModal } from '../../../../app/hooks/useModal';
 import PDImageModal from './PDImageModal';
-import { useState } from 'react';
 
 type Props = {
   imageUrl: string;
   scrolledPast: boolean;
+  no: string;
 };
 
-const PDImage = ({ imageUrl, scrolledPast }: Props) => {
-  const { t } = useTranslation();
+const PDImage = ({ imageUrl, scrolledPast, no }: Props) => {
   const { handleModal } = useModal();
-  const [pdImage, setPdImage] = useState<string>(imageUrl);
-
-  const uploadPDImage = (uploaded: string[]) => {
-    console.log('uploaded', uploaded);
-    // setPdImage(uploaded);
-  };
 
   return (
     <Image
@@ -28,11 +20,7 @@ const PDImage = ({ imageUrl, scrolledPast }: Props) => {
       height={'60'}
       objectFit={'cover'}
       cursor={'pointer'}
-      onClick={() =>
-        handleModal(
-          <PDImageModal imageUrl={pdImage} onUpload={uploadPDImage} />
-        )
-      }
+      onClick={() => handleModal(<PDImageModal imageUrl={imageUrl} no={no} />)}
       src={imageUrl}></Image>
   );
 };

@@ -83,7 +83,8 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               }}
               alignItems={'top'}>
               <PDImage
-                imageUrl={getValues('imageUrl')}
+                imageUrl={getValues('thumbnailData')}
+                no={no}
                 scrolledPast={scrolledPast}
               />
               <VStack
