@@ -135,7 +135,10 @@
       "Success": {
         "Update": "Product development have been saved.",
         "UpdateStatus": "Product development status have been updated to {{status}}.",
-        "Created": " Product development has been created."
+        "Created": "Product development with no #{{no}} has been created."
+      },
+      "Error": {
+        "NotFound": "Could not find product development with no #{{no}}"
       }
     }
   },
@@ -188,5 +191,10 @@
     "ProjectName": "Project name is required",
     "SearchProfileSave": "Error while saving search profile",
     "ProjectCreate": "Error while creating project"
+  },
+  "NotFound": {
+    "Title": "Oh no! This page does not exist",
+    "Description": "We are sorry to inform you that this page does not exist. However, you can visit a lot of our other pages instead! ",
+    "GoToHome": "Go to home"
   }
 }

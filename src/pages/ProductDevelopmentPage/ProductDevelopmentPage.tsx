@@ -5,6 +5,7 @@ import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { Box } from '@chakra-ui/react';
+import NotFoundPage from '../NotFound/NotFoundPage';
 
 type Props = {
   createNew: boolean;
@@ -12,7 +13,7 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { no } = useParams();
-  const { data, isLoading } = useProductDevelopment(no ?? '');
+  const { data, isLoading, isError } = useProductDevelopment(no ?? '');
   const [scrolledPast, setScrolledPast] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -42,9 +43,15 @@ function ProductDevelopmentPage({ createNew }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
+
+  if (isError) {
+    return <NotFoundPage />;
+  }
+
   if (isLoading) {
     return <SpinnerOverlay />;
   }
+
   if (!isLoading) {
     return (
       <Box ref={ref}>
