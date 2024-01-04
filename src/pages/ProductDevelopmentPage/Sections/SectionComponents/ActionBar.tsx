@@ -20,15 +20,28 @@ const ActionBar = ({ createNew, no }: Props) => {
   const { t } = useTranslation();
 
   const artwork = useWatch({ name: 'artwork' });
-  const { trigger, getValues } = useFormContext();
-
+  const { trigger, getValues, register } = useFormContext();
   const { statuses, getNextStatus } = useStatusOptions();
-  const nextStatus = getNextStatus(getValues('status') as Status);
+  const currentStatus = getValues('status') as Status;
+  const nextStatus = getNextStatus(currentStatus);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
   async function submitStatus(status: Status): Promise<void> {
+    if (currentStatus === status) {
+      return;
+    }
+
+    if (currentStatus === Status.NEW) {
+      register('itemCategoryCode', {
+        required: true,
+      });
+      register('productGroupCode', {
+        required: true,
+      });
+    }
+
     const res = await trigger();
-    if (!res) {
+    if (res) {
       updateStatus(status);
     }
   }
@@ -126,7 +139,14 @@ const ActionBar = ({ createNew, no }: Props) => {
                   {statuses.map(s => (
                     <MenuItem
                       key={s.value}
+                      value={s.value}
                       onClick={() => submitStatus(s.value)}
+                      bg={
+                        getValues('status') === s.value
+                          ? COLORS.GRAY[10]
+                          : 'transparent'
+                      }
+                      autoFocus={s.value === 'Design'}
                       icon={
                         <Box
                           w={'6px'}

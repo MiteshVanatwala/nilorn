@@ -43,7 +43,7 @@ const theme = extendTheme({
     Input: input,
     FormLabel: { ...formLabel },
     Table: table,
-    MenuList: menu,
+    Menu: menu,
     Tooltip: tooltip,
     Alert: alert,
     Switch: switchTheme,
