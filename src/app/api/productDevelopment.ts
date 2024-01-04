@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ApiError,
   ProductDevelopmentDto,
@@ -41,6 +41,8 @@ export const useCreateProductDevelopment = () => {
 export const useUpdateProductDevelopment = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation(
     (body: ProductDevelopmentDto) =>
       ProductDevelopmentsService.patchApiProductDevelopments(no, body).then(
@@ -52,6 +54,7 @@ export const useUpdateProductDevelopment = (no: string) => {
           status: 'success',
           description: `${t('PD.Feedback.Success.Update')}`,
         });
+        queryClient.invalidateQueries([QueryKeysEnum.Changes]);
       },
       onError: async (err: ApiError) => {
         showToast({
@@ -92,7 +95,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
 
 export const useProductDevelopment = (no: string) => {
   return useQuery(
-    [QueryKeysEnum.ProductDevelopment],
+    [QueryKeysEnum.ProductDevelopment, no],
     () =>
       ProductDevelopmentsService.getApiProductDevelopments1(no).then(
         res => res
@@ -100,6 +103,23 @@ export const useProductDevelopment = (no: string) => {
     {
       retry: 0,
       enabled: no !== '',
+    }
+  );
+};
+
+export const useProductDevelopmentChanges = (
+  no: string,
+  enable: boolean = true
+) => {
+  return useQuery(
+    [QueryKeysEnum.Changes],
+    () =>
+      ProductDevelopmentsService.getApiProductDevelopmentsChanges(no).then(
+        res => res
+      ),
+    {
+      enabled: no !== '' && enable,
+      retry: 0,
     }
   );
 };

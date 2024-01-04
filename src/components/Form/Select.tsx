@@ -34,6 +34,7 @@ const Select = <IsMulti extends boolean = false>({
   invisible = false,
   components,
   isDisabled = false,
+  changelog,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -49,7 +50,8 @@ const Select = <IsMulti extends boolean = false>({
       required={registerOptions?.required}
       errors={errors}
       helperText={helperText}
-      hideValidationStyle={hideValidationStyle}>
+      hideValidationStyle={hideValidationStyle}
+      changelog={changelog}>
       <Controller
         control={control}
         name={name}

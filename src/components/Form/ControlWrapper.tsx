@@ -1,6 +1,7 @@
 import {
   FormControl,
   FormHelperText,
+  HStack,
   InputGroup,
   Stack,
   Text,
@@ -12,6 +13,7 @@ import { FormInputProps } from '../../app/types/types';
 import { useValidationStyleInFormContext } from '../../app/hooks/useValidationStyle';
 import { useTranslation } from 'react-i18next';
 import FormLabelComponent from './FormLabelComponent';
+import ChangelogPopup from '../Changelog/ChangelogPopup';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -36,6 +38,7 @@ const ControlWrapper = ({
   children,
   zIndex,
   hideValidationStyle,
+  changelog,
 }: Props) => {
   const error = get(errors, name) as FieldError;
   const { t } = useTranslation();
@@ -53,15 +56,18 @@ const ControlWrapper = ({
         id={id ? id : name}
         direction={inline ? 'row' : 'column'}
         spacing={0}>
-        {label && (
-          <FormLabelComponent
-            required={required}
-            name={name}
-            label={label}
-            error={error}
-            color={color}
-          />
-        )}
+        <HStack justifyContent={label ? 'space-between' : 'flex-end'}>
+          {label && (
+            <FormLabelComponent
+              required={required}
+              name={name}
+              label={label}
+              error={error}
+              color={color}
+            />
+          )}
+          {changelog && <ChangelogPopup data={changelog} />}
+        </HStack>
         {description && <FormHelperText>{description}</FormHelperText>}
         <InputGroup isolation={'auto'} zIndex={zIndex} display={'block'}>
           {children}

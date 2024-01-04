@@ -23,6 +23,7 @@ const InputField = ({
   variant = 'standard',
   hideValidationStyle,
   isDisabled = false,
+  changelog,
 }: Props) => {
   const {
     register,
@@ -36,7 +37,8 @@ const InputField = ({
       required={registerOptions?.required}
       errors={errors}
       helperText={helperText}
-      hideValidationStyle={hideValidationStyle}>
+      hideValidationStyle={hideValidationStyle}
+      changelog={changelog}>
       <Input
         variant={variant}
         disabled={isDisabled}

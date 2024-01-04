@@ -1,13 +1,15 @@
 import { Text } from '@chakra-ui/react';
-import { CahngeType } from '../../components/Changelog/useChangelogColumns';
+import { ChangeType } from '../generate';
 
-export function renderIcon(value: CahngeType): JSX.Element {
+export function renderIcon(value?: ChangeType): JSX.Element {
   switch (value) {
-    case CahngeType.NEW:
+    case ChangeType.CREATED:
       return <Text as={'i'} className={'ri-loader-2-line'} />;
-    case CahngeType.UPDATE:
+    case ChangeType.CHANGED:
       return <Text as={'i'} className={'ri-arrow-left-right-line'} />;
-    case CahngeType.DELETE:
+    case ChangeType.DELETED:
       return <Text as={'i'} className={'ri-close-line'} />;
+    default:
+      return <></>;
   }
 }

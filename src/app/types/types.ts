@@ -1,4 +1,5 @@
 import { RegisterOptions, ValidationRule } from 'react-hook-form';
+import { ChangelogDto } from '../generate';
 
 export type FilterKeys =
   | 'pageNumber'
@@ -34,6 +35,7 @@ export interface FormInputProps {
   defaultValue?: any;
   hideValidationStyle?: boolean;
   onChange?: (e: any) => void;
+  changelog?: ChangelogDto[];
 }
 
 export type SelectOption<T = any> = {

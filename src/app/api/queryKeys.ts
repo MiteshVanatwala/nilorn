@@ -15,6 +15,7 @@ enum QueryKeysEnum {
   OpComp = 'OpComp',
   Option = 'Option',
   User = 'User',
+  Changes = 'Changes',
 }
 
 export default QueryKeysEnum;

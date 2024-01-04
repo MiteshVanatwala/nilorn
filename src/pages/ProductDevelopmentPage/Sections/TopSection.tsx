@@ -21,6 +21,8 @@ import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
 import PDImage from './SectionComponents/PDImage';
+import ChangelogPopup from '../../../components/Changelog/ChangelogPopup';
+import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
   no: string;
@@ -39,9 +41,8 @@ const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
     clientNo,
     typeof clientNo === 'string' ?? false
   );
+  const statusChangelog = useProductDevelopmentChangelog('Status');
 
-  //TODO remvove hard coded value
-  const showingChanges = true;
   return (
     <Box
       id="top-section"
@@ -136,9 +137,10 @@ const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
                   {!createNew && '#'}
                   {no}
                 </Text>
-                <Box mx={SPACE.XS}>
+                <HStack mx={SPACE.XS} spacing={SPACE.XS}>
                   <StatusBadge status={getValues('status')} />
-                </Box>
+                  <ChangelogPopup data={statusChangelog} />
+                </HStack>
               </VStack>
             </HStack>
           </GridItem>
@@ -187,11 +189,7 @@ const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
               md: 10,
               lg: scrolledPast ? 4 : 5,
             }}>
-            <ActionBar
-              showingChanges={showingChanges}
-              createNew={createNew}
-              no={no}
-            />
+            <ActionBar createNew={createNew} no={no} />
           </GridItem>
         </Grid>
       </ContentSection>
