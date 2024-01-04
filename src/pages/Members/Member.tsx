@@ -4,12 +4,12 @@ import { COLORS, GRID, SPACE } from '../../theme/Constants';
 
 type Props = {
   name: string;
-  id: string;
+  code: string;
   role: string;
   even: boolean;
-  onRemove?: (name: string) => void;
+  onRemove: () => void;
 };
-export const Member = ({ name, id, role, even, onRemove }: Props) => {
+export const Member = ({ name, code, role, even, onRemove }: Props) => {
   const { t } = useTranslation();
   return (
     <Grid
@@ -22,7 +22,7 @@ export const Member = ({ name, id, role, even, onRemove }: Props) => {
       templateColumns={GRID.TEMPLATE_COLUMNS.xl}
       gap={SPACE.XXS}>
       <GridItem colSpan={3}>
-        <Text fontWeight={700}>{id}</Text>
+        <Text fontWeight={700}>{code}</Text>
       </GridItem>
       <GridItem
         colSpan={{
@@ -45,7 +45,7 @@ export const Member = ({ name, id, role, even, onRemove }: Props) => {
             aria-label={t('Common.Remove')}
             icon={<i className={'ri-close-line'} />}
             mr={0}
-            // onClick={() => onRemove(name)}
+            onClick={onRemove}
           />
         </Tooltip>
       </GridItem>

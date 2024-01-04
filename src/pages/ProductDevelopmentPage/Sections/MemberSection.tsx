@@ -5,44 +5,79 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Member from '../../Members/Member';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 import Alert from '../../../components/Feedback/Alert';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+import { SalespersonPurchaserBriefDto } from '../../../app/generate';
+import { useMembers } from '../../../app/api/productDevelopment';
+import { SelectOption } from '../../../app/types/types';
+import { MultiValue } from 'react-select';
+import { useMemo, useState } from 'react';
 type Props = {
+  no: string;
   createNew?: boolean;
 };
-const MemberSection = ({ createNew }: Props) => {
+
+const FORM_KEY = 'salespersonPurchasers';
+
+const MemberSection = ({ createNew, no }: Props) => {
   const { t } = useTranslation();
-  const members = [
-    {
-      name: 'Lisa Årman',
-      memberId: 'SELIÅR',
-      role: 'Designer',
-    },
-    { name: 'Linnea Karlsson', memberId: 'SELIKA', role: 'Administrator' },
-    { name: 'Jonas Boyd', memberId: 'SEJOBO', role: 'Designer' },
-    { name: 'Johan Huynh', memberId: 'SEJOHU', role: 'Designer' },
-  ];
-  function addMember() {
-    console.log('add member');
+
+  const { getValues, control } = useFormContext();
+
+  const [selected, setSelected] = useState<
+    MultiValue<SelectOption<SalespersonPurchaserBriefDto>>
+  >(getValues(FORM_KEY) ?? []);
+
+  const { data } = useMembers(no);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: FORM_KEY,
+  });
+  function addMember(
+    selectedOption:
+      | MultiValue<SelectOption<SalespersonPurchaserBriefDto>>
+      | undefined
+  ) {
+    if (selectedOption !== undefined) {
+      setSelected(selectedOption);
+      append(selectedOption[selectedOption.length - 1].value);
+    }
   }
-  const memberGrid = () => {
+
+  const memberGrid = useMemo(() => {
     const grids = [];
-    for (let i = 0; i < members.length; i += 6) {
-      const sixMembers = members.slice(i, i + 6);
+    for (let i = 0; i < fields.length; i += 6) {
+      const sixMembers = fields.slice(
+        i,
+        i + 6
+      ) as SalespersonPurchaserBriefDto[];
+
       grids.push(
         <GridItem key={i}>
-          {sixMembers.map((member, index) => (
-            <Member
-              key={member.memberId}
-              even={index % 2 !== 0}
-              name={member.name}
-              id={member.memberId}
-              role={member.role}
-            />
-          ))}
+          {sixMembers.map((member, index) => {
+            const indexToRemove = i + index;
+            return (
+              <Member
+                key={`${member?.code}_${index}`}
+                even={index % 2 !== 0}
+                name={member?.name ?? ''}
+                code={member?.code ?? ''}
+                role={member?.role ?? ''}
+                onRemove={() => {
+                  remove(indexToRemove);
+                  const myArray = selected.filter(
+                    (_, j) => j !== indexToRemove
+                  );
+                  setSelected(myArray);
+                }}
+              />
+            );
+          })}
         </GridItem>
       );
     }
     return grids;
-  };
+  }, [fields, remove, selected]);
 
   return (
     <AccordionItem title={t('PD.AccordionLabels.Members')}>
@@ -63,18 +98,27 @@ const MemberSection = ({ createNew }: Props) => {
           <>
             <Box minW={'20rem'}>
               <AdvanceFilterSelect
+                name="AddMembers"
                 placeholder={t('PD.AddMember')}
-                options={[]}
+                hideSelected={true}
+                options={
+                  data?.map(m => {
+                    return {
+                      label: m.name,
+                      value: m,
+                    } as SelectOption<SalespersonPurchaserBriefDto>;
+                  }) ?? []
+                }
                 onChange={(option, event) => {
-                  addMember();
+                  addMember(option);
                 }}
-                value={[]}
+                value={selected}
               />
             </Box>
             <Grid
               w="full"
               templateColumns={{
-                xl: 'repeat(3, 1fr)',
+                xl: 'repeat(2, 1fr)',
               }}
               columnGap={{
                 xl: SPACE.MD,
@@ -83,7 +127,7 @@ const MemberSection = ({ createNew }: Props) => {
                 base: 0,
                 xl: SPACE.MD,
               }}>
-              {memberGrid()}
+              {memberGrid}
             </Grid>
           </>
         )}

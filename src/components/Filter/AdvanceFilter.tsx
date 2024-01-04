@@ -114,6 +114,7 @@ const AdvanceFilter = ({ filters }: Props) => {
             alignItems={'center'}>
             <GridItem colSpan={2} zIndex={9}>
               <AdvanceFilterSelect
+                name={'ov-advance'}
                 options={filters}
                 value={selected}
                 onChange={(option, event) => {

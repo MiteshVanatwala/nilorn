@@ -32,6 +32,7 @@ const SourcingSection = ({ createNew }: Props) => {
         <>
           <Box minW={'20rem'}>
             <AdvanceFilterSelect
+              name={'AddSourcing'}
               placeholder={t('PD.AddSourcing')}
               options={[]}
               onChange={(option, event) => {

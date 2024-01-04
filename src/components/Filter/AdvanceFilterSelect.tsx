@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Text } from '@chakra-ui/react';
 import { COLORS } from '../../theme/Constants';
-import { FilterInput, SelectOption } from '../../app/types/types';
+import { SelectOption } from '../../app/types/types';
 
 const DropdownIndicator = (props: DropdownIndicatorProps) => {
   return (
@@ -18,36 +18,43 @@ const DropdownIndicator = (props: DropdownIndicatorProps) => {
   );
 };
 
-type Props = {
-  options: SelectOption<FilterInput>[];
+type Props<T> = {
+  name: string;
+  options: SelectOption<T>[];
   onChange: (
-    selectedOption: MultiValue<SelectOption<FilterInput>> | undefined,
-    actionMeta: ActionMeta<SelectOption<FilterInput>>
+    selectedOption: MultiValue<SelectOption<T>> | undefined,
+    actionMeta: ActionMeta<SelectOption<T>>
   ) => void;
-  value: MultiValue<SelectOption<FilterInput>>;
+  value: MultiValue<SelectOption<T>>;
   placeholder?: string;
+  hideSelected?: boolean;
 };
 
-const AdvanceFilterSelect = ({
+const AdvanceFilterSelect = <T extends object>({
+  name,
   options,
   value,
   onChange,
   placeholder,
-}: Props) => {
+  hideSelected,
+}: Props<T>) => {
   const { t } = useTranslation();
 
   return (
     <SelectBase
-      name="ov-advance"
+      name={name}
       isMulti={true}
       options={options}
       value={value}
       isSearchable={true}
       showSelectedCount={true}
       dark={true}
+      hideSelected={hideSelected}
       components={{ DropdownIndicator }}
       placeholder={
-        value.length
+        hideSelected
+          ? placeholder
+          : value.length
           ? `${t('Filter.NumSelected', { num: value.length })}`
           : placeholder
           ? placeholder

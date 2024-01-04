@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { SalesPersonPurchasersService } from './../generate/services/SalesPersonPurchasersService';
 import {
   ApiError,
   ProductDevelopmentDto,
@@ -120,6 +121,20 @@ export const useProductDevelopmentChanges = (
     {
       enabled: no !== '' && enable,
       retry: 0,
+    }
+  );
+};
+
+export const useMembers = (no: string) => {
+  return useQuery(
+    [QueryKeysEnum.SalesPersonPurchasers, no],
+    () =>
+      SalesPersonPurchasersService.getApiSalesPersonPurchasersFilter(no).then(
+        res => res
+      ),
+    {
+      retry: 0,
+      enabled: no !== '',
     }
   );
 };
