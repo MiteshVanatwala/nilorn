@@ -10,6 +10,8 @@ import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
 import { Status } from '../../../../app/generate';
 import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useChangelog';
+import { useModal } from '../../../../app/hooks/useModal';
+import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 
 type Props = {
   no: string;
@@ -25,6 +27,8 @@ const ActionBar = ({ createNew, no }: Props) => {
   const currentStatus = getValues('status') as Status;
   const nextStatus = getNextStatus(currentStatus);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+
+  const { handleModal } = useModal();
 
   async function submitStatus(status: Status): Promise<void> {
     if (currentStatus === status) {
@@ -48,6 +52,10 @@ const ActionBar = ({ createNew, no }: Props) => {
 
   const { showChanges, setShowChanges } =
     useToggleProductDevelopmentChanges(no);
+
+  function deleteProductDevelopment() {
+    updateStatus(Status.DELETED);
+  }
 
   return (
     <VStack align={'left'}>
@@ -107,6 +115,16 @@ const ActionBar = ({ createNew, no }: Props) => {
                   {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
                 <MenuItem
+                  onClick={() =>
+                    handleModal(
+                      <ConfirmModal
+                        title={t('PD.DeleteTitle')}
+                        description={t('PD.DeleteComfirm', { no: no })}
+                        confirmType="DELETE"
+                        onConfirm={() => deleteProductDevelopment()}
+                      />
+                    )
+                  }
                   icon={
                     <Text
                       as={'i'}

@@ -89,7 +89,7 @@ const QuantityPurchase = () => {
                   top={0}
                   transform={'auto'}
                   translateX={'100%'}
-                  variant={'deleteBtn'}
+                  variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
                   icon={<i className="ri-close-line" />}
                   onClick={() => remove(index)}

@@ -151,7 +151,7 @@ const AdvanceFilter = ({ filters }: Props) => {
                   zIndex={2}
                   right={0}
                   top={0}
-                  variant={'deleteBtn'}
+                  variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
                   icon={<i className="ri-close-line" />}
                   onClick={() => handleRemove(so.value.name)}
