@@ -44,12 +44,12 @@ requestBody?: CreateProjectCommand,
      * @returns OptionItem Success
      * @throws ApiError
      */
-    public static getFilterOption(
+    public static getApiProjectsFilterOption(
 clientNo?: string,
 ): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/Filter/Option',
+            url: '/api/Projects/Filter/Option',
             query: {
                 'clientNo': clientNo,
             },

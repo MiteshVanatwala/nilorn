@@ -4,13 +4,13 @@
 /* eslint-disable */
 
 import type { Status } from './Status';
+import type { UpdatedSourcingDto } from './UpdatedSourcingDto';
 
 export type UpdateProductDevelopmentDto = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
     status?: Status;
-    projectCode?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
     foldingTypeCode?: string | null;
@@ -20,5 +20,6 @@ export type UpdateProductDevelopmentDto = {
     sampleQuantity?: number | null;
     targetSalesPrice?: string | null;
     freightIncluded?: number | null;
-    projectId?: string | null;
+    projectCode?: string | null;
+    sourcings?: Array<UpdatedSourcingDto> | null;
 };

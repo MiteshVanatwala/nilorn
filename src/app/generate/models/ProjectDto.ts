@@ -8,6 +8,7 @@ import type { ProductDevelopmentBriefDto } from './ProductDevelopmentBriefDto';
 import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
 
 export type ProjectDto = {
+    id?: string | null;
     code?: string | null;
     clientId?: string | null;
     client?: ClientDto;

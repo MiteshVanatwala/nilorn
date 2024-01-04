@@ -11,4 +11,5 @@ export enum Status {
     CALCULATION = 'Calculation',
     APPROVED = 'Approved',
     REJECTED = 'Rejected',
+    DELETED = 'Deleted',
 }
