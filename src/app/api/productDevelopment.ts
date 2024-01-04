@@ -141,3 +141,14 @@ export const useMembers = (no: string) => {
     }
   );
 };
+
+export const useUploadFile = () => {
+  return useMutation((file: Blob) =>
+    ProductDevelopmentsService.postApiProductDevelopmentsAttachments(
+      '39c9c39a-fc60-4a8e-a553-0ca0bbc41732',
+      {
+        file,
+      }
+    ).then(res => res)
+  );
+};

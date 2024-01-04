@@ -1,10 +1,10 @@
 import { Button, HStack, Heading, Input } from '@chakra-ui/react';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { handleFileUpload } from '../../app/utils/file';
-import { SPACE } from '../../theme/Constants';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../app/api/User';
+import { useUploadFile } from '../../app/api/productDevelopment';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   heading: string;
@@ -15,10 +15,31 @@ type Props = {
 const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
   const { t } = useTranslation();
   const { data: user } = useCurrentUser();
+
+  const { mutateAsync } = useUploadFile();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    onUpload(handleFileUpload(e));
+    const { files } = e?.currentTarget;
+    const uploadedFileNames: string[] = [];
+
+    if (files && files.length) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const filename = file.name;
+        mutateAsync(file)
+          .then(() => {
+            uploadedFileNames.push(filename);
+          })
+          .catch(err => {
+            console.error('Faild to upload file: ', filename);
+            console.error(err);
+          });
+      }
+    }
+
+    return onUpload(uploadedFileNames);
   };
 
   const onButtonClick = () => {

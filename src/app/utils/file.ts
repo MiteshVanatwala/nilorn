@@ -22,7 +22,7 @@ export const downloadFromUrl = (url: string) => {
   window.URL.revokeObjectURL(url);
 };
 
-export const handleFileUpload = (
+export const useHandleFileUpload = (
   e: ChangeEvent<HTMLInputElement>
 ): string[] => {
   const { files } = e?.currentTarget;
