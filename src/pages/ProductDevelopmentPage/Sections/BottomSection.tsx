@@ -14,7 +14,7 @@ const BottomSection = () => {
       borderTop={`solid 1px ${COLORS.GRAY[10]}`}>
       <ContentSection>
         <Grid>
-          <GridItem>footer</GridItem>
+          <GridItem></GridItem>
         </Grid>
       </ContentSection>
     </Box>

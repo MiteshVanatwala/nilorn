@@ -99,7 +99,7 @@
       "FreightIncluded": "Freight Included",
       "SampleQuantity": "Sample Quantity",
       "Folding": "Folding",
-      "PurchaserPrice": "Target Purchaser Price",
+      "TargetPurchasePrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
       "Quantities": "Quantities",
       "ClientRequirements": "Client Requirements"

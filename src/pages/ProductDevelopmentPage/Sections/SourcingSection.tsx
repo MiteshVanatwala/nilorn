@@ -6,13 +6,40 @@ import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect'
 import InputField from '../../../components/Form/InputField';
 import Quantity from './SectionComponents/Quantity';
 import TextArea from '../../../components/Form/TextArea';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
+import { useState } from 'react';
+import { MultiValue } from 'chakra-react-select';
+import { SelectOption } from '../../../app/types/types';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
-type Props = {
-  createNew?: boolean;
-};
-const SourcingSection = ({ createNew }: Props) => {
+const FORM_KEY = 'sourcings';
+
+const SourcingSection = () => {
   const { t } = useTranslation();
-  function addSourcing() {}
+
+  const { getValues, control } = useFormContext();
+
+  const {
+    fields: sourcings,
+    append,
+    remove,
+  } = useFieldArray({
+    control,
+    name: FORM_KEY,
+  });
+
+  const sourcingCompanies = useFilterOptions('sourcingCompanies');
+
+  const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
+
+  function addSourcing(selectedOption: MultiValue<SelectOption> | undefined) {
+    if (selectedOption !== undefined) {
+      setSelected(selectedOption);
+      append(selectedOption);
+    }
+  }
+
+  console.log('selected', selected);
   return (
     <AccordionItem title={t('PD.AccordionLabels.Sourcing')}>
       <Flex
@@ -34,15 +61,19 @@ const SourcingSection = ({ createNew }: Props) => {
             <AdvanceFilterSelect
               name={'AddSourcing'}
               placeholder={t('PD.AddSourcing')}
-              options={[]}
+              options={sourcingCompanies}
               onChange={(option, event) => {
-                addSourcing();
+                addSourcing(option);
               }}
-              value={[]}
+              value={selected}
             />
           </Box>
           <Box w={'100%'}>
             <Accordion allowMultiple variant={'light'}>
+              {sourcings.map(sourcing => {
+                console.log('---->', sourcing);
+                return <></>;
+              })}
               <AccordionItem headlineColor={COLORS.GRAY[80]} title="NEA">
                 <>
                   <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -55,12 +86,12 @@ const SourcingSection = ({ createNew }: Props) => {
                         <TextArea
                           placeholder={`${t('Common.Placeholder')}`}
                           label={`${t('PD.FormContent.ClientRequirements')}`}
-                          name={'ClientRequirements '}
+                          name={'clientRequirement '}
                         />
                         <InputField
                           placeholder={`${t('Common.Placeholder')}`}
-                          label={`${t('PD.FormContent.PurchaserPrice')}`}
-                          name={'r'}
+                          label={`${t('PD.FormContent.TargetPurchasePrice')}`}
+                          name={'targetPurchasePrice'}
                         />
                       </VStack>
                     </GridItem>

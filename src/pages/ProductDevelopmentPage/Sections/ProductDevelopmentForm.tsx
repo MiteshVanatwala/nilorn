@@ -64,7 +64,7 @@ function ProductDevelopmentForm({
               <VStack spacing={SPACE.MD}>
                 <Accordion
                   variant={'card'}
-                  defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3]}
+                  defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3, 4]}
                   allowMultiple>
                   <GeneralSection />
                   <ProductDesignSection />
