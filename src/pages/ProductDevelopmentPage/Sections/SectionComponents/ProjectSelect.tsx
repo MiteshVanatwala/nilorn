@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
 import { Box } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
@@ -25,37 +25,22 @@ const ProjectSelect = ({
   const {
     setValue,
     formState: { errors },
-    clearErrors,
   } = useFormContext();
-  const [defaultProject, setDefaultProject] = useState<string>();
-  const [clientStartVal, setClientStartVal] = useState<SelectOption>();
   const inputName = 'projectCode';
   const project = useWatch({ name: inputName });
   const clientNumberWatch = useWatch({ name: 'clientNo' });
 
   const onChange = (option: SelectOption) => {
-    setDefaultProject('');
     setValue(inputName, option.label);
-    clearErrors(inputName);
   };
-  useEffect(() => {
-    if (!project) {
-      setDefaultProject(undefined);
-    }
-  }, [project]);
-  useEffect(() => {
-    if (defaultProject) {
-      setValue(inputName, defaultProject);
-    }
-  }, [defaultProject, setValue]);
 
   useEffect(() => {
-    if (clientStartVal !== clientNumberWatch && !defaultProject) {
+    if (createNew) {
       setValue(inputName, '');
-      setClientStartVal(clientNumberWatch);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
+
   return (
     <Box
       zIndex={8}
@@ -64,7 +49,6 @@ const ProjectSelect = ({
       <ControlWrapper errors={errors} required={true} name={inputName}>
         <Controller
           name={inputName}
-          rules={{ required: true }}
           defaultValue={
             project !== ''
               ? (options?.find(co => co.label === project) as SelectOption)
@@ -85,7 +69,9 @@ const ProjectSelect = ({
                 components={{
                   MenuList: (props: any) => (
                     <MenuListWithAddBtn
-                      setDefaultProject={setDefaultProject}
+                      setDefaultProject={(val: string) =>
+                        setValue(inputName, val)
+                      }
                       clientNo={clientNo}
                       {...props}
                     />

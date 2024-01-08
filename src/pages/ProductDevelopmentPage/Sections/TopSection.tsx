@@ -18,7 +18,7 @@ import BackLink from './SectionComponents/BackLink';
 import { useFormContext, useWatch } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
-import { useGetProjects } from '../../../app/api/Projects';
+import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
 import PDImage from './SectionComponents/PDImage';
 
@@ -33,7 +33,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
 
-  let { data: projectOptions } = useGetProjects(
+  const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
     typeof clientNo === 'string' ?? false
   );

@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
+import type { ProductDevelopmentChangelogDto } from '../models/ProductDevelopmentChangelogDto';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
 import type { UpdateProductDevelopmentDto } from '../models/UpdateProductDevelopmentDto';
@@ -210,6 +211,46 @@ file?: Blob;
             url: '/api/ProductDevelopments/{no}/Image',
             path: {
                 'no': no,
+            },
+            formData: formData,
+            mediaType: 'multipart/form-data',
+        });
+    }
+
+    /**
+     * @param no 
+     * @returns ProductDevelopmentChangelogDto Success
+     * @throws ApiError
+     */
+    public static getApiProductDevelopmentsChanges(
+no: string,
+): CancelablePromise<Array<ProductDevelopmentChangelogDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/ProductDevelopments/{no}/Changes',
+            path: {
+                'no': no,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @param formData 
+     * @returns boolean Success
+     * @throws ApiError
+     */
+    public static postApiProductDevelopmentsAttachments(
+id: string,
+formData?: {
+file?: Blob;
+},
+): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/ProductDevelopments/attachments/{id}',
+            path: {
+                'id': id,
             },
             formData: formData,
             mediaType: 'multipart/form-data',

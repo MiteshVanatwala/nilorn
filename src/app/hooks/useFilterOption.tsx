@@ -7,6 +7,7 @@ import {
   useSalesPersonPurchasers,
   useVendors,
 } from '../api/FilterInfo';
+import { useGetProjectsOptions } from '../api/Projects';
 import {
   ClientDto,
   SalespersonPurchaserBriefDto,
@@ -46,6 +47,10 @@ const mapSalesPersonPurchasersToOptions = (
 
 const useFilterOptions = (name?: FilterKeys) => {
   const { data: clients } = useClients(name === 'clients' ?? false);
+  const { data: projects } = useGetProjectsOptions(
+    undefined,
+    name === 'projects' ?? false
+  );
   const { data: vendors } = useVendors(name === 'vendor');
   const { data: sourcingCompanies } = useOpCompOption(
     name === 'sourcingCompanies' ?? false,
@@ -83,6 +88,7 @@ const useFilterOptions = (name?: FilterKeys) => {
     foldingTypes: foldingTypes as SelectOption[],
     itemCategories: itemCategories as SelectOption[],
     productGroups: productGroups as SelectOption[],
+    projects: projects as SelectOption[],
   };
 
   return dataMap[name] || [];
