@@ -32,13 +32,6 @@ export default function FormuQuerySubmit({
     form.clearErrors('serverError');
   }
 
-  //Prepared for api call on filter change
-  const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
-
-  useEffect(() => {
-    // console.log('debouncedSearchTerm', debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
-
   return (
     <FormProvider {...form}>
       <form style={style}>{children}</form>
