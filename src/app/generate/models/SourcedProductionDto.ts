@@ -8,5 +8,5 @@ import type { ProductionDto } from './ProductionDto';
 export type SourcedProductionDto = {
     sourcingId?: string | null;
     name?: string | null;
-    productionDto?: Array<ProductionDto> | null;
+    productions?: Array<ProductionDto> | null;
 };

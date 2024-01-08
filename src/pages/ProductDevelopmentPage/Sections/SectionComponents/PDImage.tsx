@@ -1,27 +1,62 @@
-import { Image } from '@chakra-ui/react';
+import { Flex, Image, Text } from '@chakra-ui/react';
 import { useModal } from '../../../../app/hooks/useModal';
 import PDImageModal from './PDImageModal';
+import { useGetPDImage } from '../../../../app/api/PDImage';
+import { COLORS } from '../../../../theme/Constants';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
-  imageUrl: string;
   scrolledPast: boolean;
   no: string;
+  pdName: string;
 };
 
-const PDImage = ({ imageUrl, scrolledPast, no }: Props) => {
+const PDImage = ({ scrolledPast, no, pdName }: Props) => {
   const { handleModal } = useModal();
+  const { t } = useTranslation();
 
+  let { data: pdImage, isError } = useGetPDImage(no);
+  if (!isError && pdImage) {
+    return (
+      <Image
+        maxHeight={scrolledPast ? '0' : '20rem'}
+        maxWidth={scrolledPast ? '0' : '20rem'}
+        visibility={scrolledPast ? 'hidden' : 'visible'}
+        width={'60'}
+        height={'60'}
+        objectFit={'cover'}
+        cursor={'pointer'}
+        onClick={() =>
+          handleModal(
+            <PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />
+          )
+        }
+        src={`data:image/jpeg;base64,${pdImage}`}
+      />
+    );
+  }
   return (
-    <Image
+    <Flex
       maxHeight={scrolledPast ? '0' : '20rem'}
       maxWidth={scrolledPast ? '0' : '20rem'}
       visibility={scrolledPast ? 'hidden' : 'visible'}
       width={'60'}
       height={'60'}
       objectFit={'cover'}
+      bg={COLORS.GRAY[5]}
+      border={'1px dashed'}
+      borderColor={COLORS.GRAY[40]}
       cursor={'pointer'}
-      onClick={() => handleModal(<PDImageModal imageUrl={imageUrl} no={no} />)}
-      src={imageUrl}></Image>
+      justifyContent={'center'}
+      alignItems={'center'}
+      onClick={() =>
+        handleModal(
+          <PDImageModal pdName={pdName} imageUrl={undefined} no={no} />
+        )
+      }>
+      <Text mr="2" as="i" className="ri-add-line" />
+      <Text> {t('PD.UploadImage')}</Text>
+    </Flex>
   );
 };
 

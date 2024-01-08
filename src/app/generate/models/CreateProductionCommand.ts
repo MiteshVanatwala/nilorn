@@ -3,12 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PurchasePrice } from './PurchasePrice';
-
-export type ProductionDto = {
+export type CreateProductionCommand = {
+    sourcingId?: string | null;
     vendorId?: string | null;
-    vendorName?: string | null;
-    currency?: string | null;
+    currencyCode?: string | null;
     released?: boolean;
     moq?: number;
     sampleCharge?: number;
@@ -16,5 +14,4 @@ export type ProductionDto = {
     sampleLeadTime?: number;
     productionLeadTime?: number;
     comment?: string | null;
-    purchasePrices?: Array<PurchasePrice> | null;
 };

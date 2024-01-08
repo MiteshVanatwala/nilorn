@@ -2,7 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ProductDevelopmentProductionDto } from '../models/ProductDevelopmentProductionDto';
+import type { CreateProductionCommand } from '../models/CreateProductionCommand';
+import type { DeleteProductionCommand } from '../models/DeleteProductionCommand';
+import type { ProductionDto } from '../models/ProductionDto';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -11,13 +13,59 @@ import { request as __request } from '../core/request';
 export class ProductionsService {
 
     /**
-     * @returns ProductDevelopmentProductionDto Success
+     * @param requestBody 
+     * @returns ProductionDto Success
      * @throws ApiError
      */
-    public static getApiProductions(): CancelablePromise<Array<ProductDevelopmentProductionDto>> {
+    public static postApiProductions(
+requestBody?: CreateProductionCommand,
+): CancelablePromise<ProductionDto> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/Productions',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param requestBody 
+     * @returns any Success
+     * @throws ApiError
+     */
+    public static deleteApiProductions(
+requestBody?: DeleteProductionCommand,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/Productions',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param no 
+     * @param sourcingCompanyCode 
+     * @param released 
+     * @returns ProductionDto Success
+     * @throws ApiError
+     */
+    public static getApiProductions(
+no: string,
+sourcingCompanyCode: string,
+released?: boolean,
+): CancelablePromise<Array<ProductionDto>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/Productions',
+            url: '/api/Productions/{no}/{sourcingCompanyCode}',
+            path: {
+                'no': no,
+                'sourcingCompanyCode': sourcingCompanyCode,
+            },
+            query: {
+                'released': released,
+            },
         });
     }
 

@@ -8,7 +8,7 @@ import {
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
 import ActionBar from './SectionComponents/ActionBar';
-import { Image, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +32,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
+  const pdName = useWatch({ name: 'name' });
 
   const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
@@ -82,11 +83,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
-              <PDImage
-                imageUrl={getValues('thumbnailData')}
-                no={no}
-                scrolledPast={scrolledPast}
-              />
+              <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,

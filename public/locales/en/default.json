@@ -31,7 +31,8 @@
     "Placeholder": "Enter value",
     "NoMatch": "Sorry, we could not find any results",
     "Success": "Success",
-    "CreateNew": "Create new"
+    "CreateNew": "Create new",
+    "Or": "Or"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -77,7 +78,9 @@
     "BackToOverview": "Back to overview",
     "ProjectCreated": "Project created",
     "BrowseFile": "Browse files...",
-    "ClickPaste": "Click and paste from clipboard",
+    "ClickPaste": "Paste from clipboard",
+    "OrPaste": "Or paste from clipboard",
+    "UploadImage": "Upload image",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
@@ -140,7 +143,8 @@
         "Created": "Product development with no #{{no}} has been created."
       },
       "Error": {
-        "NotFound": "Could not find product development with no #{{no}}"
+        "NotFound": "Could not find product development with no #{{no}}",
+        "FileType": "File must be an image"
       }
     }
   },

@@ -21,7 +21,9 @@ const useOverviewColumns = () => {
           <Image
             boxSize="30px"
             objectFit="cover"
-            src={info.getValue() ?? ''}
+            src={
+              info.getValue() ? `data:image/jpeg;base64,${info.getValue()}` : ''
+            }
             alt={''}
           />
         );
