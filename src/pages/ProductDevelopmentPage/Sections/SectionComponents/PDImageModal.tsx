@@ -8,6 +8,7 @@ import {
   Text,
   Input,
   Flex,
+  VStack,
 } from '@chakra-ui/react';
 import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 import { ChangeEvent, useRef, useState, ClipboardEvent } from 'react';
@@ -149,15 +150,15 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
                 md: SIZES.CONTAINER.XXS,
               }}
               minH={SIZES.CONTAINER.XXXS}>
-              <Box>
+              <VStack>
                 <Text
                   fontSize={SIZES.FONT.LG}
                   color={COLORS.GRAY[60]}
                   as={'i'}
                   className={'ri-upload-2-line'}
                 />
-              </Box>
-              <Text mb={SPACE.XXS}>{t('PD.ClickPaste')}</Text>
+                <Text mb={SPACE.XXS}>{t('PD.ClickPaste')}</Text>
+              </VStack>
               {pasteError && (
                 <Text color={COLORS.ERROR} mb={SPACE.XXS}>
                   {t('PD.Feedback.Error.FileType')}

@@ -1,6 +1,6 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
+import { onFilterChange } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
 
 export default function FormuQuerySubmit({
