@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { MultiValue } from 'chakra-react-select';
 import { SelectOption } from '../../../app/types/types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { SourcingDto, UpdatedSourcingDto } from '../../../app/generate';
+import { SourcingDto } from '../../../app/generate';
 
 export const SOURCING_KEY = 'sourcings';
 
@@ -41,20 +41,11 @@ const SourcingSection = () => {
 
   const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
 
-  console.log(
-    selected,
-    sourcingCompanies.filter(obj =>
-      (getValues(SOURCING_KEY) as UpdatedSourcingDto[])
-        .map(s => s.sourcingCompanyCode)
-        .includes(obj.value)
-    )
-  );
-
   useEffect(() => {
     if (sourcingCompanies.length > 0) {
       setSelected(
         sourcingCompanies.filter(obj =>
-          (getValues(SOURCING_KEY) as UpdatedSourcingDto[])
+          (getValues(SOURCING_KEY) as SourcingDto[])
             .map(s => s.sourcingCompanyCode)
             .includes(obj.value)
         )
@@ -92,6 +83,7 @@ const SourcingSection = () => {
             <AdvanceFilterSelect
               name={'AddSourcing'}
               placeholder={t('PD.AddSourcing')}
+              hideSelected={true}
               options={sourcingCompanies}
               onChange={(option, event) => {
                 addSourcing(option);
