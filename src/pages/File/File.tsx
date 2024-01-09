@@ -1,4 +1,4 @@
-import { HStack, Text, IconButton, Box, Tooltip } from '@chakra-ui/react';
+import { HStack, Text, IconButton, Box, Tooltip, Flex } from '@chakra-ui/react';
 import DownloadButton from '../../components/Button/DownloadButton';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../theme/Constants';
@@ -19,12 +19,12 @@ export const File = ({
   return (
     <HStack justifyContent={'space-between'}>
       <Tooltip label={name}>
-        <Text noOfLines={1}>
+        <Flex>
           <Box mr={SPACE.XS} display={'inline-block'}>
             {icon}
           </Box>
-          {name}
-        </Text>
+          <Text noOfLines={1}>{name}</Text>
+        </Flex>
       </Tooltip>
       <Box minW={'5rem'}>
         <DownloadButton

@@ -79,6 +79,7 @@ const AttachmentSection = () => {
         </GridItem>
         {attachments?.map(a => (
           <GridItem
+            key={a}
             colSpan={{
               base: 1,
               lg: 2,
