@@ -21,14 +21,14 @@ import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
 import PDImage from './SectionComponents/PDImage';
-import InputField from '../../../components/Form/InputField';
 
 type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
+  thumbnail: string;
 };
-const TopSection = ({ no, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
@@ -84,7 +84,29 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
-              <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
+              {!createNew ? (
+                <PDImage
+                  pdName={pdName}
+                  no={no}
+                  scrolledPast={scrolledPast}
+                  thumbnail={thumbnail}
+                />
+              ) : (
+                <HStack
+                  maxHeight={scrolledPast ? '0' : '20rem'}
+                  maxWidth={scrolledPast ? '0' : '20rem'}
+                  visibility={scrolledPast ? 'hidden' : 'visible'}
+                  width={'60'}
+                  height={'60'}
+                  px={SPACE.SM}
+                  textAlign={'center'}
+                  bg={COLORS.GRAY[5]}>
+                  <Text fontSize={SIZES.FONT.XXS}>
+                    {t(`PD.SaveBeforeUploadImg`)}
+                  </Text>
+                </HStack>
+              )}
+
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,

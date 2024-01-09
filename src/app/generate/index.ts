@@ -43,6 +43,7 @@ export { ClientService } from './services/ClientService';
 export { FoldingTypeService } from './services/FoldingTypeService';
 export { ImageService } from './services/ImageService';
 export { ItemCategoryService } from './services/ItemCategoryService';
+export { MediaFileService } from './services/MediaFileService';
 export { MetaService } from './services/MetaService';
 export { OpCompService } from './services/OpCompService';
 export { ProductDevelopmentProductionsService } from './services/ProductDevelopmentProductionsService';
