@@ -21,7 +21,6 @@ import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
 import PDImage from './SectionComponents/PDImage';
-import InputField from '../../../components/Form/InputField';
 
 type Props = {
   no: string;
@@ -84,7 +83,24 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
-              <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
+              {!createNew ? (
+                <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
+              ) : (
+                <HStack
+                  maxHeight={scrolledPast ? '0' : '20rem'}
+                  maxWidth={scrolledPast ? '0' : '20rem'}
+                  visibility={scrolledPast ? 'hidden' : 'visible'}
+                  width={'60'}
+                  height={'60'}
+                  px={SPACE.SM}
+                  textAlign={'center'}
+                  bg={COLORS.GRAY[5]}>
+                  <Text fontSize={SIZES.FONT.XXS}>
+                    Save before uploading image
+                  </Text>
+                </HStack>
+              )}
+
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,
