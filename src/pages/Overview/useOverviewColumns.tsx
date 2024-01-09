@@ -4,6 +4,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import NowrapText from '../../components/Text/NowrapText';
+import ImagePopup from '../../components/ImagePopup/ImagePopup';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -18,13 +19,12 @@ const useOverviewColumns = () => {
           return <></>;
         }
         return (
-          <Image
-            boxSize="30px"
-            objectFit="cover"
+          <ImagePopup
+            thumbnail={true}
+            alt="Thumbnail image"
             src={
               info.getValue() ? `data:image/jpeg;base64,${info.getValue()}` : ''
             }
-            alt={''}
           />
         );
       },
