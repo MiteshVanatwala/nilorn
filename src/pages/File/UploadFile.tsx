@@ -2,6 +2,7 @@ import { Button, HStack, Heading, Input } from '@chakra-ui/react';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { handleFileUpload } from '../../app/utils/file';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   heading: string;
@@ -25,7 +26,7 @@ const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
   };
 
   return (
-    <HStack>
+    <HStack gap={SPACE.MD}>
       <Heading variant={'h5'}>{heading}</Heading>
       {showAdd && (
         <>

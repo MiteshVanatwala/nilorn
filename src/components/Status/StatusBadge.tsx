@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Badge, Box, HStack, Text } from '@chakra-ui/react';
 import fontSizes from '../../theme/fontSizes';
 import { Status } from '../../app/generate';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import { useStatusOptions } from '../../app/hooks/useStatus';
 
 type Props = {
@@ -20,9 +20,15 @@ const StatusBadge = ({ status }: Props) => {
       variant="subtle"
       fontSize={fontSizes.xs}
       colorScheme={color}
+      borderRadius={BORDER_RADIUS.SM}
+      py={SPACE.XXS}
       px={SPACE.XS}>
       <HStack spacing={SPACE.XS}>
-        <Box w={'6px'} h={'6px'} borderRadius={'2px'} bg={color}></Box>
+        <Box
+          w={'6px'}
+          h={'6px'}
+          bg={color}
+          borderRadius={BORDER_RADIUS.XS}></Box>
         <Text
           variant={'bodyRegular'}
           color={COLORS.BLACK}

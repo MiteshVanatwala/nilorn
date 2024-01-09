@@ -32,7 +32,8 @@
     "NoMatch": "Sorry, we could not find any results",
     "Success": "Success",
     "CreateNew": "Create new",
-    "Or": "Or"
+    "Or": "Or",
+    "GoToHome": "Go to start page"
   },
   "Menu": {
     "Hyphome": "Start",
