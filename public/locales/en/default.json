@@ -83,6 +83,7 @@
     "OrPaste": "Or paste from clipboard",
     "UploadImage": "Upload image",
     "ClearProjectLabel": "Project",
+    "SaveBeforeUploadImg": "Save before uploading image",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
