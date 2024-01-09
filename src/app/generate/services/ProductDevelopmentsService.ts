@@ -217,21 +217,4 @@ file?: Blob;
         });
     }
 
-    /**
-     * @param no 
-     * @returns ProductDevelopmentChangelogDto Success
-     * @throws ApiError
-     */
-    public static getApiProductDevelopmentsChanges(
-no: string,
-): CancelablePromise<Array<ProductDevelopmentChangelogDto>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/ProductDevelopments/{no}/Changes',
-            path: {
-                'no': no,
-            },
-        });
-    }
-
 }

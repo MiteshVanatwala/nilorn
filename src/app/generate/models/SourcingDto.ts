@@ -3,11 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { OpCompDto } from './OpCompDto';
-
 export type SourcingDto = {
-    sourcingCompany?: OpCompDto;
+    sourcingCompanyCode?: string | null;
     targetPurchasePrice?: string | null;
     clientRequirement?: string | null;
-    sourcingQuantity?: Array<number> | null;
+    quantities?: Array<number> | null;
 };

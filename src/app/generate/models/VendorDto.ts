@@ -6,6 +6,7 @@
 import type { Currency } from './Currency';
 
 export type VendorDto = {
+    id?: string;
     no?: string | null;
     name?: string | null;
     currencyCode?: string | null;
