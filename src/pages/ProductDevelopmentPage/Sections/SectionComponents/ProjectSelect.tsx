@@ -46,8 +46,6 @@ const ProjectSelect = ({
       project &&
       !options?.find(co => co.label === `${t('PD.ClearProjectLabel')}`)
     ) {
-      console.log('hej');
-
       options.unshift({ value: '', label: `${t('PD.ClearProjectLabel')}` });
     }
   });
