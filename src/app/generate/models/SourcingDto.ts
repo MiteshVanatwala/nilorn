@@ -9,4 +9,5 @@ export type SourcingDto = {
     sourcingCompany?: OpCompDto;
     targetPurchasePrice?: string | null;
     clientRequirement?: string | null;
+    sourcingQuantity?: Array<number> | null;
 };

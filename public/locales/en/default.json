@@ -31,7 +31,8 @@
     "Placeholder": "Enter value",
     "NoMatch": "Sorry, we could not find any results",
     "Success": "Success",
-    "CreateNew": "Create new"
+    "CreateNew": "Create new",
+    "Or": "Or"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -58,7 +59,7 @@
     "Delete": "Delete",
     "ShowChanges": "Show changes",
     "HideChanges": "Hide changes",
-    "IncludeClosed": "Include rejected and aprroved",
+    "IncludeClosed": "Include rejected and approved",
     "SourcingCompany": "Sourcing company",
     "SourcingCompanies": "Sourcing company",
     "OPcomp": "Operations  company",
@@ -76,6 +77,10 @@
     "Error": "Something went wrong",
     "BackToOverview": "Back to overview",
     "ProjectCreated": "Project created",
+    "BrowseFile": "Browse files...",
+    "ClickPaste": "Paste from clipboard",
+    "OrPaste": "Or paste from clipboard",
+    "UploadImage": "Upload image",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
@@ -138,7 +143,8 @@
         "Created": "Product development with no #{{no}} has been created."
       },
       "Error": {
-        "NotFound": "Could not find product development with no #{{no}}"
+        "NotFound": "Could not find product development with no #{{no}}",
+        "FileType": "File must be an image"
       }
     }
   },

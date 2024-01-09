@@ -179,46 +179,6 @@ status: Status,
 
     /**
      * @param no 
-     * @returns string Success
-     * @throws ApiError
-     */
-    public static getApiProductDevelopmentsImage(
-no: string,
-): CancelablePromise<string> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/ProductDevelopments/{no}/Image',
-            path: {
-                'no': no,
-            },
-        });
-    }
-
-    /**
-     * @param no 
-     * @param formData 
-     * @returns any Success
-     * @throws ApiError
-     */
-    public static putApiProductDevelopmentsImage(
-no: string,
-formData?: {
-file?: Blob;
-},
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/ProductDevelopments/{no}/Image',
-            path: {
-                'no': no,
-            },
-            formData: formData,
-            mediaType: 'multipart/form-data',
-        });
-    }
-
-    /**
-     * @param no 
      * @returns ProductDevelopmentChangelogDto Success
      * @throws ApiError
      */
