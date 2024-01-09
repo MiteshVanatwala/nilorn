@@ -8,7 +8,7 @@ import {
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
 import ActionBar from './SectionComponents/ActionBar';
-import { VStack } from '@chakra-ui/react';
+import { VStack, Input } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,7 @@ import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
 import PDImage from './SectionComponents/PDImage';
+import InputField from '../../../components/Form/InputField';
 
 type Props = {
   no: string;
@@ -146,7 +147,10 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 />
               </Box>
             ) : (
-              <Text p={SPACE.XXS}>{getValues('client')}</Text>
+              <>
+                <Text p={SPACE.XXS}>{getValues('client')}</Text>
+                <Input display="none" name="clientNo" />
+              </>
             )}
             <ProjectSelect
               options={projectOptions as SelectOption[]}

@@ -40,7 +40,15 @@ const ProjectSelect = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
-
+  useEffect(() => {
+    if (
+      options &&
+      project &&
+      !options?.find(co => co.label === `${t('PD.ClearProjectLabel')}`)
+    ) {
+      options.unshift({ value: '', label: `${t('PD.ClearProjectLabel')}` });
+    }
+  });
   return (
     <Box
       zIndex={8}
