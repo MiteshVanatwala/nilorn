@@ -57,6 +57,7 @@ function ProductDevelopmentForm({
           createNew={createNew}
           no={no ?? ''}
           scrolledPast={scrolledPast}
+          thumbnail={defaultValues?.thumbnailData}
         />
         <ContentPage>
           <Grid>

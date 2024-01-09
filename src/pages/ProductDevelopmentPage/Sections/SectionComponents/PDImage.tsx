@@ -1,7 +1,6 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
 import { useModal } from '../../../../app/hooks/useModal';
 import PDImageModal from './PDImageModal';
-import { useGetPDImage } from '../../../../app/api/PDImage';
 import { COLORS } from '../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 
@@ -9,14 +8,14 @@ type Props = {
   scrolledPast: boolean;
   no: string;
   pdName: string;
+  thumbnail: string;
 };
 
-const PDImage = ({ scrolledPast, no, pdName }: Props) => {
+const PDImage = ({ scrolledPast, no, pdName, thumbnail }: Props) => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
 
-  let { data: pdImage, isError } = useGetPDImage(no);
-  if (!isError && pdImage) {
+  if (thumbnail) {
     return (
       <Image
         maxHeight={scrolledPast ? '0' : '20rem'}
@@ -28,10 +27,10 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
         cursor={'pointer'}
         onClick={() =>
           handleModal(
-            <PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />
+            <PDImageModal pdName={pdName} thumbnail={thumbnail} no={no} />
           )
         }
-        src={`data:image/jpeg;base64,${pdImage}`}
+        src={`data:image/jpeg;base64,${thumbnail}`}
       />
     );
   }
@@ -51,7 +50,7 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
       alignItems={'center'}
       onClick={() =>
         handleModal(
-          <PDImageModal pdName={pdName} imageUrl={undefined} no={no} />
+          <PDImageModal pdName={pdName} thumbnail={undefined} no={no} />
         )
       }>
       <Text mr="2" as="i" className="ri-add-line" />
