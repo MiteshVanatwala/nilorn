@@ -41,8 +41,14 @@ const ProjectSelect = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
   useEffect(() => {
-    if (options && project && !options?.find(co => co.label === 'Project')) {
-      options.unshift({ value: '', label: 'Project' });
+    if (
+      options &&
+      project &&
+      !options?.find(co => co.label === `${t('PD.ClearProjectLabel')}`)
+    ) {
+      console.log('hej');
+
+      options.unshift({ value: '', label: `${t('PD.ClearProjectLabel')}` });
     }
   });
   return (
