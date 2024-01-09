@@ -102,7 +102,7 @@ const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
                   textAlign={'center'}
                   bg={COLORS.GRAY[5]}>
                   <Text fontSize={SIZES.FONT.XXS}>
-                    Save before uploading image
+                    {t(`PD.SaveBeforeUploadImg`)}
                   </Text>
                 </HStack>
               )}
