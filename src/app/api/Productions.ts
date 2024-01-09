@@ -1,17 +1,19 @@
 import { useQuery } from 'react-query';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 import QueryKeysEnum from './queryKeys';
+import { ProductDevelopmentProductionsService } from '../generate';
 
 export function useProductionsFilter() {
-  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
-  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
+  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 1;
+  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 1;
   const searchQuery = useFilterSearchParams('searchQuery', 400);
-  const vendor = useFilterSearchParams('vendor');
+  const vendors = useFilterSearchParams('vendor');
   const clients = useFilterSearchParams('clients');
   const projects = useFilterSearchParams('projects');
   const number = useFilterSearchParams('number');
   const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
   const itemCategories = useFilterSearchParams('itemCategories');
+  const productDevelopments = useFilterSearchParams('itemCategories');
   const productGroups = useFilterSearchParams('productGroups');
   const statuses = useFilterSearchParams('statuses');
 
@@ -21,7 +23,7 @@ export function useProductionsFilter() {
       pageNumber,
       pageSize,
       searchQuery,
-      vendor,
+      vendors,
       clients,
       projects,
       number,
@@ -30,14 +32,16 @@ export function useProductionsFilter() {
       productGroups,
       statuses,
     ],
-    () => {
-      return {
-        data: { pageNumber: 1, totalPages: 100, totalCount: 1000 },
-        isError: false,
-        isLoading: false,
-        isFetching: false,
-      };
-    },
+
+    () =>
+      ProductDevelopmentProductionsService.getApiProductDevelopmentProductions(
+        pageNumber,
+        pageSize,
+        productDevelopments,
+        vendors,
+        sourcingCompanies,
+        clients
+      ).then(res => res),
     {
       retry: 0,
       keepPreviousData: true,
