@@ -8,16 +8,22 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID } from '../../../../theme/Constants';
+import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../../../components/Form/InputField';
+import { SOURCING_KEY } from '../SourcingSection';
 
-const Quantity = () => {
+type Props = {
+  sourcingIndex: number;
+};
+
+const Quantity = ({ sourcingIndex }: Props) => {
+  const FORM_KEY = `${SOURCING_KEY}.${sourcingIndex}.quantities`;
   const { t } = useTranslation();
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'quantities',
+    name: FORM_KEY,
   });
 
   return (
@@ -28,14 +34,15 @@ const Quantity = () => {
       }}>
       <GridItem>
         <FormLabel>{t('PD.FormContent.Quantities')}</FormLabel>
-        <VStack gap={GRID.GAP} alignItems={'baseline'}>
+        <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
               <Box key={item.id} position={'relative'}>
                 <InputField
                   placeholder={`${t('Common.Placeholder')}`}
-                  name={`quantities.${index}.value`}
+                  name={`${FORM_KEY}.${index}`}
                   type="number"
+                  registerOptions={{ valueAsNumber: true }}
                 />
                 <IconButton
                   position={'absolute'}

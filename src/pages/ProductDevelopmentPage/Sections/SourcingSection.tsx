@@ -1,4 +1,12 @@
-import { Accordion, Box, Flex, Grid, GridItem, VStack } from '@chakra-ui/react';
+import {
+  Accordion,
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  VStack,
+} from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, GRID, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
@@ -7,12 +15,13 @@ import InputField from '../../../components/Form/InputField';
 import Quantity from './SectionComponents/Quantity';
 import TextArea from '../../../components/Form/TextArea';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MultiValue } from 'chakra-react-select';
 import { SelectOption } from '../../../app/types/types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { SourcingDto, UpdatedSourcingDto } from '../../../app/generate';
 
-const FORM_KEY = 'sourcings';
+export const SOURCING_KEY = 'sourcings';
 
 const SourcingSection = () => {
   const { t } = useTranslation();
@@ -25,21 +34,43 @@ const SourcingSection = () => {
     remove,
   } = useFieldArray({
     control,
-    name: FORM_KEY,
+    name: SOURCING_KEY,
   });
 
   const sourcingCompanies = useFilterOptions('sourcingCompanies');
 
   const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
 
+  console.log(
+    selected,
+    sourcingCompanies.filter(obj =>
+      (getValues(SOURCING_KEY) as UpdatedSourcingDto[])
+        .map(s => s.sourcingCompanyCode)
+        .includes(obj.value)
+    )
+  );
+
+  useEffect(() => {
+    if (sourcingCompanies.length > 0) {
+      setSelected(
+        sourcingCompanies.filter(obj =>
+          (getValues(SOURCING_KEY) as UpdatedSourcingDto[])
+            .map(s => s.sourcingCompanyCode)
+            .includes(obj.value)
+        )
+      );
+    }
+  }, [getValues, sourcingCompanies]);
+
   function addSourcing(selectedOption: MultiValue<SelectOption> | undefined) {
     if (selectedOption !== undefined) {
       setSelected(selectedOption);
-      append(selectedOption);
+      append({
+        sourcingCompanyCode: selectedOption[selectedOption.length - 1].value,
+      } as SourcingDto);
     }
   }
 
-  console.log('selected', selected);
   return (
     <AccordionItem title={t('PD.AccordionLabels.Sourcing')}>
       <Flex
@@ -69,50 +100,73 @@ const SourcingSection = () => {
             />
           </Box>
           <Box w={'100%'}>
-            <Accordion allowMultiple variant={'light'}>
-              {sourcings.map(sourcing => {
-                console.log('---->', sourcing);
-                return <></>;
+            <Accordion
+              allowMultiple
+              variant={'light'}
+              defaultIndex={sourcings.map((_, index) => index)}>
+              {sourcings.map((sourcing, index) => {
+                return (
+                  <AccordionItem
+                    key={sourcing.id}
+                    headlineColor={COLORS.GRAY[80]}
+                    title={(sourcing as any).sourcingCompanyCode}>
+                    <>
+                      <Grid
+                        gap={GRID.GAP}
+                        templateColumns={GRID.TEMPLATE_COLUMNS}>
+                        <GridItem
+                          colSpan={{
+                            base: 1,
+                            xl: 6,
+                          }}>
+                          <VStack gap={GRID.GAP} alignItems={'start'}>
+                            <TextArea
+                              placeholder={`${t('Common.Placeholder')}`}
+                              label={`${t(
+                                'PD.FormContent.ClientRequirements'
+                              )}`}
+                              name={`${SOURCING_KEY}.${index}.clientRequirement`}
+                            />
+                            <InputField
+                              placeholder={`${t('Common.Placeholder')}`}
+                              label={`${t(
+                                'PD.FormContent.TargetPurchasePrice'
+                              )}`}
+                              name={`${SOURCING_KEY}.${index}.targetPurchasePrice`}
+                            />
+                            <Button
+                              mt={SPACE}
+                              variant={'secondarySmall'}
+                              onClick={() => {
+                                remove(index);
+                              }}
+                              rightIcon={
+                                <i className={'ri-delete-bin-line'} />
+                              }>
+                              {t('PD.RemoveSourcing')}
+                            </Button>
+                          </VStack>
+                        </GridItem>
+                        <GridItem
+                          colSpan={{
+                            base: 1,
+                            xl: 2,
+                          }}
+                          colEnd={{
+                            base: 1,
+                            xl: 13,
+                          }}
+                          colStart={{
+                            base: 1,
+                            xl: 11,
+                          }}>
+                          <Quantity sourcingIndex={index} />
+                        </GridItem>
+                      </Grid>
+                    </>
+                  </AccordionItem>
+                );
               })}
-              <AccordionItem headlineColor={COLORS.GRAY[80]} title="NEA">
-                <>
-                  <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
-                    <GridItem
-                      colSpan={{
-                        base: 1,
-                        xl: 6,
-                      }}>
-                      <VStack gap={GRID.GAP}>
-                        <TextArea
-                          placeholder={`${t('Common.Placeholder')}`}
-                          label={`${t('PD.FormContent.ClientRequirements')}`}
-                          name={'clientRequirement '}
-                        />
-                        <InputField
-                          placeholder={`${t('Common.Placeholder')}`}
-                          label={`${t('PD.FormContent.TargetPurchasePrice')}`}
-                          name={'targetPurchasePrice'}
-                        />
-                      </VStack>
-                    </GridItem>
-                    <GridItem
-                      colSpan={{
-                        base: 1,
-                        xl: 2,
-                      }}
-                      colEnd={{
-                        base: 1,
-                        xl: 13,
-                      }}
-                      colStart={{
-                        base: 1,
-                        xl: 11,
-                      }}>
-                      <Quantity />
-                    </GridItem>
-                  </Grid>
-                </>
-              </AccordionItem>
             </Accordion>
           </Box>
         </>
