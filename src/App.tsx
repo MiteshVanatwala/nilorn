@@ -76,9 +76,9 @@ function App() {
 
   switch (auth.activeNavigator) {
     case 'signinSilent':
-      return <SpinnerOverlay text={t('Common.signingIn')} />;
+      return <SpinnerOverlay text={t('Common.SigningIn')} />;
     case 'signoutRedirect':
-      return <SpinnerOverlay text={t('Common.signingOut')} />;
+      return <SpinnerOverlay text={t('Common.SigningOut')} />;
   }
 
   if (auth.error) {

@@ -8,7 +8,7 @@ import {
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
 import ActionBar from './SectionComponents/ActionBar';
-import { Image, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
 import { SelectOption } from '../../../app/types/types';
+import PDImage from './SectionComponents/PDImage';
 
 type Props = {
   no: string;
@@ -31,6 +32,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
+  const pdName = useWatch({ name: 'name' });
 
   const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
@@ -81,14 +83,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                 md: scrolledPast ? SPACE.XXS : SPACE.MD,
               }}
               alignItems={'top'}>
-              <Image
-                maxHeight={scrolledPast ? '0' : '20rem'}
-                maxWidth={scrolledPast ? '0' : '20rem'}
-                visibility={scrolledPast ? 'hidden' : 'visible'}
-                width={'60'}
-                height={'60'}
-                objectFit={'cover'}
-                src={getValues('imageUrl')}></Image>
+              <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,

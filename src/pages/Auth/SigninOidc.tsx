@@ -11,7 +11,7 @@ const SigninOidc = () => {
     navigate('/');
   }, [navigate]);
 
-  return <SpinnerOverlay text={t('Common.signingIn')} />;
+  return <SpinnerOverlay text={t('Common.SigningIn')} />;
 };
 
 export default SigninOidc;

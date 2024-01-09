@@ -7,8 +7,9 @@ import { isNullOrWhiteSpace } from '../../app/utils/common';
 type Props = {
   src?: string | null | undefined;
   alt?: string | null | undefined;
+  thumbnail?: boolean;
 };
-const ImagePopup = ({ src, alt }: Props) => {
+const ImagePopup = ({ src, alt, thumbnail }: Props) => {
   const { handleModal } = useContext(ModalContext);
   const [isDirty, setIsDirty] = useState(false);
 
@@ -19,13 +20,23 @@ const ImagePopup = ({ src, alt }: Props) => {
           isPortal={false}
           trigger={PopupTrigger.HOVER}
           triggerElement={
-            <Button
-              onMouseEnter={() => setIsDirty(true)}
-              variant={'tableButton'}
-              as="i"
-              className="ri-camera-line"
-              onClick={() => handleModal(<Image src={src!} alt={alt} />)}
-            />
+            thumbnail ? (
+              <Image
+                boxSize="30px"
+                objectFit="cover"
+                src={src!}
+                onMouseEnter={() => setIsDirty(true)}
+                alt={alt}
+              />
+            ) : (
+              <Button
+                onMouseEnter={() => setIsDirty(true)}
+                variant={'tableButton'}
+                as="i"
+                className="ri-camera-line"
+                onClick={() => handleModal(<Image src={src!} alt={alt} />)}
+              />
+            )
           }
           content={isDirty ? <Image src={src!} alt={alt} /> : <></>}
         />

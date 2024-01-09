@@ -1,6 +1,6 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { onFilterChange, useDebounce } from '../Filter/FilterHelper';
+import { onFilterChange } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
 
 export default function FormuQuerySubmit({
@@ -31,13 +31,6 @@ export default function FormuQuerySubmit({
     navigate(`?` + onFilterChange(form.getValues()));
     form.clearErrors('serverError');
   }
-
-  //Prepared for api call on filter change
-  const debouncedSearchTerm = useDebounce<string>(window.location.href, 300);
-
-  useEffect(() => {
-    // console.log('debouncedSearchTerm', debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
 
   return (
     <FormProvider {...form}>
