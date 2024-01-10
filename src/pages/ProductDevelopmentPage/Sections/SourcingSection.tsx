@@ -1,32 +1,23 @@
-import {
-  Accordion,
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  VStack,
-} from '@chakra-ui/react';
+import { Accordion, Box, Flex } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { COLORS, GRID, SPACE } from '../../../theme/Constants';
+import { COLORS, SPACE } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
-import InputField from '../../../components/Form/InputField';
-import Quantity from './SectionComponents/Quantity';
-import TextArea from '../../../components/Form/TextArea';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
 import { MultiValue } from 'chakra-react-select';
 import { SelectOption } from '../../../app/types/types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { SourcingDto } from '../../../app/generate';
+import SourcingForm from './SourcingForm';
 
 export const SOURCING_KEY = 'sourcings';
 type Props = {
+  no: string;
   disableEdit: boolean;
 };
 
-const SourcingSection = ({ disableEdit }: Props) => {
+const SourcingSection = ({ no, disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const { getValues, control } = useFormContext();
@@ -102,73 +93,23 @@ const SourcingSection = ({ disableEdit }: Props) => {
               allowMultiple
               variant={'light'}
               defaultIndex={sourcings.map((_, index) => index)}>
-              {sourcings.map((sourcing, index) => {
+              {sourcings.map((sourcingData, index) => {
+                const sourcing = sourcingData as SourcingDto;
+                if (!sourcing.sourcingCompanyCode) {
+                  return <></>;
+                }
                 return (
                   <AccordionItem
-                    key={sourcing.id}
+                    key={sourcingData.id}
                     headlineColor={COLORS.GRAY[80]}
-                    title={(sourcing as any).sourcingCompanyCode}>
-                    <>
-                      <Grid
-                        gap={GRID.GAP}
-                        templateColumns={GRID.TEMPLATE_COLUMNS}>
-                        <GridItem
-                          colSpan={{
-                            base: 1,
-                            xl: 6,
-                          }}>
-                          <VStack gap={GRID.GAP} alignItems={'start'}>
-                            <TextArea
-                              placeholder={`${t('Common.Placeholder')}`}
-                              label={`${t(
-                                'PD.FormContent.ClientRequirements'
-                              )}`}
-                              isDisabled={disableEdit}
-                              name={`${SOURCING_KEY}.${index}.clientRequirement`}
-                            />
-                            <InputField
-                              placeholder={`${t('Common.Placeholder')}`}
-                              isDisabled={disableEdit}
-                              label={`${t(
-                                'PD.FormContent.TargetPurchasePrice'
-                              )}`}
-                              name={`${SOURCING_KEY}.${index}.targetPurchasePrice`}
-                            />
-                            {!disableEdit && (
-                              <Button
-                                mt={SPACE}
-                                variant={'secondarySmall'}
-                                onClick={() => {
-                                  remove(index);
-                                }}
-                                rightIcon={
-                                  <i className={'ri-delete-bin-line'} />
-                                }>
-                                {t('PD.RemoveSourcing')}
-                              </Button>
-                            )}
-                          </VStack>
-                        </GridItem>
-                        <GridItem
-                          colSpan={{
-                            base: 1,
-                            xl: 2,
-                          }}
-                          colEnd={{
-                            base: 1,
-                            xl: 13,
-                          }}
-                          colStart={{
-                            base: 1,
-                            xl: 11,
-                          }}>
-                          <Quantity
-                            sourcingIndex={index}
-                            disableEdit={disableEdit}
-                          />
-                        </GridItem>
-                      </Grid>
-                    </>
+                    title={sourcing.sourcingCompanyCode}>
+                    <SourcingForm
+                      no={no}
+                      disableEdit={disableEdit}
+                      sourcingCompanyCode={sourcing.sourcingCompanyCode}
+                      sourcingIndexKey={`${SOURCING_KEY}.${index}`}
+                      onRemove={() => remove(index)}
+                    />
                   </AccordionItem>
                 );
               })}

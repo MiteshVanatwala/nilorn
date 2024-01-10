@@ -64,10 +64,14 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return <SpinnerOverlay />;
   }
 
-  if ((createNew && isSuccess) || isUserSuccess) {
+  if (
+    (createNew && isUserSuccess) ||
+    (isUserSuccess && isSuccess && no !== undefined)
+  ) {
     return (
       <Box ref={ref}>
         <ProductDevelopmentForm
+          no={no ?? ''}
           scrolledPast={scrolledPast}
           defaultValues={data as FieldValues}
           createNew={createNew}

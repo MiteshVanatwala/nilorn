@@ -2,7 +2,6 @@ import {
   useCreateProductDevelopment,
   useUpdateProductDevelopment,
 } from '../../../app/api/productDevelopment';
-import { useParams } from 'react-router';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import TopSection from './TopSection';
 import ContentPage from '../../Templates/ContentPage';
@@ -23,14 +22,15 @@ type Props = {
   createNew: boolean;
   defaultValues?: FieldValues;
   scrolledPast: boolean;
+  no: string;
 };
 
 function ProductDevelopmentForm({
   createNew,
   defaultValues,
   scrolledPast,
+  no,
 }: Props) {
-  const { no } = useParams();
   const { data: user } = useCurrentUser();
 
   const form = useForm({
@@ -41,9 +41,7 @@ function ProductDevelopmentForm({
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
-  const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
-    no ?? ''
-  );
+  const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
@@ -73,7 +71,7 @@ function ProductDevelopmentForm({
         <TopSection
           disableEdit={disableEdit}
           createNew={createNew}
-          no={no ?? ''}
+          no={no}
           scrolledPast={scrolledPast}
         />
         <ContentPage>
@@ -87,13 +85,13 @@ function ProductDevelopmentForm({
                   <GeneralSection disableEdit={disableEdit} />
                   <ProductDesignSection disableEdit={disableEdit} />
                   <MemberSection
-                    no={no ?? ''}
+                    no={no}
                     createNew={createNew}
                     disableEdit={disableEdit}
                   />
                   <AttachmentSection />
                   {user?.role && user?.role !== Role.DESIGNER && (
-                    <SourcingSection disableEdit={disableEdit} />
+                    <SourcingSection no={no} disableEdit={disableEdit} />
                   )}
                 </Accordion>
               </VStack>
