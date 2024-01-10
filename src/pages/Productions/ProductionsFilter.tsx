@@ -8,11 +8,26 @@ import ActiveFilters from '../../components/Filter/ActiveFilters';
 import Filter from '../../components/Filter/Filter';
 import AdvanceFilter from '../../components/Filter/AdvanceFilter';
 import { useProductionsAdvanceFilters } from './useProductionsAdvanceFilters';
+import { usePaginationContext } from '../../app/context/PaginationProvider';
+import { useEffect } from 'react';
 
 const ProductionsFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
 
+  const { pageSize, pageNumber } = usePaginationContext();
+
+  useEffect(() => {
+    if (pageNumber > 0) {
+      form.setValue('pageNumber', pageNumber);
+    }
+  }, [form, pageNumber]);
+
+  useEffect(() => {
+    if (pageSize > 0) {
+      form.setValue('pageSize', pageSize);
+    }
+  }, [form, pageSize]);
   const filterInputs: SelectOption<FilterInput>[] = [
     {
       label: t('PD.FilterLabel.vendor'),

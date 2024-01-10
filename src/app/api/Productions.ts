@@ -4,8 +4,8 @@ import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentProductionsService } from '../generate';
 
 export function useProductionsFilter() {
-  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 1;
-  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 1;
+  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
+  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
   const searchQuery = useFilterSearchParams('searchQuery', 400);
   const vendors = useFilterSearchParams('vendor');
   const clients = useFilterSearchParams('clients');
