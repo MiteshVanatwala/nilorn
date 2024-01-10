@@ -96,7 +96,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
         base: SPACE.XS,
         md: SPACE.XXL,
       }}>
-      {!isError && !isLoading && (
+      {!isError && !isLoading && pdImage && (
         <Image
           mx={'auto'}
           maxW={450}
@@ -107,7 +107,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
       )}
 
       <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-        {!isError && !isLoading && (
+        {!isError && !isLoading && pdImage && (
           <>
             <GridItem>
               <Input
@@ -135,7 +135,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
             </GridItem>
           </>
         )}
-        {(isError || isLoading) && (
+        {(isError || isLoading || !pdImage) && (
           <GridItem textAlign={'center'}>
             <Flex
               mb={SPACE.SM}
