@@ -37,7 +37,6 @@ const ProductionsTable = ({ productions, productionsTwo }: Props) => {
       <Tbody>
         {productions.map((production, productionIndex) => (
           <React.Fragment key={productionIndex}>
-            <h2>{production?.sourcedProductions?.length}</h2>
             {production?.sourcedProductions?.map((sourcing, sourcingIndex) => (
               <React.Fragment key={`${productionIndex}-${sourcingIndex}`}>
                 {sourcing?.productions?.map((vendor, vendorIndex) => {
@@ -46,7 +45,6 @@ const ProductionsTable = ({ productions, productionsTwo }: Props) => {
                   return (
                     <React.Fragment
                       key={`${productionIndex}-${sourcingIndex}-${vendorIndex}`}>
-                      <h2>{sourcing.name}</h2>
                       {vendor?.purchasePrices?.map((qty, qtyIndex) => (
                         <Tr
                           bgColor={bgColor}
@@ -115,16 +113,16 @@ const ProductionsTable = ({ productions, productionsTwo }: Props) => {
                                 {vendor.comment}
                               </Td>
                               <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.sampleCharge}
+                                {vendor.sampleLeadTime}
                               </Td>
                               <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.toolCharge}
+                                {vendor.productionLeadTime}
                               </Td>
                               <Td rowSpan={vendor.purchasePrices?.length}>
                                 {vendor.moq}
                               </Td>
                               <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.sampleLeadTime}
+                                {vendor.sampleCharge}
                               </Td>
                             </>
                           )}
