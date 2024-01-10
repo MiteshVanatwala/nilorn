@@ -45,91 +45,91 @@ const ProductionsTable = ({ productions, productionsTwo }: Props) => {
                   return (
                     <React.Fragment
                       key={`${productionIndex}-${sourcingIndex}-${vendorIndex}`}>
-                      {vendor?.purchasePrices?.map((qty, qtyIndex) => (
-                        <Tr
-                          bgColor={bgColor}
-                          verticalAlign={qtyIndex === 1 ? 'baseline' : 'center'}
-                          key={`${production?.productDevelopmentBriefDto?.no}-${sourcingIndex}-${vendorIndex}-${qtyIndex}`}>
-                          {sourcingIndex === 0 &&
-                            vendorIndex === 0 &&
-                            qtyIndex === 0 && (
+                      <Tr
+                        bgColor={bgColor}
+                        verticalAlign={
+                          sourcingIndex === 1 ? 'baseline' : 'center'
+                        }
+                        key={`${production?.productDevelopmentBriefDto?.no}-${sourcingIndex}-${vendorIndex}`}>
+                        {sourcingIndex === 0 && vendorIndex === 0 && (
+                          <>
+                            <Td
+                              rowSpan={production?.sourcedProductions?.reduce(
+                                (sum, s) =>
+                                  sum +
+                                  (s?.productions
+                                    ? s?.productions?.length
+                                    : 1) *
+                                    (vendor?.purchasePrices
+                                      ? vendor?.purchasePrices?.length
+                                      : 1),
+                                0
+                              )}>
+                              <PDCell
+                                {...production.productDevelopmentBriefDto}
+                              />
+                            </Td>
+                            <Td
+                              rowSpan={production?.sourcedProductions?.reduce(
+                                (sum, s) =>
+                                  sum +
+                                  (s?.productions
+                                    ? s?.productions?.length
+                                    : 1) *
+                                    (vendor?.purchasePrices
+                                      ? vendor?.purchasePrices?.length
+                                      : 1),
+                                0
+                              )}>
+                              {production.productDevelopmentBriefDto?.client}
+                            </Td>
+                          </>
+                        )}
+                        {vendorIndex === 0 && (
+                          <>
+                            <Td
+                              rowSpan={
+                                (sourcing?.productions
+                                  ? sourcing?.productions.length
+                                  : 1) *
+                                (vendor?.purchasePrices
+                                  ? vendor?.purchasePrices?.length
+                                  : 1)
+                              }>
+                              {sourcing.name}
+                              {/* <TabelMenu /> */}
+                            </Td>
+                          </>
+                        )}
+                        {vendor?.purchasePrices?.map((qty, qtyIndex) => (
+                          <>
+                            {qtyIndex === 0 && (
                               <>
-                                <Td
-                                  rowSpan={production?.sourcedProductions?.reduce(
-                                    (sum, s) =>
-                                      sum +
-                                      (s?.productions
-                                        ? s?.productions?.length
-                                        : 0) *
-                                        (vendor?.purchasePrices
-                                          ? vendor?.purchasePrices?.length
-                                          : 0),
-                                    0
-                                  )}>
-                                  <PDCell
-                                    {...production.productDevelopmentBriefDto}
-                                  />
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.vendorName}
                                 </Td>
-                                <Td
-                                  rowSpan={production?.sourcedProductions?.reduce(
-                                    (sum, s) =>
-                                      sum +
-                                      (s?.productions
-                                        ? s?.productions?.length
-                                        : 0) *
-                                        (vendor?.purchasePrices
-                                          ? vendor?.purchasePrices?.length
-                                          : 0),
-                                    0
-                                  )}>
-                                  {
-                                    production.productDevelopmentBriefDto
-                                      ?.client
-                                  }
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.comment}
+                                </Td>
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.sampleLeadTime}
+                                </Td>
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.productionLeadTime}
+                                </Td>
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.moq}
+                                </Td>
+                                <Td rowSpan={vendor.purchasePrices?.length}>
+                                  {vendor.sampleCharge}
                                 </Td>
                               </>
                             )}
-                          {vendorIndex === 0 && qtyIndex === 0 && (
-                            <>
-                              <Td
-                                rowSpan={
-                                  (sourcing?.productions
-                                    ? sourcing?.productions.length
-                                    : 0) *
-                                  (vendor?.purchasePrices
-                                    ? vendor?.purchasePrices?.length
-                                    : 0)
-                                }>
-                                {sourcing.name} <TabelMenu />
-                              </Td>
-                            </>
-                          )}
-                          {qtyIndex === 0 && (
-                            <>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.vendorName}
-                              </Td>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.comment}
-                              </Td>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.sampleLeadTime}
-                              </Td>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.productionLeadTime}
-                              </Td>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.moq}
-                              </Td>
-                              <Td rowSpan={vendor.purchasePrices?.length}>
-                                {vendor.sampleCharge}
-                              </Td>
-                            </>
-                          )}
-                          <Td>{qty.quantity}</Td>
-                          <Td>{qty.price}</Td>
-                        </Tr>
-                      ))}
+                            <Td>{qty.quantity}</Td>
+                            <Td>{qty.price}</Td>
+                          </>
+                        ))}
+                      </Tr>
                     </React.Fragment>
                   );
                 })}
