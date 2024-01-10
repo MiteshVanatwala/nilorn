@@ -10,7 +10,7 @@ import { COLORS } from '../../theme/Constants';
 import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
@@ -31,7 +31,9 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       sorting: sortState,
     },
   });
-  const handleClick = (url: string) => {
+  const handleClick = (e: MouseEvent<HTMLTableRowElement>, url: string) => {
+    e.stopPropagation();
+
     sessionStorage.setItem('prevFilter', window.location.href);
     navigate(url);
   };
@@ -49,8 +51,8 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
             <TBodyRow
               row={row}
               bgColor={bgColor}
-              onClick={() =>
-                handleClick(`product-development/${row.original.no}`)
+              onClick={e =>
+                handleClick(e, `product-development/${row.original.no}`)
               }
               key={i}
             />

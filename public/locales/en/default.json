@@ -73,6 +73,7 @@
     "ProjectName": "Project name",
     "SalespersonPurchaser": "Member",
     "ProductGroup": "Product group",
+    "ItemCategory": "Item category",
     "Version": "Version",
     "MemberInfo": "Members can only be added after the product development is created",
     "CreateNew": "Create Product Development",

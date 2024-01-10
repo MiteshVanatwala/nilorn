@@ -11,6 +11,17 @@ export const downloadBlob = (data: Blob, filename: string) => {
   window.URL.revokeObjectURL(blobUrl);
 };
 
+export const downloadFromUrl = (url: string) => {
+  const filename = url.substring(url.lastIndexOf('/') + 1);
+
+  const link = window.document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+};
+
 export const handleFileUpload = (
   e: ChangeEvent<HTMLInputElement>
 ): string[] => {

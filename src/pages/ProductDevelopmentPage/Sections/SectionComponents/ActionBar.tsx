@@ -3,8 +3,6 @@ import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
-import { Image } from '@chakra-ui/react';
-import { images } from '../../../../assets';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
@@ -12,6 +10,7 @@ import { Status } from '../../../../app/generate';
 import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+import ArtworkButton from '../../../../components/Button/ArtworkButton';
 
 type Props = {
   no: string;
@@ -74,20 +73,7 @@ const ActionBar = ({ createNew, no }: Props) => {
         }}>
         {!createNew && (
           <>
-            {artwork && (
-              <IconButton
-                variant={'ghost'}
-                aria-label={t('PD.Artwork')}
-                icon={
-                  <Image
-                    src={images.pdf}
-                    height="3.2rem"
-                    objectFit={'contain'}
-                    width="auto"
-                  />
-                }
-              />
-            )}
+            {artwork && <ArtworkButton url="TBD" />}
             <Menu>
               <MenuButton
                 as={IconButton}
