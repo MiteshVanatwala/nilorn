@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { BaseEvent } from './models/BaseEvent';
 export type { ChangelogDto } from './models/ChangelogDto';
 export { ChangeType } from './models/ChangeType';
 export type { ClientDto } from './models/ClientDto';
@@ -16,6 +17,8 @@ export type { CreateProjectCommand } from './models/CreateProjectCommand';
 export type { Currency } from './models/Currency';
 export type { DeleteProductionCommand } from './models/DeleteProductionCommand';
 export type { DeleteSearchProfileCommand } from './models/DeleteSearchProfileCommand';
+export type { MediaFile } from './models/MediaFile';
+export { MediaFileType } from './models/MediaFileType';
 export type { OpCompDto } from './models/OpCompDto';
 export type { OptionItem } from './models/OptionItem';
 export type { ProductDevelopmentBriefDto } from './models/ProductDevelopmentBriefDto';
