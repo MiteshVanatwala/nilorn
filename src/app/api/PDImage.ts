@@ -8,7 +8,7 @@ export function useGetPDImage(no: string, enable: boolean = true) {
     [QueryKeysEnum.ProductDevelopmentImage, no],
     () => ImageService.getApiImage(no).then(res => res),
     {
-      retry: 1,
+      retry: 0,
       enabled: enable,
     }
   );

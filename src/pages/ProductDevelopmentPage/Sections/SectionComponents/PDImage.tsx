@@ -3,19 +3,20 @@ import { useModal } from '../../../../app/hooks/useModal';
 import PDImageModal from './PDImageModal';
 import { COLORS } from '../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
+import { useGetPDImage } from '../../../../app/api/PDImage';
 
 type Props = {
   scrolledPast: boolean;
   no: string;
   pdName: string;
-  thumbnail: string;
 };
 
-const PDImage = ({ scrolledPast, no, pdName, thumbnail }: Props) => {
+const PDImage = ({ scrolledPast, no, pdName }: Props) => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
+  let { data: pdImage, isError } = useGetPDImage(no);
 
-  if (thumbnail) {
+  if (pdImage && !isError) {
     return (
       <Image
         maxHeight={scrolledPast ? '0' : '20rem'}
@@ -27,10 +28,10 @@ const PDImage = ({ scrolledPast, no, pdName, thumbnail }: Props) => {
         cursor={'pointer'}
         onClick={() =>
           handleModal(
-            <PDImageModal pdName={pdName} thumbnail={thumbnail} no={no} />
+            <PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />
           )
         }
-        src={`data:image/jpeg;base64,${thumbnail}`}
+        src={`data:image/jpeg;base64,${pdImage}`}
       />
     );
   }
@@ -50,7 +51,7 @@ const PDImage = ({ scrolledPast, no, pdName, thumbnail }: Props) => {
       alignItems={'center'}
       onClick={() =>
         handleModal(
-          <PDImageModal pdName={pdName} thumbnail={undefined} no={no} />
+          <PDImageModal pdName={pdName} imageUrl={undefined} no={no} />
         )
       }>
       <Text mr="2" as="i" className="ri-add-line" />

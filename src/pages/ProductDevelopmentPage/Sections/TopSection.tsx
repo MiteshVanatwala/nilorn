@@ -28,9 +28,8 @@ type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
-  thumbnail: string;
 };
-const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
@@ -86,12 +85,7 @@ const TopSection = ({ no, scrolledPast, createNew, thumbnail }: Props) => {
               }}
               alignItems={'top'}>
               {!createNew ? (
-                <PDImage
-                  pdName={pdName}
-                  no={no}
-                  scrolledPast={scrolledPast}
-                  thumbnail={thumbnail}
-                />
+                <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
               ) : (
                 <HStack
                   maxHeight={scrolledPast ? '0' : '20rem'}

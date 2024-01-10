@@ -19,12 +19,12 @@ import {
 } from '../../../../app/api/PDImage';
 
 type Props = {
-  thumbnail: string | undefined;
+  imageUrl: string | undefined;
   no: string;
   pdName: string;
 };
 
-const PDImageModal = ({ thumbnail, no, pdName }: Props) => {
+const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   let [pasteError, setPasteError] = useState<boolean>(false);
@@ -33,7 +33,7 @@ const PDImageModal = ({ thumbnail, no, pdName }: Props) => {
     data: pdImage,
     isError,
     isLoading,
-  } = useGetPDImage(no, thumbnail !== undefined ? true : false);
+  } = useGetPDImage(no, imageUrl !== undefined ? true : false);
   const { mutate: uploadProductDevelopmentImage } = useUploadPDImage(no);
 
   const { mutate: deletePDImage } = useDeletePDImage(no);
