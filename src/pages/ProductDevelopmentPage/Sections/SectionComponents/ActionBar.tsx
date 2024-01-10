@@ -9,17 +9,19 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
 import { Status } from '../../../../app/generate';
+import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useChangelog';
 
 type Props = {
   no: string;
   createNew?: boolean;
-  showingChanges: boolean;
 };
 
-const ActionBar = ({ createNew, showingChanges, no }: Props) => {
+const ActionBar = ({ createNew, no }: Props) => {
   const { t } = useTranslation();
+
   const artwork = useWatch({ name: 'artwork' });
   const { trigger, getValues } = useFormContext();
+
   const { statuses, getNextStatus } = useStatusOptions();
   const nextStatus = getNextStatus(getValues('status') as Status);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
@@ -30,6 +32,9 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
       updateStatus(status);
     }
   }
+
+  const { showChanges, setShowChanges } =
+    useToggleProductDevelopmentChanges(no);
 
   return (
     <VStack align={'left'}>
@@ -78,6 +83,7 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
               />
               <MenuList>
                 <MenuItem
+                  onClick={() => setShowChanges(!showChanges)}
                   icon={
                     <Text
                       as={'i'}
@@ -85,7 +91,7 @@ const ActionBar = ({ createNew, showingChanges, no }: Props) => {
                       className="ri-history-line"
                     />
                   }>
-                  {showingChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
+                  {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
                 <MenuItem
                   icon={

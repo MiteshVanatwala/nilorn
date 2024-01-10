@@ -64,6 +64,8 @@ const textBtn = defineStyle({
 
 const iconBtn = defineStyle({
   fontSize: SIZES.FONT.XS,
+  h: '2.1rem',
+  w: '2.1rem',
   p: 0,
   cursor: 'pointer',
   _hover: {

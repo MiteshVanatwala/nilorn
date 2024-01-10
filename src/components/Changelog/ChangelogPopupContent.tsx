@@ -1,13 +1,18 @@
-import useChangelogColumns, { mock } from './useChangelogColumns';
+import useChangelogColumns from './useChangelogColumns';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import SmallTable from '../Table/SmallTable';
+import { ChangelogDto } from '../../app/generate';
 
-const ChangelogPopupContent = () => {
+type Props = {
+  data: ChangelogDto[];
+};
+
+const ChangelogPopupContent = ({ data }: Props) => {
   const columns = useChangelogColumns();
 
   const table = useReactTable({
     columns,
-    data: mock,
+    data,
     getCoreRowModel: getCoreRowModel(),
   });
 

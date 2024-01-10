@@ -11,6 +11,7 @@ import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import { useEffect, useState } from 'react';
+import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
@@ -32,6 +33,8 @@ const GeneralSection = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemCategoryCode]);
+
+  const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
@@ -114,6 +117,7 @@ const GeneralSection = () => {
               <InputField
                 label={`${t('PD.FormContent.ItemNumber')}`}
                 placeholder={`${t('Common.Placeholder')}`}
+                changelog={itemNoChangelog}
                 name={'itemNo'}
               />
             </GridItem>
