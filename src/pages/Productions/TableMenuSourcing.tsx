@@ -20,13 +20,13 @@ import {
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcingCompanyDto;
-  vendorIndex: number;
+  sourcingCoIndex: number;
 };
 
 const TableMenuSourcing = ({
   productDevelopment,
   sourcedProduction,
-  vendorIndex,
+  sourcingCoIndex,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
@@ -50,7 +50,8 @@ const TableMenuSourcing = ({
               <EditProduction
                 productDevelopment={productDevelopment}
                 sourcedProduction={sourcedProduction}
-                vendorIndex={vendorIndex}
+                sourcingCoIndex={sourcingCoIndex}
+                createNew={true}
               />
             )
           }

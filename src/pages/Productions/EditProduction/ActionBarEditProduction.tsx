@@ -15,11 +15,13 @@ type Props = {
   artwork?: string | null;
   sourcedProduction?: SourcedProductionDto;
   vendorIndex: number;
+  createNew?: boolean;
 };
 const ActionBarEditProduction = ({
   artwork,
   sourcedProduction,
   vendorIndex,
+  createNew,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
@@ -62,42 +64,47 @@ const ActionBarEditProduction = ({
           lg: SPACE.XS,
         }}>
         {artwork && <ArtworkButton url="TBD" />}
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            variant={'secondary'}
-            padding={SPACE.SM}
-            aria-label={t('Common.More')}
-            icon={
-              <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
-            }
-          />
-          <MenuList>
-            <MenuItem
+        {!createNew && (
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              variant={'secondary'}
+              padding={SPACE.SM}
+              aria-label={t('Common.More')}
               icon={
-                <Text
-                  as={'i'}
-                  fontSize={SIZES.ICON.MD}
-                  className="ri-history-line"
-                />
-              }>
-              {t('PD.ShowChanges')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => deleteVendorFunc()}
-              icon={
-                <Text
-                  as={'i'}
-                  fontSize={SIZES.ICON.MD}
-                  className="ri-delete-bin-line"
-                />
-              }>
-              {t('Common.Delete')}
-            </MenuItem>
-          </MenuList>
-        </Menu>
+                <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
+              }
+            />
+            <MenuList>
+              <MenuItem
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-history-line"
+                  />
+                }>
+                {t('PD.ShowChanges')}
+              </MenuItem>
+              <MenuItem
+                onClick={() => deleteVendorFunc()}
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-delete-bin-line"
+                  />
+                }>
+                {t('Common.Delete')}
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )}
+
         <ButtonGroup isAttached variant="primary">
-          <Button type="submit">{t('Common.Save')}</Button>
+          <Button type="submit">
+            {createNew ? t('Production.CreateProduction') : t('Common.Save')}
+          </Button>
           <Menu>
             <MenuButton
               as={IconButton}
@@ -108,7 +115,9 @@ const ActionBarEditProduction = ({
             />
             <MenuList>
               <MenuItem onClick={() => handleSaveAndRelease()}>
-                {t('Production.SaveAndRelease')}
+                {createNew
+                  ? t('Production.CreateAndRelease')
+                  : t('Production.SaveAndRelease')}
               </MenuItem>
             </MenuList>
           </Menu>

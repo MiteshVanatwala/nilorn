@@ -9,29 +9,42 @@ import Select from '../../../components/Form/Select';
 import QuantityPurchase from '../QuantityPurchase';
 import {
   ProductDevelopmentBriefDto,
+  ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
 import { usePatchProduction } from '../../../app/api/editProduction';
+import { useGetVendors } from '../../../app/api/vendors';
+import { SelectOption } from '../../../app/types/types';
+import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
+import { useEffect, useState } from 'react';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  vendorIndex: number;
+  sourcingCoIndex: number;
+  createNew?: boolean;
+  production?: ProductionDto;
 };
 const EditProduction = ({
   productDevelopment,
   sourcedProduction,
-  vendorIndex,
+  sourcingCoIndex,
+  createNew,
+  production,
 }: Props) => {
   const { t } = useTranslation();
   const form = useForm();
   const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[vendorIndex]
+    ? sourcedProduction?.productions[sourcingCoIndex]
     : null;
   const { mutate: saveProduction } = usePatchProduction(
     vendor?.vendorId ?? '',
     vendor?.released ?? false,
     true
   );
+
+  let { data: vendors } = useGetVendors();
+  const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
+
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       // updateProductDevelopment(form);
@@ -40,6 +53,13 @@ const EditProduction = ({
     }
     onSubmit(form);
   }
+
+  useEffect(() => {
+    if (vendors) {
+      setVendorOptions(mapVendorsToOptions(vendors));
+    }
+  }, [vendors]);
+
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -47,7 +67,9 @@ const EditProduction = ({
           <EditProductionTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            vendorIndex={vendorIndex}
+            vendorIndex={sourcingCoIndex}
+            production={production}
+            createNew={createNew}
           />
           <Grid
             templateColumns={{
@@ -67,18 +89,20 @@ const EditProduction = ({
                   md: GRID.TEMPLATE_COLUMNS.sm,
                   lg: 'repeat(3, 1fr)',
                 }}>
+                {createNew && (
+                  <GridItem maxW={'17.4rem'} colSpan={1}>
+                    <Select
+                      label={t('Production.ChooseVendor')}
+                      options={vendorOptions ?? []}
+                      name={'vendorId'}></Select>
+                  </GridItem>
+                )}
                 <GridItem colSpan={3}>
                   <TextArea
                     name="comment"
                     placeholder={t('Production.CommentPlaceholder')}
                     label={t('Production.Comment')}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[
-                            vendorIndex
-                          ]?.comment?.toString()
-                        : ''
-                    }
+                    defaultValue={production?.comment?.toString()}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -86,12 +110,7 @@ const EditProduction = ({
                     label={`${t('Production.SL')}`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'SampleLeadTime'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[vendorIndex]
-                            ?.sampleLeadTime
-                        : ''
-                    }
+                    defaultValue={production?.sampleLeadTime}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -99,12 +118,7 @@ const EditProduction = ({
                     label={`${t('Production.BL')}`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'ProductionLeadTime'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[vendorIndex]
-                            ?.productionLeadTime
-                        : ''
-                    }
+                    defaultValue={production?.productionLeadTime}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -112,11 +126,7 @@ const EditProduction = ({
                     label={`${t('Production.MOQ')}`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'MOQ'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[vendorIndex]?.moq
-                        : ''
-                    }
+                    defaultValue={production?.moq}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -124,12 +134,7 @@ const EditProduction = ({
                     label={`${t('Production.Tool')}`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'ToolCharge'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[vendorIndex]
-                            ?.toolCharge
-                        : ''
-                    }
+                    defaultValue={production?.toolCharge}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -137,12 +142,7 @@ const EditProduction = ({
                     label={`${t('Production.Sample')}`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'SampleCharge'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[vendorIndex]
-                            ?.sampleCharge
-                        : ''
-                    }
+                    defaultValue={production?.sampleCharge}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -190,7 +190,7 @@ const EditProduction = ({
               <QuantityPurchase
                 purchasePrices={
                   sourcedProduction?.productions
-                    ? sourcedProduction?.productions[vendorIndex]
+                    ? sourcedProduction?.productions[sourcingCoIndex]
                         ?.purchasePrices
                     : undefined
                 }

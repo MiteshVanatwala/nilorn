@@ -25,7 +25,7 @@ const mapClientsToOptions = (clients?: ClientDto[]) => {
   );
 };
 
-const mapVendorsToOptions = (vendors?: VendorDto[]) => {
+export const mapVendorsToOptions = (vendors?: VendorDto[]) => {
   return (
     vendors?.map(v => ({
       label: v.name,

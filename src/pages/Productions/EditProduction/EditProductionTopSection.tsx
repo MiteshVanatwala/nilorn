@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import {
   ProductDevelopmentBriefDto,
+  ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
 import ActionBarEditProduction from './ActionBarEditProduction';
@@ -14,11 +15,15 @@ type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   vendorIndex: number;
+  production?: ProductionDto;
+  createNew?: boolean;
 };
 const EditProductionTopSection = ({
   productDevelopment,
   sourcedProduction,
   vendorIndex,
+  production,
+  createNew,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -84,14 +89,8 @@ const EditProductionTopSection = ({
                 {productDevelopment?.name}
               </Heading>
               <HStack>
-                {sourcedProduction?.productions && (
-                  <Text variant={'bodyBold'}>
-                    {sourcedProduction?.productions[vendorIndex]?.vendorName}
-                  </Text>
-                )}
-                {sourcedProduction?.productions && sourcedProduction?.name && (
-                  <>{' - '}</>
-                )}
+                <Text variant={'bodyBold'}>{production?.vendorName}</Text>
+                {production && sourcedProduction?.name && <>{' - '}</>}
                 <Text>{sourcedProduction?.name}</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
@@ -139,6 +138,7 @@ const EditProductionTopSection = ({
             sourcedProduction={sourcedProduction}
             artwork={productDevelopment?.artworkUrl}
             vendorIndex={vendorIndex}
+            createNew={createNew}
           />
         </GridItem>
       </Grid>

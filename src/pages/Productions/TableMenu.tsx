@@ -8,11 +8,12 @@ import {
 } from '@chakra-ui/react';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
+  ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
 import { useReleaseForSales } from '../../app/api/editProduction';
@@ -20,24 +21,23 @@ import { useReleaseForSales } from '../../app/api/editProduction';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  vendorIndex: number;
+  sourcingCoIndex: number;
+  production?: ProductionDto;
 };
 
 const TableMenu = ({
   productDevelopment,
   sourcedProduction,
-  vendorIndex,
+  sourcingCoIndex,
+  production,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
 
   const { mutate: releaseForSales } = useReleaseForSales(
-    sourcedProduction?.productions
-      ? sourcedProduction.productions[vendorIndex]?.vendorId?.toString()
-      : undefined,
-    !sourcedProduction?.productions?.[vendorIndex]?.released
+    production ? production?.vendorId?.toString() : undefined,
+    !production?.released
   );
-
   function releaseForSalesFunc(id: string | undefined, release: boolean) {
     releaseForSales();
   }
@@ -60,7 +60,8 @@ const TableMenu = ({
               <EditProduction
                 productDevelopment={productDevelopment}
                 sourcedProduction={sourcedProduction}
-                vendorIndex={vendorIndex}
+                sourcingCoIndex={sourcingCoIndex}
+                production={production}
               />
             )
           }
@@ -72,12 +73,8 @@ const TableMenu = ({
         <MenuItem
           onClick={() =>
             releaseForSalesFunc(
-              sourcedProduction?.productions
-                ? sourcedProduction.productions[
-                    vendorIndex
-                  ]?.vendorId?.toString()
-                : undefined,
-              sourcedProduction?.productions?.[vendorIndex]?.released ?? false
+              production?.vendorId?.toString(),
+              production?.released ?? false
             )
           }
           icon={
@@ -87,7 +84,7 @@ const TableMenu = ({
               className="ri-toggle-line"
             />
           }>
-          {!sourcedProduction?.productions?.[vendorIndex]?.released
+          {!production?.released
             ? t('Production.Release')
             : t('Production.Remove')}
         </MenuItem>

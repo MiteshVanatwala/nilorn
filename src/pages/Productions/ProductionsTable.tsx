@@ -17,6 +17,10 @@ const TH_STYLE: CSSProperties = {
   ...table.baseStyle?.th,
   height: 'auto',
   textTransform: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  paddingTop: '0',
+  paddingBottom: '0',
 };
 
 const TD_STYLE_RELEASED: CSSProperties = {
@@ -46,7 +50,10 @@ const ProductionsTable = ({ productions }: Props) => {
   return (
     <>
       <Box>
-        <Grid gridTemplateColumns={'repeat(12, 1fr)'}>
+        <Grid
+          h={'4.6rem'}
+          lineHeight={1.15}
+          gridTemplateColumns={'repeat(12, 1fr)'}>
           <GridItem colSpan={2} style={TH_STYLE}>
             {t('Production.ProductDevelopments')}
           </GridItem>
@@ -81,7 +88,7 @@ const ProductionsTable = ({ productions }: Props) => {
                   gridTemplateColumns={'repeat(9, 1fr)'}
                   height={'100%'}
                   alignItems={'stretch'}>
-                  {p.sourcedProductions?.map(s => (
+                  {p.sourcedProductions?.map((s, index) => (
                     <>
                       <GridItem
                         key={
@@ -95,7 +102,7 @@ const ProductionsTable = ({ productions }: Props) => {
                           <TableMenuSourcing
                             productDevelopment={p?.productDevelopmentBriefDto}
                             sourcedProduction={s}
-                            vendorIndex={0}
+                            sourcingCoIndex={index}
                           />
                         </Box>
                       </GridItem>
@@ -120,7 +127,8 @@ const ProductionsTable = ({ productions }: Props) => {
                                     p?.productDevelopmentBriefDto
                                   }
                                   sourcedProduction={s}
-                                  vendorIndex={0}
+                                  sourcingCoIndex={index}
+                                  production={production}
                                 />
                               </GridItem>
                               <GridItem
