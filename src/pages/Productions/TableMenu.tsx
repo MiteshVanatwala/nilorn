@@ -11,8 +11,22 @@ import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
+import {
+  ProductDevelopmentBriefDto,
+  SourcingCompanyDto,
+} from '../../app/generate';
 
-const TabelMenu = () => {
+type Props = {
+  productDevelopment: ProductDevelopmentBriefDto;
+  sourcedProduction: SourcingCompanyDto;
+  vendorIndex: number;
+};
+
+const TableMenu = ({
+  productDevelopment,
+  sourcedProduction,
+  vendorIndex,
+}: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
 
@@ -27,7 +41,15 @@ const TabelMenu = () => {
       />
       <MenuList lineHeight={1.5}>
         <MenuItem
-          onClick={() => handleModal(<EditProduction />)}
+          onClick={() =>
+            handleModal(
+              <EditProduction
+                productDevelopment={productDevelopment}
+                sourcedProduction={sourcedProduction}
+                vendorIndex={vendorIndex}
+              />
+            )
+          }
           icon={
             <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
           }>
@@ -60,4 +82,4 @@ const TabelMenu = () => {
   );
 };
 
-export default TabelMenu;
+export default TableMenu;

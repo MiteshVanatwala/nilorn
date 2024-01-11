@@ -6,14 +6,22 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../../assets';
 import { useFormContext, useWatch } from 'react-hook-form';
-
-const ActionBarEditProduction = () => {
+import { useDeleteVendor } from '../../../app/api/editProduction';
+type Props = {
+  vendorId: string | undefined;
+  artwork?: string | null;
+};
+const ActionBarEditProduction = ({ vendorId, artwork }: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
+  // const { mutate: deleteVendor } = useDeleteVendor();
 
-  const artwork = useWatch({ name: 'artwork' });
-  function handleSave() {
-    console.log('save', getValues());
+  // const artwork = useWatch({ name: 'artwork' });
+  function deleteVendorFunc() {
+    console.log(vendorId);
+    // deleteVendor({ id: vendorId });
+
+    console.log('delete');
   }
   function handleSaveAndRelease() {
     console.log('save and release', getValues());
@@ -69,6 +77,7 @@ const ActionBarEditProduction = () => {
               {t('PD.ShowChanges')}
             </MenuItem>
             <MenuItem
+              onClick={() => deleteVendorFunc()}
               icon={
                 <Text
                   as={'i'}
@@ -81,9 +90,7 @@ const ActionBarEditProduction = () => {
           </MenuList>
         </Menu>
         <ButtonGroup isAttached variant="primary">
-          <Button type="submit" onClick={() => handleSave()}>
-            {t('Common.Save')}
-          </Button>
+          <Button type="submit">{t('Common.Save')}</Button>
           <Menu>
             <MenuButton
               as={IconButton}

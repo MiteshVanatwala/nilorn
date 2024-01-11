@@ -3,18 +3,24 @@ import { COLORS, GRID, SIZES, SPACE } from '../../../theme/Constants';
 import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import { useTranslation } from 'react-i18next';
-import ActionBarEditProduction from './ActionBarEditProduction';
 import StatusBadge from '../../../components/Status/StatusBadge';
-import { Status } from '../../../app/generate';
+import {
+  ProductDevelopmentBriefDto,
+  SourcedProductionDto,
+} from '../../../app/generate';
+import ActionBarEditProduction from './ActionBarEditProduction';
 
 type Props = {
-  productNo: string;
+  productDevelopment: ProductDevelopmentBriefDto;
+  sourcedProduction: SourcedProductionDto;
+  vendorIndex: number;
 };
-const EditProductionTopSection = ({ productNo }: Props) => {
+const EditProductionTopSection = ({
+  productDevelopment,
+  sourcedProduction,
+  vendorIndex,
+}: Props) => {
   const { t } = useTranslation();
-
-  //TODO remove hard coded status
-  const status = Status.NEW;
 
   return (
     <Box
@@ -53,12 +59,15 @@ const EditProductionTopSection = ({ productNo }: Props) => {
               md: SPACE.MD,
             }}
             alignItems={'top'}>
-            <Image
-              width={'40'}
-              height={'40'}
-              objectFit={'cover'}
-              src="https://static-cdn.sr.se/images/99/83d9ce09-41ea-4197-951e-48e2c17a7c81.jpg"
-            />
+            {productDevelopment?.thumbnailData && (
+              <Image
+                width={'40'}
+                height={'40'}
+                objectFit={'cover'}
+                src={`data:image/jpeg;base64,${productDevelopment?.thumbnailData}`}
+              />
+            )}
+
             <VStack
               transition={TRANSITION.EASEOUT}
               gap={{
@@ -72,18 +81,29 @@ const EditProductionTopSection = ({ productNo }: Props) => {
               }}
               alignItems={'flex-start'}>
               <Heading fontSize={SIZES.FONT.SM}>
-                Lorem ipsum dolor sit ametets
+                {productDevelopment?.name}
               </Heading>
               <HStack gap={SPACE.SM}>
-                <Text variant={'bodyBold'}>Woven Label Text</Text>
-                <Text>NEA</Text>
+                {sourcedProduction?.productions && (
+                  <Text variant={'bodyBold'}>
+                    {sourcedProduction?.productions[vendorIndex]?.vendorName}
+                  </Text>
+                )}
+                {sourcedProduction?.productions &&
+                  sourcedProduction?.productions[vendorIndex]?.vendorName &&
+                  sourcedProduction?.name && <Text>{'-'}</Text>}
+                <Text>{sourcedProduction?.name}</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
                 <Text>
-                  {'#'}
-                  {productNo}
+                  {productDevelopment?.no && (
+                    <>
+                      {'#'}
+                      {productDevelopment?.no}
+                    </>
+                  )}
                 </Text>
-                <StatusBadge status={status as Status} />
+                <StatusBadge status={productDevelopment?.status} />
               </HStack>
             </VStack>
           </HStack>
@@ -106,10 +126,8 @@ const EditProductionTopSection = ({ productNo }: Props) => {
             md: 3,
             lg: 4,
           }}>
-          <Text>Athletique Recreation Club Limited dolor sit amett</Text>
-          <Box zIndex={8} width={'100%'}>
-            {t('PD.Project')}
-          </Box>
+          <Text>{productDevelopment?.client}</Text>
+          <Text> {productDevelopment?.project} ggr</Text>
         </GridItem>
         <GridItem
           colSpan={{
@@ -117,7 +135,16 @@ const EditProductionTopSection = ({ productNo }: Props) => {
             md: 10,
             lg: 4,
           }}>
-          <ActionBarEditProduction />
+          <ActionBarEditProduction
+            artwork={productDevelopment?.artworkUrl}
+            vendorId={
+              sourcedProduction?.productions
+                ? sourcedProduction?.productions[
+                    vendorIndex
+                  ]?.vendorId?.toString()
+                : undefined
+            }
+          />
         </GridItem>
       </Grid>
     </Box>

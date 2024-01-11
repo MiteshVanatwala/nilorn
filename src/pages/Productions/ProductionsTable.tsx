@@ -3,7 +3,7 @@ import { COLORS } from '../../theme/Constants';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
-import TabelMenu from './TableMenu';
+import TableMenu from './TableMenu';
 import { ProductionQuery } from './ProductionsTableContainer';
 
 type Props = {
@@ -79,7 +79,7 @@ const ProductionsTable = ({ productions }: Props) => {
                                   sourcing.productions.length *
                                   vendor.qtyPur.length
                                 }>
-                                {sourcing.name} <TabelMenu />
+                                {sourcing.name}
                               </Td>
                             </>
                           )}
@@ -87,6 +87,13 @@ const ProductionsTable = ({ productions }: Props) => {
                             <>
                               <Td rowSpan={vendor.qtyPur.length}>
                                 {vendor.vendorName}
+                                <TableMenu
+                                  productDevelopment={
+                                    production?.productDevelopment
+                                  }
+                                  sourcedProduction={sourcing}
+                                  vendorIndex={vendorIndex}
+                                />
                               </Td>
                               <Td rowSpan={vendor.qtyPur.length}>
                                 {vendor.comment}

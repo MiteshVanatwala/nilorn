@@ -194,27 +194,4 @@ no: string,
         });
     }
 
-    /**
-     * @param id 
-     * @param formData 
-     * @returns boolean Success
-     * @throws ApiError
-     */
-    public static postApiProductDevelopmentsAttachments(
-id: string,
-formData?: {
-file?: Blob;
-},
-): CancelablePromise<boolean> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/ProductDevelopments/attachments/{id}',
-            path: {
-                'id': id,
-            },
-            formData: formData,
-            mediaType: 'multipart/form-data',
-        });
-    }
-
 }
