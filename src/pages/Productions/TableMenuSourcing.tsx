@@ -5,7 +5,6 @@ import {
   MenuItem,
   MenuList,
   Text,
-  background,
 } from '@chakra-ui/react';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';

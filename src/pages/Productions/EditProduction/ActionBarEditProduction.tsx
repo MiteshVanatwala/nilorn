@@ -3,8 +3,6 @@ import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
-import { Image } from '@chakra-ui/react';
-import { images } from '../../../assets';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 

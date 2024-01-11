@@ -2,7 +2,6 @@ import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { COLORS, GRID, SIZES, SPACE } from '../../../theme/Constants';
 import { Image, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
-import { useTranslation } from 'react-i18next';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import {
   ProductDevelopmentBriefDto,
@@ -25,8 +24,6 @@ const EditProductionTopSection = ({
   production,
   createNew,
 }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <Box
       py={{

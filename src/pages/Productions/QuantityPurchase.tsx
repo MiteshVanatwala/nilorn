@@ -20,7 +20,7 @@ type Props = {
 
 const QuantityPurchase = ({ purchasePrices }: Props) => {
   const { t } = useTranslation();
-  const { control, getValues } = useFormContext();
+  const { control } = useFormContext();
   const formName = 'purchasePrices';
   const { fields, append, remove } = useFieldArray({
     control,
