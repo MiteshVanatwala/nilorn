@@ -10,7 +10,7 @@ import { COLORS } from '../../theme/Constants';
 import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
-import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
