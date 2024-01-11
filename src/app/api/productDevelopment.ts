@@ -77,12 +77,16 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
       ),
     {
       onSuccess: async (res: ProductDevelopmentDto) => {
-        showToast({
-          status: 'success',
-          description: `${t('PD.Feedback.Success.UpdateStatus', {
-            status: res.status,
-          })}`,
-        });
+        if (res.status === Status.DELETED) {
+          window.location.replace(sessionStorage.getItem('prevFilter') ?? '/');
+        } else {
+          showToast({
+            status: 'success',
+            description: `${t('PD.Feedback.Success.UpdateStatus', {
+              status: res.status,
+            })}`,
+          });
+        }
       },
       onError: async (err: ApiError) => {
         showToast({

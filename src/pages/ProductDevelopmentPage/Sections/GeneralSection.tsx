@@ -12,10 +12,12 @@ import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import { useEffect, useState } from 'react';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
+import { Status } from '../../../app/generate';
 
 const GeneralSection = () => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
+  const status = getValues('status');
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
   const [itemCategoryCodeStartVal, setItemCategoryCodeStartVal] =
@@ -64,6 +66,9 @@ const GeneralSection = () => {
               options={(itemCategories as SelectOption[]) ?? []}
               name="itemCategoryCode"
               label={`${t('PD.FormContent.ItemCategory')}`}
+              registerOptions={{
+                required: status !== Status.NEW,
+              }}
               defaultValue={
                 itemCategories && itemCategoryCode
                   ? (itemCategories as SelectOption[]).find(
@@ -91,6 +96,9 @@ const GeneralSection = () => {
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
               isDisabled={!itemCategoryCode}
+              registerOptions={{
+                required: status !== Status.NEW,
+              }}
               defaultValue={
                 productGroups && productGroupCode
                   ? (productGroups as SelectOption[]).find(

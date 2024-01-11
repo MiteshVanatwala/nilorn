@@ -18,15 +18,22 @@ const primary = defineStyle({
 });
 
 const secondary = defineStyle({
+  ...primary,
   color: COLORS.WHITE,
   background: COLORS.GRAY[70],
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  px: SPACE.XL,
-  height: SPACE.XL,
-  letterSpacing: '0.5px',
   _hover: {
     background: COLORS.GRAY[80],
+  },
+});
+
+const deleteBtn = defineStyle({
+  ...secondary,
+  color: COLORS.WHITE,
+  background: COLORS.RED.PRIMARY,
+  _hover: {
+    background: COLORS.RED.DARK,
   },
 });
 
@@ -73,7 +80,7 @@ const iconBtn = defineStyle({
   },
 });
 
-const deleteBtn = defineStyle({
+const deleteIconBtn = defineStyle({
   ...iconBtn,
   _hover: {
     backgroundColor: COLORS.RED.PRIMARY,
@@ -98,6 +105,7 @@ const button = defineStyleConfig({
     textBtn,
     iconBtn,
     deleteBtn,
+    deleteIconBtn,
     ghost: {
       height: SPACE.XL,
       '&:hover': {

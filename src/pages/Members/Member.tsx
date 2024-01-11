@@ -41,7 +41,7 @@ export const Member = ({ name, code, role, even, onRemove }: Props) => {
       <GridItem>
         <Tooltip label={t('Common.Remove')}>
           <IconButton
-            variant={'deleteBtn'}
+            variant={'deleteIconBtn'}
             aria-label={t('Common.Remove')}
             icon={<i className={'ri-close-line'} />}
             mr={0}

@@ -10,8 +10,6 @@ function Overview() {
     <PaginationProvider>
       <Suspense>
         <ProductDevelopmentFilter />
-      </Suspense>
-      <Suspense>
         <OverviewTableContainer />
       </Suspense>
     </PaginationProvider>

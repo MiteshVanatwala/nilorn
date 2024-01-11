@@ -94,7 +94,7 @@ const QuantityPurchase = ({ purchasePrices }: Props) => {
                   transform={'auto'}
                   translateX={'100%'}
                   translateY={'-50%'}
-                  variant={'deleteBtn'}
+                  variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
                   icon={<i className="ri-close-line" />}
                   onClick={() => remove(index)}

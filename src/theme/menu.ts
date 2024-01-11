@@ -7,7 +7,16 @@ const { definePartsStyle, defineMultiStyleConfig } =
 
 const baseStyle = definePartsStyle({
   list: {
-    backgroundColor: COLORS.GRAY[5],
+    bg: COLORS.WHITE,
+  },
+  item: {
+    bg: COLORS.WHITE,
+    _hover: {
+      bg: COLORS.GRAY[5],
+    },
+    _focus: {
+      bg: 'inherit',
+    },
   },
 });
 

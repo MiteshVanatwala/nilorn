@@ -10,6 +10,8 @@ import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
 import { Status } from '../../../../app/generate';
 import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useChangelog';
+import { useModal } from '../../../../app/hooks/useModal';
+import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 
 type Props = {
   no: string;
@@ -20,21 +22,40 @@ const ActionBar = ({ createNew, no }: Props) => {
   const { t } = useTranslation();
 
   const artwork = useWatch({ name: 'artwork' });
-  const { trigger, getValues } = useFormContext();
-
+  const { trigger, getValues, register } = useFormContext();
   const { statuses, getNextStatus } = useStatusOptions();
-  const nextStatus = getNextStatus(getValues('status') as Status);
+  const currentStatus = getValues('status') as Status;
+  const nextStatus = getNextStatus(currentStatus);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
+  const { handleModal } = useModal();
+
   async function submitStatus(status: Status): Promise<void> {
+    if (currentStatus === status) {
+      return;
+    }
+
+    if (currentStatus === Status.NEW) {
+      register('itemCategoryCode', {
+        required: true,
+      });
+      register('productGroupCode', {
+        required: true,
+      });
+    }
+
     const res = await trigger();
-    if (!res) {
+    if (res) {
       updateStatus(status);
     }
   }
 
   const { showChanges, setShowChanges } =
     useToggleProductDevelopmentChanges(no);
+
+  function deleteProductDevelopment() {
+    updateStatus(Status.DELETED);
+  }
 
   return (
     <VStack align={'left'}>
@@ -94,6 +115,16 @@ const ActionBar = ({ createNew, no }: Props) => {
                   {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
                 <MenuItem
+                  onClick={() =>
+                    handleModal(
+                      <ConfirmModal
+                        title={t('PD.DeleteTitle')}
+                        description={t('PD.DeleteComfirm', { no: no })}
+                        confirmType="DELETE"
+                        onConfirm={() => deleteProductDevelopment()}
+                      />
+                    )
+                  }
                   icon={
                     <Text
                       as={'i'}
@@ -126,7 +157,14 @@ const ActionBar = ({ createNew, no }: Props) => {
                   {statuses.map(s => (
                     <MenuItem
                       key={s.value}
+                      value={s.value}
                       onClick={() => submitStatus(s.value)}
+                      bg={
+                        getValues('status') === s.value
+                          ? COLORS.GRAY[10]
+                          : 'transparent'
+                      }
+                      autoFocus={s.value === 'Design'}
                       icon={
                         <Box
                           w={'6px'}
