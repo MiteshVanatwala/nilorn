@@ -5,27 +5,48 @@ import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../../assets';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { useDeleteVendor } from '../../../app/api/editProduction';
+import { useFormContext } from 'react-hook-form';
+import {
+  useDeleteVendor,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
+import { SourcedProductionDto } from '../../../app/generate';
+import { useState } from 'react';
 type Props = {
-  vendorId: string | undefined;
   artwork?: string | null;
+  sourcedProduction?: SourcedProductionDto;
+  vendorIndex: number;
 };
-const ActionBarEditProduction = ({ vendorId, artwork }: Props) => {
+const ActionBarEditProduction = ({
+  artwork,
+  sourcedProduction,
+  vendorIndex,
+}: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
-  // const { mutate: deleteVendor } = useDeleteVendor();
 
-  // const artwork = useWatch({ name: 'artwork' });
+  // const { mutate: deleteVendor } = useDeleteVendor();
+  const vendor = sourcedProduction?.productions
+    ? sourcedProduction?.productions[vendorIndex]
+    : null;
+  const [released, setReleased] = useState<boolean>(vendor?.released ?? false);
+  const { mutate: updateProduction } = usePatchProduction(
+    vendor?.vendorId ?? '',
+    released,
+    false
+  );
+
   function deleteVendorFunc() {
-    console.log(vendorId);
     // deleteVendor({ id: vendorId });
 
     console.log('delete');
   }
   function handleSaveAndRelease() {
-    console.log('save and release', getValues());
+    setReleased(true);
+    updateProduction(getValues());
+    console.log('save and release', getValues(), released);
   }
+
   return (
     <VStack align={'left'}>
       <HStack

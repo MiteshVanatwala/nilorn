@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import EditProductionTopSection from './EditProductionTopSection';
 import InputField from '../../../components/Form/InputField';
 import { GRID, SPACE } from '../../../theme/Constants';
@@ -11,8 +11,9 @@ import {
   ProductDevelopmentBriefDto,
   SourcedProductionDto,
 } from '../../../app/generate';
+import { usePatchProduction } from '../../../app/api/editProduction';
 type Props = {
-  productDevelopment: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   vendorIndex: number;
 };
@@ -23,11 +24,26 @@ const EditProduction = ({
 }: Props) => {
   const { t } = useTranslation();
   const form = useForm();
-
+  const vendor = sourcedProduction?.productions
+    ? sourcedProduction?.productions[vendorIndex]
+    : null;
+  const { mutate: saveProduction } = usePatchProduction(
+    vendor?.vendorId ?? '',
+    vendor?.released ?? false,
+    true
+  );
+  function submitForm(form: FieldValues) {
+    async function onSubmit(form: FieldValues): Promise<void> {
+      // updateProductDevelopment(form);
+      console.log('save');
+      saveProduction(form);
+    }
+    onSubmit(form);
+  }
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(submitForm)}>
           <EditProductionTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
@@ -134,14 +150,14 @@ const EditProduction = ({
                     label={`Vendor ID`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'vendorId'}
-                    defaultValue={
-                      sourcedProduction?.productions
-                        ? sourcedProduction?.productions[
-                            vendorIndex
-                          ]?.vendorId?.toString()
-                        : ''
-                    }
-                    // defaultValue={'6eb99b06-d04a-47c4-d086-08dc11d1f158'}
+                    // defaultValue={
+                    //   sourcedProduction?.productions
+                    //     ? sourcedProduction?.productions[
+                    //         vendorIndex
+                    //       ]?.vendorId?.toString()
+                    //     : ''
+                    // }
+                    defaultValue={'50bb9a63-349f-4c04-6c70-08dc0ba761b0'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>
@@ -149,8 +165,8 @@ const EditProduction = ({
                     label={`Sourcing ID`}
                     placeholder={`${t('Common.Placeholder')}`}
                     name={'sourcingId'}
-                    defaultValue={sourcedProduction?.sourcingId?.toString()}
-                    // defaultValue={'6eb99b06-d04a-47c4-d086-08dc11d1f158'}
+                    // defaultValue={sourcedProduction?.sourcingId?.toString()}
+                    defaultValue={'2beaf6e9-118a-4d3f-d08b-08dc11d1f158'}
                   />
                 </GridItem>
                 <GridItem colSpan={1}>

@@ -11,7 +11,7 @@ import {
 import ActionBarEditProduction from './ActionBarEditProduction';
 
 type Props = {
-  productDevelopment: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   vendorIndex: number;
 };
@@ -47,7 +47,7 @@ const EditProductionTopSection = ({
           colSpan={{
             base: 1,
             md: 6,
-            lg: 4,
+            lg: 5,
           }}>
           <HStack
             flexDir={{
@@ -89,9 +89,6 @@ const EditProductionTopSection = ({
                     {sourcedProduction?.productions[vendorIndex]?.vendorName}
                   </Text>
                 )}
-                {sourcedProduction?.productions &&
-                  sourcedProduction?.productions[vendorIndex]?.vendorName &&
-                  sourcedProduction?.name && <Text>{'-'}</Text>}
                 <Text>{sourcedProduction?.name}</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
@@ -127,23 +124,18 @@ const EditProductionTopSection = ({
             lg: 4,
           }}>
           <Text>{productDevelopment?.client}</Text>
-          <Text> {productDevelopment?.project} ggr</Text>
+          <Text>{productDevelopment?.project}</Text>
         </GridItem>
         <GridItem
           colSpan={{
             base: 1,
             md: 10,
-            lg: 4,
+            lg: 3,
           }}>
           <ActionBarEditProduction
+            sourcedProduction={sourcedProduction}
             artwork={productDevelopment?.artworkUrl}
-            vendorId={
-              sourcedProduction?.productions
-                ? sourcedProduction?.productions[
-                    vendorIndex
-                  ]?.vendorId?.toString()
-                : undefined
-            }
+            vendorIndex={vendorIndex}
           />
         </GridItem>
       </Grid>

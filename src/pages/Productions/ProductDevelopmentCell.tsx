@@ -39,7 +39,11 @@ const ProductDevelopmentCell = ({
         </HStack>
         <Text variant={'bodyBigBlack'}>{name}</Text>
         {thumbnailData && (
-          <Image height={'8rem'} objectFit={'cover'} src={thumbnailData} />
+          <Image
+            height={'8rem'}
+            objectFit={'cover'}
+            src={`data:image/jpeg;base64,${thumbnailData}`}
+          />
         )}
         {project && <Text>{project}</Text>}
         <StatusBadge status={status as Status} />

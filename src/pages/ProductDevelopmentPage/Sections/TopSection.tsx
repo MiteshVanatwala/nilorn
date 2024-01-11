@@ -101,7 +101,6 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   </Text>
                 </HStack>
               )}
-
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,

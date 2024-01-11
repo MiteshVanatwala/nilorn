@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import React from 'react';
 import TableMenu from './TableMenu';
 import { ProductDevelopmentProductionDto } from '../../app/generate';
+import TableMenuClient from './TableMenuClient';
 
 type Props = {
   productions: ProductDevelopmentProductionDto[];
@@ -51,7 +52,6 @@ const ProductionsTable = ({ productions }: Props) => {
                               sourcingIndex === 1 ? 'baseline' : 'center'
                             }
                             key={`${production?.productDevelopmentBriefDto?.no}-${sourcingIndex}-${vendorIndex}`}>
-                            <h2>{sourcingIndex}</h2>
                             {sourcingIndex === 0 && vendorIndex === 0 && (
                               <>
                                 <Td
@@ -86,6 +86,13 @@ const ProductionsTable = ({ productions }: Props) => {
                                     production.productDevelopmentBriefDto
                                       ?.client
                                   }
+                                  <TableMenuClient
+                                    productDevelopment={
+                                      production?.productDevelopmentBriefDto
+                                    }
+                                    sourcedProduction={sourcedProductions}
+                                    vendorIndex={vendorIndex}
+                                  />
                                 </Td>
                               </>
                             )}
@@ -101,7 +108,13 @@ const ProductionsTable = ({ productions }: Props) => {
                                       : 1)
                                   }>
                                   {sourcedProductions.name}
-                                  <TableMenu />
+                                  <TableMenu
+                                    productDevelopment={
+                                      production?.productDevelopmentBriefDto
+                                    }
+                                    sourcedProduction={sourcedProductions}
+                                    vendorIndex={vendorIndex}
+                                  />
                                 </Td>
                               </>
                             )}

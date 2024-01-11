@@ -8,22 +8,21 @@ import {
 } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
-  SourcedProductionDto,
+  SourcingCompanyDto,
 } from '../../app/generate';
-import { useReleaseForSales } from '../../app/api/editProduction';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
+  sourcedProduction: SourcingCompanyDto;
   vendorIndex: number;
 };
 
-const TableMenu = ({
+const TableMenuClient = ({
   productDevelopment,
   sourcedProduction,
   vendorIndex,
@@ -31,16 +30,6 @@ const TableMenu = ({
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
 
-  const { mutate: releaseForSales } = useReleaseForSales(
-    sourcedProduction?.productions
-      ? sourcedProduction.productions[vendorIndex]?.vendorId?.toString()
-      : undefined,
-    !sourcedProduction?.productions?.[vendorIndex]?.released
-  );
-
-  function releaseForSalesFunc(id: string | undefined, release: boolean) {
-    releaseForSales();
-  }
   return (
     <Menu>
       <MenuButton
@@ -64,19 +53,10 @@ const TableMenu = ({
           icon={
             <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
           }>
-          {t('Common.Edit')}
+          {t('Production.AddVendor')}
         </MenuItem>
         <MenuItem
-          onClick={() =>
-            releaseForSalesFunc(
-              sourcedProduction?.productions
-                ? sourcedProduction.productions[
-                    vendorIndex
-                  ]?.vendorId?.toString()
-                : undefined,
-              sourcedProduction?.productions?.[vendorIndex]?.released ?? false
-            )
-          }
+          onClick={() => console.log('Edit')}
           icon={
             <Text
               as={'i'}
@@ -84,9 +64,7 @@ const TableMenu = ({
               className="ri-toggle-line"
             />
           }>
-          {!sourcedProduction?.productions?.[vendorIndex]?.released
-            ? t('Production.Release')
-            : t('Production.Remove')}
+          {t('Production.Release')}
         </MenuItem>
         <MenuItem
           onClick={() => console.log('Edit')}
@@ -104,4 +82,4 @@ const TableMenu = ({
   );
 };
 
-export default TableMenu;
+export default TableMenuClient;

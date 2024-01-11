@@ -33,7 +33,7 @@ const QuantityPurchase = ({ purchasePrices }: Props) => {
     ) as HTMLInputElement;
     last?.focus();
   }, [fields]);
-  console.log('f', getValues());
+
   return (
     <Grid
       maxW={'55rem'}
