@@ -26,6 +26,7 @@ const COLORS = {
     LIGHT: '#70897b',
     PRIMARY: '#445C4F',
     DARK: '#1c3227',
+    TINT: '#BFFFCD',
   },
   ORANGE: {
     LIGHT: '#a27a5c',

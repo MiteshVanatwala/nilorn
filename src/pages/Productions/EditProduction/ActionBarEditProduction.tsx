@@ -78,7 +78,7 @@ const ActionBarEditProduction = ({
                 <Text
                   as={'i'}
                   fontSize={SIZES.ICON.MD}
-                  className="ri-delete-bin-line"
+                  className="ri-history-line"
                 />
               }>
               {t('PD.ShowChanges')}

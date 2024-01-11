@@ -6,7 +6,7 @@ import {
   MenuList,
   Text,
 } from '@chakra-ui/react';
-import { SIZES, SPACE } from '../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useContext, useState } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
@@ -47,6 +47,9 @@ const TableMenu = ({
         as={IconButton}
         variant={'ghost'}
         padding={SPACE.SM}
+        _hover={{
+          background: COLORS.GRAY[20],
+        }}
         aria-label={t('Common.More')}
         icon={<Text as={'i'} className="ri-more-line" />}
       />

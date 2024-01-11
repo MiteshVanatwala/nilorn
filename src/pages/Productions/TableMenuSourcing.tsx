@@ -5,8 +5,9 @@ import {
   MenuItem,
   MenuList,
   Text,
+  background,
 } from '@chakra-ui/react';
-import { SIZES, SPACE } from '../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
@@ -22,7 +23,7 @@ type Props = {
   vendorIndex: number;
 };
 
-const TableMenuClient = ({
+const TableMenuSourcing = ({
   productDevelopment,
   sourcedProduction,
   vendorIndex,
@@ -36,6 +37,9 @@ const TableMenuClient = ({
         as={IconButton}
         variant={'ghost'}
         padding={SPACE.SM}
+        _hover={{
+          background: COLORS.GRAY[20],
+        }}
         aria-label={t('Common.More')}
         icon={<Text as={'i'} className="ri-more-line" />}
       />
@@ -51,35 +55,13 @@ const TableMenuClient = ({
             )
           }
           icon={
-            <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
+            <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-add-line" />
           }>
           {t('Production.AddVendor')}
-        </MenuItem>
-        <MenuItem
-          onClick={() => console.log('Edit')}
-          icon={
-            <Text
-              as={'i'}
-              fontSize={SIZES.ICON.MD}
-              className="ri-toggle-line"
-            />
-          }>
-          {t('Production.Release')}
-        </MenuItem>
-        <MenuItem
-          onClick={() => console.log('Edit')}
-          icon={
-            <Text
-              as={'i'}
-              fontSize={SIZES.ICON.MD}
-              className="ri-delete-bin-6-line"
-            />
-          }>
-          {t('Common.Remove')}
         </MenuItem>
       </MenuList>
     </Menu>
   );
 };
 
-export default TableMenuClient;
+export default TableMenuSourcing;
