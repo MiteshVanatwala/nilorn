@@ -4,6 +4,7 @@ import StatusBadge from '../../components/Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import NowrapText from '../../components/Text/NowrapText';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
+import ArtworkButton from '../../components/Button/ArtworkButton';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ const useOverviewColumns = () => {
     columnHelper.accessor('versions', {
       header: `${t('PD.Version')}`,
       enableSorting: false,
-      cell: info => info.getValue(),
+      cell: info => (info.getValue() === 0 ? '' : info.getValue()),
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
@@ -48,7 +49,12 @@ const useOverviewColumns = () => {
     columnHelper.accessor('artworkUrl', {
       header: `${t('PD.Artwork')}`,
       enableSorting: false,
-      cell: info => info.getValue(),
+      cell: info =>
+        info.getValue() ? (
+          <ArtworkButton size="SMALL" url={`${info.getValue()}`} />
+        ) : (
+          ''
+        ),
     }),
     columnHelper.accessor('client', {
       header: `${t('PD.Client')}`,
@@ -60,6 +66,10 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('productGroup', {
       header: `${t('PD.ProductGroup')}`,
+      cell: info => info.getValue(),
+    }),
+    columnHelper.accessor('itemCategory', {
+      header: `${t('PD.ItemCategory')}`,
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('sourcings', {

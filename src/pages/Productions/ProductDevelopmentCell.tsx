@@ -1,9 +1,8 @@
-import { Box, Text, Image, IconButton, HStack, VStack } from '@chakra-ui/react';
+import { Box, Text, Image, HStack, VStack } from '@chakra-ui/react';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
-import { images } from '../../assets';
-import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../theme/Constants';
+import ArtworkButton from '../../components/Button/ArtworkButton';
 
 const ProductDevelopmentCell = ({
   no,
@@ -13,29 +12,12 @@ const ProductDevelopmentCell = ({
   status,
   project,
 }: ProductDevelopmentBriefDto) => {
-  const { t } = useTranslation();
-
   return (
     <Box h={'100%'}>
       <VStack spacing={SPACE.MD} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
           <Text>#{no}</Text>
-
-          {artworkUrl && (
-            <IconButton
-              variant={'ghost'}
-              aria-label={t('PD.Artwork')}
-              onClick={() => console.log('Download')}
-              icon={
-                <Image
-                  src={images.pdf}
-                  height="2.5rem"
-                  objectFit={'contain'}
-                  width="auto"
-                />
-              }
-            />
-          )}
+          {artworkUrl && <ArtworkButton size="SMALL" url={artworkUrl} />}
         </HStack>
         <Text variant={'bodyBigBlack'}>{name}</Text>
         {thumbnailData && (

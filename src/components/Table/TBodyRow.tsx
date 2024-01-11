@@ -1,5 +1,5 @@
 import { Row, flexRender } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { MouseEvent, useMemo } from 'react';
 
 import { Td, Tr } from '@chakra-ui/table';
 import { COLORS } from '../../theme/Constants';
@@ -7,7 +7,7 @@ import { COLORS } from '../../theme/Constants';
 export type TBodyRowProps<Data extends object> = {
   row: Row<Data>;
   bgColor?: string;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent<HTMLTableRowElement>) => void;
   hoverBgColor?: string;
   groupColor?: string;
   messages?: string[];
@@ -25,7 +25,7 @@ export function TBodyRow<Data extends object>({
       <Tr
         pointerEvents={'auto'}
         bgColor={bgColor}
-        onClick={onClick}
+        onClick={e => onClick && onClick(e)}
         _hover={{
           cursor: onClick ? 'pointer' : undefined,
           backgroundColor: COLORS.GRAY[20],

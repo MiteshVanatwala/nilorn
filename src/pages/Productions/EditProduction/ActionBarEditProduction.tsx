@@ -6,12 +6,11 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { Image } from '@chakra-ui/react';
 import { images } from '../../../assets';
 import { useFormContext } from 'react-hook-form';
-import {
-  useDeleteVendor,
-  usePatchProduction,
-} from '../../../app/api/editProduction';
+import ArtworkButton from '../../../components/Button/ArtworkButton';
+
 import { SourcedProductionDto } from '../../../app/generate';
 import { useState } from 'react';
+import { usePatchProduction } from '../../../app/api/editProduction';
 type Props = {
   artwork?: string | null;
   sourcedProduction?: SourcedProductionDto;
@@ -62,20 +61,7 @@ const ActionBarEditProduction = ({
           base: SPACE.XXS,
           lg: SPACE.XS,
         }}>
-        {artwork && (
-          <IconButton
-            variant={'ghost'}
-            aria-label={t('PD.Artwork')}
-            icon={
-              <Image
-                src={images.pdf}
-                height="3.2rem"
-                objectFit={'contain'}
-                width="auto"
-              />
-            }
-          />
-        )}
+        {artwork && <ArtworkButton url="TBD" />}
         <Menu>
           <MenuButton
             as={IconButton}
