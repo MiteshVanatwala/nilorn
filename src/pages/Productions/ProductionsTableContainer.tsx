@@ -5,6 +5,9 @@ import Alert from '../../components/Feedback/Alert';
 import { useTranslation } from 'react-i18next';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
+import { useProductionsFilter } from '../../app/api/Productions';
+import { useEffect } from 'react';
+import { usePaginationContext } from '../../app/context/PaginationProvider';
 
 export type ProductionQuery = {
   productDevelopment: ProductDevelopmentBriefDto;
@@ -31,12 +34,7 @@ const CHUNK_SIZES = [25, 75, 100, 300];
 const ProductionsTableContainer = () => {
   const { t } = useTranslation();
 
-  const { data, isError, isLoading, isFetching } = {
-    data: {},
-    isError: false,
-    isLoading: false,
-    isFetching: false,
-  }; //useProductionsFilter();
+  const { data, isError, isLoading, isFetching } = useProductionsFilter();
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
@@ -45,7 +43,7 @@ const ProductionsTableContainer = () => {
   return (
     <>
       {(isLoading || isFetching) && <SpinnerOverlay />}
-      <ProductionsTable productions={productions} />
+      <ProductionsTable productions={data?.items ?? []} />
       <TablePaginationContainer data={data} chunkSizes={CHUNK_SIZES} />
     </>
   );
