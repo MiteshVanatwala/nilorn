@@ -174,8 +174,10 @@
     "Sample": "Sample",
     "LastEdited": "Last edited",
     "SaveSuccess": "Production saved",
+    "CreateProduction": "Create Production",
+    "CreateAndRelease": "Create and release",
     "SaveReleaseSuccess": "Production saved and released for sales",
-    "AddVendor": "Add vendor"
+    "ChooseVendor": "Choose vendor"
   },
   "Changelog": {
     "To": "To",

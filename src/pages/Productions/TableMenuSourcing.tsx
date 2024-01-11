@@ -58,7 +58,7 @@ const TableMenuSourcing = ({
           icon={
             <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-add-line" />
           }>
-          {t('Production.AddVendor')}
+          {t('Production.CreateProduction')}
         </MenuItem>
       </MenuList>
     </Menu>
