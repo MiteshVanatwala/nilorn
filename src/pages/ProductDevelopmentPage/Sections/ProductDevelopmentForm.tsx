@@ -63,6 +63,10 @@ function ProductDevelopmentForm({
     }
   }, [user?.role]);
 
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
+
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submitForm)}>

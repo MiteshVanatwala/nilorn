@@ -11,6 +11,8 @@ import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useCha
 import { useModal } from '../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 import ArtworkButton from '../../../../components/Button/ArtworkButton';
+import { useToast } from '../../../../app/hooks/useToast';
+import { isEqual } from '../../../../app/utils/common';
 
 type Props = {
   no: string;
@@ -22,11 +24,12 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const artwork = useWatch({ name: 'artwork' });
-  const { trigger, getValues, register } = useFormContext();
+  const { getValues, formState, trigger } = useFormContext();
   const { statuses, getNextStatus } = useStatusOptions();
   const currentStatus = getValues('status') as Status;
   const nextStatus = getNextStatus(currentStatus);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+  const { showToast } = useToast();
 
   const { handleModal } = useModal();
 
@@ -35,13 +38,13 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
       return;
     }
 
-    if (currentStatus === Status.NEW) {
-      register('itemCategoryCode', {
-        required: true,
+    if (!isEqual(formState.defaultValues, getValues())) {
+      showToast({
+        position: 'top-right',
+        status: 'info',
+        description: `Save befor chnaging status`,
       });
-      register('productGroupCode', {
-        required: true,
-      });
+      return;
     }
 
     const res = await trigger();

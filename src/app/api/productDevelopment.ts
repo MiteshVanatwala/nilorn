@@ -25,6 +25,7 @@ export const useCreateProductDevelopment = () => {
       onSuccess: async (no: string) => {
         showToast({
           status: 'success',
+          position: 'top-right',
           description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
         navigate(`/product-development/${no}`);
@@ -32,6 +33,7 @@ export const useCreateProductDevelopment = () => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
+          position: 'top-right',
           title: err.body.title,
         });
       },
@@ -53,13 +55,16 @@ export const useUpdateProductDevelopment = (no: string) => {
       onSuccess: async () => {
         showToast({
           status: 'success',
+          position: 'top-right',
           description: `${t('PD.Feedback.Success.Update')}`,
         });
         queryClient.invalidateQueries([QueryKeysEnum.Changes]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
+          position: 'top-right',
           title: err.body.title,
         });
       },
@@ -70,6 +75,8 @@ export const useUpdateProductDevelopment = (no: string) => {
 export const useUpdateProductDevelopmentWithStatus = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation(
     (status: Status) =>
       ProductDevelopmentsService.patchApiProductDevelopments1(no, status).then(
@@ -82,15 +89,18 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
         } else {
           showToast({
             status: 'success',
+            position: 'top-right',
             description: `${t('PD.Feedback.Success.UpdateStatus', {
               status: res.status,
             })}`,
           });
+          queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
         }
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
+          position: 'top-right',
           title: err.body.title,
         });
       },
@@ -107,6 +117,8 @@ export const useProductDevelopment = (no: string) => {
       ),
     {
       retry: 0,
+      staleTime: Infinity,
+      cacheTime: Infinity,
       enabled: no !== '',
     }
   );
