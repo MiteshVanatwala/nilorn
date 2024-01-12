@@ -82,8 +82,8 @@ const SourcingSection = ({ disableEdit }: Props) => {
           xl: 'row-reverse',
         }}>
         <>
-          {!disableEdit && (
-            <Box minW={'20rem'}>
+          <Box minW={'20rem'}>
+            {!disableEdit && (
               <AdvanceFilterSelect
                 name={'AddSourcing'}
                 placeholder={t('PD.AddSourcing')}
@@ -94,8 +94,8 @@ const SourcingSection = ({ disableEdit }: Props) => {
                 }}
                 value={selected}
               />
-            </Box>
-          )}
+            )}
+          </Box>
 
           <Box w={'100%'}>
             <Accordion
