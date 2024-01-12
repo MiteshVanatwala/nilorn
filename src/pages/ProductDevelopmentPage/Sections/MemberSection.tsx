@@ -64,6 +64,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                 name={member?.name ?? ''}
                 code={member?.code ?? ''}
                 role={member?.role ?? ''}
+                disableEdit={disableEdit}
                 onRemove={() => {
                   remove(indexToRemove);
                   const myArray = selected.filter(
