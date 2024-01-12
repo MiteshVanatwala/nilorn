@@ -42,6 +42,7 @@ export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCom
 export type { VendorDto } from './models/VendorDto';
 
 export { ClientService } from './services/ClientService';
+export { CurrencyService } from './services/CurrencyService';
 export { FoldingTypeService } from './services/FoldingTypeService';
 export { ImageService } from './services/ImageService';
 export { ItemCategoryService } from './services/ItemCategoryService';
