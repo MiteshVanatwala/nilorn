@@ -14,6 +14,7 @@ import MemberSection from './MemberSection';
 import AttachmentSection from './AttachmentSection';
 import SourcingSection from './SourcingSection';
 import BottomSection from './BottomSection';
+import { useEffect } from 'react';
 
 type Props = {
   createNew: boolean;
@@ -49,6 +50,10 @@ function ProductDevelopmentForm({
     }
     onSubmit(form);
   }
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues, form]);
 
   return (
     <FormProvider {...form}>

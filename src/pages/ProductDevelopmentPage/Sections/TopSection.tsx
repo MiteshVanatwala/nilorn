@@ -35,6 +35,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
   const pdName = useWatch({ name: 'name' });
+  const status = useWatch({ name: 'status' });
 
   const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
@@ -132,7 +133,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {no}
                 </Text>
                 <HStack mx={SPACE.XS} spacing={SPACE.XS}>
-                  <StatusBadge status={getValues('status')} />
+                  <StatusBadge status={status} />
                   <ChangelogPopup data={statusChangelog} />
                 </HStack>
               </VStack>
