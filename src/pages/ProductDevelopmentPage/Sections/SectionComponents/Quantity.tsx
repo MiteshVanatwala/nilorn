@@ -43,18 +43,21 @@ const Quantity = ({ sourcingIndex, disableEdit }: Props) => {
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   type="number"
+                  isDisabled={disableEdit}
                   registerOptions={{ valueAsNumber: true }}
                 />
-                <IconButton
-                  position={'absolute'}
-                  zIndex={2}
-                  right={0}
-                  top={0}
-                  variant={'deleteIconBtn'}
-                  aria-label={t('Filter.Remove')}
-                  icon={<i className="ri-close-line" />}
-                  onClick={() => remove(index)}
-                />
+                {!disableEdit && (
+                  <IconButton
+                    position={'absolute'}
+                    zIndex={2}
+                    right={0}
+                    top={0}
+                    variant={'deleteIconBtn'}
+                    aria-label={t('Filter.Remove')}
+                    icon={<i className="ri-close-line" />}
+                    onClick={() => remove(index)}
+                  />
+                )}
               </Box>
             );
           })}
