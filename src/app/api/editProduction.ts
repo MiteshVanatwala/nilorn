@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import QueryKeysEnum from './queryKeys';
 import {
@@ -10,16 +10,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
-export function useGetPDImage(no: string, enable: boolean = true) {
-  return useQuery(
-    [QueryKeysEnum.ProductDevelopmentImage, no],
-    () => ImageService.getApiImage(no).then(res => res),
-    {
-      retry: 0,
-      enabled: enable,
-    }
-  );
-}
 export function useDeleteVendor() {
   //   const queryClient = useQueryClient();
   return useMutation(
@@ -47,33 +37,7 @@ export const useUploadPDImage = (no: string) => {
     }
   );
 };
-
-// export function useUpdateProduction() {
-//   //   const queryClient = useQueryClient();
-//   return useMutation(
-//     (body: { id: string }) =>
-//       ProductionsService.deleteApiProductions(body).then(response => response),
-//     {
-//       onSuccess: async () => {
-//         //TODO invalidate productions
-//         // queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
-//       },
-//     }
-//   );
-// }
-// export function useUpdateProduction(id: string, released: boolean) {
-//   return useQuery(
-//     [QueryKeysEnum.ProductDevelopmentImage, id, released],
-//     () =>
-//       ProductionsService.patchApiProductionsReleaseProduction(
-//         id,
-//         released
-//       ).then(res => res),
-//     {
-//       retry: 0,
-//     }
-//   );
-// }
+//TODO THIS IS NOT RIGHT ENDPOINT
 export const usePatchProduction = (
   id: string,
   released: boolean,
@@ -142,29 +106,4 @@ export const useReleaseForSales = (
       },
     }
   );
-
-  //   return useMutation(
-  //     (body: ProductionDto) =>
-  //       ProductionsService.patchApiProductionsReleaseProduction(
-  //         id,
-  //         released
-  //       ).then(response => response),
-  //     {
-  //       onSuccess: async (res: ProductionDto) => {
-  //         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
-  //         showToast({
-  //           status: 'success',
-  //           description: t('Production.SaveReleaseSuccess'),
-  //         });
-  //       },
-  //       onError: async (err: ApiError) => {
-  //         showToast({
-  //           status: 'error',
-  //           title: err.body.title,
-  //           description: err.body.detail,
-  //         });
-  //       },
-  //     }
-  //   );
-  // };
 };
