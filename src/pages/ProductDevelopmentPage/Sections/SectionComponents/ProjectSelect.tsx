@@ -13,6 +13,7 @@ type Props = {
   createNew: boolean;
   clientNo: string;
   scrolledPast: boolean;
+  disableEdit: boolean;
 };
 
 const ProjectSelect = ({
@@ -20,6 +21,7 @@ const ProjectSelect = ({
   createNew,
   clientNo,
   scrolledPast,
+  disableEdit,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -70,7 +72,7 @@ const ProjectSelect = ({
                 name={inputName}
                 invisible={!createNew}
                 options={options}
-                isDisabled={!clientNo}
+                isDisabled={!clientNo || disableEdit}
                 value={
                   options?.find(co => co.label === project) as SelectOption
                 }

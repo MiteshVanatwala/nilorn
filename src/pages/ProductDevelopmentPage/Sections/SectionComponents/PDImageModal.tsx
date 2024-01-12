@@ -17,6 +17,8 @@ import {
   useGetPDImage,
   useUploadPDImage,
 } from '../../../../app/api/PDImage';
+import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
+import { useCurrentUser } from '../../../../app/api/User';
 
 type Props = {
   imageUrl: string | undefined;
@@ -28,6 +30,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   let [pasteError, setPasteError] = useState<boolean>(false);
+  const { data: user } = useCurrentUser();
 
   let {
     data: pdImage,
@@ -105,11 +108,71 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
           src={`data:image/jpeg;base64,${pdImage}`}
         />
       )}
-
-      <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-        {!isError && !isLoading && pdImage && (
-          <>
-            <GridItem>
+      {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
+        <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
+          {!isError && !isLoading && pdImage && (
+            <>
+              <GridItem>
+                <Input
+                  display={'none'}
+                  ref={inputRef}
+                  type={'file'}
+                  name="file"
+                  onChange={submitForm}
+                />
+                <Button variant={'secondary'} onClick={onButtonClick}>
+                  {t('PD.BrowseFile')}
+                </Button>
+              </GridItem>
+              <GridItem>
+                <Button
+                  w={'100%'}
+                  variant={'secondary'}
+                  onClick={() => deletePDImage()}
+                  leftIcon={<i className={'ri-delete-bin-line'} />}>
+                  {t('Common.Delete')}
+                </Button>
+              </GridItem>
+              <GridItem>
+                <Text>{t('PD.OrPaste')}</Text>
+              </GridItem>
+            </>
+          )}
+          {(isError || isLoading || !pdImage) && (
+            <GridItem textAlign={'center'}>
+              <Flex
+                mb={SPACE.SM}
+                flexDirection={'column'}
+                borderColor={
+                  pasteError === true ? COLORS.ERROR : COLORS.GRAY[5]
+                }
+                border={'1px dashed'}
+                bg={COLORS.GRAY[5]}
+                w={'100%'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                minW={{
+                  md: SIZES.CONTAINER.XXS,
+                }}
+                minH={SIZES.CONTAINER.XXXS}>
+                <VStack>
+                  <Text
+                    fontSize={SIZES.FONT.LG}
+                    color={COLORS.GRAY[60]}
+                    as={'i'}
+                    className={'ri-upload-2-line'}
+                  />
+                  <Text mb={SPACE.XXS}>{t('PD.ClickPaste')}</Text>
+                </VStack>
+                {pasteError && (
+                  <Text color={COLORS.ERROR} mb={SPACE.XXS}>
+                    {t('PD.Feedback.Error.FileType')}
+                  </Text>
+                )}
+              </Flex>
+              <Text align={'center'} mb={SPACE.SM}>
+                {t('Common.Or')}
+              </Text>
               <Input
                 display={'none'}
                 ref={inputRef}
@@ -121,66 +184,9 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
                 {t('PD.BrowseFile')}
               </Button>
             </GridItem>
-            <GridItem>
-              <Button
-                w={'100%'}
-                variant={'secondary'}
-                onClick={() => deletePDImage()}
-                leftIcon={<i className={'ri-delete-bin-line'} />}>
-                {t('Common.Delete')}
-              </Button>
-            </GridItem>
-            <GridItem>
-              <Text>{t('PD.OrPaste')}</Text>
-            </GridItem>
-          </>
-        )}
-        {(isError || isLoading || !pdImage) && (
-          <GridItem textAlign={'center'}>
-            <Flex
-              mb={SPACE.SM}
-              flexDirection={'column'}
-              borderColor={pasteError === true ? COLORS.ERROR : COLORS.GRAY[5]}
-              border={'1px dashed'}
-              bg={COLORS.GRAY[5]}
-              w={'100%'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              minW={{
-                md: SIZES.CONTAINER.XXS,
-              }}
-              minH={SIZES.CONTAINER.XXXS}>
-              <VStack>
-                <Text
-                  fontSize={SIZES.FONT.LG}
-                  color={COLORS.GRAY[60]}
-                  as={'i'}
-                  className={'ri-upload-2-line'}
-                />
-                <Text mb={SPACE.XXS}>{t('PD.ClickPaste')}</Text>
-              </VStack>
-              {pasteError && (
-                <Text color={COLORS.ERROR} mb={SPACE.XXS}>
-                  {t('PD.Feedback.Error.FileType')}
-                </Text>
-              )}
-            </Flex>
-            <Text align={'center'} mb={SPACE.SM}>
-              {t('Common.Or')}
-            </Text>
-            <Input
-              display={'none'}
-              ref={inputRef}
-              type={'file'}
-              name="file"
-              onChange={submitForm}
-            />
-            <Button variant={'secondary'} onClick={onButtonClick}>
-              {t('PD.BrowseFile')}
-            </Button>
-          </GridItem>
-        )}
-      </Grid>
+          )}
+        </Grid>
+      )}
     </Box>
   );
 };

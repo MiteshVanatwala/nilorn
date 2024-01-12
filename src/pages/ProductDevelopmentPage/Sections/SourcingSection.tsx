@@ -22,8 +22,11 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { SourcingDto } from '../../../app/generate';
 
 export const SOURCING_KEY = 'sourcings';
+type Props = {
+  disableEdit: boolean;
+};
 
-const SourcingSection = () => {
+const SourcingSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const { getValues, control } = useFormContext();
@@ -80,17 +83,20 @@ const SourcingSection = () => {
         }}>
         <>
           <Box minW={'20rem'}>
-            <AdvanceFilterSelect
-              name={'AddSourcing'}
-              placeholder={t('PD.AddSourcing')}
-              hideSelected={true}
-              options={sourcingCompanies}
-              onChange={(option, event) => {
-                addSourcing(option);
-              }}
-              value={selected}
-            />
+            {!disableEdit && (
+              <AdvanceFilterSelect
+                name={'AddSourcing'}
+                placeholder={t('PD.AddSourcing')}
+                hideSelected={true}
+                options={sourcingCompanies}
+                onChange={(option, event) => {
+                  addSourcing(option);
+                }}
+                value={selected}
+              />
+            )}
           </Box>
+
           <Box w={'100%'}>
             <Accordion
               allowMultiple
@@ -117,26 +123,30 @@ const SourcingSection = () => {
                               label={`${t(
                                 'PD.FormContent.ClientRequirements'
                               )}`}
+                              isDisabled={disableEdit}
                               name={`${SOURCING_KEY}.${index}.clientRequirement`}
                             />
                             <InputField
                               placeholder={`${t('Common.Placeholder')}`}
+                              isDisabled={disableEdit}
                               label={`${t(
                                 'PD.FormContent.TargetPurchasePrice'
                               )}`}
                               name={`${SOURCING_KEY}.${index}.targetPurchasePrice`}
                             />
-                            <Button
-                              mt={SPACE}
-                              variant={'secondarySmall'}
-                              onClick={() => {
-                                remove(index);
-                              }}
-                              rightIcon={
-                                <i className={'ri-delete-bin-line'} />
-                              }>
-                              {t('PD.RemoveSourcing')}
-                            </Button>
+                            {!disableEdit && (
+                              <Button
+                                mt={SPACE}
+                                variant={'secondarySmall'}
+                                onClick={() => {
+                                  remove(index);
+                                }}
+                                rightIcon={
+                                  <i className={'ri-delete-bin-line'} />
+                                }>
+                                {t('PD.RemoveSourcing')}
+                              </Button>
+                            )}
                           </VStack>
                         </GridItem>
                         <GridItem
@@ -152,7 +162,10 @@ const SourcingSection = () => {
                             base: 1,
                             xl: 11,
                           }}>
-                          <Quantity sourcingIndex={index} />
+                          <Quantity
+                            sourcingIndex={index}
+                            disableEdit={disableEdit}
+                          />
                         </GridItem>
                       </Grid>
                     </>

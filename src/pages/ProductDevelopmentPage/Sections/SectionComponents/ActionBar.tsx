@@ -17,9 +17,10 @@ import { isEqual } from '../../../../app/utils/common';
 type Props = {
   no: string;
   createNew?: boolean;
+  disableEdit: boolean;
 };
 
-const ActionBar = ({ createNew, no }: Props) => {
+const ActionBar = ({ createNew, no, disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const artwork = useWatch({ name: 'artwork' });
@@ -103,70 +104,74 @@ const ActionBar = ({ createNew, no }: Props) => {
                   }>
                   {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
                 </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    handleModal(
-                      <ConfirmModal
-                        title={t('PD.DeleteTitle')}
-                        description={t('PD.DeleteComfirm', { no: no })}
-                        confirmType="DELETE"
-                        onConfirm={() => deleteProductDevelopment()}
+                {!disableEdit && (
+                  <MenuItem
+                    onClick={() =>
+                      handleModal(
+                        <ConfirmModal
+                          title={t('PD.DeleteTitle')}
+                          description={t('PD.DeleteComfirm', { no: no })}
+                          confirmType="DELETE"
+                          onConfirm={() => deleteProductDevelopment()}
+                        />
+                      )
+                    }
+                    icon={
+                      <Text
+                        as={'i'}
+                        fontSize={SIZES.ICON.MD}
+                        className="ri-delete-bin-line"
                       />
-                    )
-                  }
-                  icon={
-                    <Text
-                      as={'i'}
-                      fontSize={SIZES.ICON.MD}
-                      className="ri-delete-bin-line"
-                    />
-                  }>
-                  {t('Common.Delete')}
-                </MenuItem>
+                    }>
+                    {t('Common.Delete')}
+                  </MenuItem>
+                )}
               </MenuList>
             </Menu>
             <Button variant={'secondary'} type="submit">
               {t('Common.Save')}
             </Button>
-            <ButtonGroup isAttached variant="primary">
-              {nextStatus && (
-                <Button onClick={() => submitStatus(nextStatus)}>
-                  {t('Common.SendTo')} {nextStatus}
-                </Button>
-              )}
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  padding={SPACE.SM}
-                  aria-label={t('Common.ChangeStatus')}
-                  borderLeft={`1px solid ${COLORS.WHITE}`}
-                  icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-                />
-                <MenuList>
-                  {statuses.map(s => (
-                    <MenuItem
-                      key={s.value}
-                      value={s.value}
-                      onClick={() => submitStatus(s.value)}
-                      bg={
-                        getValues('status') === s.value
-                          ? COLORS.GRAY[10]
-                          : 'transparent'
-                      }
-                      autoFocus={s.value === 'Design'}
-                      icon={
-                        <Box
-                          w={'6px'}
-                          h={'6px'}
-                          borderRadius={'2px'}
-                          bg={s.color}></Box>
-                      }>
-                      {s.label}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
-            </ButtonGroup>
+            {!disableEdit && (
+              <ButtonGroup isAttached variant="primary">
+                {nextStatus && (
+                  <Button onClick={() => submitStatus(nextStatus)}>
+                    {t('Common.SendTo')} {nextStatus}
+                  </Button>
+                )}
+                <Menu>
+                  <MenuButton
+                    as={IconButton}
+                    padding={SPACE.SM}
+                    aria-label={t('Common.ChangeStatus')}
+                    borderLeft={`1px solid ${COLORS.WHITE}`}
+                    icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+                  />
+                  <MenuList>
+                    {statuses.map(s => (
+                      <MenuItem
+                        key={s.value}
+                        value={s.value}
+                        onClick={() => submitStatus(s.value)}
+                        bg={
+                          getValues('status') === s.value
+                            ? COLORS.GRAY[10]
+                            : 'transparent'
+                        }
+                        autoFocus={s.value === 'Design'}
+                        icon={
+                          <Box
+                            w={'6px'}
+                            h={'6px'}
+                            borderRadius={'2px'}
+                            bg={s.color}></Box>
+                        }>
+                        {s.label}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
+              </ButtonGroup>
+            )}
           </>
         )}
         {createNew && (

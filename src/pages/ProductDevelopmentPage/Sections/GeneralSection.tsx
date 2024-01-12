@@ -13,8 +13,11 @@ import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import { useEffect, useState } from 'react';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 import { Status } from '../../../app/generate';
+type Props = {
+  disableEdit: boolean;
+};
 
-const GeneralSection = () => {
+const GeneralSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
   const { setValue, getValues } = useFormContext();
   const status = getValues('status');
@@ -49,6 +52,7 @@ const GeneralSection = () => {
           <TextArea
             label={`${t('PD.FormContent.Description')}`}
             name={'description'}
+            isDisabled={disableEdit}
           />
         </GridItem>
         <GridItem
@@ -76,6 +80,7 @@ const GeneralSection = () => {
                     )
                   : undefined
               }
+              isDisabled={disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
           ) : (
@@ -95,7 +100,6 @@ const GeneralSection = () => {
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
-              isDisabled={!itemCategoryCode}
               registerOptions={{
                 required: status !== Status.NEW,
               }}
@@ -106,6 +110,7 @@ const GeneralSection = () => {
                     )
                   : undefined
               }
+              isDisabled={!itemCategoryCode || disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
           )}
@@ -114,7 +119,7 @@ const GeneralSection = () => {
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
-              isDisabled={!itemCategoryCode}
+              isDisabled={!itemCategoryCode || disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
           )}
@@ -127,6 +132,7 @@ const GeneralSection = () => {
                 placeholder={`${t('Common.Placeholder')}`}
                 changelog={itemNoChangelog}
                 name={'itemNo'}
+                isDisabled={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -134,6 +140,7 @@ const GeneralSection = () => {
                 label={`${t('PD.FormContent.TargetSales')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'targetSalesPrice'}
+                isDisabled={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -143,6 +150,7 @@ const GeneralSection = () => {
                 type="number"
                 name={'freightIncluded'}
                 registerOptions={{ valueAsNumber: true }}
+                isDisabled={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -152,6 +160,7 @@ const GeneralSection = () => {
                 name={'sampleQuantity'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
+                isDisabled={disableEdit}
               />
             </GridItem>
           </Grid>
