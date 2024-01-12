@@ -123,26 +123,30 @@ const SourcingSection = ({ disableEdit }: Props) => {
                               label={`${t(
                                 'PD.FormContent.ClientRequirements'
                               )}`}
+                              isDisabled={disableEdit}
                               name={`${SOURCING_KEY}.${index}.clientRequirement`}
                             />
                             <InputField
                               placeholder={`${t('Common.Placeholder')}`}
+                              isDisabled={disableEdit}
                               label={`${t(
                                 'PD.FormContent.TargetPurchasePrice'
                               )}`}
                               name={`${SOURCING_KEY}.${index}.targetPurchasePrice`}
                             />
-                            <Button
-                              mt={SPACE}
-                              variant={'secondarySmall'}
-                              onClick={() => {
-                                remove(index);
-                              }}
-                              rightIcon={
-                                <i className={'ri-delete-bin-line'} />
-                              }>
-                              {t('PD.RemoveSourcing')}
-                            </Button>
+                            {!disableEdit && (
+                              <Button
+                                mt={SPACE}
+                                variant={'secondarySmall'}
+                                onClick={() => {
+                                  remove(index);
+                                }}
+                                rightIcon={
+                                  <i className={'ri-delete-bin-line'} />
+                                }>
+                                {t('PD.RemoveSourcing')}
+                              </Button>
+                            )}
                           </VStack>
                         </GridItem>
                         <GridItem
@@ -158,7 +162,10 @@ const SourcingSection = ({ disableEdit }: Props) => {
                             base: 1,
                             xl: 11,
                           }}>
-                          <Quantity sourcingIndex={index} />
+                          <Quantity
+                            sourcingIndex={index}
+                            disableEdit={disableEdit}
+                          />
                         </GridItem>
                       </Grid>
                     </>

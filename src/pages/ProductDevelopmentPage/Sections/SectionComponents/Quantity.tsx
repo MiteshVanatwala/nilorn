@@ -15,9 +15,10 @@ import { SOURCING_KEY } from '../SourcingSection';
 
 type Props = {
   sourcingIndex: number;
+  disableEdit: boolean;
 };
 
-const Quantity = ({ sourcingIndex }: Props) => {
+const Quantity = ({ sourcingIndex, disableEdit }: Props) => {
   const FORM_KEY = `${SOURCING_KEY}.${sourcingIndex}.quantities`;
   const { t } = useTranslation();
   const { control } = useFormContext();
@@ -57,12 +58,14 @@ const Quantity = ({ sourcingIndex }: Props) => {
               </Box>
             );
           })}
-          <Button
-            variant={'secondarySmall'}
-            onClick={() => append({ value: '' })}
-            rightIcon={<i className={'ri-add-line'} />}>
-            {t('Common.Add')}
-          </Button>
+          {!disableEdit && (
+            <Button
+              variant={'secondarySmall'}
+              onClick={() => append({ value: '' })}
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
         </VStack>
       </GridItem>
     </Grid>
