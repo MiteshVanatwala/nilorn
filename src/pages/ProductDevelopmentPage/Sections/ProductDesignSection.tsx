@@ -9,7 +9,11 @@ import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 
-const ProductDesignSection = () => {
+type Props = {
+  disableEdit: boolean;
+};
+
+const ProductDesignSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const foldingTypeCode = useWatch({ name: 'foldingTypeCode' });
@@ -31,6 +35,7 @@ const ProductDesignSection = () => {
               label={`${t('PD.FormContent.Folding')}`}
               defaultValue={foldingTypes.find(o => o.value === foldingTypeCode)}
               placeholder={`${t('Filter.Select')}`}
+              isDisabled={disableEdit}
             />
           ) : (
             <SelectSkeleton
@@ -48,6 +53,7 @@ const ProductDesignSection = () => {
                 name={'finishedLength'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
+                isDisabled={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -57,6 +63,7 @@ const ProductDesignSection = () => {
                 name={'finishedWidth'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
+                isDisabled={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -66,6 +73,7 @@ const ProductDesignSection = () => {
                 name={'finishedHeight'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
+                isDisabled={disableEdit}
               />
             </GridItem>
           </Grid>

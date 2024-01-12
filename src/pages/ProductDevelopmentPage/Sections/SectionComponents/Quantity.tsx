@@ -15,9 +15,10 @@ import { SOURCING_KEY } from '../SourcingSection';
 
 type Props = {
   sourcingIndex: number;
+  disableEdit: boolean;
 };
 
-const Quantity = ({ sourcingIndex }: Props) => {
+const Quantity = ({ sourcingIndex, disableEdit }: Props) => {
   const FORM_KEY = `${SOURCING_KEY}.${sourcingIndex}.quantities`;
   const { t } = useTranslation();
   const { control } = useFormContext();
@@ -42,27 +43,32 @@ const Quantity = ({ sourcingIndex }: Props) => {
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   type="number"
+                  isDisabled={disableEdit}
                   registerOptions={{ valueAsNumber: true }}
                 />
-                <IconButton
-                  position={'absolute'}
-                  zIndex={2}
-                  right={0}
-                  top={0}
-                  variant={'deleteIconBtn'}
-                  aria-label={t('Filter.Remove')}
-                  icon={<i className="ri-close-line" />}
-                  onClick={() => remove(index)}
-                />
+                {!disableEdit && (
+                  <IconButton
+                    position={'absolute'}
+                    zIndex={2}
+                    right={0}
+                    top={0}
+                    variant={'deleteIconBtn'}
+                    aria-label={t('Filter.Remove')}
+                    icon={<i className="ri-close-line" />}
+                    onClick={() => remove(index)}
+                  />
+                )}
               </Box>
             );
           })}
-          <Button
-            variant={'secondarySmall'}
-            onClick={() => append({ value: '' })}
-            rightIcon={<i className={'ri-add-line'} />}>
-            {t('Common.Add')}
-          </Button>
+          {!disableEdit && (
+            <Button
+              variant={'secondarySmall'}
+              onClick={() => append({ value: '' })}
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
         </VStack>
       </GridItem>
     </Grid>

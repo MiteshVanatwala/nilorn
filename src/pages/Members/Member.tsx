@@ -7,9 +7,17 @@ type Props = {
   code: string;
   role: string;
   even: boolean;
+  disableEdit: boolean;
   onRemove: () => void;
 };
-export const Member = ({ name, code, role, even, onRemove }: Props) => {
+export const Member = ({
+  name,
+  code,
+  role,
+  even,
+  onRemove,
+  disableEdit,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <Grid
@@ -38,17 +46,19 @@ export const Member = ({ name, code, role, even, onRemove }: Props) => {
         }}>
         <Text>{role}</Text>
       </GridItem>
-      <GridItem>
-        <Tooltip label={t('Common.Remove')}>
-          <IconButton
-            variant={'deleteIconBtn'}
-            aria-label={t('Common.Remove')}
-            icon={<i className={'ri-close-line'} />}
-            mr={0}
-            onClick={onRemove}
-          />
-        </Tooltip>
-      </GridItem>
+      {!disableEdit && (
+        <GridItem>
+          <Tooltip label={t('Common.Remove')}>
+            <IconButton
+              variant={'deleteIconBtn'}
+              aria-label={t('Common.Remove')}
+              icon={<i className={'ri-close-line'} />}
+              mr={0}
+              onClick={onRemove}
+            />
+          </Tooltip>
+        </GridItem>
+      )}
     </Grid>
   );
 };

@@ -28,13 +28,15 @@ type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
+  disableEdit: boolean;
 };
-const TopSection = ({ no, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
   const pdName = useWatch({ name: 'name' });
+  const status = useWatch({ name: 'status' });
 
   const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
@@ -123,6 +125,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                     hideValidationStyle={true}
                     defaultValue={getValues('name')}
                     name="name"
+                    isDisabled={disableEdit}
                     registerOptions={{ required: true }}
                   />
                 </Heading>
@@ -131,7 +134,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   {no}
                 </Text>
                 <HStack mx={SPACE.XS} spacing={SPACE.XS}>
-                  <StatusBadge status={getValues('status')} />
+                  <StatusBadge status={status} />
                   <ChangelogPopup data={statusChangelog} />
                 </HStack>
               </VStack>
@@ -174,6 +177,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               createNew={createNew}
               clientNo={clientNo}
               scrolledPast={scrolledPast}
+              disableEdit={disableEdit}
             />
           </GridItem>
           <GridItem
@@ -182,7 +186,11 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: scrolledPast ? 4 : 5,
             }}>
-            <ActionBar createNew={createNew} no={no} />
+            <ActionBar
+              createNew={createNew}
+              no={no}
+              disableEdit={disableEdit}
+            />
           </GridItem>
         </Grid>
       </ContentSection>
