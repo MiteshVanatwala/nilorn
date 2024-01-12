@@ -89,6 +89,7 @@
     "SaveBeforeUploadImg": "Save before uploading image",
     "DeleteTitle": "Are you sure?",
     "DeleteComfirm": "You want to delete product development: {{no}}",
+    "ViewProductions": "View productions ",
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",

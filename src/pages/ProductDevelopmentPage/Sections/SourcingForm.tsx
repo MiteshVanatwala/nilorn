@@ -1,12 +1,12 @@
 import { Button, Grid, GridItem, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../theme/Constants';
-
 import InputField from '../../../components/Form/InputField';
 import Quantity from './SectionComponents/Quantity';
 import TextArea from '../../../components/Form/TextArea';
 import { useProductions } from '../../../app/api/Productions';
 import ReleasedProductions from './ReleasedProductions';
+import ArrowLink from '../../../components/Link/ArrowLink';
 
 type Props = {
   no: string;
@@ -28,8 +28,6 @@ const SourcingForm = ({
     no,
     sourcingCompanyCode
   );
-
-  console.log('connectedProductions', connectedProductions);
 
   return (
     <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -78,18 +76,20 @@ const SourcingForm = ({
         }}>
         <Quantity disableEdit={disableEdit} formKey={sourcingIndexKey} />
       </GridItem>
-      <GridItem>
-        {connectedProductions && connectedProductions?.length > 0 && <>LINK</>}
+      <GridItem colSpan={12}>
         <ReleasedProductions
           data={connectedProductions?.filter(cp => cp.released) ?? []}
         />
-        {/* {sourcing.sourcingCompanyCode && (
-          <ReleasedProductions
-            no={no}
-            sourcingCompanyCode={sourcing.sourcingCompanyCode}
-          />
-        )} */}
       </GridItem>
+      {connectedProductions && connectedProductions?.length > 0 && (
+        <GridItem colSpan={12}>
+          <ArrowLink
+            direction="right"
+            to={`/production/?productDevelopments=${no}`}>
+            <>{t('Pd.ViewProductions')}</>
+          </ArrowLink>
+        </GridItem>
+      )}
     </Grid>
   );
 };

@@ -10,19 +10,20 @@ type Props = {
   productions: ProductDevelopmentProductionDto[];
 };
 
-const TH_STYLE: CSSProperties = {
+export const TH_STYLE: CSSProperties = {
   ...table.baseStyle?.th,
   height: 'auto',
   textTransform: 'none',
 };
 
-const TD_STYLE_LAST_CHILD: CSSProperties = {
+export const TD_STYLE_LAST_CHILD: CSSProperties = {
   ...table.baseStyle?.td,
+  overflow: 'hidden',
   height: 'auto',
   borderTop: 'none',
 };
 
-const TD_STYLE: CSSProperties = {
+export const TD_STYLE: CSSProperties = {
   ...TD_STYLE_LAST_CHILD,
   borderRight: 'none',
 };

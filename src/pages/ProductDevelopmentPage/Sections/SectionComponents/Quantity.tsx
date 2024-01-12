@@ -51,7 +51,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                     position={'absolute'}
                     zIndex={2}
                     right={0}
-                    top={0}
+                    top={4}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
                     icon={<i className="ri-close-line" />}
