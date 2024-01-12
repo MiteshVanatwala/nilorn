@@ -4,6 +4,8 @@ import PDImageModal from './PDImageModal';
 import { COLORS } from '../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useGetPDImage } from '../../../../app/api/PDImage';
+import { useCurrentUser } from '../../../../app/api/User';
+import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 
 type Props = {
   scrolledPast: boolean;
@@ -15,6 +17,13 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   let { data: pdImage, isError } = useGetPDImage(no);
+  const { data: user } = useCurrentUser();
+
+  function handleModalFunc() {
+    if (user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role)) {
+      handleModal(<PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />);
+    }
+  }
 
   if (pdImage && !isError) {
     return (
@@ -35,6 +44,7 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
       />
     );
   }
+
   return (
     <Flex
       maxHeight={scrolledPast ? '0' : '20rem'}
@@ -46,16 +56,20 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
       bg={COLORS.GRAY[5]}
       border={'1px dashed'}
       borderColor={COLORS.GRAY[40]}
-      cursor={'pointer'}
+      cursor={
+        user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role)
+          ? 'pointer'
+          : 'default'
+      }
       justifyContent={'center'}
       alignItems={'center'}
-      onClick={() =>
-        handleModal(
-          <PDImageModal pdName={pdName} imageUrl={undefined} no={no} />
-        )
-      }>
-      <Text mr="2" as="i" className="ri-add-line" />
-      <Text> {t('PD.UploadImage')}</Text>
+      onClick={() => handleModalFunc()}>
+      {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
+        <>
+          <Text mr="2" as="i" className="ri-add-line" />
+          <Text>{t('PD.UploadImage')}</Text>
+        </>
+      )}
     </Flex>
   );
 };

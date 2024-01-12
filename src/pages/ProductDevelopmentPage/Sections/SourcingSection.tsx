@@ -22,8 +22,11 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { SourcingDto } from '../../../app/generate';
 
 export const SOURCING_KEY = 'sourcings';
+type Props = {
+  disableEdit: boolean;
+};
 
-const SourcingSection = () => {
+const SourcingSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const { getValues, control } = useFormContext();
@@ -79,18 +82,21 @@ const SourcingSection = () => {
           xl: 'row-reverse',
         }}>
         <>
-          <Box minW={'20rem'}>
-            <AdvanceFilterSelect
-              name={'AddSourcing'}
-              placeholder={t('PD.AddSourcing')}
-              hideSelected={true}
-              options={sourcingCompanies}
-              onChange={(option, event) => {
-                addSourcing(option);
-              }}
-              value={selected}
-            />
-          </Box>
+          {!disableEdit && (
+            <Box minW={'20rem'}>
+              <AdvanceFilterSelect
+                name={'AddSourcing'}
+                placeholder={t('PD.AddSourcing')}
+                hideSelected={true}
+                options={sourcingCompanies}
+                onChange={(option, event) => {
+                  addSourcing(option);
+                }}
+                value={selected}
+              />
+            </Box>
+          )}
+
           <Box w={'100%'}>
             <Accordion
               allowMultiple

@@ -1,13 +1,10 @@
 import { ProductDevelopmentBriefDto } from '../../app/generate';
 import ProductionsTable from './ProductionsTable';
-import { productions } from './mock';
 import Alert from '../../components/Feedback/Alert';
 import { useTranslation } from 'react-i18next';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { useProductionsFilter } from '../../app/api/Productions';
-import { useEffect } from 'react';
-import { usePaginationContext } from '../../app/context/PaginationProvider';
 
 export type ProductionQuery = {
   productDevelopment: ProductDevelopmentBriefDto;

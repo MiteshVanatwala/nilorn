@@ -14,6 +14,10 @@ import MemberSection from './MemberSection';
 import AttachmentSection from './AttachmentSection';
 import SourcingSection from './SourcingSection';
 import BottomSection from './BottomSection';
+import { ROLES_NOT_ALLOWED_TO_EDIT } from '../../../app/Permissions/Permissions';
+import { useCurrentUser } from '../../../app/api/User';
+import { useEffect, useState } from 'react';
+import { Role } from '../../../app/generate';
 
 type Props = {
   createNew: boolean;
@@ -27,12 +31,14 @@ function ProductDevelopmentForm({
   scrolledPast,
 }: Props) {
   const { no } = useParams();
+  const { data: user } = useCurrentUser();
 
   const form = useForm({
     defaultValues: {
       ...defaultValues,
     },
   });
+  const [disableEdit, setDisableEdit] = useState<boolean>(false);
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(
@@ -49,11 +55,19 @@ function ProductDevelopmentForm({
     }
     onSubmit(form);
   }
+  useEffect(() => {
+    if (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role)) {
+      setDisableEdit(true);
+    } else {
+      setDisableEdit(false);
+    }
+  }, [user?.role]);
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submitForm)}>
         <TopSection
+          disableEdit={disableEdit}
           createNew={createNew}
           no={no ?? ''}
           scrolledPast={scrolledPast}
@@ -66,11 +80,17 @@ function ProductDevelopmentForm({
                   variant={'card'}
                   defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3, 4]}
                   allowMultiple>
-                  <GeneralSection />
-                  <ProductDesignSection />
-                  <MemberSection no={no ?? ''} createNew={createNew} />
+                  <GeneralSection disableEdit={disableEdit} />
+                  <ProductDesignSection disableEdit={disableEdit} />
+                  <MemberSection
+                    no={no ?? ''}
+                    createNew={createNew}
+                    disableEdit={disableEdit}
+                  />
                   <AttachmentSection />
-                  <SourcingSection />
+                  {user?.role && user?.role !== Role.DESIGNER && (
+                    <SourcingSection disableEdit={disableEdit} />
+                  )}
                 </Accordion>
               </VStack>
             </GridItem>

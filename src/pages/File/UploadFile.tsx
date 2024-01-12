@@ -3,6 +3,8 @@ import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { handleFileUpload } from '../../app/utils/file';
 import { SPACE } from '../../theme/Constants';
+import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../app/Permissions/Permissions';
+import { useCurrentUser } from '../../app/api/User';
 
 type Props = {
   heading: string;
@@ -12,7 +14,7 @@ type Props = {
 };
 const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
   const { t } = useTranslation();
-
+  const { data: user } = useCurrentUser();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,12 +39,14 @@ const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
             multiple={multiple}
             onChange={onFileUpload}
           />
-          <Button
-            variant={'secondarySmall'}
-            onClick={onButtonClick}
-            rightIcon={<i className={'ri-add-line'} />}>
-            {t('Common.Add')}
-          </Button>
+          {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
+            <Button
+              variant={'secondarySmall'}
+              onClick={onButtonClick}
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
         </>
       )}
     </HStack>

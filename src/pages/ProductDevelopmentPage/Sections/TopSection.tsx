@@ -28,8 +28,9 @@ type Props = {
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
+  disableEdit: boolean;
 };
-const TopSection = ({ no, scrolledPast, createNew }: Props) => {
+const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
@@ -101,7 +102,6 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                   </Text>
                 </HStack>
               )}
-
               <VStack
                 gap={{
                   base: scrolledPast ? SPACE.XS : SPACE.XXS,
@@ -124,6 +124,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
                     hideValidationStyle={true}
                     defaultValue={getValues('name')}
                     name="name"
+                    isDisabled={disableEdit}
                     registerOptions={{ required: true }}
                   />
                 </Heading>
@@ -175,6 +176,7 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               createNew={createNew}
               clientNo={clientNo}
               scrolledPast={scrolledPast}
+              disableEdit={disableEdit}
             />
           </GridItem>
           <GridItem
@@ -183,7 +185,11 @@ const TopSection = ({ no, scrolledPast, createNew }: Props) => {
               md: 10,
               lg: scrolledPast ? 4 : 5,
             }}>
-            <ActionBar createNew={createNew} no={no} />
+            <ActionBar
+              createNew={createNew}
+              no={no}
+              disableEdit={disableEdit}
+            />
           </GridItem>
         </Grid>
       </ContentSection>

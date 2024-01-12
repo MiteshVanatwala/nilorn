@@ -14,11 +14,12 @@ import { useMemo, useState } from 'react';
 type Props = {
   no: string;
   createNew?: boolean;
+  disableEdit: boolean;
 };
 
 const FORM_KEY = 'salespersonPurchasers';
 
-const MemberSection = ({ createNew, no }: Props) => {
+const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const { t } = useTranslation();
 
   const { getValues, control } = useFormContext();
@@ -96,25 +97,28 @@ const MemberSection = ({ createNew, no }: Props) => {
           <Alert status="info" title={`${t('PD.MemberInfo')}`} />
         ) : (
           <>
-            <Box minW={'20rem'}>
-              <AdvanceFilterSelect
-                name="AddMembers"
-                placeholder={t('PD.AddMember')}
-                hideSelected={true}
-                options={
-                  data?.map(m => {
-                    return {
-                      label: m.name,
-                      value: m,
-                    } as SelectOption<SalespersonPurchaserBriefDto>;
-                  }) ?? []
-                }
-                onChange={(option, event) => {
-                  addMember(option);
-                }}
-                value={selected}
-              />
-            </Box>
+            {!disableEdit && (
+              <Box minW={'20rem'}>
+                <AdvanceFilterSelect
+                  name="AddMembers"
+                  placeholder={t('PD.AddMember')}
+                  hideSelected={true}
+                  options={
+                    data?.map(m => {
+                      return {
+                        label: m.name,
+                        value: m,
+                      } as SelectOption<SalespersonPurchaserBriefDto>;
+                    }) ?? []
+                  }
+                  onChange={(option, event) => {
+                    addMember(option);
+                  }}
+                  value={selected}
+                />
+              </Box>
+            )}
+
             <Grid
               w="full"
               templateColumns={{

@@ -53,6 +53,7 @@ const EditableInputField = ({
       hideValidationStyle={hideValidationStyle}>
       <Editable
         defaultValue={defaultValue?.toString()}
+        isDisabled={isDisabled}
         placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
         <EditablePreview
           py={'.45rem'}
