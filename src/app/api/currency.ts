@@ -7,7 +7,7 @@ export function useGetCurrencies() {
     [QueryKeysEnum.Currency],
     () => CurrencyService.getApiCurrency().then(res => res),
     {
-      retry: 0,
+      retry: 1,
     }
   );
 }
