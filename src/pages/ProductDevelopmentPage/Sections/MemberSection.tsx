@@ -98,8 +98,8 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
           <Alert status="info" title={`${t('PD.MemberInfo')}`} />
         ) : (
           <>
-            {!disableEdit && (
-              <Box minW={'20rem'}>
+            <Box minW={'20rem'}>
+              {!disableEdit && (
                 <AdvanceFilterSelect
                   name="AddMembers"
                   placeholder={t('PD.AddMember')}
@@ -117,8 +117,8 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                   }}
                   value={selected}
                 />
-              </Box>
-            )}
+              )}
+            </Box>
 
             <Grid
               w="full"
