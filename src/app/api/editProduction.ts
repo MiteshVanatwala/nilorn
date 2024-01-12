@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
-export function useDeleteVendor() {
+export function useDeleteProduction() {
   //   const queryClient = useQueryClient();
   return useMutation(
     (body: { id: string }) =>

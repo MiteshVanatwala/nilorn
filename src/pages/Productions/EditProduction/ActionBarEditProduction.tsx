@@ -24,7 +24,7 @@ const ActionBarEditProduction = ({
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
-  // const { mutate: deleteVendor } = useDeleteVendor();
+  // const { mutate: deleteProduction } = useDeleteProduction();
   const vendor = sourcedProduction?.productions
     ? sourcedProduction?.productions[vendorIndex]
     : null;
@@ -35,7 +35,7 @@ const ActionBarEditProduction = ({
     false
   );
 
-  function deleteVendorFunc() {
+  function deleteProductionFunc() {
     //TODO Delete vendor
     // deleteVendor({ id: vendorId });
   }
@@ -83,7 +83,7 @@ const ActionBarEditProduction = ({
                 {t('PD.ShowChanges')}
               </MenuItem>
               <MenuItem
-                onClick={() => deleteVendorFunc()}
+                onClick={() => deleteProductionFunc()}
                 icon={
                   <Text
                     as={'i'}
