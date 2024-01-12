@@ -36,14 +36,12 @@ const ActionBarEditProduction = ({
   );
 
   function deleteVendorFunc() {
+    //TODO Delete vendor
     // deleteVendor({ id: vendorId });
-
-    console.log('delete');
   }
   function handleSaveAndRelease() {
     setReleased(true);
     updateProduction(getValues());
-    console.log('save and release', getValues(), released);
   }
 
   return (
