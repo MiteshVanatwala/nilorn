@@ -77,7 +77,8 @@ const EditProductionFormContent = ({
               <Select
                 label={t('Production.ChooseVendor')}
                 options={vendorOptions ?? []}
-                name={'vendorId'}></Select>
+                name={'vendorId'}
+              />
             </GridItem>
           )}
           <GridItem colSpan={3}>
@@ -128,22 +129,7 @@ const EditProductionFormContent = ({
               defaultValue={production?.sampleCharge}
             />
           </GridItem>
-          <GridItem colSpan={1}>
-            <InputField
-              label={`Vendor ID`}
-              placeholder={`${t('Common.Placeholder')}`}
-              name={'vendorId'}
-              defaultValue={selectedVendor?.id}
-            />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <InputField
-              label={`Sourcing ID`}
-              placeholder={`${t('Common.Placeholder')}`}
-              name={'sourcingId'}
-              defaultValue={sourcedProduction?.sourcingId?.toString()}
-            />
-          </GridItem>
+
           <GridItem colSpan={1}>
             <Select
               key={selectedVendor?.id}
@@ -159,6 +145,19 @@ const EditProductionFormContent = ({
               name={'CurrencyCode'}
             />
           </GridItem>
+          <InputField
+            type="hidden"
+            placeholder={`${t('Common.Placeholder')}`}
+            name={'vendorId'}
+            defaultValue={selectedVendor?.id}
+          />
+
+          <InputField
+            type="hidden"
+            placeholder={`${t('Common.Placeholder')}`}
+            name={'sourcingId'}
+            defaultValue={sourcedProduction?.sourcingId?.toString()}
+          />
         </Grid>
       </GridItem>
       <GridItem
