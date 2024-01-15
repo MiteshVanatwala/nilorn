@@ -69,7 +69,7 @@ const SearchProfileModalContent = ({
   useEffect(() => {
     setActiveSearchProfileName(searchProfileName ?? '');
     setSearchProfileName(searchProfileName);
-  }, [activeSearchProfileName, searchProfileName, setActiveSearchProfileName]);
+  }, [searchProfileName, setActiveSearchProfileName]);
   useEffect(() => {
     if (isSuccess) {
       showToast({
