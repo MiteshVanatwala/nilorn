@@ -42,7 +42,7 @@ const ReleasedProductions = ({ data }: Props) => {
           <GridItem style={TD_STYLE}>{p.sampleLeadTime}</GridItem>
           <GridItem style={TD_STYLE}>{p.productionLeadTime}</GridItem>
           <GridItem style={TD_STYLE}>{p.moq}</GridItem>
-          <GridItem style={TD_STYLE}>{p.currency}</GridItem>
+          <GridItem style={TD_STYLE}>{p.currencyCode}</GridItem>
           {p.purchasePrices && (
             <GridItem
               style={p.purchasePrices.length === 0 ? TD_STYLE_LAST_CHILD : {}}

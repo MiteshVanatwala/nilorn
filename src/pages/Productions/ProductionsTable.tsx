@@ -90,7 +90,7 @@ const ProductionsTable = ({ productions }: Props) => {
                             </GridItem>
                             <GridItem style={TD_STYLE}>{p.moq}</GridItem>
                             <GridItem style={TD_STYLE} overflow={'hidden'}>
-                              {p.currency}
+                              {p.currencyCode}
                             </GridItem>
                             <GridItem style={TD_STYLE_LAST_CHILD} colSpan={2}>
                               [QTY PUR] in api data atm

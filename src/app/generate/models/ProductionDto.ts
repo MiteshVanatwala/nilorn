@@ -8,7 +8,7 @@ import type { PurchasePriceDto } from './PurchasePriceDto';
 export type ProductionDto = {
     vendorId?: string | null;
     vendorName?: string | null;
-    currency?: string | null;
+    currencyCode?: string | null;
     released?: boolean;
     moq?: number;
     sampleCharge?: number;

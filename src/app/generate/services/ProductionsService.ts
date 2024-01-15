@@ -69,4 +69,24 @@ released?: boolean,
         });
     }
 
+    /**
+     * @param id 
+     * @param released 
+     * @returns ProductionDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductionsReleaseProduction(
+id: string,
+released: boolean,
+): CancelablePromise<ProductionDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/Productions/releaseProduction/{id}/{released}',
+            path: {
+                'id': id,
+                'released': released,
+            },
+        });
+    }
+
 }
