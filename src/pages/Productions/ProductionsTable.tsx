@@ -16,9 +16,6 @@ export const TH_STYLE: CSSProperties = {
   height: 'auto',
   textTransform: 'none',
   display: 'flex',
-  alignItems: 'center',
-  paddingTop: '0',
-  paddingBottom: '0',
 };
 
 export const TD_STYLE_RELEASED: CSSProperties = {
@@ -29,7 +26,6 @@ export const TD_STYLE_RELEASED: CSSProperties = {
   border: 'none',
   backgroundColor: COLORS.GREEN.TINT,
   display: 'flex',
-  alignItems: 'center',
 };
 export const TD_STYLE_LAST_CHILD: CSSProperties = {
   ...table.baseStyle?.td,
@@ -45,7 +41,6 @@ export const TD_STYLE: CSSProperties = {
   boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
   border: 'none',
   display: 'flex',
-  alignItems: 'center',
 };
 
 const ProductionsTable = ({ productions }: Props) => {

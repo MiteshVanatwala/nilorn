@@ -25,9 +25,10 @@ const baseStyle = definePartsStyle({
     color: COLORS.WHITE,
     fontSize: fontSizes.xs,
     textTransform: 'none',
-    paddingTop: '1rem',
-    paddingBottom: '1rem',
     fontWeight: 700,
+    paddingTop: '0',
+    paddingBottom: '0',
+    alignItems: 'center',
   },
   td: {
     ...text.variants.bodyRegular,
@@ -39,6 +40,7 @@ const baseStyle = definePartsStyle({
     pY: 0,
     height: '3.5rem',
     verticalAlign: 'middle',
+    alignItems: 'center',
   },
 });
 
