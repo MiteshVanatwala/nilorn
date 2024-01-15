@@ -136,6 +136,7 @@ const button = defineStyleConfig({
       height: SPACE.XL,
       '&:hover': {
         color: '#000',
+        background: COLORS.GRAY[20],
       },
     },
   },

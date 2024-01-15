@@ -49,9 +49,6 @@ const TableMenuProduction = ({
         as={IconButton}
         variant={'ghost'}
         padding={SPACE.SM}
-        _hover={{
-          background: COLORS.GRAY[20],
-        }}
         aria-label={t('Common.More')}
         icon={<Text as={'i'} className="ri-more-line" />}
       />
