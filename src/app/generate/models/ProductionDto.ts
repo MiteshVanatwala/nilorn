@@ -6,6 +6,7 @@
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type ProductionDto = {
+    id?: string;
     vendorId?: string | null;
     vendorName?: string | null;
     currencyCode?: string | null;

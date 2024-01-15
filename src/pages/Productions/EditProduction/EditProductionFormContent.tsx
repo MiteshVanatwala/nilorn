@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import InputField from '../../../components/Form/InputField';
 import { GRID, SPACE } from '../../../theme/Constants';
 import TextArea from '../../../components/Form/TextArea';
@@ -50,8 +50,16 @@ const EditProductionFormContent = ({
   useEffect(() => {
     if (createNew && newSelctedVendor) {
       setSelectedVendor(vendors?.find(co => co.no === newSelctedVendor));
+    } else {
+      setSelectedVendor(vendors?.find(co => co.id === production?.vendorId));
     }
-  }, [createNew, newSelctedVendor, vendors]);
+  }, [
+    createNew,
+    newSelctedVendor,
+    production?.vendorId,
+    selectedVendor,
+    vendors,
+  ]);
 
   return (
     <Grid
@@ -129,10 +137,12 @@ const EditProductionFormContent = ({
               defaultValue={production?.sampleCharge}
             />
           </GridItem>
-
           <GridItem colSpan={1}>
             <Select
-              key={selectedVendor?.id}
+              key={
+                (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
+                currency?.length
+              }
               label={`${t('Production.Currency')}`}
               defaultValue={
                 selectedVendor

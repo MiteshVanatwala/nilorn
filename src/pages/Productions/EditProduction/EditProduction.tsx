@@ -69,7 +69,7 @@ const EditProduction = ({
           <EditProductionTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            vendorIndex={sourcingCoIndex}
+            sourcingCoIndex={sourcingCoIndex}
             production={production}
             createNew={createNew}
           />

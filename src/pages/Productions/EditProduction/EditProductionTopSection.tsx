@@ -13,14 +13,14 @@ import ActionBarEditProduction from './ActionBarEditProduction';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  vendorIndex: number;
+  sourcingCoIndex: number;
   production?: ProductionDto;
   createNew?: boolean;
 };
 const EditProductionTopSection = ({
   productDevelopment,
   sourcedProduction,
-  vendorIndex,
+  sourcingCoIndex,
   production,
   createNew,
 }: Props) => {
@@ -134,7 +134,7 @@ const EditProductionTopSection = ({
           <ActionBarEditProduction
             sourcedProduction={sourcedProduction}
             artwork={productDevelopment?.artworkUrl}
-            vendorIndex={vendorIndex}
+            sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
           />
         </GridItem>

@@ -12,13 +12,13 @@ import { usePatchProduction } from '../../../app/api/editProduction';
 type Props = {
   artwork?: string | null;
   sourcedProduction?: SourcedProductionDto;
-  vendorIndex: number;
+  sourcingCoIndex: number;
   createNew?: boolean;
 };
 const ActionBarEditProduction = ({
   artwork,
   sourcedProduction,
-  vendorIndex,
+  sourcingCoIndex,
   createNew,
 }: Props) => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const ActionBarEditProduction = ({
 
   // const { mutate: deleteProduction } = useDeleteProduction();
   const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[vendorIndex]
+    ? sourcedProduction?.productions[sourcingCoIndex]
     : null;
   const [released, setReleased] = useState<boolean>(vendor?.released ?? false);
   const { mutate: updateProduction } = usePatchProduction(
