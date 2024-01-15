@@ -1,12 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
-
 import QueryKeysEnum from './queryKeys';
-import {
-  ApiError,
-  ImageService,
-  ProductionDto,
-  ProductionsService,
-} from '../generate';
+import { ApiError, ProductionDto, ProductionsService } from '../generate';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
@@ -24,19 +18,6 @@ export function useDeleteProduction() {
   );
 }
 
-export const useUploadPDImage = (no: string) => {
-  const queryClient = useQueryClient();
-
-  return useMutation(
-    (body: { file: Blob }) =>
-      ImageService.putApiImage(no, body).then(response => response),
-    {
-      onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
-      },
-    }
-  );
-};
 //TODO THIS IS NOT RIGHT ENDPOINT
 export const usePatchProduction = (
   id: string,
