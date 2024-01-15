@@ -17,13 +17,11 @@ import FormLabelComponent from '../Form/FormLabelComponent';
 import { FieldError } from 'react-hook-form';
 type Props = {
   activeSearchProfileName?: string;
-  activeSearchProfile(val: boolean): void;
   setActiveSearchProfileName(val: string): void;
   setDefaultSearchProfile(val: string): void;
 };
 
 const SearchProfileModalContent = ({
-  activeSearchProfile,
   activeSearchProfileName,
   setActiveSearchProfileName,
   setDefaultSearchProfile,
@@ -107,8 +105,8 @@ const SearchProfileModalContent = ({
           defaultValue={activeSearchProfileName ?? undefined}
           variant={'standard'}
           name={'searchProfileName'}
+          placeholder={t('Common.Placeholder')}
           onChange={e => {
-            activeSearchProfile(false);
             setSearchProfileName(e.target.value);
             setActiveSearchProfileName(e.target.value);
             setDefaultSearchProfile('');

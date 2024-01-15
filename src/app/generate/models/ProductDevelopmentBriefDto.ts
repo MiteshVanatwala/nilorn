@@ -15,5 +15,6 @@ export type ProductDevelopmentBriefDto = {
     client?: string | null;
     project?: string | null;
     productGroup?: string | null;
+    itemCategory?: string | null;
     sourcings?: Array<string> | null;
 };

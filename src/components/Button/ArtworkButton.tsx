@@ -17,7 +17,7 @@ const ArtworkButton = ({ url, size }: Props) => {
 
   return (
     <IconButton
-      zIndex={99}
+      zIndex={9}
       variant={'ghost'}
       aria-label={t('PD.Artwork')}
       onClick={e => {
