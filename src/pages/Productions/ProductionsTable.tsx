@@ -2,9 +2,8 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { CSSProperties } from 'react';
-import TableMenu from './TableMenu';
 import TableMenuSourcing from './TableMenuSourcing';
-
+import TableMenuProduction from './TableMenuProduction';
 import { ProductDevelopmentProductionDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
@@ -128,7 +127,7 @@ const ProductionsTable = ({ productions }: Props) => {
                                 }
                                 overflow={'hidden'}>
                                 {production.vendorName}
-                                <TableMenu
+                                <TableMenuProduction
                                   productDevelopment={
                                     p?.productDevelopmentBriefDto
                                   }

@@ -25,7 +25,7 @@ type Props = {
   production?: ProductionDto;
 };
 
-const TableMenu = ({
+const TableMenuProduction = ({
   productDevelopment,
   sourcedProduction,
   sourcingCoIndex,
@@ -39,7 +39,9 @@ const TableMenu = ({
     !production?.released
   );
   function releaseForSalesFunc(id: string | undefined, release: boolean) {
-    releaseForSales();
+    if (production?.vendorId !== '') {
+      releaseForSales();
+    }
   }
   return (
     <Menu>
@@ -104,4 +106,4 @@ const TableMenu = ({
   );
 };
 
-export default TableMenu;
+export default TableMenuProduction;
