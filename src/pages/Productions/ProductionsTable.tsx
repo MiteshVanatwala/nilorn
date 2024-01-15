@@ -170,7 +170,7 @@ const ProductionsTable = ({ productions }: Props) => {
                                     : TD_STYLE
                                 }
                                 overflow={'hidden'}>
-                                {production.currency}
+                                {production.currencyCode}
                               </GridItem>
                               <GridItem
                                 style={
