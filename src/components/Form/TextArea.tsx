@@ -7,7 +7,7 @@ import ResizeTextarea from 'react-textarea-autosize';
 
 interface Props extends FormInputProps {
   placeholder?: string;
-  defaultValue?: string | number;
+  defaultValue?: string | number | undefined | null;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   isDisabled?: boolean;
 }
@@ -38,12 +38,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         helperText={helperText}
         hideValidationStyle={hideValidationStyle}>
         <Textarea
+          paddingTop={'.9rem'}
+          paddingBottom={'.8rem'}
           lineHeight={1.5}
           resize="none"
           as={ResizeTextarea}
           variant={variant}
           disabled={isDisabled}
-          defaultValue={defaultValue}
+          defaultValue={defaultValue ?? ''}
           placeholder={placeholder}
           height={'auto'}
           {...register(name, registerOptions)}

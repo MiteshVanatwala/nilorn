@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { PurchasePriceDto } from './PurchasePriceDto';
+
 export type CreateProductionCommand = {
     sourcingId?: string | null;
     vendorId?: string | null;
@@ -14,4 +16,5 @@ export type CreateProductionCommand = {
     sampleLeadTime?: number;
     productionLeadTime?: number;
     comment?: string | null;
+    purchasePrices?: Array<PurchasePriceDto> | null;
 };

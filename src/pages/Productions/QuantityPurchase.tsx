@@ -13,11 +13,15 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
+import { PurchasePriceDto } from '../../app/generate';
+type Props = {
+  purchasePrices?: PurchasePriceDto[] | null;
+};
 
-const QuantityPurchase = () => {
+const QuantityPurchase = ({ purchasePrices }: Props) => {
   const { t } = useTranslation();
   const { control } = useFormContext();
-  const formName = 'quantiyPurchase';
+  const formName = 'purchasePrices';
   const { fields, append, remove } = useFieldArray({
     control,
     name: formName,
@@ -25,7 +29,7 @@ const QuantityPurchase = () => {
 
   useEffect(() => {
     const last = document.querySelector(
-      `[name="quantiyPurchase.${fields.length - 1}.qty"]`
+      `[name="purchasePrices.${fields.length - 1}.quantity"]`
     ) as HTMLInputElement;
     last?.focus();
   }, [fields]);
@@ -68,7 +72,7 @@ const QuantityPurchase = () => {
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.qty`}
+                      name={`${formName}.${index}.quantity`}
                       type="number"
                       registerOptions={{ valueAsNumber: true }}
                     />
@@ -76,7 +80,7 @@ const QuantityPurchase = () => {
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.pur`}
+                      name={`${formName}.${index}.price`}
                       type="number"
                       registerOptions={{ valueAsNumber: true }}
                     />
@@ -86,9 +90,10 @@ const QuantityPurchase = () => {
                   position={'absolute'}
                   zIndex={2}
                   right={0}
-                  top={0}
+                  top={'50%'}
                   transform={'auto'}
                   translateX={'100%'}
+                  translateY={'-50%'}
                   variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
                   icon={<i className="ri-close-line" />}

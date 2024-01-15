@@ -3,20 +3,47 @@ import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-const ActionBarEditProduction = () => {
+import { SourcedProductionDto } from '../../../app/generate';
+import { useState } from 'react';
+import { usePatchProduction } from '../../../app/api/editProduction';
+type Props = {
+  artwork?: string | null;
+  sourcedProduction?: SourcedProductionDto;
+  sourcingCoIndex: number;
+  createNew?: boolean;
+};
+const ActionBarEditProduction = ({
+  artwork,
+  sourcedProduction,
+  sourcingCoIndex,
+  createNew,
+}: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
-  const artwork = useWatch({ name: 'artwork' });
-  function handleSave() {
-    console.log('save', getValues());
+  // const { mutate: deleteProduction } = useDeleteProduction();
+  const vendor = sourcedProduction?.productions
+    ? sourcedProduction?.productions[sourcingCoIndex]
+    : null;
+  const [released, setReleased] = useState<boolean>(vendor?.released ?? false);
+  const { mutate: updateProduction } = usePatchProduction(
+    vendor?.vendorId ?? '',
+    released,
+    false
+  );
+
+  function deleteProductionFunc() {
+    //TODO Delete vendor
+    // deleteVendor({ id: vendorId });
   }
   function handleSaveAndRelease() {
-    console.log('save and release', getValues());
+    setReleased(true);
+    updateProduction(getValues());
   }
+
   return (
     <VStack align={'left'}>
       <HStack
@@ -33,54 +60,60 @@ const ActionBarEditProduction = () => {
           lg: SPACE.XS,
         }}>
         {artwork && <ArtworkButton url="TBD" />}
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            variant={'secondary'}
-            padding={SPACE.SM}
-            aria-label={t('Common.More')}
-            icon={
-              <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
-            }
-          />
-          <MenuList>
-            <MenuItem
+        {!createNew && (
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              variant={'secondary'}
+              padding={SPACE.SM}
+              aria-label={t('Common.More')}
               icon={
-                <Text
-                  as={'i'}
-                  fontSize={SIZES.ICON.MD}
-                  className="ri-delete-bin-line"
-                />
-              }>
-              {t('PD.ShowChanges')}
-            </MenuItem>
-            <MenuItem
-              icon={
-                <Text
-                  as={'i'}
-                  fontSize={SIZES.ICON.MD}
-                  className="ri-delete-bin-line"
-                />
-              }>
-              {t('Common.Delete')}
-            </MenuItem>
-          </MenuList>
-        </Menu>
+                <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
+              }
+            />
+            <MenuList>
+              <MenuItem
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-history-line"
+                  />
+                }>
+                {t('PD.ShowChanges')}
+              </MenuItem>
+              <MenuItem
+                onClick={() => deleteProductionFunc()}
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-delete-bin-line"
+                  />
+                }>
+                {t('Common.Delete')}
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )}
+
         <ButtonGroup isAttached variant="primary">
-          <Button type="submit" onClick={() => handleSave()}>
-            {t('Common.Save')}
+          <Button type="submit">
+            {createNew ? t('Production.CreateProduction') : t('Common.Save')}
           </Button>
           <Menu>
             <MenuButton
               as={IconButton}
               padding={SPACE.SM}
-              aria-label={t('Common.ChangeStatus')}
+              aria-label={t('Common.MoreOptions')}
               borderLeft={`1px solid ${COLORS.WHITE}`}
               icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
             />
             <MenuList>
               <MenuItem onClick={() => handleSaveAndRelease()}>
-                {t('Production.SaveAndRelease')}
+                {createNew
+                  ? t('Production.CreateAndRelease')
+                  : t('Production.SaveAndRelease')}
               </MenuItem>
             </MenuList>
           </Menu>

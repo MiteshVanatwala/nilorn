@@ -21,6 +21,7 @@
     "SendTo": "Send to:",
     "Save": "Save",
     "ChangeStatus": "Change status",
+    "MoreOptions": "More options",
     "More": "More",
     "Edit": "Edit",
     "Delete": "Delete",
@@ -164,6 +165,7 @@
   "Production": {
     "ProductDevelopments": "Product developments",
     "Release": "Release for sales",
+    "Remove": "Remove from sales",
     "SaveAndRelease": "Save and release",
     "Comment": "Comment",
     "CommentPlaceholder": "Enter comment",
@@ -175,7 +177,12 @@
     "Tool": "Tool",
     "Currency": "Currency",
     "Sample": "Sample",
-    "LastEdited": "Last edited"
+    "LastEdited": "Last edited",
+    "SaveSuccess": "Production saved",
+    "CreateProduction": "Create Production",
+    "CreateAndRelease": "Create and release",
+    "SaveReleaseSuccess": "Production saved and released for sales",
+    "ChooseVendor": "Choose vendor"
   },
   "Changelog": {
     "To": "To",

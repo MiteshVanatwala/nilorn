@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
 export type CreateProductDevelopmentCommand = {
@@ -21,4 +22,5 @@ export type CreateProductDevelopmentCommand = {
     targetSalesPrice?: string | null;
     freightIncluded?: number | null;
     clientNo?: string | null;
+    sourcings?: Array<SourcingDto> | null;
 };

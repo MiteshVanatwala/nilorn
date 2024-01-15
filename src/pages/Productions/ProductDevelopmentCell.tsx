@@ -13,15 +13,26 @@ const ProductDevelopmentCell = ({
   project,
 }: ProductDevelopmentBriefDto) => {
   return (
-    <Box h={'100%'}>
-      <VStack spacing={SPACE.MD} alignItems={'baseline'}>
+    <Box w={'100%'} h={'100%'}>
+      <VStack spacing={SPACE.XS} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
-          <Text>#{no}</Text>
+          <VStack
+            gap={0}
+            justifyContent={'flex-start'}
+            alignItems={'flex-start'}>
+            <Text>#{no}</Text>
+            <Text variant={'bodyBigBlack'}>{name}</Text>
+          </VStack>
+
+          <ArtworkButton size="SMALL" url={'artworkUrl'} />
           {artworkUrl && <ArtworkButton size="SMALL" url={artworkUrl} />}
         </HStack>
-        <Text variant={'bodyBigBlack'}>{name}</Text>
         {thumbnailData && (
-          <Image height={'8rem'} objectFit={'cover'} src={thumbnailData} />
+          <Image
+            height={'8rem'}
+            objectFit={'cover'}
+            src={`data:image/jpeg;base64,${thumbnailData}`}
+          />
         )}
         {project && <Text>{project}</Text>}
         <StatusBadge status={status as Status} />

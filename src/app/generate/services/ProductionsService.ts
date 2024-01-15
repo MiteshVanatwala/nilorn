@@ -71,6 +71,27 @@ released?: boolean,
 
     /**
      * @param id 
+     * @param requestBody 
+     * @returns ProductionDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductions(
+id: string,
+requestBody?: ProductionDto,
+): CancelablePromise<ProductionDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/Productions/{id}',
+            path: {
+                'id': id,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param id 
      * @param released 
      * @returns ProductionDto Success
      * @throws ApiError
