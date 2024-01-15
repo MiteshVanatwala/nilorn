@@ -1,30 +1,13 @@
 import { IconButton, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
 import { SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-
-import {
-  ProductDevelopmentBriefDto,
-  ProductionDto,
-  SourcedProductionDto,
-} from '../../app/generate';
-import TableMenuProduction from './TableMenuProduction';
-import TableMenuSourcing from './TableMenuSourcing';
+import { ReactNode } from 'react';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
-  production?: ProductionDto;
-  isProduction: boolean;
+  children: ReactNode;
 };
 
-const TableMenuPriceContainer = ({
-  productDevelopment,
-  sourcedProduction,
-  sourcingCoIndex,
-  production,
-  isProduction,
-}: Props) => {
+const TableMenuPriceContainer = ({ children }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -37,7 +20,7 @@ const TableMenuPriceContainer = ({
         icon={<Text as={'i'} className="ri-more-line" />}
       />
       <MenuList lineHeight={1.5}>
-        {isProduction && (
+        {/* {isProduction && (
           <TableMenuProduction
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
@@ -51,7 +34,8 @@ const TableMenuPriceContainer = ({
             sourcedProduction={sourcedProduction}
             sourcingCoIndex={sourcingCoIndex}
           />
-        )}
+        )} */}
+        {children}
       </MenuList>
     </Menu>
   );

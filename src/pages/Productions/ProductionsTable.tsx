@@ -6,6 +6,8 @@ import { ProductDevelopmentProductionDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
 import TableMenuPriceContainer from './TableMenuPriceContainer';
+import TableMenuProduction from './TableMenuProduction';
+import TableMenuSourcing from './TableMenuSourcing';
 
 type Props = {
   productions: ProductDevelopmentProductionDto[];
@@ -99,10 +101,15 @@ const ProductionsTable = ({ productions }: Props) => {
                         <Box>
                           {s.name}
                           <TableMenuPriceContainer
-                            productDevelopment={p?.productDevelopmentBriefDto}
-                            sourcedProduction={s}
-                            sourcingCoIndex={index}
-                            isProduction={false}
+                            children={
+                              <TableMenuSourcing
+                                productDevelopment={
+                                  p?.productDevelopmentBriefDto
+                                }
+                                sourcedProduction={s}
+                                sourcingCoIndex={index}
+                              />
+                            }
                           />
                         </Box>
                       </GridItem>
@@ -123,13 +130,16 @@ const ProductionsTable = ({ productions }: Props) => {
                                 overflow={'hidden'}>
                                 {production.vendorName}
                                 <TableMenuPriceContainer
-                                  productDevelopment={
-                                    p?.productDevelopmentBriefDto
+                                  children={
+                                    <TableMenuProduction
+                                      productDevelopment={
+                                        p?.productDevelopmentBriefDto
+                                      }
+                                      sourcedProduction={s}
+                                      sourcingCoIndex={index}
+                                      production={production}
+                                    />
                                   }
-                                  sourcedProduction={s}
-                                  sourcingCoIndex={index}
-                                  production={production}
-                                  isProduction={true}
                                 />
                               </GridItem>
                               <GridItem
