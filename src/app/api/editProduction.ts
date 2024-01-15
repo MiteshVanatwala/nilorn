@@ -75,7 +75,9 @@ export const useReleaseForSales = (
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         showToast({
           status: 'success',
-          description: t('Production.SaveReleaseSuccess'),
+          description: released
+            ? t('Production.ReleaseSaleSuccess')
+            : t('Production.RemoveSaleSuccess'),
         });
       },
       onError: async (err: ApiError) => {

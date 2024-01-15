@@ -68,17 +68,19 @@ const TableMenuProduction = ({
           ? t('Production.Release')
           : t('Production.Remove')}
       </MenuItem>
-      <MenuItem
-        onClick={() => console.log('Edit')}
-        icon={
-          <Text
-            as={'i'}
-            fontSize={SIZES.ICON.MD}
-            className="ri-delete-bin-6-line"
-          />
-        }>
-        {t('Common.Remove')}
-      </MenuItem>
+      {!production?.released && (
+        <MenuItem
+          onClick={() => console.log('Edit')}
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-delete-bin-6-line"
+            />
+          }>
+          {t('Common.Remove')}
+        </MenuItem>
+      )}
     </>
   );
 };

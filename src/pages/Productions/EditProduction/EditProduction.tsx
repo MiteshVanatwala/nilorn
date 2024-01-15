@@ -72,6 +72,7 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             production={production}
             createNew={createNew}
+            disableEdit={production?.released}
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
@@ -79,6 +80,7 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             production={production}
+            disableEdit={production?.released}
           />
         </form>
       </FormProvider>

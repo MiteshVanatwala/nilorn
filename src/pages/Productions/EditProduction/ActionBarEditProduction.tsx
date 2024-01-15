@@ -14,12 +14,14 @@ type Props = {
   sourcedProduction?: SourcedProductionDto;
   sourcingCoIndex: number;
   createNew?: boolean;
+  disableEdit?: boolean;
 };
 const ActionBarEditProduction = ({
   artwork,
   sourcedProduction,
   sourcingCoIndex,
   createNew,
+  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
@@ -82,17 +84,19 @@ const ActionBarEditProduction = ({
                 }>
                 {t('PD.ShowChanges')}
               </MenuItem>
-              <MenuItem
-                onClick={() => deleteProductionFunc()}
-                icon={
-                  <Text
-                    as={'i'}
-                    fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
-                  />
-                }>
-                {t('Common.Delete')}
-              </MenuItem>
+              {!disableEdit && (
+                <MenuItem
+                  onClick={() => deleteProductionFunc()}
+                  icon={
+                    <Text
+                      as={'i'}
+                      fontSize={SIZES.ICON.MD}
+                      className="ri-delete-bin-line"
+                    />
+                  }>
+                  {t('Common.Delete')}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         )}
@@ -101,22 +105,25 @@ const ActionBarEditProduction = ({
           <Button type="submit">
             {createNew ? t('Production.CreateProduction') : t('Common.Save')}
           </Button>
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              padding={SPACE.SM}
-              aria-label={t('Common.MoreOptions')}
-              borderLeft={`1px solid ${COLORS.WHITE}`}
-              icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-            />
-            <MenuList>
-              <MenuItem onClick={() => handleSaveAndRelease()}>
-                {createNew
-                  ? t('Production.CreateAndRelease')
-                  : t('Production.SaveAndRelease')}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+
+          {!disableEdit && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                padding={SPACE.SM}
+                aria-label={t('Common.MoreOptions')}
+                borderLeft={`1px solid ${COLORS.WHITE}`}
+                icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+              />
+              <MenuList>
+                <MenuItem onClick={() => handleSaveAndRelease()}>
+                  {createNew
+                    ? t('Production.CreateAndRelease')
+                    : t('Production.SaveAndRelease')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </ButtonGroup>
       </HStack>
       <Text
