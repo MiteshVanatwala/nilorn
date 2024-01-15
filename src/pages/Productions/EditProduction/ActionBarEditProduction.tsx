@@ -105,7 +105,7 @@ const ActionBarEditProduction = ({
             <MenuButton
               as={IconButton}
               padding={SPACE.SM}
-              aria-label={t('Common.ChangeStatus')}
+              aria-label={t('Common.MoreOptions')}
               borderLeft={`1px solid ${COLORS.WHITE}`}
               icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
             />
