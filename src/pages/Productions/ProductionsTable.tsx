@@ -5,7 +5,7 @@ import { CSSProperties } from 'react';
 import { ProductDevelopmentProductionDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
-import TableMenuPriceContainer from './TableMenuPriceContainer';
+import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 
@@ -100,7 +100,7 @@ const ProductionsTable = ({ productions }: Props) => {
                         style={TD_STYLE}>
                         <Box>
                           {s.name}
-                          <TableMenuPriceContainer
+                          <TableMenuContainer
                             children={
                               <TableMenuSourcing
                                 productDevelopment={
@@ -129,7 +129,7 @@ const ProductionsTable = ({ productions }: Props) => {
                                 }
                                 overflow={'hidden'}>
                                 {production.vendorName}
-                                <TableMenuPriceContainer
+                                <TableMenuContainer
                                   children={
                                     <TableMenuProduction
                                       productDevelopment={
