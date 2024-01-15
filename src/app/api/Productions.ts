@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentProductionsService } from '../generate';
+import { ProductionsService } from '../generate';
 
 export function useProductionsFilter() {
   const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
@@ -49,6 +50,21 @@ export function useProductionsFilter() {
       cacheTime: 1000 * 20,
       staleTime: 1000 * 20,
       enabled: pageNumber > 0 && pageSize > 0,
+    }
+  );
+}
+
+export function useProductions(
+  no: string,
+  sourcingCompanyCode: string,
+  released?: boolean | undefined
+) {
+  return useQuery(
+    [QueryKeysEnum.Productions, no, sourcingCompanyCode, released],
+    () =>
+      ProductionsService.getApiProductions(no, sourcingCompanyCode, released),
+    {
+      retry: 0,
     }
   );
 }

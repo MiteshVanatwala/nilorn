@@ -79,7 +79,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       );
     }
     return grids;
-  }, [fields, remove, selected]);
+  }, [disableEdit, fields, remove, selected]);
 
   return (
     <AccordionItem title={t('PD.AccordionLabels.Members')}>

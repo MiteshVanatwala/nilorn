@@ -13,7 +13,7 @@ type Props = {
   productions: ProductDevelopmentProductionDto[];
 };
 
-const TH_STYLE: CSSProperties = {
+export const TH_STYLE: CSSProperties = {
   ...table.baseStyle?.th,
   height: 'auto',
   textTransform: 'none',
@@ -23,7 +23,7 @@ const TH_STYLE: CSSProperties = {
   paddingBottom: '0',
 };
 
-const TD_STYLE_RELEASED: CSSProperties = {
+export const TD_STYLE_RELEASED: CSSProperties = {
   ...table.baseStyle?.td,
   height: 'auto',
   borderTop: 'none',
@@ -33,8 +33,14 @@ const TD_STYLE_RELEASED: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
 };
+export const TD_STYLE_LAST_CHILD: CSSProperties = {
+  ...table.baseStyle?.td,
+  overflow: 'hidden',
+  height: 'auto',
+  borderTop: 'none',
+};
 
-const TD_STYLE: CSSProperties = {
+export const TD_STYLE: CSSProperties = {
   ...table.baseStyle?.td,
   height: 'auto',
   borderTop: 'none',

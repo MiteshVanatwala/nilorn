@@ -88,6 +88,30 @@ const deleteIconBtn = defineStyle({
   },
 });
 
+const backButton = defineStyle({
+  ...text.variants.bodyBlack,
+  type: 'a',
+  padding: '0rem',
+  borderRadius: 'none',
+  i: {
+    transition: 'transform 250ms ease-in-out',
+  },
+  _hover: {
+    i: {
+      transform: 'translateX(-0.8rem)',
+    },
+  },
+});
+
+const forwardButton = defineStyle({
+  ...backButton,
+  _hover: {
+    i: {
+      transform: 'translateX(0.8rem)',
+    },
+  },
+});
+
 const button = defineStyleConfig({
   defaultProps: {},
   baseStyle: {
@@ -106,6 +130,8 @@ const button = defineStyleConfig({
     iconBtn,
     deleteBtn,
     deleteIconBtn,
+    backButton,
+    forwardButton,
     ghost: {
       height: SPACE.XL,
       '&:hover': {

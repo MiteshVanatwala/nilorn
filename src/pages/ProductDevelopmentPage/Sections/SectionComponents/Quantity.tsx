@@ -11,15 +11,15 @@ import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../../../components/Form/InputField';
-import { SOURCING_KEY } from '../SourcingSection';
 
 type Props = {
-  sourcingIndex: number;
+  formKey: string;
   disableEdit: boolean;
 };
 
-const Quantity = ({ sourcingIndex, disableEdit }: Props) => {
-  const FORM_KEY = `${SOURCING_KEY}.${sourcingIndex}.quantities`;
+const Quantity = ({ formKey, disableEdit }: Props) => {
+  const FORM_KEY = `${formKey}.quantities`;
+
   const { t } = useTranslation();
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -51,7 +51,7 @@ const Quantity = ({ sourcingIndex, disableEdit }: Props) => {
                     position={'absolute'}
                     zIndex={2}
                     right={0}
-                    top={0}
+                    top={4}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
                     icon={<i className="ri-close-line" />}
