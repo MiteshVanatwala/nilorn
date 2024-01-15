@@ -72,7 +72,7 @@ export const useReleaseForSales = (
     {
       retry: 0,
       onSuccess: async (res: ProductionDto) => {
-        queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         showToast({
           status: 'success',
           description: t('Production.SaveReleaseSuccess'),

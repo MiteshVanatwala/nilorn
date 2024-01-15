@@ -28,7 +28,7 @@ const TableMenuProduction = ({
   const { handleModal } = useContext(ModalContext);
 
   const { mutate: releaseForSales } = useReleaseForSales(
-    production ? production?.vendorId?.toString() : undefined,
+    production ? production?.id?.toString() : undefined,
     !production?.released
   );
   function releaseForSalesFunc(id: string | undefined, release: boolean) {
