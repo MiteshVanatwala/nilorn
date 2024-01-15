@@ -17,6 +17,7 @@ type Props = {
   production?: ProductionDto;
   createNew?: boolean;
   disableEdit?: boolean;
+  closeModal?(val: boolean): void;
 };
 const EditProductionTopSection = ({
   productDevelopment,
@@ -24,6 +25,7 @@ const EditProductionTopSection = ({
   sourcingCoIndex,
   production,
   createNew,
+  closeModal,
   disableEdit = false,
 }: Props) => {
   return (
@@ -139,6 +141,8 @@ const EditProductionTopSection = ({
             sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             disableEdit={disableEdit}
+            production={production}
+            closeModal={closeModal}
           />
         </GridItem>
       </Grid>

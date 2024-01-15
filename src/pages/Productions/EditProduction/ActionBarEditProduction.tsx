@@ -6,15 +6,20 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-import { SourcedProductionDto } from '../../../app/generate';
+import { ProductionDto, SourcedProductionDto } from '../../../app/generate';
 import { useState } from 'react';
-import { usePatchProduction } from '../../../app/api/editProduction';
+import {
+  useDeleteProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
 type Props = {
   artwork?: string | null;
   sourcedProduction?: SourcedProductionDto;
   sourcingCoIndex: number;
   createNew?: boolean;
   disableEdit?: boolean;
+  production?: ProductionDto;
+  closeModal?(val: boolean): void;
 };
 const ActionBarEditProduction = ({
   artwork,
@@ -22,11 +27,13 @@ const ActionBarEditProduction = ({
   sourcingCoIndex,
   createNew,
   disableEdit = false,
+  production,
+  closeModal,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
-  // const { mutate: deleteProduction } = useDeleteProduction();
+  const { mutate: deleteProduction } = useDeleteProduction();
   const vendor = sourcedProduction?.productions
     ? sourcedProduction?.productions[sourcingCoIndex]
     : null;
@@ -38,8 +45,10 @@ const ActionBarEditProduction = ({
   );
 
   function deleteProductionFunc() {
-    //TODO Delete vendor
-    // deleteVendor({ id: vendorId });
+    deleteProduction({ id: production?.id ?? '' });
+    if (closeModal !== undefined) {
+      closeModal(true);
+    }
   }
   function handleSaveAndRelease() {
     setReleased(true);
