@@ -2,11 +2,10 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { CSSProperties } from 'react';
-import TableMenuSourcing from './TableMenuSourcing';
-import TableMenuProduction from './TableMenuProduction';
 import { ProductDevelopmentProductionDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
+import TableMenuPriceContainer from './TableMenuPriceContainer';
 
 type Props = {
   productions: ProductDevelopmentProductionDto[];
@@ -104,10 +103,11 @@ const ProductionsTable = ({ productions }: Props) => {
                         style={TD_STYLE}>
                         <Box>
                           {s.name}
-                          <TableMenuSourcing
+                          <TableMenuPriceContainer
                             productDevelopment={p?.productDevelopmentBriefDto}
                             sourcedProduction={s}
                             sourcingCoIndex={index}
+                            isProduction={false}
                           />
                         </Box>
                       </GridItem>
@@ -127,13 +127,14 @@ const ProductionsTable = ({ productions }: Props) => {
                                 }
                                 overflow={'hidden'}>
                                 {production.vendorName}
-                                <TableMenuProduction
+                                <TableMenuPriceContainer
                                   productDevelopment={
                                     p?.productDevelopmentBriefDto
                                   }
                                   sourcedProduction={s}
                                   sourcingCoIndex={index}
                                   production={production}
+                                  isProduction={true}
                                 />
                               </GridItem>
                               <GridItem
