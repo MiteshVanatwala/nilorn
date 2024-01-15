@@ -40,6 +40,7 @@ const SearchProfile = () => {
       setValue(splitItem[0], decodeURIComponent(splitItem[1]));
     });
     setActiveSearchProfileName(option.label);
+    setDefaultSearchProfile(option.label);
   };
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
