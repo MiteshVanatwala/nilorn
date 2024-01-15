@@ -17,8 +17,7 @@ const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
-  const [activeSearchProfile, setActiveSearchProfile] =
-    useState<boolean>(false);
+
   const [activeSearchProfileName, setActiveSearchProfileName] =
     useState<string>('');
   const [defaultSearchProfile, setDefaultSearchProfile] = useState<string>('');
@@ -31,7 +30,6 @@ const SearchProfile = () => {
     actionMeta: ActionMeta<SelectOption>
   ) => {
     reset();
-    setActiveSearchProfile(true);
     setSelected(option);
     const optionVal = option.value;
     const splitOptionVal = optionVal.split('&');
@@ -40,6 +38,7 @@ const SearchProfile = () => {
       setValue(splitItem[0], decodeURIComponent(splitItem[1]));
     });
     setActiveSearchProfileName(option.label);
+    setDefaultSearchProfile(option.label);
   };
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
@@ -51,7 +50,7 @@ const SearchProfile = () => {
     ) {
       setDefaultSearchProfile('');
       setSelected(undefined);
-      setActiveSearchProfile(false);
+      setActiveSearchProfileName('');
     }
   }, [searchParams]);
   return (
@@ -94,14 +93,13 @@ const SearchProfile = () => {
           onClick={() =>
             handleModal(
               <SearchProfileModalContent
-                activeSearchProfile={setActiveSearchProfile}
                 setActiveSearchProfileName={setActiveSearchProfileName}
                 activeSearchProfileName={activeSearchProfileName}
                 setDefaultSearchProfile={setDefaultSearchProfile}
               />
             )
           }>
-          {activeSearchProfile
+          {activeSearchProfileName
             ? t('Filter.UpdateSearchProfile')
             : t('Filter.SaveSearchProfile')}
         </Button>
