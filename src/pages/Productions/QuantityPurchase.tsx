@@ -74,6 +74,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.quantity`}
                       type="number"
+                      readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
@@ -82,6 +83,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.price`}
                       type="number"
+                      readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
