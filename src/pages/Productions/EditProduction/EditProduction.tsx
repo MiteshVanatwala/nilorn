@@ -40,7 +40,10 @@ const EditProduction = ({
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction(production?.id ?? '');
+    usePatchProduction(
+      production?.id ?? '',
+      production?.released ? false : true
+    );
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {

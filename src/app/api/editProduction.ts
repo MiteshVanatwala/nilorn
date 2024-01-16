@@ -32,7 +32,10 @@ export function useDeleteProduction() {
   );
 }
 
-export const usePatchProduction = (id: string | undefined) => {
+export const usePatchProduction = (
+  id: string | undefined,
+  released?: boolean
+) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
@@ -50,9 +53,10 @@ export const usePatchProduction = (id: string | undefined) => {
 
         showToast({
           status: 'success',
-          description: body?.released
-            ? t('Production.SaveReleaseSuccess')
-            : t('Production.SaveSuccess'),
+          description:
+            body?.released && released !== false
+              ? t('Production.SaveReleaseSuccess')
+              : t('Production.SaveSuccess'),
         });
       },
       onError: async (err: ApiError) => {
