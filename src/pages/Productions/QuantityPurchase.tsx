@@ -22,19 +22,19 @@ type Props = {
 const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
   const { t } = useTranslation();
   const { control } = useFormContext();
-  const formName = 'purchasePrices';
+  const fieldName = 'purchasePrices';
   const { fields, append, remove } = useFieldArray({
     control,
-    name: formName,
+    name: fieldName,
   });
 
-  useEffect(() => {
+  useEffect(() => {}, [fields]);
+  function focusLastField() {
     const last = document.querySelector(
       `[name="purchasePrices.${fields.length - 1}.quantity"]`
     ) as HTMLInputElement;
     last?.focus();
-  }, [fields]);
-
+  }
   return (
     <Grid
       maxW={'55rem'}
@@ -73,7 +73,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.quantity`}
+                      name={`${fieldName}.${index}.quantity`}
                       type="number"
                       registerOptions={{ valueAsNumber: true }}
                     />
@@ -81,7 +81,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.price`}
+                      name={`${fieldName}.${index}.price`}
                       type="number"
                       registerOptions={{ valueAsNumber: true }}
                     />
@@ -110,6 +110,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
               variant={'secondarySmall'}
               onClick={() => {
                 append({ quantity: '', price: '' });
+                focusLastField();
               }}
               rightIcon={<i className={'ri-add-line'} />}>
               {t('Common.Add')}

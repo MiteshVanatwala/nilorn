@@ -218,11 +218,7 @@ const EditProductionFormContent = ({
           md: SPACE.SM,
         }}>
         <QuantityPurchase
-          purchasePrices={
-            sourcedProduction?.productions
-              ? sourcedProduction?.productions[sourcingCoIndex]?.purchasePrices
-              : undefined
-          }
+          purchasePrices={production ? production?.purchasePrices : undefined}
           disableEdit={disableEdit}
         />
       </GridItem>

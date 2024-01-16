@@ -32,7 +32,11 @@ const EditProduction = ({
   createNew,
   production,
 }: Props) => {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      purchasePrices: production?.purchasePrices,
+    },
+  });
   const { close } = useContext(ModalContext);
   let { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
