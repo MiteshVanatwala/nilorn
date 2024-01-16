@@ -182,9 +182,12 @@
     "CreateProduction": "Create Production",
     "CreateAndRelease": "Create and release",
     "SaveReleaseSuccess": "Production saved and released for sales",
+    "ReleaseSaleSuccess": "Production released for sales",
+    "RemoveSaleSuccess": "Production removed for sales",
     "ChooseVendor": "Choose vendor",
     "CreateSuccess": "Production created",
-    "CreateAndReleaseSuccess": "Production created and released for sales"
+    "CreateAndReleaseSuccess": "Production created and released for sales",
+    "Deleted": "Production deleted"
   },
   "Changelog": {
     "To": "To",

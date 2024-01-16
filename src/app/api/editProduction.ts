@@ -3,42 +3,54 @@ import QueryKeysEnum from './queryKeys';
 import { ApiError, ProductionDto, ProductionsService } from '../generate';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
+import { useDisclosure } from '@chakra-ui/react';
 
 export function useDeleteProduction() {
-  //   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
+
   return useMutation(
     (body: { id: string }) =>
       ProductionsService.deleteApiProductions(body).then(response => response),
     {
       onSuccess: async () => {
-        //TODO invalidate productions
-        // queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        showToast({
+          status: 'success',
+          description: t('Production.Deleted'),
+        });
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: err.body.title,
+          description: err.body.detail,
+        });
       },
     }
   );
 }
 
-export const usePatchProduction = (
-  id: string | undefined,
-  released: boolean = false
-) => {
+export const usePatchProduction = (id: string | undefined) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation(
-    [QueryKeysEnum.ProductDevelopmentImage, id, released],
+    [QueryKeysEnum.ProductDevelopmentImage, id],
 
     (body: ProductionDto) =>
       ProductionsService.patchApiProductions(id ?? '', body).then(
         response => response
       ),
     {
-      onSuccess: async () => {
+      onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+
         showToast({
           status: 'success',
-          description: released
+          description: body?.released
             ? t('Production.SaveReleaseSuccess')
             : t('Production.SaveSuccess'),
         });
@@ -53,21 +65,23 @@ export const usePatchProduction = (
     }
   );
 };
-export const useCreateProduction = (released: boolean = false) => {
+export const useCreateProduction = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const { onClose } = useDisclosure();
 
   return useMutation(
     (body: ProductionDto) =>
       ProductionsService.postApiProductions(body).then(response => response),
     {
-      onSuccess: async () => {
+      onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        onClose();
 
         showToast({
           status: 'success',
-          description: released
+          description: body?.released
             ? t('Production.CreateAndReleaseSuccess')
             : t('Production.CreateSuccess'),
         });
@@ -89,6 +103,7 @@ export const useReleaseForSales = (
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const { onClose } = useDisclosure();
 
   return useMutation(
     [QueryKeysEnum.ProductDevelopmentImage, id, released],
@@ -101,9 +116,13 @@ export const useReleaseForSales = (
       retry: 0,
       onSuccess: async (res: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        onClose();
+
         showToast({
           status: 'success',
-          description: t('Production.SaveReleaseSuccess'),
+          description: released
+            ? t('Production.ReleaseSaleSuccess')
+            : t('Production.RemoveSaleSuccess'),
         });
       },
       onError: async (err: ApiError) => {

@@ -6,53 +6,54 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-import { ProductionDto, SourcedProductionDto } from '../../../app/generate';
-import { useState } from 'react';
+import { ProductionDto } from '../../../app/generate';
+import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
+  useDeleteProduction,
   usePatchProduction,
 } from '../../../app/api/editProduction';
+import { ModalContext } from '../../../app/context/ModalContext';
 type Props = {
   artwork?: string | null;
-  sourcedProduction?: SourcedProductionDto;
-  sourcingCoIndex: number;
+
   createNew?: boolean;
+  disableEdit?: boolean;
   production?: ProductionDto;
 };
 const ActionBarEditProduction = ({
   artwork,
-  sourcedProduction,
-  sourcingCoIndex,
   createNew,
+  disableEdit = false,
   production,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
+  const { close } = useContext(ModalContext);
 
-  // const { mutate: deleteProduction } = useDeleteProduction();
-  const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[sourcingCoIndex]
-    : null;
-  const [released, setReleased] = useState<boolean>(vendor?.released ?? false);
-  const { mutate: updateProduction } = usePatchProduction(
-    production?.id ?? '',
-    released
-  );
-  const { mutate: createProduction } = useCreateProduction(released);
+  const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
+    useDeleteProduction();
+
+  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
+    usePatchProduction(production?.id ?? '');
+  const { mutate: createProduction, isSuccess: isSuccessCreate } =
+    useCreateProduction();
   function deleteProductionFunc() {
-    //TODO Delete vendor
-    // deleteVendor({ id: vendorId });
+    deleteProduction({ id: production?.id ?? '' });
   }
   function handleSaveAndRelease() {
     setValue('released', true);
-    setReleased(true);
     if (createNew) {
       createProduction(getValues());
     } else {
       updateProduction(getValues());
     }
   }
-
+  useEffect(() => {
+    if (isSuccessDelete || isSuccessPatch || isSuccessCreate) {
+      close();
+    }
+  }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
   return (
     <VStack align={'left'}>
       <HStack
@@ -91,17 +92,19 @@ const ActionBarEditProduction = ({
                 }>
                 {t('PD.ShowChanges')}
               </MenuItem>
-              <MenuItem
-                onClick={() => deleteProductionFunc()}
-                icon={
-                  <Text
-                    as={'i'}
-                    fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
-                  />
-                }>
-                {t('Common.Delete')}
-              </MenuItem>
+              {!disableEdit && (
+                <MenuItem
+                  onClick={() => deleteProductionFunc()}
+                  icon={
+                    <Text
+                      as={'i'}
+                      fontSize={SIZES.ICON.MD}
+                      className="ri-delete-bin-line"
+                    />
+                  }>
+                  {t('Common.Delete')}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         )}
@@ -110,22 +113,25 @@ const ActionBarEditProduction = ({
           <Button type="submit">
             {createNew ? t('Production.CreateProduction') : t('Common.Save')}
           </Button>
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              padding={SPACE.SM}
-              aria-label={t('Common.MoreOptions')}
-              borderLeft={`1px solid ${COLORS.WHITE}`}
-              icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-            />
-            <MenuList>
-              <MenuItem onClick={() => handleSaveAndRelease()}>
-                {createNew
-                  ? t('Production.CreateAndRelease')
-                  : t('Production.SaveAndRelease')}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+
+          {!disableEdit && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                padding={SPACE.SM}
+                aria-label={t('Common.MoreOptions')}
+                borderLeft={`1px solid ${COLORS.WHITE}`}
+                icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+              />
+              <MenuList>
+                <MenuItem onClick={() => handleSaveAndRelease()}>
+                  {createNew
+                    ? t('Production.CreateAndRelease')
+                    : t('Production.SaveAndRelease')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </ButtonGroup>
       </HStack>
       <Text

@@ -16,9 +16,10 @@ import { useEffect } from 'react';
 import { PurchasePriceDto } from '../../app/generate';
 type Props = {
   purchasePrices?: PurchasePriceDto[] | null;
+  disableEdit?: boolean;
 };
 
-const QuantityPurchase = ({ purchasePrices }: Props) => {
+const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
   const { t } = useTranslation();
   const { control } = useFormContext();
   const formName = 'purchasePrices';
@@ -86,30 +87,34 @@ const QuantityPurchase = ({ purchasePrices }: Props) => {
                     />
                   </Box>
                 </HStack>
-                <IconButton
-                  position={'absolute'}
-                  zIndex={2}
-                  right={0}
-                  top={'50%'}
-                  transform={'auto'}
-                  translateX={'100%'}
-                  translateY={'-50%'}
-                  variant={'deleteIconBtn'}
-                  aria-label={t('Filter.Remove')}
-                  icon={<i className="ri-close-line" />}
-                  onClick={() => remove(index)}
-                />
+                {!disableEdit && (
+                  <IconButton
+                    position={'absolute'}
+                    zIndex={2}
+                    right={0}
+                    top={'50%'}
+                    transform={'auto'}
+                    translateX={'100%'}
+                    translateY={'-50%'}
+                    variant={'deleteIconBtn'}
+                    aria-label={t('Filter.Remove')}
+                    icon={<i className="ri-close-line" />}
+                    onClick={() => remove(index)}
+                  />
+                )}
               </Box>
             );
           })}
-          <Button
-            variant={'secondarySmall'}
-            onClick={() => {
-              append({ quantity: '', price: '' });
-            }}
-            rightIcon={<i className={'ri-add-line'} />}>
-            {t('Common.Add')}
-          </Button>
+          {!disableEdit && (
+            <Button
+              variant={'secondarySmall'}
+              onClick={() => {
+                append({ quantity: '', price: '' });
+              }}
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
         </VStack>
       </GridItem>
     </Grid>

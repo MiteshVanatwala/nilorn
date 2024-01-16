@@ -2,7 +2,6 @@ import { Box } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import EditProductionTopSection from './EditProductionTopSection';
 import { SPACE } from '../../../theme/Constants';
-
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
@@ -16,8 +15,9 @@ import {
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
+import { ModalContext } from '../../../app/context/ModalContext';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -33,19 +33,14 @@ const EditProduction = ({
   production,
 }: Props) => {
   const form = useForm();
-
-  const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[sourcingCoIndex]
-    : null;
-  const { mutate: createProduction } = useCreateProduction(
-    vendor?.released ?? false
-  );
-  const { mutate: updateProduction } = usePatchProduction(
-    production?.id ?? '',
-    vendor?.released ?? false
-  );
+  const { close } = useContext(ModalContext);
   let { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { mutate: createProduction, isSuccess: isSuccessCreate } =
+    useCreateProduction();
+  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
+    usePatchProduction(production?.id ?? '');
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
@@ -64,7 +59,11 @@ const EditProduction = ({
       setVendorOptions(mapVendorsToOptions(vendors));
     }
   }, [vendors]);
-
+  useEffect(() => {
+    if (isSuccessCreate || isSuccessPatch) {
+      close();
+    }
+  }, [close, isSuccessCreate, isSuccessPatch]);
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -75,6 +74,7 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             production={production}
             createNew={createNew}
+            disableEdit={production?.released}
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
@@ -82,6 +82,7 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             production={production}
+            disableEdit={production?.released}
           />
         </form>
       </FormProvider>
