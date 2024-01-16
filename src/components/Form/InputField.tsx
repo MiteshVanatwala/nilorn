@@ -42,6 +42,7 @@ const InputField = ({
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
       <Input
+        opacity={readonly ? '70%' : ''}
         variant={variant}
         disabled={isDisabled}
         defaultValue={defaultValue}
