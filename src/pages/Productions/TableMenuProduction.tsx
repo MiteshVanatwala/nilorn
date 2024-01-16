@@ -1,7 +1,7 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {

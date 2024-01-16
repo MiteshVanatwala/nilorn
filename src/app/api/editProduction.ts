@@ -3,7 +3,6 @@ import QueryKeysEnum from './queryKeys';
 import { ApiError, ProductionDto, ProductionsService } from '../generate';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
-import { useDisclosure } from '@chakra-ui/react';
 
 export function useDeleteProduction() {
   const queryClient = useQueryClient();
@@ -73,7 +72,6 @@ export const useCreateProduction = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
-  const { onClose } = useDisclosure();
 
   return useMutation(
     (body: ProductionDto) =>
@@ -81,7 +79,6 @@ export const useCreateProduction = () => {
     {
       onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
-        onClose();
 
         showToast({
           status: 'success',
@@ -107,7 +104,6 @@ export const useReleaseForSales = (
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
-  const { onClose } = useDisclosure();
 
   return useMutation(
     [QueryKeysEnum.ProductDevelopmentImage, id, released],
@@ -120,7 +116,6 @@ export const useReleaseForSales = (
       retry: 0,
       onSuccess: async (res: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
-        onClose();
 
         showToast({
           status: 'success',
