@@ -13,13 +13,11 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
-import { PurchasePriceDto } from '../../app/generate';
 type Props = {
-  purchasePrices?: PurchasePriceDto[] | null;
   disableEdit?: boolean;
 };
 
-const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
+const QuantityPurchase = ({ disableEdit = false }: Props) => {
   const { t } = useTranslation();
   const { control } = useFormContext();
   const fieldName = 'purchasePrices';
@@ -35,6 +33,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
     ) as HTMLInputElement;
     last?.focus();
   }
+
   return (
     <Grid
       maxW={'55rem'}
@@ -75,7 +74,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.quantity`}
                       type="number"
-                      registerOptions={{ valueAsNumber: true }}
+                      registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
                   <Box w={'50%'}>
@@ -83,7 +82,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.price`}
                       type="number"
-                      registerOptions={{ valueAsNumber: true }}
+                      registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
                 </HStack>

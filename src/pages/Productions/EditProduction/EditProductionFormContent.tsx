@@ -217,10 +217,7 @@ const EditProductionFormContent = ({
           base: SPACE.XXS,
           md: SPACE.SM,
         }}>
-        <QuantityPurchase
-          purchasePrices={production ? production?.purchasePrices : undefined}
-          disableEdit={disableEdit}
-        />
+        <QuantityPurchase disableEdit={disableEdit} />
       </GridItem>
     </Grid>
   );
