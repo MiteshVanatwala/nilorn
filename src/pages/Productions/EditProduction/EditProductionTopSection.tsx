@@ -136,6 +136,7 @@ const EditProductionTopSection = ({
             artwork={productDevelopment?.artworkUrl}
             sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
+            production={production}
           />
         </GridItem>
       </Grid>

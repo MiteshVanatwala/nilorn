@@ -18,30 +18,58 @@ export function useDeleteProduction() {
   );
 }
 
-//TODO THIS IS NOT RIGHT ENDPOINT
 export const usePatchProduction = (
-  id: string,
-  released: boolean,
-  saveOnly: boolean = false
+  id: string | undefined,
+  released: boolean = false
 ) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation(
+    [QueryKeysEnum.ProductDevelopmentImage, id, released],
+
     (body: ProductionDto) =>
-      ProductionsService.patchApiProductionsReleaseProduction(
-        id,
-        released
-      ).then(response => response),
+      ProductionsService.patchApiProductions(id ?? '', body).then(
+        response => response
+      ),
     {
-      onSuccess: async (res: ProductionDto) => {
-        queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         showToast({
           status: 'success',
-          description: saveOnly
-            ? t('Production.SaveSuccess')
-            : t('Production.SaveReleaseSuccess'),
+          description: released
+            ? t('Production.SaveReleaseSuccess')
+            : t('Production.SaveSuccess'),
+        });
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: err.body.title,
+          description: err.body.detail,
+        });
+      },
+    }
+  );
+};
+export const useCreateProduction = (released: boolean = false) => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (body: ProductionDto) =>
+      ProductionsService.postApiProductions(body).then(response => response),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+
+        showToast({
+          status: 'success',
+          description: released
+            ? t('Production.CreateAndReleaseSuccess')
+            : t('Production.CreateSuccess'),
         });
       },
       onError: async (err: ApiError) => {

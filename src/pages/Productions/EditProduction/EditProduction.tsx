@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import EditProductionTopSection from './EditProductionTopSection';
 import { SPACE } from '../../../theme/Constants';
@@ -10,12 +9,14 @@ import {
   SourcedProductionDto,
 } from '../../../app/generate';
 
-import { usePatchProduction } from '../../../app/api/editProduction';
+import {
+  useCreateProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
-import { useGetCurrencies } from '../../../app/api/currency';
 import EditProductionFormContent from './EditProductionFormContent';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -31,31 +32,33 @@ const EditProduction = ({
   createNew,
   production,
 }: Props) => {
-  const { t } = useTranslation();
   const form = useForm();
 
   const vendor = sourcedProduction?.productions
     ? sourcedProduction?.productions[sourcingCoIndex]
     : null;
-  const { mutate: saveProduction } = usePatchProduction(
-    vendor?.vendorId ?? '',
-    vendor?.released ?? false,
-    true
+  const { mutate: createProduction } = useCreateProduction(
+    vendor?.released ?? false
+  );
+  const { mutate: updateProduction } = usePatchProduction(
+    production?.id ?? '',
+    vendor?.released ?? false
   );
   let { data: vendors } = useGetVendors(!createNew);
-  let { data: currency } = useGetCurrencies();
-
-  const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
+  const [, setVendorOptions] = useState<SelectOption[]>([]);
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
-      // updateProductDevelopment(form);
-      console.log('save');
-      saveProduction(form);
+      if (createNew) {
+        createProduction(form);
+      } else {
+        if (production?.id !== undefined) {
+          updateProduction(form);
+        }
+      }
     }
     onSubmit(form);
   }
-
   useEffect(() => {
     if (vendors) {
       setVendorOptions(mapVendorsToOptions(vendors));

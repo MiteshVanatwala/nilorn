@@ -105,7 +105,7 @@ const QuantityPurchase = ({ purchasePrices }: Props) => {
           <Button
             variant={'secondarySmall'}
             onClick={() => {
-              append({ qty: '', pur: '' });
+              append({ quantity: '', price: '' });
             }}
             rightIcon={<i className={'ri-add-line'} />}>
             {t('Common.Add')}
