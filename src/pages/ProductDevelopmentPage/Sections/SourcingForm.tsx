@@ -85,7 +85,7 @@ const SourcingForm = ({
         <GridItem colSpan={12}>
           <ArrowLink
             direction="right"
-            to={`/production/?productDevelopments=${no}`}>
+            to={`/productions/?productDevelopments=${no}`}>
             <>{t('Pd.ViewProductions')}</>
           </ArrowLink>
         </GridItem>

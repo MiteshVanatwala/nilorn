@@ -8,6 +8,7 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
+import ProductionGridRow from './ProductionGridRow';
 
 type Props = {
   productions: ProductDevelopmentProductionDto[];
@@ -113,6 +114,7 @@ const ProductionsTable = ({ productions }: Props) => {
                           />
                         </Box>
                       </GridItem>
+
                       <GridItem colSpan={8}>
                         <Grid
                           gap={'1px'}
@@ -120,15 +122,14 @@ const ProductionsTable = ({ productions }: Props) => {
                           alignItems={'stretch'}
                           height={'100%'}>
                           {s.productions?.map(production => (
-                            <>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                overflow={'hidden'}>
-                                {production.vendorName}
+                            <ProductionGridRow
+                              production={production}
+                              style={
+                                production?.released
+                                  ? TD_STYLE_RELEASED
+                                  : TD_STYLE
+                              }
+                              tableMenu={
                                 <TableMenuContainer
                                   children={
                                     <TableMenuProduction
@@ -141,65 +142,9 @@ const ProductionsTable = ({ productions }: Props) => {
                                     />
                                   }
                                 />
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.comment}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.sampleLeadTime}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.productionLeadTime}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.moq}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                overflow={'hidden'}>
-                                {production.currencyCode}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                colSpan={2}>
-                                [QTY PUR] in api data atm
-                              </GridItem>
-                            </>
+                              }
+                            />
                           ))}
-                          {/* 
-                        {s.productions?.length === 0 && (
-                          <GridItem style={TD_STYLE_LAST_CHILD} colSpan={9}>
-                            No productions
-                          </GridItem>
-                        )} */}
                         </Grid>
                       </GridItem>
                     </>

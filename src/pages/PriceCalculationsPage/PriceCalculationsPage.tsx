@@ -1,6 +1,4 @@
-import React from 'react';
-
-function PricesPage() {
+function PriceCalculationsPage() {
   return (
     <div className="App">
       <p>Prices page</p>
@@ -8,4 +6,4 @@ function PricesPage() {
   );
 }
 
-export default PricesPage;
+export default PriceCalculationsPage;
