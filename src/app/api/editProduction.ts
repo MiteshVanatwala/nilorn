@@ -5,14 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
 export function useDeleteProduction() {
-  //   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   return useMutation(
     (body: { id: string }) =>
       ProductionsService.deleteApiProductions(body).then(response => response),
     {
       onSuccess: async () => {
-        //TODO invalidate productions
-        // queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
       },
     }
   );
@@ -75,7 +74,9 @@ export const useReleaseForSales = (
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         showToast({
           status: 'success',
-          description: t('Production.SaveReleaseSuccess'),
+          description: released
+            ? t('Production.ReleaseSaleSuccess')
+            : t('Production.RemoveSaleSuccess'),
         });
       },
       onError: async (err: ApiError) => {

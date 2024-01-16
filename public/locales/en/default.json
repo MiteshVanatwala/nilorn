@@ -181,7 +181,8 @@
     "SaveSuccess": "Production saved",
     "CreateProduction": "Create Production",
     "CreateAndRelease": "Create and release",
-    "SaveReleaseSuccess": "Production saved and released for sales",
+    "ReleaseSaleSuccess": "Production released for sales",
+    "RemoveSaleSuccess": "Production removed for sales",
     "ChooseVendor": "Choose vendor"
   },
   "Changelog": {

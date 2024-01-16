@@ -6,25 +6,34 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-import { SourcedProductionDto } from '../../../app/generate';
+import { ProductionDto, SourcedProductionDto } from '../../../app/generate';
 import { useState } from 'react';
-import { usePatchProduction } from '../../../app/api/editProduction';
+import {
+  useDeleteProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
 type Props = {
   artwork?: string | null;
   sourcedProduction?: SourcedProductionDto;
   sourcingCoIndex: number;
   createNew?: boolean;
+  disableEdit?: boolean;
+  production?: ProductionDto;
+  closeModal?(val: boolean): void;
 };
 const ActionBarEditProduction = ({
   artwork,
   sourcedProduction,
   sourcingCoIndex,
   createNew,
+  disableEdit = false,
+  production,
+  closeModal,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues } = useFormContext();
 
-  // const { mutate: deleteProduction } = useDeleteProduction();
+  const { mutate: deleteProduction } = useDeleteProduction();
   const vendor = sourcedProduction?.productions
     ? sourcedProduction?.productions[sourcingCoIndex]
     : null;
@@ -36,8 +45,10 @@ const ActionBarEditProduction = ({
   );
 
   function deleteProductionFunc() {
-    //TODO Delete vendor
-    // deleteVendor({ id: vendorId });
+    deleteProduction({ id: production?.id ?? '' });
+    if (closeModal !== undefined) {
+      closeModal(true);
+    }
   }
   function handleSaveAndRelease() {
     setReleased(true);
@@ -82,17 +93,19 @@ const ActionBarEditProduction = ({
                 }>
                 {t('PD.ShowChanges')}
               </MenuItem>
-              <MenuItem
-                onClick={() => deleteProductionFunc()}
-                icon={
-                  <Text
-                    as={'i'}
-                    fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
-                  />
-                }>
-                {t('Common.Delete')}
-              </MenuItem>
+              {!disableEdit && (
+                <MenuItem
+                  onClick={() => deleteProductionFunc()}
+                  icon={
+                    <Text
+                      as={'i'}
+                      fontSize={SIZES.ICON.MD}
+                      className="ri-delete-bin-line"
+                    />
+                  }>
+                  {t('Common.Delete')}
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         )}
@@ -101,22 +114,25 @@ const ActionBarEditProduction = ({
           <Button type="submit">
             {createNew ? t('Production.CreateProduction') : t('Common.Save')}
           </Button>
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              padding={SPACE.SM}
-              aria-label={t('Common.MoreOptions')}
-              borderLeft={`1px solid ${COLORS.WHITE}`}
-              icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-            />
-            <MenuList>
-              <MenuItem onClick={() => handleSaveAndRelease()}>
-                {createNew
-                  ? t('Production.CreateAndRelease')
-                  : t('Production.SaveAndRelease')}
-              </MenuItem>
-            </MenuList>
-          </Menu>
+
+          {!disableEdit && (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                padding={SPACE.SM}
+                aria-label={t('Common.MoreOptions')}
+                borderLeft={`1px solid ${COLORS.WHITE}`}
+                icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+              />
+              <MenuList>
+                <MenuItem onClick={() => handleSaveAndRelease()}>
+                  {createNew
+                    ? t('Production.CreateAndRelease')
+                    : t('Production.SaveAndRelease')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </ButtonGroup>
       </HStack>
       <Text

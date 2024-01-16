@@ -24,6 +24,7 @@ type Props = {
   sourcingCoIndex: number;
   createNew?: boolean;
   production?: ProductionDto;
+  disableEdit?: boolean;
 };
 const EditProductionFormContent = ({
   productDevelopment,
@@ -31,6 +32,7 @@ const EditProductionFormContent = ({
   sourcingCoIndex,
   createNew,
   production,
+  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -99,6 +101,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
+              isDisabled={disableEdit}
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'SampleLeadTime'}
@@ -107,6 +110,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
+              isDisabled={disableEdit}
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'ProductionLeadTime'}
@@ -115,6 +119,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
+              isDisabled={disableEdit}
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'MOQ'}
@@ -123,6 +128,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
+              isDisabled={disableEdit}
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'ToolCharge'}
@@ -131,6 +137,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
+              isDisabled={disableEdit}
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'SampleCharge'}
@@ -139,6 +146,7 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <Select
+              isDisabled={disableEdit}
               key={
                 (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
                 currency?.length
@@ -157,14 +165,14 @@ const EditProductionFormContent = ({
           </GridItem>
           <InputField
             type="hidden"
-            placeholder={`${t('Common.Placeholder')}`}
+            isDisabled={disableEdit}
             name={'vendorId'}
             defaultValue={selectedVendor?.id}
           />
 
           <InputField
             type="hidden"
-            placeholder={`${t('Common.Placeholder')}`}
+            isDisabled={disableEdit}
             name={'sourcingId'}
             defaultValue={sourcedProduction?.sourcingId?.toString()}
           />
@@ -185,6 +193,7 @@ const EditProductionFormContent = ({
               ? sourcedProduction?.productions[sourcingCoIndex]?.purchasePrices
               : undefined
           }
+          disableEdit={disableEdit}
         />
       </GridItem>
     </Grid>

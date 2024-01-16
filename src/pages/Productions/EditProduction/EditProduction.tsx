@@ -1,21 +1,17 @@
 import { Box } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import EditProductionTopSection from './EditProductionTopSection';
 import { SPACE } from '../../../theme/Constants';
-
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
-
 import { usePatchProduction } from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
-import { useGetCurrencies } from '../../../app/api/currency';
 import EditProductionFormContent from './EditProductionFormContent';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -23,6 +19,7 @@ type Props = {
   sourcingCoIndex: number;
   createNew?: boolean;
   production?: ProductionDto;
+  closeModal?(val: boolean): void;
 };
 const EditProduction = ({
   productDevelopment,
@@ -30,8 +27,8 @@ const EditProduction = ({
   sourcingCoIndex,
   createNew,
   production,
+  closeModal,
 }: Props) => {
-  const { t } = useTranslation();
   const form = useForm();
 
   const vendor = sourcedProduction?.productions
@@ -43,9 +40,8 @@ const EditProduction = ({
     true
   );
   let { data: vendors } = useGetVendors(!createNew);
-  let { data: currency } = useGetCurrencies();
 
-  const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
+  const [, setVendorOptions] = useState<SelectOption[]>([]);
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
@@ -72,6 +68,8 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             production={production}
             createNew={createNew}
+            disableEdit={production?.released}
+            closeModal={closeModal}
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
@@ -79,6 +77,7 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             production={production}
+            disableEdit={production?.released}
           />
         </form>
       </FormProvider>

@@ -1,7 +1,7 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
@@ -9,7 +9,10 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { useReleaseForSales } from '../../app/api/editProduction';
+import {
+  useDeleteProduction,
+  useReleaseForSales,
+} from '../../app/api/editProduction';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -25,8 +28,8 @@ const TableMenuProduction = ({
   production,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal } = useContext(ModalContext);
-
+  const { handleModal, close } = useContext(ModalContext);
+  const { mutate: deleteProduction } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
     !production?.released
@@ -36,6 +39,16 @@ const TableMenuProduction = ({
       releaseForSales();
     }
   }
+
+  function deleteProductionFunc() {
+    deleteProduction({ id: production?.id ?? '' });
+  }
+  const [closeModal, setCloseModal] = useState<boolean>(false);
+  useEffect(() => {
+    if (closeModal) {
+      close();
+    }
+  }, [close, closeModal]);
   return (
     <>
       <MenuItem
@@ -46,6 +59,7 @@ const TableMenuProduction = ({
               sourcedProduction={sourcedProduction}
               sourcingCoIndex={sourcingCoIndex}
               production={production}
+              closeModal={setCloseModal}
             />
           )
         }
@@ -68,17 +82,19 @@ const TableMenuProduction = ({
           ? t('Production.Release')
           : t('Production.Remove')}
       </MenuItem>
-      <MenuItem
-        onClick={() => console.log('Edit')}
-        icon={
-          <Text
-            as={'i'}
-            fontSize={SIZES.ICON.MD}
-            className="ri-delete-bin-6-line"
-          />
-        }>
-        {t('Common.Remove')}
-      </MenuItem>
+      {!production?.released && (
+        <MenuItem
+          onClick={() => deleteProductionFunc()}
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-delete-bin-6-line"
+            />
+          }>
+          {t('Common.Remove')}
+        </MenuItem>
+      )}
     </>
   );
 };
