@@ -51,7 +51,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
               md: SPACE.XXS,
             }}
             w={'50%'}>
-            {t('PD.FormContent.Quantities')}
+            {t('PD.FormContent.Quantity')}
           </FormLabel>
           <FormLabel
             pb={{
@@ -110,7 +110,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
             <Button
               variant={'secondarySmall'}
               onClick={() => {
-                append({ quantity: '', price: '' });
+                append({ quantity: null, price: null });
                 focusLastField();
               }}
               rightIcon={<i className={'ri-add-line'} />}>
