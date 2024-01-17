@@ -81,7 +81,7 @@ const AdvanceFilter = ({ filters }: Props) => {
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
-      <AccordionItem border={'none'} overflow={'visible'}>
+      <AccordionItem mb="0" border={'none'} overflow={'visible'}>
         <AccordionButton
           _hover={{ bg: COLORS.GRAY[0] }}
           w={'auto'}

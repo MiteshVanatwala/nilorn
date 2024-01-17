@@ -38,7 +38,7 @@ const ActiveFilters = () => {
         lg: SPACE.SM,
       }}
       flexDirection="row"
-      pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
+      py={{ base: SPACE.XXS, lg: SPACE.MD }}>
       {watchedEntries
         .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
         .map(([key, value]) => {
