@@ -1,15 +1,11 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
-import { CSSProperties } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
-import table from '../../theme/table';
-import { COLORS, SPACE } from '../../theme/Constants';
 import { SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
-import { ProductDevelopmentDeepDto } from '../../app/generate';
 import ProductionGridRow, {
   PRODUCTIONS_NUM_OF_FR,
 } from '../../components/ProductionGrid/ProductionGridRow';
@@ -23,37 +19,7 @@ import {
 type Props = {
   productions: ProductDevelopmentDeepDto[];
 };
-export const TH_STYLE: CSSProperties = {
-  ...table.baseStyle?.th,
-  height: 'auto',
-  textTransform: 'none',
-  display: 'flex',
-};
 
-export const TD_STYLE_RELEASED: CSSProperties = {
-  ...table.baseStyle?.td,
-  height: 'auto',
-  borderTop: 'none',
-  boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
-  border: 'none',
-  backgroundColor: COLORS.GREEN.TINT,
-  display: 'flex',
-};
-export const TD_STYLE_LAST_CHILD: CSSProperties = {
-  ...table.baseStyle?.td,
-  overflow: 'hidden',
-  height: 'auto',
-  borderTop: 'none',
-};
-
-export const TD_STYLE: CSSProperties = {
-  ...table.baseStyle?.td,
-  height: 'auto',
-  borderTop: 'none',
-  boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
-  border: 'none',
-  display: 'flex',
-};
 const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
 
