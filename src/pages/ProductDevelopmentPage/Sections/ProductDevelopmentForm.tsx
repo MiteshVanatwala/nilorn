@@ -16,11 +16,12 @@ import BottomSection from './BottomSection';
 import { ROLES_NOT_ALLOWED_TO_EDIT } from '../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
-import { Role } from '../../../app/generate';
+import { ProductDevelopmentDto, Role } from '../../../app/generate';
+import { isClosed } from '../../../app/utils/status';
 
 type Props = {
   createNew: boolean;
-  defaultValues?: FieldValues;
+  defaultValues?: ProductDevelopmentDto;
   scrolledPast: boolean;
   no: string;
 };
@@ -63,6 +64,10 @@ function ProductDevelopmentForm({
 
   useEffect(() => {
     form.reset(defaultValues);
+
+    setDisableEdit(
+      defaultValues?.status ? isClosed(defaultValues?.status) : false
+    );
   }, [defaultValues, form]);
 
   return (
@@ -89,7 +94,7 @@ function ProductDevelopmentForm({
                     createNew={createNew}
                     disableEdit={disableEdit}
                   />
-                  <AttachmentSection />
+                  <AttachmentSection disableEdit={disableEdit} />
                   {user?.role && user?.role !== Role.DESIGNER && (
                     <SourcingSection no={no} disableEdit={disableEdit} />
                   )}
