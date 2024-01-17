@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import FormLabelComponent from './FormLabelComponent';
 import ChangelogPopup from '../Changelog/ChangelogPopup';
 import MaxLengthError from './MaxLengthError';
+import fontSizes from '../../theme/fontSizes';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -81,16 +82,17 @@ const ControlWrapper = ({
           {children}
         </InputGroup>
       </Stack>
-
       {helperText && (
         <FormHelperText>
           <>{helperText}</>
         </FormHelperText>
       )}
       {error?.type === 'required' && !hideValidationStyle && (
-        <Text color={COLORS.ERROR}>{t(`Errors.Required`)}</Text>
+        <Text fontSize={fontSizes.xs} color={COLORS.ERROR}>
+          {t(`Errors.Required`)}
+        </Text>
       )}
-      {error?.type === 'maxLength' && maxLength && (
+      {error?.type === 'maxLength' && maxLength && !hideValidationStyle && (
         <MaxLengthError maxLength={maxLength} />
       )}
     </FormControl>
