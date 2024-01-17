@@ -174,7 +174,6 @@ const SelectBase = <IsMulti extends boolean = false>({
           height: '3.7rem',
           mt: '-2px',
         }),
-
         menuList: base => ({
           ...base,
           rootProps: { position: 'relative' },
@@ -205,8 +204,7 @@ const SelectBase = <IsMulti extends boolean = false>({
         indicatorsContainer: base => ({
           display: invisible ? 'none' : 'relative',
         }),
-
-        option: (base, { isSelected }) => ({
+        option: (base, { isSelected, isFocused }) => ({
           ...base,
           ...text.baseStyle,
           height: SPACE.XL,
@@ -220,6 +218,10 @@ const SelectBase = <IsMulti extends boolean = false>({
             backgroundColor: COLORS.GRAY[20],
           },
           ...(isSelected && {
+            backgroundColor: COLORS.GRAY[20],
+            color: COLORS.BLACK,
+          }),
+          ...(isFocused && {
             backgroundColor: COLORS.GRAY[20],
             color: COLORS.BLACK,
           }),

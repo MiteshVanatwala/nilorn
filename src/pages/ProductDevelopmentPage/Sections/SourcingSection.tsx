@@ -40,7 +40,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
       setSelected(
         sourcingCompanies.filter(obj =>
           (getValues(SOURCING_KEY) as SourcingDto[])
-            .map(s => s.sourcingCompanyCode)
+            ?.map(s => s.sourcingCompanyCode)
             .includes(obj.value)
         )
       );
