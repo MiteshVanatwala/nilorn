@@ -81,15 +81,17 @@ const SourcingForm = ({
           data={connectedProductions?.filter(cp => cp.released) ?? []}
         />
       </GridItem>
-      {connectedProductions && connectedProductions?.length > 0 && (
-        <GridItem colSpan={12}>
-          <ArrowLink
-            direction="right"
-            to={`/productions/?productDevelopments=${no}`}>
-            <>{t('Pd.ViewProductions')}</>
-          </ArrowLink>
-        </GridItem>
-      )}
+      <GridItem colSpan={12}>
+        <ArrowLink
+          direction="right"
+          to={`/productions/?productDevelopments=${no}`}>
+          <>
+            {connectedProductions && connectedProductions?.length > 0
+              ? t('PD.ViewProductions')
+              : t('PD.AddProductions')}
+          </>
+        </ArrowLink>
+      </GridItem>
     </Grid>
   );
 };

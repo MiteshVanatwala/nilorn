@@ -1,10 +1,9 @@
 import { useQuery } from 'react-query';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 import QueryKeysEnum from './queryKeys';
-import { ProductDevelopmentProductionsService } from '../generate';
-import { ProductionsService } from '../generate';
+import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 
-export function useProductionsFilter() {
+export function useProductionsFilter(includeCalculations: boolean) {
   const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
   const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
   const searchQuery = useFilterSearchParams('searchQuery', 400);
@@ -23,6 +22,7 @@ export function useProductionsFilter() {
       QueryKeysEnum.Productions,
       pageNumber,
       pageSize,
+      includeCalculations,
       searchQuery,
       vendors,
       clients,
@@ -35,9 +35,10 @@ export function useProductionsFilter() {
     ],
 
     () =>
-      ProductDevelopmentProductionsService.getApiProductDevelopmentProductions(
+      ProductDevelopmentDeepService.getApiProductDevelopmentDeep(
         pageNumber,
         pageSize,
+        includeCalculations,
         productDevelopments,
         vendors,
         sourcingCompanies,

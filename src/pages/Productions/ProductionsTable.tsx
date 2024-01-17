@@ -1,49 +1,23 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
-import { CSSProperties } from 'react';
-import { ProductDevelopmentProductionDto } from '../../app/generate';
-import table from '../../theme/table';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
-import ProductionGridRow from './ProductionGridRow';
+import { ProductDevelopmentDeepDto } from '../../app/generate';
+import ProductionGridRow, {
+  PRODUCTIONS_NUM_OF_FR,
+} from '../../components/ProductionGrid/ProductionGridRow';
+import ProductionGridHeader from '../../components/ProductionGrid/ProductionGridHeader';
+import {
+  TD_STYLE,
+  TD_STYLE_RELEASED,
+  TH_STYLE,
+} from '../../theme/Constants/tableGrid';
 
 type Props = {
-  productions: ProductDevelopmentProductionDto[];
-};
-
-export const TH_STYLE: CSSProperties = {
-  ...table.baseStyle?.th,
-  height: 'auto',
-  textTransform: 'none',
-  display: 'flex',
-};
-
-export const TD_STYLE_RELEASED: CSSProperties = {
-  ...table.baseStyle?.td,
-  height: 'auto',
-  borderTop: 'none',
-  boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
-  border: 'none',
-  backgroundColor: COLORS.GREEN.TINT,
-  display: 'flex',
-};
-export const TD_STYLE_LAST_CHILD: CSSProperties = {
-  ...table.baseStyle?.td,
-  overflow: 'hidden',
-  height: 'auto',
-  borderTop: 'none',
-};
-
-export const TD_STYLE: CSSProperties = {
-  ...table.baseStyle?.td,
-  height: 'auto',
-  borderTop: 'none',
-  boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
-  border: 'none',
-  display: 'flex',
+  productions: ProductDevelopmentDeepDto[];
 };
 
 const ProductionsTable = ({ productions }: Props) => {
@@ -61,14 +35,7 @@ const ProductionsTable = ({ productions }: Props) => {
           </GridItem>
           <GridItem style={TH_STYLE}>{t('PD.Client')}</GridItem>
           <GridItem style={TH_STYLE}>{t('PD.SourcingCompany')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('PD.AccordionLabels.Vendor')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Comment')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.SL')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.BL')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.MOQ')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Currency')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Qty')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.PUR')}</GridItem>
+          <ProductionGridHeader />
         </Grid>
       </Box>
       <Grid gap={'1px'}>
@@ -114,11 +81,10 @@ const ProductionsTable = ({ productions }: Props) => {
                           />
                         </Box>
                       </GridItem>
-
-                      <GridItem colSpan={8}>
+                      <GridItem colSpan={PRODUCTIONS_NUM_OF_FR}>
                         <Grid
                           gap={'1px'}
-                          gridTemplateColumns={'repeat(8, 1fr)'}
+                          gridTemplateColumns={`repeat(${PRODUCTIONS_NUM_OF_FR}, 1fr)`}
                           alignItems={'stretch'}
                           height={'100%'}>
                           {s.productions?.map(production => (
