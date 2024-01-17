@@ -53,6 +53,9 @@ const GeneralSection = ({ disableEdit }: Props) => {
             label={`${t('PD.FormContent.Description')}`}
             name={'description'}
             isDisabled={disableEdit}
+            registerOptions={{
+              maxLength: 500,
+            }}
           />
         </GridItem>
         <GridItem
@@ -133,6 +136,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
                 changelog={itemNoChangelog}
                 name={'itemNo'}
                 isDisabled={disableEdit}
+                registerOptions={{ maxLength: 20 }}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -141,6 +145,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'targetSalesPrice'}
                 isDisabled={disableEdit}
+                registerOptions={{ maxLength: 50 }}
               />
             </GridItem>
             <GridItem colSpan={2}>

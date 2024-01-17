@@ -156,7 +156,8 @@
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
         "FileType": "File must be an image",
-        "Changes": "Faild to load changelog for product development with no #{{no}}"
+        "Changes": "Faild to load changelog for product development with no #{{no}}",
+        "FieldLength": "Max length is {{length}} characters"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"
