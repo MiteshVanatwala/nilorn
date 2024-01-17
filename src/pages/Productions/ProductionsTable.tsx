@@ -2,7 +2,7 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { CSSProperties } from 'react';
-import { ProductDevelopmentProductionDto } from '../../app/generate';
+import { ProductDevelopmentDeepDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
@@ -10,7 +10,7 @@ import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 
 type Props = {
-  productions: ProductDevelopmentProductionDto[];
+  productions: ProductDevelopmentDeepDto[];
 };
 
 export const TH_STYLE: CSSProperties = {
