@@ -145,7 +145,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
                   borderRadius={'0.4rem'}
                   height={'3.2rem'}
                   border={'1px dashed'}
-                  px={'1.5rem'}
+                  px={SPACE.MD}
                   lineHeight={'3rem'}
                   borderColor={COLORS.GRAY[20]}
                   _focus={{
