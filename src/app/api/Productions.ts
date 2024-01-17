@@ -22,6 +22,7 @@ export function useProductionsFilter(includeCalculations: boolean) {
       QueryKeysEnum.Productions,
       pageNumber,
       pageSize,
+      includeCalculations,
       searchQuery,
       vendors,
       clients,

@@ -1,12 +1,12 @@
 import { HStack, Text, IconButton, Box, Tooltip, Flex } from '@chakra-ui/react';
-import DownloadButton from '../../components/Button/DownloadButton';
+import DownloadButton from '../Button/DownloadButton';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../theme/Constants';
 
 type Props = {
   name: string;
   url: string;
-  onRemove: (name: string) => void;
+  onRemove?: (name: string) => void;
   icon?: JSX.Element;
 };
 export const File = ({
@@ -33,13 +33,15 @@ export const File = ({
           tooltipText={t('Common.Download')}
         />
         <Tooltip label={t('Common.Remove')}>
-          <IconButton
-            variant={'deleteIconBtn'}
-            aria-label={t('Common.Remove')}
-            icon={<i className={'ri-close-line'} />}
-            mr={0}
-            onClick={() => onRemove(name)}
-          />
+          {onRemove && (
+            <IconButton
+              variant={'deleteIconBtn'}
+              aria-label={t('Common.Remove')}
+              icon={<i className={'ri-close-line'} />}
+              mr={0}
+              onClick={() => onRemove(name)}
+            />
+          )}
         </Tooltip>
       </Box>
     </HStack>

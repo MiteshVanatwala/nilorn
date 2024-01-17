@@ -2,15 +2,19 @@ import { Grid, GridItem, Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID, SIZES, SPACE } from '../../../theme/Constants';
 import { useFormContext } from 'react-hook-form';
-import File from '../../File/File';
-import UploadFile from '../../File/UploadFile';
+import File from '../../../components/File/File';
+import UploadFile from '../../../components/File/UploadFile';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { images } from '../../../assets';
 
 const ARTWORK: string = 'artwork';
 const ATTACHMERNTS: string = 'attachments';
 
-const AttachmentSection = () => {
+type Props = {
+  disableEdit: boolean;
+};
+
+const AttachmentSection = ({ disableEdit }: Props) => {
   const { setValue, unregister, watch, getValues } = useFormContext();
   const { t } = useTranslation();
 
@@ -44,11 +48,13 @@ const AttachmentSection = () => {
         }}
         templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem colSpan={12}>
-          <UploadFile
-            heading={t('PD.Artwork')}
-            onUpload={uploadArtwork}
-            showAdd={!artwork}
-          />
+          {!disableEdit && (
+            <UploadFile
+              heading={t('PD.Artwork')}
+              onUpload={uploadArtwork}
+              showAdd={!artwork}
+            />
+          )}
         </GridItem>
         <GridItem
           colSpan={{
@@ -66,16 +72,18 @@ const AttachmentSection = () => {
                   width="auto"
                 />
               }
-              onRemove={() => unregister(ARTWORK)}
+              onRemove={disableEdit ? undefined : () => unregister(ARTWORK)}
             />
           )}
         </GridItem>
         <GridItem colSpan={12}>
-          <UploadFile
-            heading={t('PD.AccordionLabels.Attachments')}
-            onUpload={uploadAttachments}
-            multiple={true}
-          />
+          {!disableEdit && (
+            <UploadFile
+              heading={t('PD.AccordionLabels.Attachments')}
+              onUpload={uploadAttachments}
+              multiple={true}
+            />
+          )}
         </GridItem>
         {attachments?.map(a => (
           <GridItem

@@ -17,9 +17,14 @@ import HeaderDivider from './HeaderDivider';
 import HeaderLink from './HeaderLink';
 import UserMenu from './UserMenu';
 import { GRID } from '../../theme/Constants';
+import { useAuthorized } from '../../app/Permissions/usePremissions';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
+
+  const showProduction = useAuthorized('production');
+  const showCalculation = useAuthorized('calculation');
+
   return (
     <Container
       centerContent
@@ -52,10 +57,18 @@ const NavigationHeader = () => {
                   title={<Heading variant={'h5'}>{t('Common.Title')}</Heading>}
                   path={'/'}
                 />
-                <HeaderLink
-                  title={t('Menu.HypProduction')}
-                  path="/production"
-                />
+                {showProduction && (
+                  <HeaderLink
+                    title={t('Menu.HypProduction')}
+                    path="/productions"
+                  />
+                )}
+                {showCalculation && (
+                  <HeaderLink
+                    title={t('Menu.HypPrice')}
+                    path="/price-calculations"
+                  />
+                )}
               </HStack>
               <HeaderDivider />
             </Flex>

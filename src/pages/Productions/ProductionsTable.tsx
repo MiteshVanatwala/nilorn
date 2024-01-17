@@ -5,14 +5,24 @@ import { CSSProperties } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import table from '../../theme/table';
 import { COLORS, SPACE } from '../../theme/Constants';
+import { SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
+import { ProductDevelopmentDeepDto } from '../../app/generate';
+import ProductionGridRow, {
+  PRODUCTIONS_NUM_OF_FR,
+} from '../../components/ProductionGrid/ProductionGridRow';
+import ProductionGridHeader from '../../components/ProductionGrid/ProductionGridHeader';
+import {
+  TD_STYLE,
+  TD_STYLE_RELEASED,
+  TH_STYLE,
+} from '../../theme/Constants/tableGrid';
 
 type Props = {
   productions: ProductDevelopmentDeepDto[];
 };
-
 export const TH_STYLE: CSSProperties = {
   ...table.baseStyle?.th,
   height: 'auto',
@@ -44,7 +54,6 @@ export const TD_STYLE: CSSProperties = {
   border: 'none',
   display: 'flex',
 };
-
 const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
 
@@ -60,14 +69,7 @@ const ProductionsTable = ({ productions }: Props) => {
           </GridItem>
           <GridItem style={TH_STYLE}>{t('PD.Client')}</GridItem>
           <GridItem style={TH_STYLE}>{t('PD.SourcingCompany')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('PD.AccordionLabels.Vendor')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Comment')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.SL')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.BL')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.MOQ')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Currency')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.Qty')}</GridItem>
-          <GridItem style={TH_STYLE}>{t('Production.PUR')}</GridItem>
+          <ProductionGridHeader />
         </Grid>
       </Box>
       <Grid gap={'1px'}>
@@ -113,22 +115,21 @@ const ProductionsTable = ({ productions }: Props) => {
                           />
                         </Box>
                       </GridItem>
-                      <GridItem colSpan={8}>
+                      <GridItem colSpan={PRODUCTIONS_NUM_OF_FR}>
                         <Grid
                           gap={'1px'}
-                          gridTemplateColumns={'repeat(8, 1fr)'}
+                          gridTemplateColumns={`repeat(${PRODUCTIONS_NUM_OF_FR}, 1fr)`}
                           alignItems={'stretch'}
                           height={'100%'}>
                           {s.productions?.map(production => (
-                            <>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                overflow={'hidden'}>
-                                {production.vendorName}
+                            <ProductionGridRow
+                              production={production}
+                              style={
+                                production?.released
+                                  ? TD_STYLE_RELEASED
+                                  : TD_STYLE
+                              }
+                              tableMenu={
                                 <TableMenuContainer
                                   children={
                                     <TableMenuProduction
@@ -141,65 +142,9 @@ const ProductionsTable = ({ productions }: Props) => {
                                     />
                                   }
                                 />
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.comment}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.sampleLeadTime}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.productionLeadTime}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }>
-                                {production.moq}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                overflow={'hidden'}>
-                                {production.currencyCode}
-                              </GridItem>
-                              <GridItem
-                                style={
-                                  production?.released
-                                    ? TD_STYLE_RELEASED
-                                    : TD_STYLE
-                                }
-                                colSpan={2}>
-                                [QTY PUR] in api data atm
-                              </GridItem>
-                            </>
+                              }
+                            />
                           ))}
-                          {/* 
-                        {s.productions?.length === 0 && (
-                          <GridItem style={TD_STYLE_LAST_CHILD} colSpan={9}>
-                            No productions
-                          </GridItem>
-                        )} */}
                         </Grid>
                       </GridItem>
                     </>

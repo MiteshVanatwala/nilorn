@@ -7,3 +7,7 @@ export function getNextstatus(currentValue: Status): Status | null {
   }
   return null;
 }
+
+export function isClosed(status: Status): boolean {
+  return [Status.APPROVED, Status.REJECTED, Status.DELETED].includes(status);
+}
