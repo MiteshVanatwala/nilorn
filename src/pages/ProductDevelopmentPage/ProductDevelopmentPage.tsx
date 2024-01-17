@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
-import { FieldValues } from 'react-hook-form';
 import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
@@ -73,7 +72,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
         <ProductDevelopmentForm
           no={no ?? ''}
           scrolledPast={scrolledPast}
-          defaultValues={data as FieldValues}
+          defaultValues={data}
           createNew={createNew}
         />
       </Box>

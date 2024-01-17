@@ -31,7 +31,7 @@ const CHUNK_SIZES = [25, 75, 100, 300];
 const ProductionsTableContainer = () => {
   const { t } = useTranslation();
 
-  const { data, isError, isLoading, isFetching } = useProductionsFilter();
+  const { data, isError, isLoading, isFetching } = useProductionsFilter(false);
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;

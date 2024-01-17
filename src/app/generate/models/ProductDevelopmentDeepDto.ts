@@ -6,7 +6,7 @@
 import type { ProductDevelopmentBriefDto } from './ProductDevelopmentBriefDto';
 import type { SourcedProductionDto } from './SourcedProductionDto';
 
-export type ProductDevelopmentProductionDto = {
+export type ProductDevelopmentDeepDto = {
     productDevelopmentBriefDto?: ProductDevelopmentBriefDto;
     sourcedProductions?: Array<SourcedProductionDto> | null;
 };

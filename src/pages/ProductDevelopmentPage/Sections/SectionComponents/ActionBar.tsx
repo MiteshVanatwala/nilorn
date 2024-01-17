@@ -1,6 +1,6 @@
 import { HStack, Text, VStack, Box } from '@chakra-ui/layout';
 import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
-import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
+import { Button, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -25,9 +25,8 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
 
   const artwork = useWatch({ name: 'artwork' });
   const { getValues, formState, trigger } = useFormContext();
-  const { statuses, getNextStatus } = useStatusOptions();
+  const { statuses } = useStatusOptions();
   const currentStatus = getValues('status') as Status;
-  const nextStatus = getNextStatus(currentStatus);
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { showToast } = useToast();
 
@@ -42,7 +41,7 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
       showToast({
         position: 'top-right',
         status: 'info',
-        description: `Save befor chnaging status`,
+        description: t('PD.Feedback.Info.NeedToSave'),
       });
       return;
     }
@@ -128,50 +127,37 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
                 )}
               </MenuList>
             </Menu>
-            <Button variant={'secondary'} type="submit">
+            <Menu>
+              <MenuButton as={Button} variant={'secondary'} padding={SPACE.SM}>
+                {currentStatus} <i className="ri-arrow-down-s-line" />
+              </MenuButton>
+              <MenuList>
+                {statuses.map(s => (
+                  <MenuItem
+                    key={s.value}
+                    value={s.value}
+                    onClick={() => submitStatus(s.value)}
+                    bg={
+                      getValues('status') === s.value
+                        ? COLORS.GRAY[10]
+                        : 'transparent'
+                    }
+                    autoFocus={s.value === 'Design'}
+                    icon={
+                      <Box
+                        w={'6px'}
+                        h={'6px'}
+                        borderRadius={'2px'}
+                        bg={s.color}></Box>
+                    }>
+                    {s.label}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+            <Button variant={'primary'} isDisabled={disableEdit} type="submit">
               {t('Common.Save')}
             </Button>
-            {!disableEdit && (
-              <ButtonGroup isAttached variant="primary">
-                {nextStatus && (
-                  <Button onClick={() => submitStatus(nextStatus)}>
-                    {t('Common.SendTo')} {nextStatus}
-                  </Button>
-                )}
-                <Menu>
-                  <MenuButton
-                    as={IconButton}
-                    padding={SPACE.SM}
-                    aria-label={t('Common.ChangeStatus')}
-                    borderLeft={`1px solid ${COLORS.WHITE}`}
-                    icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-                  />
-                  <MenuList>
-                    {statuses.map(s => (
-                      <MenuItem
-                        key={s.value}
-                        value={s.value}
-                        onClick={() => submitStatus(s.value)}
-                        bg={
-                          getValues('status') === s.value
-                            ? COLORS.GRAY[10]
-                            : 'transparent'
-                        }
-                        autoFocus={s.value === 'Design'}
-                        icon={
-                          <Box
-                            w={'6px'}
-                            h={'6px'}
-                            borderRadius={'2px'}
-                            bg={s.color}></Box>
-                        }>
-                        {s.label}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
-              </ButtonGroup>
-            )}
           </>
         )}
         {createNew && (

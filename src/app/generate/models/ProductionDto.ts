@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { PriceCalculationDto } from './PriceCalculationDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type ProductionDto = {
@@ -18,4 +19,5 @@ export type ProductionDto = {
     productionLeadTime?: number;
     comment?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;
+    priceCalculations?: Array<PriceCalculationDto> | null;
 };

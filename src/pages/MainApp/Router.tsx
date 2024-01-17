@@ -4,10 +4,10 @@ import MainApp from './MainApp';
 import ProductDevelopmentPage from '../ProductDevelopmentPage/ProductDevelopmentPage';
 import RouteError from '../../components/ErrorBoundary/RouteError';
 import SourcingsPage from '../Sourcings/SourcingsPage';
-import PricesPage from '../Prices/PricesPage';
 import SigninOidc from '../Auth/SigninOidc';
 import ProductionsPage from '../Productions/ProductionsPage';
 import NotFoundPage from '../NotFound/NotFoundPage';
+import PriceCalculationsPage from '../PriceCalculationsPage/PriceCalculationsPage';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
             element: <ProductDevelopmentPage createNew={true} />,
           },
           {
-            path: 'production',
+            path: 'productions',
             element: <ProductionsPage />,
           },
           {
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
             element: <SourcingsPage />,
           },
           {
-            path: 'prices',
-            element: <PricesPage />,
+            path: 'price-calculations',
+            element: <PriceCalculationsPage />,
           },
           { path: '*', element: <NotFoundPage /> },
         ],
