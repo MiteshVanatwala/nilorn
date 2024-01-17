@@ -3,6 +3,7 @@ import { useProductionsFilter } from '../../app/api/Productions';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import Alert from '../../components/Feedback/Alert';
+import PriceCalculationsTable from './PriceCalculationsTable';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
@@ -19,7 +20,7 @@ function PriceCalculationsTableContainer() {
   return (
     <>
       {(isLoading || isFetching) && <SpinnerOverlay />}
-      {/* <ProductionsTable productions={data?.items ?? []} /> */}
+      <PriceCalculationsTable data={data?.items ?? []} />
       <TablePaginationContainer data={data} chunkSizes={CHUNK_SIZES} />
     </>
   );

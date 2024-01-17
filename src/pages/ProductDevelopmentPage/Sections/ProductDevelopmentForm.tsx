@@ -16,7 +16,7 @@ import BottomSection from './BottomSection';
 import { ROLES_NOT_ALLOWED_TO_EDIT } from '../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
-import { ProductDevelopmentDto, Role } from '../../../app/generate';
+import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
 import { useAuthorized } from '../../../app/Permissions/usePremissions';
 

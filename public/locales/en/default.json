@@ -191,6 +191,21 @@
     "CreateAndReleaseSuccess": "Production created and released for sales",
     "Deleted": "Production deleted"
   },
+  "PriceCalc": {
+    "BaseValues": "Base values",
+    "Net": "Net",
+    "PurCurr": "PUR CUR",
+    "SalesCurr": "Sales curr",
+    "Margin": "Margin",
+    "Sales": "Sales",
+    "Cost": "Cost",
+    "InternalCommission": "Internal commission",
+    "InternalCommission_short": "Int. comm.",
+    "IndirectCost": "Indirect Cost",
+    "CurrencyRate": "Currency rate",
+    "FreightIncluded": "Freight Included",
+    "FreightIncluded_short": "Freight Incl."
+  },
   "Changelog": {
     "To": "To",
     "From": "From",

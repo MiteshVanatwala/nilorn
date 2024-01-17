@@ -9,17 +9,12 @@ import ProductionGridRow, {
   PRODUCTIONS_NUM_OF_FR,
 } from '../../components/ProductionGrid/ProductionGridRow';
 import ProductionGridHeader from '../../components/ProductionGrid/ProductionGridHeader';
-import {
-  TD_STYLE,
-  TD_STYLE_LAST_CHILD,
-  TD_STYLE_RELEASED,
-} from '../../theme/Constants/tableGrid';
+import { TD_STYLE, TD_STYLE_RELEASED } from '../../theme/Constants/tableGrid';
 import {
   GridInlineTbody,
-  GridTbody,
+  GridTable,
   GridTd,
   GridTh,
-  GridThead,
 } from '../../components/GridTable/GridTableElements';
 
 type Props = {
@@ -30,14 +25,12 @@ const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <GridThead numFr={12}>
-        <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
-        <GridTh>{t('PD.Client')}</GridTh>
-        <GridTh>{t('PD.SourcingCompany')}</GridTh>
-        <ProductionGridHeader />
-      </GridThead>
-      <GridTbody>
+    <GridTable numFr={12}>
+      <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
+      <GridTh>{t('PD.Client')}</GridTh>
+      <GridTh>{t('PD.SourcingCompany')}</GridTh>
+      <ProductionGridHeader />
+      <>
         {productions.map(p => (
           <GridItem colSpan={12}>
             <GridInlineTbody numFr={12}>
@@ -74,9 +67,7 @@ const ProductionsTable = ({ productions }: Props) => {
                       <GridItem
                         colSpan={PRODUCTIONS_NUM_OF_FR}
                         style={
-                          s.productions?.length === 0
-                            ? TD_STYLE_LAST_CHILD
-                            : undefined
+                          s.productions?.length === 0 ? TD_STYLE : undefined
                         }>
                         <GridInlineTbody numFr={PRODUCTIONS_NUM_OF_FR}>
                           {s.productions?.map(production => (
@@ -112,8 +103,8 @@ const ProductionsTable = ({ productions }: Props) => {
             </GridInlineTbody>
           </GridItem>
         ))}
-      </GridTbody>
-    </>
+      </>
+    </GridTable>
   );
 };
 

@@ -4,10 +4,11 @@ import COLORS from './colors';
 
 export const TH_STYLE: CSSProperties = {
   ...table.baseStyle?.th,
-  height: 'auto',
+  height: '4.6rem',
   textTransform: 'none',
   display: 'flex',
   overflow: 'hidden',
+  lineHeight: 1.15,
 };
 
 export const TD_STYLE_RELEASED: CSSProperties = {
