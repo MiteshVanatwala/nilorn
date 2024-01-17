@@ -1,14 +1,26 @@
-import { Grid, GridItem, GridItemProps } from '@chakra-ui/react';
+import * as CSS from 'csstype';
+import {
+  Grid,
+  GridItem,
+  GridItemProps,
+  ResponsiveValue,
+} from '@chakra-ui/react';
 import { TABLE_GAP, TD_STYLE, TH_STYLE } from '../../theme/Constants/tableGrid';
 import { CSSProperties } from 'react';
 
 type TableProps = {
-  numFr?: number;
   children?: string | JSX.Element | JSX.Element[];
+  gridTemplateColumns:
+    | ResponsiveValue<CSS.Property.GridTemplateColumns<0 | (string & {})>>
+    | undefined;
 };
 
-export const GridTable = ({ numFr, children }: TableProps) => {
-  return <Grid gridTemplateColumns={`repeat(${numFr}, 1fr)`}>{children}</Grid>;
+export const GridTable = ({ gridTemplateColumns, children }: TableProps) => {
+  return (
+    <Grid gridTemplateColumns={gridTemplateColumns} gap={TABLE_GAP}>
+      {children}
+    </Grid>
+  );
 };
 
 type TableColumnProps = GridItemProps & {
@@ -18,7 +30,7 @@ type TableColumnProps = GridItemProps & {
 
 export const GridTh = ({ colSpan, children, ...args }: TableColumnProps) => {
   return (
-    <GridItem colSpan={colSpan ?? 1} style={TH_STYLE} {...args}>
+    <GridItem colSpan={colSpan ?? 1} gap={TABLE_GAP} style={TH_STYLE} {...args}>
       {children}
     </GridItem>
   );
@@ -37,17 +49,20 @@ export const GridTd = ({
   ...args
 }: TableCellProps) => {
   return (
-    <GridItem colSpan={colSpan ?? 1} style={style} h={'100%'} {...args}>
+    <GridItem colSpan={colSpan ?? 1} style={style} {...args}>
       {children}
     </GridItem>
   );
 };
 
-export const GridInlineTbody = ({ numFr, children }: TableProps) => {
+export const GridInlineTbody = ({
+  gridTemplateColumns,
+  children,
+}: TableProps) => {
   return (
     <Grid
       gap={TABLE_GAP}
-      gridTemplateColumns={`repeat(${numFr}, 1fr)`}
+      gridTemplateColumns={gridTemplateColumns}
       height={'100%'}
       alignItems={'stretch'}>
       {children}

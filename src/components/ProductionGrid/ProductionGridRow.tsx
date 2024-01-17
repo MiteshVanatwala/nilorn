@@ -30,7 +30,7 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
         style={production.purchasePrices?.length === 0 ? style : undefined}
         colSpan={2}>
         {production.purchasePrices?.map(pp => (
-          <GridInlineTbody numFr={2}>
+          <GridInlineTbody gridTemplateColumns={'repeat(2, 1fr)'}>
             <GridTd style={style}>{pp.quantity}</GridTd>
             <GridTd style={style}>{pp.price}</GridTd>
           </GridInlineTbody>

@@ -1,5 +1,5 @@
 import { GridItem } from '@chakra-ui/react';
-import PDCell from './ProductDevelopmentCell';
+import PDCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import TableMenuContainer from './TableMenuContainer';
@@ -25,7 +25,7 @@ const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <GridTable numFr={12}>
+    <GridTable gridTemplateColumns={'repeat(12, 1fr)'}>
       <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
       <GridTh>{t('PD.Client')}</GridTh>
       <GridTh>{t('PD.SourcingCompany')}</GridTh>
@@ -33,13 +33,13 @@ const ProductionsTable = ({ productions }: Props) => {
       <>
         {productions.map(p => (
           <GridItem colSpan={12}>
-            <GridInlineTbody numFr={12}>
+            <GridInlineTbody gridTemplateColumns={'repeat(12, 1fr)'}>
               <GridTd colSpan={2}>
                 <PDCell {...p.productDevelopmentBriefDto} />
               </GridTd>
               <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
               <GridItem colSpan={9}>
-                <GridInlineTbody numFr={9}>
+                <GridInlineTbody gridTemplateColumns={'repeat(9, 1fr)'}>
                   {p.sourcedProductions?.map((s, index) => (
                     <>
                       <GridTd
@@ -69,7 +69,8 @@ const ProductionsTable = ({ productions }: Props) => {
                         style={
                           s.productions?.length === 0 ? TD_STYLE : undefined
                         }>
-                        <GridInlineTbody numFr={PRODUCTIONS_NUM_OF_FR}>
+                        <GridInlineTbody
+                          gridTemplateColumns={`repeat(${PRODUCTIONS_NUM_OF_FR}, 1fr)`}>
                           {s.productions?.map(production => (
                             <ProductionGridRow
                               production={production}

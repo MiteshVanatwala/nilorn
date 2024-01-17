@@ -8,8 +8,16 @@ import {
   GridTh,
   GridTable,
 } from '../../components/GridTable/GridTableElements';
-import ProductDevelopmentCell from '../Productions/ProductDevelopmentCell';
-import PriceGridRow from '../../components/ProductionGrid/PriceGridRow';
+import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
+import PriceGridRow from './PriceGrid/PriceGridRow';
+import { Fragment } from 'react';
+
+const GRID_LAYOUT =
+  'repeat(6, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+const GRID_LAYOUT_SOURCING =
+  'repeat(3, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+export const GRID_LAYOUT_PRICE =
+  'repeat(2, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 
 type Props = {
   data: ProductDevelopmentDeepDto[];
@@ -20,7 +28,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   return (
     <>
-      <GridTable numFr={14}>
+      <GridTable gridTemplateColumns={GRID_LAYOUT}>
         <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
         <GridTh>{t('PD.Client')}</GridTh>
         <GridTh>{t('PD.SourcingCompany')}</GridTh>
@@ -35,47 +43,62 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
         <>
-          {data.map(p => (
-            <GridItem colSpan={14}>
-              <GridInlineTbody numFr={14}>
-                <GridTd colSpan={2}>
-                  <ProductDevelopmentCell {...p.productDevelopmentBriefDto} />
-                </GridTd>
-                <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
-                <GridItem colSpan={11}>
-                  <GridInlineTbody numFr={11}>
-                    <>
-                      {p.sourcedProductions?.map((s, index) => (
-                        <>
-                          <GridTd
-                            colSpan={1}
-                            key={
-                              p?.productDevelopmentBriefDto?.no +
-                              '-' +
-                              s?.sourcingId
-                            }
-                            style={TD_STYLE}>
-                            <>{s.name}</>
-                          </GridTd>
-                          <GridItem colSpan={10}>
-                            <GridInlineTbody numFr={10}>
-                              <>
-                                {s.productions?.map(production => (
+          {data.map((p, i) => (
+            <Fragment key={p?.productDevelopmentBriefDto?.no}>
+              <GridTd colSpan={2}>
+                <ProductDevelopmentCell {...p.productDevelopmentBriefDto} />
+              </GridTd>
+              <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
+              <GridItem colSpan={11}>
+                <GridInlineTbody gridTemplateColumns={GRID_LAYOUT_SOURCING}>
+                  <>
+                    {p.sourcedProductions?.map(s => (
+                      <Fragment
+                        key={
+                          p?.productDevelopmentBriefDto?.no +
+                          '-' +
+                          s?.sourcingId
+                        }>
+                        <GridTd
+                          colSpan={1}
+                          key={
+                            p?.productDevelopmentBriefDto?.no +
+                            '-' +
+                            s?.sourcingId
+                          }
+                          style={TD_STYLE}>
+                          <>{s.name}</>
+                        </GridTd>
+                        <GridItem colSpan={10}>
+                          <GridInlineTbody
+                            gridTemplateColumns={GRID_LAYOUT_PRICE}>
+                            <>
+                              {s.productions && s.productions?.length > 0 ? (
+                                s.productions?.map(production => (
                                   <PriceGridRow
+                                    key={
+                                      p?.productDevelopmentBriefDto?.no +
+                                      '-' +
+                                      s?.sourcingId +
+                                      '-' +
+                                      production?.id
+                                    }
                                     production={production}
                                     tableMenu={<>Menu</>}
                                   />
-                                ))}
-                              </>
-                            </GridInlineTbody>
-                          </GridItem>
-                        </>
-                      ))}
-                    </>
-                  </GridInlineTbody>
-                </GridItem>
-              </GridInlineTbody>
-            </GridItem>
+                                ))
+                              ) : (
+                                <GridTd colSpan={10}></GridTd>
+                              )}
+                            </>
+                          </GridInlineTbody>
+                        </GridItem>
+                      </Fragment>
+                    ))}
+                  </>
+                </GridInlineTbody>
+              </GridItem>
+            </Fragment>
           ))}
         </>
       </GridTable>

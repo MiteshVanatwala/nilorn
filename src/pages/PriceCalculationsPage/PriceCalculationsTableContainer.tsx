@@ -7,7 +7,6 @@ import PriceCalculationsTable from './PriceCalculationsTable';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
-// Same as ProductionsTableContainer
 function PriceCalculationsTableContainer() {
   const { t } = useTranslation();
 

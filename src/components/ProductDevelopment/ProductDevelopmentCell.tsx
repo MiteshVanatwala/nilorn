@@ -1,8 +1,8 @@
 import { Box, Text, Image, HStack, VStack, Link } from '@chakra-ui/react';
-import StatusBadge from '../../components/Status/StatusBadge';
+import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
-import ArtworkButton from '../../components/Button/ArtworkButton';
+import ArtworkButton from '../Button/ArtworkButton';
 import { NavLink } from 'react-router-dom';
 
 const ProductDevelopmentCell = ({
@@ -26,8 +26,6 @@ const ProductDevelopmentCell = ({
             </Link>
             <Text variant={'bodyBigBlack'}>{name}</Text>
           </VStack>
-
-          <ArtworkButton size="SMALL" url={'artworkUrl'} />
           {artworkUrl && <ArtworkButton size="SMALL" url={artworkUrl} />}
         </HStack>
         {thumbnailData && (
