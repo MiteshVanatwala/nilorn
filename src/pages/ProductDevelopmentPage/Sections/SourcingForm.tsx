@@ -34,6 +34,7 @@ const SourcingForm = ({
       <GridItem
         colSpan={{
           base: 1,
+          lg: 5,
           xl: 6,
         }}>
         <VStack gap={GRID.GAP} alignItems={'start'}>
@@ -64,14 +65,16 @@ const SourcingForm = ({
       <GridItem
         colSpan={{
           base: 1,
-          xl: 2,
+          lg: 2,
         }}
         colEnd={{
           base: 1,
+          lg: 11,
           xl: 13,
         }}
         colStart={{
           base: 1,
+          lg: 9,
           xl: 11,
         }}>
         <Quantity disableEdit={disableEdit} formKey={sourcingIndexKey} />
