@@ -1,10 +1,9 @@
 import { Textarea } from '@chakra-ui/react';
-import { FieldError, get, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
 import { forwardRef } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
-import MaxLengthError from './MaxLengthError';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -29,7 +28,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       register,
       formState: { errors },
     } = useFormContext();
-    const error = get(errors, name) as FieldError;
 
     return (
       <ControlWrapper
@@ -38,6 +36,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         required={registerOptions?.required}
         errors={errors}
         helperText={helperText}
+        maxLength={registerOptions?.maxLength}
         hideValidationStyle={hideValidationStyle}>
         <Textarea
           paddingTop={'.9rem'}
@@ -52,9 +51,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
           height={'auto'}
           {...register(name, registerOptions)}
         />
-        {error?.type === 'maxLength' && registerOptions?.maxLength && (
-          <MaxLengthError maxLength={registerOptions.maxLength} />
-        )}
       </ControlWrapper>
     );
   }
