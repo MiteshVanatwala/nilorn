@@ -43,7 +43,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   type="number"
-                  isDisabled={disableEdit}
+                  readonly={disableEdit}
                   registerOptions={{ valueAsNumber: true }}
                 />
                 {!disableEdit && (

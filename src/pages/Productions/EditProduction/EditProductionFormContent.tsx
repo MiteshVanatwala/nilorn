@@ -195,13 +195,13 @@ const EditProductionFormContent = ({
               type="hidden"
               placeholder={`${t('Common.Placeholder')}`}
               name={'vendorId'}
-              isDisabled={disableEdit}
+              readonly={disableEdit}
               defaultValue={production?.vendorId?.toString()}
             />
           )}
           <InputField
             type="hidden"
-            isDisabled={disableEdit}
+            readonly={disableEdit}
             name={'sourcingId'}
             defaultValue={sourcedProduction?.sourcingId?.toString()}
           />

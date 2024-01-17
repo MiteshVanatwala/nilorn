@@ -72,7 +72,7 @@ const ProjectSelect = ({
                 name={inputName}
                 invisible={!createNew}
                 options={options}
-                isDisabled={!clientNo || disableEdit}
+                readOnly={!clientNo || disableEdit}
                 value={
                   options?.find(co => co.label === project) as SelectOption
                 }

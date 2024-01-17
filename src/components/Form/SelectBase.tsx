@@ -74,7 +74,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   showSelectedCount?: boolean;
   dark?: boolean;
   invisible?: boolean;
-  isDisabled?: boolean;
+  readOnly?: boolean;
   hideSelected?: boolean;
 };
 
@@ -92,7 +92,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   isSearchable = false,
   groupColor = COLORS.GRAY[50],
   isControlled = true,
-  isDisabled,
+  readOnly,
   menuPlacement = 'auto',
   showSelectedCount = false,
   dark = false,
@@ -127,7 +127,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       variant="filled"
       name={name}
       ref={passRef}
-      isDisabled={isDisabled}
+      isReadOnly={readOnly}
       onChange={onChange as any}
       onBlur={onBlur}
       components={customComponents}
@@ -152,17 +152,18 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '2px solid',
+          opacity: readOnly ? '70%' : '',
           _hover: {
-            borderColor: hover,
-            cursor: 'pointer',
+            borderColor: !readOnly ? hover : '',
+            cursor: readOnly ? 'default' : 'pointer',
             backgroundColor: bgColor,
           },
           _focusVisible: {
-            borderColor: focus,
+            borderColor: !readOnly ? focus : '',
             backgroundColor: bgColor,
           },
           _focus: {
-            borderColor: focus,
+            borderColor: !readOnly ? focus : '',
             backgroundColor: bgColor,
           },
         }),

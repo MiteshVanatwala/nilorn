@@ -52,7 +52,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
           <TextArea
             label={`${t('PD.FormContent.Description')}`}
             name={'description'}
-            isDisabled={disableEdit}
+            readonly={disableEdit}
           />
         </GridItem>
         <GridItem
