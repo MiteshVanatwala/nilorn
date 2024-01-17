@@ -1,8 +1,27 @@
+import { useTranslation } from 'react-i18next';
+import { useProductionsFilter } from '../../app/api/Productions';
+import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
+import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
+import Alert from '../../components/Feedback/Alert';
+
+const CHUNK_SIZES = [25, 75, 100, 300];
+
+// Same as ProductionsTableContainer
 function PriceCalculationsTableContainer() {
+  const { t } = useTranslation();
+
+  const { data, isError, isLoading, isFetching } = useProductionsFilter(true);
+
+  if (isError) {
+    return <Alert status="info" title={`${t('Common.Error')}`} />;
+  }
+
   return (
-    <div className="App">
-      <p>PriceCalculationsTableContainer</p>
-    </div>
+    <>
+      {(isLoading || isFetching) && <SpinnerOverlay />}
+      {/* <ProductionsTable productions={data?.items ?? []} /> */}
+      <TablePaginationContainer data={data} chunkSizes={CHUNK_SIZES} />
+    </>
   );
 }
 

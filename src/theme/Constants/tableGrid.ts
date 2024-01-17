@@ -7,6 +7,7 @@ export const TH_STYLE: CSSProperties = {
   height: 'auto',
   textTransform: 'none',
   display: 'flex',
+  overflow: 'hidden',
 };
 
 export const TD_STYLE_RELEASED: CSSProperties = {
@@ -23,6 +24,7 @@ export const TD_STYLE_LAST_CHILD: CSSProperties = {
   overflow: 'hidden',
   height: 'auto',
   borderTop: 'none',
+  boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
 };
 
 export const TD_STYLE: CSSProperties = {
@@ -32,4 +34,7 @@ export const TD_STYLE: CSSProperties = {
   boxShadow: `${'0 0 0 1px' + COLORS.GRAY[20]}`,
   border: 'none',
   display: 'flex',
+  overflow: 'hidden',
 };
+
+export const TABLE_GAP = '1px';

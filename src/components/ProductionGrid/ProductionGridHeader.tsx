@@ -1,20 +1,19 @@
-import { GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { TH_STYLE } from '../../theme/Constants/tableGrid';
+import { GridTh } from '../GridTable/GridTableElements';
 
 function ProductionGridHeader() {
   const { t } = useTranslation();
 
   return (
     <>
-      <GridItem style={TH_STYLE}>{t('PD.AccordionLabels.Vendor')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.Comment')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.SL')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.BL')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.MOQ')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.Currency')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.Qty')}</GridItem>
-      <GridItem style={TH_STYLE}>{t('Production.PUR')}</GridItem>
+      <GridTh>{t('PD.AccordionLabels.Vendor')}</GridTh>
+      <GridTh>{t('Production.Comment')}</GridTh>
+      <GridTh>{t('Production.SL')}</GridTh>
+      <GridTh>{t('Production.BL')}</GridTh>
+      <GridTh>{t('Production.MOQ')}</GridTh>
+      <GridTh>{t('Production.Currency')}</GridTh>
+      <GridTh>{t('Production.Qty')}</GridTh>
+      <GridTh>{t('Production.PUR')}</GridTh>
     </>
   );
 }
