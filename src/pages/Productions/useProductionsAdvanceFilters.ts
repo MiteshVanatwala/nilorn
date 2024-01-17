@@ -6,11 +6,6 @@ export const useProductionsAdvanceFilters = (): SelectOption<FilterInput>[] => {
   const { t } = useTranslation();
   return [
     {
-      label: t('PD.FilterLabel.sourcingCompanies'),
-      value: { name: 'sourcingCompanies', type: 'select' },
-    },
-
-    {
       label: t(`PD.FilterLabel.itemCategories`),
       value: {
         type: 'select',
@@ -22,20 +17,6 @@ export const useProductionsAdvanceFilters = (): SelectOption<FilterInput>[] => {
       value: {
         type: 'text',
         name: 'productGroups',
-      },
-    },
-    {
-      label: t(`PD.FilterLabel.opComp`),
-      value: {
-        type: 'text',
-        name: 'opComp',
-      },
-    },
-    {
-      label: t(`PD.FilterLabel.salespersonPurchaser`),
-      value: {
-        type: 'text',
-        name: 'salespersonPurchaser',
       },
     },
     {
