@@ -9,7 +9,7 @@ export function useProductionsFilter(includeCalculations: boolean) {
   const vendors = useFilterSearchParams('vendor');
   const clients = useFilterSearchParams('clients');
   const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
-  const productDevelopments = useFilterSearchParams('number');
+  const productDevelopments = useFilterSearchParams('productDevelopments');
 
   return useQuery(
     [
