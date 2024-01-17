@@ -8,9 +8,10 @@ import { SelectOption } from '../../app/types/types';
 type Props = {
   hasSearch?: boolean;
   filterInputs: SelectOption<any>[];
+  wideFilter?: boolean;
 };
 
-const Filter = ({ hasSearch, filterInputs }: Props) => {
+const Filter = ({ hasSearch, filterInputs, wideFilter }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -22,7 +23,7 @@ const Filter = ({ hasSearch, filterInputs }: Props) => {
       templateColumns={{
         base: GRID.TEMPLATE_COLUMNS.base,
         md: GRID.TEMPLATE_COLUMNS.md,
-        lg: GRID.TEMPLATE_COLUMNS.lg,
+        lg: wideFilter ? GRID.TEMPLATE_COLUMNS.xl : GRID.TEMPLATE_COLUMNS.lg,
       }}
       position={'relative'}
       zIndex={10}>

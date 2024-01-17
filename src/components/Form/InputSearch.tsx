@@ -74,7 +74,6 @@ const InputSearch = ({
         fontSize={fontSizes.sm}
         maxWidth={SIZES.CONTAINER.SM}
         disabled={isDisabled}
-        minWidth={'30rem'}
       />
     </ControlWrapper>
   );

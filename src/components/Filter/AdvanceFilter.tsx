@@ -27,9 +27,15 @@ import FilterSwitch from './FilterSwitch';
 
 type Props = {
   filters: SelectOption<FilterInput>[];
+  wideFilter?: boolean;
+  hideIncludeClosed?: boolean;
 };
 
-const AdvanceFilter = ({ filters }: Props) => {
+const AdvanceFilter = ({
+  filters,
+  wideFilter,
+  hideIncludeClosed = false,
+}: Props) => {
   const { t } = useTranslation();
   const { unregister, getValues } = useFormContext();
   const [selected, setSelected] = useState<
@@ -105,7 +111,9 @@ const AdvanceFilter = ({ filters }: Props) => {
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
               md: GRID.TEMPLATE_COLUMNS.md,
-              lg: GRID.TEMPLATE_COLUMNS.lg,
+              lg: wideFilter
+                ? GRID.TEMPLATE_COLUMNS.xl
+                : GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
               base: SPACE.XXS,
@@ -122,23 +130,27 @@ const AdvanceFilter = ({ filters }: Props) => {
                 }}
               />
             </GridItem>
-            <GridItem colSpan={3}>
-              <FilterSwitch
-                defaultChecked={
-                  getValues('includeClosed') === 'true' ||
-                  getValues('includeClosed')?.value
-                }
-                label={t('PD.IncludeClosed')}
-                name="includeClosed"
-              />
-            </GridItem>
+            {!hideIncludeClosed && (
+              <GridItem colSpan={3}>
+                <FilterSwitch
+                  defaultChecked={
+                    getValues('includeClosed') === 'true' ||
+                    getValues('includeClosed')?.value
+                  }
+                  label={t('PD.IncludeClosed')}
+                  name="includeClosed"
+                />
+              </GridItem>
+            )}
           </Grid>
           <Grid
             marginTop={selected.length > 0 ? SPACE.MD : ''}
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
               md: GRID.TEMPLATE_COLUMNS.md,
-              lg: GRID.TEMPLATE_COLUMNS.lg,
+              lg: wideFilter
+                ? GRID.TEMPLATE_COLUMNS.xl
+                : GRID.TEMPLATE_COLUMNS.lg,
             }}
             gap={{
               base: SPACE.XXS,
