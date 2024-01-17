@@ -41,7 +41,7 @@ const ProductionsFilter = () => {
     },
     {
       label: t('PD.FilterLabel.number'),
-      value: { name: 'number', type: 'text' },
+      value: { name: 'productDevelopments', type: 'text' },
     },
     {
       label: t('PD.FilterLabel.sourcingCompanies'),
