@@ -18,6 +18,7 @@ import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto, Role } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
+import { useAuthorized } from '../../../app/Permissions/usePremissions';
 
 type Props = {
   createNew: boolean;
@@ -32,6 +33,7 @@ function ProductDevelopmentForm({
   scrolledPast,
   no,
 }: Props) {
+  const showSourcing = useAuthorized('sourcing');
   const { data: user } = useCurrentUser();
 
   const form = useForm({
@@ -95,7 +97,7 @@ function ProductDevelopmentForm({
                     disableEdit={disableEdit}
                   />
                   <AttachmentSection disableEdit={disableEdit} />
-                  {user?.role && user?.role !== Role.DESIGNER && (
+                  {showSourcing && (
                     <SourcingSection no={no} disableEdit={disableEdit} />
                   )}
                 </Accordion>
