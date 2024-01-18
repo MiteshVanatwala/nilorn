@@ -34,6 +34,7 @@ const InputField = ({
     <ControlWrapper
       name={name}
       label={label}
+      maxLength={registerOptions?.maxLength}
       required={registerOptions?.required}
       errors={errors}
       helperText={helperText}

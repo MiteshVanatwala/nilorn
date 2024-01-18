@@ -36,6 +36,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         required={registerOptions?.required}
         errors={errors}
         helperText={helperText}
+        maxLength={registerOptions?.maxLength}
         hideValidationStyle={hideValidationStyle}>
         <Textarea
           opacity={readonly ? '70%' : ''}

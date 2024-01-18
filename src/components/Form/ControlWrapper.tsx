@@ -7,17 +7,25 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { FieldError, FieldErrorsImpl, get } from 'react-hook-form';
+import {
+  FieldError,
+  FieldErrorsImpl,
+  ValidationRule,
+  get,
+} from 'react-hook-form';
 import COLORS from '../../theme/Constants/colors';
 import { FormInputProps } from '../../app/types/types';
 import { useValidationStyleInFormContext } from '../../app/hooks/useValidationStyle';
 import { useTranslation } from 'react-i18next';
 import FormLabelComponent from './FormLabelComponent';
 import ChangelogPopup from '../Changelog/ChangelogPopup';
+import MaxLengthError from './MaxLengthError';
+import fontSizes from '../../theme/fontSizes';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
   children: ReactNode;
+  maxLength?: ValidationRule<number>;
   errors?: Partial<
     FieldErrorsImpl<{
       [key: string]: any;
@@ -39,6 +47,7 @@ const ControlWrapper = ({
   zIndex,
   hideValidationStyle,
   changelog,
+  maxLength,
 }: Props) => {
   const error = get(errors, name) as FieldError;
   const { t } = useTranslation();
@@ -73,14 +82,18 @@ const ControlWrapper = ({
           {children}
         </InputGroup>
       </Stack>
-
       {helperText && (
         <FormHelperText>
           <>{helperText}</>
         </FormHelperText>
       )}
       {error?.type === 'required' && !hideValidationStyle && (
-        <Text color={COLORS.ERROR}>{t(`Errors.Required`)}</Text>
+        <Text fontSize={fontSizes.xs} color={COLORS.ERROR}>
+          {t(`Errors.Required`)}
+        </Text>
+      )}
+      {error?.type === 'maxLength' && maxLength && !hideValidationStyle && (
+        <MaxLengthError maxLength={maxLength} />
       )}
     </FormControl>
   );

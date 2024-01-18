@@ -19,6 +19,7 @@ import {
 } from '../../../../app/api/PDImage';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../../app/api/User';
+import TRANSITION from '../../../../theme/Constants/transition';
 
 type Props = {
   imageUrl: string | undefined;
@@ -29,6 +30,7 @@ type Props = {
 const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   let [pasteError, setPasteError] = useState<boolean>(false);
   const { data: user } = useCurrentUser();
 
@@ -90,6 +92,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
 
   return (
     <Box
+      tabIndex={0}
       onPaste={handlePaste}
       py={{
         base: SPACE.XS,
@@ -134,7 +137,27 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
                 </Button>
               </GridItem>
               <GridItem>
-                <Text>{t('PD.OrPaste')}</Text>
+                <Text
+                  tabIndex={0}
+                  transition={TRANSITION.EASEOUT}
+                  cursor={'pointer'}
+                  w={'100%'}
+                  borderRadius={'0.4rem'}
+                  height={'3.2rem'}
+                  border={'1px dashed'}
+                  px={SPACE.MD}
+                  lineHeight={'3rem'}
+                  borderColor={COLORS.GRAY[20]}
+                  _focus={{
+                    borderColor: COLORS.GRAY[80],
+                    bgColor: COLORS.GRAY[5],
+                  }}
+                  _hover={{
+                    bgColor: COLORS.GRAY[5],
+                  }}
+                  color={COLORS.GRAY[80]}>
+                  {t('PD.OrPaste')}
+                </Text>
               </GridItem>
             </>
           )}

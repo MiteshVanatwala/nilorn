@@ -113,6 +113,9 @@ const EditProductionFormContent = ({
               placeholder={t('Production.CommentPlaceholder')}
               label={t('Production.Comment')}
               defaultValue={production?.comment?.toString()}
+              registerOptions={{
+                maxLength: 500,
+              }}
             />
           </GridItem>
           <GridItem colSpan={1}>
