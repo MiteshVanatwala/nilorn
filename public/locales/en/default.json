@@ -62,7 +62,7 @@
     "Delete": "Delete",
     "ShowChanges": "Show changes",
     "HideChanges": "Hide changes",
-    "IncludeClosed": "Include rejected and approved",
+    "IncludeClosed": "Include closed product developments",
     "SourcingCompany": "Sourcing company",
     "SourcingCompanies": "Sourcing company",
     "OPcomp": "Operations  company",
@@ -119,7 +119,8 @@
       "Sourcing": "Sourcing",
       "Calculation": "Calculation",
       "Approved": "Approved",
-      "Rejected": "Rejected"
+      "Rejected": "Rejected",
+      "Deleted": "Deleted"
     },
     "AccordionLabels": {
       "Members": "Members",

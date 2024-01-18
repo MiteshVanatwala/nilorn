@@ -14,6 +14,7 @@ const useOverviewColumns = () => {
     columnHelper.accessor('thumbnailData', {
       header: `${t('PD.Image')}`,
       enableSorting: false,
+      size: 10,
       cell: info => {
         if (!info.getValue()) {
           return <></>;

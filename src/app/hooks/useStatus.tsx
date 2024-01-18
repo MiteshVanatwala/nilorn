@@ -40,6 +40,11 @@ export const useStatusOptions = () => {
       value: Status.REJECTED,
       color: 'red',
     },
+    {
+      label: t('PD.StatusLabel.Deleted'),
+      value: Status.DELETED,
+      color: 'red',
+    },
   ];
 
   const getNextStatus = (currentStatus: Status) => {

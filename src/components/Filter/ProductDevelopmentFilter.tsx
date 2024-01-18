@@ -13,11 +13,13 @@ import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useEffect } from 'react';
 import Filter from './Filter';
 import { FilterInput, SelectOption } from '../../app/types/types';
+import { useSearchParams } from 'react-router-dom';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
   const advanceFilters = useOverviewAdvanceFilters();
+  const [searchParam] = useSearchParams();
 
   const filterInputs: SelectOption<FilterInput>[] = [
     {
@@ -53,6 +55,14 @@ const ProductDevelopmentFilter = () => {
       form.setValue('pageSize', pageSize);
     }
   }, [form, pageSize]);
+
+  useEffect(() => {
+    if (searchParam.size === 0) {
+      form.reset();
+      form.setValue('pageSize', pageSize ?? 25);
+      form.setValue('pageNumber', 1);
+    }
+  }, [form, pageSize, searchParam]);
 
   return (
     <FormuQuerySubmit form={form}>
