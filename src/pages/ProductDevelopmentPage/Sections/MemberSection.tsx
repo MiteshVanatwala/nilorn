@@ -10,7 +10,7 @@ import { SalespersonPurchaserBriefDto } from '../../../app/generate';
 import { useMembers } from '../../../app/api/productDevelopment';
 import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -27,6 +27,8 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const [selected, setSelected] = useState<
     MultiValue<SelectOption<SalespersonPurchaserBriefDto>>
   >(getValues(FORM_KEY) ?? []);
+  const [salesPersonPurchasersDefault, setSalesPersonPurchasersDefault] =
+    useState<SalespersonPurchaserBriefDto[]>();
 
   const { data } = useMembers(no);
 
@@ -44,6 +46,12 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
+  const salesPersonPurchasers = getValues(
+    FORM_KEY
+  ) as SalespersonPurchaserBriefDto[];
+  useEffect(() => {
+    setSalesPersonPurchasersDefault(salesPersonPurchasers);
+  }, [salesPersonPurchasers]);
 
   const memberGrid = useMemo(() => {
     const grids = [];
@@ -101,25 +109,40 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
             <Box minW={'20rem'}>
               {!disableEdit && (
                 <AdvanceFilterSelect
+                  key={`
+                    ${salesPersonPurchasers?.length}
+                        ${
+                          salesPersonPurchasersDefault !== undefined
+                            ? salesPersonPurchasersDefault?.length
+                            : ''
+                        }`}
                   name="AddMembers"
                   placeholder={t('PD.AddMember')}
                   hideSelected={true}
                   options={
-                    data?.map(m => {
-                      return {
-                        label: m.name,
-                        value: m,
-                      } as SelectOption<SalespersonPurchaserBriefDto>;
-                    }) ?? []
+                    data
+                      ?.filter(
+                        item =>
+                          !salesPersonPurchasersDefault?.some(
+                            selectedItem => selectedItem.code === item.code
+                          )
+                      )
+                      .map(
+                        m =>
+                          ({
+                            label: m.name,
+                            value: m,
+                          } as SelectOption<SalespersonPurchaserBriefDto>)
+                      )
+                      .sort((a, b) => a.label.localeCompare(b.label)) ?? []
                   }
-                  onChange={(option, event) => {
+                  onChange={option => {
                     addMember(option);
                   }}
                   value={selected}
                 />
               )}
             </Box>
-
             <Grid
               w="full"
               templateColumns={{

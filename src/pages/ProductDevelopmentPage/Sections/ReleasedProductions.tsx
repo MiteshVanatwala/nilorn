@@ -28,7 +28,7 @@ const ReleasedProductions = ({ data }: Props) => {
         alignItems={'stretch'}
         height={'100%'}>
         {data.map(p => (
-          <ProductionGridRow production={p} />
+          <ProductionGridRow key={p.id} production={p} />
         ))}
       </Grid>
     </Box>
