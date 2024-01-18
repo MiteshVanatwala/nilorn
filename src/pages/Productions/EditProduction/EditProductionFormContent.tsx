@@ -70,14 +70,11 @@ const EditProductionFormContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVendor]);
   useEffect(() => {
-    if (production?.released) {
-      setValue('released', true);
-    } else {
+    if (createNew) {
       setValue('released', false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [production?.released]);
-
+  }, [createNew]);
   return (
     <Grid
       templateColumns={{
@@ -112,7 +109,6 @@ const EditProductionFormContent = ({
               name="comment"
               placeholder={t('Production.CommentPlaceholder')}
               label={t('Production.Comment')}
-              defaultValue={production?.comment?.toString()}
               registerOptions={{
                 maxLength: 500,
               }}
@@ -125,8 +121,7 @@ const EditProductionFormContent = ({
               readonly={disableEdit}
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
-              name={'SampleLeadTime'}
-              defaultValue={production?.sampleLeadTime}
+              name={'sampleLeadTime'}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -136,8 +131,7 @@ const EditProductionFormContent = ({
               readonly={disableEdit}
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
-              name={'ProductionLeadTime'}
-              defaultValue={production?.productionLeadTime}
+              name={'productionLeadTime'}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -147,8 +141,7 @@ const EditProductionFormContent = ({
               readonly={disableEdit}
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
-              name={'MOQ'}
-              defaultValue={production?.moq}
+              name={'moq'}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -158,8 +151,7 @@ const EditProductionFormContent = ({
               readonly={disableEdit}
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
-              name={'ToolCharge'}
-              defaultValue={production?.toolCharge}
+              name={'toolCharge'}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -169,8 +161,7 @@ const EditProductionFormContent = ({
               readonly={disableEdit}
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
-              name={'SampleCharge'}
-              defaultValue={production?.sampleCharge}
+              name={'sampleCharge'}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -199,7 +190,6 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               name={'vendorId'}
               readonly={disableEdit}
-              defaultValue={production?.vendorId?.toString()}
             />
           )}
           <InputField

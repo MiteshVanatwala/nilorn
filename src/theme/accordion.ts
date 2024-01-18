@@ -12,6 +12,7 @@ const baseStyle = definePartsStyle({
   container: {
     mb: SPACE.SM,
     borderTop: 'none',
+    borderBottom: 'none',
     overflow: 'visible',
     '.chakra-collapse': {
       overflow: 'initial !important',

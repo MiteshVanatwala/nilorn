@@ -34,7 +34,7 @@ const EditProduction = ({
 }: Props) => {
   const form = useForm({
     defaultValues: {
-      purchasePrices: production?.purchasePrices,
+      ...production,
     },
   });
   const { close } = useContext(ModalContext);

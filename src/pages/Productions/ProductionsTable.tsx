@@ -73,6 +73,7 @@ const ProductionsTable = ({ productions }: Props) => {
                           gridTemplateColumns={`repeat(${PRODUCTIONS_NUM_OF_FR}, 1fr)`}>
                           {s.productions?.map(production => (
                             <ProductionGridRow
+                              key={production?.id}
                               production={production}
                               style={
                                 production?.released

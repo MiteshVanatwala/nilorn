@@ -32,7 +32,6 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
   });
 
   const sourcingCompanies = useFilterOptions('sourcingCompanies');
-
   const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
 
   useEffect(() => {
@@ -90,6 +89,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
 
           <Box w={'100%'}>
             <Accordion
+              border={'none'}
               allowMultiple
               variant={'light'}
               defaultIndex={sourcings.map((_, index) => index)}>
