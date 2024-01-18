@@ -6,55 +6,54 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-import { ProductionDto, SourcedProductionDto } from '../../../app/generate';
-import { useState } from 'react';
+import { ProductionDto } from '../../../app/generate';
+import { useContext, useEffect } from 'react';
 import {
+  useCreateProduction,
   useDeleteProduction,
   usePatchProduction,
 } from '../../../app/api/editProduction';
+import { ModalContext } from '../../../app/context/ModalContext';
 type Props = {
   artwork?: string | null;
-  sourcedProduction?: SourcedProductionDto;
-  sourcingCoIndex: number;
+
   createNew?: boolean;
   disableEdit?: boolean;
   production?: ProductionDto;
-  closeModal?(val: boolean): void;
 };
 const ActionBarEditProduction = ({
   artwork,
-  sourcedProduction,
-  sourcingCoIndex,
   createNew,
   disableEdit = false,
   production,
-  closeModal,
 }: Props) => {
   const { t } = useTranslation();
-  const { getValues } = useFormContext();
+  const { getValues, setValue } = useFormContext();
+  const { close } = useContext(ModalContext);
 
-  const { mutate: deleteProduction } = useDeleteProduction();
-  const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[sourcingCoIndex]
-    : null;
-  const [released, setReleased] = useState<boolean>(vendor?.released ?? false);
-  const { mutate: updateProduction } = usePatchProduction(
-    vendor?.vendorId ?? '',
-    released,
-    false
-  );
+  const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
+    useDeleteProduction();
 
+  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
+    usePatchProduction(production?.id ?? '');
+  const { mutate: createProduction, isSuccess: isSuccessCreate } =
+    useCreateProduction();
   function deleteProductionFunc() {
     deleteProduction({ id: production?.id ?? '' });
-    if (closeModal !== undefined) {
-      closeModal(true);
-    }
   }
   function handleSaveAndRelease() {
-    setReleased(true);
-    updateProduction(getValues());
+    setValue('released', true);
+    if (createNew) {
+      createProduction(getValues());
+    } else {
+      updateProduction(getValues());
+    }
   }
-
+  useEffect(() => {
+    if (isSuccessDelete || isSuccessPatch || isSuccessCreate) {
+      close();
+    }
+  }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
   return (
     <VStack align={'left'}>
       <HStack

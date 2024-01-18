@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
 import { Box } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
@@ -31,9 +31,10 @@ const ProjectSelect = ({
   const inputName = 'projectCode';
   const project = useWatch({ name: inputName });
   const clientNumberWatch = useWatch({ name: 'clientNo' });
+  const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
 
   const onChange = (option: SelectOption) => {
-    setValue(inputName, option.label);
+    setValue(inputName, option.value);
   };
 
   useEffect(() => {
@@ -42,15 +43,18 @@ const ProjectSelect = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
+
+  const clearProjectItem = {
+    value: '',
+    label: `${t('PD.ClearProjectLabel')}`,
+  };
+
   useEffect(() => {
-    if (
-      options &&
-      project &&
-      !options?.find(co => co.label === `${t('PD.ClearProjectLabel')}`)
-    ) {
-      options.unshift({ value: '', label: `${t('PD.ClearProjectLabel')}` });
+    if (options) {
+      setOptionItems([clearProjectItem, ...options]);
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options]);
   return (
     <Box
       zIndex={8}
@@ -60,9 +64,7 @@ const ProjectSelect = ({
         <Controller
           name={inputName}
           defaultValue={
-            project !== ''
-              ? (options?.find(co => co.label === project) as SelectOption)
-              : undefined
+            optionItems?.find(co => co.value === project) as SelectOption
           }
           render={() => {
             return (
@@ -71,10 +73,10 @@ const ProjectSelect = ({
                 placeholder={t('PD.Project')}
                 name={inputName}
                 invisible={!createNew}
-                options={options}
-                isDisabled={!clientNo || disableEdit}
+                options={optionItems}
+                readOnly={!clientNo || disableEdit}
                 value={
-                  options?.find(co => co.label === project) as SelectOption
+                  optionItems?.find(co => co.value === project) as SelectOption
                 }
                 components={{
                   MenuList: (props: any) => (

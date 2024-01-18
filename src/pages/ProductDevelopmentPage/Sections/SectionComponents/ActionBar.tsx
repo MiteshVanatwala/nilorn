@@ -79,6 +79,7 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
             {artwork && <ArtworkButton url="TBD" />}
             <Menu>
               <MenuButton
+                opacity={disableEdit ? '70%' : ''}
                 as={IconButton}
                 variant={'secondary'}
                 padding={SPACE.SM}
@@ -128,7 +129,11 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
               </MenuList>
             </Menu>
             <Menu>
-              <MenuButton as={Button} variant={'secondary'} padding={SPACE.SM}>
+              <MenuButton
+                opacity={disableEdit ? '70%' : ''}
+                as={Button}
+                variant={'secondary'}
+                padding={SPACE.SM}>
                 {currentStatus} <i className="ri-arrow-down-s-line" />
               </MenuButton>
               <MenuList>
@@ -136,7 +141,7 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
                   <MenuItem
                     key={s.value}
                     value={s.value}
-                    onClick={() => submitStatus(s.value)}
+                    onClick={() => (!disableEdit ? submitStatus(s.value) : '')}
                     bg={
                       getValues('status') === s.value
                         ? COLORS.GRAY[10]

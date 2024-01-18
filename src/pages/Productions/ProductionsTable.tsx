@@ -1,11 +1,11 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import PDCell from './ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
+import { ProductDevelopmentDeepDto } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import TableMenuContainer from './TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
-import { ProductDevelopmentDeepDto } from '../../app/generate';
 import ProductionGridRow, {
   PRODUCTIONS_NUM_OF_FR,
 } from '../../components/ProductionGrid/ProductionGridRow';

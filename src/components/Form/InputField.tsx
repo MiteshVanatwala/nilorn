@@ -9,7 +9,7 @@ interface Props extends FormInputProps {
   placeholder?: string;
   defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
-  isDisabled?: boolean;
+  readonly?: boolean;
 }
 
 const InputField = ({
@@ -22,8 +22,8 @@ const InputField = ({
   type = 'text',
   variant = 'standard',
   hideValidationStyle,
-  isDisabled = false,
   changelog,
+  readonly = false,
 }: Props) => {
   const {
     register,
@@ -34,17 +34,20 @@ const InputField = ({
     <ControlWrapper
       name={name}
       label={label}
+      maxLength={registerOptions?.maxLength}
       required={registerOptions?.required}
       errors={errors}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
       <Input
+        opacity={readonly ? '70%' : ''}
         variant={variant}
-        disabled={isDisabled}
+        isReadOnly={readonly}
         defaultValue={defaultValue}
         placeholder={placeholder}
         type={type}
+        cursor={readonly ? 'default' : 'text'}
         {...register(name, registerOptions)}
       />
     </ControlWrapper>

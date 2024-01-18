@@ -53,7 +53,7 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 name={'finishedLength'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
-                isDisabled={disableEdit}
+                readonly={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -63,7 +63,7 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 name={'finishedWidth'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
-                isDisabled={disableEdit}
+                readonly={disableEdit}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -73,7 +73,7 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 name={'finishedHeight'}
                 type="number"
                 registerOptions={{ valueAsNumber: true }}
-                isDisabled={disableEdit}
+                readonly={disableEdit}
               />
             </GridItem>
           </Grid>

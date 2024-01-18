@@ -126,7 +126,7 @@ const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
                     defaultValue={getValues('name')}
                     name="name"
                     isDisabled={disableEdit}
-                    registerOptions={{ required: true }}
+                    registerOptions={{ required: true, maxLength: 30 }}
                   />
                 </Heading>
                 <Text px={SPACE.SM}>

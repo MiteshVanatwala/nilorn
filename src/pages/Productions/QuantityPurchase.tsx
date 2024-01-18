@@ -13,27 +13,26 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
-import { PurchasePriceDto } from '../../app/generate';
 type Props = {
-  purchasePrices?: PurchasePriceDto[] | null;
   disableEdit?: boolean;
 };
 
-const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
+const QuantityPurchase = ({ disableEdit = false }: Props) => {
   const { t } = useTranslation();
   const { control } = useFormContext();
-  const formName = 'purchasePrices';
+  const fieldName = 'purchasePrices';
   const { fields, append, remove } = useFieldArray({
     control,
-    name: formName,
+    name: fieldName,
   });
 
-  useEffect(() => {
+  useEffect(() => {}, [fields]);
+  function focusLastField() {
     const last = document.querySelector(
       `[name="purchasePrices.${fields.length - 1}.quantity"]`
     ) as HTMLInputElement;
     last?.focus();
-  }, [fields]);
+  }
 
   return (
     <Grid
@@ -52,7 +51,7 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
               md: SPACE.XXS,
             }}
             w={'50%'}>
-            {t('PD.FormContent.Quantities')}
+            {t('PD.FormContent.Quantity')}
           </FormLabel>
           <FormLabel
             pb={{
@@ -73,17 +72,19 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.quantity`}
+                      name={`${fieldName}.${index}.quantity`}
                       type="number"
-                      registerOptions={{ valueAsNumber: true }}
+                      readonly={disableEdit}
+                      registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
                   <Box w={'50%'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
-                      name={`${formName}.${index}.price`}
+                      name={`${fieldName}.${index}.price`}
                       type="number"
-                      registerOptions={{ valueAsNumber: true }}
+                      readonly={disableEdit}
+                      registerOptions={{ valueAsNumber: true, required: true }}
                     />
                   </Box>
                 </HStack>
@@ -109,7 +110,8 @@ const QuantityPurchase = ({ purchasePrices, disableEdit = false }: Props) => {
             <Button
               variant={'secondarySmall'}
               onClick={() => {
-                append({ qty: '', pur: '' });
+                append({ quantity: null, price: null });
+                focusLastField();
               }}
               rightIcon={<i className={'ri-add-line'} />}>
               {t('Common.Add')}

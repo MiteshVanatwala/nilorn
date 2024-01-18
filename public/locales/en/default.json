@@ -84,9 +84,9 @@
     "ProjectCreated": "Project created",
     "BrowseFile": "Browse files...",
     "ClickPaste": "Paste from clipboard",
-    "OrPaste": "Or paste from clipboard",
+    "OrPaste": "Or click to paste from clipboard",
     "UploadImage": "Upload image",
-    "ClearProjectLabel": "Project",
+    "ClearProjectLabel": "Empty project",
     "SaveBeforeUploadImg": "Save before uploading image",
     "DeleteTitle": "Are you sure?",
     "DeleteComfirm": "You want to delete product development: {{no}}",
@@ -109,7 +109,7 @@
       "Folding": "Folding",
       "TargetPurchasePrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
-      "Quantities": "Quantities",
+      "Quantity": "Quantity",
       "ClientRequirements": "Client Requirements"
     },
     "StatusLabel": {
@@ -156,7 +156,8 @@
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
         "FileType": "File must be an image",
-        "Changes": "Faild to load changelog for product development with no #{{no}}"
+        "Changes": "Faild to load changelog for product development with no #{{no}}",
+        "FieldLength": "Max length is {{length}} characters"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"
@@ -175,16 +176,20 @@
     "MOQ": "MOQ",
     "Qty": "Qty",
     "PUR": "PUR",
-    "Tool": "Tool",
+    "Tool": "Tool charge",
     "Currency": "Currency",
-    "Sample": "Sample",
+    "Sample": "Sample charge",
     "LastEdited": "Last edited",
     "SaveSuccess": "Production saved",
     "CreateProduction": "Create Production",
     "CreateAndRelease": "Create and release",
+    "SaveReleaseSuccess": "Production saved and released for sales",
     "ReleaseSaleSuccess": "Production released for sales",
     "RemoveSaleSuccess": "Production removed for sales",
-    "ChooseVendor": "Choose vendor"
+    "ChooseVendor": "Choose vendor",
+    "CreateSuccess": "Production created",
+    "CreateAndReleaseSuccess": "Production created and released for sales",
+    "Deleted": "Production deleted"
   },
   "Changelog": {
     "To": "To",
