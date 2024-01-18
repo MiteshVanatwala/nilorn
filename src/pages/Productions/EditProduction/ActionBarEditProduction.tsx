@@ -30,7 +30,10 @@ const ActionBarEditProduction = ({
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
   const { close } = useContext(ModalContext);
-
+  const lastModifiedDate = production?.lastModified;
+  const formattedLastModifiedDate = new Date(
+    lastModifiedDate ?? ''
+  ).toLocaleString();
   const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
     useDeleteProduction();
 
@@ -139,7 +142,7 @@ const ActionBarEditProduction = ({
           base: 'left',
           lg: 'right',
         }}>
-        {t('Production.LastEdited')} [DATETIME]
+        {t('Production.LastEdited')} {formattedLastModifiedDate}
       </Text>
     </VStack>
   );

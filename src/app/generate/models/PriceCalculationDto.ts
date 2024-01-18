@@ -13,4 +13,5 @@ export type PriceCalculationDto = {
     indirectCost?: number | null;
     freightIncluded?: number | null;
     priceDtos?: Array<PriceDto> | null;
+    lastModified?: string | null;
 };

@@ -7,6 +7,8 @@ import TextArea from '../../../components/Form/TextArea';
 import { useProductions } from '../../../app/api/Productions';
 import ReleasedProductions from './ReleasedProductions';
 import ArrowLink from '../../../components/Link/ArrowLink';
+import { useFormContext } from 'react-hook-form';
+import ArrowLinkUnsavedChanges from '../../../components/Link/ArrowLinkUnsavedChanges';
 
 type Props = {
   no: string;
@@ -28,6 +30,7 @@ const SourcingForm = ({
     no,
     sourcingCompanyCode
   );
+  const { formState } = useFormContext();
 
   return (
     <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -91,15 +94,27 @@ const SourcingForm = ({
         />
       </GridItem>
       <GridItem colSpan={12}>
-        <ArrowLink
-          direction="right"
-          to={`/productions/?productDevelopments=${no}`}>
-          <>
-            {connectedProductions && connectedProductions?.length > 0
-              ? t('PD.ViewProductions')
-              : t('PD.AddProductions')}
-          </>
-        </ArrowLink>
+        {formState.isDirty ? (
+          <ArrowLinkUnsavedChanges
+            direction="right"
+            to={`/productions/?productDevelopments=${no}`}>
+            <>
+              {connectedProductions && connectedProductions?.length > 0
+                ? t('PD.ViewProductions')
+                : t('PD.AddProductions')}
+            </>
+          </ArrowLinkUnsavedChanges>
+        ) : (
+          <ArrowLink
+            direction="right"
+            to={`/productions/?productDevelopments=${no}`}>
+            <>
+              {connectedProductions && connectedProductions?.length > 0
+                ? t('PD.ViewProductions')
+                : t('PD.AddProductions')}
+            </>
+          </ArrowLink>
+        )}
       </GridItem>
     </Grid>
   );

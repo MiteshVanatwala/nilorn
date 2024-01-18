@@ -60,5 +60,6 @@ export { ProductionsService } from './services/ProductionsService';
 export { ProjectsService } from './services/ProjectsService';
 export { SalesPersonPurchasersService } from './services/SalesPersonPurchasersService';
 export { SearchProfilesService } from './services/SearchProfilesService';
+export { SourcingService } from './services/SourcingService';
 export { SourcingCompaniesService } from './services/SourcingCompaniesService';
 export { VendorsService } from './services/VendorsService';

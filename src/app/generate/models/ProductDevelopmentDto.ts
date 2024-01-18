@@ -30,4 +30,5 @@ export type ProductDevelopmentDto = {
     versions?: number | null;
     sourcings?: Array<SourcingDto> | null;
     salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
+    lastModified?: string | null;
 };

@@ -42,6 +42,7 @@ function ProductDevelopmentForm({
     },
   });
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
+  const { isDirty, isSubmitSuccessful } = form.formState;
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
@@ -71,6 +72,12 @@ function ProductDevelopmentForm({
       defaultValues?.status ? isClosed(defaultValues?.status) : false
     );
   }, [defaultValues, form]);
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      form.reset(undefined, { keepValues: true, keepIsValid: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
 
   return (
     <FormProvider {...form}>
