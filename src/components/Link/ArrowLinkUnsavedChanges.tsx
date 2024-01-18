@@ -13,9 +13,6 @@ const ArrowLinkUnsavedChanges = ({ to, direction, children }: Props) => {
 
   return (
     <Button
-      // as={NavLink}
-      // to={to}
-      // end
       onClick={() => handleModal(<UnsavedChangesModal to={to} />)}
       pr={0}
       variant={direction === 'left' ? 'backButton' : 'forwardButton'}
