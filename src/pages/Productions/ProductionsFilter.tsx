@@ -6,8 +6,6 @@ import { GRID } from '../../theme/Constants';
 import { FilterInput, SelectOption } from '../../app/types/types';
 import ActiveFilters from '../../components/Filter/ActiveFilters';
 import Filter from '../../components/Filter/Filter';
-import AdvanceFilter from '../../components/Filter/AdvanceFilter';
-import { useProductionsAdvanceFilters } from './useProductionsAdvanceFilters';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useEffect } from 'react';
 
@@ -43,14 +41,13 @@ const ProductionsFilter = () => {
     },
     {
       label: t('PD.FilterLabel.number'),
-      value: { name: 'number', type: 'text' },
+      value: { name: 'productDevelopments', type: 'text' },
     },
     {
       label: t('PD.FilterLabel.sourcingCompanies'),
       value: { name: 'sourcingCompanies', type: 'select' },
     },
   ];
-  const advanceFilters = useProductionsAdvanceFilters();
 
   return (
     <FormuQuerySubmit form={form}>
@@ -58,12 +55,9 @@ const ProductionsFilter = () => {
         <GridItem
           colSpan={{
             base: 1,
-            md: 10,
+            md: 12,
           }}>
-          <Filter hasSearch={true} filterInputs={filterInputs} />
-          <GridItem>
-            <AdvanceFilter filters={advanceFilters} />
-          </GridItem>
+          <Filter hasSearch={false} filterInputs={filterInputs} wideFilter />
           <ActiveFilters />
         </GridItem>
       </Grid>

@@ -21,7 +21,8 @@ export type FilterKeys =
   | 'opComp'
   | 'salespersonPurchaser'
   | 'includeClosed'
-  | 'ActiveSearchProfile';
+  | 'ActiveSearchProfile'
+  | 'productDevelopments';
 
 export interface FormInputProps {
   name: string;

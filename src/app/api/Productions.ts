@@ -6,16 +6,10 @@ import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 export function useProductionsFilter(includeCalculations: boolean) {
   const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
   const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
-  const searchQuery = useFilterSearchParams('searchQuery', 400);
   const vendors = useFilterSearchParams('vendor');
   const clients = useFilterSearchParams('clients');
-  const projects = useFilterSearchParams('projects');
-  const number = useFilterSearchParams('number');
   const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
-  const itemCategories = useFilterSearchParams('itemCategories');
-  const productDevelopments = useFilterSearchParams('itemCategories');
-  const productGroups = useFilterSearchParams('productGroups');
-  const statuses = useFilterSearchParams('statuses');
+  const productDevelopments = useFilterSearchParams('productDevelopments');
 
   return useQuery(
     [
@@ -23,15 +17,10 @@ export function useProductionsFilter(includeCalculations: boolean) {
       pageNumber,
       pageSize,
       includeCalculations,
-      searchQuery,
       vendors,
       clients,
-      projects,
-      number,
       sourcingCompanies,
-      itemCategories,
-      productGroups,
-      statuses,
+      productDevelopments,
     ],
 
     () =>
