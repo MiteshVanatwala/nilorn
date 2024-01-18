@@ -15,6 +15,7 @@ export class MetaService {
      * @param role 
      * @param belongsToSourcingCompany 
      * @param amountOfClients 
+     * @param includeSeedFromCsv 
      * @returns boolean Success
      * @throws ApiError
      */
@@ -23,6 +24,7 @@ name?: string,
 role?: Role,
 belongsToSourcingCompany?: boolean,
 amountOfClients?: number,
+includeSeedFromCsv?: boolean,
 ): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -32,6 +34,7 @@ amountOfClients?: number,
                 'Role': role,
                 'BelongsToSourcingCompany': belongsToSourcingCompany,
                 'AmountOfClients': amountOfClients,
+                'IncludeSeedFromCsv': includeSeedFromCsv,
             },
         });
     }

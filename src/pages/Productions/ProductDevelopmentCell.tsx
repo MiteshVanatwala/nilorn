@@ -23,8 +23,6 @@ const ProductDevelopmentCell = ({
             <Text>#{no}</Text>
             <Text variant={'bodyBigBlack'}>{name}</Text>
           </VStack>
-
-          <ArtworkButton size="SMALL" url={'artworkUrl'} />
           {artworkUrl && <ArtworkButton size="SMALL" url={artworkUrl} />}
         </HStack>
         {thumbnailData && (

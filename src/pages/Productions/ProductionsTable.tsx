@@ -89,6 +89,7 @@ const ProductionsTable = ({ productions }: Props) => {
                           height={'100%'}>
                           {s.productions?.map(production => (
                             <ProductionGridRow
+                              key={production?.id}
                               production={production}
                               style={
                                 production?.released

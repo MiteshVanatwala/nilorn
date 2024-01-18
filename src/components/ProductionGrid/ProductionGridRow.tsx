@@ -30,6 +30,7 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
         colSpan={2}>
         {production.purchasePrices?.map(pp => (
           <Grid
+            key={pp?.id}
             gap={'1px'}
             gridTemplateColumns={'repeat(2, 1fr)'}
             alignItems={'stretch'}

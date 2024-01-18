@@ -69,7 +69,12 @@ const EditProductionFormContent = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVendor]);
-
+  useEffect(() => {
+    if (createNew) {
+      setValue('released', false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createNew]);
   return (
     <Grid
       templateColumns={{
@@ -191,6 +196,7 @@ const EditProductionFormContent = ({
             type="hidden"
             readonly={disableEdit}
             name={'sourcingId'}
+            defaultValue={sourcedProduction?.sourcingId?.toString()}
           />
           <InputField type="hidden" name={'released'} />
         </Grid>

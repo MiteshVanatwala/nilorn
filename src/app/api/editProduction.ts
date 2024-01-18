@@ -106,7 +106,7 @@ export const useReleaseForSales = (
   const queryClient = useQueryClient();
 
   return useMutation(
-    [QueryKeysEnum.ProductDevelopmentImage, id, released],
+    [QueryKeysEnum.Productions, id, released],
     () =>
       ProductionsService.patchApiProductionsReleaseProduction(
         id ?? '',
@@ -114,7 +114,7 @@ export const useReleaseForSales = (
       ).then(res => res),
     {
       retry: 0,
-      onSuccess: async (res: ProductionDto) => {
+      onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
 
         showToast({
