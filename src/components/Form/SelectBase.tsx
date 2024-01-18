@@ -70,7 +70,6 @@ type SelectProps<IsMulti extends boolean = false> = {
   components?: any;
   groupColor?: string;
   isControlled?: boolean;
-  menuPlacement?: 'auto' | 'top';
   showSelectedCount?: boolean;
   dark?: boolean;
   invisible?: boolean;
@@ -93,7 +92,6 @@ const SelectBase = <IsMulti extends boolean = false>({
   groupColor = COLORS.GRAY[50],
   isControlled = true,
   readOnly,
-  menuPlacement = 'auto',
   showSelectedCount = false,
   dark = false,
   invisible = false,
@@ -135,7 +133,8 @@ const SelectBase = <IsMulti extends boolean = false>({
       defaultValue={defaultValue}
       options={options}
       placeholder={placeholder}
-      menuPlacement={menuPlacement}
+      menuPosition={'fixed'}
+      styles={{ menuPortal: base => ({ ...base, zIndex: 9 }) }}
       chakraStyles={{
         control: base => ({
           ...base,
@@ -178,10 +177,9 @@ const SelectBase = <IsMulti extends boolean = false>({
         menuList: base => ({
           ...base,
           rootProps: { position: 'relative' },
-          position: 'absolute',
           right: 0,
           zIndex: 9,
-          bottom: menuPlacement === 'top' ? '100%' : 'auto',
+          bottom: 'auto',
           padding: '0',
           margin: '0',
           color: color,
