@@ -1,6 +1,6 @@
 import { GridItem } from '@chakra-ui/react';
 import { ProductionDto } from '../../app/generate';
-import { CSSProperties } from 'react';
+import { CSSProperties, Fragment } from 'react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
 
@@ -9,8 +9,6 @@ type Props = {
   style?: CSSProperties;
   tableMenu?: JSX.Element;
 };
-
-export const PRODUCTIONS_NUM_OF_FR = 8;
 
 function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
   return (
@@ -29,12 +27,14 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
       <GridItem
         style={production.purchasePrices?.length === 0 ? style : undefined}
         colSpan={2}>
-        {production.purchasePrices?.map(pp => (
-          <GridInlineTbody key={pp?.id} gridTemplateColumns={'repeat(2, 1fr)'}>
-            <GridTd style={style}>{pp.quantity}</GridTd>
-            <GridTd style={style}>{pp.price}</GridTd>
-          </GridInlineTbody>
-        ))}
+        <GridInlineTbody gridTemplateColumns={'repeat(2, 1fr)'}>
+          {production.purchasePrices?.map(pp => (
+            <Fragment key={pp.id}>
+              <GridTd style={style}>{pp.quantity}</GridTd>
+              <GridTd style={style}>{pp.price}</GridTd>
+            </Fragment>
+          ))}
+        </GridInlineTbody>
       </GridItem>
     </>
   );

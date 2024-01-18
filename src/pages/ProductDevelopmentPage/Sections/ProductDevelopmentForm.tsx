@@ -42,7 +42,7 @@ function ProductDevelopmentForm({
     },
   });
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
-  const { isDirty, isSubmitSuccessful } = form.formState;
+  const { isSubmitSuccessful } = form.formState;
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
