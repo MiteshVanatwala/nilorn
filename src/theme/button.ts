@@ -45,6 +45,14 @@ const secondarySmall = defineStyle({
   height: 'auto',
 });
 
+const primarySmall = defineStyle({
+  ...primary,
+  px: SPACE.SM,
+  py: SPACE.XXS,
+  fontSize: SIZES.FONT.XXS,
+  height: 'auto',
+});
+
 const menuButton = defineStyle({
   ...text.variants.bodyBlack,
   borderRadius: 0,
@@ -125,6 +133,7 @@ const button = defineStyleConfig({
     primary,
     secondary,
     secondarySmall,
+    primarySmall,
     menuButton,
     textBtn,
     iconBtn,

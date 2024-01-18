@@ -15,6 +15,7 @@ export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (body: ProductDevelopmentDto) =>
@@ -29,6 +30,7 @@ export const useCreateProductDevelopment = () => {
           description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
         navigate(`/product-development/${no}`);
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
       },
       onError: async (err: ApiError) => {
         showToast({
@@ -58,6 +60,7 @@ export const useUpdateProductDevelopment = (no: string) => {
           position: 'top-right',
           description: `${t('PD.Feedback.Success.Update')}`,
         });
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
         queryClient.invalidateQueries([QueryKeysEnum.Changes]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
       },

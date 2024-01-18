@@ -16,6 +16,8 @@ const baseStyle = definePartsStyle({
     height: '3.5rem',
   },
   th: {
+    paddingInlineStart: 0,
+    paddingInlineEnd: 0,
     paddingLeft: '0.6rem',
     paddingRight: '0.6rem',
     height: '3.5rem',
@@ -32,6 +34,8 @@ const baseStyle = definePartsStyle({
   },
   td: {
     ...text.variants.bodyRegular,
+    paddingInlineStart: 0,
+    paddingInlineEnd: 0,
     borderWidth: 1,
     borderColor: COLORS.GRAY[20],
     color: COLORS.GRAY[80],

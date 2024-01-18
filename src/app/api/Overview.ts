@@ -72,8 +72,8 @@ export function useProductDevelopmentsFilter() {
       retry: 0,
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      cacheTime: 1000 * 20,
-      staleTime: 1000 * 20,
+      cacheTime: 1000 * 5 * 60,
+      staleTime: 1000 * 5 * 60,
       enabled: pageNumber > 0 && pageSize > 0,
     }
   );

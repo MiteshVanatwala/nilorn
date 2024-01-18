@@ -1,7 +1,8 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { GridItem } from '@chakra-ui/react';
 import { ProductionDto } from '../../app/generate';
 import { CSSProperties } from 'react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
+import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
 
 type Props = {
   production: ProductionDto;
@@ -14,30 +15,25 @@ export const PRODUCTIONS_NUM_OF_FR = 8;
 function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
   return (
     <>
-      <GridItem style={style} overflow={'hidden'}>
-        {production.vendorName}
-        {tableMenu}
-      </GridItem>
-      <GridItem style={style}>{production.comment}</GridItem>
-      <GridItem style={style}>{production.sampleLeadTime}</GridItem>
-      <GridItem style={style}>{production.productionLeadTime}</GridItem>
-      <GridItem style={style}>{production.moq}</GridItem>
-      <GridItem style={style} overflow={'hidden'}>
-        {production.currencyCode}
-      </GridItem>
+      <GridTd style={style}>
+        <>
+          {production.vendorName}
+          {tableMenu}
+        </>
+      </GridTd>
+      <GridTd style={style}>{production.comment}</GridTd>
+      <GridTd style={style}>{production.sampleLeadTime}</GridTd>
+      <GridTd style={style}>{production.productionLeadTime}</GridTd>
+      <GridTd style={style}>{production.moq}</GridTd>
+      <GridTd style={style}>{production.currencyCode}</GridTd>
       <GridItem
         style={production.purchasePrices?.length === 0 ? style : undefined}
         colSpan={2}>
         {production.purchasePrices?.map(pp => (
-          <Grid
-            key={pp?.id}
-            gap={'1px'}
-            gridTemplateColumns={'repeat(2, 1fr)'}
-            alignItems={'stretch'}
-            height={'100%'}>
-            <GridItem style={style}>{pp.quantity}</GridItem>
-            <GridItem style={style}>{pp.price}</GridItem>
-          </Grid>
+          <GridInlineTbody key={pp?.id} gridTemplateColumns={'repeat(2, 1fr)'}>
+            <GridTd style={style}>{pp.quantity}</GridTd>
+            <GridTd style={style}>{pp.price}</GridTd>
+          </GridInlineTbody>
         ))}
       </GridItem>
     </>
