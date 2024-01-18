@@ -62,7 +62,7 @@ const Select = <IsMulti extends boolean = false>({
             <SelectBase
               isMulti={isMulti}
               isControlled={false}
-              isDisabled={isDisabled}
+              readOnly={isDisabled}
               name={name}
               invisible={invisible}
               passRef={ref}

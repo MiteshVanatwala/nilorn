@@ -1,6 +1,6 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import InputField from '../../../components/Form/InputField';
 import { GRID, SPACE } from '../../../theme/Constants';
 import TextArea from '../../../components/Form/TextArea';
@@ -42,16 +42,17 @@ const EditProductionFormContent = ({
 
   const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
   const newSelctedVendor = useWatch({ name: 'vendorId' });
+  const { setValue } = useFormContext();
 
   useEffect(() => {
     if (vendors) {
-      setVendorOptions(mapVendorsToOptions(vendors));
+      setVendorOptions(mapVendorsToOptions(vendors, true));
     }
   }, [vendors]);
 
   useEffect(() => {
     if (createNew && newSelctedVendor) {
-      setSelectedVendor(vendors?.find(co => co.no === newSelctedVendor));
+      setSelectedVendor(vendors?.find(co => co.id === newSelctedVendor));
     } else {
       setSelectedVendor(vendors?.find(co => co.id === production?.vendorId));
     }
@@ -62,6 +63,20 @@ const EditProductionFormContent = ({
     selectedVendor,
     vendors,
   ]);
+  useEffect(() => {
+    if (selectedVendor) {
+      setValue('currencyCode', selectedVendor?.currencyCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedVendor]);
+  useEffect(() => {
+    if (production?.released) {
+      setValue('released', true);
+    } else {
+      setValue('released', false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [production?.released]);
 
   return (
     <Grid
@@ -85,6 +100,7 @@ const EditProductionFormContent = ({
           {createNew && (
             <GridItem maxW={'17.4rem'} colSpan={1}>
               <Select
+                registerOptions={{ required: true }}
                 label={t('Production.ChooseVendor')}
                 options={vendorOptions ?? []}
                 name={'vendorId'}
@@ -104,7 +120,9 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
-              isDisabled={disableEdit}
+              type="number"
+              registerOptions={{ required: true, valueAsNumber: true }}
+              readonly={disableEdit}
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'SampleLeadTime'}
@@ -113,7 +131,9 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
-              isDisabled={disableEdit}
+              type="number"
+              registerOptions={{ required: true, valueAsNumber: true }}
+              readonly={disableEdit}
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'ProductionLeadTime'}
@@ -122,7 +142,9 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
-              isDisabled={disableEdit}
+              type="number"
+              registerOptions={{ required: true, valueAsNumber: true }}
+              readonly={disableEdit}
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'MOQ'}
@@ -131,7 +153,9 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
-              isDisabled={disableEdit}
+              type="number"
+              registerOptions={{ required: true, valueAsNumber: true }}
+              readonly={disableEdit}
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'ToolCharge'}
@@ -140,7 +164,9 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <InputField
-              isDisabled={disableEdit}
+              type="number"
+              registerOptions={{ required: true, valueAsNumber: true }}
+              readonly={disableEdit}
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
               name={'SampleCharge'}
@@ -152,7 +178,8 @@ const EditProductionFormContent = ({
               isDisabled={disableEdit}
               key={
                 (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
-                currency?.length
+                currency?.length +
+                currency?.find(co => co.value === selectedVendor?.currencyCode)
               }
               label={`${t('Production.Currency')}`}
               defaultValue={
@@ -163,22 +190,25 @@ const EditProductionFormContent = ({
                   : undefined
               }
               options={(currency as SelectOption[]) ?? []}
-              name={'CurrencyCode'}
+              name={'currencyCode'}
             />
           </GridItem>
+          {!createNew && (
+            <InputField
+              type="hidden"
+              placeholder={`${t('Common.Placeholder')}`}
+              name={'vendorId'}
+              readonly={disableEdit}
+              defaultValue={production?.vendorId?.toString()}
+            />
+          )}
           <InputField
             type="hidden"
-            isDisabled={disableEdit}
-            name={'vendorId'}
-            defaultValue={selectedVendor?.id}
-          />
-
-          <InputField
-            type="hidden"
-            isDisabled={disableEdit}
+            readonly={disableEdit}
             name={'sourcingId'}
             defaultValue={sourcedProduction?.sourcingId?.toString()}
           />
+          <InputField type="hidden" name={'released'} />
         </Grid>
       </GridItem>
       <GridItem
@@ -190,14 +220,7 @@ const EditProductionFormContent = ({
           base: SPACE.XXS,
           md: SPACE.SM,
         }}>
-        <QuantityPurchase
-          purchasePrices={
-            sourcedProduction?.productions
-              ? sourcedProduction?.productions[sourcingCoIndex]?.purchasePrices
-              : undefined
-          }
-          disableEdit={disableEdit}
-        />
+        <QuantityPurchase disableEdit={disableEdit} />
       </GridItem>
     </Grid>
   );

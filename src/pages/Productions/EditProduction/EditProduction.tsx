@@ -7,19 +7,23 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
-import { usePatchProduction } from '../../../app/api/editProduction';
+
+import {
+  useCreateProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
+import { ModalContext } from '../../../app/context/ModalContext';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   sourcingCoIndex: number;
   createNew?: boolean;
   production?: ProductionDto;
-  closeModal?(val: boolean): void;
 };
 const EditProduction = ({
   productDevelopment,
@@ -27,37 +31,46 @@ const EditProduction = ({
   sourcingCoIndex,
   createNew,
   production,
-  closeModal,
 }: Props) => {
-  const form = useForm();
-
-  const vendor = sourcedProduction?.productions
-    ? sourcedProduction?.productions[sourcingCoIndex]
-    : null;
-  const { mutate: saveProduction } = usePatchProduction(
-    vendor?.vendorId ?? '',
-    vendor?.released ?? false,
-    true
-  );
+  const form = useForm({
+    defaultValues: {
+      purchasePrices: production?.purchasePrices,
+    },
+  });
+  const { close } = useContext(ModalContext);
   let { data: vendors } = useGetVendors(!createNew);
-
   const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { mutate: createProduction, isSuccess: isSuccessCreate } =
+    useCreateProduction();
+  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
+    usePatchProduction(
+      production?.id ?? '',
+      production?.released ? false : true
+    );
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
-      // updateProductDevelopment(form);
-      console.log('save');
-      saveProduction(form);
+      if (createNew) {
+        createProduction(form);
+      } else {
+        if (production?.id !== undefined) {
+          updateProduction(form);
+        }
+      }
     }
     onSubmit(form);
   }
-
   useEffect(() => {
     if (vendors) {
       setVendorOptions(mapVendorsToOptions(vendors));
     }
   }, [vendors]);
-
+  useEffect(() => {
+    if (isSuccessCreate || isSuccessPatch) {
+      close();
+    }
+  }, [close, isSuccessCreate, isSuccessPatch]);
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -69,7 +82,6 @@ const EditProduction = ({
             production={production}
             createNew={createNew}
             disableEdit={production?.released}
-            closeModal={closeModal}
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}

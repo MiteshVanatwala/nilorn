@@ -9,7 +9,7 @@ interface Props extends FormInputProps {
   placeholder?: string;
   defaultValue?: string | number | undefined | null;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
-  isDisabled?: boolean;
+  readonly?: boolean;
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, Props>(
@@ -22,7 +22,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     defaultValue,
     variant = 'standard',
     hideValidationStyle,
-    isDisabled = false,
+    readonly = false,
   }: Props) => {
     const {
       register,
@@ -39,16 +39,18 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         maxLength={registerOptions?.maxLength}
         hideValidationStyle={hideValidationStyle}>
         <Textarea
+          opacity={readonly ? '70%' : ''}
+          cursor={readonly ? 'default' : 'text'}
           paddingTop={'.9rem'}
           paddingBottom={'.8rem'}
           lineHeight={1.5}
           resize="none"
           as={ResizeTextarea}
           variant={variant}
-          disabled={isDisabled}
           defaultValue={defaultValue ?? ''}
           placeholder={placeholder}
           height={'auto'}
+          readOnly={readonly}
           {...register(name, registerOptions)}
         />
       </ControlWrapper>

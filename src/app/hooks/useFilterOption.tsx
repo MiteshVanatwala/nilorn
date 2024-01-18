@@ -25,11 +25,11 @@ const mapClientsToOptions = (clients?: ClientDto[]) => {
   );
 };
 
-export const mapVendorsToOptions = (vendors?: VendorDto[]) => {
+export const mapVendorsToOptions = (vendors?: VendorDto[], useId?: boolean) => {
   return (
     vendors?.map(v => ({
       label: v.name,
-      value: v.no,
+      value: useId ? v.id : v.no,
     })) ?? []
   );
 };

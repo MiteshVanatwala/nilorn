@@ -1,7 +1,7 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
@@ -28,7 +28,7 @@ const TableMenuProduction = ({
   production,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal, close } = useContext(ModalContext);
+  const { handleModal } = useContext(ModalContext);
   const { mutate: deleteProduction } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
@@ -43,12 +43,7 @@ const TableMenuProduction = ({
   function deleteProductionFunc() {
     deleteProduction({ id: production?.id ?? '' });
   }
-  const [closeModal, setCloseModal] = useState<boolean>(false);
-  useEffect(() => {
-    if (closeModal) {
-      close();
-    }
-  }, [close, closeModal]);
+
   return (
     <>
       <MenuItem
@@ -59,7 +54,6 @@ const TableMenuProduction = ({
               sourcedProduction={sourcedProduction}
               sourcingCoIndex={sourcingCoIndex}
               production={production}
-              closeModal={setCloseModal}
             />
           )
         }

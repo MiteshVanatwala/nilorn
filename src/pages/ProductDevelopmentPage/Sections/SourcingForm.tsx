@@ -42,7 +42,7 @@ const SourcingForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             label={`${t('PD.FormContent.ClientRequirements')}`}
             name={`${sourcingIndexKey}.clientRequirement`}
-            isDisabled={disableEdit}
+            readonly={disableEdit}
             registerOptions={{
               maxLength: 500,
             }}
@@ -51,7 +51,7 @@ const SourcingForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             label={`${t('PD.FormContent.TargetPurchasePrice')}`}
             name={`${sourcingIndexKey}.targetPurchasePrice`}
-            isDisabled={disableEdit}
+            readonly={disableEdit}
             registerOptions={{
               maxLength: 50,
             }}

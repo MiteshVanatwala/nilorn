@@ -34,7 +34,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
         md: GRID.TEMPLATE_COLUMNS.base,
       }}>
       <GridItem>
-        <FormLabel>{t('PD.FormContent.Quantities')}</FormLabel>
+        <FormLabel>{t('PD.FormContent.Quantity')}</FormLabel>
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
@@ -43,7 +43,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   type="number"
-                  isDisabled={disableEdit}
+                  readonly={disableEdit}
                   registerOptions={{ valueAsNumber: true }}
                 />
                 {!disableEdit && (

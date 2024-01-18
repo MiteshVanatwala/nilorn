@@ -109,7 +109,7 @@
       "Folding": "Folding",
       "TargetPurchasePrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
-      "Quantities": "Quantities",
+      "Quantity": "Quantity",
       "ClientRequirements": "Client Requirements"
     },
     "StatusLabel": {
@@ -176,16 +176,20 @@
     "MOQ": "MOQ",
     "Qty": "Qty",
     "PUR": "PUR",
-    "Tool": "Tool",
+    "Tool": "Tool charge",
     "Currency": "Currency",
-    "Sample": "Sample",
+    "Sample": "Sample charge",
     "LastEdited": "Last edited",
     "SaveSuccess": "Production saved",
     "CreateProduction": "Create Production",
     "CreateAndRelease": "Create and release",
+    "SaveReleaseSuccess": "Production saved and released for sales",
     "ReleaseSaleSuccess": "Production released for sales",
     "RemoveSaleSuccess": "Production removed for sales",
-    "ChooseVendor": "Choose vendor"
+    "ChooseVendor": "Choose vendor",
+    "CreateSuccess": "Production created",
+    "CreateAndReleaseSuccess": "Production created and released for sales",
+    "Deleted": "Production deleted"
   },
   "Changelog": {
     "To": "To",
