@@ -7,6 +7,10 @@ import TextArea from '../../../components/Form/TextArea';
 import { useProductions } from '../../../app/api/Productions';
 import ReleasedProductions from './ReleasedProductions';
 import ArrowLink from '../../../components/Link/ArrowLink';
+import { useFormContext } from 'react-hook-form';
+import { useContext } from 'react';
+import { ModalContext } from '../../../app/context/ModalContext';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 
 type Props = {
   no: string;
@@ -28,7 +32,26 @@ const SourcingForm = ({
     no,
     sourcingCompanyCode
   );
+  const { formState } = useFormContext();
+  const { handleModal, close } = useContext(ModalContext);
 
+  function discardChanges(to: string) {
+    window.location.href = to;
+    close();
+  }
+  function openModal() {
+    handleModal(
+      <ConfirmModal
+        title={t('PD.UnsavedChanges')}
+        description={t('PD.UnsavedChangesMsg')}
+        onConfirm={() =>
+          discardChanges(`/productions/?productDevelopments=${no}`)
+        }
+        cancelText={t('Common.No')}
+        confirmText={t('Common.Yes')}
+      />
+    );
+  }
   return (
     <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
       <GridItem
@@ -92,6 +115,8 @@ const SourcingForm = ({
       </GridItem>
       <GridItem colSpan={12}>
         <ArrowLink
+          useAsBtn={formState.isDirty}
+          onClick={formState.isDirty ? openModal : undefined}
           direction="right"
           to={`/productions/?productDevelopments=${no}`}>
           <>

@@ -20,4 +20,5 @@ export type ProductionDto = {
     comment?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;
     priceCalculations?: Array<PriceCalculationDto> | null;
+    lastModified?: string | null;
 };

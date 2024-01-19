@@ -82,7 +82,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.price`}
-                      type="number"
+                      type="decimal"
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />

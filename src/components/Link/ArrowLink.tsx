@@ -5,13 +5,16 @@ type Props = {
   direction: 'left' | 'right';
   to: string;
   children: JSX.Element;
+  useAsBtn?: boolean;
+  onClick?: () => void;
 };
-const ArrowLink = ({ to, direction, children }: Props) => {
+const ArrowLink = ({ to, direction, children, useAsBtn, onClick }: Props) => {
   return (
     <Button
       as={NavLink}
-      to={to}
+      to={useAsBtn ? undefined : to}
       end
+      onClick={onClick ?? undefined}
       pr={0}
       variant={direction === 'left' ? 'backButton' : 'forwardButton'}
       leftIcon={
