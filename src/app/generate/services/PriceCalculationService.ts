@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreatePriceCalculationCommand } from '../models/CreatePriceCalculationCommand';
 import type { PriceCalculationDto } from '../models/PriceCalculationDto';
+import type { UpdatePriceCalculationCommand } from '../models/UpdatePriceCalculationCommand';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -22,6 +23,27 @@ requestBody?: CreatePriceCalculationCommand,
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/PriceCalculation',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param id 
+     * @param requestBody 
+     * @returns PriceCalculationDto Success
+     * @throws ApiError
+     */
+    public static patchApiPriceCalculation(
+id: string,
+requestBody?: UpdatePriceCalculationCommand,
+): CancelablePromise<PriceCalculationDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/PriceCalculation/{id}',
+            path: {
+                'id': id,
+            },
             body: requestBody,
             mediaType: 'application/json',
         });

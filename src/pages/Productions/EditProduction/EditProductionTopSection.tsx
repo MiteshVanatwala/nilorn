@@ -89,8 +89,10 @@ const EditProductionTopSection = ({
               </Heading>
               <HStack>
                 <Text variant={'bodyBold'}>{production?.vendorName}</Text>
-                {production && sourcedProduction?.name && <>{' - '}</>}
-                <Text>{sourcedProduction?.name}</Text>
+                {production && sourcedProduction?.sourcingCompanyCode && (
+                  <>{' - '}</>
+                )}
+                <Text>{sourcedProduction?.sourcingCompanyCode}</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
                 <Text>

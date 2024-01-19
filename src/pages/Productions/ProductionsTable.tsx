@@ -52,7 +52,7 @@ const ProductionsTable = ({ productions }: Props) => {
                       }
                       style={TD_STYLE}>
                       <>
-                        {s.name}
+                        {s.sourcingCompanyCode}
                         <TableMenuContainer
                           children={
                             <TableMenuSourcing
