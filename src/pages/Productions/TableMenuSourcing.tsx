@@ -1,17 +1,20 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
+  PurchasePriceDto,
+  SourcedProductionDto,
   SourcingCompanyDto,
 } from '../../app/generate';
+import { useGetSourcingQuantities } from '../../app/api/SourcingQuantities';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcingCompanyDto;
+  sourcedProduction: SourcedProductionDto;
   sourcingCoIndex: number;
 };
 
@@ -22,7 +25,25 @@ const TableMenuSourcing = ({
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
+  const [defaultQuantities, setDefaultQuantities] = useState<
+    PurchasePriceDto[]
+  >([]);
 
+  let { data } = useGetSourcingQuantities(
+    sourcedProduction?.sourcingId ? sourcedProduction?.sourcingId : '',
+    sourcedProduction?.sourcingId ? true : false
+  );
+
+  useEffect(() => {
+    const mappedDefaultQuantities = data?.map(price => ({
+      id: undefined,
+      quantity: price || undefined,
+      price: null,
+    }));
+    if (mappedDefaultQuantities !== undefined) {
+      setDefaultQuantities(mappedDefaultQuantities);
+    }
+  }, [data]);
   return (
     <MenuItem
       onClick={() =>
@@ -32,6 +53,9 @@ const TableMenuSourcing = ({
             sourcedProduction={sourcedProduction}
             sourcingCoIndex={sourcingCoIndex}
             createNew={true}
+            production={{
+              purchasePrices: defaultQuantities,
+            }}
           />
         )
       }

@@ -21,7 +21,6 @@ import { useGetCurrencies } from '../../../app/api/currency';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   createNew?: boolean;
   production?: ProductionDto;
   disableEdit?: boolean;
@@ -29,7 +28,6 @@ type Props = {
 const EditProductionFormContent = ({
   productDevelopment,
   sourcedProduction,
-  sourcingCoIndex,
   createNew,
   production,
   disableEdit = false,

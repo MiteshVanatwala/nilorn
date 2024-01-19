@@ -17,6 +17,7 @@ enum QueryKeysEnum {
   User = 'User',
   Changes = 'Changes',
   Currency = 'Currency',
+  SourcingQty = 'SourcingQty',
 }
 
 export default QueryKeysEnum;

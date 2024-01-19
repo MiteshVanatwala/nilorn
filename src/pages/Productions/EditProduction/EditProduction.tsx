@@ -18,6 +18,7 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
+import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -40,7 +41,6 @@ const EditProduction = ({
   const { close } = useContext(ModalContext);
   let { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
-
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
@@ -86,7 +86,6 @@ const EditProduction = ({
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
             productDevelopment={productDevelopment}
-            sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             production={production}
             disableEdit={production?.released}
