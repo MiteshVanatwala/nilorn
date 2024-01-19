@@ -6,7 +6,7 @@ import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../pages/Overview/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
-import { getSortValue } from './FilterHelper';
+import { getSortValue, resetFormValues } from './FilterHelper';
 import CreateProductDevelopment from './CreateProductDevelopment';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
@@ -57,11 +57,7 @@ const ProductDevelopmentFilter = () => {
   }, [form, pageSize]);
 
   useEffect(() => {
-    if (searchParam.size === 0) {
-      form.reset();
-      form.setValue('pageSize', pageSize ?? 25);
-      form.setValue('pageNumber', 1);
-    }
+    resetFormValues(form, searchParam, pageSize);
   }, [form, pageSize, searchParam]);
 
   return (

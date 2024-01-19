@@ -8,13 +8,19 @@ import ActiveFilters from '../../components/Filter/ActiveFilters';
 import Filter from '../../components/Filter/Filter';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { resetFormValues } from '../../components/Filter/FilterHelper';
 
 const ProductionsFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
+  const [searchParam] = useSearchParams();
 
   const { pageSize, pageNumber } = usePaginationContext();
 
+  useEffect(() => {
+    resetFormValues(form, searchParam, pageSize);
+  }, [form, pageSize, searchParam]);
   useEffect(() => {
     if (pageNumber > 0) {
       form.setValue('pageNumber', pageNumber);
@@ -40,7 +46,7 @@ const ProductionsFilter = () => {
       value: { name: 'projects', type: 'select' },
     },
     {
-      label: t('PD.FilterLabel.number'),
+      label: t('PD.FilterLabel.productDevelopments_short'),
       value: { name: 'productDevelopments', type: 'text' },
     },
     {
