@@ -105,7 +105,7 @@ const ActionBarEditProduction = ({
                       className="ri-delete-bin-line"
                     />
                   }>
-                  {t('Common.Delete')}
+                  {t('Common.Remove')}
                 </MenuItem>
               )}
             </MenuList>
