@@ -18,7 +18,6 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
-import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;

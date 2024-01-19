@@ -8,7 +8,6 @@ import {
   ProductDevelopmentBriefDto,
   PurchasePriceDto,
   SourcedProductionDto,
-  SourcingCompanyDto,
 } from '../../app/generate';
 import { useGetSourcingQuantities } from '../../app/api/SourcingQuantities';
 
@@ -35,9 +34,9 @@ const TableMenuSourcing = ({
   );
 
   useEffect(() => {
-    const mappedDefaultQuantities = data?.map(price => ({
+    const mappedDefaultQuantities = data?.map(q => ({
       id: undefined,
-      quantity: price || undefined,
+      quantity: q || undefined,
       price: null,
     }));
     if (mappedDefaultQuantities !== undefined) {
