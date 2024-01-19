@@ -6,12 +6,12 @@ import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
-  SourcingCompanyDto,
+  SourcedProductionDto,
 } from '../../app/generate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcingCompanyDto;
+  sourcedProduction: SourcedProductionDto;
   sourcingCoIndex: number;
 };
 

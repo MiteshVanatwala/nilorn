@@ -18,6 +18,7 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
+import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -40,7 +41,6 @@ const EditProduction = ({
   const { close } = useContext(ModalContext);
   let { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
-
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
@@ -48,6 +48,23 @@ const EditProduction = ({
       production?.id ?? '',
       production?.released ? false : true
     );
+
+  let { data } = useGetSourcingQuantities(
+    sourcedProduction?.sourcingId ? sourcedProduction?.sourcingId : '',
+    createNew
+  );
+
+  useEffect(() => {
+    const mappedDefaultQuantities = data?.map(q => ({
+      id: undefined,
+      quantity: q || undefined,
+      price: null,
+    }));
+    if (createNew && mappedDefaultQuantities !== undefined) {
+      form.setValue('purchasePrices', mappedDefaultQuantities);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createNew, data]);
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
@@ -71,6 +88,7 @@ const EditProduction = ({
       close();
     }
   }, [close, isSuccessCreate, isSuccessPatch]);
+
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -86,7 +104,6 @@ const EditProduction = ({
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
             productDevelopment={productDevelopment}
-            sourcingCoIndex={sourcingCoIndex}
             createNew={createNew}
             production={production}
             disableEdit={production?.released}

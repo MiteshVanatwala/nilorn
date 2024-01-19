@@ -84,7 +84,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
                       name={`${fieldName}.${index}.price`}
                       type="decimal"
                       readonly={disableEdit}
-                      registerOptions={{ valueAsNumber: true, required: true }}
+                      registerOptions={{ valueAsNumber: true }}
                     />
                   </Box>
                 </HStack>
