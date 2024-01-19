@@ -3,16 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PriceDto } from './PriceDto';
-
-export type PriceCalculationDto = {
+export type UpdatePriceCalculationCommand = {
     id?: string;
-    productionId?: string;
-    currencyCode?: string | null;
     currencyRate?: number | null;
+    currencyCode?: string | null;
     internalCommission?: number | null;
     indirectCost?: number | null;
     freightIncluded?: number | null;
-    priceDtos?: Array<PriceDto> | null;
-    lastModified?: string | null;
+    margin?: number | null;
 };

@@ -7,6 +7,6 @@ import type { ProductionDto } from './ProductionDto';
 
 export type SourcedProductionDto = {
     sourcingId?: string | null;
-    name?: string | null;
+    sourcingCompanyCode?: string | null;
     productions?: Array<ProductionDto> | null;
 };

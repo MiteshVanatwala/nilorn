@@ -67,7 +67,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
                             s?.sourcingId
                           }
                           style={TD_STYLE}>
-                          <>{s.name}</>
+                          <>{s.sourcingCompanyCode}</>
                         </GridTd>
                         <GridItem colSpan={10}>
                           <GridInlineTbody
