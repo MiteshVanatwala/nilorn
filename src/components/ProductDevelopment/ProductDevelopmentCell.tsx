@@ -15,7 +15,7 @@ const ProductDevelopmentCell = ({
 }: ProductDevelopmentBriefDto) => {
   return (
     <Box w={'100%'} h={'100%'}>
-      <VStack spacing={SPACE.XS} alignItems={'baseline'}>
+      <VStack py={SPACE.XS} spacing={SPACE.XS} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
           <VStack
             gap={0}

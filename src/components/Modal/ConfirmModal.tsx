@@ -11,6 +11,8 @@ type Props = {
   description: string;
   onConfirm: () => void;
   confirmType?: 'DELETE' | 'PRIMARY';
+  cancelText?: string;
+  confirmText?: string;
 };
 
 const ConfirmModal = ({
@@ -18,6 +20,8 @@ const ConfirmModal = ({
   description,
   onConfirm,
   confirmType = 'PRIMARY',
+  cancelText,
+  confirmText,
 }: Props) => {
   const { close } = useModal();
   const { t } = useTranslation();
@@ -28,12 +32,14 @@ const ConfirmModal = ({
 
   return (
     <ModalBody>
-      <ModalHeading title={title} />
+      <ModalHeading mb={'0'} textAlign="center" title={title} />
       <ModalBody px={0}>
-        <Text>{description}</Text>
+        <Text textAlign={'center'} maxW={'40rem'}>
+          {description}
+        </Text>
       </ModalBody>
       <ModalFooter justifyContent={'center'}>
-        <HStack spacing={SPACE.LG} marginTop={SPACE.XL}>
+        <HStack spacing={SPACE.LG} marginTop={SPACE.MD}>
           <Button
             variant={confirmType === 'DELETE' ? 'deleteBtn' : 'primary'}
             onClick={onConfirm}
@@ -46,13 +52,17 @@ const ConfirmModal = ({
             }>
             {confirmType === 'DELETE'
               ? t('Common.Delete')
+              : confirmText
+              ? confirmText
               : t('Common.Confirm')}
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
-            rightIcon={<i className="ri-close-line" />}>
-            {t('Common.Cancel')}
+            rightIcon={
+              cancelText ? undefined : <i className="ri-close-line" />
+            }>
+            {cancelText ?? t('Common.Cancel')}
           </Button>
         </HStack>
       </ModalFooter>
