@@ -31,21 +31,14 @@ export function useDeleteProduction() {
   );
 }
 
-export const usePatchProduction = (
-  id: string | undefined,
-  released?: boolean
-) => {
+export const usePatchProduction = (released?: boolean) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation(
-    [QueryKeysEnum.ProductDevelopmentImage, id],
-
     (body: ProductionDto) =>
-      ProductionsService.patchApiProductions(id ?? '', body).then(
-        response => response
-      ),
+      ProductionsService.patchApiProductions(body).then(response => response),
     {
       onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);

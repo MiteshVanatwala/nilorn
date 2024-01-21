@@ -1,11 +1,9 @@
-import { HStack, Text, VStack } from '@chakra-ui/layout';
+import { Text } from '@chakra-ui/layout';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
-import ArtworkButton from '../../../components/Button/ArtworkButton';
-
 import { ProductionDto } from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
@@ -14,13 +12,15 @@ import {
   usePatchProduction,
 } from '../../../app/api/editProduction';
 import { ModalContext } from '../../../app/context/ModalContext';
+import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
+
 type Props = {
   artwork?: string | null;
-
   createNew?: boolean;
   disableEdit?: boolean;
   production?: ProductionDto;
 };
+
 const ActionBarEditProduction = ({
   artwork,
   createNew,
@@ -30,15 +30,12 @@ const ActionBarEditProduction = ({
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
   const { close } = useContext(ModalContext);
-  const lastModifiedDate = production?.lastModified;
-  const formattedLastModifiedDate = new Date(
-    lastModifiedDate ?? ''
-  ).toLocaleString();
+
   const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
     useDeleteProduction();
 
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction(production?.id ?? '');
+    usePatchProduction();
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   function deleteProductionFunc() {
@@ -58,60 +55,39 @@ const ActionBarEditProduction = ({
     }
   }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
   return (
-    <VStack align={'left'}>
-      <HStack
-        justifyContent={{
-          base: 'start',
-          md: 'end',
-        }}
-        flexWrap={{
-          base: 'wrap',
-          md: 'nowrap',
-        }}
-        gap={{
-          base: SPACE.XXS,
-          lg: SPACE.XS,
-        }}>
-        {artwork && <ArtworkButton url="TBD" />}
-        {!createNew && (
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              variant={'secondary'}
-              padding={SPACE.SM}
-              aria-label={t('Common.More')}
+    <ActionBarTemplate
+      artwork={artwork}
+      lastModifiedDate={production?.lastModified}
+      moreMenuList={
+        !createNew ? (
+          <MenuList>
+            <MenuItem
               icon={
-                <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
-              }
-            />
-            <MenuList>
+                <Text
+                  as={'i'}
+                  fontSize={SIZES.ICON.MD}
+                  className="ri-history-line"
+                />
+              }>
+              {t('PD.ShowChanges')}
+            </MenuItem>
+            {!disableEdit && (
               <MenuItem
+                onClick={() => deleteProductionFunc()}
                 icon={
                   <Text
                     as={'i'}
                     fontSize={SIZES.ICON.MD}
-                    className="ri-history-line"
+                    className="ri-delete-bin-line"
                   />
                 }>
-                {t('PD.ShowChanges')}
+                {t('Common.Remove')}
               </MenuItem>
-              {!disableEdit && (
-                <MenuItem
-                  onClick={() => deleteProductionFunc()}
-                  icon={
-                    <Text
-                      as={'i'}
-                      fontSize={SIZES.ICON.MD}
-                      className="ri-delete-bin-line"
-                    />
-                  }>
-                  {t('Common.Remove')}
-                </MenuItem>
-              )}
-            </MenuList>
-          </Menu>
-        )}
-
+            )}
+          </MenuList>
+        ) : undefined
+      }
+      actionButtons={
         <ButtonGroup isAttached variant="primary">
           <Button type="submit">
             {createNew ? t('Production.CreateProduction') : t('Common.Save')}
@@ -136,15 +112,8 @@ const ActionBarEditProduction = ({
             </Menu>
           )}
         </ButtonGroup>
-      </HStack>
-      <Text
-        align={{
-          base: 'left',
-          lg: 'right',
-        }}>
-        {t('Production.LastEdited')} {formattedLastModifiedDate}
-      </Text>
-    </VStack>
+      }
+    />
   );
 };
 

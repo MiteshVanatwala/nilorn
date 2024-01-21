@@ -19,6 +19,7 @@ import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
+import ActionBarEditProduction from './ActionBarEditProduction';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -44,10 +45,7 @@ const EditProduction = ({
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction(
-      production?.id ?? '',
-      production?.released ? false : true
-    );
+    usePatchProduction(production?.released ? false : true);
 
   let { data } = useGetSourcingQuantities(
     sourcedProduction?.sourcingId ? sourcedProduction?.sourcingId : '',
@@ -96,10 +94,15 @@ const EditProduction = ({
           <EditProductionTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            sourcingCoIndex={sourcingCoIndex}
             production={production}
-            createNew={createNew}
-            disableEdit={production?.released}
+            actionBar={
+              <ActionBarEditProduction
+                artwork={productDevelopment?.artworkUrl}
+                createNew={createNew}
+                disableEdit={production?.released}
+                production={production}
+              />
+            }
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}

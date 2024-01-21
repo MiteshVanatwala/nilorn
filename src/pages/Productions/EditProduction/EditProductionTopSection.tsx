@@ -8,23 +8,18 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
-import ActionBarEditProduction from './ActionBarEditProduction';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   production?: ProductionDto;
-  createNew?: boolean;
-  disableEdit?: boolean;
+  actionBar: JSX.Element;
 };
 const EditProductionTopSection = ({
   productDevelopment,
   sourcedProduction,
-  sourcingCoIndex,
   production,
-  createNew,
-  disableEdit = false,
+  actionBar,
 }: Props) => {
   return (
     <Box
@@ -135,12 +130,7 @@ const EditProductionTopSection = ({
             md: 10,
             lg: 3,
           }}>
-          <ActionBarEditProduction
-            artwork={productDevelopment?.artworkUrl}
-            createNew={createNew}
-            disableEdit={disableEdit}
-            production={production}
-          />
+          {actionBar}
         </GridItem>
       </Grid>
     </Box>
