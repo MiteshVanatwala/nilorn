@@ -12,6 +12,8 @@ export const TH_STYLE: CSSProperties = {
   overflow: 'hidden',
   lineHeight: 1.15,
   margin: `-${TABLE_GAP}`,
+  position: 'sticky',
+  top: 0,
 };
 
 export const TD_STYLE_RELEASED: CSSProperties = {
