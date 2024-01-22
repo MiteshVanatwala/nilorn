@@ -16,18 +16,14 @@ import { ModalContext } from '../../../app/context/ModalContext';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   production?: ProductionDto;
-  createNew?: boolean;
-  disableEdit?: boolean;
+  actionBar: JSX.Element;
 };
-const EditProductionTopSection = ({
+const ProductDevelopmentModalTopSection = ({
   productDevelopment,
   sourcedProduction,
-  sourcingCoIndex,
   production,
-  createNew,
-  disableEdit = false,
+  actionBar,
 }: Props) => {
   const { close } = useContext(ModalContext);
 
@@ -142,17 +138,11 @@ const EditProductionTopSection = ({
             md: 10,
             lg: 3,
           }}>
-          <ActionBarEditProduction
-            artwork={productDevelopment?.artworkUrl}
-            createNew={createNew}
-            disableEdit={disableEdit}
-            production={production}
-            status={productDevelopment?.status}
-          />
+          {actionBar}
         </GridItem>
       </Grid>
     </Box>
   );
 };
 
-export default EditProductionTopSection;
+export default ProductDevelopmentModalTopSection;

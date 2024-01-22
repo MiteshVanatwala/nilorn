@@ -2,7 +2,7 @@ import { GridItem } from '@chakra-ui/react';
 import PDCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
-import TableMenuContainer from './TableMenuContainer';
+import TableMenuContainer from '../../components/Table/TableMenuContainer';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow';

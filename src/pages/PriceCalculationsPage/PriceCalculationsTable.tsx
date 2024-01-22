@@ -11,6 +11,7 @@ import {
 import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
 import PriceGridRow from './PriceGrid/PriceGridRow';
 import { Fragment } from 'react';
+import TableMenuCalculation from './PriceGrid/TableMenuCalculation';
 
 const GRID_LAYOUT =
   'repeat(6, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
@@ -84,7 +85,20 @@ const PriceCalculationsTable = ({ data }: Props) => {
                                       production?.id
                                     }
                                     production={production}
-                                    tableMenu={<>Menu</>}
+                                    tableMenu={
+                                      <TableMenuCalculation
+                                        sourcedProduction={s}
+                                        productDevelopment={
+                                          p?.productDevelopmentBriefDto
+                                        }
+                                        createNew={
+                                          (production?.priceCalculations &&
+                                            production?.priceCalculations
+                                              ?.length <= 0) ??
+                                          true
+                                        }
+                                      />
+                                    }
                                   />
                                 ))
                               ) : (

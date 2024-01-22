@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import EditProductionTopSection from './EditProductionTopSection';
+import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
 import {
   ProductDevelopmentBriefDto,
@@ -20,6 +20,7 @@ import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 import { isClosed } from '../../../app/utils/status';
+import ActionBarEditProduction from './ActionBarEditProduction';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -45,10 +46,7 @@ const EditProduction = ({
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction(
-      production?.id ?? '',
-      production?.released ? false : true
-    );
+    usePatchProduction(production?.released ? false : true);
 
   let { data } = useGetSourcingQuantities(
     sourcedProduction?.sourcingId ? sourcedProduction?.sourcingId : '',
@@ -94,17 +92,18 @@ const EditProduction = ({
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
-          <EditProductionTopSection
+          <ProductDevelopmentModalTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            sourcingCoIndex={sourcingCoIndex}
             production={production}
-            createNew={createNew}
-            disableEdit={
-              production?.released ||
-              (productDevelopment?.status
-                ? isClosed(productDevelopment.status)
-                : false)
+            actionBar={
+              <ActionBarEditProduction
+                artwork={productDevelopment?.artworkUrl}
+                createNew={createNew}
+                disableEdit={production?.released}
+                production={production}
+                status={productDevelopment?.status}
+              />
             }
           />
           <EditProductionFormContent

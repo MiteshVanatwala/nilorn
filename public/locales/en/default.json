@@ -35,7 +35,8 @@
     "CreateNew": "Create new",
     "Or": "Or",
     "GoToHome": "Go to start page",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "LastEdited": "Last edited"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -183,7 +184,6 @@
     "Tool": "Tool charge",
     "Currency": "Currency",
     "Sample": "Sample charge",
-    "LastEdited": "Last edited",
     "SaveSuccess": "Production saved",
     "CreateProduction": "Create Production",
     "CreateAndRelease": "Create and release",
@@ -196,6 +196,10 @@
     "Deleted": "Production deleted"
   },
   "PriceCalc": {
+    "AddCalculation": "Add calculation",
+    "EditCalculation": "Edit calculation",
+    "CreateCalculation": "Create price calculation",
+    "PriceCalc": "Edit inline",
     "BaseValues": "Base values",
     "Net": "Net",
     "PurCurr": "PUR CUR",

@@ -21,50 +21,18 @@ function PriceGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
 
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
   // In phase one, only one calc!
-  let calculation: PriceCalculationDto | undefined =
+  const calculation: PriceCalculationDto | undefined =
     production?.priceCalculations && production?.priceCalculations?.length > 0
       ? production?.priceCalculations[0]
       : undefined;
+  const createNew = calculation === undefined;
 
-  if (calculation) {
-    // Mock until we get data.
-    calculation = {
-      ...calculation,
-      priceDtos: [
-        {
-          quantity: 100,
-          cost: 0.75,
-          margin: 40,
-          purchasePrice: 0.72,
-          salesPrice: 0.044,
-        },
-        {
-          quantity: 1000,
-          cost: 0.75,
-          margin: 30,
-          purchasePrice: 0.72,
-          salesPrice: 0.044,
-        },
-        {
-          quantity: 10000,
-          cost: 0.75,
-          margin: 30,
-          purchasePrice: 0.72,
-          salesPrice: 0.044,
-        },
-        {
-          quantity: 100000,
-          cost: 0.75,
-          margin: 30,
-          purchasePrice: 0.72,
-          salesPrice: 0.044,
-        },
-      ],
-    };
-  }
+  const toggleInlineEdit = () => {
+    setEnableEdit(!enableEdit);
+  };
 
   return (
-    <GridItem colSpan={10} onClick={() => setEnableEdit(!enableEdit)}>
+    <GridItem colSpan={10} onClick={createNew ? undefined : toggleInlineEdit}>
       <GridInlineTbody gridTemplateColumns={GRID_LAYOUT_PRICE}>
         <GridTd style={style}>
           <>
@@ -85,7 +53,7 @@ function PriceGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
           </>
         </GridTd>
         <GridTd style={style}>{production.comment}</GridTd>
-        {calculation ? (
+        {calculation && calculation?.priceDtos?.length ? (
           <>
             <GridTd style={style} gridColumn={'BaseValues'}>
               <BaseValues calculation={calculation} />
