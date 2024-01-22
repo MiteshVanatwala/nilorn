@@ -11,14 +11,13 @@ import {
 import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
 import PriceGridRow from './PriceGrid/PriceGridRow';
 import { Fragment } from 'react';
-import TableMenuCalculation from './PriceGrid/TableMenuCalculation';
 
 const GRID_LAYOUT =
-  'repeat(6, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(4, 1fr) [Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 const GRID_LAYOUT_SOURCING =
-  'repeat(3, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(1, 1fr) [Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 export const GRID_LAYOUT_PRICE =
-  'repeat(2, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  '[Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 
 type Props = {
   data: ProductDevelopmentDeepDto[];
@@ -85,19 +84,9 @@ const PriceCalculationsTable = ({ data }: Props) => {
                                       production?.id
                                     }
                                     production={production}
-                                    tableMenu={
-                                      <TableMenuCalculation
-                                        sourcedProduction={s}
-                                        productDevelopment={
-                                          p?.productDevelopmentBriefDto
-                                        }
-                                        createNew={
-                                          (production?.priceCalculations &&
-                                            production?.priceCalculations
-                                              ?.length <= 0) ??
-                                          true
-                                        }
-                                      />
+                                    sourcedProduction={s}
+                                    productDevelopment={
+                                      p.productDevelopmentBriefDto
                                     }
                                   />
                                 ))

@@ -14,12 +14,14 @@ type Props = {
   createNew: boolean;
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
+  onEditInline: () => void;
 };
 
 const TableMenuCalculation = ({
   createNew,
   productDevelopment,
   sourcedProduction,
+  onEditInline,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
@@ -53,6 +55,7 @@ const TableMenuCalculation = ({
       </MenuItem>
       {!createNew && (
         <MenuItem
+          onClick={onEditInline}
           icon={
             <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
           }>
