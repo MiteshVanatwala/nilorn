@@ -62,7 +62,7 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
   return (
     <ActionBarTemplate
       artwork={artwork}
-      lastModifiedDate={'TBD'}
+      lastModifiedDate={formState?.defaultValues?.lastModified}
       moreMenuList={
         !createNew ? (
           <MenuList>

@@ -92,6 +92,7 @@ const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
                   no={no}
                   scrolledPast={scrolledPast}
                   disableEdit={disableEdit}
+                  status={status}
                 />
               ) : (
                 <HStack

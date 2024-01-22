@@ -1,17 +1,16 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { COLORS, GRID, SIZES, SPACE } from '../../../theme/Constants';
+import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import { Image, Link, VStack } from '@chakra-ui/react';
-import TRANSITION from '../../../theme/Constants/transition';
-import StatusBadge from '../../../components/Status/StatusBadge';
+import TRANSITION from '../../theme/Constants/transition';
+import StatusBadge from '../../components/Status/StatusBadge';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { ModalContext } from '../../app/context/ModalContext';
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
-} from '../../../app/generate';
-import ActionBarEditProduction from './ActionBarEditProduction';
-import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { ModalContext } from '../../../app/context/ModalContext';
+} from '../../app/generate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;

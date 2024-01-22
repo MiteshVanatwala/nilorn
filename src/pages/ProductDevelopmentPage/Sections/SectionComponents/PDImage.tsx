@@ -6,22 +6,28 @@ import { useTranslation } from 'react-i18next';
 import { useGetPDImage } from '../../../../app/api/PDImage';
 import { useCurrentUser } from '../../../../app/api/User';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
+import { isClosed } from '../../../../app/utils/status';
+import { Status } from '../../../../app/generate';
 
 type Props = {
   scrolledPast: boolean;
   no: string;
   pdName: string;
   disableEdit: boolean;
+  status: Status;
 };
 
-const PDImage = ({ scrolledPast, no, pdName, disableEdit }: Props) => {
+const PDImage = ({ scrolledPast, no, pdName, disableEdit, status }: Props) => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   let { data: pdImage, isError } = useGetPDImage(no);
   const { data: user } = useCurrentUser();
-
+  const allowedToUploadImg =
+    user?.role &&
+    ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) &&
+    !isClosed(status);
   function handleModalFunc() {
-    if (user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role)) {
+    if (allowedToUploadImg) {
       handleModal(
         <PDImageModal
           pdName={pdName}
@@ -69,11 +75,7 @@ const PDImage = ({ scrolledPast, no, pdName, disableEdit }: Props) => {
       bg={COLORS.GRAY[5]}
       border={'1px dashed'}
       borderColor={COLORS.GRAY[40]}
-      cursor={
-        user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role)
-          ? 'pointer'
-          : 'default'
-      }
+      cursor={allowedToUploadImg ? 'pointer' : 'default'}
       justifyContent={'center'}
       alignItems={'center'}
       onClick={() => handleModalFunc()}>
