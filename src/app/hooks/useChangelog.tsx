@@ -29,18 +29,18 @@ export function useToggleProductDevelopmentChanges(no: string) {
   const { showToast } = useToast();
 
   const [showChanges, setShowChanges] = useState<boolean>(false);
-  const { refetch: fetchChnages, isError } = useProductDevelopmentChanges(
+  const { refetch: fetchChanges, isError } = useProductDevelopmentChanges(
     no,
     showChanges
   );
 
   useEffect(() => {
     if (showChanges) {
-      fetchChnages();
+      fetchChanges();
     } else {
       queryClient.resetQueries([QueryKeysEnum.Changes]);
     }
-  }, [fetchChnages, no, queryClient, showChanges]);
+  }, [fetchChanges, no, queryClient, showChanges]);
 
   useEffect(() => {
     if (isError) {

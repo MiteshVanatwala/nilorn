@@ -148,7 +148,8 @@
       "opComp": "Operations company",
       "salespersonPurchaser": "Members",
       "sourcingCompanies": "Sourcing company",
-      "number": "Product development no."
+      "productDevelopments_short": "Product development no.",
+      "productDevelopments": "Product development number"
     },
     "Feedback": {
       "Success": {
