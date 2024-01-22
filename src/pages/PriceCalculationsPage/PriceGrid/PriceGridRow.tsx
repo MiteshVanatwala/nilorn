@@ -9,7 +9,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { GRID_LAYOUT_PRICE } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
-import TableMenuCalculation from './TableMenuCalculation';
 
 type Props = {
   production: ProductionDto;
@@ -29,7 +28,6 @@ function PriceGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
   const createNew = calculation === undefined;
 
   const toggleInlineEdit = () => {
-    // Your common onClick logic here
     setEnableEdit(!enableEdit);
   };
 

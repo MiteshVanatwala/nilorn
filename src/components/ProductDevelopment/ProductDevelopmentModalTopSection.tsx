@@ -1,13 +1,13 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
-import { COLORS, GRID, SIZES, SPACE } from '../../../theme/Constants';
+import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import { Image, VStack } from '@chakra-ui/react';
-import TRANSITION from '../../../theme/Constants/transition';
-import StatusBadge from '../../../components/Status/StatusBadge';
+import TRANSITION from '../../theme/Constants/transition';
+import StatusBadge from '../Status/StatusBadge';
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
-} from '../../../app/generate';
+} from '../../app/generate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -15,7 +15,7 @@ type Props = {
   production?: ProductionDto;
   actionBar: JSX.Element;
 };
-const EditProductionTopSection = ({
+const ProductDevelopmentModalTopSection = ({
   productDevelopment,
   sourcedProduction,
   production,
@@ -137,4 +137,4 @@ const EditProductionTopSection = ({
   );
 };
 
-export default EditProductionTopSection;
+export default ProductDevelopmentModalTopSection;

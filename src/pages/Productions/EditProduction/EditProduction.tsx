@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import EditProductionTopSection from './EditProductionTopSection';
+import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
 import {
   ProductDevelopmentBriefDto,
@@ -91,7 +91,7 @@ const EditProduction = ({
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
-          <EditProductionTopSection
+          <ProductDevelopmentModalTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
             production={production}

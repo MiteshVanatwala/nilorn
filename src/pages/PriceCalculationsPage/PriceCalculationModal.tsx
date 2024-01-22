@@ -5,7 +5,7 @@ import {
 } from '../../app/generate';
 import { Box } from '@chakra-ui/react';
 import { SPACE } from '../../theme/Constants';
-import EditProductionTopSection from '../Productions/EditProduction/EditProductionTopSection';
+import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
 
@@ -38,7 +38,7 @@ const PriceCalculationModal = ({
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
-          <EditProductionTopSection
+          <ProductDevelopmentModalTopSection
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
             actionBar={
