@@ -10,6 +10,8 @@ import {
 } from '../../../app/generate';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { ModalContext } from '../../../app/context/ModalContext';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -27,6 +29,8 @@ const EditProductionTopSection = ({
   createNew,
   disableEdit = false,
 }: Props) => {
+  const { close } = useContext(ModalContext);
+
   return (
     <Box
       py={{
@@ -100,7 +104,8 @@ const EditProductionTopSection = ({
                   {productDevelopment?.no && (
                     <Link
                       as={NavLink}
-                      to={`/product-development/${productDevelopment?.no}`}>
+                      to={`/product-development/${productDevelopment?.no}`}
+                      onClick={() => close()}>
                       #{productDevelopment?.no}
                     </Link>
                   )}

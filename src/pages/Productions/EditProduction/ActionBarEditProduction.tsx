@@ -59,6 +59,7 @@ const ActionBarEditProduction = ({
       close();
     }
   }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
+
   return (
     <VStack align={'left'}>
       <HStack
@@ -140,13 +141,15 @@ const ActionBarEditProduction = ({
           </ButtonGroup>
         )}
       </HStack>
-      <Text
-        align={{
-          base: 'left',
-          lg: 'right',
-        }}>
-        {t('Production.LastEdited')} {formattedLastModifiedDate}
-      </Text>
+      {lastModifiedDate !== undefined && (
+        <Text
+          align={{
+            base: 'left',
+            lg: 'right',
+          }}>
+          {t('Production.LastEdited')} {formattedLastModifiedDate}
+        </Text>
+      )}
     </VStack>
   );
 };

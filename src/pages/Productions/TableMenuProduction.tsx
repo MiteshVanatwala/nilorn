@@ -13,6 +13,7 @@ import {
   useDeleteProduction,
   useReleaseForSales,
 } from '../../app/api/editProduction';
+import { isClosed } from '../../app/utils/status';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -62,20 +63,27 @@ const TableMenuProduction = ({
         }>
         {t('Common.Edit')}
       </MenuItem>
-      <MenuItem
-        onClick={() =>
-          releaseForSalesFunc(
-            production?.vendorId?.toString(),
-            production?.released ?? false
-          )
-        }
-        icon={
-          <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-toggle-line" />
-        }>
-        {!production?.released
-          ? t('Production.Release')
-          : t('Production.Remove')}
-      </MenuItem>
+      {productDevelopment?.status && !isClosed(productDevelopment?.status) && (
+        <MenuItem
+          onClick={() =>
+            releaseForSalesFunc(
+              production?.vendorId?.toString(),
+              production?.released ?? false
+            )
+          }
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-toggle-line"
+            />
+          }>
+          {!production?.released
+            ? t('Production.Release')
+            : t('Production.Remove')}
+        </MenuItem>
+      )}
+
       {!production?.released && (
         <MenuItem
           onClick={() => deleteProductionFunc()}
