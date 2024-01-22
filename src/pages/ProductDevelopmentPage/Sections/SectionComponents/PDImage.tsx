@@ -11,9 +11,10 @@ type Props = {
   scrolledPast: boolean;
   no: string;
   pdName: string;
+  disableEdit: boolean;
 };
 
-const PDImage = ({ scrolledPast, no, pdName }: Props) => {
+const PDImage = ({ scrolledPast, no, pdName, disableEdit }: Props) => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   let { data: pdImage, isError } = useGetPDImage(no);
@@ -21,7 +22,14 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
 
   function handleModalFunc() {
     if (user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role)) {
-      handleModal(<PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />);
+      handleModal(
+        <PDImageModal
+          pdName={pdName}
+          imageUrl={pdImage}
+          no={no}
+          disableEdit={disableEdit}
+        />
+      );
     }
   }
 
@@ -37,7 +45,12 @@ const PDImage = ({ scrolledPast, no, pdName }: Props) => {
         cursor={'pointer'}
         onClick={() =>
           handleModal(
-            <PDImageModal pdName={pdName} imageUrl={pdImage} no={no} />
+            <PDImageModal
+              pdName={pdName}
+              imageUrl={pdImage}
+              no={no}
+              disableEdit={disableEdit}
+            />
           )
         }
         src={`data:image/jpeg;base64,${pdImage}`}

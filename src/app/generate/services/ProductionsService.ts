@@ -5,6 +5,7 @@
 import type { CreateProductionCommand } from '../models/CreateProductionCommand';
 import type { DeleteProductionCommand } from '../models/DeleteProductionCommand';
 import type { ProductionDto } from '../models/ProductionDto';
+import type { UpdateProductionCommand } from '../models/UpdateProductionCommand';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -45,6 +46,22 @@ requestBody?: DeleteProductionCommand,
     }
 
     /**
+     * @param requestBody 
+     * @returns ProductionDto Success
+     * @throws ApiError
+     */
+    public static patchApiProductions(
+requestBody?: UpdateProductionCommand,
+): CancelablePromise<ProductionDto> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/Productions',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
      * @param no 
      * @param sourcingCompanyCode 
      * @param released 
@@ -66,27 +83,6 @@ released?: boolean,
             query: {
                 'released': released,
             },
-        });
-    }
-
-    /**
-     * @param id 
-     * @param requestBody 
-     * @returns ProductionDto Success
-     * @throws ApiError
-     */
-    public static patchApiProductions(
-id: string,
-requestBody?: ProductionDto,
-): CancelablePromise<ProductionDto> {
-        return __request(OpenAPI, {
-            method: 'PATCH',
-            url: '/api/Productions/{id}',
-            path: {
-                'id': id,
-            },
-            body: requestBody,
-            mediaType: 'application/json',
         });
     }
 

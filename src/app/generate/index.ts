@@ -42,6 +42,7 @@ export type { SourcingDto } from './models/SourcingDto';
 export { Status } from './models/Status';
 export type { UpdatePriceCalculationCommand } from './models/UpdatePriceCalculationCommand';
 export type { UpdateProductDevelopmentDto } from './models/UpdateProductDevelopmentDto';
+export type { UpdateProductionCommand } from './models/UpdateProductionCommand';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 

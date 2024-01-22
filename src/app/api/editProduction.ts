@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
-import { ApiError, ProductionDto, ProductionsService } from '../generate';
+import {
+  ApiError,
+  ProductionDto,
+  ProductionsService,
+  UpdateProductionCommand,
+} from '../generate';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
@@ -40,14 +45,12 @@ export const usePatchProduction = (
   const queryClient = useQueryClient();
 
   return useMutation(
-    [QueryKeysEnum.ProductDevelopmentImage, id],
+    [QueryKeysEnum.ProductDevelopmentImage, id, released],
 
-    (body: ProductionDto) =>
-      ProductionsService.patchApiProductions(id ?? '', body).then(
-        response => response
-      ),
+    (body: UpdateProductionCommand) =>
+      ProductionsService.patchApiProductions(body).then(response => response),
     {
-      onSuccess: async (body: ProductionDto) => {
+      onSuccess: async (body: UpdateProductionCommand) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
 
         showToast({

@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { COLORS, GRID, SIZES, SPACE } from '../../../theme/Constants';
-import { Image, VStack } from '@chakra-ui/react';
+import { Image, Link, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import {
@@ -9,6 +9,7 @@ import {
   SourcedProductionDto,
 } from '../../../app/generate';
 import ActionBarEditProduction from './ActionBarEditProduction';
+import { NavLink } from 'react-router-dom';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -97,10 +98,11 @@ const EditProductionTopSection = ({
               <HStack gap={SPACE.SM}>
                 <Text>
                   {productDevelopment?.no && (
-                    <>
-                      {'#'}
-                      {productDevelopment?.no}
-                    </>
+                    <Link
+                      as={NavLink}
+                      to={`/product-development/${productDevelopment?.no}`}>
+                      #{productDevelopment?.no}
+                    </Link>
                   )}
                 </Text>
                 <StatusBadge status={productDevelopment?.status} />
@@ -140,6 +142,7 @@ const EditProductionTopSection = ({
             createNew={createNew}
             disableEdit={disableEdit}
             production={production}
+            status={productDevelopment?.status}
           />
         </GridItem>
       </Grid>

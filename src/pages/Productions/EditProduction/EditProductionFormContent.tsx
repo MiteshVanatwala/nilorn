@@ -18,6 +18,7 @@ import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
 import { useGetCurrencies } from '../../../app/api/currency';
+import { isClosed } from '../../../app/utils/status';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -110,6 +111,11 @@ const EditProductionFormContent = ({
               registerOptions={{
                 maxLength: 500,
               }}
+              readonly={
+                productDevelopment?.status
+                  ? isClosed(productDevelopment.status)
+                  : false
+              }
             />
           </GridItem>
           <GridItem colSpan={1}>

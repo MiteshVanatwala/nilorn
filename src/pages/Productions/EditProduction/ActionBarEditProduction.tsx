@@ -6,7 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import ArtworkButton from '../../../components/Button/ArtworkButton';
 
-import { ProductionDto } from '../../../app/generate';
+import { ProductionDto, Status } from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
@@ -14,18 +14,20 @@ import {
   usePatchProduction,
 } from '../../../app/api/editProduction';
 import { ModalContext } from '../../../app/context/ModalContext';
+import { isClosed } from '../../../app/utils/status';
 type Props = {
   artwork?: string | null;
-
   createNew?: boolean;
   disableEdit?: boolean;
   production?: ProductionDto;
+  status?: Status;
 };
 const ActionBarEditProduction = ({
   artwork,
   createNew,
   disableEdit = false,
   production,
+  status,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
@@ -111,31 +113,32 @@ const ActionBarEditProduction = ({
             </MenuList>
           </Menu>
         )}
+        {status && !isClosed(status) && (
+          <ButtonGroup isAttached variant="primary">
+            <Button type="submit">
+              {createNew ? t('Production.CreateProduction') : t('Common.Save')}
+            </Button>
 
-        <ButtonGroup isAttached variant="primary">
-          <Button type="submit">
-            {createNew ? t('Production.CreateProduction') : t('Common.Save')}
-          </Button>
-
-          {!disableEdit && (
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                padding={SPACE.SM}
-                aria-label={t('Common.MoreOptions')}
-                borderLeft={`1px solid ${COLORS.WHITE}`}
-                icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
-              />
-              <MenuList>
-                <MenuItem onClick={() => handleSaveAndRelease()}>
-                  {createNew
-                    ? t('Production.CreateAndRelease')
-                    : t('Production.SaveAndRelease')}
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          )}
-        </ButtonGroup>
+            {!disableEdit && (
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  padding={SPACE.SM}
+                  aria-label={t('Common.MoreOptions')}
+                  borderLeft={`1px solid ${COLORS.WHITE}`}
+                  icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+                />
+                <MenuList>
+                  <MenuItem onClick={() => handleSaveAndRelease()}>
+                    {createNew
+                      ? t('Production.CreateAndRelease')
+                      : t('Production.SaveAndRelease')}
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            )}
+          </ButtonGroup>
+        )}
       </HStack>
       <Text
         align={{

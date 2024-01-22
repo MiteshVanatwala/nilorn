@@ -19,6 +19,7 @@ import { useContext, useEffect, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
+import { isClosed } from '../../../app/utils/status';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -99,14 +100,24 @@ const EditProduction = ({
             sourcingCoIndex={sourcingCoIndex}
             production={production}
             createNew={createNew}
-            disableEdit={production?.released}
+            disableEdit={
+              production?.released ||
+              (productDevelopment?.status
+                ? isClosed(productDevelopment.status)
+                : false)
+            }
           />
           <EditProductionFormContent
             sourcedProduction={sourcedProduction}
             productDevelopment={productDevelopment}
             createNew={createNew}
             production={production}
-            disableEdit={production?.released}
+            disableEdit={
+              production?.released ||
+              (productDevelopment?.status
+                ? isClosed(productDevelopment.status)
+                : false)
+            }
           />
         </form>
       </FormProvider>
