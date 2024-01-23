@@ -3,33 +3,45 @@ import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../app/api/User';
-import { useUploadFile } from '../../app/api/productDevelopment';
 import { SPACE } from '../../theme/Constants';
+import { useUploadFile } from '../../app/api/mediaFile';
+import { MediaFileType } from '../../app/generate';
 
 type Props = {
   heading: string;
-  onUpload: (fileNames: string[]) => void;
+  no: string;
+  type: MediaFileType;
+  onUpload: (files: FileList) => void;
   showAdd?: boolean;
   multiple?: boolean;
 };
-const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
+const UploadFile = ({
+  heading,
+  onUpload,
+  no,
+  type,
+  multiple,
+  showAdd = true,
+}: Props) => {
   const { t } = useTranslation();
   const { data: user } = useCurrentUser();
 
-  const { mutateAsync } = useUploadFile();
+  const { mutateAsync } = useUploadFile(no, type);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e?.currentTarget;
-    const uploadedFileNames: string[] = [];
+    // const uploadedFileNames: string[] = [];
 
+    /*
     if (files && files.length) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const filename = file.name;
         mutateAsync(file)
-          .then(() => {
+          .then(res => {
+            console.log('-->', res);
             uploadedFileNames.push(filename);
           })
           .catch(err => {
@@ -39,7 +51,12 @@ const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
       }
     }
 
-    return onUpload(uploadedFileNames);
+
+*/
+
+    if (files !== null) {
+      return onUpload(files);
+    }
   };
 
   const onButtonClick = () => {

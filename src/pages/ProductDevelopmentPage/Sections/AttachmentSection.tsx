@@ -6,43 +6,48 @@ import File from '../../../components/File/File';
 import UploadFile from '../../../components/File/UploadFile';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { images } from '../../../assets';
+import { MediaFileType } from '../../../app/generate';
+import FileSection from './FileSection';
 
-const ARTWORK: string = 'artwork';
-const ATTACHMERNTS: string = 'attachments';
+// const ARTWORK: string = 'artwork';
+// const ATTACHMERNTS: string = 'attachments';
 
 type Props = {
+  no: string;
   disableEdit: boolean;
   isClosed: boolean;
 };
 
-const AttachmentSection = ({ disableEdit, isClosed }: Props) => {
-  const { setValue, unregister, watch, getValues } = useFormContext();
+const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
+  // const { setValue, unregister, watch, getValues } = useFormContext();
   const { t } = useTranslation();
 
-  const artwork = watch(ARTWORK);
-  const attachments: string[] = watch(ATTACHMERNTS);
+  // const artwork = watch(ARTWORK);
+  // const attachments: string[] = watch(ATTACHMERNTS);
 
-  const uploadArtwork = (uploaded: string[]) => {
-    setValue(ARTWORK, uploaded[0]);
-  };
+  // const uploadArtwork = (uploaded: string[]) => {
+  //   setValue(ARTWORK, uploaded[0]);
+  // };
 
-  const uploadAttachments = (uploaded: string[]) => {
-    setValue(ATTACHMERNTS, uploaded);
-  };
+  // const uploadAttachments = (uploaded: string[]) => {
+  //   setValue(ATTACHMERNTS, uploaded);
+  // };
 
-  const removeAttachment = (fileName: string) => {
-    const tmp = (getValues(ATTACHMERNTS) as string[]).filter(
-      a => a !== fileName
-    );
-    setValue(ATTACHMERNTS, tmp);
-  };
+  // const removeAttachment = (fileName: string) => {
+  //   const tmp = (getValues(ATTACHMERNTS) as string[]).filter(
+  //     a => a !== fileName
+  //   );
+  //   setValue(ATTACHMERNTS, tmp);
+  // };
 
   return (
+    // attachments?.length !== 0 || artwork?.length !== 0 ||
     <>
-      {(attachments?.length !== 0 || artwork?.length !== 0 || !isClosed) && (
+      {!isClosed && (
         <AccordionItem
           title={`${t('PD.AccordionLabels.Attachments')} (${
-            (attachments?.length ?? 0) + (artwork ? 1 : 0)
+            0
+            // (attachments?.length ?? 0) + (artwork ? 1 : 0)
           })`}>
           <Grid
             gap={{
@@ -50,54 +55,20 @@ const AttachmentSection = ({ disableEdit, isClosed }: Props) => {
               lg: SPACE.SM,
             }}
             templateColumns={GRID.TEMPLATE_COLUMNS}>
-            <GridItem colSpan={12}>
-              {!disableEdit && (
-                <UploadFile
-                  heading={t('PD.Artwork')}
-                  onUpload={uploadArtwork}
-                  showAdd={!artwork}
-                />
-              )}
-            </GridItem>
-            <GridItem
-              colSpan={{
-                lg: 2,
-              }}>
-              {artwork && (
-                <File
-                  name={artwork}
-                  url="#"
-                  icon={
-                    <Image
-                      src={images.pdf}
-                      height={SIZES.ICON.SM}
-                      objectFit={'contain'}
-                      width="auto"
-                    />
-                  }
-                  onRemove={disableEdit ? undefined : () => unregister(ARTWORK)}
-                />
-              )}
-            </GridItem>
-            <GridItem colSpan={12}>
-              {!disableEdit && (
-                <UploadFile
-                  heading={t('PD.AccordionLabels.Attachments')}
-                  onUpload={uploadAttachments}
-                  multiple={true}
-                />
-              )}
-            </GridItem>
-            {attachments?.map(a => (
-              <GridItem
-                key={a}
-                colSpan={{
-                  base: 1,
-                  lg: 2,
-                }}>
-                <File name={a} url="#" onRemove={removeAttachment} />
-              </GridItem>
-            ))}
+            <FileSection
+              no={no}
+              type={MediaFileType.ARTWORK}
+              disableEdit={false}
+              isClosed={false}
+              heading={t('PD.AccordionLabels.Artwork')}
+            />
+            <FileSection
+              no={no}
+              type={MediaFileType.ATTACHMENT}
+              disableEdit={false}
+              isClosed={false}
+              heading={t('PD.AccordionLabels.Attatchments')}
+            />
           </Grid>
         </AccordionItem>
       )}

@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SalesPersonPurchasersService } from './../generate/services/SalesPersonPurchasersService';
 import {
   ApiError,
+  MediaFileService,
+  MediaFileType,
   ProductDevelopmentDto,
   ProductDevelopmentsService,
   Status,
@@ -139,16 +141,5 @@ export const useMembers = (no: string) => {
       retry: 0,
       enabled: no !== '',
     }
-  );
-};
-
-export const useUploadFile = () => {
-  return useMutation((file: Blob) =>
-    ProductDevelopmentsService.postApiProductDevelopmentsAttachments(
-      '39c9c39a-fc60-4a8e-a553-0ca0bbc41732',
-      {
-        file,
-      }
-    ).then(res => res)
   );
 };
