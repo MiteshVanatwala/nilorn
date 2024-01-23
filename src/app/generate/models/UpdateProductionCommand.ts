@@ -6,7 +6,7 @@
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type UpdateProductionCommand = {
-    productionId?: string;
+    id?: string;
     currencyCode?: string | null;
     released?: boolean;
     moq?: number;

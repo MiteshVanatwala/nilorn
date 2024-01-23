@@ -18,6 +18,7 @@ export class ProductDevelopmentDeepService {
      * @param vendors 
      * @param sourcingCompanies 
      * @param clients 
+     * @param projects 
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
      */
@@ -29,6 +30,7 @@ productDevelopments?: string,
 vendors?: string,
 sourcingCompanies?: string,
 clients?: string,
+projects?: string,
 ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -41,6 +43,7 @@ clients?: string,
                 'Vendors': vendors,
                 'SourcingCompanies': sourcingCompanies,
                 'Clients': clients,
+                'Projects': projects,
             },
         });
     }

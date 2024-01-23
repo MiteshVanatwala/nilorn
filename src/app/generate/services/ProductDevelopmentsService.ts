@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
-import type { ProductDevelopmentChangelogDto } from '../models/ProductDevelopmentChangelogDto';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
 import type { UpdateProductDevelopmentDto } from '../models/UpdateProductDevelopmentDto';
@@ -173,23 +172,6 @@ status: Status,
             path: {
                 'no': no,
                 'status': status,
-            },
-        });
-    }
-
-    /**
-     * @param no 
-     * @returns ProductDevelopmentChangelogDto Success
-     * @throws ApiError
-     */
-    public static getApiProductDevelopmentsChanges(
-no: string,
-): CancelablePromise<Array<ProductDevelopmentChangelogDto>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/ProductDevelopments/{no}/Changes',
-            path: {
-                'no': no,
             },
         });
     }
