@@ -3,11 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { BaseEvent } from './BaseEvent';
-
-export type MediaFile = {
-    id?: string;
-    readonly domainEvents?: Array<BaseEvent> | null;
+export type MediaFileDto = {
     name?: string | null;
+    id?: string;
     url?: string | null;
 };
