@@ -38,7 +38,8 @@ const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <GridTable gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT }}>
+    <GridTable
+      gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
       <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
       <GridTh>{t('PD.Client')}</GridTh>
       <GridTh>{t('PD.SourcingCompany')}</GridTh>

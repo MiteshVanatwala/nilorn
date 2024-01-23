@@ -130,19 +130,18 @@ const SourcingForm = ({
               </>
             </ArrowLink>
           </GridItem>
-          <GridItem>
-            <ArrowLink
-              useAsBtn={formState.isDirty}
-              onClick={formState.isDirty ? openModal : undefined}
-              direction="right"
-              to={`/price-calculations/?productDevelopments=${no}`}>
-              <>
-                {connectedProductions &&
-                  connectedProductions?.length > 0 &&
-                  t('PD.AddCalculation')}
-              </>
-            </ArrowLink>
-          </GridItem>
+          {((connectedProductions && connectedProductions?.length > 0) ||
+            !disableEdit) && (
+            <GridItem>
+              <ArrowLink
+                useAsBtn={formState.isDirty}
+                onClick={formState.isDirty ? openModal : undefined}
+                direction="right"
+                to={`/price-calculations/?productDevelopments=${no}`}>
+                <>{t('PD.AddCalculation')}</>
+              </ArrowLink>
+            </GridItem>
+          )}
         </HStack>
       )}
     </Grid>

@@ -37,7 +37,7 @@ const PriceCalculationForm = ({
         }}>
         <GridItem colSpan={2}>
           <InputField
-            type="number"
+            type="decimal"
             registerOptions={{ valueAsNumber: true }}
             readonly={disableEdit}
             label={`${
@@ -49,7 +49,7 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
-            type="number"
+            type="decimal"
             registerOptions={{ valueAsNumber: true }}
             readonly={disableEdit}
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
@@ -59,7 +59,7 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
-            type="number"
+            type="decimal"
             registerOptions={{ valueAsNumber: true }}
             readonly={disableEdit}
             label={`${t('PriceCalc.FreightIncluded')}`}
