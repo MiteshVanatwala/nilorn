@@ -1,10 +1,10 @@
 import useChangelogColumns from './useChangelogColumns';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import SmallTable from '../Table/SmallTable';
-import { ChangelogDto } from '../../app/generate';
+import { ChangelogItemDto } from '../../app/generate';
 
 type Props = {
-  data: ChangelogDto[];
+  data: ChangelogItemDto[];
 };
 
 const ChangelogPopupContent = ({ data }: Props) => {

@@ -6,8 +6,8 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
-import { Status } from '../../../../app/generate';
-import { useToggleProductDevelopmentChanges } from '../../../../app/hooks/useChangelog';
+import { ChangelogType, Status } from '../../../../app/generate';
+import { useToggleChangelog } from '../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../app/hooks/useToast';
@@ -52,8 +52,11 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
     }
   }
 
-  const { showChanges, setShowChanges } =
-    useToggleProductDevelopmentChanges(no);
+  const { showChanges, setShowChanges } = useToggleChangelog(
+    ChangelogType.PRODUCT_DEVELOPMENT,
+    no,
+    undefined
+  );
 
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
