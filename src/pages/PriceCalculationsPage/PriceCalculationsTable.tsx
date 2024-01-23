@@ -13,22 +13,22 @@ import PriceGridRow from './PriceGrid/PriceGridRow';
 import { Fragment } from 'react';
 
 const GRID_LAYOUT =
-  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] minmax(100px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
 
 const GRID_LAYOUT_SOURCING =
-  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] minmax(100px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
 
 export const GRID_LAYOUT_PRICE =
-  '[Vendor] minmax(100px, 1fr) [Comment] minmax(100px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  '[Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
 
 const GRID_LAYOUT_DESKTOP =
-  'repeat(4, 1fr) [Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(4, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 
 const GRID_LAYOUT_SOURCING_DESKTOP =
-  'repeat(1, 1fr) [Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(1, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 
 export const GRID_LAYOUT_PRICE_DESKTOP =
-  '[Vendor] minmax(150px, 1fr) [Comment] minmax(150px, 1fr) [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  '[Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
 
 type Props = {
   data: ProductDevelopmentDeepDto[];
