@@ -39,7 +39,7 @@ const AttachmentSection = ({ disableEdit, isClosed }: Props) => {
 
   return (
     <>
-      {(attachments?.length !== 0 || artwork?.length !== 0) && !isClosed && (
+      {(attachments?.length !== 0 || artwork?.length !== 0 || !isClosed) && (
         <AccordionItem
           title={`${t('PD.AccordionLabels.Attachments')} (${
             (attachments?.length ?? 0) + (artwork ? 1 : 0)
