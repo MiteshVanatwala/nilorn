@@ -1,6 +1,7 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
   ProductDevelopmentBriefDto,
+  ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
 import { Box } from '@chakra-ui/react';
@@ -13,12 +14,18 @@ type Props = {
   createNew?: boolean;
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
+  lastModified?: string;
+  artworkUrl?: string;
+  production: ProductionDto;
 };
 
 const PriceCalculationModal = ({
   createNew,
   productDevelopment,
   sourcedProduction,
+  lastModified,
+  artworkUrl,
+  production,
 }: Props) => {
   const form = useForm({
     defaultValues: {},
@@ -33,7 +40,6 @@ const PriceCalculationModal = ({
     }
     onSubmit(form);
   }
-
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -42,7 +48,11 @@ const PriceCalculationModal = ({
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
             actionBar={
-              <PriceCalculationActionBar artwork={'#'} createNew={createNew} />
+              <PriceCalculationActionBar
+                artwork={artworkUrl}
+                createNew={createNew}
+                lastModified={lastModified}
+              />
             }
           />
           <PriceCalculationForm />

@@ -93,6 +93,9 @@
     "DeleteComfirm": "You want to delete product development: {{no}}",
     "ViewProductions": "View productions",
     "AddProductions": "Add productions",
+    "AddCalculation": "Make/View Calculations",
+    "EditCompareProduction": "Edit/Compare productions",
+    "EditCompareCalculation": "Edit/Compare calculations",
     "UnsavedChanges": "Unsaved changes",
     "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
     "FormContent": {
@@ -207,12 +210,15 @@
     "Margin": "Margin",
     "Sales": "Sales",
     "Cost": "Cost",
-    "InternalCommission": "Internal commission",
+    "InternalCommission": "Internal commission (%)",
     "InternalCommission_short": "Int. comm.",
     "IndirectCost": "Indirect Cost",
+    "IndirectCostPercent": "Indirect Cost (%)",
     "CurrencyRate": "Currency rate",
     "FreightIncluded": "Freight Included",
-    "FreightIncluded_short": "Freight Incl."
+    "FreightIncluded_short": "Freight Incl.",
+    "PurchaseCurrency": "Purchase Currency",
+    "SalesCurrency": "Sales Currency"
   },
   "Changelog": {
     "To": "To",

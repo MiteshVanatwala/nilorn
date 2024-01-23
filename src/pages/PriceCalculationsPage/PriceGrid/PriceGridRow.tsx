@@ -78,6 +78,9 @@ function PriceGridRow({
                         sourcedProduction={sourcedProduction}
                         productDevelopment={productDevelopment}
                         onEditInline={openRowForInlineEdit}
+                        lastModified={production?.lastModified ?? undefined}
+                        artworkUrl={productDevelopment?.artworkUrl ?? undefined}
+                        production={production}
                         createNew={
                           (production?.priceCalculations &&
                             production?.priceCalculations?.length <= 0) ??
