@@ -210,15 +210,16 @@
     "Margin": "Margin",
     "Sales": "Sales",
     "Cost": "Cost",
-    "InternalCommission": "Internal commission (%)",
+    "InternalCommission": "Internal commission",
     "InternalCommission_short": "Int. comm.",
     "IndirectCost": "Indirect Cost",
-    "IndirectCostPercent": "Indirect Cost (%)",
     "CurrencyRate": "Currency rate",
     "FreightIncluded": "Freight Included",
     "FreightIncluded_short": "Freight Incl.",
     "PurchaseCurrency": "Purchase Currency",
-    "SalesCurrency": "Sales Currency"
+    "SalesCurrency": "Sales Currency",
+    "Percentage": " (%)",
+    "SaveSuccess": "Calculation saved"
   },
   "Changelog": {
     "To": "To",

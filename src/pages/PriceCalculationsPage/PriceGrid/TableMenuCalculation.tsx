@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
+  PriceCalculationDto,
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
@@ -19,6 +20,7 @@ type Props = {
   lastModified?: string;
   artworkUrl?: string;
   production: ProductionDto;
+  calculation: PriceCalculationDto | undefined;
 };
 
 const TableMenuCalculation = ({
@@ -29,6 +31,7 @@ const TableMenuCalculation = ({
   lastModified,
   artworkUrl,
   production,
+  calculation,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
@@ -48,6 +51,7 @@ const TableMenuCalculation = ({
               lastModified={lastModified}
               artworkUrl={artworkUrl}
               production={production}
+              calculation={calculation}
             />
           )
         }

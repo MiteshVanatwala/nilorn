@@ -1,5 +1,6 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
+  PriceCalculationDto,
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
@@ -9,6 +10,9 @@ import { SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
+import { usePatchCalculation } from '../../app/api/calculation';
+import { useContext, useEffect } from 'react';
+import { ModalContext } from '../../app/context/ModalContext';
 
 type Props = {
   createNew?: boolean;
@@ -17,6 +21,7 @@ type Props = {
   lastModified?: string;
   artworkUrl?: string;
   production: ProductionDto;
+  calculation: PriceCalculationDto | undefined;
 };
 
 const PriceCalculationModal = ({
@@ -26,20 +31,33 @@ const PriceCalculationModal = ({
   lastModified,
   artworkUrl,
   production,
+  calculation,
 }: Props) => {
   const form = useForm({
-    defaultValues: {},
+    defaultValues: {
+      ...calculation,
+    },
   });
+  const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
+    usePatchCalculation(calculation?.id ?? '');
+  const { close } = useContext(ModalContext);
+
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       if (createNew) {
         //POST
       } else {
-        // PATCH
+        updateCalculation(form);
       }
     }
     onSubmit(form);
   }
+  useEffect(() => {
+    if (isSuccessPatch) {
+      close();
+    }
+  }, [close, isSuccessPatch]);
+
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -55,7 +73,10 @@ const PriceCalculationModal = ({
               />
             }
           />
-          <PriceCalculationForm />
+          <PriceCalculationForm
+            calculation={calculation}
+            production={production}
+          />
         </form>
       </FormProvider>
     </Box>

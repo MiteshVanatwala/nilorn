@@ -81,6 +81,7 @@ function PriceGridRow({
                         lastModified={production?.lastModified ?? undefined}
                         artworkUrl={productDevelopment?.artworkUrl ?? undefined}
                         production={production}
+                        calculation={calculation}
                         createNew={
                           (production?.priceCalculations &&
                             production?.priceCalculations?.length <= 0) ??

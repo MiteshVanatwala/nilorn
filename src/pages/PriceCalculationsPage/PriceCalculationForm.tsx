@@ -5,12 +5,19 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
+import { PriceCalculationDto, ProductionDto } from '../../app/generate';
 
 type Props = {
   disableEdit?: boolean;
+  calculation: PriceCalculationDto | undefined;
+  production: ProductionDto;
 };
 
-const PriceCalculationForm = ({ disableEdit }: Props) => {
+const PriceCalculationForm = ({
+  disableEdit,
+  calculation,
+  production,
+}: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
 
@@ -31,7 +38,9 @@ const PriceCalculationForm = ({ disableEdit }: Props) => {
             type="number"
             registerOptions={{ valueAsNumber: true }}
             readonly={disableEdit}
-            label={`${t('PriceCalc.InternalCommission')}`}
+            label={`${
+              t('PriceCalc.InternalCommission') + t('PriceCalc.Percentage')
+            }`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'internalCommission'}
           />
@@ -41,7 +50,7 @@ const PriceCalculationForm = ({ disableEdit }: Props) => {
             type="number"
             registerOptions={{ valueAsNumber: true }}
             readonly={disableEdit}
-            label={`${t('PriceCalc.IndirectCostPercent')}`}
+            label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'indirectCost'}
           />
@@ -58,26 +67,50 @@ const PriceCalculationForm = ({ disableEdit }: Props) => {
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
+            type="decimal"
+            registerOptions={{ valueAsNumber: true, required: true }}
+            readonly={disableEdit}
+            label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
+            placeholder={`${t('Common.Placeholder')}`}
+            name={'margin'}
+          />
+        </GridItem>
+        <GridItem colStart={1} colSpan={2}>
+          <InputField
             readonly={true}
-            defaultValue={''}
+            defaultValue={production.currencyCode ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
           />
         </GridItem>
-        <GridItem colStart={1} colSpan={2}>
+        <GridItem colSpan={2}>
           <Select
+            key={
+              (production?.id !== undefined ? production?.id : '') +
+              calculation?.id +
+              calculation?.currencyCode +
+              currency?.length +
+              currency?.find(o => o.value === calculation?.currencyCode)?.value
+            }
             registerOptions={{ required: true }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'currencyCode'}
             options={currency as SelectOption[]}
+            defaultValue={
+              calculation?.currencyCode
+                ? (currency as SelectOption[])?.find(
+                    o => o.value === calculation?.currencyCode
+                  )
+                : undefined
+            }
           />
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
-            type="number"
+            type="decimal"
             registerOptions={{ required: true, valueAsNumber: true }}
             readonly={disableEdit}
             label={`${t('PriceCalc.CurrencyRate')}`}
