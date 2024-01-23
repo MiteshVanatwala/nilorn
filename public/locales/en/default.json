@@ -219,7 +219,8 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
-    "SaveSuccess": "Calculation saved"
+    "SaveSuccess": "Calculation saved",
+    "CreateSuccess": "Calculation created"
   },
   "Changelog": {
     "To": "To",

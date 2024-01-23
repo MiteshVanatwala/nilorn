@@ -12,9 +12,12 @@ import {
   GridTd,
 } from '../../../components/GridTable/GridTableElements';
 import { useTranslation } from 'react-i18next';
-import { GRID_LAYOUT_PRICE } from '../PriceCalculationsTable';
+import {
+  GRID_LAYOUT_PRICE,
+  GRID_LAYOUT_PRICE_DESKTOP,
+} from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
-import { SPACE } from '../../../theme/Constants';
+import { COLORS, SPACE } from '../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
@@ -67,7 +70,11 @@ function PriceGridRow({
     <GridItem colSpan={10}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
-          <GridInlineTbody gridTemplateColumns={GRID_LAYOUT_PRICE}>
+          <GridInlineTbody
+            gridTemplateColumns={{
+              base: GRID_LAYOUT_PRICE,
+              lg: GRID_LAYOUT_PRICE_DESKTOP,
+            }}>
             <GridTd style={style}>
               <>
                 <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>

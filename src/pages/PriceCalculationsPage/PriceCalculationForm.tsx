@@ -11,12 +11,14 @@ type Props = {
   disableEdit?: boolean;
   calculation: PriceCalculationDto | undefined;
   production: ProductionDto;
+  createNew: boolean;
 };
 
 const PriceCalculationForm = ({
   disableEdit,
   calculation,
   production,
+  createNew,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -75,16 +77,18 @@ const PriceCalculationForm = ({
             name={'margin'}
           />
         </GridItem>
-        <GridItem colStart={1} colSpan={2}>
-          <InputField
-            readonly={true}
-            defaultValue={production.currencyCode ?? ''}
-            label={`${t('PriceCalc.PurchaseCurrency')}`}
-            placeholder={`${t('Common.Placeholder')}`}
-            name={'purchaseCurrency'}
-          />
-        </GridItem>
-        <GridItem colSpan={2}>
+        {!createNew && (
+          <GridItem colStart={1} colSpan={2}>
+            <InputField
+              readonly={true}
+              defaultValue={production.currencyCode ?? ''}
+              label={`${t('PriceCalc.PurchaseCurrency')}`}
+              placeholder={`${t('Common.Placeholder')}`}
+              name={'purchaseCurrency'}
+            />
+          </GridItem>
+        )}
+        <GridItem colStart={createNew ? 1 : 'auto'} colSpan={2}>
           <Select
             key={
               (production?.id !== undefined ? production?.id : '') +
@@ -118,6 +122,16 @@ const PriceCalculationForm = ({
             name={'currencyRate'}
           />
         </GridItem>
+        {createNew && (
+          <GridItem colStart={1} colSpan={2}>
+            <InputField
+              type="hidden"
+              readonly={true}
+              defaultValue={production.id ?? ''}
+              name={'productionId'}
+            />
+          </GridItem>
+        )}
       </Grid>
     </>
   );

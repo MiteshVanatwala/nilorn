@@ -10,7 +10,10 @@ import { SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
-import { usePatchCalculation } from '../../app/api/calculation';
+import {
+  useCreateCalculation,
+  usePatchCalculation,
+} from '../../app/api/calculation';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 
@@ -40,12 +43,14 @@ const PriceCalculationModal = ({
   });
   const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
     usePatchCalculation(calculation?.id ?? '');
+  const { mutate: createCalculation, isSuccess: isSuccessCreate } =
+    useCreateCalculation();
   const { close } = useContext(ModalContext);
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       if (createNew) {
-        //POST
+        createCalculation(form);
       } else {
         updateCalculation(form);
       }
@@ -53,10 +58,10 @@ const PriceCalculationModal = ({
     onSubmit(form);
   }
   useEffect(() => {
-    if (isSuccessPatch) {
+    if (isSuccessPatch || isSuccessCreate) {
       close();
     }
-  }, [close, isSuccessPatch]);
+  }, [close, isSuccessPatch, isSuccessCreate]);
 
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
@@ -76,6 +81,7 @@ const PriceCalculationModal = ({
           <PriceCalculationForm
             calculation={calculation}
             production={production}
+            createNew={createNew ?? false}
           />
         </form>
       </FormProvider>
