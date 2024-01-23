@@ -21,7 +21,7 @@ export const GridTable = ({ gridTemplateColumns, children }: TableProps) => {
     <Grid
       borderRight={'1px solid' + COLORS.GRAY[20]}
       borderLeft={'1px solid' + COLORS.GRAY[20]}
-      overflowX={{ base: 'auto', lg: 'hidden' }}
+      overflowX={{ base: 'auto', lg: 'clip' }}
       gridTemplateColumns={gridTemplateColumns}
       gap={TABLE_GAP}>
       {children}
