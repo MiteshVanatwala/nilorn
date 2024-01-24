@@ -4,12 +4,15 @@ import { Button } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
+import { useToggleChangelog } from '../../app/hooks/useChangelog';
+import { ChangelogType } from '../../app/generate';
 
 type Props = {
   artwork?: string | null;
   createNew?: boolean;
   disableEdit?: boolean;
   lastModified?: string;
+  id: string;
 };
 
 const PriceCalculationActionBar = ({
@@ -17,8 +20,14 @@ const PriceCalculationActionBar = ({
   createNew,
   disableEdit = false,
   lastModified,
+  id,
 }: Props) => {
   const { t } = useTranslation();
+  const { showChanges, setShowChanges } = useToggleChangelog(
+    ChangelogType.PRICE_CALCULATION,
+    id,
+    undefined
+  );
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -27,6 +36,7 @@ const PriceCalculationActionBar = ({
         !createNew ? (
           <MenuList>
             <MenuItem
+              onClick={() => setShowChanges(!showChanges)}
               icon={
                 <Text
                   as={'i'}
@@ -34,7 +44,7 @@ const PriceCalculationActionBar = ({
                   className="ri-history-line"
                 />
               }>
-              {t('PD.ShowChanges')}
+              {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
             {!disableEdit && (
               <MenuItem
