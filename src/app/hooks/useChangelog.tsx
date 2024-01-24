@@ -29,6 +29,19 @@ export function useProductDevelopmentChangelog(
 
   return getChangelogForKey(changelogMap, key);
 }
+export function useProductionChangelog(
+  key: string,
+  id: string
+): ChangelogItemDto[] {
+  const { data: changelogMap } = useChangelog(
+    undefined,
+    ChangelogType.PRODUCTION,
+    id,
+    false
+  );
+
+  return getChangelogForKey(changelogMap, key);
+}
 
 export function useToggleChangelog(
   type: ChangelogType,
