@@ -17,7 +17,7 @@ import {
   GRID_LAYOUT_PRICE_DESKTOP,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
-import { COLORS, SPACE } from '../../../theme/Constants';
+import { SPACE } from '../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
