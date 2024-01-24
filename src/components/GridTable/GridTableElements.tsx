@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { TABLE_GAP, TD_STYLE, TH_STYLE } from '../../theme/Constants/tableGrid';
 import { CSSProperties } from 'react';
+import { COLORS } from '../../theme/Constants';
 
 type TableProps = {
   children?: string | JSX.Element | JSX.Element[];
@@ -17,7 +18,12 @@ type TableProps = {
 
 export const GridTable = ({ gridTemplateColumns, children }: TableProps) => {
   return (
-    <Grid gridTemplateColumns={gridTemplateColumns} gap={TABLE_GAP}>
+    <Grid
+      borderRight={'1px solid' + COLORS.GRAY[20]}
+      borderLeft={'1px solid' + COLORS.GRAY[20]}
+      overflowX={{ base: 'auto', lg: 'clip' }}
+      gridTemplateColumns={gridTemplateColumns}
+      gap={TABLE_GAP}>
       {children}
     </Grid>
   );

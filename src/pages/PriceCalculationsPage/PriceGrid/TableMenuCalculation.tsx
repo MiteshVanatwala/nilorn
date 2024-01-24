@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
+  PriceCalculationDto,
   ProductDevelopmentBriefDto,
+  ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
 import TableMenuContainer from '../../../components/Table/TableMenuContainer';
@@ -15,6 +17,10 @@ type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   onEditInline: () => void;
+  lastModified?: string;
+  artworkUrl?: string;
+  production: ProductionDto;
+  calculation: PriceCalculationDto | undefined;
 };
 
 const TableMenuCalculation = ({
@@ -22,6 +28,10 @@ const TableMenuCalculation = ({
   productDevelopment,
   sourcedProduction,
   onEditInline,
+  lastModified,
+  artworkUrl,
+  production,
+  calculation,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
@@ -29,7 +39,6 @@ const TableMenuCalculation = ({
   function deleteProductionFunc() {
     console.log('Delete');
   }
-
   return (
     <TableMenuContainer>
       <MenuItem
@@ -39,6 +48,10 @@ const TableMenuCalculation = ({
               productDevelopment={productDevelopment}
               sourcedProduction={sourcedProduction}
               createNew={createNew}
+              lastModified={lastModified}
+              artworkUrl={artworkUrl}
+              production={production}
+              calculation={calculation}
             />
           )
         }

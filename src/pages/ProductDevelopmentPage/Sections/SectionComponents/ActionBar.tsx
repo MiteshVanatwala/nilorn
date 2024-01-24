@@ -18,9 +18,17 @@ type Props = {
   no: string;
   createNew?: boolean;
   disableEdit: boolean;
+  hasPriceCalculation: boolean;
+  hasProductions: boolean;
 };
 
-const ActionBar = ({ createNew, no, disableEdit }: Props) => {
+const ActionBar = ({
+  createNew,
+  no,
+  disableEdit,
+  hasPriceCalculation,
+  hasProductions,
+}: Props) => {
   const { t } = useTranslation();
 
   const artwork = useWatch({ name: 'artwork' });
@@ -100,6 +108,34 @@ const ActionBar = ({ createNew, no, disableEdit }: Props) => {
                   />
                 }>
                 {t('Common.Delete')}
+              </MenuItem>
+            )}
+            {hasProductions && (
+              <MenuItem
+                as="a"
+                href={`/productions?productDevelopments=${no}`}
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-arrow-left-right-line"
+                  />
+                }>
+                {t('PD.EditCompareProduction')}
+              </MenuItem>
+            )}
+            {hasPriceCalculation && (
+              <MenuItem
+                as="a"
+                href={`/price-calculations?productDevelopments=${no}`}
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-line-chart-line"
+                  />
+                }>
+                {t('PD.EditCompareCalculation')}
               </MenuItem>
             )}
           </MenuList>

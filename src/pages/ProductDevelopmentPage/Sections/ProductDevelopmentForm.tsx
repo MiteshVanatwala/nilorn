@@ -87,6 +87,8 @@ function ProductDevelopmentForm({
           createNew={createNew}
           no={no}
           scrolledPast={scrolledPast}
+          hasPriceCalculation={defaultValues?.hasPriceCalculation ?? false}
+          hasProductions={defaultValues?.hasProductions ?? false}
         />
         <ContentPage>
           <Grid>

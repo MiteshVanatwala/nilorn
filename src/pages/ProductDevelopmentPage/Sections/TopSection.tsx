@@ -29,8 +29,17 @@ type Props = {
   scrolledPast: boolean;
   createNew: boolean;
   disableEdit: boolean;
+  hasPriceCalculation: boolean;
+  hasProductions: boolean;
 };
-const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
+const TopSection = ({
+  no,
+  scrolledPast,
+  createNew,
+  disableEdit,
+  hasPriceCalculation,
+  hasProductions,
+}: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
   const { getValues } = useFormContext();
@@ -196,6 +205,8 @@ const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
               createNew={createNew}
               no={no}
               disableEdit={disableEdit}
+              hasPriceCalculation={hasPriceCalculation}
+              hasProductions={hasProductions}
             />
           </GridItem>
         </Grid>

@@ -4,6 +4,7 @@ import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import { Input } from '@chakra-ui/react';
 import { calculateMargin, calculateSalesPrice } from './PriceHelper';
 import { useFormContext } from 'react-hook-form';
+import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
 
 type Props = {
   enableEdit: boolean;
@@ -56,6 +57,8 @@ const SalesPriceCalculation = ({
               max={100}
               type="decimal"
               variant={'outline'}
+              my={SPACE.XXS}
+              borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
             <> {getValues(`${formKey}.margin`)}</>
@@ -73,6 +76,8 @@ const SalesPriceCalculation = ({
               min={0}
               type="decimal"
               variant={'outline'}
+              my={SPACE.XXS}
+              borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
             <>{getValues(`${formKey}.salesPrice`)}</>

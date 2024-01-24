@@ -11,19 +11,21 @@ type Props = {
   createNew?: boolean;
   disableEdit?: boolean;
   production?: ProductionDto;
+  lastModified?: string;
 };
 
 const PriceCalculationActionBar = ({
   artwork,
   createNew,
   disableEdit = false,
+  production,
+  lastModified,
 }: Props) => {
   const { t } = useTranslation();
-
   return (
     <ActionBarTemplate
       artwork={artwork}
-      lastModifiedDate={'TBD'}
+      lastModifiedDate={lastModified}
       moreMenuList={
         !createNew ? (
           <MenuList>

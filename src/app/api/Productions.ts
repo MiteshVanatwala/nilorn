@@ -22,6 +22,7 @@ export function useProductionsFilter(includeCalculations: boolean) {
       clients,
       sourcingCompanies,
       productDevelopments,
+      projects,
     ],
 
     () =>
@@ -32,7 +33,8 @@ export function useProductionsFilter(includeCalculations: boolean) {
         productDevelopments,
         vendors,
         sourcingCompanies,
-        clients
+        clients,
+        projects
       ).then(res => res),
     {
       retry: 0,

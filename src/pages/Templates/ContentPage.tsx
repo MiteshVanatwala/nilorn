@@ -16,7 +16,7 @@ const ContentPage = ({ children, title, goBack }: Props) => {
       height={'100%'}
       mt={SPACE.LG}
       pb={SPACE.XXL}
-      overflowX={'clip'}>
+      overflowX={{ base: 'unset', lg: 'clip' }}>
       <Box maxW={SIZES.CONTAINER.XL} w={'100%'} position={'relative'}>
         {children}
       </Box>

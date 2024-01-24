@@ -93,6 +93,9 @@
     "DeleteComfirm": "You want to delete product development: {{no}}",
     "ViewProductions": "View productions",
     "AddProductions": "Add productions",
+    "AddCalculation": "Make/View Calculations",
+    "EditCompareProduction": "Edit/Compare productions",
+    "EditCompareCalculation": "Edit/Compare calculations",
     "UnsavedChanges": "Unsaved changes",
     "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
     "FormContent": {
@@ -212,7 +215,12 @@
     "IndirectCost": "Indirect Cost",
     "CurrencyRate": "Currency rate",
     "FreightIncluded": "Freight Included",
-    "FreightIncluded_short": "Freight Incl."
+    "FreightIncluded_short": "Freight Incl.",
+    "PurchaseCurrency": "Purchase Currency",
+    "SalesCurrency": "Sales Currency",
+    "Percentage": " (%)",
+    "SaveSuccess": "Calculation saved",
+    "CreateSuccess": "Calculation created"
   },
   "Changelog": {
     "To": "To",

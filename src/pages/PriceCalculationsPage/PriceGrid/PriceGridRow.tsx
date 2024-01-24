@@ -12,12 +12,16 @@ import {
   GridTd,
 } from '../../../components/GridTable/GridTableElements';
 import { useTranslation } from 'react-i18next';
-import { GRID_LAYOUT_PRICE } from '../PriceCalculationsTable';
+import {
+  GRID_LAYOUT_PRICE,
+  GRID_LAYOUT_PRICE_DESKTOP,
+} from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
 import { SPACE } from '../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
+import { isClosed } from '../../../app/utils/status';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -66,24 +70,40 @@ function PriceGridRow({
   return (
     <GridItem colSpan={10}>
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(submitForm)}>
-          <GridInlineTbody gridTemplateColumns={GRID_LAYOUT_PRICE}>
+        <form
+          style={{ height: '100%' }}
+          onSubmit={form.handleSubmit(submitForm)}>
+          <GridInlineTbody
+            gridTemplateColumns={{
+              base: GRID_LAYOUT_PRICE,
+              lg: GRID_LAYOUT_PRICE_DESKTOP,
+            }}>
             <GridTd style={style}>
               <>
                 <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
                   <Box>
                     <>
                       {production.vendorName}
-                      <TableMenuCalculation
-                        sourcedProduction={sourcedProduction}
-                        productDevelopment={productDevelopment}
-                        onEditInline={openRowForInlineEdit}
-                        createNew={
-                          (production?.priceCalculations &&
-                            production?.priceCalculations?.length <= 0) ??
-                          true
-                        }
-                      />
+                      {productDevelopment?.status &&
+                        !isClosed(productDevelopment?.status) &&
+                        production?.released && (
+                          <TableMenuCalculation
+                            sourcedProduction={sourcedProduction}
+                            productDevelopment={productDevelopment}
+                            onEditInline={openRowForInlineEdit}
+                            lastModified={production?.lastModified ?? undefined}
+                            artworkUrl={
+                              productDevelopment?.artworkUrl ?? undefined
+                            }
+                            production={production}
+                            calculation={calculation}
+                            createNew={
+                              (production?.priceCalculations &&
+                                production?.priceCalculations?.length <= 0) ??
+                              true
+                            }
+                          />
+                        )}
                     </>
                   </Box>
                   {enableEdit && (
