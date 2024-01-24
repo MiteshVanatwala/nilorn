@@ -25,9 +25,10 @@ const PriceCalculationActionBar = ({
   const { t } = useTranslation();
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
-    id,
-    undefined
+    undefined,
+    id
   );
+
   return (
     <ActionBarTemplate
       artwork={artwork}

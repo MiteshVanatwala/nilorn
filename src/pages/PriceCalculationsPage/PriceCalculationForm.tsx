@@ -6,6 +6,7 @@ import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
 import { PriceCalculationDto, ProductionDto } from '../../app/generate';
+import { useProductDevelopmentChangelog } from '../../app/hooks/useChangelog';
 
 type Props = {
   disableEdit?: boolean;
@@ -22,7 +23,13 @@ const PriceCalculationForm = ({
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
-
+  const currencyCodeChangelog = useProductDevelopmentChangelog('CurrencyCode');
+  const currencyRateChangelog = useProductDevelopmentChangelog('CurrencyRate');
+  const freightIncludedChangelog =
+    useProductDevelopmentChangelog('FreightIncluded');
+  const indirectCostChangelog = useProductDevelopmentChangelog('IndirectCost');
+  const internalCommissionChangelog =
+    useProductDevelopmentChangelog('InternalCommission');
   return (
     <>
       <Grid
@@ -45,6 +52,7 @@ const PriceCalculationForm = ({
             }`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'internalCommission'}
+            changelog={internalCommissionChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -55,6 +63,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'indirectCost'}
+            changelog={indirectCostChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -65,6 +74,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.FreightIncluded')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'freightIncluded'}
+            changelog={freightIncludedChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -102,6 +112,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.SalesCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'currencyCode'}
+            changelog={currencyCodeChangelog}
             options={currency as SelectOption[]}
             defaultValue={
               calculation?.currencyCode
@@ -120,6 +131,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.CurrencyRate')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'currencyRate'}
+            changelog={currencyRateChangelog}
           />
         </GridItem>
         {createNew && (
