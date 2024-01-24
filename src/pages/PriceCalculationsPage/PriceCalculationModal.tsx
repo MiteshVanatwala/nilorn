@@ -75,6 +75,7 @@ const PriceCalculationModal = ({
                 artwork={artworkUrl}
                 createNew={createNew}
                 lastModified={lastModified}
+                id={calculation?.id ?? ''}
               />
             }
           />

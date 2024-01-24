@@ -57,21 +57,17 @@ function ProductDevelopmentForm({
     }
     onSubmit(form);
   }
+
   useEffect(() => {
-    if (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role)) {
+    if (
+      (defaultValues?.status && isClosed(defaultValues?.status)) ||
+      (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role))
+    ) {
       setDisableEdit(true);
     } else {
       setDisableEdit(false);
     }
-  }, [user?.role]);
-
-  useEffect(() => {
-    form.reset(defaultValues);
-
-    setDisableEdit(
-      defaultValues?.status ? isClosed(defaultValues?.status) : false
-    );
-  }, [defaultValues, form]);
+  }, [defaultValues, user?.role]);
   useEffect(() => {
     if (isSubmitSuccessful) {
       form.reset(undefined, { keepValues: true, keepIsValid: true });

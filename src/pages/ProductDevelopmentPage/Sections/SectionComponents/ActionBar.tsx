@@ -13,7 +13,8 @@ import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../app/hooks/useToast';
 import { isEqual } from '../../../../app/utils/common';
 import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
-
+import { useCurrentUser } from '../../../../app/api/User';
+import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Permissions';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -21,7 +22,6 @@ type Props = {
   hasPriceCalculation: boolean;
   hasProductions: boolean;
 };
-
 const ActionBar = ({
   createNew,
   no,
@@ -30,21 +30,18 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-
   const artwork = useWatch({ name: 'artwork' });
   const { getValues, formState, trigger } = useFormContext();
   const { statuses } = useStatusOptions();
   const currentStatus = getValues('status') as Status;
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { showToast } = useToast();
-
+  const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
-
   async function submitStatus(status: Status): Promise<void> {
     if (currentStatus === status) {
       return;
     }
-
     if (!isEqual(formState.defaultValues, getValues())) {
       showToast({
         position: 'top-right',
@@ -53,23 +50,19 @@ const ActionBar = ({
       });
       return;
     }
-
     const res = await trigger();
     if (res) {
       updateStatus(status);
     }
   }
-
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCT_DEVELOPMENT,
     no,
     undefined
   );
-
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
   }
-
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -146,7 +139,13 @@ const ActionBar = ({
           <>
             <Menu>
               <MenuButton
-                opacity={disableEdit ? '70%' : ''}
+                opacity={
+                  disableEdit &&
+                  user?.role &&
+                  !ROLES_ALLOWED_TO_CHANGE_CLOSED.includes(user?.role)
+                    ? '70%'
+                    : ''
+                }
                 as={Button}
                 variant={'secondary'}
                 padding={SPACE.SM}>
@@ -157,7 +156,13 @@ const ActionBar = ({
                   <MenuItem
                     key={s.value}
                     value={s.value}
-                    onClick={() => (!disableEdit ? submitStatus(s.value) : '')}
+                    onClick={() =>
+                      !disableEdit ||
+                      (user?.role &&
+                        ROLES_ALLOWED_TO_CHANGE_CLOSED.includes(user?.role))
+                        ? submitStatus(s.value)
+                        : ''
+                    }
                     bg={
                       getValues('status') === s.value
                         ? COLORS.GRAY[10]
@@ -189,5 +194,4 @@ const ActionBar = ({
     />
   );
 };
-
 export default ActionBar;

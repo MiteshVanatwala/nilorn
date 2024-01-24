@@ -19,6 +19,7 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
 import { useGetCurrencies } from '../../../app/api/currency';
 import { isClosed } from '../../../app/utils/status';
+import { useProductionChangelog } from '../../../app/hooks/useChangelog';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -42,6 +43,10 @@ const EditProductionFormContent = ({
   const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
   const newSelctedVendor = useWatch({ name: 'vendorId' });
   const { setValue } = useFormContext();
+  const currencyCodeChangelog = useProductionChangelog(
+    'CurrencyCode',
+    production?.id ?? ''
+  );
 
   useEffect(() => {
     if (vendors) {
@@ -186,6 +191,7 @@ const EditProductionFormContent = ({
               }
               options={(currency as SelectOption[]) ?? []}
               name={'currencyCode'}
+              changelog={currencyCodeChangelog}
             />
           </GridItem>
           {!createNew && (
