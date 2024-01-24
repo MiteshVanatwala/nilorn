@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { MediaFile } from '../models/MediaFile';
+import type { MediaFileDto } from '../models/MediaFileDto';
 import type { MediaFileType } from '../models/MediaFileType';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -15,7 +15,7 @@ export class MediaFileService {
      * @param no 
      * @param mediaFileType 
      * @param formData 
-     * @returns MediaFile Success
+     * @returns MediaFileDto Success
      * @throws ApiError
      */
     public static postApiMediaFile(
@@ -24,7 +24,7 @@ mediaFileType: MediaFileType,
 formData?: {
 file?: Blob;
 },
-): CancelablePromise<MediaFile> {
+): CancelablePromise<MediaFileDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/MediaFile/{no}/{mediaFileType}',
@@ -34,6 +34,23 @@ file?: Blob;
             },
             formData: formData,
             mediaType: 'multipart/form-data',
+        });
+    }
+
+    /**
+     * @param no 
+     * @returns MediaFileDto Success
+     * @throws ApiError
+     */
+    public static getApiMediaFile(
+no: string,
+): CancelablePromise<Array<MediaFileDto>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/MediaFile/{no}',
+            path: {
+                'no': no,
+            },
         });
     }
 

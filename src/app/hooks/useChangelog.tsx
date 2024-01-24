@@ -1,36 +1,49 @@
 import { useParams } from 'react-router';
-import { useProductDevelopmentChanges } from '../api/productDevelopment';
-import { ChangelogDto, ProductDevelopmentChangelogDto } from '../generate';
+import { ChangelogDto, ChangelogItemDto, ChangelogType } from '../generate';
 import { useQueryClient } from 'react-query';
 import { useEffect, useState } from 'react';
 import QueryKeysEnum from '../api/queryKeys';
 import { useToast } from './useToast';
 import { useTranslation } from 'react-i18next';
+import { useChangelog } from '../api/changelog';
 
 function getChangelogForKey(
-  changelogMap: ProductDevelopmentChangelogDto[] | undefined,
+  changelogMap: ChangelogDto[] | undefined,
   key: string
-): ChangelogDto[] {
+): ChangelogItemDto[] {
   return changelogMap && changelogMap?.length
     ? changelogMap?.find(cm => cm.propertyName === key)?.changes ?? []
     : [];
 }
 
-export function useProductDevelopmentChangelog(key: string): ChangelogDto[] {
+export function useProductDevelopmentChangelog(
+  key: string
+): ChangelogItemDto[] {
   const { no } = useParams();
-  const { data: changelogMap } = useProductDevelopmentChanges(no ?? '', false);
+  const { data: changelogMap } = useChangelog(
+    no,
+    ChangelogType.PRODUCT_DEVELOPMENT,
+    undefined,
+    false
+  );
 
   return getChangelogForKey(changelogMap, key);
 }
 
-export function useToggleProductDevelopmentChanges(no: string) {
+export function useToggleChangelog(
+  type: ChangelogType,
+  no?: string,
+  id?: string
+) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
   const [showChanges, setShowChanges] = useState<boolean>(false);
-  const { refetch: fetchChanges, isError } = useProductDevelopmentChanges(
+  const { refetch: fetchChanges, isError } = useChangelog(
     no,
+    type,
+    id,
     showChanges
   );
 

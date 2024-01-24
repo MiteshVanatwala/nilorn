@@ -2,10 +2,10 @@ import { IconButton, Text } from '@chakra-ui/react';
 import Popup, { PopupPosition, PopupTrigger } from '../Popup/Popup';
 import { COLORS } from '../../theme/Constants';
 import ChangelogPopupContent from './ChangelogPopupContent';
-import { ChangelogDto } from '../../app/generate';
+import { ChangelogItemDto } from '../../app/generate';
 
 type Props = {
-  data: ChangelogDto[];
+  data: ChangelogItemDto[];
 };
 
 const ChangelogPopup = ({ data }: Props) => {

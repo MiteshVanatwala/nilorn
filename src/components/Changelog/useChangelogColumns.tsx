@@ -3,12 +3,12 @@ import { createColumnHelper } from '@tanstack/react-table';
 import { renderIcon } from '../../app/utils/changelog';
 import { Text } from '@chakra-ui/react';
 import TruncateTextTooltip from '../Text/TruncateTextTooltip';
-import { ChangeType, ChangelogDto } from '../../app/generate';
+import { ChangeType, ChangelogItemDto } from '../../app/generate';
 
 const useChangelogColumns = () => {
   const { t } = useTranslation();
 
-  const columnHelper = createColumnHelper<ChangelogDto>();
+  const columnHelper = createColumnHelper<ChangelogItemDto>();
   const columns = [
     columnHelper.accessor('changeType', {
       header: ``,

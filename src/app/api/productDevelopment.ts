@@ -128,23 +128,6 @@ export const useProductDevelopment = (no: string) => {
   );
 };
 
-export const useProductDevelopmentChanges = (
-  no: string,
-  enable: boolean = true
-) => {
-  return useQuery(
-    [QueryKeysEnum.Changes],
-    () =>
-      ProductDevelopmentsService.getApiProductDevelopmentsChanges(no).then(
-        res => res
-      ),
-    {
-      enabled: no !== '' && enable,
-      retry: 0,
-    }
-  );
-};
-
 export const useMembers = (no: string) => {
   return useQuery(
     [QueryKeysEnum.SalesPersonPurchasers, no],
