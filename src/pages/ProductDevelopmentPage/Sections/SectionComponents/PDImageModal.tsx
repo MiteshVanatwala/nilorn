@@ -25,9 +25,10 @@ type Props = {
   imageUrl: string | undefined;
   no: string;
   pdName: string;
+  disableEdit: boolean;
 };
 
-const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
+const PDImageModal = ({ imageUrl, no, pdName, disableEdit }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -113,7 +114,7 @@ const PDImageModal = ({ imageUrl, no, pdName }: Props) => {
       )}
       {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
         <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-          {!isError && !isLoading && pdImage && (
+          {!isError && !isLoading && pdImage && !disableEdit && (
             <>
               <GridItem>
                 <Input

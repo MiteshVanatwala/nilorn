@@ -103,7 +103,15 @@ function ProductDevelopmentForm({
                     createNew={createNew}
                     disableEdit={disableEdit}
                   />
-                  <AttachmentSection disableEdit={disableEdit} />
+
+                  <AttachmentSection
+                    isClosed={
+                      defaultValues?.status && isClosed(defaultValues?.status)
+                        ? true
+                        : false
+                    }
+                    disableEdit={disableEdit}
+                  />
                   {showSourcing && (
                     <SourcingSection no={no} disableEdit={disableEdit} />
                   )}

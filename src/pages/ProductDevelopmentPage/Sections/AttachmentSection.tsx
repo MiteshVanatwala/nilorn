@@ -12,9 +12,10 @@ const ATTACHMERNTS: string = 'attachments';
 
 type Props = {
   disableEdit: boolean;
+  isClosed: boolean;
 };
 
-const AttachmentSection = ({ disableEdit }: Props) => {
+const AttachmentSection = ({ disableEdit, isClosed }: Props) => {
   const { setValue, unregister, watch, getValues } = useFormContext();
   const { t } = useTranslation();
 
@@ -37,66 +38,70 @@ const AttachmentSection = ({ disableEdit }: Props) => {
   };
 
   return (
-    <AccordionItem
-      title={`${t('PD.AccordionLabels.Attachments')} (${
-        (attachments?.length ?? 0) + (artwork ? 1 : 0)
-      })`}>
-      <Grid
-        gap={{
-          base: SPACE.XXS,
-          lg: SPACE.SM,
-        }}
-        templateColumns={GRID.TEMPLATE_COLUMNS}>
-        <GridItem colSpan={12}>
-          {!disableEdit && (
-            <UploadFile
-              heading={t('PD.Artwork')}
-              onUpload={uploadArtwork}
-              showAdd={!artwork}
-            />
-          )}
-        </GridItem>
-        <GridItem
-          colSpan={{
-            lg: 2,
-          }}>
-          {artwork && (
-            <File
-              name={artwork}
-              url="#"
-              icon={
-                <Image
-                  src={images.pdf}
-                  height={SIZES.ICON.SM}
-                  objectFit={'contain'}
-                  width="auto"
+    <>
+      {(attachments?.length !== 0 || artwork?.length !== 0 || !isClosed) && (
+        <AccordionItem
+          title={`${t('PD.AccordionLabels.Attachments')} (${
+            (attachments?.length ?? 0) + (artwork ? 1 : 0)
+          })`}>
+          <Grid
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}
+            templateColumns={GRID.TEMPLATE_COLUMNS}>
+            <GridItem colSpan={12}>
+              {!disableEdit && (
+                <UploadFile
+                  heading={t('PD.Artwork')}
+                  onUpload={uploadArtwork}
+                  showAdd={!artwork}
                 />
-              }
-              onRemove={disableEdit ? undefined : () => unregister(ARTWORK)}
-            />
-          )}
-        </GridItem>
-        <GridItem colSpan={12}>
-          {!disableEdit && (
-            <UploadFile
-              heading={t('PD.AccordionLabels.Attachments')}
-              onUpload={uploadAttachments}
-              multiple={true}
-            />
-          )}
-        </GridItem>
-        {attachments?.map(a => (
-          <GridItem
-            key={a}
-            colSpan={{
-              base: 1,
-              lg: 2,
-            }}>
-            <File name={a} url="#" onRemove={removeAttachment} />
-          </GridItem>
-        ))}
-      </Grid>
-    </AccordionItem>
+              )}
+            </GridItem>
+            <GridItem
+              colSpan={{
+                lg: 2,
+              }}>
+              {artwork && (
+                <File
+                  name={artwork}
+                  url="#"
+                  icon={
+                    <Image
+                      src={images.pdf}
+                      height={SIZES.ICON.SM}
+                      objectFit={'contain'}
+                      width="auto"
+                    />
+                  }
+                  onRemove={disableEdit ? undefined : () => unregister(ARTWORK)}
+                />
+              )}
+            </GridItem>
+            <GridItem colSpan={12}>
+              {!disableEdit && (
+                <UploadFile
+                  heading={t('PD.AccordionLabels.Attachments')}
+                  onUpload={uploadAttachments}
+                  multiple={true}
+                />
+              )}
+            </GridItem>
+            {attachments?.map(a => (
+              <GridItem
+                key={a}
+                colSpan={{
+                  base: 1,
+                  lg: 2,
+                }}>
+                <File name={a} url="#" onRemove={removeAttachment} />
+              </GridItem>
+            ))}
+          </Grid>
+        </AccordionItem>
+      )}
+    </>
   );
 };
 

@@ -1,8 +1,11 @@
 import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
 import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
-import { Image, VStack } from '@chakra-ui/react';
+import { Image, Link, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
-import StatusBadge from '../Status/StatusBadge';
+import StatusBadge from '../../components/Status/StatusBadge';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { ModalContext } from '../../app/context/ModalContext';
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
@@ -21,6 +24,8 @@ const ProductDevelopmentModalTopSection = ({
   production,
   actionBar,
 }: Props) => {
+  const { close } = useContext(ModalContext);
+
   return (
     <Box
       py={{
@@ -92,10 +97,12 @@ const ProductDevelopmentModalTopSection = ({
               <HStack gap={SPACE.SM}>
                 <Text>
                   {productDevelopment?.no && (
-                    <>
-                      {'#'}
-                      {productDevelopment?.no}
-                    </>
+                    <Link
+                      as={NavLink}
+                      to={`/product-development/${productDevelopment?.no}`}
+                      onClick={() => close()}>
+                      #{productDevelopment?.no}
+                    </Link>
                   )}
                 </Text>
                 <StatusBadge status={productDevelopment?.status} />

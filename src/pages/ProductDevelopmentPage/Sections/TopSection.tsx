@@ -87,7 +87,13 @@ const TopSection = ({ no, scrolledPast, createNew, disableEdit }: Props) => {
               }}
               alignItems={'top'}>
               {!createNew ? (
-                <PDImage pdName={pdName} no={no} scrolledPast={scrolledPast} />
+                <PDImage
+                  pdName={pdName}
+                  no={no}
+                  scrolledPast={scrolledPast}
+                  disableEdit={disableEdit}
+                  status={status}
+                />
               ) : (
                 <HStack
                   maxHeight={scrolledPast ? '0' : '20rem'}

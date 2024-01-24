@@ -15,6 +15,7 @@ import {
   GridTh,
 } from '../../components/GridTable/GridTableElements';
 import { Fragment } from 'react';
+import { isClosed } from '../../app/utils/status';
 
 const GRID_LAYOUT = 'repeat(4, 1fr) [Vendor] minmax(170px, 1fr) repeat(7, 1fr)';
 const GRID_LAYOUT_SOURCING =
@@ -53,15 +54,20 @@ const ProductionsTable = ({ productions }: Props) => {
                       style={TD_STYLE}>
                       <>
                         {s.sourcingCompanyCode}
-                        <TableMenuContainer
-                          children={
-                            <TableMenuSourcing
-                              productDevelopment={p?.productDevelopmentBriefDto}
-                              sourcedProduction={s}
-                              sourcingCoIndex={index}
+                        {p.productDevelopmentBriefDto?.status &&
+                          !isClosed(p.productDevelopmentBriefDto.status) && (
+                            <TableMenuContainer
+                              children={
+                                <TableMenuSourcing
+                                  productDevelopment={
+                                    p?.productDevelopmentBriefDto
+                                  }
+                                  sourcedProduction={s}
+                                  sourcingCoIndex={index}
+                                />
+                              }
                             />
-                          }
-                        />
+                          )}
                       </>
                     </GridTd>
                     <GridItem
