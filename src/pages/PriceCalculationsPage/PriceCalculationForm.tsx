@@ -7,6 +7,7 @@ import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
 import { PriceCalculationDto, ProductionDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
+import PriceCalculationFormTable from './PriceCalculationFormTable';
 
 type Props = {
   disableEdit?: boolean;
@@ -29,6 +30,7 @@ const PriceCalculationForm = ({
   const indirectCostChangelog = useCalculationChangelog('IndirectCost');
   const internalCommissionChangelog =
     useCalculationChangelog('InternalCommission');
+  console.log(calculation);
   return (
     <>
       <Grid
@@ -144,6 +146,7 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
+      <PriceCalculationFormTable data={calculation?.priceDtos ?? []} />
     </>
   );
 };

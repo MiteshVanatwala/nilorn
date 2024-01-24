@@ -32,11 +32,17 @@ export const GridTable = ({ gridTemplateColumns, children }: TableProps) => {
 type TableColumnProps = GridItemProps & {
   colSpan?: number;
   children?: string | JSX.Element;
+  style?: CSSProperties;
 };
 
-export const GridTh = ({ colSpan, children, ...args }: TableColumnProps) => {
+export const GridTh = ({
+  colSpan,
+  style = TH_STYLE,
+  children,
+  ...args
+}: TableColumnProps) => {
   return (
-    <GridItem colSpan={colSpan ?? 1} gap={TABLE_GAP} style={TH_STYLE} {...args}>
+    <GridItem colSpan={colSpan ?? 1} gap={TABLE_GAP} style={style} {...args}>
       {children}
     </GridItem>
   );

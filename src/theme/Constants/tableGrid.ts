@@ -15,7 +15,18 @@ export const TH_STYLE: CSSProperties = {
   position: 'sticky',
   top: 0,
 };
-
+export const TH_STYLE_CALCULATION: CSSProperties = {
+  ...table.baseStyle?.th,
+  height: '4rem',
+  textTransform: 'none',
+  display: 'flex',
+  overflow: 'hidden',
+  lineHeight: 1.15,
+  margin: `-${TABLE_GAP}`,
+  position: 'sticky',
+  top: 0,
+  border: 'none',
+};
 export const TD_STYLE_RELEASED: CSSProperties = {
   ...table.baseStyle?.td,
   height: 'auto',
