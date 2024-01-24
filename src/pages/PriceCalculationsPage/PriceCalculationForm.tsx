@@ -6,7 +6,7 @@ import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
 import { PriceCalculationDto, ProductionDto } from '../../app/generate';
-import { useProductDevelopmentChangelog } from '../../app/hooks/useChangelog';
+import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 
 type Props = {
   disableEdit?: boolean;
@@ -23,13 +23,12 @@ const PriceCalculationForm = ({
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
-  const currencyCodeChangelog = useProductDevelopmentChangelog('CurrencyCode');
-  const currencyRateChangelog = useProductDevelopmentChangelog('CurrencyRate');
-  const freightIncludedChangelog =
-    useProductDevelopmentChangelog('FreightIncluded');
-  const indirectCostChangelog = useProductDevelopmentChangelog('IndirectCost');
+  const currencyCodeChangelog = useCalculationChangelog('CurrencyCode');
+  const currencyRateChangelog = useCalculationChangelog('CurrencyRate');
+  const freightIncludedChangelog = useCalculationChangelog('FreightIncluded');
+  const indirectCostChangelog = useCalculationChangelog('IndirectCost');
   const internalCommissionChangelog =
-    useProductDevelopmentChangelog('InternalCommission');
+    useCalculationChangelog('InternalCommission');
   return (
     <>
       <Grid

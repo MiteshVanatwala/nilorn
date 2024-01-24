@@ -42,7 +42,17 @@ export function useProductionChangelog(
 
   return getChangelogForKey(changelogMap, key);
 }
+export function useCalculationChangelog(key: string): ChangelogItemDto[] {
+  const { no } = useParams();
+  const { data: changelogMap } = useChangelog(
+    no,
+    ChangelogType.PRICE_CALCULATION,
+    undefined,
+    false
+  );
 
+  return getChangelogForKey(changelogMap, key);
+}
 export function useToggleChangelog(
   type: ChangelogType,
   no?: string,
