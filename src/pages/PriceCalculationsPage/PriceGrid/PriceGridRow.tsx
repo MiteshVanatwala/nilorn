@@ -85,7 +85,8 @@ function PriceGridRow({
                     <>
                       {production.vendorName}
                       {productDevelopment?.status &&
-                        !isClosed(productDevelopment?.status) && (
+                        !isClosed(productDevelopment?.status) &&
+                        production?.released && (
                           <TableMenuCalculation
                             sourcedProduction={sourcedProduction}
                             productDevelopment={productDevelopment}
