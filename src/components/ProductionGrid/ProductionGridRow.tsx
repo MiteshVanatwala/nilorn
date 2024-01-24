@@ -3,6 +3,7 @@ import { ProductionDto } from '../../app/generate';
 import { CSSProperties, Fragment } from 'react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
+import CommentPopup from '../CommentPopup/CommentPopup';
 
 type Props = {
   production: ProductionDto;
@@ -19,7 +20,9 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
           {tableMenu}
         </>
       </GridTd>
-      <GridTd style={style}>{production.comment}</GridTd>
+      <GridTd style={style}>
+        <CommentPopup comment={production.comment} />
+      </GridTd>
       <GridTd style={style}>{production.sampleLeadTime}</GridTd>
       <GridTd style={style}>{production.productionLeadTime}</GridTd>
       <GridTd style={style}>{production.moq}</GridTd>

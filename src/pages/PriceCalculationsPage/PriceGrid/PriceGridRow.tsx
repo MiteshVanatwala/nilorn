@@ -22,6 +22,8 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
+import CommentPopup from '../../../components/CommentPopup/CommentPopup';
+
 type Props = {
   sourcedProduction: SourcedProductionDto;
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -137,7 +139,9 @@ function PriceGridRow({
                 </VStack>
               </>
             </GridTd>
-            <GridTd style={style}>{production.comment}</GridTd>
+            <GridTd style={style}>
+              <CommentPopup comment={production.comment} />
+            </GridTd>
             {calculation && calculation?.priceDtos?.length ? (
               <>
                 <GridTd style={style} gridColumn={'BaseValues'}>
