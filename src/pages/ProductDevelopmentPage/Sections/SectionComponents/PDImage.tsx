@@ -33,7 +33,7 @@ const PDImage = ({ scrolledPast, no, pdName, disableEdit, status }: Props) => {
           pdName={pdName}
           imageUrl={pdImage}
           no={no}
-          disableEdit={disableEdit}
+          status={status}
         />
       );
     }
@@ -55,7 +55,7 @@ const PDImage = ({ scrolledPast, no, pdName, disableEdit, status }: Props) => {
               pdName={pdName}
               imageUrl={pdImage}
               no={no}
-              disableEdit={disableEdit}
+              status={status}
             />
           )
         }

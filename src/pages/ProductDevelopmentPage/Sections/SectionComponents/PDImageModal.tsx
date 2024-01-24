@@ -20,15 +20,17 @@ import {
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../../app/api/User';
 import TRANSITION from '../../../../theme/Constants/transition';
+import { isClosed } from '../../../../app/utils/status';
+import { Status } from '../../../../app/generate';
 
 type Props = {
   imageUrl: string | undefined;
   no: string;
   pdName: string;
-  disableEdit: boolean;
+  status: Status;
 };
 
-const PDImageModal = ({ imageUrl, no, pdName, disableEdit }: Props) => {
+const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -114,7 +116,7 @@ const PDImageModal = ({ imageUrl, no, pdName, disableEdit }: Props) => {
       )}
       {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
         <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-          {!isError && !isLoading && pdImage && !disableEdit && (
+          {!isError && !isLoading && pdImage && !isClosed(status) && (
             <>
               <GridItem>
                 <Input
