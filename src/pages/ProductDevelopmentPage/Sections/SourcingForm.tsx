@@ -138,7 +138,13 @@ const SourcingForm = ({
                 onClick={formState.isDirty ? openModal : undefined}
                 direction="right"
                 to={`/price-calculations/?productDevelopments=${no}`}>
-                <>{t('PD.AddCalculation')}</>
+                <>
+                  {connectedProductions &&
+                  connectedProductions?.filter(cp => cp.priceCalculations)
+                    ?.length > 0
+                    ? t('PD.ViewCalculation')
+                    : t('PD.AddCalculation')}
+                </>
               </ArrowLink>
             </GridItem>
           )}

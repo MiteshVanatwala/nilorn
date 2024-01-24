@@ -3,14 +3,12 @@ import { SIZES } from '../../theme/Constants';
 import { Button } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
-import { ProductionDto } from '../../app/generate';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
 
 type Props = {
   artwork?: string | null;
   createNew?: boolean;
   disableEdit?: boolean;
-  production?: ProductionDto;
   lastModified?: string;
 };
 
@@ -18,7 +16,6 @@ const PriceCalculationActionBar = ({
   artwork,
   createNew,
   disableEdit = false,
-  production,
   lastModified,
 }: Props) => {
   const { t } = useTranslation();

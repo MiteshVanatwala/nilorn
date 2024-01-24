@@ -5,7 +5,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
-import { CSSProperties, Fragment, useState } from 'react';
+import { CSSProperties, Fragment, useEffect, useState } from 'react';
 import { TD_STYLE } from '../../../theme/Constants/tableGrid';
 import {
   GridInlineTbody,
@@ -22,7 +22,6 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
-
 type Props = {
   sourcedProduction: SourcedProductionDto;
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -30,7 +29,6 @@ type Props = {
   style?: CSSProperties;
   tableMenu?: JSX.Element;
 };
-
 function PriceGridRow({
   production,
   style = TD_STYLE,
@@ -38,35 +36,49 @@ function PriceGridRow({
   sourcedProduction,
 }: Props) {
   // In phase one, only one calc!
-  const calculation: PriceCalculationDto | undefined =
+  const [calculation, setCalculation] = useState<
+    PriceCalculationDto | undefined
+  >(
     production?.priceCalculations && production?.priceCalculations?.length > 0
       ? production?.priceCalculations[0]
-      : undefined;
-  const createNew = calculation === undefined;
-
+      : undefined
+  );
+  const [createNew, setCreateNew] = useState<boolean>(
+    calculation === undefined
+  );
+  useEffect(() => {
+    if (
+      production?.priceCalculations &&
+      production?.priceCalculations?.length > 0
+    ) {
+      setCalculation(production?.priceCalculations[0]);
+      setCreateNew(false);
+      if (form) {
+        form.reset({ SalesPrice: production?.priceCalculations[0]?.priceDtos });
+      }
+    } else {
+      setCreateNew(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [production?.priceCalculations]);
   const { t } = useTranslation();
   const form = useForm({
     defaultValues: {
       SalesPrice: calculation?.priceDtos,
     },
   });
-
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
-
   const openRowForInlineEdit = () => {
     setEnableEdit(true);
   };
-
   const closeRowForInlineEdit = () => {
     setEnableEdit(false);
     form.reset();
   };
-
   const submitForm = (form: FieldValues) => {
     console.log('Submit Salce price form: ', form);
     setEnableEdit(false);
   };
-
   return (
     <GridItem colSpan={10}>
       <FormProvider {...form}>
@@ -163,5 +175,4 @@ function PriceGridRow({
     </GridItem>
   );
 }
-
 export default PriceGridRow;
