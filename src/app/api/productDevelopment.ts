@@ -2,8 +2,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SalesPersonPurchasersService } from './../generate/services/SalesPersonPurchasersService';
 import {
   ApiError,
-  MediaFileService,
-  MediaFileType,
   ProductDevelopmentDto,
   ProductDevelopmentsService,
   Status,

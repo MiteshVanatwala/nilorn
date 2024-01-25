@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { MediaFileDto } from './MediaFileDto';
 import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
 import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
@@ -24,7 +25,7 @@ export type ProductDevelopmentDto = {
     freightIncluded?: number | null;
     no?: string | null;
     thumbnailData?: string | null;
-    artworkUrl?: string | null;
+    artwork?: MediaFileDto;
     client?: string | null;
     clientNo?: string | null;
     versions?: number | null;

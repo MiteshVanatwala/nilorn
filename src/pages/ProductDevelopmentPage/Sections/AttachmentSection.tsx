@@ -1,16 +1,13 @@
-import { Grid, GridItem, Image } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SIZES, SPACE } from '../../../theme/Constants';
+import { GRID, SPACE } from '../../../theme/Constants';
 import { useFormContext } from 'react-hook-form';
-import File from '../../../components/File/File';
-import UploadFile from '../../../components/File/UploadFile';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
-import { images } from '../../../assets';
 import { MediaFileType } from '../../../app/generate';
 import FileSection from './FileSection';
+import { useAttachments } from '../../../app/api/mediaFile';
 
-// const ARTWORK: string = 'artwork';
-// const ATTACHMERNTS: string = 'attachments';
+export const ARTWORK: string = 'artwork';
 
 type Props = {
   no: string;
@@ -19,35 +16,19 @@ type Props = {
 };
 
 const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
-  // const { setValue, unregister, watch, getValues } = useFormContext();
+  const { watch } = useFormContext();
   const { t } = useTranslation();
 
-  // const artwork = watch(ARTWORK);
-  // const attachments: string[] = watch(ATTACHMERNTS);
+  const artwork = watch(ARTWORK);
 
-  // const uploadArtwork = (uploaded: string[]) => {
-  //   setValue(ARTWORK, uploaded[0]);
-  // };
-
-  // const uploadAttachments = (uploaded: string[]) => {
-  //   setValue(ATTACHMERNTS, uploaded);
-  // };
-
-  // const removeAttachment = (fileName: string) => {
-  //   const tmp = (getValues(ATTACHMERNTS) as string[]).filter(
-  //     a => a !== fileName
-  //   );
-  //   setValue(ATTACHMERNTS, tmp);
-  // };
+  const { data: attachments, isFetched } = useAttachments(no);
 
   return (
-    // attachments?.length !== 0 || artwork?.length !== 0 ||
     <>
-      {!isClosed && (
+      {(attachments?.length !== 0 || artwork?.length !== 0 || !isClosed) && (
         <AccordionItem
           title={`${t('PD.AccordionLabels.Attachments')} (${
-            0
-            // (attachments?.length ?? 0) + (artwork ? 1 : 0)
+            (attachments?.length ?? 0) + (artwork ? 1 : 0)
           })`}>
           <Grid
             gap={{
@@ -58,17 +39,21 @@ const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
             <FileSection
               no={no}
               type={MediaFileType.ARTWORK}
-              disableEdit={false}
-              isClosed={false}
-              heading={t('PD.AccordionLabels.Artwork')}
+              defaultValue={artwork ? [artwork] : undefined}
+              disableEdit={disableEdit}
+              isClosed={isClosed}
+              heading={t('PD.Artwork')}
             />
-            <FileSection
-              no={no}
-              type={MediaFileType.ATTACHMENT}
-              disableEdit={false}
-              isClosed={false}
-              heading={t('PD.AccordionLabels.Attatchments')}
-            />
+            {isFetched && (
+              <FileSection
+                no={no}
+                type={MediaFileType.ATTACHMENT}
+                defaultValue={attachments}
+                disableEdit={disableEdit}
+                isClosed={isClosed}
+                heading={t('PD.Attatchments')}
+              />
+            )}
           </Grid>
         </AccordionItem>
       )}

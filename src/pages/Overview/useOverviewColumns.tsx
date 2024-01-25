@@ -47,12 +47,12 @@ const useOverviewColumns = () => {
       header: `${t('PD.Status')}`,
       cell: info => <StatusBadge status={info.getValue() as Status} />,
     }),
-    columnHelper.accessor('artworkUrl', {
+    columnHelper.accessor('artworkId', {
       header: `${t('PD.Artwork')}`,
       enableSorting: false,
       cell: info =>
         info.getValue() ? (
-          <ArtworkButton size="SMALL" url={`${info.getValue()}`} />
+          <ArtworkButton size="SMALL" id={`${info.getValue()}`} />
         ) : (
           ''
         ),

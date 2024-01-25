@@ -18,6 +18,7 @@ enum QueryKeysEnum {
   Changes = 'Changes',
   Currency = 'Currency',
   SourcingQty = 'SourcingQty',
+  Attachments = 'Attachments',
 }
 
 export default QueryKeysEnum;

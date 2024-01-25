@@ -42,14 +42,48 @@ file?: Blob;
      * @returns MediaFileDto Success
      * @throws ApiError
      */
-    public static getApiMediaFile(
+    public static getApiMediaFileAttachments(
 no: string,
 ): CancelablePromise<Array<MediaFileDto>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/MediaFile/{no}',
+            url: '/api/MediaFile/{no}/attachments',
             path: {
                 'no': no,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns boolean Success
+     * @throws ApiError
+     */
+    public static deleteApiMediaFile(
+id: string,
+): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/MediaFile/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any Success
+     * @throws ApiError
+     */
+    public static getApiMediaFile(
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/MediaFile/{id}',
+            path: {
+                'id': id,
             },
         });
     }

@@ -1,16 +1,12 @@
-import { Grid, GridItem, Image } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { GRID, SIZES, SPACE } from '../../../theme/Constants';
+import { GridItem } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import File from '../../../components/File/File';
 import UploadFile from '../../../components/File/UploadFile';
-import AccordionItem from '../../../components/AccordionItem/AccordionItem';
-import { images } from '../../../assets';
 import { MediaFileDto, MediaFileType } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
-import { useEffect, useMemo, useState } from 'react';
-import { forEach, isError } from 'lodash';
-import { useMutation } from 'react-query';
+import { useState } from 'react';
+
+import { ARTWORK } from './AttachmentSection';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -35,19 +31,18 @@ const FileSection = ({
   isClosed,
   defaultValue = [],
 }: Props) => {
+  const { setValue } = useFormContext();
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
 
   const { mutateAsync } = useUploadFile(no, type);
 
   const removeFile = (id: string) => {
-    // TODO: Call API
-    // Remove from list
-    console.log('removeFile', mediaFiles, id);
+    if (type === MediaFileType.ARTWORK) {
+      setValue(ARTWORK, undefined);
+    }
     setMediaFiles(prevMediaFiles => {
       const filteredFiles = prevMediaFiles.filter(prev => !(prev.id === id));
-
-      // Add the updated object with status: 'success'
       return [...filteredFiles];
     });
   };
@@ -73,6 +68,9 @@ const FileSection = ({
               : prev
           );
         });
+        if (type === MediaFileType.ARTWORK) {
+          setValue(ARTWORK, res);
+        }
       } catch (err) {
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
@@ -81,7 +79,7 @@ const FileSection = ({
               : prev
           );
         });
-        console.error('Failed to upload file: ', filename);
+        console.error(err);
       }
     });
 
@@ -93,27 +91,25 @@ const FileSection = ({
       <GridItem colSpan={12}>
         {!disableEdit && (
           <UploadFile
-            no={no}
-            type={type}
+            accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
             heading={heading}
             onUpload={handleUpload}
             showAdd={
-              type === MediaFileType.ARTWORK && mediaFiles.length === 0
-                ? true
+              type === MediaFileType.ARTWORK && mediaFiles.length > 0
+                ? false
                 : !disableEdit
             }
             multiple={type === MediaFileType.ATTACHMENT}
           />
         )}
       </GridItem>
-      {mediaFiles.map(f => (
+      {mediaFiles.map((f, i) => (
         <GridItem
-          key={f.id}
+          key={`${f.id}-${i}`}
           colSpan={{
             lg: 2,
           }}>
           <File
-            key={f.id}
             file={f}
             status={f.status ?? 'success'}
             onRemove={(id: string) => removeFile(id)}

@@ -11,7 +11,8 @@ import ErrorPage from './components/ErrorBoundary/ErrorPage';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { OpenAPI } from './app/generate';
 
-OpenAPI.BASE = process.env.REACT_APP_API_URL ?? 'https://localhost:7288';
+OpenAPI.BASE =
+  process.env.REACT_APP_API_URL ?? 'https://umbrella-api-test.nilorn.com';
 
 function App() {
   const auth = useAuth();
