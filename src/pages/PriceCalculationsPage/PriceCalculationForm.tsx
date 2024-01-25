@@ -30,7 +30,6 @@ const PriceCalculationForm = ({
   const indirectCostChangelog = useCalculationChangelog('IndirectCost');
   const internalCommissionChangelog =
     useCalculationChangelog('InternalCommission');
-  console.log(calculation);
   return (
     <>
       <Grid

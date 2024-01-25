@@ -14,6 +14,7 @@ type TableProps = {
   gridTemplateColumns:
     | ResponsiveValue<CSS.Property.GridTemplateColumns<0 | (string & {})>>
     | undefined;
+  gap?: string;
 };
 
 export const GridTable = ({ gridTemplateColumns, children }: TableProps) => {
@@ -70,10 +71,11 @@ export const GridTd = ({
 export const GridInlineTbody = ({
   gridTemplateColumns,
   children,
+  gap = TABLE_GAP,
 }: TableProps) => {
   return (
     <Grid
-      gap={TABLE_GAP}
+      gap={gap}
       gridTemplateColumns={gridTemplateColumns}
       height={'100%'}
       alignItems={'stretch'}>

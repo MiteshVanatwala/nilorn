@@ -27,6 +27,13 @@ export const TH_STYLE_CALCULATION: CSSProperties = {
   top: 0,
   border: 'none',
 };
+export const TD_STYLE_CALCULATION: CSSProperties = {
+  ...table.baseStyle?.td,
+  height: 'auto',
+  borderTop: 'none',
+  border: 'none',
+  display: 'flex',
+};
 export const TD_STYLE_RELEASED: CSSProperties = {
   ...table.baseStyle?.td,
   height: 'auto',
