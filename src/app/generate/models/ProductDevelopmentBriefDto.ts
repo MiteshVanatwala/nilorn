@@ -6,15 +6,15 @@
 import type { Status } from './Status';
 
 export type ProductDevelopmentBriefDto = {
-  no?: string | null;
-  thumbnailData?: string | null;
-  name?: string | null;
-  status?: Status;
-  versions?: number;
-  artworkId?: string | null;
-  client?: string | null;
-  project?: string | null;
-  productGroup?: string | null;
-  itemCategory?: string | null;
-  sourcings?: Array<string> | null;
+    no?: string | null;
+    thumbnailData?: string | null;
+    name?: string | null;
+    status?: Status;
+    versions?: number;
+    artworkId?: string | null;
+    client?: string | null;
+    project?: string | null;
+    productGroup?: string | null;
+    itemCategory?: string | null;
+    sourcings?: Array<string> | null;
 };

@@ -10,7 +10,7 @@ import { useToast } from '../hooks/useToast';
 export const useUploadFile = (no: string, mediaFileType: MediaFileType) => {
   return useMutation(
     (file: Blob) =>
-      MediaFileService.postApiMediaFile(no, mediaFileType, { file }).then(
+      MediaFileService.postApiMediaFileUpload(no, mediaFileType, { file }).then(
         res => res
       ),
     {
