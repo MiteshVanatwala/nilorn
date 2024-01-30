@@ -1,4 +1,4 @@
-import { HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, SPACE } from '../../../theme/Constants';
@@ -70,9 +70,14 @@ const TablePagination = ({
       bgColor={COLORS.GRAY[80]}
       justifyContent={'space-between'}>
       {/* LEFT */}
-      <Text color={COLORS.WHITE} flex={1}>{`${t('Common.Page')} ${
-        totalNumPages !== 0 ? currentPage : 0
-      } ${t('Common.Of')} ${totalNumPages}`}</Text>
+      <HStack gap={SPACE.XL}>
+        <Text color={COLORS.WHITE} flex={1}>{`${t('Common.Page')} ${
+          totalNumPages !== 0 ? currentPage : 0
+        } ${t('Common.Of')} ${totalNumPages}`}</Text>
+        <Text whiteSpace={'nowrap'} color={COLORS.WHITE} flex={1}>{`${t(
+          'Common.NumberOfHits'
+        )}  ${totalRecords}`}</Text>
+      </HStack>
 
       {/* CENTER */}
       {totalNumPages > 1 && (

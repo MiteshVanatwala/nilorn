@@ -37,7 +37,8 @@
     "GoToHome": "Go to start page",
     "Confirm": "Confirm",
     "LastEdited": "Last edited",
-    "ReadComment": "Read comment"
+    "ReadComment": "Read comment",
+    "NumberOfHits": "Number of hits:"
   },
   "Menu": {
     "Hyphome": "Start",

@@ -30,7 +30,11 @@ const PriceCalculationFormTable = ({ data }: Props) => {
         <EditCalculationGridHeader />
         <>
           {data?.map((c, index) => (
-            <EditCalculationGridRow key={index} index={index} calculation={c} />
+            <EditCalculationGridRow
+              key={index + data?.length}
+              index={index}
+              calculation={c}
+            />
           ))}
         </>
       </GridInlineTbody>
