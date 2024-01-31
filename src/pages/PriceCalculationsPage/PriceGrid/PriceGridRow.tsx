@@ -19,10 +19,13 @@ import {
 import BaseValues from './BaseValues';
 import { SPACE } from '../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import SalesPriceCalculationForm from './SalesPriceCalculationForm';
+import SalesPriceCalculationForm, {
+  FORM_KEY_SALES_PRICES,
+} from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
 import CommentPopup from '../../../components/CommentPopup/CommentPopup';
+import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -48,6 +51,9 @@ function PriceGridRow({
   const [createNew, setCreateNew] = useState<boolean>(
     calculation === undefined
   );
+
+  const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
+
   useEffect(() => {
     if (
       production?.priceCalculations &&
@@ -56,7 +62,9 @@ function PriceGridRow({
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
       if (form) {
-        form.reset({ SalesPrice: production?.priceCalculations[0]?.priceDtos });
+        form.reset({
+          [FORM_KEY_SALES_PRICES]: production?.priceCalculations[0]?.priceDtos,
+        });
       }
     } else {
       setCreateNew(true);
@@ -66,7 +74,7 @@ function PriceGridRow({
   const { t } = useTranslation();
   const form = useForm({
     defaultValues: {
-      SalesPrice: calculation?.priceDtos,
+      [FORM_KEY_SALES_PRICES]: calculation?.priceDtos,
     },
   });
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
@@ -78,7 +86,7 @@ function PriceGridRow({
     form.reset();
   };
   const submitForm = (form: FieldValues) => {
-    console.log('Submit Salce price form: ', form);
+    saveSalesPrices(form);
     setEnableEdit(false);
   };
   return (
@@ -107,7 +115,7 @@ function PriceGridRow({
                             onEditInline={openRowForInlineEdit}
                             lastModified={production?.lastModified ?? undefined}
                             artworkUrl={
-                              productDevelopment?.artworkUrl ?? undefined
+                              productDevelopment?.artworkId ?? undefined
                             }
                             production={production}
                             calculation={calculation}

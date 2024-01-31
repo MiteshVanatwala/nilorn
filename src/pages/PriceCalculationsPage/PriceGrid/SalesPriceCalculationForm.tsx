@@ -10,7 +10,7 @@ type Props = {
   style?: CSSProperties;
 };
 
-const FORM_KEY = 'SalesPrice';
+export const FORM_KEY_SALES_PRICES = 'SalesPrices';
 
 const SalesPriceCalculationForm = ({
   style,
@@ -21,7 +21,7 @@ const SalesPriceCalculationForm = ({
 
   const { fields } = useFieldArray({
     control,
-    name: FORM_KEY,
+    name: FORM_KEY_SALES_PRICES,
   });
 
   return (
@@ -35,7 +35,7 @@ const SalesPriceCalculationForm = ({
             calculation={calculation}
             style={style}
             price={price}
-            formKey={`${FORM_KEY}.${i}`}
+            formKey={`${FORM_KEY_SALES_PRICES}.${i}`}
           />
         );
       })}

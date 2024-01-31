@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 const ProductDevelopmentCell = ({
   no,
   name,
-  artworkUrl,
+  artworkId,
   thumbnailData,
   status,
   project,
@@ -26,7 +26,7 @@ const ProductDevelopmentCell = ({
             </Link>
             <Text variant={'bodyBigBlack'}>{name}</Text>
           </VStack>
-          {artworkUrl && <ArtworkButton size="SMALL" url={artworkUrl} />}
+          {artworkId && <ArtworkButton size="SMALL" url={artworkId} />}
         </HStack>
         {thumbnailData && (
           <Image
