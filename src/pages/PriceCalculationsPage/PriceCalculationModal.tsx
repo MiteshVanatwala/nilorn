@@ -1,4 +1,4 @@
-import { FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
   PriceCalculationDto,
   PriceDto,
@@ -38,9 +38,12 @@ const PriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
+  const [margin, setMargin] = useState<number | null>(null);
+
   const form = useForm({
     defaultValues: {
       ...calculation,
+      margin: margin,
     },
   });
   const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
@@ -48,14 +51,15 @@ const PriceCalculationModal = ({
   const { mutate: createCalculation, isSuccess: isSuccessCreate } =
     useCreateCalculation();
   const { close } = useContext(ModalContext);
-  const [calculationItems, setCalculationItems] = useState<
-    PriceDto[] | null | undefined
-  >(calculation?.priceDtos);
+  const [calculationItems] = useState<PriceDto[] | null>(
+    calculation?.priceDtos ?? null
+  );
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       if (createNew) {
         createCalculation(form);
       } else {
+        console.log('submit', form);
         updateCalculation(form);
       }
     }
@@ -72,10 +76,10 @@ const PriceCalculationModal = ({
 
   const freightIncluded = form.watch('freightIncluded');
 
+  const freightIncludedInt = freightIncluded
+    ? parseInt(freightIncluded?.toString() ?? '')
+    : 0;
   useEffect(() => {
-    const freightIncludedInt = freightIncluded
-      ? parseInt(freightIncluded?.toString() ?? '')
-      : 0;
     const updatedItems = calculationItems?.map(item => {
       const salesPrice = calculateSalesPrice(
         item?.cost ?? 0,
@@ -86,8 +90,42 @@ const PriceCalculationModal = ({
       return item;
     });
     setUpdatedCalculationItems(updatedItems);
-  }, [calculationItems, freightIncluded]);
+  }, [calculationItems, freightIncluded, freightIncludedInt]);
+
+  useEffect(() => {
+    const updatedItems = calculationItems?.map(item => {
+      const salesPrice = calculateSalesPrice(
+        item?.cost ?? 0,
+        freightIncludedInt,
+        margin ?? 0
+      );
+      item.salesPrice = salesPrice;
+      item.margin = margin;
+      return item;
+    });
+    setUpdatedCalculationItems(updatedItems);
+    calculationItems?.map(item => ({
+      ...item,
+      margin: margin,
+    }));
+  }, [calculationItems, freightIncludedInt, margin]);
+
+  useEffect(() => {
+    const itemsHaveSameMargin = calculationItems?.every(
+      item => item.margin === calculationItems[0].margin
+    );
+    if (
+      itemsHaveSameMargin &&
+      calculationItems !== null &&
+      calculationItems !== undefined &&
+      calculationItems[0].margin !== undefined
+    ) {
+      setMargin(calculationItems[0]?.margin);
+      form.setValue('margin', calculationItems[0]?.margin);
+    }
+  }, [calculationItems, form]);
   console.log(calculation);
+
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
       <FormProvider {...form}>
@@ -110,6 +148,7 @@ const PriceCalculationModal = ({
             production={production}
             createNew={createNew ?? false}
             calculationPrice={updatedCalculationItems ?? calculationItems}
+            margin={setMargin}
           />
         </form>
       </FormProvider>

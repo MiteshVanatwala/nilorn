@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Input } from '@chakra-ui/react';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import {
 } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
+import FormLabelComponent from '../../components/Form/FormLabelComponent';
 
 type Props = {
   disableEdit?: boolean;
@@ -19,6 +20,7 @@ type Props = {
   production: ProductionDto;
   createNew: boolean;
   calculationPrice: PriceDto[] | null | undefined;
+  margin(value: number | null): void;
 };
 
 const PriceCalculationForm = ({
@@ -27,6 +29,7 @@ const PriceCalculationForm = ({
   production,
   createNew,
   calculationPrice,
+  margin,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -85,11 +88,21 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <InputField
-            type="decimal"
-            registerOptions={{ valueAsNumber: true, required: createNew }}
-            readonly={disableEdit}
+          <FormLabelComponent
+            required={createNew}
+            name={'margin'}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
+          />
+          <Input
+            onChange={e =>
+              margin(
+                e?.target?.value !== undefined
+                  ? parseInt(e?.target?.value?.toString())
+                  : null
+              )
+            }
+            type="decimal"
+            readOnly={disableEdit}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}
           />

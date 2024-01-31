@@ -6,6 +6,7 @@ import {
   ApiError,
   PriceCalculationDto,
   PriceCalculationService,
+  UpdatePriceCalculationCommand,
 } from '../generate';
 
 export const usePatchCalculation = (id: string) => {
@@ -14,7 +15,7 @@ export const usePatchCalculation = (id: string) => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: PriceCalculationDto) =>
+    (body: UpdatePriceCalculationCommand) =>
       PriceCalculationService.patchApiPriceCalculation(id, body).then(
         response => response
       ),
