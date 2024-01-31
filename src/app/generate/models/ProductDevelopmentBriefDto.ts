@@ -11,7 +11,7 @@ export type ProductDevelopmentBriefDto = {
     name?: string | null;
     status?: Status;
     versions?: number;
-    artworkUrl?: string | null;
+    artworkId?: string | null;
     client?: string | null;
     project?: string | null;
     productGroup?: string | null;

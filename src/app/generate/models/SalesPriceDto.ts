@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MediaFileDto = {
-    name?: string | null;
-    id?: string;
+export type SalesPriceDto = {
+    salesPriceId?: string;
+    margin?: number;
 };
