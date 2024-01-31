@@ -1,6 +1,4 @@
-import React from 'react';
 import { useEffect } from 'react';
-// import { ApiError, OpenAPI } from './api';
 import i18n from './i18n';
 import { MutationCache, QueryClient, QueryClientProvider } from 'react-query';
 import { I18nextProvider, useTranslation } from 'react-i18next';

@@ -47,8 +47,8 @@ export const usePaginationContext = () =>
   useContext<PaginationContextType>(PaginationContext);
 
 const PaginationProvider = ({ children }: PaginationProviderType) => {
-  const [pageNumber, setPageNumber] = useState(0);
-  const [pageSize, setPageSize] = useState(0);
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [sortState, setSortState] = useState<SortingState>([]);

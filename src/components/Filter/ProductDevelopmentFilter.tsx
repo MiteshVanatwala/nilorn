@@ -6,20 +6,18 @@ import ActiveFilters from './ActiveFilters';
 import { useOverviewAdvanceFilters } from '../../pages/Overview/useOverviewAdvanceFilters';
 import AdvanceFilter from './AdvanceFilter';
 import { GRID, SPACE } from '../../theme/Constants';
-import { getSortValue, resetFormValues } from './FilterHelper';
+import { getSortValue } from './FilterHelper';
 import CreateProductDevelopment from './CreateProductDevelopment';
 import FormuQuerySubmit from '../Form/FormQuerySubmit';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useEffect } from 'react';
 import Filter from './Filter';
 import { FilterInput, SelectOption } from '../../app/types/types';
-import { useSearchParams } from 'react-router-dom';
 
 const ProductDevelopmentFilter = () => {
   const { t } = useTranslation();
   const form = useForm();
   const advanceFilters = useOverviewAdvanceFilters();
-  const [searchParam] = useSearchParams();
 
   const filterInputs: SelectOption<FilterInput>[] = [
     {
@@ -44,24 +42,8 @@ const ProductDevelopmentFilter = () => {
     }
   }, [form, sortState]);
 
-  useEffect(() => {
-    if (pageNumber > 0) {
-      form.setValue('pageNumber', pageNumber);
-    }
-  }, [form, pageNumber]);
-
-  useEffect(() => {
-    if (pageSize > 0) {
-      form.setValue('pageSize', pageSize);
-    }
-  }, [form, pageSize]);
-
-  useEffect(() => {
-    resetFormValues(form, searchParam, pageSize);
-  }, [form, pageSize, searchParam]);
-
   return (
-    <FormuQuerySubmit form={form}>
+    <FormuQuerySubmit pageSize={pageSize} pageNumber={pageNumber} form={form}>
       <Grid
         templateColumns={{
           base: GRID.TEMPLATE_COLUMNS.base,

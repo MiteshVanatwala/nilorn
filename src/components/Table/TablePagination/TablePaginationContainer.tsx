@@ -15,8 +15,8 @@ type Props = {
 };
 
 const TablePaginationContainer = ({ data, chunkSizes }: Props) => {
-  const initPageNumber = useFilterSearchParams('pageNumber');
-  const initPageSize = useFilterSearchParams('pageSize');
+  const initPageNumber = useFilterSearchParams('pageNumber') ?? 0;
+  const initPageSize = useFilterSearchParams('pageSize') ?? 0;
 
   const {
     pageNumber,

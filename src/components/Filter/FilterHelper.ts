@@ -2,7 +2,7 @@ import { FilterKeys } from '../../app/types/types';
 import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 import { SortingState } from '@tanstack/table-core';
 
@@ -106,15 +106,4 @@ export function getSortState(sortValue: string): SortingState {
   const result: { id: string; value: string } = { id, value };
 
   return [{ id: result.id, desc: result.value === 'D' }];
-}
-export function resetFormValues(
-  form: UseFormReturn<FieldValues, any, undefined>,
-  searchParam: URLSearchParams,
-  pageSize?: number
-) {
-  if (searchParam.size === 0) {
-    form.reset();
-    form.setValue('pageSize', pageSize ?? 25);
-    form.setValue('pageNumber', 1);
-  }
 }

@@ -21,7 +21,12 @@ const ProductDevelopmentCell = ({
             gap={0}
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
-            <Link as={NavLink} to={`/product-development/${no}`}>
+            <Link
+              onClick={e =>
+                sessionStorage.setItem('backLink', window.location.href)
+              }
+              as={NavLink}
+              to={`/product-development/${no}`}>
               #{no}
             </Link>
             <Text variant={'bodyBigBlack'}>{name}</Text>

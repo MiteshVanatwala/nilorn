@@ -34,7 +34,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
   const handleClick = (e: MouseEvent<HTMLTableRowElement>, url: string) => {
     e.stopPropagation();
 
-    sessionStorage.setItem('prevFilter', window.location.href);
+    sessionStorage.setItem('backLink', window.location.href);
     navigate(url);
   };
   return (
