@@ -22,9 +22,17 @@ const ProductDevelopmentCell = ({
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
             <Link
-              onClick={e =>
-                sessionStorage.setItem('backLink', window.location.href)
-              }
+              onClick={() => {
+                sessionStorage.setItem('backLink', window.location.href);
+                let sessionStorageName = 'prevFilterCalculations';
+                if (window.location.pathname === '/productions') {
+                  sessionStorageName = 'prevFilterProductions';
+                }
+                sessionStorage.setItem(
+                  sessionStorageName,
+                  window.location.search
+                );
+              }}
               as={NavLink}
               to={`/product-development/${no}`}>
               #{no}

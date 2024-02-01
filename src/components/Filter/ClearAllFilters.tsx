@@ -7,6 +7,16 @@ const ClearAllFilters = () => {
   const { reset } = useFormContext();
   const { t } = useTranslation();
 
+  const handleClick = () => {
+    let storedFilter = 'prevFilterOverview';
+    if (window.location.pathname === '/productions') {
+      storedFilter = 'prevFilterProductions';
+    } else if (window.location.pathname === '/price-calculations') {
+      storedFilter = 'prevFilterCalculation';
+    }
+    sessionStorage.setItem(storedFilter, '');
+  };
+
   return (
     <Button
       gap={SPACE.XXS}
@@ -24,6 +34,7 @@ const ClearAllFilters = () => {
       }}
       onClick={() => {
         reset();
+        handleClick();
       }}>
       {t('Filter.Clear')}
     </Button>

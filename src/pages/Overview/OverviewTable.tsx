@@ -35,6 +35,8 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     e.stopPropagation();
 
     sessionStorage.setItem('backLink', window.location.href);
+    sessionStorage.setItem('prevFilterOverview', window.location.search);
+
     navigate(url);
   };
   return (
