@@ -42,13 +42,13 @@ const BackLink = ({ scrolledPast }: Props) => {
         {backLink != null && backLink.indexOf('productions') > -1 && (
           <> {t(`PD.BackToProductions`)}</>
         )}
-        {backLink != null && backLink.indexOf('price-calculations?') > -1 && (
+        {backLink != null && backLink.indexOf('price-calculations') > -1 && (
           <> {t(`PD.BackToCalculations`)}</>
         )}
         {backLink != null &&
-          backLink.indexOf('price-calculations?') === -1 &&
-          backLink.indexOf('productions?') === -1 && (
-            <> {t(`PD.BackToOverview`)}</>
+          backLink.indexOf('price-calculations') === -1 &&
+          backLink.indexOf('productions') === -1 && (
+            <>{t(`PD.BackToOverview`)}</>
           )}
       </>
     </ArrowLink>
