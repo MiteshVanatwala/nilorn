@@ -13,6 +13,7 @@ import {
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import FormLabelComponent from '../../components/Form/FormLabelComponent';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   disableEdit?: boolean;
@@ -35,6 +36,8 @@ const PriceCalculationForm = ({
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
+  let { setValue } = useFormContext();
+
   const currencyCodeChangelog = useCalculationChangelog('CurrencyCode');
   const currencyRateChangelog = useCalculationChangelog('CurrencyRate');
   const freightIncludedChangelog = useCalculationChangelog('FreightIncluded');
@@ -96,13 +99,19 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
           />
           <Input
-            onChange={e =>
-              setMargin(
-                e?.target?.value !== undefined
+            onChange={e => {
+              setValue(
+                'margin',
+                e?.target?.value.length
                   ? parseInt(e?.target?.value?.toString())
                   : null
-              )
-            }
+              );
+              setMargin(
+                e?.target?.value.length
+                  ? parseInt(e?.target?.value?.toString())
+                  : null
+              );
+            }}
             value={marginValue}
             type="decimal"
             readOnly={disableEdit}

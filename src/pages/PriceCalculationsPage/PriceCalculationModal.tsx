@@ -39,6 +39,10 @@ const PriceCalculationModal = ({
   calculation,
 }: Props) => {
   const [margin, setMargin] = useState<number | null>(null);
+  const margins =
+    calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
+      ? calculation?.priceDtos.map(item => item.margin)
+      : null;
 
   const form = useForm({
     defaultValues: {
@@ -48,7 +52,10 @@ const PriceCalculationModal = ({
       internalCommission: calculation?.internalCommission,
       indirectCost: calculation?.freightIncluded,
       freightIncluded: calculation?.freightIncluded,
-      margin: margin,
+      margin:
+        margins !== null && margins.every(m => m === margins[0])
+          ? margins[0]
+          : null,
     },
   });
   const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
@@ -74,27 +81,12 @@ const PriceCalculationModal = ({
       close();
     }
   }, [close, isSuccessPatch, isSuccessCreate]);
-  const [updatedCalculationItems, setUpdatedCalculationItems] = useState<
-    PriceDto[] | null | undefined
-  >();
 
   const freightIncluded = form.watch('freightIncluded');
 
   const freightIncludedInt = freightIncluded
     ? parseInt(freightIncluded?.toString() ?? '')
     : 0;
-  useEffect(() => {
-    const updatedItems = calculationItems?.map(item => {
-      const salesPrice = calculateSalesPrice(
-        item?.cost ?? 0,
-        freightIncludedInt,
-        item.margin ?? 0
-      );
-      item.salesPrice = salesPrice;
-      return item;
-    });
-    setUpdatedCalculationItems(updatedItems);
-  }, [calculationItems, freightIncluded, freightIncludedInt, margin]);
 
   useEffect(() => {
     const updatedItems = calculationItems?.map(item => {
@@ -107,7 +99,7 @@ const PriceCalculationModal = ({
       item.margin = margin;
       return item;
     });
-    setUpdatedCalculationItems(updatedItems);
+    setCalculationItems(updatedItems ?? null);
     calculationItems?.map(item => ({
       ...item,
       margin: margin,
@@ -115,19 +107,15 @@ const PriceCalculationModal = ({
   }, [calculationItems, freightIncludedInt, margin]);
 
   useEffect(() => {
-    const itemsHaveSameMargin = calculationItems?.every(
-      item => item.margin === calculationItems[0].margin
-    );
     if (
-      itemsHaveSameMargin &&
-      calculationItems !== null &&
-      calculationItems !== undefined &&
-      calculationItems[0].margin !== undefined
+      margins !== null &&
+      margins[0] !== undefined &&
+      margins[0] !== null &&
+      margins.every(m => m === margins[0])
     ) {
-      setMargin(calculationItems[0]?.margin);
-      form.setValue('margin', calculationItems[0]?.margin);
+      setMargin(margins[0]);
     }
-  }, [calculationItems, form]);
+  }, []);
 
   useEffect(() => {
     setCalculationItems(calculation?.priceDtos ?? null);
@@ -153,9 +141,11 @@ const PriceCalculationModal = ({
             calculation={calculation}
             production={production}
             createNew={createNew ?? false}
-            calculationPrice={updatedCalculationItems ?? calculationItems}
+            calculationPrice={calculationItems}
             setMargin={setMargin}
-            marginValue={margin?.toString() ?? ''}
+            marginValue={
+              margin !== undefined && margin !== null ? margin?.toString() : ''
+            }
           />
         </form>
       </FormProvider>
