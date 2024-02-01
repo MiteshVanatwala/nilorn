@@ -1,24 +1,34 @@
 import { Button, HStack, Heading, Input } from '@chakra-ui/react';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { handleFileUpload } from '../../app/utils/file';
-import { SPACE } from '../../theme/Constants';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../app/api/User';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   heading: string;
-  onUpload: (fileNames: string[]) => void;
+  onUpload: (files: FileList) => void;
+  accept?: string;
   showAdd?: boolean;
   multiple?: boolean;
 };
-const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
+const UploadFile = ({
+  heading,
+  onUpload,
+  accept,
+  multiple,
+  showAdd = true,
+}: Props) => {
   const { t } = useTranslation();
   const { data: user } = useCurrentUser();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    onUpload(handleFileUpload(e));
+    const { files } = e?.currentTarget;
+    if (files !== null) {
+      return onUpload(files);
+    }
   };
 
   const onButtonClick = () => {
@@ -37,6 +47,7 @@ const UploadFile = ({ heading, onUpload, multiple, showAdd = true }: Props) => {
             display={'none'}
             ref={inputRef}
             multiple={multiple}
+            accept={accept}
             onChange={onFileUpload}
           />
           {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (

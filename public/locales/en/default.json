@@ -57,6 +57,8 @@
     "Number": "Number",
     "Status": "Status",
     "Artwork": "Artwork",
+    "Attatchments": "Attatchments",
+    "FailToUpload": "Fail to upload:",
     "Client": "Client",
     "SubClient": "Sub Client",
     "Type": "Product Type",

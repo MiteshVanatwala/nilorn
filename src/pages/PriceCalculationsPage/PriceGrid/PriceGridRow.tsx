@@ -107,7 +107,7 @@ function PriceGridRow({
                             onEditInline={openRowForInlineEdit}
                             lastModified={production?.lastModified ?? undefined}
                             artworkUrl={
-                              productDevelopment?.artworkUrl ?? undefined
+                              productDevelopment?.artworkId ?? undefined
                             }
                             production={production}
                             calculation={calculation}

@@ -43,7 +43,7 @@ const ActionBarTemplate = ({
           base: SPACE.XXS,
           lg: SPACE.XS,
         }}>
-        {artwork && <ArtworkButton url={artwork} />}
+        {artwork && <ArtworkButton id={artwork} />}
 
         {moreMenuList && (
           <Menu>

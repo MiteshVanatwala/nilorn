@@ -12,14 +12,14 @@ import { request as __request } from '../core/request';
 export class MediaFileService {
 
     /**
-     * @param no 
+     * @param productDevelopmentNo 
      * @param mediaFileType 
      * @param formData 
      * @returns MediaFileDto Success
      * @throws ApiError
      */
-    public static postApiMediaFile(
-no: string,
+    public static postApiMediaFileUpload(
+productDevelopmentNo: string,
 mediaFileType: MediaFileType,
 formData?: {
 file?: Blob;
@@ -27,9 +27,9 @@ file?: Blob;
 ): CancelablePromise<MediaFileDto> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/MediaFile/{no}/{mediaFileType}',
+            url: '/api/MediaFile/upload/{mediaFileType}/{productDevelopmentNo}',
             path: {
-                'no': no,
+                'productDevelopmentNo': productDevelopmentNo,
                 'mediaFileType': mediaFileType,
             },
             formData: formData,
@@ -38,18 +38,52 @@ file?: Blob;
     }
 
     /**
-     * @param no 
-     * @returns MediaFileDto Success
+     * @param id 
+     * @returns boolean Success
+     * @throws ApiError
+     */
+    public static deleteApiMediaFile(
+id: string,
+): CancelablePromise<boolean> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/MediaFile/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns any Success
      * @throws ApiError
      */
     public static getApiMediaFile(
-no: string,
+id: string,
+): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/MediaFile/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * @param productDevelopmentNo 
+     * @returns MediaFileDto Success
+     * @throws ApiError
+     */
+    public static getApiMediaFileAttachments(
+productDevelopmentNo: string,
 ): CancelablePromise<Array<MediaFileDto>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/MediaFile/{no}',
+            url: '/api/MediaFile/attachments/{productDevelopmentNo}',
             path: {
-                'no': no,
+                'productDevelopmentNo': productDevelopmentNo,
             },
         });
     }

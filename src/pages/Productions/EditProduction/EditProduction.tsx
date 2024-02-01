@@ -98,7 +98,7 @@ const EditProduction = ({
             production={production}
             actionBar={
               <ActionBarEditProduction
-                artwork={productDevelopment?.artworkUrl}
+                artwork={productDevelopment?.artworkId}
                 createNew={createNew}
                 disableEdit={production?.released}
                 production={production}
