@@ -113,6 +113,7 @@ const EditProduction = ({
                 disableEdit={production?.released}
                 production={production}
                 status={productDevelopment?.status}
+                createNew={createNew}
               />
             }
           />
