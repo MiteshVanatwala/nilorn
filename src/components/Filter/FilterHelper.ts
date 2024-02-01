@@ -107,3 +107,14 @@ export function getSortState(sortValue: string): SortingState {
 
   return [{ id: result.id, desc: result.value === 'D' }];
 }
+export function getCurrentStoredFilter() {
+  let storedFilter = '';
+  if (window.location.pathname === '/productions') {
+    storedFilter = 'prevFilterProductions';
+  } else if (window.location.pathname === '/') {
+    storedFilter = 'prevFilterOverview';
+  } else if (window.location.pathname === '/price-calculations') {
+    storedFilter = 'prevFilterCalculation';
+  }
+  return storedFilter;
+}

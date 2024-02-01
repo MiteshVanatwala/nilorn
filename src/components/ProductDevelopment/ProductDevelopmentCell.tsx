@@ -4,6 +4,7 @@ import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { NavLink } from 'react-router-dom';
+import { getCurrentStoredFilter } from '../Filter/FilterHelper';
 
 const ProductDevelopmentCell = ({
   no,
@@ -24,14 +25,9 @@ const ProductDevelopmentCell = ({
             <Link
               onClick={() => {
                 sessionStorage.setItem('backLink', window.location.href);
-                let sessionStorageName = 'prevFilterCalculations';
-                if (window.location.pathname === '/productions') {
-                  sessionStorageName = 'prevFilterProductions';
-                }
-                sessionStorage.setItem(
-                  sessionStorageName,
-                  window.location.search
-                );
+                const storedFilter = getCurrentStoredFilter();
+
+                sessionStorage.setItem(storedFilter, window.location.search);
               }}
               as={NavLink}
               to={`/product-development/${no}`}>

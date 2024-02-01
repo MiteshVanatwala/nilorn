@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
+import { getCurrentStoredFilter } from '../Filter/FilterHelper';
 
 interface Props {
   title?: string | JSX.Element;
@@ -14,14 +15,8 @@ const HeaderLink: FC<Props> = ({ path, title, clickedStoredFilter }) => {
   const navigate = useNavigate();
 
   const handleClick = (url: string, clickedStoredFilter: string) => {
-    let storedFilter = '';
-    if (window.location.pathname === '/productions') {
-      storedFilter = 'prevFilterProductions';
-    } else if (window.location.pathname === '/') {
-      storedFilter = 'prevFilterOverview';
-    } else if (window.location.pathname === '/price-calculations') {
-      storedFilter = 'prevFilterCalculation';
-    }
+    const storedFilter = getCurrentStoredFilter();
+
     sessionStorage.setItem(storedFilter, window.location.search ?? '');
     const prevFilter =
       sessionStorage.getItem(clickedStoredFilter) ??

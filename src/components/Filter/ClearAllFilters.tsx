@@ -2,18 +2,14 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { getCurrentStoredFilter } from './FilterHelper';
 
 const ClearAllFilters = () => {
   const { reset } = useFormContext();
   const { t } = useTranslation();
 
   const handleClick = () => {
-    let storedFilter = 'prevFilterOverview';
-    if (window.location.pathname === '/productions') {
-      storedFilter = 'prevFilterProductions';
-    } else if (window.location.pathname === '/price-calculations') {
-      storedFilter = 'prevFilterCalculation';
-    }
+    const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
   };
 
