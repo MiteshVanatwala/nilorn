@@ -5,7 +5,6 @@ import {
   Grid,
   GridItem,
   HStack,
-  Heading,
   Image,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
@@ -14,10 +13,10 @@ import { images } from '../../assets/';
 import COLORS from '../../theme/Constants/colors';
 import SIZES from '../../theme/Constants/sizes';
 import HeaderDivider from './HeaderDivider';
-import HeaderLink from './HeaderLink';
 import UserMenu from './UserMenu';
 import { GRID } from '../../theme/Constants';
 import { useAuthorized } from '../../app/Permissions/usePremissions';
+import HeaderLink from './HeaderLink';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -54,19 +53,22 @@ const NavigationHeader = () => {
               </HStack>
               <HStack m={0} divider={<HeaderDivider />}>
                 <HeaderLink
-                  title={<Heading variant={'h5'}>{t('Common.Title')}</Heading>}
-                  path={'/'}
+                  title={t('Common.Title')}
+                  path="/"
+                  clickedStoredFilter="prevFilterOverview"
                 />
                 {showProduction && (
                   <HeaderLink
                     title={t('Menu.HypProduction')}
                     path="/productions"
+                    clickedStoredFilter="prevFilterProductions"
                   />
                 )}
                 {showCalculation && (
                   <HeaderLink
                     title={t('Menu.HypPrice')}
                     path="/price-calculations"
+                    clickedStoredFilter="prevFilterCalculation"
                   />
                 )}
               </HStack>

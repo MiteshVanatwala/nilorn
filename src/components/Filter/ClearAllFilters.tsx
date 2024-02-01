@@ -2,10 +2,16 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { getCurrentStoredFilter } from './FilterHelper';
 
 const ClearAllFilters = () => {
-  const { reset, getValues, setValue } = useFormContext();
+  const { reset } = useFormContext();
   const { t } = useTranslation();
+
+  const handleClick = () => {
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem(storedFilter, '');
+  };
 
   return (
     <Button
@@ -23,10 +29,8 @@ const ClearAllFilters = () => {
         backgroundColor: 'transparent',
       }}
       onClick={() => {
-        const pageSize = getValues('pageSize');
         reset();
-        setValue('pageSize', pageSize ?? 25);
-        setValue('pageNumber', 1);
+        handleClick();
       }}>
       {t('Filter.Clear')}
     </Button>

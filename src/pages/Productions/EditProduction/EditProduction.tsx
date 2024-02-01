@@ -3,6 +3,7 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
 import {
+  ChangelogType,
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
@@ -21,6 +22,7 @@ import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
+import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -41,8 +43,15 @@ const EditProduction = ({
     },
   });
   const { close } = useContext(ModalContext);
-  let { data: vendors } = useGetVendors(!createNew);
+  const { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { showChanges, setShowChanges } = useToggleChangelog(
+    ChangelogType.PRODUCTION,
+    undefined,
+    production?.id
+  );
+
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
@@ -99,7 +108,8 @@ const EditProduction = ({
             actionBar={
               <ActionBarEditProduction
                 artwork={productDevelopment?.artworkId}
-                createNew={createNew}
+                showChanges={showChanges}
+                setShowChanges={(s: boolean) => setShowChanges(s)}
                 disableEdit={production?.released}
                 production={production}
                 status={productDevelopment?.status}
@@ -111,6 +121,7 @@ const EditProduction = ({
             productDevelopment={productDevelopment}
             createNew={createNew}
             production={production}
+            showChanges={showChanges}
             disableEdit={
               production?.released ||
               (productDevelopment?.status

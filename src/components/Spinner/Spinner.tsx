@@ -1,6 +1,5 @@
 import { Spinner as ChakraSpinner } from '@chakra-ui/react';
 import COLORS from '../../theme/Constants/colors';
-import React from 'react';
 
 type Props = {
   size?: 'lg' | 'xl';

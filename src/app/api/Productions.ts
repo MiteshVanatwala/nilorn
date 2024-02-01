@@ -4,14 +4,16 @@ import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 
 export function useProductionsFilter(includeCalculations: boolean) {
-  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
-  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
+  const currentPageNumber = Number(useFilterSearchParams('pageNumber'));
+  const currentPageSize = Number(useFilterSearchParams('pageSize'));
+  const pageNumber =
+    useFilterSearchParams('pageNumber') !== undefined ? currentPageNumber : 1;
+  const pageSize = useFilterSearchParams('pageSize') ? currentPageSize : 25;
   const vendors = useFilterSearchParams('vendor');
   const clients = useFilterSearchParams('clients');
   const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
   const productDevelopments = useFilterSearchParams('productDevelopments');
   const projects = useFilterSearchParams('projects');
-
   return useQuery(
     [
       QueryKeysEnum.Productions,

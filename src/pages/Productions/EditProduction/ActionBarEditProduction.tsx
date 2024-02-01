@@ -4,7 +4,7 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
-import { ChangelogType, ProductionDto, Status } from '../../../app/generate';
+import { ProductionDto, Status } from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
@@ -14,9 +14,10 @@ import {
 import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
-import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
+  setShowChanges: (showChanges: boolean) => void;
+  showChanges: boolean;
   artwork?: string | null;
   createNew?: boolean;
   disableEdit?: boolean;
@@ -30,6 +31,8 @@ const ActionBarEditProduction = ({
   disableEdit = false,
   production,
   status,
+  setShowChanges,
+  showChanges,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
@@ -58,11 +61,7 @@ const ActionBarEditProduction = ({
       close();
     }
   }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
-  const { showChanges, setShowChanges } = useToggleChangelog(
-    ChangelogType.PRODUCTION,
-    undefined,
-    production?.id
-  );
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -71,7 +70,9 @@ const ActionBarEditProduction = ({
         !createNew ? (
           <MenuList>
             <MenuItem
-              onClick={() => setShowChanges(!showChanges)}
+              onClick={() => {
+                setShowChanges(!showChanges);
+              }}
               icon={
                 <Text
                   as={'i'}

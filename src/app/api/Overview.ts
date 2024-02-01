@@ -4,9 +4,11 @@ import { ProductDevelopmentsService } from '../../app/generate';
 import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
 
 export function useProductDevelopmentsFilter() {
-  const pageNumber = Number(useFilterSearchParams('pageNumber')) ?? 0;
-  const pageSize = Number(useFilterSearchParams('pageSize')) ?? 0;
-
+  const currentPageNumber = Number(useFilterSearchParams('pageNumber'));
+  const currentPageSize = Number(useFilterSearchParams('pageSize'));
+  const pageNumber =
+    useFilterSearchParams('pageNumber') !== undefined ? currentPageNumber : 1;
+  const pageSize = useFilterSearchParams('pageSize') ? currentPageSize : 25;
   const sortKey = useFilterSearchParams('sortKey');
   const searchQuery = useFilterSearchParams('searchQuery', 400);
   const clients = useFilterSearchParams('clients');

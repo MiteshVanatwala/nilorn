@@ -103,6 +103,7 @@ function ProductDevelopmentForm({
                   />
 
                   <AttachmentSection
+                    no={no}
                     isClosed={
                       defaultValues?.status && isClosed(defaultValues?.status)
                         ? true
