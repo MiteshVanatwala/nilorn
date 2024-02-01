@@ -36,6 +36,7 @@ export type { PurchasePriceDto } from './models/PurchasePriceDto';
 export { Role } from './models/Role';
 export type { SalespersonPurchaserBriefDto } from './models/SalespersonPurchaserBriefDto';
 export type { SalespersonPurchaserDto } from './models/SalespersonPurchaserDto';
+export type { SalesPriceDto } from './models/SalesPriceDto';
 export type { SourcedProductionDto } from './models/SourcedProductionDto';
 export type { SourcingCompanyDto } from './models/SourcingCompanyDto';
 export type { SourcingDto } from './models/SourcingDto';
@@ -43,6 +44,7 @@ export { Status } from './models/Status';
 export type { UpdatePriceCalculationCommand } from './models/UpdatePriceCalculationCommand';
 export type { UpdateProductDevelopmentDto } from './models/UpdateProductDevelopmentDto';
 export type { UpdateProductionCommand } from './models/UpdateProductionCommand';
+export type { UpdateSalesPriceCommand } from './models/UpdateSalesPriceCommand';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 

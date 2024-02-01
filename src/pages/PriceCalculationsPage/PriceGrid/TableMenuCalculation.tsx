@@ -11,6 +11,7 @@ import {
 } from '../../../app/generate';
 import TableMenuContainer from '../../../components/Table/TableMenuContainer';
 import PriceCalculationModal from '../PriceCalculationModal';
+import { useDeleteCalculation } from '../../../app/api/calculation';
 
 type Props = {
   createNew: boolean;
@@ -36,9 +37,9 @@ const TableMenuCalculation = ({
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
 
-  function deleteProductionFunc() {
-    console.log('Delete');
-  }
+  const { mutate: deleteCalculation } = useDeleteCalculation(
+    calculation?.id ?? ''
+  );
   return (
     <TableMenuContainer>
       <MenuItem
@@ -77,7 +78,7 @@ const TableMenuCalculation = ({
       )}
       {!createNew && (
         <MenuItem
-          onClick={() => deleteProductionFunc()}
+          onClick={() => deleteCalculation()}
           icon={
             <Text
               as={'i'}

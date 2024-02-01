@@ -152,7 +152,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
               <InputField
                 label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
-                type="number"
+                type="decimal"
                 name={'freightIncluded'}
                 registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}

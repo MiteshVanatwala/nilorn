@@ -6,6 +6,7 @@ import { MenuItem, MenuList } from '@chakra-ui/menu';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { ChangelogType } from '../../app/generate';
+import { useDeleteCalculation } from '../../app/api/calculation';
 
 type Props = {
   artwork?: string | null;
@@ -29,6 +30,8 @@ const PriceCalculationActionBar = ({
     id
   );
 
+  const { mutate: deleteCalculation } = useDeleteCalculation(id);
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -49,7 +52,7 @@ const PriceCalculationActionBar = ({
             </MenuItem>
             {!disableEdit && (
               <MenuItem
-                onClick={() => console.log('Delete')}
+                onClick={() => deleteCalculation()}
                 icon={
                   <Text
                     as={'i'}
@@ -57,7 +60,7 @@ const PriceCalculationActionBar = ({
                     className="ri-delete-bin-line"
                   />
                 }>
-                {t('Common.Delete')}
+                {t('Common.Remove')}
               </MenuItem>
             )}
           </MenuList>

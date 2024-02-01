@@ -37,7 +37,8 @@
     "GoToHome": "Go to start page",
     "Confirm": "Confirm",
     "LastEdited": "Last edited",
-    "ReadComment": "Read comment"
+    "ReadComment": "Read comment",
+    "NumberOfHits": "Number of hits:"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -225,8 +226,12 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
-    "SaveSuccess": "Calculation saved",
-    "CreateSuccess": "Calculation created"
+    "Feedback": {
+      "SaveSuccess": "Calculation has been saved.",
+      "CreateSuccess": "Calculation has been created",
+      "SaveSuccessRows": "Margin and sales price has been saved.",
+      "Remove": "Calculation has been deleted."
+    }
   },
   "Changelog": {
     "To": "To",

@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type PriceDto = {
+    salesPriceId?: string | null;
     salesPrice?: number | null;
     purchasePrice?: number | null;
     cost?: number | null;

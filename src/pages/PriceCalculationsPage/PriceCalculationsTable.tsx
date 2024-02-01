@@ -36,7 +36,6 @@ type Props = {
 
 const PriceCalculationsTable = ({ data }: Props) => {
   const { t } = useTranslation();
-
   return (
     <>
       <GridTable

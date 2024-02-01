@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
-import { PriceCalculationDto, ProductionDto } from '../../app/generate';
+import {
+  PriceCalculationDto,
+  PriceDto,
+  ProductionDto,
+} from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 
@@ -14,6 +18,7 @@ type Props = {
   calculation: PriceCalculationDto | undefined;
   production: ProductionDto;
   createNew: boolean;
+  calculationPrice: PriceDto[] | null | undefined;
 };
 
 const PriceCalculationForm = ({
@@ -21,6 +26,7 @@ const PriceCalculationForm = ({
   calculation,
   production,
   createNew,
+  calculationPrice,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -30,6 +36,7 @@ const PriceCalculationForm = ({
   const indirectCostChangelog = useCalculationChangelog('IndirectCost');
   const internalCommissionChangelog =
     useCalculationChangelog('InternalCommission');
+
   return (
     <>
       <Grid
@@ -79,12 +86,11 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
-            type="decimal"
-            registerOptions={{ valueAsNumber: true, required: true }}
-            readonly={disableEdit}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}
+            type="decimal"
+            readonly={disableEdit}
           />
         </GridItem>
         {!createNew && (
@@ -145,7 +151,7 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
-      <PriceCalculationFormTable data={calculation?.priceDtos ?? []} />
+      <PriceCalculationFormTable data={calculationPrice ?? []} />
     </>
   );
 };

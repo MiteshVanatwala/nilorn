@@ -6,6 +6,8 @@ import {
   ApiError,
   PriceCalculationDto,
   PriceCalculationService,
+  UpdatePriceCalculationCommand,
+  UpdateSalesPriceCommand,
 } from '../generate';
 
 export const usePatchCalculation = (id: string) => {
@@ -14,7 +16,7 @@ export const usePatchCalculation = (id: string) => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: PriceCalculationDto) =>
+    (body: UpdatePriceCalculationCommand) =>
       PriceCalculationService.patchApiPriceCalculation(id, body).then(
         response => response
       ),
@@ -24,7 +26,7 @@ export const usePatchCalculation = (id: string) => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.SaveSuccess'),
+          description: t('PriceCalc.Feedback.SaveSuccess'),
         });
       },
       onError: async (err: ApiError) => {
@@ -37,6 +39,7 @@ export const usePatchCalculation = (id: string) => {
     }
   );
 };
+
 export const useCreateCalculation = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
@@ -53,7 +56,7 @@ export const useCreateCalculation = () => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.CreateSuccess'),
+          description: t('PriceCalc.Feedback.CreateSuccess'),
         });
       },
       onError: async (err: ApiError) => {
@@ -66,3 +69,62 @@ export const useCreateCalculation = () => {
     }
   );
 };
+
+export const usePatchCalculationSalesPrice = () => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (body: UpdateSalesPriceCommand) =>
+      PriceCalculationService.patchApiPriceCalculationSalesPrice(body).then(
+        response => response
+      ),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+
+        showToast({
+          status: 'success',
+          description: t('PriceCalc.Feedback.SaveSuccessRows'),
+        });
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: err.body.title,
+          description: err.body.detail,
+        });
+      },
+    }
+  );
+};
+
+export function useDeleteCalculation(id: string) {
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation(
+    () =>
+      PriceCalculationService.deleteApiPriceCalculation(id).then(
+        response => response
+      ),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        showToast({
+          status: 'success',
+          description: t('PriceCalc.Feedback.RemoveSuccess'),
+        });
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: err.body.title,
+          description: err.body.detail,
+        });
+      },
+    }
+  );
+}

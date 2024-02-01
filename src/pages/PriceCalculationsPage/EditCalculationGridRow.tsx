@@ -1,5 +1,5 @@
 import { PriceDto } from '../../app/generate';
-import { CSSProperties, Fragment } from 'react';
+import { CSSProperties } from 'react';
 import { TD_STYLE_CALCULATION } from '../../theme/Constants/tableGrid';
 import { GridTd } from '../../components/GridTable/GridTableElements';
 import { COLORS, SPACE } from '../../theme/Constants';
@@ -7,14 +7,12 @@ import { COLORS, SPACE } from '../../theme/Constants';
 type Props = {
   calculation: PriceDto;
   style?: CSSProperties;
-  tableMenu?: JSX.Element;
   index: number;
 };
 
 function EditCalculationGridRow({
   calculation,
   style = TD_STYLE_CALCULATION,
-  tableMenu,
   index,
 }: Props) {
   return (
