@@ -14,12 +14,12 @@ const useChangelogColumns = () => {
       header: ``,
       cell: info => renderIcon(info.getValue() as ChangeType),
     }),
-    columnHelper.accessor('to', {
-      header: `${t('Changelog.To')}`,
-      cell: info => <TruncateTextTooltip text={info.getValue() ?? ''} />,
-    }),
     columnHelper.accessor('from', {
       header: `${t('Changelog.From')}`,
+      cell: info => <TruncateTextTooltip text={info.getValue() ?? ''} />,
+    }),
+    columnHelper.accessor('to', {
+      header: `${t('Changelog.To')}`,
       cell: info => <TruncateTextTooltip text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('username', {

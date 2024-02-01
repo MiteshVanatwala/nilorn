@@ -17,6 +17,8 @@ import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
+  setShowChanges: (showChanges: boolean) => void;
+  showChanges: boolean;
   artwork?: string | null;
   createNew?: boolean;
   disableEdit?: boolean;
@@ -30,6 +32,8 @@ const ActionBarEditProduction = ({
   disableEdit = false,
   production,
   status,
+  setShowChanges,
+  showChanges,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
@@ -58,11 +62,7 @@ const ActionBarEditProduction = ({
       close();
     }
   }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
-  const { showChanges, setShowChanges } = useToggleChangelog(
-    ChangelogType.PRODUCTION,
-    undefined,
-    production?.id
-  );
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -71,7 +71,9 @@ const ActionBarEditProduction = ({
         !createNew ? (
           <MenuList>
             <MenuItem
-              onClick={() => setShowChanges(!showChanges)}
+              onClick={() => {
+                setShowChanges(!showChanges);
+              }}
               icon={
                 <Text
                   as={'i'}
