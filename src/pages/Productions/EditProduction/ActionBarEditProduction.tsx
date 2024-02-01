@@ -4,7 +4,7 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
-import { ChangelogType, ProductionDto, Status } from '../../../app/generate';
+import { ProductionDto, Status } from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
@@ -14,7 +14,6 @@ import {
 import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
-import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;

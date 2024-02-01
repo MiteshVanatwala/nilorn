@@ -13,13 +13,16 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
+import { ChangelogType } from '../../app/generate';
+import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
 type Props = {
   disableEdit?: boolean;
+  showChanges: boolean;
 };
 
-const QuantityPurchase = ({ disableEdit = false }: Props) => {
+const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
   const fieldName = 'purchasePrices';
   const { fields, append, remove } = useFieldArray({
     control,
@@ -69,7 +72,7 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
             return (
               <Box w={'100%'} key={item.id} position={'relative'}>
                 <HStack gap={SPACE.LG} w={'100%'}>
-                  <Box w={'50%'}>
+                  <Box w={'50%'} position={'relative'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.quantity`}
@@ -77,14 +80,26 @@ const QuantityPurchase = ({ disableEdit = false }: Props) => {
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />
+                    <ChangelogListItem
+                      showChanges={showChanges}
+                      type={ChangelogType.PURCHASE_PRICE}
+                      propertyName={'Quantity'}
+                      id={getValues(`${fieldName}.${index}.id`)}
+                    />
                   </Box>
-                  <Box w={'50%'}>
+                  <Box w={'50%'} position={'relative'}>
                     <InputField
                       placeholder={`${t('Common.Placeholder')}`}
                       name={`${fieldName}.${index}.price`}
                       type="decimal"
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true }}
+                    />
+                    <ChangelogListItem
+                      showChanges={showChanges}
+                      type={ChangelogType.PURCHASE_PRICE}
+                      propertyName={'Price'}
+                      id={getValues(`${fieldName}.${index}.id`)}
                     />
                   </Box>
                 </HStack>
