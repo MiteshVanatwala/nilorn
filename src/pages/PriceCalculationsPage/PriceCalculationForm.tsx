@@ -20,7 +20,8 @@ type Props = {
   production: ProductionDto;
   createNew: boolean;
   calculationPrice: PriceDto[] | null | undefined;
-  margin(value: number | null): void;
+  setMargin(value: number | null): void;
+  marginValue: string;
 };
 
 const PriceCalculationForm = ({
@@ -29,7 +30,8 @@ const PriceCalculationForm = ({
   production,
   createNew,
   calculationPrice,
-  margin,
+  setMargin,
+  marginValue,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -95,12 +97,13 @@ const PriceCalculationForm = ({
           />
           <Input
             onChange={e =>
-              margin(
+              setMargin(
                 e?.target?.value !== undefined
                   ? parseInt(e?.target?.value?.toString())
                   : null
               )
             }
+            value={marginValue}
             type="decimal"
             readOnly={disableEdit}
             placeholder={`${t('Common.Placeholder')}`}

@@ -42,7 +42,12 @@ const PriceCalculationModal = ({
 
   const form = useForm({
     defaultValues: {
-      ...calculation,
+      id: calculation?.id,
+      currencyRate: calculation?.currencyRate,
+      currencyCode: calculation?.currencyCode,
+      internalCommission: calculation?.internalCommission,
+      indirectCost: calculation?.freightIncluded,
+      freightIncluded: calculation?.freightIncluded,
       margin: margin,
     },
   });
@@ -51,7 +56,7 @@ const PriceCalculationModal = ({
   const { mutate: createCalculation, isSuccess: isSuccessCreate } =
     useCreateCalculation();
   const { close } = useContext(ModalContext);
-  const [calculationItems] = useState<PriceDto[] | null>(
+  const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
   function submitForm(form: FieldValues) {
@@ -59,7 +64,6 @@ const PriceCalculationModal = ({
       if (createNew) {
         createCalculation(form);
       } else {
-        console.log('submit', form);
         updateCalculation(form);
       }
     }
@@ -90,7 +94,7 @@ const PriceCalculationModal = ({
       return item;
     });
     setUpdatedCalculationItems(updatedItems);
-  }, [calculationItems, freightIncluded, freightIncludedInt]);
+  }, [calculationItems, freightIncluded, freightIncludedInt, margin]);
 
   useEffect(() => {
     const updatedItems = calculationItems?.map(item => {
@@ -124,7 +128,10 @@ const PriceCalculationModal = ({
       form.setValue('margin', calculationItems[0]?.margin);
     }
   }, [calculationItems, form]);
-  console.log(calculation);
+
+  useEffect(() => {
+    setCalculationItems(calculation?.priceDtos ?? null);
+  }, [calculation]);
 
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
@@ -144,11 +151,11 @@ const PriceCalculationModal = ({
           />
           <PriceCalculationForm
             calculation={calculation}
-            key={updatedCalculationItems?.length}
             production={production}
             createNew={createNew ?? false}
             calculationPrice={updatedCalculationItems ?? calculationItems}
-            margin={setMargin}
+            setMargin={setMargin}
+            marginValue={margin?.toString() ?? ''}
           />
         </form>
       </FormProvider>

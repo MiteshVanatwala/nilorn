@@ -53,7 +53,6 @@ function PriceGridRow({
   );
 
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
-
   useEffect(() => {
     if (
       production?.priceCalculations &&

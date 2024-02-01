@@ -40,7 +40,6 @@ const TableMenuCalculation = ({
   const { mutate: deleteCalculation } = useDeleteCalculation(
     calculation?.id ?? ''
   );
-
   return (
     <TableMenuContainer>
       <MenuItem
