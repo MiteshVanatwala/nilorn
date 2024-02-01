@@ -31,17 +31,14 @@ export function useProductDevelopmentChangelog(
 }
 export function useProductionChangelog(
   key: string,
-  id: string
+  id: string,
+  type: ChangelogType = ChangelogType.PRODUCTION
 ): ChangelogItemDto[] {
-  const { data: changelogMap } = useChangelog(
-    undefined,
-    ChangelogType.PRODUCTION,
-    id,
-    false
-  );
+  const { data: changelogMap } = useChangelog(undefined, type, id, false);
 
   return getChangelogForKey(changelogMap, key);
 }
+
 export function useCalculationChangelog(key: string): ChangelogItemDto[] {
   const { no } = useParams();
   const { data: changelogMap } = useChangelog(
@@ -53,6 +50,7 @@ export function useCalculationChangelog(key: string): ChangelogItemDto[] {
 
   return getChangelogForKey(changelogMap, key);
 }
+
 export function useToggleChangelog(
   type: ChangelogType,
   no?: string,

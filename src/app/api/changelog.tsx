@@ -9,7 +9,7 @@ export const useChangelog = (
   enable: boolean = true
 ) => {
   return useQuery(
-    [QueryKeysEnum.Changes],
+    [QueryKeysEnum.Changes, id],
     () =>
       ChangelogService.getApiChangelog(type, id, productDevelopmentNo).then(
         res => res

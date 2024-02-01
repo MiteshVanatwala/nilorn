@@ -26,6 +26,7 @@ type Props = {
   createNew?: boolean;
   production?: ProductionDto;
   disableEdit?: boolean;
+  showChanges: boolean;
 };
 const EditProductionFormContent = ({
   productDevelopment,
@@ -33,6 +34,7 @@ const EditProductionFormContent = ({
   createNew,
   production,
   disableEdit = false,
+  showChanges,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -220,7 +222,7 @@ const EditProductionFormContent = ({
           base: SPACE.XXS,
           md: SPACE.SM,
         }}>
-        <QuantityPurchase disableEdit={disableEdit} />
+        <QuantityPurchase disableEdit={disableEdit} showChanges={showChanges} />
       </GridItem>
     </Grid>
   );
