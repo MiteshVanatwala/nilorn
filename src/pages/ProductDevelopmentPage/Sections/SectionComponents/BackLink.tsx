@@ -12,7 +12,7 @@ const BackLink = ({ scrolledPast }: Props) => {
   const { t } = useTranslation();
   const { formState } = useFormContext();
   const { handleModal, close } = useContext(ModalContext);
-
+  const backLink = sessionStorage.getItem('backLink') ?? '/';
   if (scrolledPast) {
     return <></>;
   }
@@ -25,9 +25,7 @@ const BackLink = ({ scrolledPast }: Props) => {
       <ConfirmModal
         title={t('PD.UnsavedChanges')}
         description={t('PD.UnsavedChangesMsg')}
-        onConfirm={() =>
-          discardChanges(`${sessionStorage.getItem('prevFilter') ?? '/'}`)
-        }
+        onConfirm={() => discardChanges(`${backLink}`)}
         cancelText={t('Common.No')}
         confirmText={t('Common.Yes')}
       />
@@ -37,10 +35,22 @@ const BackLink = ({ scrolledPast }: Props) => {
   return (
     <ArrowLink
       useAsBtn={formState.isDirty}
-      to={`${sessionStorage.getItem('prevFilter') ?? '/'}`}
+      to={`${sessionStorage.getItem('backLink') ?? '/'}`}
       onClick={formState.isDirty ? openModal : undefined}
       direction="left">
-      <>{t(`PD.BackToOverview`)}</>
+      <>
+        {backLink != null && backLink.indexOf('productions') > -1 && (
+          <> {t(`PD.BackToProductions`)}</>
+        )}
+        {backLink != null && backLink.indexOf('price-calculations') > -1 && (
+          <> {t(`PD.BackToCalculations`)}</>
+        )}
+        {backLink != null &&
+          backLink.indexOf('price-calculations') === -1 &&
+          backLink.indexOf('productions') === -1 && (
+            <>{t(`PD.BackToOverview`)}</>
+          )}
+      </>
     </ArrowLink>
   );
 };

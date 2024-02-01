@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { SPACE, COLORS } from '../../theme/Constants';
-import React from 'react';
 
 type Pros = {
   title?: string;

@@ -1,7 +1,6 @@
 import { Center, Heading } from '@chakra-ui/react';
 import Spinner from './Spinner';
 import { SPACE, COLORS, BORDER_RADIUS } from '../../theme/Constants';
-import React from 'react';
 
 type Props = {
   text?: string;

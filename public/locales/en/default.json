@@ -85,6 +85,8 @@
     "PDNamePlaceholder": "Product Development",
     "Error": "Something went wrong",
     "BackToOverview": "Back to overview",
+    "BackToProductions": "Back to productions",
+    "BackToCalculations": "Back to calculations",
     "ProjectCreated": "Project created",
     "BrowseFile": "Browse files...",
     "ClickPaste": "Paste from clipboard",

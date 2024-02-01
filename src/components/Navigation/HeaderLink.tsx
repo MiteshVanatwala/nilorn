@@ -1,23 +1,38 @@
 import { Link as LinkComponent } from '@chakra-ui/react';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
+import { FC } from 'react';
+import { getCurrentStoredFilter } from '../Filter/FilterHelper';
 
 interface Props {
   title?: string | JSX.Element;
   path: string;
+  clickedStoredFilter: string;
 }
 
-const HeaderLink: React.FC<Props> = ({ path, title }) => {
+const HeaderLink: FC<Props> = ({ path, title, clickedStoredFilter }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (url: string, clickedStoredFilter: string) => {
+    const storedFilter = getCurrentStoredFilter();
+
+    sessionStorage.setItem(storedFilter, window.location.search ?? '');
+    const prevFilter =
+      sessionStorage.getItem(clickedStoredFilter) ??
+      '?pageSize=25&pageNumber=1';
+    const newUrl = url + prevFilter;
+    navigate(newUrl);
+  };
+
   return (
     <LinkComponent
       _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
-      as={NavLink}
-      end
       variant="headerLink"
-      to={path}
+      bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
+      color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
       fontSize={fontSizes.xs}
+      onClick={e => handleClick(path, clickedStoredFilter)}
       whiteSpace={'nowrap'}>
       {title}
     </LinkComponent>
