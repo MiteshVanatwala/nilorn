@@ -1,4 +1,4 @@
-import { Grid, GridItem, Input } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
@@ -12,8 +12,6 @@ import {
 } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
-import FormLabelComponent from '../../components/Form/FormLabelComponent';
-import { useFormContext } from 'react-hook-form';
 
 type Props = {
   disableEdit?: boolean;
@@ -21,8 +19,6 @@ type Props = {
   production: ProductionDto;
   createNew: boolean;
   calculationPrice: PriceDto[] | null | undefined;
-  setMargin(value: number | null): void;
-  marginValue: string;
 };
 
 const PriceCalculationForm = ({
@@ -31,13 +27,9 @@ const PriceCalculationForm = ({
   production,
   createNew,
   calculationPrice,
-  setMargin,
-  marginValue,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
-  let { setValue } = useFormContext();
-
   const currencyCodeChangelog = useCalculationChangelog('CurrencyCode');
   const currencyRateChangelog = useCalculationChangelog('CurrencyRate');
   const freightIncludedChangelog = useCalculationChangelog('FreightIncluded');
@@ -93,30 +85,12 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <FormLabelComponent
-            required={createNew}
-            name={'margin'}
+          <InputField
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
-          />
-          <Input
-            onChange={e => {
-              setValue(
-                'margin',
-                e?.target?.value.length
-                  ? parseInt(e?.target?.value?.toString())
-                  : null
-              );
-              setMargin(
-                e?.target?.value.length
-                  ? parseInt(e?.target?.value?.toString())
-                  : null
-              );
-            }}
-            value={marginValue}
-            type="decimal"
-            readOnly={disableEdit}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}
+            type="decimal"
+            readonly={disableEdit}
           />
         </GridItem>
         {!createNew && (

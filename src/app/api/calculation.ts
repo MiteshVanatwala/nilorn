@@ -26,7 +26,7 @@ export const usePatchCalculation = (id: string) => {
 
         showToast({
           status: 'success',
-          description: t('Feedback.PriceCalc.SaveSuccess'),
+          description: t('PriceCalc.Feedback.SaveSuccess'),
         });
       },
       onError: async (err: ApiError) => {
@@ -56,7 +56,7 @@ export const useCreateCalculation = () => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.CreateSuccess'),
+          description: t('PriceCalc.Feedback.CreateSuccess'),
         });
       },
       onError: async (err: ApiError) => {
@@ -86,7 +86,7 @@ export const usePatchCalculationSalesPrice = () => {
 
         showToast({
           status: 'success',
-          description: t('Feedback.PriceCalc.SaveSuccessRows'),
+          description: t('PriceCalc.Feedback.SaveSuccessRows'),
         });
       },
       onError: async (err: ApiError) => {

@@ -38,7 +38,6 @@ const PriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
-  const [margin, setMargin] = useState<number | null>(null);
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
       ? calculation?.priceDtos.map(item => item.margin)
@@ -83,28 +82,33 @@ const PriceCalculationModal = ({
   }, [close, isSuccessPatch, isSuccessCreate]);
 
   const freightIncluded = form.watch('freightIncluded');
+  const marginValue = form.watch('margin');
 
   const freightIncludedInt = freightIncluded
     ? parseInt(freightIncluded?.toString() ?? '')
     : 0;
+  const marginValueInt = marginValue
+    ? parseInt(marginValue?.toString() ?? '')
+    : null;
 
   useEffect(() => {
     const updatedItems = calculationItems?.map(item => {
       const salesPrice = calculateSalesPrice(
         item?.cost ?? 0,
         freightIncludedInt,
-        margin ?? 0
+        marginValueInt ?? 0
       );
       item.salesPrice = salesPrice;
-      item.margin = margin ?? item.margin;
+      item.margin = marginValueInt ?? item.margin;
       return item;
     });
     setCalculationItems(updatedItems ?? null);
     calculationItems?.map(item => ({
       ...item,
-      margin: margin,
+      margin: marginValueInt,
     }));
-  }, [freightIncludedInt, margin]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freightIncludedInt, marginValueInt]);
 
   useEffect(() => {
     if (
@@ -113,7 +117,7 @@ const PriceCalculationModal = ({
       margins[0] !== null &&
       margins.every(m => m === margins[0])
     ) {
-      setMargin(margins[0]);
+      form.setValue('margin', margins[0]);
     }
   }, []);
 
@@ -142,10 +146,6 @@ const PriceCalculationModal = ({
             production={production}
             createNew={createNew ?? false}
             calculationPrice={calculationItems}
-            setMargin={setMargin}
-            marginValue={
-              margin !== undefined && margin !== null ? margin?.toString() : ''
-            }
           />
         </form>
       </FormProvider>
