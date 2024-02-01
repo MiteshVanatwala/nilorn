@@ -96,17 +96,15 @@ const PriceCalculationModal = ({
       const salesPrice = calculateSalesPrice(
         item?.cost ?? 0,
         freightIncludedInt,
-        marginValueInt ?? 0
+        marginValueInt ? marginValueInt : item.margin ? item.margin : 0
       );
+
       item.salesPrice = salesPrice;
       item.margin = marginValueInt ?? item.margin;
       return item;
     });
     setCalculationItems(updatedItems ?? null);
-    calculationItems?.map(item => ({
-      ...item,
-      margin: marginValueInt,
-    }));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freightIncludedInt, marginValueInt]);
 
