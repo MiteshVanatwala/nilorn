@@ -109,17 +109,6 @@ const PriceCalculationModal = ({
   }, [freightIncludedInt, marginValueInt]);
 
   useEffect(() => {
-    if (
-      margins !== null &&
-      margins[0] !== undefined &&
-      margins[0] !== null &&
-      margins.every(m => m === margins[0])
-    ) {
-      form.setValue('margin', margins[0]);
-    }
-  }, []);
-
-  useEffect(() => {
     setCalculationItems(calculation?.priceDtos ?? null);
   }, [calculation]);
 
