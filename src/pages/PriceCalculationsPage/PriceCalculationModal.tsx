@@ -96,7 +96,7 @@ const PriceCalculationModal = ({
         margin ?? 0
       );
       item.salesPrice = salesPrice;
-      item.margin = margin;
+      item.margin = margin ?? item.margin;
       return item;
     });
     setCalculationItems(updatedItems ?? null);
@@ -104,7 +104,7 @@ const PriceCalculationModal = ({
       ...item,
       margin: margin,
     }));
-  }, [calculationItems, freightIncludedInt, margin]);
+  }, [freightIncludedInt, margin]);
 
   useEffect(() => {
     if (
