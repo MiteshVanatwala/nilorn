@@ -67,6 +67,7 @@ function PriceGridRow({
       }
     } else {
       setCreateNew(true);
+      setCalculation(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [production?.priceCalculations]);
@@ -88,6 +89,7 @@ function PriceGridRow({
     saveSalesPrices(form);
     setEnableEdit(false);
   };
+
   return (
     <GridItem colSpan={10}>
       <FormProvider {...form}>
