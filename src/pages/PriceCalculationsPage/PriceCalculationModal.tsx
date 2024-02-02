@@ -1,5 +1,6 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
+  MediaFileDto,
   PriceCalculationDto,
   PriceDto,
   ProductDevelopmentBriefDto,
@@ -24,7 +25,7 @@ type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   lastModified?: string;
-  artworkUrl?: string;
+  artwork?: MediaFileDto;
   production: ProductionDto;
   calculation: PriceCalculationDto | undefined;
 };
@@ -34,7 +35,7 @@ const PriceCalculationModal = ({
   productDevelopment,
   sourcedProduction,
   lastModified,
-  artworkUrl,
+  artwork,
   production,
   calculation,
 }: Props) => {
@@ -121,7 +122,7 @@ const PriceCalculationModal = ({
             sourcedProduction={sourcedProduction}
             actionBar={
               <PriceCalculationActionBar
-                artwork={artworkUrl}
+                artwork={artwork}
                 createNew={createNew}
                 lastModified={lastModified}
                 id={calculation?.id ?? ''}

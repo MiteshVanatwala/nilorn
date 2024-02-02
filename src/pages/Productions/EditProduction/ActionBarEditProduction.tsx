@@ -4,7 +4,7 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
-import { ProductionDto, Status } from '../../../app/generate';
+import { MediaFileDto, ProductionDto, Status } from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
@@ -18,7 +18,7 @@ import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
   showChanges: boolean;
-  artwork?: string | null;
+  artwork?: MediaFileDto;
   createNew?: boolean;
   disableEdit?: boolean;
   production?: ProductionDto;

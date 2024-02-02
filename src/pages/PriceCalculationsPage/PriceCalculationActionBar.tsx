@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
-import { ChangelogType } from '../../app/generate';
+import { ChangelogType, MediaFileDto } from '../../app/generate';
 import { useDeleteCalculation } from '../../app/api/calculation';
 
 type Props = {
-  artwork?: string | null;
+  artwork?: MediaFileDto;
   createNew?: boolean;
   disableEdit?: boolean;
   lastModified?: string;

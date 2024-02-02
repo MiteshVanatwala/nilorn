@@ -118,9 +118,7 @@ export const useProductDevelopment = (no: string) => {
   return useQuery(
     [QueryKeysEnum.ProductDevelopment, no],
     () =>
-      ProductDevelopmentsService.getApiProductDevelopments1(no).then(
-        res => res
-      ),
+      ProductDevelopmentsService.getApiProductDevelopments(no).then(res => res),
     {
       retry: 0,
       staleTime: Infinity,

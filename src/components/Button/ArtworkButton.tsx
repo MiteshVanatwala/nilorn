@@ -2,20 +2,22 @@ import { IconButton, Image } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { images } from '../../assets';
 import { useDownloadFile } from '../../app/api/mediaFile';
+import { MediaFileDto } from '../../app/generate';
 // import { downloadFromUrl } from '../../app/utils/file';
 
 type Props = {
-  id: string;
+  artwork: MediaFileDto;
   size?: 'SMALL';
 };
 
-const ArtworkButton = ({ id, size }: Props) => {
+const ArtworkButton = ({ size, artwork }: Props) => {
+  const { id, name } = artwork;
   const { t } = useTranslation();
 
   const { downloadFile, isLoading: isDownloading } = useDownloadFile(
-    id,
-    'artwork.pdf'
-  ); // TODO: Get artwork name?
+    id ?? '',
+    name ?? 'artwork.pdf'
+  );
 
   const handleClick = () => {
     downloadFile();

@@ -1,7 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
-import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
+import {
+  MediaFileDto,
+  ProductDevelopmentBriefDto,
+  Status,
+} from '../../app/generate';
 import NowrapText from '../../components/Text/NowrapText';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
 import ArtworkButton from '../../components/Button/ArtworkButton';
@@ -41,18 +45,22 @@ const useOverviewColumns = () => {
     columnHelper.accessor('versions', {
       header: `${t('PD.Version')}`,
       enableSorting: false,
-      cell: info => (info.getValue() === 0 ? '' : info.getValue()),
+      cell: info =>
+        info.getValue() === 0 ? '' : (info.getValue() as number) + 1,
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
       cell: info => <StatusBadge status={info.getValue() as Status} />,
     }),
-    columnHelper.accessor('artworkId', {
+    columnHelper.accessor('artwork', {
       header: `${t('PD.Artwork')}`,
       enableSorting: false,
       cell: info =>
         info.getValue() ? (
-          <ArtworkButton size="SMALL" id={`${info.getValue()}`} />
+          <ArtworkButton
+            size="SMALL"
+            artwork={info.getValue() as MediaFileDto}
+          />
         ) : (
           ''
         ),

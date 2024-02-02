@@ -9,7 +9,7 @@ import { getCurrentStoredFilter } from '../Filter/FilterHelper';
 const ProductDevelopmentCell = ({
   no,
   name,
-  artworkId,
+  artwork,
   thumbnailData,
   status,
   project,
@@ -35,7 +35,7 @@ const ProductDevelopmentCell = ({
             </Link>
             <Text variant={'bodyBigBlack'}>{name}</Text>
           </VStack>
-          {artworkId && <ArtworkButton size="SMALL" id={artworkId} />}
+          {artwork && <ArtworkButton artwork={artwork} />}
         </HStack>
         {thumbnailData && (
           <Image

@@ -6,6 +6,7 @@ import {
   ChangelogType,
   ProductDevelopmentBriefDto,
   ProductionDto,
+  PurchasePriceDto,
   SourcedProductionDto,
 } from '../../../app/generate';
 
@@ -63,11 +64,15 @@ const EditProduction = ({
   );
 
   useEffect(() => {
-    const mappedDefaultQuantities = data?.map(q => ({
-      id: undefined,
-      quantity: q || undefined,
-      price: null,
-    }));
+    const mappedDefaultQuantities: PurchasePriceDto[] =
+      data?.map(
+        q =>
+          ({
+            id: undefined,
+            quantity: q ?? null,
+            price: undefined,
+          } as PurchasePriceDto)
+      ) ?? [];
     if (createNew && mappedDefaultQuantities !== undefined) {
       form.setValue('purchasePrices', mappedDefaultQuantities);
     }
@@ -107,7 +112,7 @@ const EditProduction = ({
             production={production}
             actionBar={
               <ActionBarEditProduction
-                artwork={productDevelopment?.artworkId}
+                artwork={productDevelopment?.artwork}
                 showChanges={showChanges}
                 setShowChanges={(s: boolean) => setShowChanges(s)}
                 disableEdit={production?.released}

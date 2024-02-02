@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
+  MediaFileDto,
   PriceCalculationDto,
   ProductDevelopmentBriefDto,
   ProductionDto,
@@ -19,7 +20,7 @@ type Props = {
   sourcedProduction: SourcedProductionDto;
   onEditInline: () => void;
   lastModified?: string;
-  artworkUrl?: string;
+  artwork?: MediaFileDto;
   production: ProductionDto;
   calculation: PriceCalculationDto | undefined;
 };
@@ -30,7 +31,7 @@ const TableMenuCalculation = ({
   sourcedProduction,
   onEditInline,
   lastModified,
-  artworkUrl,
+  artwork,
   production,
   calculation,
 }: Props) => {
@@ -50,7 +51,7 @@ const TableMenuCalculation = ({
               sourcedProduction={sourcedProduction}
               createNew={createNew}
               lastModified={lastModified}
-              artworkUrl={artworkUrl}
+              artwork={artwork}
               production={production}
               calculation={calculation}
             />

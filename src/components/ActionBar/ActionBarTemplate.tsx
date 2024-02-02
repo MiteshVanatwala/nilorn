@@ -9,9 +9,10 @@ import {
 import { COLORS, SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { useTranslation } from 'react-i18next';
+import { MediaFileDto } from '../../app/generate';
 
 type Props = {
-  artwork?: string | null | undefined;
+  artwork?: MediaFileDto;
   lastModifiedDate?: string | null | undefined;
   moreMenuList?: JSX.Element;
   actionButtons: JSX.Element;
@@ -43,7 +44,7 @@ const ActionBarTemplate = ({
           base: SPACE.XXS,
           lg: SPACE.XS,
         }}>
-        {artwork && <ArtworkButton id={artwork} />}
+        {artwork && <ArtworkButton artwork={artwork} />}
 
         {moreMenuList && (
           <Menu>
