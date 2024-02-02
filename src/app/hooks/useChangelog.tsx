@@ -16,39 +16,41 @@ function getChangelogForKey(
     : [];
 }
 
+export function useChangelogByPropertyName(
+  key: string,
+  type: ChangelogType,
+  id?: string,
+  no?: string
+): ChangelogItemDto[] {
+  const { data: changelogMap } = useChangelog(no, type, id, false);
+
+  return getChangelogForKey(changelogMap, key);
+}
+
 export function useProductDevelopmentChangelog(
   key: string
 ): ChangelogItemDto[] {
   const { no } = useParams();
-  const { data: changelogMap } = useChangelog(
-    no,
+  return useChangelogByPropertyName(
+    key,
     ChangelogType.PRODUCT_DEVELOPMENT,
     undefined,
-    false
+    no
   );
-
-  return getChangelogForKey(changelogMap, key);
 }
-export function useProductionChangelog(
+
+export function useCalculationChangelog(
   key: string,
-  id: string,
-  type: ChangelogType = ChangelogType.PRODUCTION
+  id: string
 ): ChangelogItemDto[] {
-  const { data: changelogMap } = useChangelog(undefined, type, id, false);
-
-  return getChangelogForKey(changelogMap, key);
+  return useChangelogByPropertyName(key, ChangelogType.PRICE_CALCULATION, id);
 }
 
-export function useCalculationChangelog(key: string): ChangelogItemDto[] {
-  const { no } = useParams();
-  const { data: changelogMap } = useChangelog(
-    no,
-    ChangelogType.PRICE_CALCULATION,
-    undefined,
-    false
-  );
-
-  return getChangelogForKey(changelogMap, key);
+export function useProductionsChangelog(
+  key: string,
+  id: string
+): ChangelogItemDto[] {
+  return useChangelogByPropertyName(key, ChangelogType.PRODUCTION, id);
 }
 
 export function useToggleChangelog(

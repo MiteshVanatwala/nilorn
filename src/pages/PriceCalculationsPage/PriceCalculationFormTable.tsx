@@ -7,20 +7,18 @@ import EditCalculationGridHeader from './EditCalculationGridHeader';
 
 type Props = {
   data: PriceDto[];
+  showChanges: boolean;
 };
 
-const PriceCalculationFormTable = ({ data }: Props) => {
+const PriceCalculationFormTable = ({ data, showChanges }: Props) => {
   if (data.length === 0) {
     return <></>;
   }
 
-  const GRID_LAYOUT_CALCULATION = 'repeat(3, minmax(0, 80px)) 90px 150px';
+  const GRID_LAYOUT_CALCULATION = 'repeat(3, minmax(0, 80px)) 90px 200px';
 
   return (
-    <Box
-      mt={{ base: SPACE.LG, lg: SPACE.XXL }}
-      display={'inline-block'}
-      overflowX={{ base: 'auto', lg: 'hidden' }}>
+    <Box mt={{ base: SPACE.LG, lg: SPACE.XXL }} display={'inline-block'}>
       <GridInlineTbody
         gap="0"
         gridTemplateColumns={{
@@ -35,6 +33,7 @@ const PriceCalculationFormTable = ({ data }: Props) => {
                 key={index}
                 index={index}
                 calculation={c}
+                showChanges={showChanges}
               />
             ))}
         </>

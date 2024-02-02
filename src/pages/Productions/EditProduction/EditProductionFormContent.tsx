@@ -19,7 +19,8 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
 import { useGetCurrencies } from '../../../app/api/currency';
 import { isClosed } from '../../../app/utils/status';
-import { useProductionChangelog } from '../../../app/hooks/useChangelog';
+import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
+
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
@@ -28,6 +29,7 @@ type Props = {
   disableEdit?: boolean;
   showChanges: boolean;
 };
+
 const EditProductionFormContent = ({
   productDevelopment,
   sourcedProduction,
@@ -45,7 +47,7 @@ const EditProductionFormContent = ({
   const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
   const newSelctedVendor = useWatch({ name: 'vendorId' });
   const { setValue } = useFormContext();
-  const currencyCodeChangelog = useProductionChangelog(
+  const currencyCodeChangelog = useProductionsChangelog(
     'CurrencyCode',
     production?.id ?? ''
   );

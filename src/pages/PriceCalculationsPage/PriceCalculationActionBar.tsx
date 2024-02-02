@@ -4,8 +4,7 @@ import { Button } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
-import { useToggleChangelog } from '../../app/hooks/useChangelog';
-import { ChangelogType, MediaFileDto } from '../../app/generate';
+import { MediaFileDto } from '../../app/generate';
 import { useDeleteCalculation } from '../../app/api/calculation';
 
 type Props = {
@@ -14,6 +13,8 @@ type Props = {
   disableEdit?: boolean;
   lastModified?: string;
   id: string;
+  setShowChanges: (showChanges: boolean) => void;
+  showChanges: boolean;
 };
 
 const PriceCalculationActionBar = ({
@@ -22,13 +23,10 @@ const PriceCalculationActionBar = ({
   disableEdit = false,
   lastModified,
   id,
+  setShowChanges,
+  showChanges,
 }: Props) => {
   const { t } = useTranslation();
-  const { showChanges, setShowChanges } = useToggleChangelog(
-    ChangelogType.PRICE_CALCULATION,
-    undefined,
-    id
-  );
 
   const { mutate: deleteCalculation } = useDeleteCalculation(id);
 

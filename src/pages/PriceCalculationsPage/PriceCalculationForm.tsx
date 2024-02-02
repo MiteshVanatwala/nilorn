@@ -19,6 +19,7 @@ type Props = {
   production: ProductionDto;
   createNew: boolean;
   calculationPrice: PriceDto[] | null | undefined;
+  showChanges: boolean;
 };
 
 const PriceCalculationForm = ({
@@ -27,15 +28,24 @@ const PriceCalculationForm = ({
   production,
   createNew,
   calculationPrice,
+  showChanges,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
-  const currencyCodeChangelog = useCalculationChangelog('CurrencyCode');
-  const currencyRateChangelog = useCalculationChangelog('CurrencyRate');
-  const freightIncludedChangelog = useCalculationChangelog('FreightIncluded');
-  const indirectCostChangelog = useCalculationChangelog('IndirectCost');
-  const internalCommissionChangelog =
-    useCalculationChangelog('InternalCommission');
+
+  const id = calculation?.id ?? '';
+
+  const currencyCodeChangelog = useCalculationChangelog('CurrencyCode', id);
+  const currencyRateChangelog = useCalculationChangelog('CurrencyRate', id);
+  const freightIncludedChangelog = useCalculationChangelog(
+    'FreightIncluded',
+    id
+  );
+  const indirectCostChangelog = useCalculationChangelog('IndirectCost', id);
+  const internalCommissionChangelog = useCalculationChangelog(
+    'InternalCommission',
+    id
+  );
 
   return (
     <>
@@ -151,7 +161,10 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
-      <PriceCalculationFormTable data={calculationPrice ?? []} />
+      <PriceCalculationFormTable
+        data={calculationPrice ?? []}
+        showChanges={showChanges}
+      />
     </>
   );
 };

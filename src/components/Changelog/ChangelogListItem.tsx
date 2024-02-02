@@ -1,7 +1,6 @@
-import { Box } from '@chakra-ui/react';
 import { useChangelog } from '../../app/api/changelog';
 import { ChangelogType } from '../../app/generate';
-import { useProductionChangelog } from '../../app/hooks/useChangelog';
+import { useChangelogByPropertyName } from '../../app/hooks/useChangelog';
 import ChangelogPopup from './ChangelogPopup';
 
 type Props = {
@@ -18,13 +17,9 @@ const ChangelogListItem = ({
   showChanges = false,
 }: Props) => {
   useChangelog(undefined, type, id, showChanges);
-  const changelog = useProductionChangelog(propertyName, id);
+  const changelog = useChangelogByPropertyName(propertyName, type, id);
 
-  return (
-    <Box position={'absolute'} top={'5px'} right={0}>
-      {changelog && <ChangelogPopup data={changelog} />}
-    </Box>
-  );
+  return <>{changelog && <ChangelogPopup data={changelog} />}</>;
 };
 
 export default ChangelogListItem;

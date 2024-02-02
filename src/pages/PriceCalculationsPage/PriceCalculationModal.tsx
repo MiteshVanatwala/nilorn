@@ -1,5 +1,6 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
+  ChangelogType,
   MediaFileDto,
   PriceCalculationDto,
   PriceDto,
@@ -19,6 +20,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { calculateSalesPrice } from './PriceGrid/PriceHelper';
+import { useToggleChangelog } from '../../app/hooks/useChangelog';
 
 type Props = {
   createNew?: boolean;
@@ -39,6 +41,12 @@ const PriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
+  const { showChanges, setShowChanges } = useToggleChangelog(
+    ChangelogType.PRICE_CALCULATION,
+    undefined,
+    calculation?.id ?? ''
+  );
+
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
       ? calculation?.priceDtos.map(item => item.margin)
@@ -66,6 +74,7 @@ const PriceCalculationModal = ({
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
+
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       if (createNew) {
@@ -126,6 +135,8 @@ const PriceCalculationModal = ({
                 createNew={createNew}
                 lastModified={lastModified}
                 id={calculation?.id ?? ''}
+                showChanges={showChanges}
+                setShowChanges={(s: boolean) => setShowChanges(s)}
               />
             }
           />
@@ -134,6 +145,7 @@ const PriceCalculationModal = ({
             production={production}
             createNew={createNew ?? false}
             calculationPrice={calculationItems}
+            showChanges={showChanges}
           />
         </form>
       </FormProvider>

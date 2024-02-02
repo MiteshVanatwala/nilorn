@@ -80,12 +80,14 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />
-                    <ChangelogListItem
-                      showChanges={showChanges}
-                      type={ChangelogType.PURCHASE_PRICE}
-                      propertyName={'Quantity'}
-                      id={getValues(`${fieldName}.${index}.id`)}
-                    />
+                    <Box position={'absolute'} top={SPACE.XS} right={0}>
+                      <ChangelogListItem
+                        showChanges={showChanges}
+                        type={ChangelogType.PURCHASE_PRICE}
+                        propertyName={'Quantity'}
+                        id={getValues(`${fieldName}.${index}.id`)}
+                      />
+                    </Box>
                   </Box>
                   <Box w={'50%'} position={'relative'}>
                     <InputField
@@ -95,12 +97,14 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true }}
                     />
-                    <ChangelogListItem
-                      showChanges={showChanges}
-                      type={ChangelogType.PURCHASE_PRICE}
-                      propertyName={'Price'}
-                      id={getValues(`${fieldName}.${index}.id`)}
-                    />
+                    <Box position={'absolute'} top={SPACE.XS} right={0}>
+                      <ChangelogListItem
+                        showChanges={showChanges}
+                        type={ChangelogType.PURCHASE_PRICE}
+                        propertyName={'Price'}
+                        id={getValues(`${fieldName}.${index}.id`)}
+                      />
+                    </Box>
                   </Box>
                 </HStack>
                 {!disableEdit && (
