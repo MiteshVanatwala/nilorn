@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { MediaFileDto } from './MediaFileDto';
 import type { Status } from './Status';
 
 export type ProductDevelopmentBriefDto = {
@@ -11,7 +12,7 @@ export type ProductDevelopmentBriefDto = {
     name?: string | null;
     status?: Status;
     versions?: number;
-    artworkId?: string | null;
+    artwork?: MediaFileDto;
     client?: string | null;
     project?: string | null;
     productGroup?: string | null;

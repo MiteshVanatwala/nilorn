@@ -17,42 +17,6 @@ export class ProductDevelopmentsService {
     /**
      * @param pageNumber 
      * @param pageSize 
-     * @returns ProductDevelopmentBriefDtoPaginatedList Success
-     * @throws ApiError
-     */
-    public static getApiProductDevelopments(
-pageNumber?: number,
-pageSize?: number,
-): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/ProductDevelopments',
-            query: {
-                'PageNumber': pageNumber,
-                'PageSize': pageSize,
-            },
-        });
-    }
-
-    /**
-     * @param requestBody 
-     * @returns string Success
-     * @throws ApiError
-     */
-    public static postApiProductDevelopments(
-requestBody?: CreateProductDevelopmentCommand,
-): CancelablePromise<string> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/ProductDevelopments',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-
-    /**
-     * @param pageNumber 
-     * @param pageSize 
      * @param sortKey 
      * @param searchQuery 
      * @param clients 
@@ -119,11 +83,27 @@ includeClosed?: boolean,
     }
 
     /**
+     * @param requestBody 
+     * @returns string Success
+     * @throws ApiError
+     */
+    public static postApiProductDevelopments(
+requestBody?: CreateProductDevelopmentCommand,
+): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/ProductDevelopments',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
+    /**
      * @param no 
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
-    public static getApiProductDevelopments1(
+    public static getApiProductDevelopments(
 no: string,
 ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
