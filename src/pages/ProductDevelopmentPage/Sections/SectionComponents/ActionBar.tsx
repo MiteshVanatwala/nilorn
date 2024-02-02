@@ -11,7 +11,6 @@ import { useToggleChangelog } from '../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../app/hooks/useToast';
-import { isEqual } from '../../../../app/utils/common';
 import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../app/api/User';
 import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Permissions';
@@ -42,7 +41,7 @@ const ActionBar = ({
     if (currentStatus === status) {
       return;
     }
-    if (!isEqual(formState.defaultValues, getValues())) {
+    if (formState.isDirty) {
       showToast({
         position: 'top-right',
         status: 'info',

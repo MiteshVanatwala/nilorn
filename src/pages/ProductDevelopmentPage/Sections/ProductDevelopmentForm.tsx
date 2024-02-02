@@ -59,6 +59,7 @@ function ProductDevelopmentForm({
   }
 
   useEffect(() => {
+    form.setValue('status', defaultValues?.status, { shouldDirty: false });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
       (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role))
@@ -67,7 +68,8 @@ function ProductDevelopmentForm({
     } else {
       setDisableEdit(false);
     }
-  }, [defaultValues, user?.role]);
+  }, [defaultValues, form, user?.role]);
+
   useEffect(() => {
     if (isSubmitSuccessful) {
       form.reset(undefined, { keepValues: true, keepIsValid: true });
