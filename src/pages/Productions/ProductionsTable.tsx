@@ -18,18 +18,18 @@ import { Fragment } from 'react';
 import { isClosed } from '../../app/utils/status';
 
 const GRID_LAYOUT_DESKTOP =
-  'repeat(4, 1fr) [Vendor] minmax(170px, 1fr) repeat(7, 1fr)';
+  'repeat(4, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 const GRID_LAYOUT_SOURCING_DESKTOP =
-  'repeat(1, 1fr) [Vendor] minmax(170px, 1fr) repeat(7, 1fr)';
+  'repeat(1, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 export const GRID_LAYOUT_PRODUCTION_DESKTOP =
-  '[Vendor] minmax(170px, 1fr) repeat(7, 1fr)';
+  '[Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 
 const GRID_LAYOUT =
-  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(170px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 const GRID_LAYOUT_SOURCING =
-  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(170px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 export const GRID_LAYOUT_PRODUCTION =
-  '[Vendor] minmax(170px, 1fr) repeat(7, minmax(100px, 1fr))';
+  '[Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 
 type Props = {
   productions: ProductDevelopmentDeepDto[];
@@ -52,7 +52,7 @@ const ProductionsTable = ({ productions }: Props) => {
               <PDCell {...p.productDevelopmentBriefDto} />
             </GridTd>
             <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
-            <GridItem colSpan={9}>
+            <GridItem colSpan={7}>
               <GridInlineTbody
                 gridTemplateColumns={{
                   base: GRID_LAYOUT_SOURCING,
@@ -84,7 +84,7 @@ const ProductionsTable = ({ productions }: Props) => {
                       </>
                     </GridTd>
                     <GridItem
-                      colSpan={8}
+                      colSpan={6}
                       style={
                         s.productions?.length === 0 ? TD_STYLE : undefined
                       }>

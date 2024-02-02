@@ -8,8 +8,6 @@ function ProductionGridHeader() {
     <>
       <GridTh>{t('PD.AccordionLabels.Vendor')}</GridTh>
       <GridTh>{t('Production.Comment')}</GridTh>
-      <GridTh>{t('Production.SL')}</GridTh>
-      <GridTh>{t('Production.BL')}</GridTh>
       <GridTh>{t('Production.MOQ')}</GridTh>
       <GridTh>{t('Production.Currency')}</GridTh>
       <GridTh>{t('Production.Qty')}</GridTh>

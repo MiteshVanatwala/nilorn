@@ -11,6 +11,7 @@ import { useFormContext } from 'react-hook-form';
 import { useContext } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import { useProductDevelopment } from '../../../app/api/productDevelopment';
 
 type Props = {
   no: string;
@@ -32,6 +33,7 @@ const SourcingForm = ({
     no,
     sourcingCompanyCode
   );
+  const { data: productDevelopmentData } = useProductDevelopment(no);
   const { formState } = useFormContext();
   const { handleModal, close } = useContext(ModalContext);
 
@@ -53,11 +55,17 @@ const SourcingForm = ({
     );
   }
 
+  const isSaved =
+    productDevelopmentData &&
+    productDevelopmentData.sourcings?.find(
+      s => s.sourcingCompanyCode === sourcingCompanyCode
+    );
+
   return (
     <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
       <GridItem
         colSpan={{
-          base: 1,
+          base: 2,
           lg: 5,
           xl: 6,
         }}>
@@ -93,12 +101,13 @@ const SourcingForm = ({
         </VStack>
       </GridItem>
       <GridItem
+        rowSpan={3}
         colSpan={{
-          base: 1,
+          base: 2,
           lg: 2,
         }}
         colEnd={{
-          base: 1,
+          base: 0,
           lg: 11,
           xl: 13,
         }}
@@ -109,47 +118,55 @@ const SourcingForm = ({
         }}>
         <Quantity disableEdit={disableEdit} formKey={sourcingIndexKey} />
       </GridItem>
-      <GridItem colSpan={12}>
+      <GridItem
+        colSpan={{
+          base: 1,
+          lg: 8,
+          xl: 10,
+        }}>
         <ReleasedProductions
           data={connectedProductions?.filter(cp => cp.released) ?? []}
         />
       </GridItem>
-      {((connectedProductions && connectedProductions?.length) ||
-        !disableEdit) && (
-        <HStack gap={SPACE.XL}>
-          <GridItem>
+      <GridItem
+        colSpan={{
+          base: 2,
+          lg: 5,
+          xl: 6,
+        }}>
+        {isSaved && (
+          <HStack spacing={SPACE.XL}>
             <ArrowLink
               useAsBtn={formState.isDirty}
               onClick={formState.isDirty ? openModal : undefined}
               direction="right"
               to={`/productions/?productDevelopments=${no}`}>
               <>
-                {connectedProductions && connectedProductions?.length > 0
+                {(connectedProductions && connectedProductions?.length > 0) ||
+                disableEdit
                   ? t('PD.ViewProductions')
                   : t('PD.AddProductions')}
               </>
             </ArrowLink>
-          </GridItem>
-          {((connectedProductions && connectedProductions?.length > 0) ||
-            !disableEdit) && (
-            <GridItem>
+            {connectedProductions && connectedProductions?.length > 0 && (
               <ArrowLink
                 useAsBtn={formState.isDirty}
                 onClick={formState.isDirty ? openModal : undefined}
                 direction="right"
                 to={`/price-calculations/?productDevelopments=${no}`}>
                 <>
-                  {connectedProductions &&
-                  connectedProductions?.filter(cp => cp.priceCalculations)
-                    ?.length > 0
+                  {(connectedProductions &&
+                    connectedProductions?.filter(cp => cp.priceCalculations)
+                      ?.length > 0) ||
+                  disableEdit
                     ? t('PD.ViewCalculation')
                     : t('PD.AddCalculation')}
                 </>
               </ArrowLink>
-            </GridItem>
-          )}
-        </HStack>
-      )}
+            )}
+          </HStack>
+        )}
+      </GridItem>
     </Grid>
   );
 };

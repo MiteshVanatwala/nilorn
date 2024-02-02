@@ -23,8 +23,6 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
       <GridTd style={style}>
         <CommentPopup comment={production.comment} />
       </GridTd>
-      <GridTd style={style}>{production.sampleLeadTime}</GridTd>
-      <GridTd style={style}>{production.productionLeadTime}</GridTd>
       <GridTd style={style}>{production.moq}</GridTd>
       <GridTd style={style}>{production.currencyCode}</GridTd>
       <GridItem
