@@ -40,6 +40,7 @@ const ProductDevelopmentCell = ({
         {thumbnailData && (
           <Image
             height={'8rem'}
+            width={'8rem'}
             objectFit={'cover'}
             src={`data:image/jpeg;base64,${thumbnailData}`}
           />
