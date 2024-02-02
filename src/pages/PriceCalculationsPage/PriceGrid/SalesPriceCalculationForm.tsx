@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react';
 import { GridInlineTbody } from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
-import { useFieldArray, useFormContext } from 'react-hook-form';
 import SalesPriceCalculation from './SalesPriceCalculation';
 
 type Props = {
@@ -17,20 +16,13 @@ const SalesPriceCalculationForm = ({
   calculation,
   enableEdit,
 }: Props) => {
-  const { control } = useFormContext();
-
-  const { fields } = useFieldArray({
-    control,
-    name: FORM_KEY_SALES_PRICES,
-  });
-
   return (
     <GridInlineTbody gridTemplateColumns={`repeat(3, 1fr)`}>
-      {fields?.map((f, i) => {
+      {calculation?.priceDtos?.map((f, i) => {
         const price = f as PriceDto;
         return (
           <SalesPriceCalculation
-            key={calculation?.productionId + '-salesPrice-' + i}
+            key={calculation?.productionId + '-salesPrice-' + i + price.margin}
             enableEdit={enableEdit}
             calculation={calculation}
             style={style}

@@ -1,10 +1,11 @@
-import { CSSProperties, ChangeEvent } from 'react';
+import { CSSProperties, ChangeEvent, useEffect } from 'react';
 import { GridTd } from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import { Input } from '@chakra-ui/react';
 import { calculateMargin, calculateSalesPrice } from './PriceHelper';
 import { useFormContext } from 'react-hook-form';
 import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
+import { FORM_KEY_SALES_PRICES } from './SalesPriceCalculationForm';
 
 type Props = {
   enableEdit: boolean;
@@ -21,7 +22,7 @@ const SalesPriceCalculation = ({
   enableEdit,
   formKey,
 }: Props) => {
-  const { setValue, getValues, register } = useFormContext();
+  const { setValue, getValues, register, reset } = useFormContext();
 
   const changeMargin = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -42,7 +43,13 @@ const SalesPriceCalculation = ({
     );
     setValue(`${formKey}.margin`, newMargin);
   };
+  useEffect(() => {
+    reset({
+      [FORM_KEY_SALES_PRICES]: calculation?.priceDtos,
+    });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculation.priceDtos]);
   return (
     <>
       <GridTd style={style}>
@@ -61,7 +68,7 @@ const SalesPriceCalculation = ({
               borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
-            <> {getValues(`${formKey}.margin`)}</>
+            <>{getValues(`${formKey}.margin`)}</>
           )}
         </>
       </GridTd>
