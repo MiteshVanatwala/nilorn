@@ -12,6 +12,7 @@ export const useCurrentUser = () => {
     {
       cacheTime: Infinity,
       staleTime: Infinity,
+      retry: 0,
     }
   );
 };

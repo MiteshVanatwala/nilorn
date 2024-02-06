@@ -15,9 +15,10 @@ import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog'
 import { Status } from '../../../app/generate';
 type Props = {
   disableEdit: boolean;
+  createNew: boolean;
 };
 
-const GeneralSection = ({ disableEdit }: Props) => {
+const GeneralSection = ({ createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
   const { setValue, getValues } = useFormContext();
   const status = getValues('status');
@@ -74,7 +75,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
               name="itemCategoryCode"
               label={`${t('PD.FormContent.ItemCategory')}`}
               registerOptions={{
-                required: status !== Status.NEW,
+                required: createNew ? false : status !== Status.NEW,
               }}
               defaultValue={
                 itemCategories && itemCategoryCode
@@ -104,7 +105,7 @@ const GeneralSection = ({ disableEdit }: Props) => {
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
               registerOptions={{
-                required: status !== Status.NEW,
+                required: createNew ? false : status !== Status.NEW,
               }}
               defaultValue={
                 productGroups && productGroupCode

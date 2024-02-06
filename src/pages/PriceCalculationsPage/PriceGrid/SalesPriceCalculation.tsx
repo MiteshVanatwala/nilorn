@@ -27,8 +27,8 @@ const SalesPriceCalculation = ({
   const changeMargin = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     const newSalesPrice = calculateSalesPrice(
-      price.cost ?? 0,
-      calculation.freightIncluded ?? 0,
+      price.cost ?? null,
+      calculation.freightIncluded ?? null,
       value
     );
     setValue(`${formKey}.salesPrice`, newSalesPrice);
@@ -38,8 +38,8 @@ const SalesPriceCalculation = ({
     const value = Number(e.target.value);
     const newMargin = calculateMargin(
       value,
-      price.cost ?? 0,
-      calculation.freightIncluded ?? 0
+      price.cost ?? null,
+      calculation.freightIncluded ?? null
     );
     setValue(`${formKey}.margin`, newMargin);
   };
@@ -60,8 +60,6 @@ const SalesPriceCalculation = ({
                 valueAsNumber: true,
               })}
               onChange={e => changeMargin(e)}
-              min={0}
-              max={100}
               type="decimal"
               variant={'outline'}
               my={SPACE.XXS}

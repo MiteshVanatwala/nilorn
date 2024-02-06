@@ -141,7 +141,7 @@ const TopSection = ({
                     defaultValue={getValues('name')}
                     name="name"
                     isDisabled={disableEdit}
-                    registerOptions={{ required: true, maxLength: 30 }}
+                    registerOptions={{ maxLength: 30 }}
                   />
                 </Heading>
                 <Text px={SPACE.SM}>

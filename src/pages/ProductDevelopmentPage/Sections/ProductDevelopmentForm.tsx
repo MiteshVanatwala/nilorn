@@ -96,7 +96,10 @@ function ProductDevelopmentForm({
                   variant={'card'}
                   defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3, 4]}
                   allowMultiple>
-                  <GeneralSection disableEdit={disableEdit} />
+                  <GeneralSection
+                    createNew={createNew}
+                    disableEdit={disableEdit}
+                  />
                   <ProductDesignSection disableEdit={disableEdit} />
                   <MemberSection
                     no={no}

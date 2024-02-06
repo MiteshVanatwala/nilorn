@@ -8,6 +8,7 @@
     "SigningIn": "Signing you in...",
     "SigningOut": "Signing you out...",
     "AuthError": "Authentication error",
+    "AuthErrorNoAcesss": "You dont have premissons to access this page.",
     "ReloadSite": "Reload site",
     "ErrorTitle": "An error occurred while processing your request",
     "Page": "Page",

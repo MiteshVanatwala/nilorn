@@ -130,7 +130,7 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <InputField
               type="number"
-              registerOptions={{ required: true, valueAsNumber: true }}
+              registerOptions={{ valueAsNumber: true }}
               readonly={disableEdit}
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
@@ -140,7 +140,7 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <InputField
               type="number"
-              registerOptions={{ required: true, valueAsNumber: true }}
+              registerOptions={{ valueAsNumber: true }}
               readonly={disableEdit}
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
@@ -150,7 +150,7 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <InputField
               type="number"
-              registerOptions={{ required: true, valueAsNumber: true }}
+              registerOptions={{ valueAsNumber: true }}
               readonly={disableEdit}
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
@@ -160,7 +160,7 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <InputField
               type="number"
-              registerOptions={{ required: true, valueAsNumber: true }}
+              registerOptions={{ valueAsNumber: true }}
               readonly={disableEdit}
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
@@ -170,7 +170,7 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <InputField
               type="number"
-              registerOptions={{ required: true, valueAsNumber: true }}
+              registerOptions={{ valueAsNumber: true }}
               readonly={disableEdit}
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
