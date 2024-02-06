@@ -34,8 +34,8 @@ const Filter = ({ hasSearch, filterInputs, wideFilter }: Props) => {
             lg: 3,
           }}>
           <InputSearch
-            label="Search"
-            placeholder={t(`Filter.Search`)}
+            label={t('Filter.Search')}
+            placeholder={t(`Filter.SearchPlaceholder`)}
             name="searchQuery"
             variant="filled"
           />

@@ -242,7 +242,8 @@
   },
   "Filter": {
     "AdvanceFilter": "Advanced filters",
-    "Search": "Search by...",
+    "Search": "Search",
+    "SearchPlaceholder": "Search by...",
     "Select": "Select...",
     "NumSelected": "{{num}} selected",
     "SavedFilters": "My saved filters",

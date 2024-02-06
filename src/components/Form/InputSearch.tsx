@@ -1,81 +1,25 @@
-import { Input } from '@chakra-ui/react';
-import { ValidationRule, useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
-import { SIZES } from '../../theme/Constants';
-import fontSizes from '../../theme/fontSizes';
-import ControlWrapper from './ControlWrapper';
-import { useEffect } from 'react';
+import InputField from './InputField';
 
 interface Props extends FormInputProps {
   placeholder?: string;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
-  isDisabled?: boolean;
-  required?: boolean;
-  pattern?: ValidationRule<RegExp>;
-  controller?: {
-    setValue(value: string): void;
-    value: string;
-  };
-  onChange?(value: string): void;
 }
 
-const InputSearch = ({
-  name,
-  label,
-  placeholder,
-  registerOptions,
-  helperText,
-  required,
-  variant = 'standard',
-  hideValidationStyle,
-  isDisabled = false,
-  controller,
-  pattern,
-  onChange,
-}: Props) => {
-  const {
-    clearErrors,
-    setValue: setFormContextValue,
-    formState: { errors },
-    register: formContextRegister,
-  } = useFormContext();
-
-  const controllerValue = controller?.value;
-
-  useEffect(() => {
-    setFormContextValue(name, controllerValue, {
-      shouldDirty: true,
-    });
-  }, [controllerValue, setFormContextValue, name]);
-  const { onChange: formContextRegOnChange, ...formContextRegRest } =
-    formContextRegister(name, {
-      required,
-      pattern,
-    });
+const InputSearch = ({ name, label, placeholder, variant }: Props) => {
   return (
-    <ControlWrapper
-      name={name}
+    <InputField
       label={label}
-      required={registerOptions?.required}
-      errors={errors}
-      helperText={helperText}
-      hideValidationStyle={hideValidationStyle}>
-      <Input
-        variant={variant}
-        placeholder={placeholder}
-        type={'search'}
-        {...formContextRegRest}
-        onChange={e => {
-          clearErrors(name);
-          formContextRegOnChange(e);
-          onChange?.(e.target.value);
-          controller?.setValue?.(e.target.value);
-        }}
-        fontSize={fontSizes.sm}
-        maxWidth={SIZES.CONTAINER.SM}
-        disabled={isDisabled}
-      />
-    </ControlWrapper>
+      variant={variant}
+      type={'search'}
+      placeholder={placeholder}
+      name={name}
+      registerOptions={{
+        setValueAs(value) {
+          return encodeURIComponent(value);
+        },
+      }}
+    />
   );
 };
 

@@ -63,7 +63,7 @@ const ActiveFilters = () => {
             return (
               <ActiveFilterItem
                 key={key}
-                label={value}
+                label={decodeURIComponent(value)}
                 filterLabel={t(`PD.FilterLabel.${key}`)}
                 queryItem={key}
               />
