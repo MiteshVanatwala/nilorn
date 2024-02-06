@@ -12,11 +12,11 @@ export type ProductionDto = {
     vendorName?: string | null;
     currencyCode?: string | null;
     released?: boolean;
-    moq?: number;
-    sampleCharge?: number;
-    toolCharge?: number;
-    sampleLeadTime?: number;
-    productionLeadTime?: number;
+    moq?: number | null;
+    sampleCharge?: number | null;
+    toolCharge?: number | null;
+    sampleLeadTime?: number | null;
+    productionLeadTime?: number | null;
     comment?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;
     priceCalculations?: Array<PriceCalculationDto> | null;

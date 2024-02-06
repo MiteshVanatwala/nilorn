@@ -41,7 +41,6 @@ const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
               type={MediaFileType.ARTWORK}
               defaultValue={artwork ? [artwork] : undefined}
               disableEdit={disableEdit}
-              isClosed={isClosed}
               heading={t('PD.Artwork')}
             />
             {isFetched && (
@@ -50,7 +49,6 @@ const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
                 type={MediaFileType.ATTACHMENT}
                 defaultValue={attachments}
                 disableEdit={disableEdit}
-                isClosed={isClosed}
                 heading={t('PD.Attatchments')}
               />
             )}

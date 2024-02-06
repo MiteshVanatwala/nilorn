@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { images } from '../../assets';
 import { useDownloadFile } from '../../app/api/mediaFile';
 import { MediaFileDto } from '../../app/generate';
-// import { downloadFromUrl } from '../../app/utils/file';
 
 type Props = {
   artwork: MediaFileDto;

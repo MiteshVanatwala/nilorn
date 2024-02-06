@@ -1,6 +1,12 @@
 import { useMutation, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
-import { ApiError, ProductionDto, ProductionsService } from '../generate';
+import {
+  ApiError,
+  CreateProductionCommand,
+  ProductionDto,
+  ProductionsService,
+  UpdateProductionCommand,
+} from '../generate';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 
@@ -37,7 +43,7 @@ export const usePatchProduction = (released?: boolean) => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: ProductionDto) =>
+    (body: UpdateProductionCommand) =>
       ProductionsService.patchApiProductions(body).then(response => response),
     {
       onSuccess: async (body: ProductionDto) => {
@@ -67,7 +73,7 @@ export const useCreateProduction = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: ProductionDto) =>
+    (body: CreateProductionCommand) =>
       ProductionsService.postApiProductions(body).then(response => response),
     {
       onSuccess: async (body: ProductionDto) => {

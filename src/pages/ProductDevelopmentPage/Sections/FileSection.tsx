@@ -2,11 +2,14 @@ import { GridItem } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import File from '../../../components/File/File';
 import UploadFile from '../../../components/File/UploadFile';
-import { MediaFileDto, MediaFileType } from '../../../app/generate';
+import { MediaFileDto, MediaFileType, Status } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 
 import { ARTWORK } from './AttachmentSection';
+import { useToast } from '../../../app/hooks/useToast';
+import { useUpdateProductDevelopmentWithStatus } from '../../../app/api/productDevelopment';
+import { useTranslation } from 'react-i18next';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -16,7 +19,6 @@ type Props = {
   type: MediaFileType;
   no: string;
   disableEdit: boolean;
-  isClosed: boolean;
 };
 
 export type MediaFileWithStatus = MediaFileDto & {
@@ -28,15 +30,17 @@ const FileSection = ({
   disableEdit,
   heading,
   type,
-  isClosed,
   defaultValue = [],
 }: Props) => {
-  const { setValue } = useFormContext();
+  const { setValue, formState, trigger, getValues } = useFormContext();
+  const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
+  const { t } = useTranslation();
+  const currentStatus = getValues('status') as Status;
 
   const { mutateAsync } = useUploadFile(no, type);
-
+  const { showToast } = useToast();
   const removeFile = (id: string) => {
     if (type === MediaFileType.ARTWORK) {
       setValue(ARTWORK, undefined);
@@ -70,6 +74,7 @@ const FileSection = ({
         });
         if (type === MediaFileType.ARTWORK) {
           setValue(ARTWORK, res);
+          submitStatus(Status.ARTWORK);
         }
       } catch (err) {
         setMediaFiles(prevMediaFiles => {
@@ -85,7 +90,23 @@ const FileSection = ({
 
     await Promise.all(uploadPromises);
   };
-
+  async function submitStatus(status: Status): Promise<void> {
+    if (currentStatus === status) {
+      return;
+    }
+    if (formState.isDirty) {
+      showToast({
+        position: 'top-right',
+        status: 'info',
+        description: t('PD.Feedback.Info.NeedToSave'),
+      });
+      return;
+    }
+    const res = await trigger();
+    if (res) {
+      updateStatus(status);
+    }
+  }
   return (
     <>
       <GridItem colSpan={12}>
