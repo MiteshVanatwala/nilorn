@@ -140,7 +140,7 @@ const SourcingForm = ({
               useAsBtn={formState.isDirty}
               onClick={formState.isDirty ? openModal : undefined}
               direction="right"
-              to={`/productions/?productDevelopments=${no}`}>
+              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}>
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
                 disableEdit
@@ -153,7 +153,7 @@ const SourcingForm = ({
                 useAsBtn={formState.isDirty}
                 onClick={formState.isDirty ? openModal : undefined}
                 direction="right"
-                to={`/price-calculations/?productDevelopments=${no}`}>
+                to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}>
                 <>
                   {(connectedProductions &&
                     connectedProductions?.filter(cp => cp.priceCalculations)

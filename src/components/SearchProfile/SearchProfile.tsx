@@ -99,7 +99,7 @@ const SearchProfile = () => {
               />
             )
           }>
-          {activeSearchProfileName
+          {activeSearchProfileName && defaultSearchProfile
             ? t('Filter.UpdateSearchProfile')
             : t('Filter.SaveSearchProfile')}
         </Button>
