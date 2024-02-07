@@ -20,8 +20,8 @@ type Props = {
 
 const GeneralSection = ({ createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
-  const { setValue, getValues } = useFormContext();
-  const status = getValues('status');
+  const { setValue } = useFormContext();
+  const status = useWatch({ name: 'status' });
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
   const [itemCategoryCodeStartVal, setItemCategoryCodeStartVal] =
@@ -105,7 +105,9 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
               registerOptions={{
-                required: createNew ? false : status !== Status.NEW,
+                required: createNew
+                  ? false
+                  : status !== Status.NEW || itemCategoryCode,
               }}
               defaultValue={
                 productGroups && productGroupCode

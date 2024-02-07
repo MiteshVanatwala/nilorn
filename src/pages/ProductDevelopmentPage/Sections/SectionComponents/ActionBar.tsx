@@ -32,17 +32,17 @@ const ActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
   const artwork = useWatch({ name: 'artwork' });
-  const { getValues, formState, trigger } = useFormContext();
+  const { getValues, formState, trigger, register } = useFormContext();
   const { statuses } = useStatusOptions();
-  const currentStatus = getValues('status') as Status;
+  const currentStatus = useWatch({ name: 'status' }) as Status;
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
   const { onLeavePage } = useUnsavedChanges();
 
-  async function submitStatus(status: Status): Promise<void> {
-    if (currentStatus === status) {
+  async function submitStatus(newStatus: Status): Promise<void> {
+    if (currentStatus === newStatus) {
       return;
     }
     if (formState.isDirty) {
@@ -53,9 +53,21 @@ const ActionBar = ({
       });
       return;
     }
-    const res = await trigger();
-    if (res) {
-      updateStatus(status);
+    if (newStatus === Status.NEW) {
+      updateStatus(newStatus);
+    } else {
+      if (currentStatus === Status.NEW) {
+        register('itemCategoryCode', {
+          required: true,
+        });
+        register('productGroupCode', {
+          required: true,
+        });
+      }
+      const res = await trigger();
+      if (res) {
+        updateStatus(newStatus);
+      }
     }
   }
   const { showChanges, setShowChanges } = useToggleChangelog(
