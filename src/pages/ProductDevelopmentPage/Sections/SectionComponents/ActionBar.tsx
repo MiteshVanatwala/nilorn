@@ -14,6 +14,8 @@ import { useToast } from '../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../app/api/User';
 import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Permissions';
+import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
+import { NavLink } from 'react-router-dom';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -37,6 +39,8 @@ const ActionBar = ({
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
+  const { onLeavePage } = useUnsavedChanges();
+
   async function submitStatus(status: Status): Promise<void> {
     if (currentStatus === status) {
       return;
@@ -104,8 +108,13 @@ const ActionBar = ({
             )}
             {hasProductions && (
               <MenuItem
-                as="a"
-                href={`/productions?productDevelopments=${no}`}
+                as={NavLink}
+                onClick={() =>
+                  onLeavePage(
+                    `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                  )
+                }
+                to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}
@@ -118,8 +127,13 @@ const ActionBar = ({
             )}
             {hasPriceCalculation && (
               <MenuItem
-                as="a"
-                href={`/price-calculations?productDevelopments=${no}`}
+                as={NavLink}
+                onClick={() =>
+                  onLeavePage(
+                    `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                  )
+                }
+                to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}

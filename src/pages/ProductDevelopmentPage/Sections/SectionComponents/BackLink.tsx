@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ArrowLink from '../../../../components/Link/ArrowLink';
 import { useFormContext } from 'react-hook-form';
-import ConfirmModal from '../../../../components/Modal/ConfirmModal';
-import { useContext } from 'react';
-import { ModalContext } from '../../../../app/context/ModalContext';
+import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   scrolledPast: boolean;
@@ -11,32 +9,18 @@ type Props = {
 const BackLink = ({ scrolledPast }: Props) => {
   const { t } = useTranslation();
   const { formState } = useFormContext();
-  const { handleModal, close } = useContext(ModalContext);
+  const { onLeavePage } = useUnsavedChanges();
+
   const backLink = sessionStorage.getItem('backLink') ?? '/';
   if (scrolledPast) {
     return <></>;
-  }
-  function discardChanges(to: string) {
-    window.location.href = to;
-    close();
-  }
-  function openModal() {
-    handleModal(
-      <ConfirmModal
-        title={t('PD.UnsavedChanges')}
-        description={t('PD.UnsavedChangesMsg')}
-        onConfirm={() => discardChanges(`${backLink}`)}
-        cancelText={t('Common.No')}
-        confirmText={t('Common.Yes')}
-      />
-    );
   }
 
   return (
     <ArrowLink
       useAsBtn={formState.isDirty}
       to={`${sessionStorage.getItem('backLink') ?? '/'}`}
-      onClick={formState.isDirty ? openModal : undefined}
+      onClick={() => onLeavePage(`${backLink}`)}
       direction="left">
       <>
         {backLink != null && backLink.indexOf('productions') > -1 && (

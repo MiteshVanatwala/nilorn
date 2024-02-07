@@ -8,10 +8,8 @@ import { useProductions } from '../../../app/api/Productions';
 import ReleasedProductions from './ReleasedProductions';
 import ArrowLink from '../../../components/Link/ArrowLink';
 import { useFormContext } from 'react-hook-form';
-import { useContext } from 'react';
-import { ModalContext } from '../../../app/context/ModalContext';
-import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import { useProductDevelopment } from '../../../app/api/productDevelopment';
+import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   no: string;
@@ -35,25 +33,8 @@ const SourcingForm = ({
   );
   const { data: productDevelopmentData } = useProductDevelopment(no);
   const { formState } = useFormContext();
-  const { handleModal, close } = useContext(ModalContext);
 
-  function discardChanges(to: string) {
-    window.location.href = to;
-    close();
-  }
-  function openModal() {
-    handleModal(
-      <ConfirmModal
-        title={t('PD.UnsavedChanges')}
-        description={t('PD.UnsavedChangesMsg')}
-        onConfirm={() =>
-          discardChanges(`/productions/?productDevelopments=${no}`)
-        }
-        cancelText={t('Common.No')}
-        confirmText={t('Common.Yes')}
-      />
-    );
-  }
+  const { onLeavePage } = useUnsavedChanges();
 
   const isSaved =
     productDevelopmentData &&
@@ -138,9 +119,13 @@ const SourcingForm = ({
           <HStack spacing={SPACE.XL}>
             <ArrowLink
               useAsBtn={formState.isDirty}
-              onClick={formState.isDirty ? openModal : undefined}
-              direction="right"
-              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}>
+              onClick={() =>
+                onLeavePage(
+                  `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                )
+              }
+              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+              direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
                 disableEdit
@@ -151,9 +136,13 @@ const SourcingForm = ({
             {connectedProductions && connectedProductions?.length > 0 && (
               <ArrowLink
                 useAsBtn={formState.isDirty}
-                onClick={formState.isDirty ? openModal : undefined}
-                direction="right"
-                to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}>
+                onClick={() =>
+                  onLeavePage(
+                    `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                  )
+                }
+                to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+                direction="right">
                 <>
                   {(connectedProductions &&
                     connectedProductions?.filter(cp => cp.priceCalculations)
