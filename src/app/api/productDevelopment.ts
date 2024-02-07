@@ -63,6 +63,10 @@ export const useUpdateProductDevelopment = (no: string) => {
         queryClient.invalidateQueries([QueryKeysEnum.Overview]);
         queryClient.invalidateQueries([QueryKeysEnum.Changes]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
+        queryClient.invalidateQueries([
+          QueryKeysEnum.SalesPersonPurchasers,
+          no,
+        ]);
       },
       onError: async (err: ApiError) => {
         showToast({
