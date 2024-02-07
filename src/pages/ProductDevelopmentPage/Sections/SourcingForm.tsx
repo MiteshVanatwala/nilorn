@@ -70,7 +70,7 @@ const SourcingForm = ({
             }}
           />
 
-          {!disableEdit && connectedProductions?.length === 0 && (
+          {!disableEdit && !connectedProductions?.length && (
             <Button
               mt={SPACE}
               variant={'secondarySmall'}
