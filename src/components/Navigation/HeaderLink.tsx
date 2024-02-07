@@ -9,9 +9,15 @@ interface Props {
   title?: string | JSX.Element;
   path: string;
   clickedStoredFilter: string;
+  variant?: 'headerLink' | 'logo';
 }
 
-const HeaderLink: FC<Props> = ({ path, title, clickedStoredFilter }) => {
+const HeaderLink: FC<Props> = ({
+  path,
+  title,
+  clickedStoredFilter,
+  variant = 'headerLink',
+}) => {
   const navigate = useNavigate();
 
   const handleClick = (url: string, clickedStoredFilter: string) => {
@@ -28,7 +34,7 @@ const HeaderLink: FC<Props> = ({ path, title, clickedStoredFilter }) => {
   return (
     <LinkComponent
       _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
-      variant="headerLink"
+      variant={variant}
       bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
       color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
       fontSize={fontSizes.xs}

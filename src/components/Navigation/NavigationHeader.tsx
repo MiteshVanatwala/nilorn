@@ -8,7 +8,6 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 import { images } from '../../assets/';
 import COLORS from '../../theme/Constants/colors';
 import SIZES from '../../theme/Constants/sizes';
@@ -42,14 +41,19 @@ const NavigationHeader = () => {
             borderBottom={{ base: `solid 1px ${COLORS.GRAY[30]}`, lg: 'none' }}>
             <Flex alignItems="center">
               <HStack m={0}>
-                <Box as={NavLink} to={'/'} width={'auto'} height="6.9rem">
-                  <Image
-                    src={images.logo}
-                    height="6.9rem"
-                    width="auto"
-                    min-width={'100% !important'}
-                  />
-                </Box>
+                <HeaderLink
+                  variant="logo"
+                  title={
+                    <Image
+                      src={images.logo}
+                      height="6.9rem"
+                      width="auto"
+                      min-width={'100% !important'}
+                    />
+                  }
+                  path="/"
+                  clickedStoredFilter="prevFilterOverview"
+                />
               </HStack>
               <HStack m={0} divider={<HeaderDivider />}>
                 <HeaderLink
