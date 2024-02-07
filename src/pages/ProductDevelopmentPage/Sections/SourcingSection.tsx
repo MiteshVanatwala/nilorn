@@ -55,6 +55,11 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
     }
   }
 
+  function removeSourcing(indexToRemove: number, sourcingCompanyCode: string) {
+    remove(indexToRemove);
+    setSelected(selected.filter((_, j) => j !== indexToRemove));
+  }
+
   return (
     <AccordionItem title={t('PD.AccordionLabels.Sourcing')}>
       <Flex
@@ -108,7 +113,10 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
                       disableEdit={disableEdit}
                       sourcingCompanyCode={sourcing.sourcingCompanyCode}
                       sourcingIndexKey={`${SOURCING_KEY}.${index}`}
-                      onRemove={() => remove(index)}
+                      onRemove={() =>
+                        sourcing.sourcingCompanyCode &&
+                        removeSourcing(index, sourcing.sourcingCompanyCode)
+                      }
                     />
                   </AccordionItem>
                 );
