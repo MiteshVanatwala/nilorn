@@ -266,7 +266,8 @@
     "FilterName": "Filter name is required",
     "ProjectName": "Project name is required",
     "SearchProfileSave": "Error while saving search profile",
-    "ProjectCreate": "Error while creating project"
+    "ProjectCreate": "Error while creating project",
+    "UniqueValue": "Value must be unique"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",

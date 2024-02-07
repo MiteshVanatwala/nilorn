@@ -19,7 +19,6 @@ import { useValidationStyleInFormContext } from '../../app/hooks/useValidationSt
 import { useTranslation } from 'react-i18next';
 import FormLabelComponent from './FormLabelComponent';
 import ChangelogPopup from '../Changelog/ChangelogPopup';
-import MaxLengthError from './MaxLengthError';
 import fontSizes from '../../theme/fontSizes';
 
 interface Props
@@ -87,13 +86,18 @@ const ControlWrapper = ({
           <>{helperText}</>
         </FormHelperText>
       )}
-      {error?.type === 'required' && !hideValidationStyle && (
+      {!hideValidationStyle && (
         <Text fontSize={fontSizes.xs} color={COLORS.ERROR}>
-          {t(`Errors.Required`)}
+          {error?.message
+            ? error.message
+            : error?.type === 'required'
+            ? t('Errors.Required')
+            : error?.type === 'maxLength' && maxLength && !hideValidationStyle
+            ? t('PD.Feedback.Error.FieldLength', {
+                length: maxLength,
+              })
+            : null}
         </Text>
-      )}
-      {error?.type === 'maxLength' && maxLength && !hideValidationStyle && (
-        <MaxLengthError maxLength={maxLength} />
       )}
     </FormControl>
   );

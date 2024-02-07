@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import InputField from '../../../../components/Form/InputField';
+import { uniqueInArray } from '../../../../app/utils/common';
 
 type Props = {
   formKey: string;
@@ -21,11 +22,16 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
   const FORM_KEY = `${formKey}.quantities`;
 
   const { t } = useTranslation();
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: FORM_KEY,
   });
+
+  const validateUniqueValues = (value: number, index: number) => {
+    const values = getValues(FORM_KEY) as number[];
+    return uniqueInArray(value, index, values);
+  };
 
   return (
     <Grid
@@ -44,7 +50,11 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                   name={`${FORM_KEY}.${index}`}
                   type="number"
                   readonly={disableEdit}
-                  registerOptions={{ valueAsNumber: true }}
+                  registerOptions={{
+                    valueAsNumber: true,
+                    validate: (value: number) =>
+                      validateUniqueValues(value, index),
+                  }}
                 />
                 {!disableEdit && (
                   <IconButton
