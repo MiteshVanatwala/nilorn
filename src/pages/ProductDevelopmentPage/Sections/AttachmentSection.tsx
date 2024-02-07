@@ -6,16 +6,18 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { MediaFileType } from '../../../app/generate';
 import FileSection from './FileSection';
 import { useAttachments } from '../../../app/api/mediaFile';
+import Alert from '../../../components/Feedback/Alert';
 
 export const ARTWORK: string = 'artwork';
 
 type Props = {
   no: string;
   disableEdit: boolean;
+  createNew?: boolean;
   isClosed: boolean;
 };
 
-const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
+const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
   const { watch } = useFormContext();
   const { t } = useTranslation();
 
@@ -30,29 +32,33 @@ const AttachmentSection = ({ no, disableEdit, isClosed }: Props) => {
           title={`${t('PD.AccordionLabels.Attachments')} (${
             (attachments?.length ?? 0) + (artwork ? 1 : 0)
           })`}>
-          <Grid
-            gap={{
-              base: SPACE.XXS,
-              lg: SPACE.SM,
-            }}
-            templateColumns={GRID.TEMPLATE_COLUMNS}>
-            <FileSection
-              no={no}
-              type={MediaFileType.ARTWORK}
-              defaultValue={artwork ? [artwork] : undefined}
-              disableEdit={disableEdit}
-              heading={t('PD.Artwork')}
-            />
-            {isFetched && (
+          {createNew ? (
+            <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
+          ) : (
+            <Grid
+              gap={{
+                base: SPACE.XXS,
+                lg: SPACE.SM,
+              }}
+              templateColumns={GRID.TEMPLATE_COLUMNS}>
               <FileSection
                 no={no}
-                type={MediaFileType.ATTACHMENT}
-                defaultValue={attachments}
+                type={MediaFileType.ARTWORK}
+                defaultValue={artwork ? [artwork] : undefined}
                 disableEdit={disableEdit}
-                heading={t('PD.Attatchments')}
+                heading={t('PD.Artwork')}
               />
-            )}
-          </Grid>
+              {isFetched && (
+                <FileSection
+                  no={no}
+                  type={MediaFileType.ATTACHMENT}
+                  defaultValue={attachments}
+                  disableEdit={disableEdit}
+                  heading={t('PD.Attatchments')}
+                />
+              )}
+            </Grid>
+          )}
         </AccordionItem>
       )}
     </>

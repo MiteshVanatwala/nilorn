@@ -94,7 +94,7 @@ function ProductDevelopmentForm({
               <VStack spacing={SPACE.MD}>
                 <Accordion
                   variant={'card'}
-                  defaultIndex={createNew ? [0, 1, 3] : [0, 1, 2, 3, 4]}
+                  defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
                   allowMultiple>
                   <GeneralSection
                     createNew={createNew}
@@ -109,6 +109,7 @@ function ProductDevelopmentForm({
 
                   <AttachmentSection
                     no={no}
+                    createNew={createNew}
                     isClosed={
                       defaultValues?.status && isClosed(defaultValues?.status)
                         ? true
