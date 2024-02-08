@@ -36,7 +36,7 @@ function ProductDevelopmentForm({
   const showSourcing = useAuthorized('sourcing');
   const { data: user } = useCurrentUser();
 
-  const form = useForm({
+  const form = useForm<ProductDevelopmentDto>({
     defaultValues: {
       ...defaultValues,
     },
@@ -60,6 +60,9 @@ function ProductDevelopmentForm({
 
   useEffect(() => {
     form.setValue('status', defaultValues?.status, { shouldDirty: false });
+    form.setValue('members', defaultValues?.members, {
+      shouldDirty: true,
+    });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
       (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role))

@@ -44,6 +44,6 @@ function MainApp() {
     );
   }
 
-  return <SpinnerOverlay text={t('Common.SigningIn')} />;
+  return <SpinnerOverlay />;
 }
 export default MainApp;

@@ -2,6 +2,7 @@ import { Box, Button, Link } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../../app/api/User';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
+import { NavLink } from 'react-router-dom';
 
 const CreateProductDevelopment = () => {
   const { t } = useTranslation();
@@ -10,7 +11,7 @@ const CreateProductDevelopment = () => {
   if (user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role)) {
     return (
       <Box textAlign={'right'}>
-        <Link href={'/product-development/create'}>
+        <Link as={NavLink} to={'/product-development/create'}>
           <Button
             alignSelf={'end'}
             leftIcon={<i className="ri-add-line" />}

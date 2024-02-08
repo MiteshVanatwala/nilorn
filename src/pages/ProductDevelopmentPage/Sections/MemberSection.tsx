@@ -5,12 +5,13 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import Member from '../../Members/Member';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 import Alert from '../../../components/Feedback/Alert';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { ProductDevelopmentDto } from '../../../app/generate';
 import { useMembers } from '../../../app/api/productDevelopment';
 import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
-import { useEffect, useMemo, useState } from 'react';
-import { MemberBriefDto, ProductDevelopmentDto } from '../../../app/generate';
+import { useMemo, useState } from 'react';
+import { MemberBriefDto } from '../../../app/generate';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -22,20 +23,21 @@ const FORM_KEY: keyof ProductDevelopmentDto = 'members';
 const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const { t } = useTranslation();
 
-  const { getValues, control } = useFormContext();
+  const { control } = useFormContext();
+
+  const membersFormVaule = useWatch({ name: FORM_KEY });
 
   const [selected, setSelected] = useState<
     MultiValue<SelectOption<MemberBriefDto>>
-  >(getValues(FORM_KEY) ?? []);
-  const [membersDefaultValue, setMembersDefaultVaule] =
-    useState<MemberBriefDto[]>();
+  >(membersFormVaule ?? []);
 
-  const { data } = useMembers(no);
+  const { data: membersOptions } = useMembers(no);
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: FORM_KEY,
   });
+
   function addMember(
     selectedOption: MultiValue<SelectOption<MemberBriefDto>> | undefined
   ) {
@@ -44,10 +46,6 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
-  const membersFormVaule = getValues(FORM_KEY) as MemberBriefDto[];
-  useEffect(() => {
-    setMembersDefaultVaule(membersFormVaule);
-  }, [membersFormVaule]);
 
   const memberGrid = useMemo(() => {
     const grids = [];
@@ -105,18 +103,18 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                   key={`
                     ${membersFormVaule?.length}
                         ${
-                          membersDefaultValue !== undefined
-                            ? membersDefaultValue?.length
+                          membersFormVaule !== undefined
+                            ? membersFormVaule?.length
                             : ''
                         }`}
                   name="AddMembers"
                   placeholder={t('PD.AddMember')}
                   hideSelected={true}
                   options={
-                    data
+                    membersOptions
                       ?.filter(
                         item =>
-                          !membersDefaultValue?.some(
+                          !(membersFormVaule as MemberBriefDto[])?.some(
                             selectedItem => selectedItem.code === item.code
                           )
                       )

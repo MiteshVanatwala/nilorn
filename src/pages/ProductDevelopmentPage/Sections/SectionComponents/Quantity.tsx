@@ -30,7 +30,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
 
   const validateUniqueValues = (value: number, index: number) => {
     const values = getValues(FORM_KEY) as number[];
-    return uniqueInArray(value, index, values);
+    return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
   };
 
   return (
