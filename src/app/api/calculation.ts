@@ -10,14 +10,14 @@ import {
   UpdateSalesPriceCommand,
 } from '../generate';
 
-export const usePatchCalculation = (id: string) => {
+export const usePatchCalculation = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation(
     (body: UpdatePriceCalculationCommand) =>
-      PriceCalculationService.patchApiPriceCalculation(id, body).then(
+      PriceCalculationService.patchApiPriceCalculation(body).then(
         response => response
       ),
     {

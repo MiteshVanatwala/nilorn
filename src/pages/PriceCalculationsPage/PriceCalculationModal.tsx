@@ -67,7 +67,7 @@ const PriceCalculationModal = ({
     },
   });
   const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
-    usePatchCalculation(calculation?.id ?? '');
+    usePatchCalculation();
   const { mutate: createCalculation, isSuccess: isSuccessCreate } =
     useCreateCalculation();
   const { close } = useContext(ModalContext);
