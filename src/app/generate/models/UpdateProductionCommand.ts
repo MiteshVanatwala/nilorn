@@ -6,14 +6,14 @@
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type UpdateProductionCommand = {
-    id?: string;
     currencyCode?: string | null;
     released?: boolean;
-    moq?: number;
-    sampleCharge?: number;
-    toolCharge?: number;
-    sampleLeadTime?: number;
-    productionLeadTime?: number;
+    moq?: number | null;
+    sampleCharge?: number | null;
+    toolCharge?: number | null;
+    sampleLeadTime?: number | null;
+    productionLeadTime?: number | null;
     comment?: string | null;
+    id?: string;
     purchasePrices?: Array<PurchasePriceDto> | null;
 };

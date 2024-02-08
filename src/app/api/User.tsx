@@ -1,14 +1,11 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
-import { SalesPersonPurchasersService } from '../generate';
+import { MembersService } from '../generate';
 
 export const useCurrentUser = () => {
   return useQuery(
     [QueryKeysEnum.User],
-    () =>
-      SalesPersonPurchasersService.getApiSalesPersonPurchasersCurrent().then(
-        res => res
-      ),
+    () => MembersService.getApiMembersCurrent().then(res => res),
     {
       cacheTime: Infinity,
       staleTime: Infinity,

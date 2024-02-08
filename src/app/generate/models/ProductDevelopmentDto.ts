@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 import type { MediaFileDto } from './MediaFileDto';
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
+import type { MemberBriefDto } from './MemberBriefDto';
 import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
@@ -30,7 +30,7 @@ export type ProductDevelopmentDto = {
     clientNo?: string | null;
     versions?: number | null;
     sourcings?: Array<SourcingDto> | null;
-    salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
+    members?: Array<MemberBriefDto> | null;
     hasProductions?: boolean;
     hasPriceCalculation?: boolean;
     lastModified?: string | null;

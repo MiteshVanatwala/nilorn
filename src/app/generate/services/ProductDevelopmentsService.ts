@@ -31,7 +31,7 @@ export class ProductDevelopmentsService {
      * @param sourcingCompanies 
      * @param vendors 
      * @param opComps 
-     * @param salesPersonPurchasers 
+     * @param members 
      * @param includeClosed 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
@@ -53,7 +53,7 @@ finishedHeights?: string,
 sourcingCompanies?: string,
 vendors?: string,
 opComps?: string,
-salesPersonPurchasers?: string,
+members?: string,
 includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
@@ -76,7 +76,7 @@ includeClosed?: boolean,
                 'SourcingCompanies': sourcingCompanies,
                 'Vendors': vendors,
                 'OpComps': opComps,
-                'SalesPersonPurchasers': salesPersonPurchasers,
+                'Members': members,
                 'IncludeClosed': includeClosed,
             },
         });

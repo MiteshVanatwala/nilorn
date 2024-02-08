@@ -4,15 +4,11 @@ import {
   useItemCategory,
   useOpCompOption,
   useProductGroup,
-  useSalesPersonPurchasers,
+  useMembers,
   useVendors,
 } from '../api/FilterInfo';
 import { useGetProjectsOptions } from '../api/Projects';
-import {
-  ClientDto,
-  SalespersonPurchaserBriefDto,
-  VendorDto,
-} from '../generate';
+import { ClientDto, MemberBriefDto, VendorDto } from '../generate';
 import { FilterKeys, SelectOption } from '../types/types';
 import { useStatusOptions } from './useStatus';
 
@@ -34,11 +30,9 @@ export const mapVendorsToOptions = (vendors?: VendorDto[], useId?: boolean) => {
   );
 };
 
-const mapSalesPersonPurchasersToOptions = (
-  salesPersonPurchasers?: SalespersonPurchaserBriefDto[]
-) => {
+const mapMembersToOptions = (members?: MemberBriefDto[]) => {
   return (
-    salesPersonPurchasers?.map(spp => ({
+    members?.map(spp => ({
       label: spp.name,
       value: spp.code,
     })) ?? []
@@ -57,9 +51,7 @@ const useFilterOptions = (name?: FilterKeys) => {
     true
   );
   const { data: opComp } = useOpCompOption(name === 'opComp' ?? false);
-  const { data: salesPersonPurchasers } = useSalesPersonPurchasers(
-    name === 'salespersonPurchaser' ?? false
-  );
+  const { data: members } = useMembers(name === 'members' ?? false);
   const { data: foldingTypes } = useFoldingType(
     name === 'foldingTypes' ?? false
   );
@@ -78,9 +70,7 @@ const useFilterOptions = (name?: FilterKeys) => {
 
   const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
     vendor: mapVendorsToOptions(vendors),
-    salespersonPurchaser: mapSalesPersonPurchasersToOptions(
-      salesPersonPurchasers
-    ),
+    members: mapMembersToOptions(members),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
     sourcingCompanies: sourcingCompanies as SelectOption[],

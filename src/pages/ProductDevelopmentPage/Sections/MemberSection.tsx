@@ -6,18 +6,18 @@ import Member from '../../Members/Member';
 import AdvanceFilterSelect from '../../../components/Filter/AdvanceFilterSelect';
 import Alert from '../../../components/Feedback/Alert';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { SalespersonPurchaserBriefDto } from '../../../app/generate';
 import { useMembers } from '../../../app/api/productDevelopment';
 import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
 import { useEffect, useMemo, useState } from 'react';
+import { MemberBriefDto, ProductDevelopmentDto } from '../../../app/generate';
 type Props = {
   no: string;
   createNew?: boolean;
   disableEdit: boolean;
 };
 
-const FORM_KEY = 'salespersonPurchasers';
+const FORM_KEY: keyof ProductDevelopmentDto = 'members';
 
 const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const { t } = useTranslation();
@@ -25,10 +25,10 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const { getValues, control } = useFormContext();
 
   const [selected, setSelected] = useState<
-    MultiValue<SelectOption<SalespersonPurchaserBriefDto>>
+    MultiValue<SelectOption<MemberBriefDto>>
   >(getValues(FORM_KEY) ?? []);
-  const [salesPersonPurchasersDefault, setSalesPersonPurchasersDefault] =
-    useState<SalespersonPurchaserBriefDto[]>();
+  const [membersDefaultValue, setMembersDefaultVaule] =
+    useState<MemberBriefDto[]>();
 
   const { data } = useMembers(no);
 
@@ -37,29 +37,22 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
     name: FORM_KEY,
   });
   function addMember(
-    selectedOption:
-      | MultiValue<SelectOption<SalespersonPurchaserBriefDto>>
-      | undefined
+    selectedOption: MultiValue<SelectOption<MemberBriefDto>> | undefined
   ) {
     if (selectedOption !== undefined) {
       setSelected(selectedOption);
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
-  const salesPersonPurchasers = getValues(
-    FORM_KEY
-  ) as SalespersonPurchaserBriefDto[];
+  const membersFormVaule = getValues(FORM_KEY) as MemberBriefDto[];
   useEffect(() => {
-    setSalesPersonPurchasersDefault(salesPersonPurchasers);
-  }, [salesPersonPurchasers]);
+    setMembersDefaultVaule(membersFormVaule);
+  }, [membersFormVaule]);
 
   const memberGrid = useMemo(() => {
     const grids = [];
     for (let i = 0; i < fields.length; i += 6) {
-      const sixMembers = fields.slice(
-        i,
-        i + 6
-      ) as SalespersonPurchaserBriefDto[];
+      const sixMembers = fields.slice(i, i + 6) as MemberBriefDto[];
 
       grids.push(
         <GridItem key={i}>
@@ -110,10 +103,10 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
               {!disableEdit && (
                 <AdvanceFilterSelect
                   key={`
-                    ${salesPersonPurchasers?.length}
+                    ${membersFormVaule?.length}
                         ${
-                          salesPersonPurchasersDefault !== undefined
-                            ? salesPersonPurchasersDefault?.length
+                          membersDefaultValue !== undefined
+                            ? membersDefaultValue?.length
                             : ''
                         }`}
                   name="AddMembers"
@@ -123,7 +116,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                     data
                       ?.filter(
                         item =>
-                          !salesPersonPurchasersDefault?.some(
+                          !membersDefaultValue?.some(
                             selectedItem => selectedItem.code === item.code
                           )
                       )
@@ -132,7 +125,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                           ({
                             label: m.name,
                             value: m,
-                          } as SelectOption<SalespersonPurchaserBriefDto>)
+                          } as SelectOption<MemberBriefDto>)
                       )
                       .sort((a, b) => a.label.localeCompare(b.label)) ?? []
                   }

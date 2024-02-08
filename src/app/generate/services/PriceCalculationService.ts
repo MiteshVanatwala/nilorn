@@ -31,21 +31,16 @@ requestBody?: CreatePriceCalculationCommand,
     }
 
     /**
-     * @param id 
      * @param requestBody 
      * @returns PriceCalculationDto Success
      * @throws ApiError
      */
     public static patchApiPriceCalculation(
-id: string,
 requestBody?: UpdatePriceCalculationCommand,
 ): CancelablePromise<PriceCalculationDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/api/PriceCalculation/{id}',
-            path: {
-                'id': id,
-            },
+            url: '/api/PriceCalculation',
             body: requestBody,
             mediaType: 'application/json',
         });

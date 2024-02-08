@@ -4,9 +4,9 @@ import {
   ClientService,
   FoldingTypeService,
   ItemCategoryService,
+  MembersService,
   OpCompService,
   ProductGroupService,
-  SalesPersonPurchasersService,
   VendorsService,
 } from '../generate';
 
@@ -55,13 +55,10 @@ export function useOpCompOption(
   );
 }
 
-export function useSalesPersonPurchasers(enable: boolean = true) {
+export function useMembers(enable: boolean = true) {
   return useQuery(
-    [QueryKeysEnum.SalesPersonPurchasers],
-    () =>
-      SalesPersonPurchasersService.getApiSalesPersonPurchasers().then(
-        res => res
-      ),
+    [QueryKeysEnum.Members],
+    () => MembersService.getApiMembers().then(res => res),
     {
       cacheTime: Infinity,
       staleTime: Infinity,

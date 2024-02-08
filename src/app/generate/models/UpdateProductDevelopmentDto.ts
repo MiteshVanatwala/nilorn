@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
+import type { MemberBriefDto } from './MemberBriefDto';
 import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
@@ -23,5 +23,5 @@ export type UpdateProductDevelopmentDto = {
     freightIncluded?: number | null;
     projectCode?: string | null;
     sourcings?: Array<SourcingDto> | null;
-    salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
+    members?: Array<MemberBriefDto> | null;
 };

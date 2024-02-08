@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
+import type { MemberBriefDto } from './MemberBriefDto';
 
 export type ClientDto = {
     no?: string | null;
     name?: string | null;
-    keyAccountManager?: SalespersonPurchaserBriefDto;
-    accountManager?: SalespersonPurchaserBriefDto;
+    keyAccountManager?: MemberBriefDto;
+    accountManager?: MemberBriefDto;
     targetMargin?: number;
 };

@@ -23,7 +23,7 @@ export function useProductDevelopmentsFilter() {
   const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
   const vendors = useFilterSearchParams('vendor');
   const opComps = useFilterSearchParams('opComp');
-  const salespersonPurchaser = useFilterSearchParams('salespersonPurchaser');
+  const members = useFilterSearchParams('members');
   const includeClosed = useFilterSearchParams('includeClosed');
 
   return useQuery(
@@ -45,7 +45,7 @@ export function useProductDevelopmentsFilter() {
       sourcingCompanies,
       vendors,
       opComps,
-      salespersonPurchaser,
+      members,
       includeClosed,
     ],
     () =>
@@ -67,7 +67,7 @@ export function useProductDevelopmentsFilter() {
         vendors,
         // @ts-ignore // more the 15 props
         opComps,
-        salespersonPurchaser,
+        members,
         !!includeClosed
       ).then(res => res),
     {

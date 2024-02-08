@@ -4,8 +4,8 @@
 /* eslint-disable */
 
 import type { ClientDto } from './ClientDto';
+import type { MemberBriefDto } from './MemberBriefDto';
 import type { ProductDevelopmentBriefDto } from './ProductDevelopmentBriefDto';
-import type { SalespersonPurchaserBriefDto } from './SalespersonPurchaserBriefDto';
 
 export type ProjectDto = {
     id?: string | null;
@@ -14,5 +14,5 @@ export type ProjectDto = {
     client?: ClientDto;
     description?: string | null;
     productDevelopment?: Array<ProductDevelopmentBriefDto> | null;
-    salespersonPurchasers?: Array<SalespersonPurchaserBriefDto> | null;
+    members?: Array<MemberBriefDto> | null;
 };

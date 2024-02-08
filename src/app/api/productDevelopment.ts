@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { SalesPersonPurchasersService } from './../generate/services/SalesPersonPurchasersService';
 import {
   ApiError,
+  MembersService,
   ProductDevelopmentDto,
   ProductDevelopmentsService,
   Status,
@@ -63,10 +63,7 @@ export const useUpdateProductDevelopment = (no: string) => {
         queryClient.invalidateQueries([QueryKeysEnum.Overview]);
         queryClient.invalidateQueries([QueryKeysEnum.Changes]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
-        queryClient.invalidateQueries([
-          QueryKeysEnum.SalesPersonPurchasers,
-          no,
-        ]);
+        queryClient.invalidateQueries([QueryKeysEnum.Members, no]);
       },
       onError: async (err: ApiError) => {
         showToast({
@@ -134,11 +131,8 @@ export const useProductDevelopment = (no: string) => {
 
 export const useMembers = (no: string) => {
   return useQuery(
-    [QueryKeysEnum.SalesPersonPurchasers, no],
-    () =>
-      SalesPersonPurchasersService.getApiSalesPersonPurchasersFilter(no).then(
-        res => res
-      ),
+    [QueryKeysEnum.Members, no],
+    () => MembersService.getApiMembersFilter(no).then(res => res),
     {
       retry: 0,
       enabled: no !== '',

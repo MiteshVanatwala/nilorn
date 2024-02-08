@@ -6,5 +6,5 @@
 export type PurchasePriceDto = {
     id?: string;
     quantity?: number;
-    price?: number;
+    price?: number | null;
 };

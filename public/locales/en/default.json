@@ -78,7 +78,7 @@
     "RemoveSourcing": "Remove sourcing",
     "AddProject": "Add new project",
     "ProjectName": "Project name",
-    "SalespersonPurchaser": "Member",
+    "Member": "Member",
     "ProductGroup": "Product group",
     "ItemCategory": "Item category",
     "Version": "Version",
@@ -158,7 +158,7 @@
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
       "opComp": "Operations company",
-      "salespersonPurchaser": "Members",
+      "Members": "Members",
       "sourcingCompanies": "Sourcing company",
       "productDevelopments_short": "Product development no.",
       "productDevelopments": "Product development number"

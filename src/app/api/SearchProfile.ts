@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-
 import QueryKeysEnum from './queryKeys';
 import { SearchProfilesService, UpsertSearchProfileCommand } from '../generate';
 

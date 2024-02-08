@@ -19,7 +19,7 @@ export type FilterKeys =
   | 'sourcingCompanies'
   | 'vendor'
   | 'opComp'
-  | 'salespersonPurchaser'
+  | 'members'
   | 'includeClosed'
   | 'ActiveSearchProfile'
   | 'productDevelopments';

@@ -41,8 +41,8 @@ export const useOverviewAdvanceFilters = (): SelectOption<FilterInput>[] => {
       value: { type: 'select', name: 'sourcingCompanies' },
     },
     {
-      label: t(`PD.FilterLabel.salespersonPurchaser`),
-      value: { type: 'select', name: 'salespersonPurchaser' },
+      label: t(`PD.FilterLabel.Members`),
+      value: { type: 'select', name: 'members' },
     },
   ];
 };
