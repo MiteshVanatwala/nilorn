@@ -1,30 +1,32 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
-import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
+import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
 
 export function useProductDevelopmentsFilter() {
-  const currentPageNumber = Number(useFilterSearchParams('pageNumber'));
-  const currentPageSize = Number(useFilterSearchParams('pageSize'));
+  const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));
+  const currentPageSize = Number(useFilterFormSearchParams('pageSize'));
   const pageNumber =
-    useFilterSearchParams('pageNumber') !== undefined ? currentPageNumber : 1;
-  const pageSize = useFilterSearchParams('pageSize') ? currentPageSize : 25;
-  const sortKey = useFilterSearchParams('sortKey');
-  const searchQuery = useFilterSearchParams('searchQuery', 400);
-  const clients = useFilterSearchParams('clients');
-  const projects = useFilterSearchParams('projects');
-  const statuses = useFilterSearchParams('statuses');
-  const itemCategories = useFilterSearchParams('itemCategories');
-  const productGroups = useFilterSearchParams('productGroups');
-  const foldingTypes = useFilterSearchParams('foldingTypes');
-  const finishedLengths = useFilterSearchParams('finishedLengths');
-  const finishedWidths = useFilterSearchParams('finishedWidths');
-  const finishedHeights = useFilterSearchParams('finishedHeights');
-  const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
-  const vendors = useFilterSearchParams('vendor');
-  const opComps = useFilterSearchParams('opComp');
-  const members = useFilterSearchParams('members');
-  const includeClosed = useFilterSearchParams('includeClosed');
+    useFilterFormSearchParams('pageNumber') !== undefined
+      ? currentPageNumber
+      : 1;
+  const pageSize = useFilterFormSearchParams('pageSize') ? currentPageSize : 25;
+  const sortKey = useFilterFormSearchParams('sortKey');
+  const searchQuery = useFilterFormSearchParams('searchQuery', 400);
+  const clients = useFilterFormSearchParams('clients');
+  const projects = useFilterFormSearchParams('projects');
+  const statuses = useFilterFormSearchParams('statuses');
+  const itemCategories = useFilterFormSearchParams('itemCategories');
+  const productGroups = useFilterFormSearchParams('productGroups');
+  const foldingTypes = useFilterFormSearchParams('foldingTypes');
+  const finishedLengths = useFilterFormSearchParams('finishedLengths');
+  const finishedWidths = useFilterFormSearchParams('finishedWidths');
+  const finishedHeights = useFilterFormSearchParams('finishedHeights');
+  const sourcingCompanies = useFilterFormSearchParams('sourcingCompanies');
+  const vendors = useFilterFormSearchParams('vendor');
+  const opComps = useFilterFormSearchParams('opComp');
+  const members = useFilterFormSearchParams('members');
+  const includeClosed = useFilterFormSearchParams('includeClosed');
 
   return useQuery(
     [

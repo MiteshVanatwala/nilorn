@@ -1,5 +1,5 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { onFilterChange } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
 
@@ -16,7 +16,6 @@ export default function FormuQuerySubmit({
   pageNumber: number;
   pageSize: number;
 }): JSX.Element {
-  const navigate = useNavigate();
   let [searchParams] = useSearchParams();
 
   useEffect(() => {
@@ -33,6 +32,7 @@ export default function FormuQuerySubmit({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     const unregister = form.watch(() => {
       formChange();
@@ -41,6 +41,7 @@ export default function FormuQuerySubmit({
     return () => unregister.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
+
   useEffect(() => {
     if (form.getValues('pageSize') !== pageSize && pageSize !== 0) {
       form.setValue('pageSize', pageSize);
@@ -58,7 +59,7 @@ export default function FormuQuerySubmit({
       window.location.search !== filterChangeUrl &&
       window.location.search !== `?` + filterChangeUrl
     ) {
-      navigate(`?` + filterChangeUrl);
+      window.history.replaceState({}, '', `?${filterChangeUrl}`);
     }
     form.clearErrors('serverError');
   };

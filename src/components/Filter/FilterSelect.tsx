@@ -3,22 +3,16 @@ import Select from '../Form/Select';
 import { FilterKeys, SelectOption } from '../../app/types/types';
 import { useFormContext } from 'react-hook-form';
 import { MultiValue } from 'chakra-react-select';
+import SelectSkeleton from '../Form/SelectSkeleton';
 
 type Props = {
   name: FilterKeys;
   defaultValue?: MultiValue<SelectOption>;
   options: SelectOption[];
   label?: string;
-  filterLabel?: string;
 };
 
-const FilterSelect: FC<Props> = ({
-  name,
-  defaultValue,
-  options,
-  label,
-  filterLabel,
-}) => {
+const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
   const { setValue, getValues } = useFormContext();
 
   useEffect(() => {
@@ -33,7 +27,11 @@ const FilterSelect: FC<Props> = ({
         setValue(name, defaultValue);
       }
     }
-  }, [defaultValue, getValues, label, name, setValue, filterLabel]);
+  }, [defaultValue, getValues, name, setValue]);
+
+  if (typeof getValues(name) === 'string') {
+    return <SelectSkeleton label={label} name={name} />;
+  }
 
   return (
     <>

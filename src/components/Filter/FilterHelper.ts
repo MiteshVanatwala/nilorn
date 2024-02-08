@@ -2,7 +2,7 @@ import { FilterKeys } from '../../app/types/types';
 import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useState } from 'react';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, useFormContext } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 import { SortingState } from '@tanstack/table-core';
 
@@ -73,25 +73,46 @@ export function findMultiDefaultValues(
   if (filterParam === undefined || allOptions.length === 0) {
     return undefined;
   }
+
   if (Array.isArray(filterParam)) {
     return filterParam;
   } else if (typeof filterParam === 'string') {
-    const filterValues = filterParam.split(',').map(value => value.trim());
+    const filterValues = filterParam
+      .split(',')
+      .map(value => value.toLowerCase().trim());
 
     const filteredObjects = allOptions.filter(obj =>
-      filterValues.includes(obj.value)
+      filterValues.includes(obj.value.toLowerCase())
     );
-
     return filteredObjects;
   }
 }
 
+/*
+ * @deprecated The method should not be used
+ */
 export function useFilterSearchParams(
   name: FilterKeys,
   delay: number = 0
 ): string | undefined {
   const [searchParam] = useSearchParams();
   const value = useDebounce(searchParam.get(name), delay);
+
+  return value ?? undefined;
+}
+
+export function useFilterFormSearchParams(
+  name: FilterKeys,
+  delay: number = 0
+): string | undefined {
+  const { watch } = useFormContext();
+
+  const value = useDebounce(
+    Array.isArray(watch(name))
+      ? (watch(name) as SelectOption[])?.map(v => v.value).join(',')
+      : watch(name),
+    delay
+  );
 
   return value ?? undefined;
 }
