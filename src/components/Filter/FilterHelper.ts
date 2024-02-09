@@ -88,8 +88,8 @@ export function findMultiDefaultValues(
   }
 }
 
-/*
- * @deprecated The method should not be used
+/**
+ * @deprecated Use useFilterFormSearchParams and within the formcontext instead.
  */
 export function useFilterSearchParams(
   name: FilterKeys,

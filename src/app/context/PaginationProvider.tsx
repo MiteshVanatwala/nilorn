@@ -9,29 +9,21 @@ import {
 } from 'react';
 
 export type PaginationInfo = {
-  pageNumber: number;
-  pageSize: number;
   sortState: SortingState;
 };
 
 type PaginationContextType = PaginationInfo & {
   totalPages: number;
   totalCount: number;
-  setPageNumber: Dispatch<SetStateAction<number>>;
-  setPageSize: Dispatch<SetStateAction<number>>;
   setTotalPages: Dispatch<SetStateAction<number>>;
   setTotalCount: Dispatch<SetStateAction<number>>;
   setSortState: Dispatch<SetStateAction<SortingState>>;
 };
 
 const defaultState: PaginationContextType = {
-  pageNumber: 0,
-  pageSize: 0,
   totalPages: 0,
   totalCount: 0,
   sortState: [],
-  setPageNumber: () => {},
-  setPageSize: () => {},
   setTotalPages: () => {},
   setTotalCount: () => {},
   setSortState: () => {},
@@ -46,9 +38,10 @@ type PaginationProviderType = {
 export const usePaginationContext = () =>
   useContext<PaginationContextType>(PaginationContext);
 
+/**
+ * @deprecated use formstade instead. Still used for sortState, totalPages and totalCount.
+ */
 const PaginationProvider = ({ children }: PaginationProviderType) => {
-  const [pageNumber, setPageNumber] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [sortState, setSortState] = useState<SortingState>([]);
@@ -56,13 +49,9 @@ const PaginationProvider = ({ children }: PaginationProviderType) => {
   return (
     <PaginationContext.Provider
       value={{
-        pageNumber,
-        pageSize,
         totalPages,
         totalCount,
         sortState,
-        setPageNumber,
-        setPageSize,
         setTotalPages,
         setTotalCount,
         setSortState,

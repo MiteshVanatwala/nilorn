@@ -5,16 +5,15 @@ import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import {
-  getSortState,
-  useFilterSearchParams,
-} from '../../components/Filter/FilterHelper';
+import { getSortState } from '../../components/Filter/FilterHelper';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
+import { useFormContext } from 'react-hook-form';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 function OverviewTableContainer() {
+  const { getValues } = useFormContext();
   const { t } = useTranslation();
-  const initSort = useFilterSearchParams('sortKey');
+  const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
 
   const { data, isError, isLoading, isFetching } =

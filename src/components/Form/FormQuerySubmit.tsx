@@ -1,22 +1,21 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { onFilterChange } from '../Filter/FilterHelper';
+import { getSortValue, onFilterChange } from '../Filter/FilterHelper';
 import { useEffect } from 'react';
+import { usePaginationContext } from '../../app/context/PaginationProvider';
 
 export default function FormuQuerySubmit({
   children,
   style,
   form,
-  pageNumber,
-  pageSize,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   form: UseFormReturn<FieldValues>;
-  pageNumber: number;
-  pageSize: number;
 }): JSX.Element {
   let [searchParams] = useSearchParams();
+
+  const { sortState } = usePaginationContext();
 
   useEffect(() => {
     const searchParamItems = Array.from(searchParams.keys());
@@ -32,7 +31,6 @@ export default function FormuQuerySubmit({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   useEffect(() => {
     const unregister = form.watch(() => {
       formChange();
@@ -43,15 +41,10 @@ export default function FormuQuerySubmit({
   }, [form]);
 
   useEffect(() => {
-    if (form.getValues('pageSize') !== pageSize && pageSize !== 0) {
-      form.setValue('pageSize', pageSize);
+    if (sortState[0]?.id) {
+      form.setValue('sortKey', getSortValue(sortState[0]));
     }
-  }, [form, pageSize]);
-  useEffect(() => {
-    if (form.getValues('pageNumber') !== pageNumber && pageNumber !== 0) {
-      form.setValue('pageNumber', pageNumber);
-    }
-  }, [form, pageNumber]);
+  }, [form, sortState]);
 
   const formChange = () => {
     let filterChangeUrl = onFilterChange(form.getValues());

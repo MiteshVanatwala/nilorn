@@ -1,19 +1,22 @@
 import { useQuery } from 'react-query';
-import { useFilterSearchParams } from '../../components/Filter/FilterHelper';
+import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 
 export function useProductionsFilter(includeCalculations: boolean) {
-  const currentPageNumber = Number(useFilterSearchParams('pageNumber'));
-  const currentPageSize = Number(useFilterSearchParams('pageSize'));
+  const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));
+  const currentPageSize = Number(useFilterFormSearchParams('pageSize'));
   const pageNumber =
-    useFilterSearchParams('pageNumber') !== undefined ? currentPageNumber : 1;
-  const pageSize = useFilterSearchParams('pageSize') ? currentPageSize : 25;
-  const vendors = useFilterSearchParams('vendor');
-  const clients = useFilterSearchParams('clients');
-  const sourcingCompanies = useFilterSearchParams('sourcingCompanies');
-  const productDevelopments = useFilterSearchParams('productDevelopments');
-  const projects = useFilterSearchParams('projects');
+    useFilterFormSearchParams('pageNumber') !== undefined
+      ? currentPageNumber
+      : 1;
+  const pageSize = useFilterFormSearchParams('pageSize') ? currentPageSize : 25;
+  const vendors = useFilterFormSearchParams('vendor');
+  const clients = useFilterFormSearchParams('clients');
+  const sourcingCompanies = useFilterFormSearchParams('sourcingCompanies');
+  const productDevelopments = useFilterFormSearchParams('productDevelopments');
+  const projects = useFilterFormSearchParams('projects');
+
   return useQuery(
     [
       QueryKeysEnum.Productions,

@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { usePaginationContext } from '../../../app/context/PaginationProvider';
-import { useFilterSearchParams } from '../../Filter/FilterHelper';
 import TablePagination from './TablePagination';
+import { useFormContext } from 'react-hook-form';
 
 type TableList = {
   pageNumber?: number;
@@ -15,38 +15,24 @@ type Props = {
 };
 
 const TablePaginationContainer = ({ data, chunkSizes }: Props) => {
-  const initPageNumber = useFilterSearchParams('pageNumber') ?? 0;
-  const initPageSize = useFilterSearchParams('pageSize') ?? 0;
+  const { setValue, watch } = useFormContext();
+  const pageNumber = Number(watch('pageNumber')) ?? data?.pageNumber ?? 1;
+  const pageSize = Number(watch('pageSize')) ?? chunkSizes[0];
 
-  const {
-    pageNumber,
-    pageSize,
-    totalPages,
-    totalCount,
-    setPageNumber,
-    setPageSize,
-    setTotalPages,
-    setTotalCount,
-  } = usePaginationContext();
+  const { totalPages, totalCount, setTotalPages, setTotalCount } =
+    usePaginationContext();
 
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
     setTotalCount(data?.totalCount ?? 0);
-    setPageNumber(
-      initPageNumber ? Number(initPageNumber) : data?.pageNumber ?? 1
-    );
-    setPageSize(initPageSize ? Number(initPageSize) : chunkSizes[0]);
   }, [
     chunkSizes,
     data?.pageNumber,
     data?.totalCount,
     data?.totalPages,
-    initPageNumber,
-    initPageSize,
-    setPageNumber,
-    setPageSize,
     setTotalCount,
     setTotalPages,
+    setValue,
   ]);
 
   return (
@@ -56,10 +42,10 @@ const TablePaginationContainer = ({ data, chunkSizes }: Props) => {
       totalCount={totalCount}
       currentPageSize={pageSize}
       chunkSizes={chunkSizes}
-      nextHandler={() => setPageNumber(pageNumber + 1)}
-      previousHandler={() => setPageNumber(pageNumber - 1)}
-      pageNumberHandler={(num: number) => setPageNumber(num)}
-      pageSizeHandler={(size: number) => setPageSize(size)}
+      nextHandler={() => setValue('pageNumber', pageNumber + 1)}
+      previousHandler={() => setValue('pageNumber', pageNumber - 1)}
+      pageNumberHandler={(num: number) => setValue('pageNumber', num)}
+      pageSizeHandler={(size: number) => setValue('pageSize', size)}
     />
   );
 };
