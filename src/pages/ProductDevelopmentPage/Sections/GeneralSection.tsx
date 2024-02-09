@@ -34,7 +34,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
   );
   useEffect(() => {
     if (itemCategoryCodeStartVal !== itemCategoryCode) {
-      setValue('productGroupCode', '');
+      setValue('productGroupCode', null);
       setItemCategoryCodeStartVal(itemCategoryCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,9 +105,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
               registerOptions={{
-                required: createNew
-                  ? false
-                  : status !== Status.NEW || itemCategoryCode,
+                required: createNew ? false : status !== Status.NEW,
               }}
               defaultValue={
                 productGroups && productGroupCode
@@ -125,6 +123,9 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
               label={`${t('PD.FormContent.ProductGroup')}`}
+              registerOptions={{
+                required: createNew ? false : status !== Status.NEW,
+              }}
               isDisabled={!itemCategoryCode || disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />

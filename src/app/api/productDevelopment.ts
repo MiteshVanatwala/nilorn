@@ -36,7 +36,7 @@ export const useCreateProductDevelopment = () => {
         showToast({
           status: 'error',
           position: 'top-right',
-          title: err.body.title,
+          title: `${t('PD.Feedback.Error.Create')}`,
         });
       },
     }
@@ -69,7 +69,7 @@ export const useUpdateProductDevelopment = (no: string) => {
         showToast({
           status: 'error',
           position: 'top-right',
-          title: err.body.title,
+          title: `${t('PD.Feedback.Error.Update')}`,
         });
       },
     }

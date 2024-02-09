@@ -173,8 +173,10 @@
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
         "FileType": "File must be an image",
-        "Changes": "Faild to load changelog for product development with no #{{no}}",
-        "FieldLength": "Max length is {{length}} characters"
+        "Changes": "Failed to load changelog for product development with no #{{no}}",
+        "FieldLength": "Max length is {{length}} characters",
+        "Create": "Failed to create new product development",
+        "Update": "Failed to updtae new product development"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"
