@@ -133,26 +133,33 @@ const SourcingForm = ({
                   : t('PD.AddProductions')}
               </>
             </ArrowLink>
-            {connectedProductions && connectedProductions?.length > 0 && (
-              <ArrowLink
-                useAsBtn={formState.isDirty}
-                onClick={() =>
-                  onLeavePage(
-                    `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                  )
-                }
-                to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
-                direction="right">
-                <>
-                  {(connectedProductions &&
-                    connectedProductions?.filter(cp => cp.priceCalculations)
-                      ?.length > 0) ||
-                  disableEdit
-                    ? t('PD.ViewCalculation')
-                    : t('PD.AddCalculation')}
-                </>
-              </ArrowLink>
-            )}
+            {connectedProductions &&
+              connectedProductions?.filter(
+                cp => cp.priceCalculations && cp.released
+              )?.length > 0 && (
+                <ArrowLink
+                  useAsBtn={formState.isDirty}
+                  onClick={() =>
+                    onLeavePage(
+                      `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                    )
+                  }
+                  to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+                  direction="right">
+                  <>
+                    {(connectedProductions &&
+                      connectedProductions?.filter(
+                        cp =>
+                          cp.priceCalculations &&
+                          cp.released &&
+                          cp.priceCalculations.length > 0
+                      )?.length > 0) ||
+                    disableEdit
+                      ? t('PD.ViewCalculation')
+                      : t('PD.AddCalculation')}
+                  </>
+                </ArrowLink>
+              )}
           </HStack>
         )}
       </GridItem>
