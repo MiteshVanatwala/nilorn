@@ -72,7 +72,7 @@ const EditProductionFormContent = ({
     vendors,
   ]);
   useEffect(() => {
-    if (selectedVendor) {
+    if (selectedVendor && createNew) {
       setValue('currencyCode', selectedVendor?.currencyCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -187,11 +187,15 @@ const EditProductionFormContent = ({
               }
               label={`${t('Production.Currency')}`}
               defaultValue={
-                selectedVendor
-                  ? (currency?.find(
-                      co => co.value === selectedVendor?.currencyCode
+                createNew
+                  ? selectedVendor
+                    ? (currency?.find(
+                        co => co.value === selectedVendor?.currencyCode
+                      ) as SelectOption)
+                    : undefined
+                  : (currency?.find(
+                      co => co.value === production?.currencyCode
                     ) as SelectOption)
-                  : undefined
               }
               options={(currency as SelectOption[]) ?? []}
               name={'currencyCode'}

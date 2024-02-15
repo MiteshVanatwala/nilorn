@@ -105,6 +105,7 @@
     "ViewCalculation": "View calculation",
     "EditCompareProduction": "Edit/Compare productions",
     "EditCompareCalculation": "Edit/Compare calculations",
+    "DeleteMsg": "Are you sure you want to delete this record?",
     "UnsavedChanges": "Unsaved changes",
     "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
     "FormContent": {
@@ -268,6 +269,7 @@
     "EmptyFilter": "Filter can not be empty",
     "FilterName": "Filter name is required",
     "ProjectName": "Project name is required",
+    "ProjectNameLength": "Max length is 30 characters",
     "SearchProfileSave": "Error while saving search profile",
     "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique"

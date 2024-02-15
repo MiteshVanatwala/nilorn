@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react';
+import { SIZES } from '../../theme/Constants';
 
 export enum PopupPosition {
   ABOVE = 'above',
@@ -35,7 +36,9 @@ const Popup = ({
   size,
 }: Props) => {
   const popupContent = (
-    <PopoverContent onClick={e => e.stopPropagation()}>
+    <PopoverContent
+      maxW={SIZES.CONTAINER.XS}
+      onClick={e => e.stopPropagation()}>
       <PopoverArrow />
       <PopoverBody>{content}</PopoverBody>
     </PopoverContent>

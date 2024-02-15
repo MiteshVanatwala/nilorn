@@ -37,13 +37,17 @@ const TablePaginationContainer = ({ data, chunkSizes }: Props) => {
 
   return (
     <TablePagination
-      pageNumber={pageNumber}
+      pageNumber={!Number.isNaN(pageNumber) ? pageNumber : 1}
       totalNumPages={totalPages}
       totalCount={totalCount}
-      currentPageSize={pageSize}
+      currentPageSize={!Number.isNaN(pageSize) ? pageSize : chunkSizes[0]}
       chunkSizes={chunkSizes}
-      nextHandler={() => setValue('pageNumber', pageNumber + 1)}
-      previousHandler={() => setValue('pageNumber', pageNumber - 1)}
+      nextHandler={() =>
+        setValue('pageNumber', (!Number.isNaN(pageNumber) ? pageNumber : 1) + 1)
+      }
+      previousHandler={() =>
+        setValue('pageNumber', (!Number.isNaN(pageNumber) ? pageNumber : 1) - 1)
+      }
       pageNumberHandler={(num: number) => setValue('pageNumber', num)}
       pageSizeHandler={(size: number) => setValue('pageSize', size)}
     />
