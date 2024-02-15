@@ -29,13 +29,7 @@ const InputField = ({
     register,
     formState: { errors },
   } = useFormContext();
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (type === 'decimal') {
-      const value = e.target.value;
-      const updatedValue = value.replace(/,/g, '.');
-      e.target.value = updatedValue;
-    }
-  };
+
   return (
     <ControlWrapper
       name={name}
@@ -52,10 +46,10 @@ const InputField = ({
         isReadOnly={readonly}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        type={type}
+        step={type === 'decimal' ? '0.000000000000000001' : ''}
+        type={type === 'decimal' ? 'number' : type}
         cursor={readonly ? 'default' : 'text'}
         {...register(name, registerOptions)}
-        onChange={handleInputChange}
       />
     </ControlWrapper>
   );
