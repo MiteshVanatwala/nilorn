@@ -32,10 +32,12 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   async function onSubmit(): Promise<void> {
     if (projectName === '') {
       setErrorMsgName(`${t('Errors.ProjectName')}`);
+    } else if (projectName.length > 30) {
+      setErrorMsgName(`${t('Errors.ProjectNameLength')}`);
     } else {
       setErrorMsgName(undefined);
     }
-    if (projectName !== '') {
+    if (projectName !== '' && projectName.length <= 30) {
       const projectData = {
         clientNo: clientNo,
         projectCode: projectName,

@@ -268,6 +268,7 @@
     "EmptyFilter": "Filter can not be empty",
     "FilterName": "Filter name is required",
     "ProjectName": "Project name is required",
+    "ProjectNameLength": "Max length is 30 characters",
     "SearchProfileSave": "Error while saving search profile",
     "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique"
