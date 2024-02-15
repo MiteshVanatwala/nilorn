@@ -11,7 +11,10 @@ const BackLink = ({ scrolledPast }: Props) => {
   const { formState } = useFormContext();
   const { onLeavePage } = useUnsavedChanges();
 
-  const backLink = sessionStorage.getItem('backLink') ?? '/';
+  let backLink = sessionStorage.getItem('backLink') ?? '/';
+  if (backLink.indexOf('product-development/create')) {
+    backLink = backLink.replace('product-development/create', '');
+  }
   if (scrolledPast) {
     return <></>;
   }
@@ -19,7 +22,7 @@ const BackLink = ({ scrolledPast }: Props) => {
   return (
     <ArrowLink
       useAsBtn={formState.isDirty}
-      to={`${sessionStorage.getItem('backLink') ?? '/'}`}
+      to={backLink}
       onClick={() => onLeavePage(`${backLink}`)}
       direction="left">
       <>
