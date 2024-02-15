@@ -52,6 +52,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                   readonly={disableEdit}
                   registerOptions={{
                     valueAsNumber: true,
+                    required: true,
                     validate: (value: number) =>
                       validateUniqueValues(value, index),
                   }}
