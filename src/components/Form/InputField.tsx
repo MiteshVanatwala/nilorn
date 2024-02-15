@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
-import { HTMLInputTypeAttribute } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
 
 interface Props extends FormInputProps {
@@ -29,7 +29,13 @@ const InputField = ({
     register,
     formState: { errors },
   } = useFormContext();
-
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (type === 'decimal') {
+      const value = e.target.value;
+      const updatedValue = value.replace(/,/g, '.');
+      e.target.value = updatedValue;
+    }
+  };
   return (
     <ControlWrapper
       name={name}
@@ -49,6 +55,7 @@ const InputField = ({
         type={type}
         cursor={readonly ? 'default' : 'text'}
         {...register(name, registerOptions)}
+        onChange={handleInputChange}
       />
     </ControlWrapper>
   );
