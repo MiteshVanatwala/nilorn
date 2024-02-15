@@ -1,7 +1,7 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
 import {
@@ -14,6 +14,7 @@ import {
   useReleaseForSales,
 } from '../../app/api/editProduction';
 import { isClosed } from '../../app/utils/status';
+import ConfirmModal from '../../components/Modal/ConfirmModal';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -29,8 +30,8 @@ const TableMenuProduction = ({
   production,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal } = useContext(ModalContext);
-  const { mutate: deleteProduction } = useDeleteProduction();
+  const { handleModal, close } = useContext(ModalContext);
+  const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
     !production?.released
@@ -44,7 +45,12 @@ const TableMenuProduction = ({
   function deleteProductionFunc() {
     deleteProduction({ id: production?.id ?? '' });
   }
-
+  useEffect(() => {
+    if (isSuccess) {
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
   return (
     <>
       <MenuItem
@@ -86,7 +92,17 @@ const TableMenuProduction = ({
 
       {!production?.released && (
         <MenuItem
-          onClick={() => deleteProductionFunc()}
+          onClick={() =>
+            handleModal(
+              <ConfirmModal
+                title={t('PD.DeleteTitle')}
+                description={t('PD.DeleteMsg')}
+                onConfirm={() => deleteProductionFunc()}
+                cancelText={t('Common.No')}
+                confirmText={t('Common.Yes')}
+              />
+            )
+          }
           icon={
             <Text
               as={'i'}

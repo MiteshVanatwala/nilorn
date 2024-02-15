@@ -1,7 +1,7 @@
 import { MenuItem, Text } from '@chakra-ui/react';
 import { SIZES } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
   MediaFileDto,
@@ -13,6 +13,7 @@ import {
 import TableMenuContainer from '../../../components/Table/TableMenuContainer';
 import PriceCalculationModal from '../PriceCalculationModal';
 import { useDeleteCalculation } from '../../../app/api/calculation';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 
 type Props = {
   createNew: boolean;
@@ -36,11 +37,17 @@ const TableMenuCalculation = ({
   calculation,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal } = useContext(ModalContext);
+  const { handleModal, close } = useContext(ModalContext);
 
-  const { mutate: deleteCalculation } = useDeleteCalculation(
+  const { mutate: deleteCalculation, isSuccess } = useDeleteCalculation(
     calculation?.id ?? ''
   );
+  useEffect(() => {
+    if (isSuccess) {
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
   return (
     <TableMenuContainer>
       <MenuItem
@@ -79,7 +86,17 @@ const TableMenuCalculation = ({
       )}
       {!createNew && (
         <MenuItem
-          onClick={() => deleteCalculation()}
+          onClick={() =>
+            handleModal(
+              <ConfirmModal
+                title={t('PD.DeleteTitle')}
+                description={t('PD.DeleteMsg')}
+                onConfirm={() => deleteCalculation()}
+                cancelText={t('Common.No')}
+                confirmText={t('Common.Yes')}
+              />
+            )
+          }
           icon={
             <Text
               as={'i'}
