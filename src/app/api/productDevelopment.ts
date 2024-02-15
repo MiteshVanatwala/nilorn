@@ -26,7 +26,6 @@ export const useCreateProductDevelopment = () => {
       onSuccess: async (no: string) => {
         showToast({
           status: 'success',
-          position: 'top-right',
           description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
         navigate(`/product-development/${no}`);
@@ -35,7 +34,6 @@ export const useCreateProductDevelopment = () => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          position: 'top-right',
           title: `${t('PD.Feedback.Error.Create')}`,
         });
       },
@@ -57,7 +55,6 @@ export const useUpdateProductDevelopment = (no: string) => {
       onSuccess: async () => {
         showToast({
           status: 'success',
-          position: 'top-right',
           description: `${t('PD.Feedback.Success.Update')}`,
         });
         queryClient.invalidateQueries([QueryKeysEnum.Overview]);
@@ -68,7 +65,6 @@ export const useUpdateProductDevelopment = (no: string) => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          position: 'top-right',
           title: `${t('PD.Feedback.Error.Update')}`,
         });
       },
@@ -95,7 +91,6 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
         } else {
           showToast({
             status: 'success',
-            position: 'top-right',
             description: `${t('PD.Feedback.Success.UpdateStatus', {
               status: res.status,
             })}`,
@@ -107,7 +102,6 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          position: 'top-right',
           title: err.body.title,
         });
       },

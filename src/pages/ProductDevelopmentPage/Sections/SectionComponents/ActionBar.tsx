@@ -47,7 +47,6 @@ const ActionBar = ({
     }
     if (formState.isDirty) {
       showToast({
-        position: 'top-right',
         status: 'info',
         description: t('PD.Feedback.Info.NeedToSave'),
       });
