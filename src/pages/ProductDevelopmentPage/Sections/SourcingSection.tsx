@@ -57,7 +57,9 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
 
   function removeSourcing(indexToRemove: number, sourcingCompanyCode: string) {
     remove(indexToRemove);
-    setSelected(selected.filter((_, j) => j !== indexToRemove));
+    setSelected(
+      selected.filter(sourcing => sourcing.value !== sourcingCompanyCode)
+    );
   }
 
   return (
