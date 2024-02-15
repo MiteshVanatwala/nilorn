@@ -11,18 +11,18 @@ import { SelectOption } from '../../app/types/types';
 import { SPACE } from '../../theme/Constants';
 import { useSearchProfile } from '../../app/api/SearchProfile';
 import SelectBase from '../Form/SelectBase';
-import { useSearchParams } from 'react-router-dom';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
   const [selected, setSelected] = useState<SelectOption<string> | undefined>();
-
+  const {
+    formState: { isDirty },
+  } = useFormContext();
   const [activeSearchProfileName, setActiveSearchProfileName] =
     useState<string>('');
   const [defaultSearchProfile, setDefaultSearchProfile] = useState<string>('');
   const { setValue, reset } = useFormContext();
-  let [searchParams] = useSearchParams();
   let { data } = useSearchProfile();
 
   const onChange = (
@@ -35,24 +35,22 @@ const SearchProfile = () => {
     const splitOptionVal = optionVal.split('&');
     splitOptionVal.forEach((item: string) => {
       const splitItem = item.split('=');
-      setValue(splitItem[0], decodeURIComponent(splitItem[1]));
+      setValue(splitItem[0], decodeURIComponent(splitItem[1]), {
+        shouldDirty: true,
+      });
     });
     setActiveSearchProfileName(option.label);
     setDefaultSearchProfile(option.label);
   };
-  useEffect(() => {
-    const searchParamItems = Array.from(searchParams.keys());
 
-    if (
-      searchParamItems.length === 2 &&
-      searchParamItems.indexOf('pageSize') > -1 &&
-      searchParamItems.indexOf('pageNumber') > -1
-    ) {
+  useEffect(() => {
+    if (!isDirty) {
       setDefaultSearchProfile('');
       setSelected(undefined);
       setActiveSearchProfileName('');
     }
-  }, [searchParams]);
+  }, [isDirty]);
+
   return (
     <GridItem
       marginTop={{

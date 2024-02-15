@@ -99,7 +99,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
             base: 12,
             lg: 2,
           }}>
-          {productGroups?.length && productGroupCode !== '' && (
+          {productGroups?.length && productGroupCode !== null && (
             <Select
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
@@ -118,7 +118,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               placeholder={`${t('Filter.Select')}`}
             />
           )}
-          {(!productGroups?.length || productGroupCode === '') && (
+          {(!productGroups?.length || productGroupCode === null) && (
             <Select
               options={(productGroups as SelectOption[]) ?? []}
               name="productGroupCode"
