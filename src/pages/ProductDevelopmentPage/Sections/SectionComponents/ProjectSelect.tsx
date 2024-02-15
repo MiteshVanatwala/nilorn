@@ -34,7 +34,9 @@ const ProjectSelect = ({
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
 
   const onChange = (option: SelectOption) => {
-    setValue(inputName, option.value);
+    setValue(inputName, option.value, {
+      shouldDirty: createNew ? false : true,
+    });
   };
 
   useEffect(() => {
