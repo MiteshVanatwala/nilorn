@@ -130,11 +130,12 @@ export function getSortState(sortValue: string): SortingState {
 }
 export function getCurrentStoredFilter() {
   let storedFilter = '';
-  if (window.location.pathname === '/productions') {
+  console.log('window.location.pathname', window.location.pathname);
+  if (window.location.pathname.includes('/productions')) {
     storedFilter = 'prevFilterProductions';
   } else if (window.location.pathname === '/') {
     storedFilter = 'prevFilterOverview';
-  } else if (window.location.pathname === '/price-calculations') {
+  } else if (window.location.pathname.includes('/price-calculations')) {
     storedFilter = 'prevFilterCalculation';
   }
   return storedFilter;
