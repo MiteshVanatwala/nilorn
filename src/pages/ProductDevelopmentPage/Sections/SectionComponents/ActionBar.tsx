@@ -120,6 +120,11 @@ const ActionBar = ({
             {hasProductions && (
               <MenuItem
                 as={NavLink}
+                to={
+                  formState.isDirty
+                    ? undefined
+                    : `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                }
                 onClick={() =>
                   onLeavePage(
                     `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
@@ -138,6 +143,11 @@ const ActionBar = ({
             {hasPriceCalculation && (
               <MenuItem
                 as={NavLink}
+                to={
+                  formState.isDirty
+                    ? undefined
+                    : `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
+                }
                 onClick={() =>
                   onLeavePage(
                     `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
