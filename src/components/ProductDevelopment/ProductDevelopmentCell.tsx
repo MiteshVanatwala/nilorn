@@ -24,7 +24,10 @@ const ProductDevelopmentCell = ({
             alignItems={'flex-start'}>
             <Link
               onClick={() => {
-                sessionStorage.setItem('backLink', window.location.href);
+                sessionStorage.setItem(
+                  'backLink',
+                  window.location.pathname + window.location.search
+                );
                 const storedFilter = getCurrentStoredFilter();
 
                 sessionStorage.setItem(storedFilter, window.location.search);

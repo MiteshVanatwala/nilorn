@@ -125,7 +125,6 @@ const ActionBar = ({
                     `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
                   )
                 }
-                to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}
@@ -144,7 +143,6 @@ const ActionBar = ({
                     `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
                   )
                 }
-                to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}
