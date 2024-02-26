@@ -51,8 +51,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.PurCurr')}</GridTh>
         <GridTh>{t('PriceCalc.SalesCurr')}</GridTh>
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
-        <GridTh>{t('PriceCalc.Sales')}</GridTh>
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
+        <GridTh>{t('PriceCalc.Sales')}</GridTh>
         <>
           {data.map((p, i) => (
             <Fragment key={p?.productDevelopmentBriefDto?.no}>

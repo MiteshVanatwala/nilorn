@@ -26,14 +26,13 @@ export const usePatchCalculation = () => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.Feedback.SaveSuccess'),
+          description: t('PriceCalc.Feedback.Success.Update'),
         });
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: err.body.title,
-          description: err.body.detail,
+          description: t('PriceCalc.Feedback.Error.Update'),
         });
       },
     }
@@ -56,14 +55,13 @@ export const useCreateCalculation = () => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.Feedback.CreateSuccess'),
+          description: t('PriceCalc.Feedback.Success.Create'),
         });
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: err.body.title,
-          description: err.body.detail,
+          description: t('PriceCalc.Feedback.Error.Create'),
         });
       },
     }
@@ -86,14 +84,13 @@ export const usePatchCalculationSalesPrice = () => {
 
         showToast({
           status: 'success',
-          description: t('PriceCalc.Feedback.SaveSuccessRows'),
+          description: t('PriceCalc.Feedback.Success.UpdateRows'),
         });
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: err.body.title,
-          description: err.body.detail,
+          description: t('PriceCalc.Feedback.Error.UpdateRows'),
         });
       },
     }
@@ -115,7 +112,7 @@ export function useDeleteCalculation(id: string) {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         showToast({
           status: 'success',
-          description: t('PriceCalc.Feedback.RemoveSuccess'),
+          description: t('PriceCalc.Feedback.Success.Remove'),
         });
       },
       onError: async (err: ApiError) => {

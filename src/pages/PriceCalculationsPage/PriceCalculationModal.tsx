@@ -58,7 +58,7 @@ const PriceCalculationModal = ({
       currencyRate: calculation?.currencyRate,
       currencyCode: calculation?.currencyCode,
       internalCommission: calculation?.internalCommission,
-      indirectCost: calculation?.freightIncluded,
+      indirectCost: calculation?.indirectCost,
       freightIncluded: calculation?.freightIncluded,
       margin:
         margins !== null && margins.every(m => m === margins[0])

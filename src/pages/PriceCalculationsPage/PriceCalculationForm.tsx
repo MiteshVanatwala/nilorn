@@ -96,6 +96,7 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
+            registerOptions={{ valueAsNumber: true, required: createNew }}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}

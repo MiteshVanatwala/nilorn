@@ -70,6 +70,7 @@ const SalesPriceCalculation = ({
           )}
         </>
       </GridTd>
+      <GridTd style={style}>{price.cost}</GridTd>
       <GridTd style={style}>
         <>
           {enableEdit ? (
@@ -89,7 +90,6 @@ const SalesPriceCalculation = ({
           )}
         </>
       </GridTd>
-      <GridTd style={style}>{price.cost}</GridTd>
     </>
   );
 };
