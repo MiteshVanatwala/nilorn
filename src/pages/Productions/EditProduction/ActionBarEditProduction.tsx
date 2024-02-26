@@ -14,6 +14,7 @@ import {
 import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
+import ConfirmModal from '../../../components/Modal/ConfirmModal';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -36,7 +37,7 @@ const ActionBarEditProduction = ({
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
-  const { close } = useContext(ModalContext);
+  const { handleModal, close } = useContext(ModalContext);
 
   const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
     useDeleteProduction();
@@ -84,7 +85,17 @@ const ActionBarEditProduction = ({
             </MenuItem>
             {!disableEdit && status && !isClosed(status) && (
               <MenuItem
-                onClick={() => deleteProductionFunc()}
+                onClick={() =>
+                  handleModal(
+                    <ConfirmModal
+                      title={t('PD.DeleteTitle')}
+                      description={t('PD.DeleteMsg')}
+                      onConfirm={() => deleteProductionFunc()}
+                      cancelText={t('Common.No')}
+                      confirmText={t('Common.Yes')}
+                    />
+                  )
+                }
                 icon={
                   <Text
                     as={'i'}
