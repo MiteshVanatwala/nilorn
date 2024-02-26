@@ -234,10 +234,17 @@
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
     "Feedback": {
-      "SaveSuccess": "Calculation has been saved.",
-      "CreateSuccess": "Calculation has been created",
-      "SaveSuccessRows": "Margin and sales price has been saved.",
-      "RemoveSuccess": "Calculation has been deleted."
+      "Success": {
+        "Update": "Calculation has been saved.",
+        "Create": "Calculation has been created",
+        "Remove": "Calculation has been deleted.",
+        "UpdateRows": "Margin and sales price has been saved."
+      },
+      "Error": {
+        "Create": "Failed to create new calculation",
+        "Update": "Failed to update calculation",
+        "UpdateRows": "Failed to update Margin and sales"
+      }
     }
   },
   "Changelog": {

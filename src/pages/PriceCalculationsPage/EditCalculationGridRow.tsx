@@ -25,13 +25,13 @@ function EditCalculationGridRow({
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
         py={SPACE.XS}
         style={style}>
-        <>{calculation.purchasePrice}</>
+        {calculation.quantity}
       </GridTd>
       <GridTd
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
         py={SPACE.XS}
         style={style}>
-        {calculation.quantity}
+        {calculation.purchasePrice}
       </GridTd>
       <GridTd
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}

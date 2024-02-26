@@ -149,36 +149,65 @@ function PriceGridRow({
             <GridTd style={style}>
               <CommentPopup comment={production.comment} />
             </GridTd>
-            {calculation && calculation?.priceDtos?.length ? (
+            {(calculation && calculation?.priceDtos?.length) ||
+            production.released ? (
               <>
                 <GridTd style={style} gridColumn={'BaseValues'}>
                   <BaseValues calculation={calculation} />
                 </GridTd>
                 <GridItem colSpan={2}>
                   <GridInlineTbody gridTemplateColumns={`repeat(2, 1fr)`}>
-                    {calculation.priceDtos?.map((pc, i) => (
-                      <Fragment
-                        key={calculation?.productionId + '-purchasePrice-' + i}>
-                        <GridTd style={style}>{pc.quantity}</GridTd>
-                        <GridTd style={style}>{pc.purchasePrice}</GridTd>
-                      </Fragment>
-                    ))}
+                    <>
+                      {!!calculation ? (
+                        <>
+                          {calculation.priceDtos?.map((pc, i) => (
+                            <Fragment
+                              key={
+                                calculation?.productionId +
+                                '-purchasePrice-' +
+                                i
+                              }>
+                              <GridTd style={style}>{pc.quantity}</GridTd>
+                              <GridTd style={style}>{pc.purchasePrice}</GridTd>
+                            </Fragment>
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          {production.purchasePrices?.map((pp, i) => (
+                            <Fragment
+                              key={production?.id + '-purchasePrice-' + i}>
+                              <GridTd style={style}>{pp.quantity}</GridTd>
+                              <GridTd style={style}>{pp.price}</GridTd>
+                            </Fragment>
+                          ))}
+                        </>
+                      )}
+                    </>
                   </GridInlineTbody>
                 </GridItem>
                 <GridTd style={style}>{production.currencyCode}</GridTd>
-                <GridTd style={style}>{calculation.currencyCode}</GridTd>
+                <GridTd style={style}>{calculation?.currencyCode}</GridTd>
                 <GridItem
                   colSpan={3}
                   onClick={createNew ? undefined : openRowForInlineEdit}>
-                  <SalesPriceCalculationForm
-                    enableEdit={enableEdit}
-                    calculation={calculation}
-                    style={style}
-                  />
+                  {!!calculation && (
+                    <SalesPriceCalculationForm
+                      enableEdit={enableEdit}
+                      calculation={calculation}
+                      style={style}
+                    />
+                  )}
                 </GridItem>
               </>
             ) : (
-              <GridTd style={style} colSpan={8}></GridTd>
+              <>
+                {production.released ? (
+                  <></>
+                ) : (
+                  <GridTd style={style} colSpan={8}></GridTd>
+                )}
+              </>
             )}
           </GridInlineTbody>
         </form>

@@ -46,12 +46,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PD.AccordionLabels.Vendor')}</GridTh>
         <GridTh>{t('Production.Comment')}</GridTh>
         <GridTh>{t('PriceCalc.BaseValues')}</GridTh>
-        <GridTh>{t('PriceCalc.Net')}</GridTh>
         <GridTh>{t('Production.Qty')}</GridTh>
+        <GridTh>{t('PriceCalc.Net')}</GridTh>
         <GridTh>{t('PriceCalc.PurCurr')}</GridTh>
         <GridTh>{t('PriceCalc.SalesCurr')}</GridTh>
-        <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
+        <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
         <>
           {data.map((p, i) => (

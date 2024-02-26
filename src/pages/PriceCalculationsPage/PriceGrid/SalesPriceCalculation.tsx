@@ -52,6 +52,7 @@ const SalesPriceCalculation = ({
   }, [calculation.priceDtos]);
   return (
     <>
+      <GridTd style={style}>{price.cost}</GridTd>
       <GridTd style={style}>
         <>
           {enableEdit ? (
