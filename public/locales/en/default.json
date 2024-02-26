@@ -97,6 +97,7 @@
     "UploadImage": "Upload image",
     "ClearProjectLabel": "Empty project",
     "SaveBeforeUploadImg": "Save before uploading image",
+    "PasteFromClipboard": "Pasted from clipboard",
     "DeleteTitle": "Are you sure?",
     "DeleteComfirm": "You want to delete product development: {{no}}",
     "ViewProductions": "View productions",
@@ -177,8 +178,8 @@
         "Changes": "Failed to load changelog for product development with no #{{no}}",
         "FieldLength": "Max length is {{length}} characters",
         "Create": "Failed to create new product development",
-        "Update": "Failed to updtae  product development",
-        "UpdateStatus": "Failed to chnage status on product development"
+        "Update": "Failed to update product development",
+        "UpdateStatus": "Failed to change status on product development"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"

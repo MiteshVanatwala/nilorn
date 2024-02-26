@@ -9,6 +9,7 @@ import {
   Input,
   Flex,
   VStack,
+  HStack,
 } from '@chakra-ui/react';
 import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 import { ChangeEvent, useRef, useState, ClipboardEvent } from 'react';
@@ -70,9 +71,13 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
       if (item.type.startsWith('image/')) {
         const image = item.getAsFile();
         if (image && inputRef.current) {
-          const file = new File([image], pdName + ' - Pasted from clipboard', {
-            type: image.type,
-          });
+          const file = new File(
+            [image],
+            pdName + ` - ${t('PD.PasteFromClipboard')}`,
+            {
+              type: image.type,
+            }
+          );
 
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(file);
@@ -108,8 +113,8 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
       {!isError && !isLoading && pdImage && (
         <Image
           mx={'auto'}
-          maxW={450}
-          width={450}
+          maxW={1024}
+          width={1024}
           mb={SPACE.XL}
           src={`data:image/jpeg;base64,${pdImage}`}
         />
@@ -119,48 +124,46 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
           {!isError && !isLoading && pdImage && !isClosed(status) && (
             <>
               <GridItem>
-                <Input
-                  display={'none'}
-                  ref={inputRef}
-                  type={'file'}
-                  name="file"
-                  onChange={submitForm}
-                />
-                <Button variant={'secondary'} onClick={onButtonClick}>
-                  {t('PD.BrowseFile')}
-                </Button>
-              </GridItem>
-              <GridItem>
-                <Button
-                  w={'100%'}
-                  variant={'secondary'}
-                  onClick={() => deletePDImage()}
-                  leftIcon={<i className={'ri-delete-bin-line'} />}>
-                  {t('Common.Delete')}
-                </Button>
-              </GridItem>
-              <GridItem>
-                <Text
-                  tabIndex={0}
-                  transition={TRANSITION.EASEOUT}
-                  cursor={'pointer'}
-                  w={'100%'}
-                  borderRadius={'0.4rem'}
-                  height={'3.2rem'}
-                  border={'1px dashed'}
-                  px={SPACE.MD}
-                  lineHeight={'3rem'}
-                  borderColor={COLORS.GRAY[20]}
-                  _focus={{
-                    borderColor: COLORS.GRAY[80],
-                    bgColor: COLORS.GRAY[5],
-                  }}
-                  _hover={{
-                    bgColor: COLORS.GRAY[5],
-                  }}
-                  color={COLORS.GRAY[80]}>
-                  {t('PD.OrPaste')}
-                </Text>
+                <HStack w={'100%'} justifyContent={'center'}>
+                  <Input
+                    display={'none'}
+                    ref={inputRef}
+                    type={'file'}
+                    name="file"
+                    onChange={submitForm}
+                  />
+                  <Button variant={'secondary'} onClick={onButtonClick}>
+                    {t('PD.BrowseFile')}
+                  </Button>
+
+                  <Button
+                    variant={'secondary'}
+                    onClick={() => deletePDImage()}
+                    leftIcon={<i className={'ri-delete-bin-line'} />}>
+                    {t('Common.Delete')}
+                  </Button>
+
+                  <Text
+                    tabIndex={0}
+                    transition={TRANSITION.EASEOUT}
+                    cursor={'pointer'}
+                    borderRadius={'0.4rem'}
+                    height={'3.2rem'}
+                    border={'1px dashed'}
+                    px={SPACE.MD}
+                    lineHeight={'3rem'}
+                    borderColor={COLORS.GRAY[20]}
+                    _focus={{
+                      borderColor: COLORS.GRAY[80],
+                      bgColor: COLORS.GRAY[5],
+                    }}
+                    _hover={{
+                      bgColor: COLORS.GRAY[5],
+                    }}
+                    color={COLORS.GRAY[80]}>
+                    {t('PD.OrPaste')}
+                  </Text>
+                </HStack>
               </GridItem>
             </>
           )}
