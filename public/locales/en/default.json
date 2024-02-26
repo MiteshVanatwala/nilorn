@@ -177,7 +177,8 @@
         "Changes": "Failed to load changelog for product development with no #{{no}}",
         "FieldLength": "Max length is {{length}} characters",
         "Create": "Failed to create new product development",
-        "Update": "Failed to updtae new product development"
+        "Update": "Failed to updtae  product development",
+        "UpdateStatus": "Failed to chnage status on product development"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"

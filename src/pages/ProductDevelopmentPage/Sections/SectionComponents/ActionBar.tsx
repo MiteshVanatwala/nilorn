@@ -56,17 +56,23 @@ const ActionBar = ({
       updateStatus(newStatus);
     } else {
       if (currentStatus === Status.NEW) {
-        register('itemCategoryCode', {
+        register('productGroupCode', {
           required: true,
         });
-        register('productGroupCode', {
+        register('itemCategoryCode', {
           required: true,
         });
       }
       const res = await trigger();
       if (res) {
         updateStatus(newStatus);
+        return;
       }
+      showToast({
+        status: 'error',
+        description: t('PD.Feedback.Error.UpdateStatus'),
+      });
+      return;
     }
   }
   const { showChanges, setShowChanges } = useToggleChangelog(
