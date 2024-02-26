@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
-import { ChangeEvent, HTMLInputTypeAttribute } from 'react';
+import { HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
 
 interface Props extends FormInputProps {

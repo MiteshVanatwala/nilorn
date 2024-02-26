@@ -34,9 +34,7 @@ const ProjectSelect = ({
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
 
   const onChange = (option: SelectOption) => {
-    setValue(inputName, option.value, {
-      shouldDirty: createNew ? false : true,
-    });
+    setValue(inputName, option.value);
   };
 
   useEffect(() => {
@@ -84,7 +82,9 @@ const ProjectSelect = ({
                   MenuList: (props: any) => (
                     <MenuListWithAddBtn
                       setDefaultProject={(val: string) =>
-                        setValue(inputName, val)
+                        setValue(inputName, val, {
+                          shouldDirty: true,
+                        })
                       }
                       clientNo={clientNo}
                       {...props}
