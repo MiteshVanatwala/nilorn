@@ -43,12 +43,12 @@
   },
   "Menu": {
     "Hyphome": "Start",
-    "HypProducts": "Product developments",
+    "HypProducts": "Product Developments",
     "HypSource": "Sourcings",
     "HypChangelog": "Changelog",
     "HypClient": "Clients",
     "HypProjects": "Projects",
-    "HypPrice": "Price calculations",
+    "HypPrice": "Price Calculations",
     "HypProduction": "Productions",
     "HypUser": "User",
     "HypLogout": "Log out"
@@ -69,8 +69,8 @@
     "ShowChanges": "Show changes",
     "HideChanges": "Hide changes",
     "IncludeClosed": "Include closed product developments",
-    "SourcingCompany": "Sourcing company",
-    "SourcingCompanies": "Sourcing company",
+    "SourcingCompany": "Sourcing",
+    "SourcingCompanies": "Sourcings",
     "OPcomp": "Operations  company",
     "StockLoaction": "Stock loaction",
     "AddMember": "Add member",
@@ -144,27 +144,27 @@
       "Vendor": "Vendor",
       "Sourcing": "Sourcing",
       "Attachments": "Attachments",
-      "ProductDesign": "Product design",
+      "ProductDesign": "Design",
       "General": "General"
     },
     "FilterLabel": {
       "searchQuery": "",
       "clients": "Client",
       "statuses": "Status",
-      "itemCategories": "Item category",
-      "productGroups": "Product group",
-      "foldingTypes": "Folding type",
+      "itemCategories": "Item Category",
+      "productGroups": "Product Group",
+      "foldingTypes": "Folding Type",
       "projects": "Project",
       "finishedLengths": "Finished Length",
       "finishedWidths": "Finished Width",
       "finishedHeights": "Finished Height",
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
-      "opComp": "Operations company",
+      "opComp": "Operational Company",
       "Members": "Members",
-      "sourcingCompanies": "Sourcing company",
-      "productDevelopments_short": "Product development no.",
-      "productDevelopments": "Product development number"
+      "sourcingCompanies": "Sourcing",
+      "productDevelopments_short": "Product Development No.",
+      "productDevelopments": "Product Development Number"
     },
     "Feedback": {
       "Success": {
@@ -234,17 +234,10 @@
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
     "Feedback": {
-      "Success": {
-        "Update": "Calculation has been saved.",
-        "Create": "Calculation has been created",
-        "Remove": "Calculation has been deleted.",
-        "UpdateRows": "Margin and sales price has been saved."
-      },
-      "Error": {
-        "Create": "Failed to create new calculation",
-        "Update": "Failed to update calculation",
-        "UpdateRows": "Failed to update Margin and sales"
-      }
+      "SaveSuccess": "Calculation has been saved.",
+      "CreateSuccess": "Calculation has been created",
+      "SaveSuccessRows": "Margin and sales price has been saved.",
+      "RemoveSuccess": "Calculation has been deleted."
     }
   },
   "Changelog": {
