@@ -50,6 +50,7 @@ const SalesPriceCalculation = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calculation.priceDtos]);
+
   return (
     <>
       <GridTd style={style}>{price.cost}</GridTd>
@@ -71,7 +72,6 @@ const SalesPriceCalculation = ({
           )}
         </>
       </GridTd>
-      <GridTd style={style}>{price.cost}</GridTd>
       <GridTd style={style}>
         <>
           {enableEdit ? (

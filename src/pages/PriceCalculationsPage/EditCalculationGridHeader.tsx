@@ -9,10 +9,10 @@ function EditCalculationGridHeader() {
     <>
       <GridTh style={TH_STYLE_CALCULATION}>{t('Production.Qty')}</GridTh>
       <GridTh style={TH_STYLE_CALCULATION}>{t('PriceCalc.Net')}</GridTh>
+      <GridTh style={TH_STYLE_CALCULATION}>{t('PriceCalc.Cost')}</GridTh>
       <GridTh style={TH_STYLE_CALCULATION}>
         {t('PriceCalc.Margin') + t('PriceCalc.Percentage')}
       </GridTh>
-      <GridTh style={TH_STYLE_CALCULATION}>{t('PriceCalc.Cost')}</GridTh>
       <GridTh style={TH_STYLE_CALCULATION}>{t('PriceCalc.Sales')}</GridTh>
     </>
   );

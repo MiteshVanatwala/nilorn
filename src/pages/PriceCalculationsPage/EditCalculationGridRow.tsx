@@ -36,6 +36,12 @@ function EditCalculationGridRow({
       <GridTd
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
         py={SPACE.XS}
+        style={style}>
+        {calculation.cost}
+      </GridTd>
+      <GridTd
+        bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
+        py={SPACE.XS}
         style={style}
         position={'relative'}>
         <>
@@ -49,12 +55,6 @@ function EditCalculationGridRow({
             />
           </Box>
         </>
-      </GridTd>
-      <GridTd
-        bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
-        py={SPACE.XS}
-        style={style}>
-        {calculation.cost}
       </GridTd>
       <GridTd
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
