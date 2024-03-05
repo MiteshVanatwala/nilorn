@@ -4,11 +4,7 @@ import {
   calculateCost,
 } from './PriceHelper';
 import { PriceCalculationDto, PurchasePriceDto } from '../../../app/generate';
-
-function roundToDecimalPlaces(num: number, decimalPlaces: number) {
-  const factor = Math.pow(10, decimalPlaces);
-  return Math.round(num * factor) / factor;
-}
+import { dataCalculateMargin } from './testData';
 
 describe('Calculate SalesPrice', () => {
   const data = [
@@ -18,10 +14,10 @@ describe('Calculate SalesPrice', () => {
       intCommission: 1.0,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.27611,
+      cost: 0.2761115,
       freightIncluded: 0.0,
       margin: 40,
-      expectedSalesPrice: 0.46019,
+      expectedSalesPrice: 0.46018583333333335,
     },
     {
       testCase: 'Example 2',
@@ -29,10 +25,10 @@ describe('Calculate SalesPrice', () => {
       intCommission: 1.2,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.33133,
+      cost: 0.3313338,
       freightIncluded: 0.0,
       margin: 60,
-      expectedSalesPrice: 0.82833,
+      expectedSalesPrice: 0.8283345,
     },
     {
       testCase: 'Example 3',
@@ -40,65 +36,65 @@ describe('Calculate SalesPrice', () => {
       intCommission: 1.2,
       currencyRate: 0.78889,
       indirectCost: 1.15,
-      cost: 0.38103,
+      cost: 0.38103387,
       freightIncluded: 0.2,
       margin: 60,
-      expectedSalesPrice: 1.45258,
+      expectedSalesPrice: 1.4525846749999998,
     },
-    // {
-    //   testCase: 'Example 4',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.15,
-    //   cost: 0.31753,
-    //   freightIncluded: 0.2,
-    //   margin: 17,
-    //   expectedSalesPrice: 0.62353,
-    // },
-    // {
-    //   testCase: 'Example 5',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.15,
-    //   cost: 0.31753,
-    //   freightIncluded: 0.2,
-    //   margin: 85.5,
-    //   expectedSalesPrice: 3.56916,
-    // },
-    // {
-    //   testCase: 'Example 6',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.15,
-    //   cost: 0.31753,
-    //   freightIncluded: 0.0,
-    //   margin: 0.15,
-    //   expectedSalesPrice: 0.32236,
-    // },
+    {
+      testCase: 'Example 4',
+      purchasePrice: 0.35,
+      intCommission: 1.0,
+      currencyRate: 0.78889,
+      indirectCost: 1.15,
+      cost: 0.317528225,
+      freightIncluded: 0.2,
+      margin: 17,
+      expectedSalesPrice: 0.6235279819277109,
+    },
+    {
+      testCase: 'Example 5',
+      purchasePrice: 0.35,
+      intCommission: 1.0,
+      currencyRate: 0.78889,
+      indirectCost: 1.15,
+      cost: 0.317528225,
+      freightIncluded: 0.2,
+      margin: 85.5,
+      expectedSalesPrice: 3.569160172413793,
+    },
+    {
+      testCase: 'Example 6',
+      purchasePrice: 0.35,
+      intCommission: 1.0,
+      currencyRate: 0.78889,
+      indirectCost: 1.15,
+      cost: 0.317528225,
+      freightIncluded: 0.0,
+      margin: 1.5,
+      expectedSalesPrice: 0.3223636802030457,
+    },
     {
       testCase: 'Example 7',
       purchasePrice: 0.35,
       intCommission: 1.0,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.27611,
+      cost: 0.2761115,
       freightIncluded: 0.0,
       margin: 100,
       expectedSalesPrice: null,
     },
     {
-      testCase: 'Example 8', // Joanna, chnage
+      testCase: 'Example 8',
       purchasePrice: 0.35,
       intCommission: 1.0,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.27611,
+      cost: 0.2761115,
       freightIncluded: 0.0,
       margin: 150,
-      expectedSalesPrice: null,
+      expectedSalesPrice: null, // -0.552223,
     },
     {
       testCase: 'Example 9', // Negative margin
@@ -106,10 +102,10 @@ describe('Calculate SalesPrice', () => {
       intCommission: 1.0,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.27611,
+      cost: 0.2761115,
       freightIncluded: 0.0,
       margin: -10,
-      expectedSalesPrice: 0.25101,
+      expectedSalesPrice: 0.2510104545454545,
     },
     {
       testCase: 'Example 10',
@@ -117,149 +113,25 @@ describe('Calculate SalesPrice', () => {
       intCommission: 1.0,
       currencyRate: 0.78889,
       indirectCost: 1.0,
-      cost: 0.27611,
+      cost: 0.2761115,
       freightIncluded: 0.0,
       margin: 0,
-      expectedSalesPrice: 0.27611,
+      expectedSalesPrice: 0.2761115,
     },
   ];
 
   data.forEach(testCase => {
     test(`Case: ${testCase.testCase}`, () => {
       const { cost, freightIncluded, margin, expectedSalesPrice } = testCase;
-      const calculatedSalesPrice = calculateSalesPrice(
-        cost,
-        freightIncluded,
-        margin
-      );
+      const res = calculateSalesPrice(cost, freightIncluded, margin);
 
-      // Round the calculated sales price to 5 decimal places
-      // Add a small offset to ensure rounding up
-      // TODO: Round in function
-      const roundedCalculatedSalesPrice = calculatedSalesPrice
-        ? Number((calculatedSalesPrice + 0.000005).toFixed(5))
-        : calculatedSalesPrice;
-
-      expect(roundedCalculatedSalesPrice).toBe(expectedSalesPrice);
+      expect(res).toBe(expectedSalesPrice);
     });
   });
 });
 
 describe('Calculate Margin', () => {
-  const data = [
-    {
-      testCase: 'Example 1',
-      purchasePrice: 0.35,
-      intCommission: 1.1,
-      currencyRate: 0.78889,
-      indirectCost: 1.2,
-      cost: 0.36447,
-      freightIncluded: 0.0,
-      salesPrice: 10000.0,
-      expectedMargin: 99.996355,
-    },
-    // {
-    //   testCase: 'Example 2',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.1,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.2,
-    //   cost: 0.36447,
-    //   freightIncluded: 0.0,
-    //   salesPrice: 0.695,
-    //   expectedMargin: 47.56,
-    // },
-    // {
-    //   testCase: 'Example 3',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.1,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.2,
-    //   cost: 0.36447,
-    //   freightIncluded: 0.2,
-    //   salesPrice: 0.65,
-    //   expectedMargin: 13.16,
-    // },
-    // {
-    //   testCase: 'Example 4',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.00,
-    //   currencyRate: 0.788890,
-    //   indirectCost: 1.00,
-    //   cost: 0.27611,
-    //   freightIncluded: 0.00,
-    //   salesPrice: 0.26500,
-    //   expectedMargin: -4.19
-    // },
-    // {
-    //   testCase: 'Example 5',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.0,
-    //   cost: 0.27611,
-    //   freightIncluded: 0.0,
-    //   expectedSalesPrice: 2.11,
-    //   expectedMargin: 86.91,
-    // },
-    // {
-    //   testCase: 'Example 6',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.0,
-    //   cost: 0.27611,
-    //   freightIncluded: 0.01,
-    //   salesPrice: 2.11,
-    //   expectedMargin: 86.44,
-    // },
-    {
-      testCase: 'Example 7',
-      purchasePrice: 0.35,
-      intCommission: 1.0,
-      currencyRate: 0.78889,
-      indirectCost: 1.18,
-      cost: 0.32581,
-      freightIncluded: 0.0,
-      salesPrice: 0.05,
-      expectedMargin: -551.62,
-    },
-    {
-      testCase: 'Example 8',
-      purchasePrice: 0.35,
-      intCommission: 1.0,
-      currencyRate: 0.78889,
-      indirectCost: 1.18,
-      cost: 0.32581,
-      freightIncluded: 0.0,
-      salesPrice: 0.0,
-      expectedMargin: null,
-    },
-    // {
-    //   testCase: 'Example 9',
-    //   purchasePrice: 0.35,
-    //   intCommission: 1.0,
-    //   currencyRate: 0.78889,
-    //   indirectCost: 1.18,
-    //   cost: 0.32581,
-    //   freightIncluded: 0.0,
-    //   salesPrice: -0.5,
-    //   expectedMargin: 165.16,
-    // },
-    {
-      testCase: 'Example 10',
-      purchasePrice: 0.35,
-      intCommission: 1.2,
-      currencyRate: 0.78889,
-      indirectCost: 1.18,
-      cost: 0.39097,
-      freightIncluded: 0.0,
-      salesPrice: 0.39097,
-      expectedMargin: 0.0,
-    },
-  ];
-
-  data.forEach(testCase => {
+  dataCalculateMargin.forEach(testCase => {
     test(`Case: ${testCase.testCase}`, () => {
       const { cost, freightIncluded, salesPrice, expectedMargin } = testCase;
       const calculatedMargine = calculateMargin(
@@ -268,13 +140,7 @@ describe('Calculate Margin', () => {
         freightIncluded
       );
 
-      // Round the calculated sales price to 5 decimal places
-      // Add a small offset to ensure rounding up
-      const roundedCalculatedMargin = calculatedMargine
-        ? Number(calculatedMargine.toFixed(6))
-        : calculatedMargine;
-
-      expect(roundedCalculatedMargin).toBe(expectedMargin);
+      expect(calculatedMargine).toBe(expectedMargin);
     });
   });
 });
