@@ -106,22 +106,21 @@ const FileSection = ({
       updateStatus(status);
     }
   }
+
   return (
     <>
       <GridItem colSpan={12}>
-        {!disableEdit && (
-          <UploadFile
-            accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
-            heading={heading}
-            onUpload={handleUpload}
-            showAdd={
-              type === MediaFileType.ARTWORK && mediaFiles.length > 0
-                ? false
-                : !disableEdit
-            }
-            multiple={type === MediaFileType.ATTACHMENT}
-          />
-        )}
+        <UploadFile
+          accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
+          heading={heading}
+          onUpload={handleUpload}
+          showAdd={
+            type === MediaFileType.ARTWORK && mediaFiles.length > 0
+              ? false
+              : !disableEdit
+          }
+          multiple={type === MediaFileType.ATTACHMENT}
+        />
       </GridItem>
       {mediaFiles.map((f, i) => (
         <GridItem
@@ -132,7 +131,7 @@ const FileSection = ({
           <File
             file={f}
             status={f.status ?? 'success'}
-            onRemove={(id: string) => removeFile(id)}
+            onRemove={disableEdit ? undefined : (id: string) => removeFile(id)}
           />
         </GridItem>
       ))}

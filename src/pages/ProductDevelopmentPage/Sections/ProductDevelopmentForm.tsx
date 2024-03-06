@@ -13,7 +13,6 @@ import MemberSection from './MemberSection';
 import AttachmentSection from './AttachmentSection';
 import SourcingSection from './SourcingSection';
 import BottomSection from './BottomSection';
-import { ROLES_NOT_ALLOWED_TO_EDIT } from '../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto } from '../../../app/generate';
@@ -34,6 +33,9 @@ function ProductDevelopmentForm({
   no,
 }: Props) {
   const showSourcing = useAuthorized('sourcing');
+  const allowedToUploadFiles = useAuthorized('uploadFile');
+  const allowedToedit = useAuthorized('editProductDevelopment');
+
   const { data: user } = useCurrentUser();
 
   const form = useForm<ProductDevelopmentDto>({
@@ -66,13 +68,13 @@ function ProductDevelopmentForm({
     });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
-      (user?.role && ROLES_NOT_ALLOWED_TO_EDIT.includes(user.role))
+      allowedToedit
     ) {
       setDisableEdit(true);
     } else {
       setDisableEdit(false);
     }
-  }, [defaultValues, form, user?.role]);
+  }, [allowedToedit, defaultValues, form, user?.role]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -137,7 +139,7 @@ function ProductDevelopmentForm({
                         ? true
                         : false
                     }
-                    disableEdit={disableEdit}
+                    disableEdit={!allowedToUploadFiles}
                   />
                   {showSourcing && (
                     <SourcingSection no={no} disableEdit={disableEdit} />

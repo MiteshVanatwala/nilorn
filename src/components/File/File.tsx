@@ -85,8 +85,8 @@ export const File = ({
               icon={<i className="ri-download-line" />}
             />
           </Tooltip>
-          <Tooltip label={t('Common.Remove')}>
-            {onRemove && (
+          {onRemove && (
+            <Tooltip label={t('Common.Remove')}>
               <IconButton
                 isLoading={isDeleting}
                 disabled={isDownloading}
@@ -96,8 +96,8 @@ export const File = ({
                 mr={0}
                 onClick={removeFile}
               />
-            )}
-          </Tooltip>
+            </Tooltip>
+          )}
         </Box>
       )}
     </HStack>

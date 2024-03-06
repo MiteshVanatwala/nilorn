@@ -3,9 +3,18 @@ import {
   ROLES_ALLOWED_SEE_CALCULATION,
   ROLES_ALLOWED_SEE_PRODUCTION,
   ROLES_ALLOWED_SEE_SOURCING,
+  ROLES_ALLOWED_TO_UPLOAD_FILE,
+  ROLES_NOT_ALLOWED_TO_EDIT,
 } from './Permissions';
 
-export function useAuthorized(view: 'production' | 'sourcing' | 'calculation') {
+export function useAuthorized(
+  view:
+    | 'production'
+    | 'sourcing'
+    | 'calculation'
+    | 'editProductDevelopment'
+    | 'uploadFile'
+) {
   const { data: user } = useCurrentUser();
 
   if (user?.role) {
@@ -16,6 +25,10 @@ export function useAuthorized(view: 'production' | 'sourcing' | 'calculation') {
         return ROLES_ALLOWED_SEE_SOURCING.includes(user?.role);
       case 'calculation':
         return ROLES_ALLOWED_SEE_CALCULATION.includes(user?.role);
+      case 'editProductDevelopment':
+        return ROLES_NOT_ALLOWED_TO_EDIT.includes(user?.role);
+      case 'uploadFile':
+        return ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user?.role);
     }
   }
 

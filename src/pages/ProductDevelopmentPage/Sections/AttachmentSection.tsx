@@ -27,40 +27,38 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
 
   return (
     <>
-      {(attachments?.length !== 0 || artwork?.length !== 0 || !isClosed) && (
-        <AccordionItem
-          title={`${t('PD.AccordionLabels.Attachments')} (${
-            (attachments?.length ?? 0) + (artwork ? 1 : 0)
-          })`}>
-          {createNew ? (
-            <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
-          ) : (
-            <Grid
-              gap={{
-                base: SPACE.XXS,
-                lg: SPACE.SM,
-              }}
-              templateColumns={GRID.TEMPLATE_COLUMNS}>
+      <AccordionItem
+        title={`${t('PD.AccordionLabels.Attachments')} (${
+          (attachments?.length ?? 0) + (artwork ? 1 : 0)
+        })`}>
+        {createNew ? (
+          <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
+        ) : (
+          <Grid
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}
+            templateColumns={GRID.TEMPLATE_COLUMNS}>
+            <FileSection
+              no={no}
+              type={MediaFileType.ARTWORK}
+              defaultValue={artwork ? [artwork] : undefined}
+              disableEdit={disableEdit || isClosed}
+              heading={t('PD.Artwork')}
+            />
+            {isFetched && (
               <FileSection
                 no={no}
-                type={MediaFileType.ARTWORK}
-                defaultValue={artwork ? [artwork] : undefined}
-                disableEdit={disableEdit}
-                heading={t('PD.Artwork')}
+                type={MediaFileType.ATTACHMENT}
+                defaultValue={attachments}
+                disableEdit={disableEdit || isClosed}
+                heading={t('PD.Attatchments')}
               />
-              {isFetched && (
-                <FileSection
-                  no={no}
-                  type={MediaFileType.ATTACHMENT}
-                  defaultValue={attachments}
-                  disableEdit={disableEdit}
-                  heading={t('PD.Attatchments')}
-                />
-              )}
-            </Grid>
-          )}
-        </AccordionItem>
-      )}
+            )}
+          </Grid>
+        )}
+      </AccordionItem>
     </>
   );
 };
