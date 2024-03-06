@@ -8,8 +8,7 @@ import {
   SourcedProductionDto,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
-import { CSSProperties, Fragment, useEffect, useState } from 'react';
-import { TD_STYLE } from '../../../theme/Constants/tableGrid';
+import { Fragment, useEffect, useState } from 'react';
 import {
   GridInlineTbody,
   GridTd,
@@ -31,12 +30,10 @@ type Props = {
   sourcedProduction: SourcedProductionDto;
   productDevelopment?: ProductDevelopmentBriefDto;
   production: ProductionDto;
-  style?: CSSProperties;
   tableMenu?: JSX.Element;
 };
 function PriceGridRow({
   production,
-  style = TD_STYLE,
   productDevelopment,
   sourcedProduction,
 }: Props) {
@@ -67,7 +64,9 @@ function PriceGridRow({
     ) {
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
-      setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
+      setFormData(
+        (production?.priceCalculations[0]?.priceDtos as PriceDto[]) ?? []
+      );
     } else {
       setCreateNew(true);
       setCalculation(undefined);
@@ -79,16 +78,40 @@ function PriceGridRow({
   const openRowForInlineEdit = () => {
     setEnableEdit(true);
   };
+
   const closeRowForInlineEdit = () => {
     setEnableEdit(false);
     setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
   };
+
   const submitForm = () => {
     const body: UpdateSalesPriceCommand = {
       salesPrices: formData as SalesPriceDto[],
     };
-    saveSalesPrices(body);
-    setEnableEdit(false);
+    saveSalesPrices(body, {
+      onSuccess: async () => {
+        setEnableEdit(false);
+      },
+    });
+  };
+
+  const onInlineCahnge = (
+    newMargin: number,
+    newSalesPrice: number,
+    salesPriceId: string
+  ) => {
+    const newData = [...formData];
+    const index = newData.findIndex(item => item.salesPriceId === salesPriceId);
+    if (index !== -1) {
+      newData[index] = {
+        ...newData[index],
+        margin: newMargin,
+        salesPrice: newSalesPrice,
+      };
+      setFormData(newData);
+    } else {
+      console.error(`Object with given ${salesPriceId} not found.`);
+    }
   };
 
   return (
@@ -98,7 +121,7 @@ function PriceGridRow({
           base: GRID_LAYOUT_PRICE,
           lg: GRID_LAYOUT_PRICE_DESKTOP,
         }}>
-        <GridTd style={style}>
+        <GridTd>
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <Box>
@@ -143,13 +166,13 @@ function PriceGridRow({
             </VStack>
           </>
         </GridTd>
-        <GridTd style={style}>
+        <GridTd>
           <CommentPopup comment={production.comment} />
         </GridTd>
         {(calculation && calculation?.priceDtos?.length) ||
         production.released ? (
           <>
-            <GridTd style={style} gridColumn={'BaseValues'}>
+            <GridTd gridColumn={'BaseValues'}>
               <BaseValues calculation={calculation} />
             </GridTd>
             <GridItem colSpan={2}>
@@ -162,8 +185,8 @@ function PriceGridRow({
                           key={
                             calculation?.productionId + '-purchasePrice-' + i
                           }>
-                          <GridTd style={style}>{pc.quantity}</GridTd>
-                          <GridTd style={style}>{pc.purchasePrice}</GridTd>
+                          <GridTd>{pc.quantity}</GridTd>
+                          <GridTd>{pc.purchasePrice}</GridTd>
                         </Fragment>
                       ))}
                     </>
@@ -171,8 +194,8 @@ function PriceGridRow({
                     <>
                       {production.purchasePrices?.map((pp, i) => (
                         <Fragment key={production?.id + '-purchasePrice-' + i}>
-                          <GridTd style={style}>{pp.quantity}</GridTd>
-                          <GridTd style={style}>{pp.price}</GridTd>
+                          <GridTd>{pp.quantity}</GridTd>
+                          <GridTd>{pp.price}</GridTd>
                         </Fragment>
                       ))}
                     </>
@@ -180,51 +203,23 @@ function PriceGridRow({
                 </>
               </GridInlineTbody>
             </GridItem>
-            <GridTd style={style}>{production.currencyCode}</GridTd>
-            <GridTd style={style}>{calculation?.currencyCode}</GridTd>
+            <GridTd>{production.currencyCode}</GridTd>
+            <GridTd>{calculation?.currencyCode}</GridTd>
             <GridItem
               colSpan={3}
               onClick={createNew ? undefined : openRowForInlineEdit}>
               {!!calculation && (
                 <SalesPriceCalculationForm
                   priceData={formData}
-                  onCalculationChange={(
-                    newMargin: number,
-                    newSalesPrice: number,
-                    salesPriceId: string
-                  ) => {
-                    const newData = [...formData];
-                    const index = newData.findIndex(
-                      item => item.salesPriceId === salesPriceId
-                    );
-                    if (index !== -1) {
-                      newData[index] = {
-                        ...newData[index],
-                        margin: newMargin,
-                        salesPrice: newSalesPrice,
-                      };
-                      setFormData(newData);
-                    } else {
-                      console.error(
-                        `Object with given ${salesPriceId} not found.`
-                      );
-                    }
-                  }}
+                  onCalculationChange={onInlineCahnge}
                   enableEdit={enableEdit}
                   calculation={calculation}
-                  style={style}
                 />
               )}
             </GridItem>
           </>
         ) : (
-          <>
-            {production.released ? (
-              <></>
-            ) : (
-              <GridTd style={style} colSpan={8}></GridTd>
-            )}
-          </>
+          <>{production.released ? <></> : <GridTd colSpan={8}></GridTd>}</>
         )}
       </GridInlineTbody>
     </GridItem>

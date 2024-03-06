@@ -10,14 +10,14 @@ const CHUNK_SIZES = [25, 75, 100, 300];
 function PriceCalculationsTableContainer() {
   const { t } = useTranslation();
 
-  const { data, isError, isLoading, isFetching } = useProductionsFilter(true);
+  const { data, isError, isLoading } = useProductionsFilter(true);
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
   }
   return (
     <>
-      {(isLoading || isFetching) && <SpinnerOverlay />}
+      {isLoading && <SpinnerOverlay />}
       <PriceCalculationsTable data={data?.items ?? []} />
       <TablePaginationContainer data={data} chunkSizes={CHUNK_SIZES} />
     </>
