@@ -58,7 +58,7 @@ const SalesPriceCalculation = ({
             <Input
               onChange={changeMargin}
               value={margin ?? 0}
-              max={100}
+              max={99.99999}
               type="number"
               variant={'outline'}
               my={SPACE.XXS}
