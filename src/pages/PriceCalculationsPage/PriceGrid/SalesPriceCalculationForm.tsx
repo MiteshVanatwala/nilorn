@@ -1,5 +1,8 @@
 import { CSSProperties } from 'react';
-import { GridInlineTbody } from '../../../components/GridTable/GridTableElements';
+import {
+  GridInlineTbody,
+  GridTd,
+} from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import SalesPriceCalculation from './SalesPriceCalculation';
 
@@ -7,10 +10,12 @@ type Props = {
   enableEdit: boolean;
   calculation: PriceCalculationDto;
   style?: CSSProperties;
-  data: PriceDto[];
-  // onMarginChange: (value: number, index: number) => void; // TODO; index or id
-  // onSalesPriceChange: (value: number, index: number) => void;
-  onChange: (newMargin: number, newSalesPrice: number, index: number) => void;
+  priceData: PriceDto[];
+  onCalculationChange: (
+    newMargin: number,
+    newSalesPrice: number,
+    id: string
+  ) => void;
 };
 
 export const FORM_KEY_SALES_PRICES = 'SalesPrices';
@@ -19,33 +24,33 @@ const SalesPriceCalculationForm = ({
   style,
   calculation,
   enableEdit,
-  // onMarginChange,
-  // onSalesPriceChange,
-  onChange,
-  data,
-}: // onSalesPriceChange,
-Props) => {
-  // TODO: Log data
-  //const [temp, setTemp] = useState();
+  onCalculationChange,
+  priceData,
+}: Props) => {
   return (
     <GridInlineTbody gridTemplateColumns={`repeat(3, 1fr)`}>
-      {calculation?.priceDtos?.map((f, i) => {
+      {calculation.priceDtos?.map((f, i) => {
         const price = f as PriceDto;
+        if (!!f.salesPriceId) {
+          return (
+            <SalesPriceCalculation
+              key={
+                calculation?.productionId + '-salesPrice-' + i + price.margin
+              }
+              salesPriceId={`${f.salesPriceId}`}
+              enableEdit={enableEdit}
+              calculation={calculation}
+              price={price}
+              margin={priceData[i].margin ?? 0}
+              salesPrice={priceData[i].salesPrice ?? 0}
+              onCalculationChange={onCalculationChange}
+            />
+          );
+        }
         return (
-          <SalesPriceCalculation
+          <GridTd
             key={calculation?.productionId + '-salesPrice-' + i + price.margin}
-            enableEdit={enableEdit}
-            calculation={calculation}
-            style={style}
-            price={price}
-            index={i}
-            onChange={onChange}
-            // onMarginChange={onMarginChange}
-            // onSalesPriceChange={onSalesPriceChange}
-            margin={data[i].margin ?? 0}
-            salesPrice={data[i].salesPrice ?? 0}
-            formKey={`${FORM_KEY_SALES_PRICES}.${i}`}
-          />
+            colSpan={3}></GridTd>
         );
       })}
     </GridInlineTbody>

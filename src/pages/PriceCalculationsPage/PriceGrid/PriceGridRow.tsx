@@ -40,6 +40,9 @@ function PriceGridRow({
   productDevelopment,
   sourcedProduction,
 }: Props) {
+  const { t } = useTranslation();
+  const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
+
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
     PriceCalculationDto | undefined
@@ -53,12 +56,7 @@ function PriceGridRow({
     calculation === undefined
   );
 
-  const { t } = useTranslation();
-  const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
-
-  // TODO: insead of form!
-  // Where to store salesprice
-  const [data, setData] = useState<PriceDto[]>(
+  const [formData, setFormData] = useState<PriceDto[]>(
     (calculation?.priceDtos as PriceDto[]) ?? []
   );
 
@@ -69,13 +67,7 @@ function PriceGridRow({
     ) {
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
-      setData((calculation?.priceDtos as PriceDto[]) ?? []);
-
-      // if (form) {
-      //   form.reset({
-      //     [FORM_KEY_SALES_PRICES]: production?.priceCalculations[0]?.priceDtos,
-      //   });
-      // }
+      setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
     } else {
       setCreateNew(true);
       setCalculation(undefined);
@@ -83,37 +75,24 @@ function PriceGridRow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [production?.priceCalculations]);
 
-  // const form = useForm({
-  //   defaultValues: {
-  //     [FORM_KEY_SALES_PRICES]: calculation?.priceDtos,
-  //   },
-  // });
-
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
   const openRowForInlineEdit = () => {
     setEnableEdit(true);
   };
   const closeRowForInlineEdit = () => {
     setEnableEdit(false);
-    console.log('closeRowForInlineEdit: ', data);
-    // TODO: on cancel
-    // form.reset();
-    setData((calculation?.priceDtos as PriceDto[]) ?? []);
+    setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
   };
   const submitForm = () => {
-    const formData: UpdateSalesPriceCommand = {
-      salesPrices: data as SalesPriceDto[],
+    const body: UpdateSalesPriceCommand = {
+      salesPrices: formData as SalesPriceDto[],
     };
-    saveSalesPrices(formData);
+    saveSalesPrices(body);
     setEnableEdit(false);
   };
 
   return (
     <GridItem colSpan={10}>
-      {/* <FormProvider {...form}>
-        <form
-          style={{ height: '100%' }}
-          onSubmit={form.handleSubmit(submitForm)}> */}
       <GridInlineTbody
         gridTemplateColumns={{
           base: GRID_LAYOUT_PRICE,
@@ -208,33 +187,29 @@ function PriceGridRow({
               onClick={createNew ? undefined : openRowForInlineEdit}>
               {!!calculation && (
                 <SalesPriceCalculationForm
-                  data={data}
-                  onChange={(
+                  priceData={formData}
+                  onCalculationChange={(
                     newMargin: number,
                     newSalesPrice: number,
-                    index: number
+                    salesPriceId: string
                   ) => {
-                    const newData = [...data];
-                    newData[index] = {
-                      ...newData[index],
-                      margin: newMargin,
-                      salesPrice: newSalesPrice,
-                    };
-                    setData(newData);
+                    const newData = [...formData];
+                    const index = newData.findIndex(
+                      item => item.salesPriceId === salesPriceId
+                    );
+                    if (index !== -1) {
+                      newData[index] = {
+                        ...newData[index],
+                        margin: newMargin,
+                        salesPrice: newSalesPrice,
+                      };
+                      setFormData(newData);
+                    } else {
+                      console.error(
+                        `Object with given ${salesPriceId} not found.`
+                      );
+                    }
                   }}
-                  // onMarginChange={(value, index) => {
-                  //   // TODO; Infext of oid
-                  //   console.log('Parent onMarginChange', value);
-                  //   const newData = [...data];
-                  //   newData[index] = { ...newData[index], margin: value };
-                  //   setData(newData);
-                  // }}
-                  // onSalesPriceChange={(value, index) => {
-                  //   // TODO; Infext of oid
-                  //   const newData = [...data];
-                  //   newData[index] = { ...newData[index], salesPrice: value };
-                  //   setData(newData);
-                  // }}
                   enableEdit={enableEdit}
                   calculation={calculation}
                   style={style}
@@ -252,8 +227,6 @@ function PriceGridRow({
           </>
         )}
       </GridInlineTbody>
-      {/* </form>
-      </FormProvider> */}
     </GridItem>
   );
 }
