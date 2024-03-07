@@ -208,14 +208,18 @@ function PriceGridRow({
             <GridItem
               colSpan={3}
               onClick={createNew ? undefined : openRowForInlineEdit}>
-              {!!calculation && (
-                <SalesPriceCalculationForm
-                  priceData={formData}
-                  onCalculationChange={onInlineCahnge}
-                  enableEdit={enableEdit}
-                  calculation={calculation}
-                />
-              )}
+              <GridInlineTbody gridTemplateColumns={`repeat(3, 1fr)`}>
+                {!!calculation ? (
+                  <SalesPriceCalculationForm
+                    priceData={formData}
+                    onCalculationChange={onInlineCahnge}
+                    enableEdit={enableEdit}
+                    calculation={calculation}
+                  />
+                ) : (
+                  <GridTd colSpan={3}></GridTd>
+                )}
+              </GridInlineTbody>
             </GridItem>
           </>
         ) : (

@@ -1,8 +1,5 @@
 import { CSSProperties } from 'react';
-import {
-  GridInlineTbody,
-  GridTd,
-} from '../../../components/GridTable/GridTableElements';
+import { GridTd } from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import SalesPriceCalculation from './SalesPriceCalculation';
 
@@ -18,17 +15,14 @@ type Props = {
   ) => void;
 };
 
-export const FORM_KEY_SALES_PRICES = 'SalesPrices';
-
 const SalesPriceCalculationForm = ({
-  style,
   calculation,
   enableEdit,
   onCalculationChange,
   priceData,
 }: Props) => {
   return (
-    <GridInlineTbody gridTemplateColumns={`repeat(3, 1fr)`}>
+    <>
       {calculation.priceDtos?.map((f, i) => {
         const price = f as PriceDto;
         if (!!f.salesPriceId) {
@@ -53,7 +47,7 @@ const SalesPriceCalculationForm = ({
             colSpan={3}></GridTd>
         );
       })}
-    </GridInlineTbody>
+    </>
   );
 };
 

@@ -19,6 +19,8 @@ type Props = {
   ) => void;
 };
 
+const MAX_MARGIN = 99.99;
+
 const SalesPriceCalculation = ({
   price,
   salesPriceId,
@@ -31,7 +33,7 @@ const SalesPriceCalculation = ({
   const changeMargin = (e: ChangeEvent<HTMLInputElement>) => {
     let value = Number(e.target.value);
     value = isNaN(value) ? 0 : value;
-    const max = Number(e.target.max) || 99.99;
+    const max = Number(e.target.max) || MAX_MARGIN;
     value = Math.min(value, max);
 
     const newSalesPrice = calculateSalesPrice(
@@ -66,7 +68,7 @@ const SalesPriceCalculation = ({
             <Input
               onChange={changeMargin}
               value={margin ?? 0}
-              max={99.99}
+              max={MAX_MARGIN}
               type="number"
               variant={'outline'}
               my={SPACE.XXS}
