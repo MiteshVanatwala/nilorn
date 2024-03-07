@@ -14,10 +14,13 @@ export class ClientService {
      * @returns ClientDto Success
      * @throws ApiError
      */
-    public static getApiClient(): CancelablePromise<Array<ClientDto>> {
+    public static getApiClient(filterByAccess: boolean): CancelablePromise<Array<ClientDto>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/Client',
+            url: '/api/Client/{filterByAccess}',
+            path: {
+                'filterByAccess': filterByAccess,
+            },
         });
     }
 
