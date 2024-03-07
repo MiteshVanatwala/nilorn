@@ -95,12 +95,16 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
+          {/** TODO Validate max 99.99 */}
           <InputField
-            registerOptions={{ valueAsNumber: true, required: createNew }}
+            registerOptions={{
+              valueAsNumber: true,
+              required: createNew,
+            }}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}
-            type="decimal"
+            type={'decimal'}
             readonly={disableEdit}
           />
         </GridItem>
