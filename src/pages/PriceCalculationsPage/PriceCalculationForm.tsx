@@ -104,18 +104,16 @@ const PriceCalculationForm = ({
             readonly={disableEdit}
           />
         </GridItem>
-        {!createNew && (
-          <GridItem colStart={1} colSpan={2}>
-            <InputField
-              readonly={true}
-              defaultValue={production.currencyCode ?? ''}
-              label={`${t('PriceCalc.PurchaseCurrency')}`}
-              placeholder={`${t('Common.Placeholder')}`}
-              name={'purchaseCurrency'}
-            />
-          </GridItem>
-        )}
-        <GridItem colStart={createNew ? 1 : 'auto'} colSpan={2}>
+        <GridItem colStart={1} colSpan={2}>
+          <InputField
+            readonly={true}
+            defaultValue={production.currencyCode ?? ''}
+            label={`${t('PriceCalc.PurchaseCurrency')}`}
+            placeholder={`${t('Common.Placeholder')}`}
+            name={'purchaseCurrency'}
+          />
+        </GridItem>
+        <GridItem colSpan={2}>
           <Select
             key={
               (production?.id !== undefined ? production?.id : '') +
