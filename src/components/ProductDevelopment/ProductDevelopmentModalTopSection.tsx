@@ -6,22 +6,18 @@ import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
-import {
-  ProductDevelopmentBriefDto,
-  ProductionDto,
-  SourcedProductionDto,
-} from '../../app/generate';
+import { ProductDevelopmentBriefDto } from '../../app/generate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
-  production?: ProductionDto;
+  sourcingCompanyCode?: string | null;
+  vendorName?: string | null;
   actionBar: JSX.Element;
 };
 const ProductDevelopmentModalTopSection = ({
   productDevelopment,
-  sourcedProduction,
-  production,
+  sourcingCompanyCode,
+  vendorName,
   actionBar,
 }: Props) => {
   const { close } = useContext(ModalContext);
@@ -88,11 +84,9 @@ const ProductDevelopmentModalTopSection = ({
                 {productDevelopment?.name}
               </Heading>
               <HStack>
-                <Text variant={'bodyBold'}>{production?.vendorName}</Text>
-                {production && sourcedProduction?.sourcingCompanyCode && (
-                  <>{' - '}</>
-                )}
-                <Text>{sourcedProduction?.sourcingCompanyCode}</Text>
+                <Text variant={'bodyBold'}>{vendorName}</Text>
+                {vendorName && sourcingCompanyCode && <>{' - '}</>}
+                <Text>{sourcingCompanyCode}</Text>
               </HStack>
               <HStack gap={SPACE.SM}>
                 <Text>

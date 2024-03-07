@@ -108,8 +108,8 @@ const EditProduction = ({
         <form onSubmit={form.handleSubmit(submitForm)}>
           <ProductDevelopmentModalTopSection
             productDevelopment={productDevelopment}
-            sourcedProduction={sourcedProduction}
-            production={production}
+            sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+            vendorName={production?.vendorName}
             actionBar={
               <ActionBarEditProduction
                 artwork={productDevelopment?.artwork}

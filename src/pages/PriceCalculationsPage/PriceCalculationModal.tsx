@@ -128,7 +128,8 @@ const PriceCalculationModal = ({
         <form onSubmit={form.handleSubmit(submitForm)}>
           <ProductDevelopmentModalTopSection
             productDevelopment={productDevelopment}
-            sourcedProduction={sourcedProduction}
+            sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+            vendorName={production?.vendorName}
             actionBar={
               <PriceCalculationActionBar
                 artwork={artwork}
