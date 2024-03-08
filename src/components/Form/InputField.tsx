@@ -10,6 +10,7 @@ interface Props extends FormInputProps {
   defaultValue?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   readonly?: boolean;
+  max?: number;
 }
 
 const InputField = ({
@@ -24,6 +25,7 @@ const InputField = ({
   hideValidationStyle,
   changelog,
   readonly = false,
+  max,
 }: Props) => {
   const {
     register,
@@ -46,6 +48,7 @@ const InputField = ({
         isReadOnly={readonly}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        max={max}
         step={type === 'decimal' ? '0.000000000000000001' : ''}
         type={type === 'decimal' ? 'number' : type}
         cursor={readonly ? 'default' : 'text'}
