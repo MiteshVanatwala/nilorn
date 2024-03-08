@@ -12,13 +12,19 @@ import {
 } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
+import { useEffect, useState } from 'react';
+import {
+  calculateCostWithValues,
+  calculateSalesPrice,
+} from './PriceGrid/PriceHelper';
+import { useWatch } from 'react-hook-form';
+import { MAX_MARGIN } from '../../app/utils/constant';
 
 type Props = {
   disableEdit?: boolean;
   calculation: PriceCalculationDto | undefined;
   production: ProductionDto;
   createNew: boolean;
-  calculationPrice: PriceDto[] | null | undefined;
   showChanges: boolean;
 };
 
@@ -27,11 +33,17 @@ const PriceCalculationForm = ({
   calculation,
   production,
   createNew,
-  calculationPrice,
   showChanges,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
+  const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
+    calculation?.priceDtos ?? null
+  );
+
+  useEffect(() => {
+    setCalculationItems(calculation?.priceDtos ?? null);
+  }, [calculation]);
 
   const id = calculation?.id ?? '';
 
@@ -43,9 +55,50 @@ const PriceCalculationForm = ({
   );
   const indirectCostChangelog = useCalculationChangelog('IndirectCost', id);
   const internalCommissionChangelog = useCalculationChangelog(
-    'InternalCommission',
+    'internalCommission',
     id
   );
+
+  const freightIncludedValue = useWatch({ name: 'freightIncluded' });
+  const marginValue = useWatch({ name: 'margin' });
+  const currencyRateValue = useWatch({ name: 'currencyRate' });
+  const internalCommisionValue = useWatch({ name: 'internalCommission' });
+  const indirectCostValue = useWatch({ name: 'indirectCost' });
+
+  const freightIncluded = freightIncludedValue
+    ? Number(freightIncludedValue)
+    : 0;
+  const margin = marginValue ? Number(marginValue) : null;
+  const currencyRate = currencyRateValue ? Number(currencyRateValue) : 1;
+  const internalCommision = internalCommisionValue
+    ? Number(internalCommisionValue)
+    : 0;
+  const indirectCost = indirectCostValue ? Number(indirectCostValue) : 0;
+
+  useEffect(() => {
+    let updatedItems: PriceDto[] = [];
+    calculationItems?.forEach(item => {
+      const updatedCost = calculateCostWithValues(
+        item.purchasePrice ?? undefined,
+        internalCommision,
+        currencyRate,
+        indirectCost
+      );
+      const salesPrice = calculateSalesPrice(
+        updatedCost ?? 0,
+        freightIncluded,
+        margin ? margin : item.margin ? item.margin : 0
+      );
+      updatedItems.push({
+        ...item,
+        salesPrice,
+        margin,
+        cost: updatedCost,
+      });
+    });
+    setCalculationItems(updatedItems ?? null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [freightIncluded, margin, currencyRate, internalCommision, indirectCost]);
 
   return (
     <>
@@ -100,12 +153,17 @@ const PriceCalculationForm = ({
             registerOptions={{
               valueAsNumber: true,
               required: createNew,
+              max: {
+                value: MAX_MARGIN,
+                message: `${t('PriceCalc.Feedback.Error.MarginTooHigh')}`,
+              },
             }}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'margin'}
             type={'decimal'}
             readonly={disableEdit}
+            max={MAX_MARGIN}
           />
         </GridItem>
         <GridItem colStart={1} colSpan={2}>
@@ -165,7 +223,7 @@ const PriceCalculationForm = ({
         )}
       </Grid>
       <PriceCalculationFormTable
-        data={calculationPrice ?? []}
+        data={calculationItems ?? []}
         showChanges={showChanges}
       />
     </>

@@ -3,7 +3,6 @@ import {
   ChangelogType,
   MediaFileDto,
   PriceCalculationDto,
-  PriceDto,
   ProductDevelopmentBriefDto,
   ProductionDto,
   SourcedProductionDto,
@@ -17,9 +16,8 @@ import {
   useCreateCalculation,
   usePatchCalculation,
 } from '../../app/api/calculation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
-import { calculateSalesPrice } from './PriceGrid/PriceHelper';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 
 type Props = {
@@ -66,61 +64,29 @@ const PriceCalculationModal = ({
           : null,
     },
   });
-  const { mutate: updateCalculation, isSuccess: isSuccessPatch } =
-    usePatchCalculation();
-  const { mutate: createCalculation, isSuccess: isSuccessCreate } =
-    useCreateCalculation();
+
+  const { mutate: updateCalculation } = usePatchCalculation();
+  const { mutate: createCalculation } = useCreateCalculation();
   const { close } = useContext(ModalContext);
-  const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
-    calculation?.priceDtos ?? null
-  );
 
   function submitForm(form: FieldValues) {
     async function onSubmit(form: FieldValues): Promise<void> {
       if (createNew) {
-        createCalculation(form);
+        createCalculation(form, {
+          onSuccess: () => {
+            close();
+          },
+        });
       } else {
-        updateCalculation(form);
+        updateCalculation(form, {
+          onSuccess: () => {
+            close();
+          },
+        });
       }
     }
     onSubmit(form);
   }
-  useEffect(() => {
-    if (isSuccessPatch || isSuccessCreate) {
-      close();
-    }
-  }, [close, isSuccessPatch, isSuccessCreate]);
-
-  const freightIncluded = form.watch('freightIncluded');
-  const marginValue = form.watch('margin');
-
-  const freightIncludedInt = freightIncluded
-    ? parseInt(freightIncluded?.toString() ?? '')
-    : 0;
-  const marginValueInt = marginValue
-    ? parseInt(marginValue?.toString() ?? '')
-    : null;
-
-  useEffect(() => {
-    const updatedItems = calculationItems?.map(item => {
-      const salesPrice = calculateSalesPrice(
-        item?.cost ?? 0,
-        freightIncludedInt,
-        marginValueInt ? marginValueInt : item.margin ? item.margin : 0
-      );
-
-      item.salesPrice = salesPrice;
-      item.margin = marginValueInt ?? item.margin;
-      return item;
-    });
-    setCalculationItems(updatedItems ?? null);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freightIncludedInt, marginValueInt]);
-
-  useEffect(() => {
-    setCalculationItems(calculation?.priceDtos ?? null);
-  }, [calculation]);
 
   return (
     <Box mb={SPACE.LG} px={SPACE.SM}>
@@ -145,7 +111,6 @@ const PriceCalculationModal = ({
             calculation={calculation}
             production={production}
             createNew={createNew ?? false}
-            calculationPrice={calculationItems}
             showChanges={showChanges}
           />
         </form>
