@@ -21,11 +21,6 @@ const SalesPriceCalculationForm = ({
   onCalculationChange,
   priceData,
 }: Props) => {
-  // TODO: Move logic!
-  // const [data, setData] = useState<SalesPriceDto[]>(
-  //   (calculation?.priceDtos as SalesPriceDto[]) ?? []
-  // );
-
   return (
     <>
       {calculation.priceDtos?.map((f, i) => {
