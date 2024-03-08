@@ -21,6 +21,7 @@ export function useDeleteProduction() {
     {
       onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         showToast({
           status: 'success',
           description: t('Production.Deleted'),
@@ -48,6 +49,7 @@ export const usePatchProduction = (released?: boolean) => {
     {
       onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',
@@ -78,6 +80,7 @@ export const useCreateProduction = () => {
     {
       onSuccess: async (body: ProductionDto) => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',
@@ -115,6 +118,7 @@ export const useReleaseForSales = (
       retry: 0,
       onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',

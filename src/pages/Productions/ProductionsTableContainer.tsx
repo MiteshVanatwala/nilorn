@@ -4,7 +4,7 @@ import Alert from '../../components/Feedback/Alert';
 import { useTranslation } from 'react-i18next';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import { useProductionsFilter } from '../../app/api/Productions';
+import { useProductionsFilter } from '../../app/api/productDevelopmentDeep';
 
 export type ProductionQuery = {
   productDevelopment: ProductDevelopmentBriefDto;

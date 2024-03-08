@@ -22,7 +22,7 @@ export const usePatchCalculation = () => {
       ),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',
@@ -51,7 +51,7 @@ export const useCreateCalculation = () => {
       ),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',
@@ -80,7 +80,7 @@ export const usePatchCalculationSalesPrice = () => {
       ),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
           status: 'success',
@@ -109,7 +109,7 @@ export function useDeleteCalculation(id: string) {
       ),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         showToast({
           status: 'success',
           description: t('PriceCalc.Feedback.Success.Remove'),

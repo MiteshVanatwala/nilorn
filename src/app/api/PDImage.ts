@@ -20,6 +20,8 @@ export function useDeletePDImage(id: string) {
     () => ImageService.deleteApiImage(id).then(response => response),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
       },
     }
@@ -34,6 +36,8 @@ export const useUploadPDImage = (no: string) => {
       ImageService.putApiImage(no, body).then(response => response),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentImage]);
       },
     }

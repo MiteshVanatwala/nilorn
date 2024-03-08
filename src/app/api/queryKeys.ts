@@ -7,6 +7,7 @@ enum QueryKeysEnum {
   Vendors = 'Vendors',
   Productions = 'Productions',
   ProductDevelopment = 'ProductDevelopment',
+  ProductDevelopmentDeep = 'ProductDevelopmentDeep',
   ProductDevelopmentImage = 'ProductDevelopmentImage',
   FoldingType = 'FoldingType',
   ItemCategory = 'ItemCategory',

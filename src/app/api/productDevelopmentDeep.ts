@@ -19,7 +19,7 @@ export function useProductionsFilter(includeCalculations: boolean) {
 
   return useQuery(
     [
-      QueryKeysEnum.Productions,
+      QueryKeysEnum.ProductDevelopmentDeep,
       pageNumber,
       pageSize,
       includeCalculations,
