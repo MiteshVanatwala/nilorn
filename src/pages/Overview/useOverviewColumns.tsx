@@ -9,6 +9,7 @@ import {
 import NowrapText from '../../components/Text/NowrapText';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
 import ArtworkButton from '../../components/Button/ArtworkButton';
+import { Text, Tooltip } from '@chakra-ui/react';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -75,7 +76,18 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('productGroup', {
       header: `${t('PD.ProductGroup')}`,
-      cell: info => info.getValue(),
+      cell: info => (
+        <Tooltip label={info.getValue()}>
+          <Text
+            maxW={'25ch'}
+            whiteSpace={'nowrap'}
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}>
+            {info.getValue()}
+          </Text>
+        </Tooltip>
+      ),
+      maxSize: 100,
     }),
     columnHelper.accessor('itemCategory', {
       header: `${t('PD.ItemCategory')}`,
