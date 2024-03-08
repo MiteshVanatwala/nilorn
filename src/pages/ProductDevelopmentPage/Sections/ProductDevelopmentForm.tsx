@@ -50,15 +50,12 @@ function ProductDevelopmentForm({
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
 
-  function submitForm(form: FieldValues) {
-    async function onSubmit(form: FieldValues): Promise<void> {
-      if (createNew) {
-        createProductDevelopment(form);
-      } else {
-        updateProductDevelopment(form);
-      }
+  function onSubmit(form: FieldValues) {
+    if (createNew) {
+      createProductDevelopment(form);
+    } else {
+      updateProductDevelopment(form);
     }
-    onSubmit(form);
   }
 
   useEffect(() => {
@@ -103,7 +100,7 @@ function ProductDevelopmentForm({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <TopSection
           disableEdit={disableEdit}
           createNew={createNew}
