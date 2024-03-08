@@ -1,5 +1,5 @@
 import { Button, Flex } from '@chakra-ui/react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import NavigationHeader from '../../components/Navigation/NavigationHeader';
 import { ModalProvider } from '../../app/context/ModalContext';
 import { useCurrentUser } from '../../app/api/User';
@@ -7,12 +7,22 @@ import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ErrorPage from '../../components/ErrorBoundary/ErrorPage';
 import { useAuth } from 'react-oidc-context';
+import { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import QueryKeysEnum from '../../app/api/queryKeys';
 
 function MainApp() {
   const { t } = useTranslation();
-  const { data: user, isError } = useCurrentUser();
+  const location = useLocation();
 
   const auth = useAuth();
+  const { data: user, isError } = useCurrentUser();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment]);
+  }, [location, queryClient]);
 
   const signOut = () => {
     auth.removeUser();
