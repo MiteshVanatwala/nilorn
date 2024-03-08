@@ -70,22 +70,19 @@ const PriceCalculationModal = ({
   const { close } = useContext(ModalContext);
 
   function submitForm(form: FieldValues) {
-    async function onSubmit(form: FieldValues): Promise<void> {
-      if (createNew) {
-        createCalculation(form, {
-          onSuccess: () => {
-            close();
-          },
-        });
-      } else {
-        updateCalculation(form, {
-          onSuccess: () => {
-            close();
-          },
-        });
-      }
+    if (createNew) {
+      createCalculation(form, {
+        onSuccess: () => {
+          close();
+        },
+      });
+    } else {
+      updateCalculation(form, {
+        onSuccess: () => {
+          close();
+        },
+      });
     }
-    onSubmit(form);
   }
 
   return (

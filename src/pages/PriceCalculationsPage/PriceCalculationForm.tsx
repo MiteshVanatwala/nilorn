@@ -13,10 +13,7 @@ import {
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
-import {
-  calculateCostWithValues,
-  calculateSalesPrice,
-} from './PriceGrid/PriceHelper';
+import { calculateCost, calculateSalesPrice } from './PriceGrid/PriceHelper';
 import { useWatch } from 'react-hook-form';
 import { MAX_MARGIN } from '../../app/utils/constant';
 
@@ -70,7 +67,7 @@ const PriceCalculationForm = ({
     : 0;
   const margin = marginValue ? Number(marginValue) : null;
   const currencyRate = currencyRateValue ? Number(currencyRateValue) : 1;
-  const internalCommision = internalCommisionValue
+  const internalCommission = internalCommisionValue
     ? Number(internalCommisionValue)
     : 0;
   const indirectCost = indirectCostValue ? Number(indirectCostValue) : 0;
@@ -78,11 +75,9 @@ const PriceCalculationForm = ({
   useEffect(() => {
     let updatedItems: PriceDto[] = [];
     calculationItems?.forEach(item => {
-      const updatedCost = calculateCostWithValues(
-        item.purchasePrice ?? undefined,
-        internalCommision,
-        currencyRate,
-        indirectCost
+      const updatedCost = calculateCost(
+        { price: item.purchasePrice },
+        { internalCommission, currencyRate, indirectCost }
       );
       const salesPrice = calculateSalesPrice(
         updatedCost ?? 0,
@@ -98,7 +93,7 @@ const PriceCalculationForm = ({
     });
     setCalculationItems(updatedItems ?? null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freightIncluded, margin, currencyRate, internalCommision, indirectCost]);
+  }, [freightIncluded, margin, currencyRate, internalCommission, indirectCost]);
 
   return (
     <>
