@@ -114,7 +114,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
         <Image
           mx={'auto'}
           maxW={1024}
-          width={1024}
+          width={'auto'}
           mb={SPACE.XL}
           src={`data:image/jpeg;base64,${pdImage}`}
         />
