@@ -71,7 +71,6 @@ export const useCreateCalculation = () => {
 export const usePatchCalculationSalesPrice = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
-  const queryClient = useQueryClient();
 
   return useMutation(
     (body: UpdateSalesPriceCommand) =>
@@ -80,8 +79,6 @@ export const usePatchCalculationSalesPrice = () => {
       ),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
-
         showToast({
           status: 'success',
           description: t('PriceCalc.Feedback.Success.UpdateRows'),

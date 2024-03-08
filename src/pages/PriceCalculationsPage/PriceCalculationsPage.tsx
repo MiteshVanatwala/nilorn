@@ -4,9 +4,18 @@ import FormuQuerySubmit from '../../components/Form/FormQuerySubmit';
 import ProductionsFilter from '../Productions/ProductionsFilter';
 import ContentPage from '../Templates/ContentPage';
 import PriceCalculationsTableContainer from './PriceCalculationsTableContainer';
+import { useQueryClient } from 'react-query';
+import { useEffect } from 'react';
+import QueryKeysEnum from '../../app/api/queryKeys';
 
 function PriceCalculationsPage() {
   const form = useForm();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
+  }, [queryClient]);
 
   return (
     <ContentPage>

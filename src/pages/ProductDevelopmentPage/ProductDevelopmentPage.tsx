@@ -7,6 +7,8 @@ import { Box } from '@chakra-ui/react';
 import NotFoundPage from '../NotFound/NotFoundPage';
 import { useCurrentUser } from '../../app/api/User';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
+import { useQueryClient } from 'react-query';
+import QueryKeysEnum from '../../app/api/queryKeys';
 
 type Props = {
   createNew: boolean;
@@ -14,6 +16,13 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { no } = useParams();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment]);
+  }, [queryClient]);
+
   const { data, isLoading, isError, isSuccess } = useProductDevelopment(
     no ?? ''
   );
