@@ -4,6 +4,7 @@ import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import { Input } from '@chakra-ui/react';
 import { calculateMargin, calculateSalesPrice } from './PriceHelper';
 import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
+import { MAX_MARGIN } from '../../../app/utils/constant';
 
 type Props = {
   enableEdit: boolean;
@@ -18,8 +19,6 @@ type Props = {
     salesPriceId: string
   ) => void;
 };
-
-const MAX_MARGIN = 99.99;
 
 const SalesPriceCalculation = ({
   price,
