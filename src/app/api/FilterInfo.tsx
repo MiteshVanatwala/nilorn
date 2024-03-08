@@ -10,9 +10,12 @@ import {
   VendorsService,
 } from '../generate';
 
-export function useClients(enable: boolean = true, filterByAccess: boolean = false) {
+export function useClients(
+  enable: boolean = true,
+  filterByAccess: boolean = false
+) {
   return useQuery(
-    [QueryKeysEnum.Clients],
+    [QueryKeysEnum.Clients, filterByAccess],
     () => ClientService.getApiClient(filterByAccess).then(res => res),
     {
       cacheTime: Infinity,

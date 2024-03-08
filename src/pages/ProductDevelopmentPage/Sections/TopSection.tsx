@@ -41,7 +41,10 @@ const TopSection = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const clientOptions = useFilterOptions(createNew ? 'clients' : undefined);
+  const clientOptions = useFilterOptions(
+    createNew ? 'clients' : undefined,
+    true
+  );
   const { getValues } = useFormContext();
   const clientNo = useWatch({ name: 'clientNo' });
   const pdName = useWatch({ name: 'name' });
