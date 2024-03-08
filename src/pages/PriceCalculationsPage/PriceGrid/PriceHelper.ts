@@ -89,3 +89,16 @@ export function calculateCost(
     (1 + calculation!.indirectCost / 100)
   );
 }
+
+export function calculateCostWithValues(
+  purchasePrice?: number,
+  internalCommission?: number,
+  currencyRate?: number,
+  indirectCost?: number
+): number | null {
+  const cost = calculateCost(
+    { price: purchasePrice },
+    { internalCommission, currencyRate, indirectCost }
+  );
+  return cost ? Number(cost.toFixed(3)) : null;
+}
