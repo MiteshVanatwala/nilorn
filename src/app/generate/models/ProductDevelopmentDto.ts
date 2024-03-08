@@ -12,7 +12,6 @@ export type ProductDevelopmentDto = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
-    status?: Status;
     projectCode?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
@@ -24,6 +23,7 @@ export type ProductDevelopmentDto = {
     targetSalesPrice?: string | null;
     freightIncluded?: number | null;
     no?: string | null;
+    status?: Status;
     thumbnailData?: string | null;
     artwork?: MediaFileDto;
     client?: string | null;

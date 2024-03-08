@@ -11,7 +11,6 @@ export type UpdateProductDevelopmentDto = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
-    status?: Status;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
     foldingTypeCode?: string | null;
@@ -24,4 +23,5 @@ export type UpdateProductDevelopmentDto = {
     projectCode?: string | null;
     sourcings?: Array<SourcingDto> | null;
     members?: Array<MemberBriefDto> | null;
+    status?: Status;
 };

@@ -6,6 +6,14 @@
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type CreateProductionCommand = {
+    currencyCode?: string | null;
+    released?: boolean;
+    moq?: number | null;
+    sampleCharge?: number | null;
+    toolCharge?: number | null;
+    sampleLeadTime?: number | null;
+    productionLeadTime?: number | null;
+    comment?: string | null;
     sourcingId?: string | null;
     vendorId?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;

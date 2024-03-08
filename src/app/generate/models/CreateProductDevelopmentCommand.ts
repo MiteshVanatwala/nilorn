@@ -4,13 +4,11 @@
 /* eslint-disable */
 
 import type { SourcingDto } from './SourcingDto';
-import type { Status } from './Status';
 
 export type CreateProductDevelopmentCommand = {
     name?: string | null;
     description?: string | null;
     itemNo?: string | null;
-    status?: Status;
     projectCode?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;
