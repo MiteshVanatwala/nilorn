@@ -68,7 +68,7 @@ function ProductDevelopmentForm({
     });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
-      allowedToedit
+      !allowedToedit
     ) {
       setDisableEdit(true);
     } else {
