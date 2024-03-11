@@ -19,7 +19,7 @@ type Props = {
 };
 
 const SourcingSection = ({ no, disableEdit }: Props) => {
-  const allowedToAddSourcing = useAuthorizedEdit('addSourcing');
+  const allowedToAdd = useAuthorizedEdit('addSourcing');
 
   const { t } = useTranslation();
 
@@ -83,7 +83,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
         }}>
         <>
           <Box minW={'20rem'}>
-            {!disableEdit && allowedToAddSourcing && (
+            {!disableEdit && allowedToAdd && (
               <AdvanceFilterSelect
                 name={'AddSourcing'}
                 placeholder={t('PD.AddSourcing')}
