@@ -44,8 +44,7 @@ function ProductDevelopmentForm({
     },
   });
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
-  const { isSubmitSuccessful } = form.formState;
-  const errors = form.formState.errors;
+  const { isSubmitSuccessful, errors, isValid } = form.formState;
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
@@ -83,20 +82,18 @@ function ProductDevelopmentForm({
   useEffect(() => {
     const errorKeys = Object.keys(errors) as Array<keyof ProductDevelopmentDto>;
     const firstError = errorKeys.find(key => !!errors[key]);
-    console.log('firstError', firstError);
+
     if (firstError) {
       form.setFocus(firstError);
-      // Wait for the next render cycle to ensure the focused element is rendered
-      setTimeout(() => {
-        const labelForInput = document.querySelector(
-          `label[for="${firstError}"]`
-        ) as HTMLElement | null;
-        if (labelForInput) {
-          labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 0);
+
+      const labelForInput = document.querySelector(
+        `label[for="${firstError}"]`
+      ) as HTMLElement | null;
+      if (labelForInput) {
+        labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
-  }, [form, errors, form.setFocus]);
+  }, [form, errors, isValid, form.setFocus]);
 
   return (
     <FormProvider {...form}>
