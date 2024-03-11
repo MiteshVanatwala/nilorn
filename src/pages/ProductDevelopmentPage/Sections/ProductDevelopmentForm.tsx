@@ -17,7 +17,10 @@ import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
-import { useAuthorized } from '../../../app/Permissions/usePremissions';
+import {
+  useAuthorizedSee,
+  useAuthorizedEdit,
+} from '../../../app/Permissions/usePremissions';
 
 type Props = {
   createNew: boolean;
@@ -32,9 +35,9 @@ function ProductDevelopmentForm({
   scrolledPast,
   no,
 }: Props) {
-  const showSourcing = useAuthorized('sourcing');
-  const allowedToUploadFiles = useAuthorized('uploadFile');
-  const allowedToEdit = useAuthorized('editProductDevelopment');
+  const showSourcing = useAuthorizedSee('sourcing');
+  const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
+  const allowedToEdit = useAuthorizedEdit('productDevelopment');
 
   const { data: user } = useCurrentUser();
 

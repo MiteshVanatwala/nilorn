@@ -14,14 +14,14 @@ import SIZES from '../../theme/Constants/sizes';
 import HeaderDivider from './HeaderDivider';
 import UserMenu from './UserMenu';
 import { GRID } from '../../theme/Constants';
-import { useAuthorized } from '../../app/Permissions/usePremissions';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import HeaderLink from './HeaderLink';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
 
-  const showProduction = useAuthorized('production');
-  const showCalculation = useAuthorized('calculation');
+  const showProduction = useAuthorizedSee('production');
+  const showCalculation = useAuthorizedSee('calculation');
 
   return (
     <Container

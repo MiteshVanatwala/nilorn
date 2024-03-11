@@ -10,7 +10,7 @@ import { SelectOption } from '../../../app/types/types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { SourcingDto } from '../../../app/generate';
 import SourcingForm from './SourcingForm';
-import { useAuthorized } from '../../../app/Permissions/usePremissions';
+import { useAuthorizedEdit } from '../../../app/Permissions/usePremissions';
 
 export const SOURCING_KEY = 'sourcings';
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const SourcingSection = ({ no, disableEdit }: Props) => {
-  const allowedToAddSourcing = useAuthorized('addSourcing');
+  const allowedToAddSourcing = useAuthorizedEdit('addSourcing');
 
   const { t } = useTranslation();
 
