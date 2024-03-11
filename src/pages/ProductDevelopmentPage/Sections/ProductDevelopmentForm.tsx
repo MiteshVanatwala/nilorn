@@ -34,7 +34,7 @@ function ProductDevelopmentForm({
 }: Props) {
   const showSourcing = useAuthorized('sourcing');
   const allowedToUploadFiles = useAuthorized('uploadFile');
-  const allowedToedit = useAuthorized('editProductDevelopment');
+  const allowedToEdit = useAuthorized('editProductDevelopment');
 
   const { data: user } = useCurrentUser();
 
@@ -64,13 +64,13 @@ function ProductDevelopmentForm({
     });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
-      !allowedToedit
+      !allowedToEdit
     ) {
       setDisableEdit(true);
     } else {
       setDisableEdit(false);
     }
-  }, [allowedToedit, defaultValues, form, user?.role]);
+  }, [allowedToEdit, defaultValues, form, user?.role]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
