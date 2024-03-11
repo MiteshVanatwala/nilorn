@@ -8,7 +8,7 @@ type Props = {
   role: string;
   even: boolean;
   disableEdit: boolean;
-  onRemove: () => void;
+  onRemove?: () => void;
 };
 export const Member = ({
   name,
@@ -48,15 +48,17 @@ export const Member = ({
       </GridItem>
       {!disableEdit && (
         <GridItem>
-          <Tooltip label={t('Common.Remove')}>
-            <IconButton
-              variant={'deleteIconBtn'}
-              aria-label={t('Common.Remove')}
-              icon={<i className={'ri-close-line'} />}
-              mr={0}
-              onClick={onRemove}
-            />
-          </Tooltip>
+          {onRemove && (
+            <Tooltip label={t('Common.Remove')}>
+              <IconButton
+                variant={'deleteIconBtn'}
+                aria-label={t('Common.Remove')}
+                icon={<i className={'ri-close-line'} />}
+                mr={0}
+                onClick={onRemove}
+              />
+            </Tooltip>
+          )}
         </GridItem>
       )}
     </Grid>

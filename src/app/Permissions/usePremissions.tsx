@@ -1,4 +1,5 @@
 import { useCurrentUser } from '../api/User';
+import { MemberBriefDto, Role } from '../generate';
 import {
   ROLES_ALLOWED_SEE_CALCULATION,
   ROLES_ALLOWED_SEE_PRODUCTION,
@@ -44,4 +45,22 @@ export function useAuthorizedEdit(
   }
 
   return false;
+}
+
+export function useAuthorizedRemoveUser() {
+  const { data: user } = useCurrentUser();
+
+  const removeUser = (member: MemberBriefDto) => {
+    if (user?.role === Role.PRODUCT_DEVELOPER) {
+      // TODO: code should be opcompcode
+      return (
+        member.role === Role.PRODUCT_DEVELOPER && user.code === member.code
+      );
+    } else if (user?.role && ROLES_ALLOWED_TO_EDIT_PD.includes(user?.role)) {
+      return true;
+    }
+    return false;
+  };
+
+  return removeUser;
 }
