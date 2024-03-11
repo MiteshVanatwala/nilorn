@@ -50,7 +50,7 @@ export function useAuthorizedEdit(
 export function useAuthorizedRemoveUser() {
   const { data: user } = useCurrentUser();
 
-  const removeUser = (member: MemberBriefDto) => {
+  const allowedToRemoveMember = (member: MemberBriefDto) => {
     if (user?.role === Role.PRODUCT_DEVELOPER) {
       // TODO: code should be opcompcode
       return (
@@ -62,5 +62,5 @@ export function useAuthorizedRemoveUser() {
     return false;
   };
 
-  return removeUser;
+  return allowedToRemoveMember;
 }
