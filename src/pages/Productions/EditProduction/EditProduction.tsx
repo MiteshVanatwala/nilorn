@@ -24,17 +24,17 @@ import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
+
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   createNew?: boolean;
   production?: ProductionDto;
 };
+
 const EditProduction = ({
   productDevelopment,
   sourcedProduction,
-  sourcingCoIndex,
   createNew,
   production,
 }: Props) => {

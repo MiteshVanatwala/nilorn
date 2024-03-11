@@ -59,7 +59,6 @@ const TableMenuProduction = ({
             <EditProduction
               productDevelopment={productDevelopment}
               sourcedProduction={sourcedProduction}
-              sourcingCoIndex={sourcingCoIndex}
               production={production}
             />
           )

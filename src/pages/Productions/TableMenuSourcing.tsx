@@ -30,7 +30,6 @@ const TableMenuSourcing = ({
           <EditProduction
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            sourcingCoIndex={sourcingCoIndex}
             createNew={true}
           />
         )

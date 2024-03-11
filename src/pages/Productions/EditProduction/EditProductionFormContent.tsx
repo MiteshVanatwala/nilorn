@@ -40,23 +40,16 @@ const EditProductionFormContent = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  let { data: vendors } = useGetVendors(!createNew);
-  let { data: currency } = useGetCurrencies();
+  const { data: vendors } = useGetVendors(!createNew);
+  const { data: currency } = useGetCurrencies();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
-  const [vendorOptions, setVendorOptions] = useState<SelectOption[]>([]);
   const newSelctedVendor = useWatch({ name: 'vendorId' });
   const { setValue } = useFormContext();
   const currencyCodeChangelog = useProductionsChangelog(
     'CurrencyCode',
     production?.id ?? ''
   );
-
-  useEffect(() => {
-    if (vendors) {
-      setVendorOptions(mapVendorsToOptions(vendors, true));
-    }
-  }, [vendors]);
 
   useEffect(() => {
     if (createNew && newSelctedVendor) {
@@ -71,18 +64,14 @@ const EditProductionFormContent = ({
     selectedVendor,
     vendors,
   ]);
+
   useEffect(() => {
     if (selectedVendor && createNew) {
       setValue('currencyCode', selectedVendor?.currencyCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedVendor]);
-  useEffect(() => {
-    if (createNew) {
-      setValue('released', false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createNew]);
+
   return (
     <Grid
       templateColumns={{
@@ -102,12 +91,20 @@ const EditProductionFormContent = ({
             md: GRID.TEMPLATE_COLUMNS.sm,
             lg: 'repeat(3, 1fr)',
           }}>
-          {createNew && (
+          {createNew && vendors?.length && (
             <GridItem maxW={'17.4rem'} colSpan={1}>
               <Select
                 registerOptions={{ required: true }}
                 label={t('Production.ChooseVendor')}
-                options={vendorOptions ?? []}
+                options={mapVendorsToOptions(
+                  vendors.filter(
+                    vendor =>
+                      !sourcedProduction.productions?.some(
+                        production => production.vendorId === vendor.id
+                      )
+                  ),
+                  true
+                )}
                 name={'vendorId'}
               />
             </GridItem>
@@ -216,7 +213,6 @@ const EditProductionFormContent = ({
             name={'sourcingId'}
             defaultValue={sourcedProduction?.sourcingId?.toString()}
           />
-          <InputField type="hidden" name={'released'} />
         </Grid>
       </GridItem>
       <GridItem
