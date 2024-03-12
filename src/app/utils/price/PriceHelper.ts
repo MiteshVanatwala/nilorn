@@ -1,4 +1,5 @@
 import { PriceCalculationDto } from '../../../app/generate';
+import { MAX_MARGIN } from '../constant';
 
 /**
  * Calculates the sales price based on cost, freight, and margin.
@@ -14,19 +15,12 @@ import { PriceCalculationDto } from '../../../app/generate';
  * @returns The calculated sales price as a decimal. Returns null if any of the input parameters are null.
  */
 export function calculateSalesPrice(
-  cost: number | null,
-  freightIncluded: number | null,
-  margin: number | null
-): number | null {
-  if (
-    cost === null ||
-    freightIncluded === null ||
-    margin === null ||
-    margin >= 100
-  ) {
-    return null;
-  }
-  return (cost + freightIncluded) * (100 / (100 - margin));
+  cost: number = 0,
+  freightIncluded: number = 0,
+  margin: number = 0
+): number {
+  const calcMargin = margin > 100 ? MAX_MARGIN : margin;
+  return (cost + freightIncluded) * (100 / (100 - calcMargin));
 }
 
 /**
@@ -42,19 +36,10 @@ export function calculateSalesPrice(
  * @returns The calculated margin as a decimal. Returns null if any of the input parameters are null.
  */
 export function calculateMargin(
-  salePrice: number | null,
-  cost: number | null,
-  freightIncluded: number | null
-): number | null {
-  if (
-    salePrice === 0 ||
-    salePrice === null ||
-    cost === null ||
-    freightIncluded === null
-  ) {
-    return null;
-  }
-
+  salePrice: number = 0,
+  cost: number = 0,
+  freightIncluded: number = 0
+): number {
   return ((salePrice - cost - freightIncluded) / salePrice) * 100;
 }
 
@@ -70,22 +55,19 @@ export function calculateMargin(
  * @returns The total calculated cost as a decimal. This includes base price, internal commission, currency rate adjustments, and indirect costs.
  */
 export function calculateCost(
-  purchasePrice: number | null,
+  purchasePrice: number = 0,
   calculation: PriceCalculationDto
 ): number | null {
-  if (
-    !purchasePrice ||
-    !calculation ||
-    typeof calculation.internalCommission !== 'number' ||
-    typeof calculation.currencyRate !== 'number' ||
-    typeof calculation.indirectCost !== 'number'
-  ) {
-    return null;
-  }
+  const internalCommission = calculation.internalCommission
+    ? calculation.internalCommission
+    : 0;
+  const currencyRate = calculation.currencyRate ? calculation.currencyRate : 1;
+  const indirectCost = calculation.indirectCost ? calculation.indirectCost : 0;
+
   return (
     purchasePrice *
-    (1 + calculation!.internalCommission / 100) *
-    calculation!.currencyRate *
-    (1 + calculation!.indirectCost / 100)
+    (1 + internalCommission / 100) *
+    currencyRate *
+    (1 + indirectCost / 100)
   );
 }

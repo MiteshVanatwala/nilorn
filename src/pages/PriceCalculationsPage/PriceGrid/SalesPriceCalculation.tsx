@@ -39,8 +39,8 @@ const SalesPriceCalculation = ({
     value = Math.min(value, max);
 
     const newSalesPrice = calculateSalesPrice(
-      price.cost ?? null,
-      calculation.freightIncluded ?? null,
+      price.cost ?? 0,
+      calculation.freightIncluded ?? 0,
       value
     );
     onCalculationChange(value, newSalesPrice ?? 0, salesPriceId);
@@ -54,8 +54,8 @@ const SalesPriceCalculation = ({
 
     const newMargin = calculateMargin(
       value,
-      price.cost ?? null,
-      calculation.freightIncluded ?? null
+      price.cost ?? 0,
+      calculation.freightIncluded ?? 0
     );
 
     onCalculationChange(newMargin ?? 0, value, salesPriceId);

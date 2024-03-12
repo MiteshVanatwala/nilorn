@@ -114,7 +114,13 @@ const PriceCalculationForm = ({
         <GridItem colSpan={2}>
           <InputField
             type="decimal"
-            registerOptions={{ valueAsNumber: true }}
+            registerOptions={{
+              valueAsNumber: true,
+              min: {
+                value: 0,
+                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
+              },
+            }}
             readonly={disableEdit}
             label={`${
               t('PriceCalc.InternalCommission') + t('PriceCalc.Percentage')
@@ -122,17 +128,25 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             name={'internalCommission'}
             changelog={internalCommissionChangelog}
+            min={0}
           />
         </GridItem>
         <GridItem colSpan={2}>
           <InputField
             type="decimal"
-            registerOptions={{ valueAsNumber: true }}
+            registerOptions={{
+              valueAsNumber: true,
+              min: {
+                value: 0,
+                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
+              },
+            }}
             readonly={disableEdit}
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'indirectCost'}
             changelog={indirectCostChangelog}
+            min={0}
           />
         </GridItem>
         <GridItem colSpan={2}>

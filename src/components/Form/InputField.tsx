@@ -11,6 +11,7 @@ interface Props extends FormInputProps {
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   readonly?: boolean;
   max?: number;
+  min?: number;
 }
 
 const InputField = ({
@@ -26,6 +27,7 @@ const InputField = ({
   changelog,
   readonly = false,
   max,
+  min,
 }: Props) => {
   const {
     register,
@@ -49,6 +51,7 @@ const InputField = ({
         defaultValue={defaultValue}
         placeholder={placeholder}
         max={max}
+        min={min}
         step={type === 'decimal' ? '0.000000000000000001' : ''}
         type={type === 'decimal' ? 'number' : type}
         cursor={readonly ? 'default' : 'text'}
