@@ -49,6 +49,11 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
+  function removeMember(indexToRemove: number) {
+    remove(indexToRemove);
+    const membersLeft = selected.filter((_, j) => j !== indexToRemove);
+    setSelected(membersLeft);
+  }
 
   const memberGrid = useMemo(() => {
     const grids = [];
@@ -69,13 +74,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                 disableEdit={disableEdit}
                 onRemove={
                   allowedToRemoveMember(member)
-                    ? () => {
-                        remove(indexToRemove);
-                        const myArray = selected.filter(
-                          (_, j) => j !== indexToRemove
-                        );
-                        setSelected(myArray);
-                      }
+                    ? () => removeMember(indexToRemove)
                     : undefined
                 }
               />
