@@ -1,5 +1,4 @@
 import { PriceCalculationDto } from '../../../app/generate';
-import { MAX_MARGIN } from '../constant';
 
 /**
  * Calculates the sales price based on cost, freight, and margin.
@@ -19,8 +18,7 @@ export function calculateSalesPrice(
   freightIncluded: number = 0,
   margin: number = 0
 ): number {
-  const calcMargin = margin > 100 ? MAX_MARGIN : margin;
-  return (cost + freightIncluded) * (100 / (100 - calcMargin));
+  return (cost + freightIncluded) * (100 / (100 - margin));
 }
 
 /**
@@ -58,11 +56,9 @@ export function calculateCost(
   purchasePrice: number = 0,
   calculation: PriceCalculationDto
 ): number | null {
-  const internalCommission = calculation.internalCommission
-    ? calculation.internalCommission
-    : 0;
-  const currencyRate = calculation.currencyRate ? calculation.currencyRate : 1;
-  const indirectCost = calculation.indirectCost ? calculation.indirectCost : 0;
+  const internalCommission = calculation.internalCommission ?? 0;
+  const currencyRate = calculation.currencyRate ?? 1;
+  const indirectCost = calculation.indirectCost ?? 0;
 
   return (
     purchasePrice *

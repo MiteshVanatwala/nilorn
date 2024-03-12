@@ -74,7 +74,7 @@ export const dataCalculateSalesPrice = [
     cost: 0.2761115,
     freightIncluded: 0.0,
     margin: 100,
-    expectedSalesPrice: null,
+    expectedSalesPrice: Infinity,
   },
   {
     testCase: 'Example 8',
@@ -85,7 +85,7 @@ export const dataCalculateSalesPrice = [
     cost: 0.2761115,
     freightIncluded: 0.0,
     margin: 150,
-    expectedSalesPrice: null, // -0.552223,
+    expectedSalesPrice: -0.552223,
   },
   {
     testCase: 'Example 9', // Negative margin
@@ -198,7 +198,7 @@ export const dataCalculateMargin = [
     cost: 0.32581,
     freightIncluded: 0.0,
     salesPrice: 0.0,
-    expectedMargin: null,
+    expectedMargin: -Infinity,
   },
   {
     testCase: 'Example 9',
