@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
 import { useAuthorized } from '../../../app/Permissions/usePremissions';
+import { scrollNameIntoView } from '../../../app/utils/common';
 
 type Props = {
   createNew: boolean;
@@ -92,12 +93,7 @@ function ProductDevelopmentForm({
       form.setFocus(firstError);
       // Wait for the next render cycle to ensure the focused element is rendered
       setTimeout(() => {
-        const labelForInput = document.querySelector(
-          `label[for="${firstError}"]`
-        ) as HTMLElement | null;
-        if (labelForInput) {
-          labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        scrollNameIntoView(firstError);
       }, 0);
     }
   }, [form, errors, form.setFocus]);

@@ -16,3 +16,12 @@ export function uniqueInArray(value: number, index: number, values: any[]) {
   const filteredValues = values.filter((_, i: number) => i !== index);
   return !filteredValues.includes(value);
 }
+
+export function scrollNameIntoView(name: string) {
+  const labelForInput = document.querySelector(
+    `label[for="${name}"]`
+  ) as HTMLElement | null;
+  if (labelForInput) {
+    labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
