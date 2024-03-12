@@ -9,4 +9,5 @@ export type MemberBriefDto = {
     code?: string | null;
     name?: string | null;
     role?: Role;
+    opCompCode?: string | null;
 };

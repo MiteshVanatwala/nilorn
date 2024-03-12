@@ -9,6 +9,7 @@ import type { Role } from './Role';
 export type MemberDto = {
     code?: string | null;
     name?: string | null;
+    opCompCode?: string | null;
     opComp?: OpCompDto;
     email?: string | null;
     username?: string | null;
