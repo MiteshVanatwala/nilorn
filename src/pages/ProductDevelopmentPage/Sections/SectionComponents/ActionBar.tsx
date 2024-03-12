@@ -17,6 +17,7 @@ import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Perm
 import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 import { NavLink } from 'react-router-dom';
 import { useAuthorized } from '../../../../app/Permissions/usePremissions';
+import { scrollNameIntoView } from '../../../../app/utils/common';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -44,6 +45,11 @@ const ActionBar = ({
   const { onLeavePage } = useUnsavedChanges();
 
   async function submitStatus(newStatus: Status): Promise<void> {
+    const errorKeys = Object.keys(formState.errors);
+    if (errorKeys?.length) {
+      scrollNameIntoView(errorKeys[0]);
+      return;
+    }
     if (currentStatus === newStatus) {
       return;
     }
