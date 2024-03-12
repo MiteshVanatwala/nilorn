@@ -16,3 +16,10 @@ export function uniqueInArray(value: number, index: number, values: any[]) {
   const filteredValues = values.filter((_, i: number) => i !== index);
   return !filteredValues.includes(value);
 }
+
+export function scrollSelectorIntoView(selector: string) {
+  const element = document.querySelector(selector) as HTMLElement | null;
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
