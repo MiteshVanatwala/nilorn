@@ -13,9 +13,12 @@ import {
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
-import { calculateCost, calculateSalesPrice } from './PriceGrid/PriceHelper';
 import { useWatch } from 'react-hook-form';
 import { MAX_MARGIN } from '../../app/utils/constant';
+import {
+  calculateCost,
+  calculateSalesPrice,
+} from '../../app/utils/price/PriceHelper';
 
 type Props = {
   disableEdit?: boolean;
@@ -75,10 +78,11 @@ const PriceCalculationForm = ({
   useEffect(() => {
     let updatedItems: PriceDto[] = [];
     calculationItems?.forEach(item => {
-      const updatedCost = calculateCost(
-        { price: item.purchasePrice },
-        { internalCommission, currencyRate, indirectCost }
-      );
+      const updatedCost = calculateCost(item.purchasePrice ?? 0, {
+        internalCommission,
+        currencyRate,
+        indirectCost,
+      });
       const salesPrice = calculateSalesPrice(
         updatedCost ?? 0,
         freightIncluded,
