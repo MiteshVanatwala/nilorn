@@ -12,6 +12,7 @@ export type TBodyRowProps<Data extends object> = {
   groupColor?: string;
   messages?: string[];
   isDisabled?: boolean;
+  id?: string;
 };
 
 export function TBodyRow<Data extends object>({
@@ -19,10 +20,12 @@ export function TBodyRow<Data extends object>({
   bgColor,
   onClick,
   hoverBgColor,
+  id,
 }: TBodyRowProps<Data>) {
   const tRow = useMemo(() => {
     return (
       <Tr
+        id={id}
         pointerEvents={'auto'}
         bgColor={bgColor}
         onClick={e => onClick && onClick(e)}

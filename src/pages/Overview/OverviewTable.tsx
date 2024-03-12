@@ -31,12 +31,16 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       sorting: sortState,
     },
   });
-  const handleClick = (e: MouseEvent<HTMLTableRowElement>, url: string) => {
+  const handleClick = (
+    e: MouseEvent<HTMLTableRowElement>,
+    url: string,
+    id: string
+  ) => {
     e.stopPropagation();
 
     sessionStorage.setItem(
       'backLink',
-      window.location.pathname + window.location.search
+      window.location.pathname + window.location.search + id ? `#${id}` : ''
     );
     sessionStorage.setItem('prevFilterOverview', window.location.search);
 
@@ -52,12 +56,14 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       <Tbody>
         {table.getRowModel().rows.map((row, i) => {
           const bgColor = i % 2 === 0 ? COLORS.WHITE : COLORS.GRAY[5];
+          const rowNo = row.original.no ?? '';
           return (
             <TBodyRow
               row={row}
+              id={rowNo}
               bgColor={bgColor}
               onClick={e =>
-                handleClick(e, `product-development/${row.original.no}`)
+                handleClick(e, `product-development/${row.original.no}`, rowNo)
               }
               key={i}
             />
