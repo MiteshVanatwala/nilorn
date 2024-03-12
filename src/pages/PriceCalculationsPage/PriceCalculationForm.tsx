@@ -147,7 +147,6 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          {/** TODO Validate max 99.99 */}
           <InputField
             registerOptions={{
               valueAsNumber: true,

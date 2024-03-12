@@ -70,7 +70,6 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                 onRemove={
                   allowedToRemoveMember(member)
                     ? () => {
-                        // TODO: code should be opcompcode
                         remove(indexToRemove);
                         const myArray = selected.filter(
                           (_, j) => j !== indexToRemove
