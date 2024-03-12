@@ -39,6 +39,7 @@ function ProductDevelopmentForm({
   const { data: user } = useCurrentUser();
 
   const form = useForm<ProductDevelopmentDto>({
+    mode: 'onChange',
     defaultValues: {
       ...defaultValues,
     },
