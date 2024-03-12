@@ -54,6 +54,7 @@ const EditProductionFormContent = ({
   useEffect(() => {
     if (createNew && newSelctedVendor) {
       setSelectedVendor(vendors?.find(co => co.id === newSelctedVendor));
+      setValue('currencyCode', selectedVendor?.currencyCode);
     } else {
       setSelectedVendor(vendors?.find(co => co.id === production?.vendorId));
     }
@@ -62,15 +63,9 @@ const EditProductionFormContent = ({
     newSelctedVendor,
     production?.vendorId,
     selectedVendor,
+    setValue,
     vendors,
   ]);
-
-  useEffect(() => {
-    if (selectedVendor && createNew) {
-      setValue('currencyCode', selectedVendor?.currencyCode);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedVendor]);
 
   return (
     <Grid
