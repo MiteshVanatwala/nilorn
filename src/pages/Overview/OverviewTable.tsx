@@ -37,13 +37,11 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     id: string
   ) => {
     e.stopPropagation();
-
-    sessionStorage.setItem(
-      'backLink',
-      window.location.pathname + window.location.search + id ? `#${id}` : ''
-    );
+    const path = window.location.pathname ?? '/';
+    const search = window.location.search;
+    const hash = id ? `#${id}` : '';
+    sessionStorage.setItem('backLink', path + search + hash);
     sessionStorage.setItem('prevFilterOverview', window.location.search);
-
     navigate(url);
   };
   return (
