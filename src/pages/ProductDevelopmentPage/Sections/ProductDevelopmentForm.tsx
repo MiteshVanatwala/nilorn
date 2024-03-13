@@ -17,6 +17,7 @@ import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
+import { scrollNameIntoView } from '../../../app/utils/common';
 import {
   useAuthorizedSee,
   useAuthorizedEdit,
@@ -42,6 +43,7 @@ function ProductDevelopmentForm({
   const { data: user } = useCurrentUser();
 
   const form = useForm<ProductDevelopmentDto>({
+    mode: 'onChange',
     defaultValues: {
       ...defaultValues,
     },
@@ -89,12 +91,7 @@ function ProductDevelopmentForm({
     if (firstError) {
       form.setFocus(firstError);
 
-      const labelForInput = document.querySelector(
-        `label[for="${firstError}"]`
-      ) as HTMLElement | null;
-      if (labelForInput) {
-        labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      scrollNameIntoView(firstError);
     }
   }, [form, errors, isValid, form.setFocus]);
 

@@ -17,6 +17,15 @@ export function uniqueInArray(value: number, index: number, values: any[]) {
   return !filteredValues.includes(value);
 }
 
+export function scrollNameIntoView(name: string) {
+  const labelForInput = document.querySelector(
+    `label[for="${name}"]`
+  ) as HTMLElement | null;
+  if (labelForInput) {
+    labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
 export function scrollSelectorIntoView(selector: string) {
   const element = document.querySelector(selector) as HTMLElement | null;
   if (element) {
