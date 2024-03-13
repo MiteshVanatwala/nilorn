@@ -39,8 +39,8 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
-    const hash = id ? `#${id}` : '';
-    sessionStorage.setItem('backLink', path + search + hash);
+    const anchor = id ? `#${id}` : '';
+    sessionStorage.setItem('backLink', path + search + anchor);
     sessionStorage.setItem('prevFilterOverview', window.location.search);
     navigate(url);
   };
