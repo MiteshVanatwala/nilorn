@@ -5,10 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { getCurrentStoredFilter } from './FilterHelper';
 
 const ClearAllFilters = () => {
-  const { reset } = useFormContext();
+  const { reset, getValues } = useFormContext();
   const { t } = useTranslation();
 
   const handleClick = () => {
+    const pageNumber = getValues('pageNumber');
+    const pageSize = getValues('pageSize');
+    const searchQuery = '';
+    reset({ pageNumber, pageSize, searchQuery });
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
   };
@@ -28,10 +32,7 @@ const ClearAllFilters = () => {
       _active={{
         backgroundColor: 'transparent',
       }}
-      onClick={() => {
-        reset();
-        handleClick();
-      }}>
+      onClick={handleClick}>
       {t('Filter.Clear')}
     </Button>
   );
