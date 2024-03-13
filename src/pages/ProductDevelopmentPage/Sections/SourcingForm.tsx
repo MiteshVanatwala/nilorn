@@ -10,7 +10,10 @@ import ArrowLink from '../../../components/Link/ArrowLink';
 import { useFormContext } from 'react-hook-form';
 import { useProductDevelopment } from '../../../app/api/productDevelopment';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
-import { useAuthorized } from '../../../app/Permissions/usePremissions';
+import {
+  useAuthorizedEdit,
+  useAuthorizedSee,
+} from '../../../app/Permissions/usePremissions';
 
 type Props = {
   no: string;
@@ -28,7 +31,9 @@ const SourcingForm = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorized('calculation');
+  const showCalculation = useAuthorizedSee('calculation');
+  const allowedToRemove = useAuthorizedEdit('removeSourcing');
+
   const { data: connectedProductions } = useProductions(
     no,
     sourcingCompanyCode
@@ -72,7 +77,7 @@ const SourcingForm = ({
             }}
           />
 
-          {!disableEdit && !connectedProductions?.length && (
+          {!disableEdit && !connectedProductions?.length && allowedToRemove && (
             <Button
               mt={SPACE}
               variant={'secondarySmall'}

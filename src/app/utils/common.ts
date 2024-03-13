@@ -25,3 +25,10 @@ export function scrollNameIntoView(name: string) {
     labelForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
+
+export function scrollSelectorIntoView(selector: string) {
+  const element = document.querySelector(selector) as HTMLElement | null;
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}

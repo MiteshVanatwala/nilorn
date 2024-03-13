@@ -17,8 +17,11 @@ import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
 import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
-import { useAuthorized } from '../../../app/Permissions/usePremissions';
 import { scrollNameIntoView } from '../../../app/utils/common';
+import {
+  useAuthorizedSee,
+  useAuthorizedEdit,
+} from '../../../app/Permissions/usePremissions';
 
 type Props = {
   createNew: boolean;
@@ -33,9 +36,9 @@ function ProductDevelopmentForm({
   scrolledPast,
   no,
 }: Props) {
-  const showSourcing = useAuthorized('sourcing');
-  const allowedToUploadFiles = useAuthorized('uploadFile');
-  const allowedToedit = useAuthorized('editProductDevelopment');
+  const showSourcing = useAuthorizedSee('sourcing');
+  const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
+  const allowedToEdit = useAuthorizedEdit('productDevelopment');
 
   const { data: user } = useCurrentUser();
 
@@ -46,21 +49,17 @@ function ProductDevelopmentForm({
     },
   });
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
-  const { isSubmitSuccessful } = form.formState;
-  const errors = form.formState.errors;
+  const { isSubmitSuccessful, errors, isValid } = form.formState;
 
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
 
-  function submitForm(form: FieldValues) {
-    async function onSubmit(form: FieldValues): Promise<void> {
-      if (createNew) {
-        createProductDevelopment(form);
-      } else {
-        updateProductDevelopment(form);
-      }
+  function onSubmit(form: FieldValues) {
+    if (createNew) {
+      createProductDevelopment(form);
+    } else {
+      updateProductDevelopment(form);
     }
-    onSubmit(form);
   }
 
   useEffect(() => {
@@ -70,13 +69,13 @@ function ProductDevelopmentForm({
     });
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
-      !allowedToedit
+      !allowedToEdit
     ) {
       setDisableEdit(true);
     } else {
       setDisableEdit(false);
     }
-  }, [allowedToedit, defaultValues, form, user?.role]);
+  }, [allowedToEdit, defaultValues, form, user?.role]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -88,19 +87,17 @@ function ProductDevelopmentForm({
   useEffect(() => {
     const errorKeys = Object.keys(errors) as Array<keyof ProductDevelopmentDto>;
     const firstError = errorKeys.find(key => !!errors[key]);
-    console.log('firstError', firstError);
+
     if (firstError) {
       form.setFocus(firstError);
-      // Wait for the next render cycle to ensure the focused element is rendered
-      setTimeout(() => {
-        scrollNameIntoView(firstError);
-      }, 0);
+
+      scrollNameIntoView(firstError);
     }
-  }, [form, errors, form.setFocus]);
+  }, [form, errors, isValid, form.setFocus]);
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(submitForm)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <TopSection
           disableEdit={disableEdit}
           createNew={createNew}

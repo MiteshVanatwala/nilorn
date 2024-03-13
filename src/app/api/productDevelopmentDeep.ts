@@ -3,7 +3,10 @@ import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper'
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 
-export function useProductDevelopmentDeepFilter(includeCalculations: boolean) {
+export function useProductDevelopmentDeepFilter(
+  includeCalculations: boolean,
+  keepPreviousData: boolean = true
+) {
   const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));
   const currentPageSize = Number(useFilterFormSearchParams('pageSize'));
   const pageNumber =
@@ -43,7 +46,7 @@ export function useProductDevelopmentDeepFilter(includeCalculations: boolean) {
       ).then(res => res),
     {
       retry: 0,
-      keepPreviousData: true,
+      keepPreviousData: keepPreviousData,
       refetchOnWindowFocus: false,
       cacheTime: 1000 * 20,
       staleTime: 1000 * 20,

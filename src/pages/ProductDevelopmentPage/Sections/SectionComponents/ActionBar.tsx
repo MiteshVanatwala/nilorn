@@ -16,8 +16,8 @@ import { useCurrentUser } from '../../../../app/api/User';
 import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Permissions';
 import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 import { NavLink } from 'react-router-dom';
-import { useAuthorized } from '../../../../app/Permissions/usePremissions';
 import { scrollNameIntoView } from '../../../../app/utils/common';
+import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -33,7 +33,7 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorized('calculation');
+  const showCalculation = useAuthorizedSee('calculation');
   const artwork = useWatch({ name: 'artwork' });
   const { getValues, formState, trigger, register } = useFormContext();
   const { statuses } = useStatusOptions();

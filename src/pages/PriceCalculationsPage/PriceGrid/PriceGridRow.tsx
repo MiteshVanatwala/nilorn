@@ -44,7 +44,7 @@ function PriceGridRow({
   const [calculation, setCalculation] = useState<
     PriceCalculationDto | undefined
   >(
-    production?.priceCalculations && production?.priceCalculations?.length > 0
+    production?.priceCalculations?.length
       ? production?.priceCalculations[0]
       : undefined
   );
@@ -95,7 +95,7 @@ function PriceGridRow({
     });
   };
 
-  const onInlineCahnge = (
+  const onInlineChange = (
     newMargin: number,
     newSalesPrice: number,
     salesPriceId: string
@@ -212,7 +212,7 @@ function PriceGridRow({
                 {!!calculation ? (
                   <SalesPriceCalculationForm
                     priceData={formData}
-                    onCalculationChange={onInlineCahnge}
+                    onCalculationChange={onInlineChange}
                     enableEdit={enableEdit}
                     calculation={calculation}
                   />

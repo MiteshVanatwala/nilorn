@@ -243,7 +243,8 @@
       "Error": {
         "Create": "Failed to create new calculation",
         "Update": "Failed to update calculation",
-        "UpdateRows": "Failed to update Margin and sales"
+        "UpdateRows": "Failed to update Margin and sales",
+        "MarginTooHigh": "Margin can be maximum 99.99"
       }
     }
   },

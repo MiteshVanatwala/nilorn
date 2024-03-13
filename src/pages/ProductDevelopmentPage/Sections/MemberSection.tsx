@@ -12,6 +12,7 @@ import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
 import { useMemo, useState } from 'react';
 import { MemberBriefDto } from '../../../app/generate';
+import { useAuthorizedRemoveUser } from '../../../app/Permissions/usePremissions';
 type Props = {
   no: string;
   createNew?: boolean;
@@ -22,6 +23,8 @@ const FORM_KEY: keyof ProductDevelopmentDto = 'members';
 
 const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   const { t } = useTranslation();
+
+  const allowedToRemoveMember = useAuthorizedRemoveUser();
 
   const { control } = useFormContext();
 
@@ -46,6 +49,11 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
+  function removeMember(indexToRemove: number) {
+    remove(indexToRemove);
+    const membersLeft = selected.filter((_, j) => j !== indexToRemove);
+    setSelected(membersLeft);
+  }
 
   const memberGrid = useMemo(() => {
     const grids = [];
@@ -64,13 +72,11 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                 code={member?.code ?? ''}
                 role={member?.role ?? ''}
                 disableEdit={disableEdit}
-                onRemove={() => {
-                  remove(indexToRemove);
-                  const myArray = selected.filter(
-                    (_, j) => j !== indexToRemove
-                  );
-                  setSelected(myArray);
-                }}
+                onRemove={
+                  allowedToRemoveMember(member)
+                    ? () => removeMember(indexToRemove)
+                    : undefined
+                }
               />
             );
           })}
@@ -78,7 +84,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       );
     }
     return grids;
-  }, [disableEdit, fields, remove, selected]);
+  }, [disableEdit, fields, remove, allowedToRemoveMember, selected]);
 
   return (
     <AccordionItem title={t('PD.AccordionLabels.Members')}>

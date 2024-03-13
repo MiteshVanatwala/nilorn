@@ -1,4 +1,4 @@
-import { PriceCalculationDto, PurchasePriceDto } from '../../../app/generate';
+import { PriceCalculationDto } from '../../../app/generate';
 
 /**
  * Calculates the sales price based on cost, freight, and margin.
@@ -26,7 +26,7 @@ export function calculateSalesPrice(
   ) {
     return null;
   }
-  return (cost + freightIncluded) / ((100 - margin) / 100);
+  return (cost + freightIncluded) * (100 / (100 - margin));
 }
 
 /**
@@ -64,18 +64,17 @@ export function calculateMargin(
  * This method calculates the total cost by applying currency rate adjustments
  * and adding internal commission and indirect costs to the base price.
  * The indirect cost is treated as a percentage of the total cost (e.g., 5 for 5%).
- * It's important that both input parameters are not null, or the method will throw a NullReferenceException.
+ * It's important that all input parameters are not null, or the method will retrun null.
  * @param purchasePrice The PurchasePrice object containing base price details.
  * @param calculation The PriceCalculation object containing additional cost factors.
  * @returns The total calculated cost as a decimal. This includes base price, internal commission, currency rate adjustments, and indirect costs.
  */
 export function calculateCost(
-  purchasePrice: PurchasePriceDto,
+  purchasePrice: number | null,
   calculation: PriceCalculationDto
 ): number | null {
   if (
     !purchasePrice ||
-    typeof purchasePrice.price !== 'number' ||
     !calculation ||
     typeof calculation.internalCommission !== 'number' ||
     typeof calculation.currencyRate !== 'number' ||
@@ -84,7 +83,8 @@ export function calculateCost(
     return null;
   }
   return (
-    (purchasePrice!.price + calculation!.internalCommission) *
+    purchasePrice *
+    (1 + calculation!.internalCommission / 100) *
     calculation!.currencyRate *
     (1 + calculation!.indirectCost / 100)
   );

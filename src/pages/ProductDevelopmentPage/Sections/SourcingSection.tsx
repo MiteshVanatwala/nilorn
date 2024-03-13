@@ -10,6 +10,7 @@ import { SelectOption } from '../../../app/types/types';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { SourcingDto } from '../../../app/generate';
 import SourcingForm from './SourcingForm';
+import { useAuthorizedEdit } from '../../../app/Permissions/usePremissions';
 
 export const SOURCING_KEY = 'sourcings';
 type Props = {
@@ -18,6 +19,8 @@ type Props = {
 };
 
 const SourcingSection = ({ no, disableEdit }: Props) => {
+  const allowedToAdd = useAuthorizedEdit('addSourcing');
+
   const { t } = useTranslation();
 
   const { getValues, control } = useFormContext();
@@ -80,7 +83,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
         }}>
         <>
           <Box minW={'20rem'}>
-            {!disableEdit && (
+            {!disableEdit && allowedToAdd && (
               <AdvanceFilterSelect
                 name={'AddSourcing'}
                 placeholder={t('PD.AddSourcing')}

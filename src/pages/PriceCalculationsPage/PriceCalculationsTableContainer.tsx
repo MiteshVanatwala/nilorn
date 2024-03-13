@@ -11,7 +11,7 @@ function PriceCalculationsTableContainer() {
   const { t } = useTranslation();
 
   const { data, isError, isLoading, isFetching } =
-    useProductDevelopmentDeepFilter(true);
+    useProductDevelopmentDeepFilter(true, false);
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
