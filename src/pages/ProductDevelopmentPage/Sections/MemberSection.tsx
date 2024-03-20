@@ -49,13 +49,14 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       append(selectedOption[selectedOption.length - 1].value);
     }
   }
-  function removeMember(indexToRemove: number) {
-    remove(indexToRemove);
-    const membersLeft = selected.filter((_, j) => j !== indexToRemove);
-    setSelected(membersLeft);
-  }
 
   const memberGrid = useMemo(() => {
+    function removeMember(indexToRemove: number) {
+      remove(indexToRemove);
+      const membersLeft = selected.filter((_, j) => j !== indexToRemove);
+      setSelected(membersLeft);
+    }
+
     const grids = [];
     for (let i = 0; i < fields.length; i += 6) {
       const sixMembers = fields.slice(i, i + 6) as MemberBriefDto[];
@@ -84,7 +85,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
       );
     }
     return grids;
-  }, [disableEdit, fields, remove, allowedToRemoveMember, selected]);
+  }, [remove, selected, fields, disableEdit, allowedToRemoveMember]);
 
   return (
     <AccordionItem title={t('PD.AccordionLabels.Members')}>

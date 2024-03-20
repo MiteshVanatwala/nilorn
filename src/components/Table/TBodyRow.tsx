@@ -43,7 +43,7 @@ export function TBodyRow<Data extends object>({
         })}
       </Tr>
     );
-  }, [row, bgColor, hoverBgColor, onClick]);
+  }, [id, bgColor, onClick, hoverBgColor, row]);
 
   return tRow;
 }

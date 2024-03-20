@@ -22,6 +22,7 @@ import {
   useAuthorizedSee,
   useAuthorizedEdit,
 } from '../../../app/Permissions/usePremissions';
+import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   createNew: boolean;
@@ -48,6 +49,9 @@ function ProductDevelopmentForm({
       ...defaultValues,
     },
   });
+
+  const { setUnsavedChanges } = useUnsavedChanges();
+
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
   const { isSubmitSuccessful, errors, isValid } = form.formState;
 
@@ -94,6 +98,10 @@ function ProductDevelopmentForm({
       scrollNameIntoView(firstError);
     }
   }, [form, errors, isValid, form.setFocus]);
+
+  useEffect(() => {
+    setUnsavedChanges(form.formState.isDirty);
+  }, [form.formState.isDirty, setUnsavedChanges]);
 
   return (
     <FormProvider {...form}>

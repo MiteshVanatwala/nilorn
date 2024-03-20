@@ -1,9 +1,9 @@
 import { Link as LinkComponent } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
 import { getCurrentStoredFilter } from '../Filter/FilterHelper';
+import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 
 interface Props {
   title?: string | JSX.Element;
@@ -18,7 +18,7 @@ const HeaderLink: FC<Props> = ({
   clickedStoredFilter,
   variant = 'headerLink',
 }) => {
-  const navigate = useNavigate();
+  const { onLeavePage } = useUnsavedChanges();
 
   const handleClick = (url: string, clickedStoredFilter: string) => {
     const storedFilter = getCurrentStoredFilter();
@@ -27,8 +27,9 @@ const HeaderLink: FC<Props> = ({
     const prevFilter =
       sessionStorage.getItem(clickedStoredFilter) ??
       '?pageSize=25&pageNumber=1';
+
     const newUrl = url + prevFilter;
-    navigate(newUrl);
+    onLeavePage(newUrl);
   };
 
   return (

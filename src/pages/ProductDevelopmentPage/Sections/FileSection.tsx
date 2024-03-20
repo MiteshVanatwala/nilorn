@@ -10,6 +10,7 @@ import { ARTWORK } from './AttachmentSection';
 import { useToast } from '../../../app/hooks/useToast';
 import { useUpdateProductDevelopmentWithStatus } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
+import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -32,12 +33,13 @@ const FileSection = ({
   type,
   defaultValue = [],
 }: Props) => {
-  const { setValue, formState, trigger, getValues } = useFormContext();
+  const { setValue, trigger, getValues } = useFormContext();
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
   const { t } = useTranslation();
   const currentStatus = getValues('status') as Status;
+  const { hasUnsavedChanges } = useUnsavedChanges();
 
   const { mutateAsync } = useUploadFile(no, type);
   const { showToast } = useToast();
@@ -94,7 +96,7 @@ const FileSection = ({
     if (currentStatus === status) {
       return;
     }
-    if (formState.isDirty) {
+    if (hasUnsavedChanges()) {
       showToast({
         status: 'info',
         description: t('PD.Feedback.Info.NeedToSave'),

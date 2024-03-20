@@ -1,19 +1,23 @@
-import { useFormContext } from 'react-hook-form';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { useContext } from 'react';
 import { ModalContext } from '../context/ModalContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
+const IS_DIRTY = 'isDirty';
+
 export function useUnsavedChanges() {
   const { t } = useTranslation();
   const { handleModal, close } = useContext(ModalContext);
-  const { reset, formState } = useFormContext();
   const navigate = useNavigate();
+
+  function setUnsavedChanges(isDirty: boolean) {
+    sessionStorage.setItem(IS_DIRTY, isDirty.toString());
+  }
 
   function discardChanges(to: string) {
     navigate(to);
-    reset();
+    setUnsavedChanges(false);
     close();
   }
 
@@ -30,12 +34,20 @@ export function useUnsavedChanges() {
   }
 
   function onLeavePage(path: string) {
-    if (formState.isDirty) {
+    if (sessionStorage.getItem(IS_DIRTY) === 'true') {
       return openModal(`${path}`);
     }
-
-    return undefined;
+    setUnsavedChanges(false);
+    return navigate(path);
   }
 
-  return { onLeavePage };
+  function hasUnsavedChanges() {
+    return sessionStorage.getItem(IS_DIRTY) === 'true';
+  }
+
+  return {
+    onLeavePage,
+    hasUnsavedChanges,
+    setUnsavedChanges,
+  };
 }

@@ -34,18 +34,26 @@ const ActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
+
+  const {
+    getValues,
+    formState: { errors, defaultValues },
+    trigger,
+    register,
+  } = useFormContext();
+  const { onLeavePage, hasUnsavedChanges } = useUnsavedChanges();
+
   const artwork = useWatch({ name: 'artwork' });
-  const { getValues, formState, trigger, register } = useFormContext();
   const { statuses } = useStatusOptions();
   const currentStatus = useWatch({ name: 'status' }) as Status;
+
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
-  const { onLeavePage } = useUnsavedChanges();
 
   async function submitStatus(newStatus: Status): Promise<void> {
-    const errorKeys = Object.keys(formState.errors);
+    const errorKeys = Object.keys(errors);
     if (errorKeys?.length) {
       scrollNameIntoView(errorKeys[0]);
       return;
@@ -53,7 +61,8 @@ const ActionBar = ({
     if (currentStatus === newStatus) {
       return;
     }
-    if (formState.isDirty) {
+
+    if (hasUnsavedChanges()) {
       showToast({
         status: 'info',
         description: t('PD.Feedback.Info.NeedToSave'),
@@ -94,7 +103,7 @@ const ActionBar = ({
   return (
     <ActionBarTemplate
       artwork={artwork}
-      lastModifiedDate={formState?.defaultValues?.lastModified}
+      lastModifiedDate={defaultValues?.lastModified}
       moreMenuList={
         !createNew ? (
           <MenuList>
@@ -134,11 +143,6 @@ const ActionBar = ({
             {hasProductions && (
               <MenuItem
                 as={NavLink}
-                to={
-                  formState.isDirty
-                    ? undefined
-                    : `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                }
                 onClick={() =>
                   onLeavePage(
                     `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
@@ -157,11 +161,6 @@ const ActionBar = ({
             {showCalculation && hasPriceCalculation && (
               <MenuItem
                 as={NavLink}
-                to={
-                  formState.isDirty
-                    ? undefined
-                    : `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                }
                 onClick={() =>
                   onLeavePage(
                     `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
