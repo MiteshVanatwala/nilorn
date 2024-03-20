@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, VStack } from '@chakra-ui/react';
+import { Box, Button, GridItem, Link, Text, VStack } from '@chakra-ui/react';
 import {
   PriceCalculationDto,
   PriceDto,
@@ -25,6 +25,7 @@ import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
 import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -39,6 +40,7 @@ function PriceGridRow({
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
+  const vendors = useFilterOptions('vendor');
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
@@ -126,7 +128,15 @@ function PriceGridRow({
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <Box>
                 <>
-                  {production.vendorName}
+                  <Link
+                    href={`/productions?vendor=${
+                      vendors.find(
+                        vendor => vendor.label === production.vendorName
+                      )?.value
+                    }`}
+                    display={'inline'}>
+                    {production.vendorName}
+                  </Link>
                   {productDevelopment?.status &&
                     !isClosed(productDevelopment?.status) &&
                     production?.released && (
