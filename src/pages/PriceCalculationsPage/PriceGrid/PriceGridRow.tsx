@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, GridItem, Link, VStack } from '@chakra-ui/react';
 import {
   PriceCalculationDto,
   PriceDto,
