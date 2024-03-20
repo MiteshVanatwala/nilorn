@@ -22,7 +22,7 @@ const ProductDevelopmentModalTopSection = ({
   actionBar,
 }: Props) => {
   const { close } = useContext(ModalContext);
-  const vendors = useFilterOptions('vendor');
+  const vendorOptions = useFilterOptions('vendor');
 
   return (
     <Box
@@ -87,10 +87,12 @@ const ProductDevelopmentModalTopSection = ({
               </Heading>
               <HStack>
                 <Link
-                  href={`/productions?vendor=${
-                    vendors.find(vendor => vendor.label === vendorName)?.value
+                  as={NavLink}
+                  to={`/productions?vendor=${
+                    vendorOptions.find(option => option.label === vendorName)
+                      ?.value
                   }`}
-                  display={'inline'}>
+                  onClick={() => close()}>
                   {vendorName}
                 </Link>
                 {vendorName && sourcingCompanyCode && <>{' - '}</>}
