@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from '@chakra-ui/react';
+import { Box, Button, HStack, useOutsideClick } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { COLORS, SPACE } from '../../../theme/Constants';
@@ -12,12 +12,13 @@ import { usePatchProduction } from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption, ServerFilter } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
+import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
@@ -32,6 +33,7 @@ type Props = {
 };
 
 const EditProduction = ({ productionId }: Props) => {
+  const ref = useRef(null);
   const { t } = useTranslation();
   const form = useForm();
   const { close } = useContext(ModalContext);
@@ -55,6 +57,9 @@ const EditProduction = ({ productionId }: Props) => {
 
   const { data: productionNavigation } =
     useProductionNavigation(activeProductionId);
+
+  const { onLeavePage, modalComponent, setUnsavedChanges } =
+    useUnsavedChanges();
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -89,8 +94,20 @@ const EditProduction = ({ productionId }: Props) => {
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};
 
+  useEffect(() => {
+    setUnsavedChanges(form.formState.isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
+
+  useOutsideClick({
+    ref: ref,
+    handler: () => {
+      onLeavePage(sessionStorage.getItem('backLink') ?? '');
+    },
+  });
+
   return (
-    <Box mb={SPACE.LG} px={SPACE.SM}>
+    <Box mb={SPACE.LG} px={SPACE.SM} ref={ref}>
       {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
@@ -125,7 +142,6 @@ const EditProduction = ({ productionId }: Props) => {
           />
         </form>
       </FormProvider>
-
       <HStack justify={'space-between'} py={SPACE.XL}>
         <Button
           color={COLORS.BLACK}
@@ -148,6 +164,7 @@ const EditProduction = ({ productionId }: Props) => {
           {`${t('Common.Next')} ${t('PD.FilterLabel.vendor')}`}
         </Button>
       </HStack>
+      {modalComponent}
     </Box>
   );
 };

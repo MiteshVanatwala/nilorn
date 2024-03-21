@@ -41,7 +41,8 @@ const ActionBar = ({
     trigger,
     register,
   } = useFormContext();
-  const { onLeavePage, hasUnsavedChanges } = useUnsavedChanges();
+  const { onLeavePage, hasUnsavedChanges, modalComponent } =
+    useUnsavedChanges();
 
   const artwork = useWatch({ name: 'artwork' });
   const { statuses } = useStatusOptions();
@@ -229,6 +230,7 @@ const ActionBar = ({
             <Button variant={'primary'} isDisabled={disableEdit} type="submit">
               {t('Common.Save')}
             </Button>
+            {modalComponent}
           </>
         ) : (
           <Button variant="primary" type="submit">

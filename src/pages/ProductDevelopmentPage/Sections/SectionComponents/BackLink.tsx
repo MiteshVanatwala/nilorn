@@ -9,7 +9,7 @@ type Props = {
 const BackLink = ({ scrolledPast }: Props) => {
   const { t } = useTranslation();
   const { formState } = useFormContext();
-  const { onLeavePage } = useUnsavedChanges();
+  const { onLeavePage, modalComponent } = useUnsavedChanges();
 
   let backLink = sessionStorage.getItem('backLink') ?? '/';
   if (backLink.indexOf('product-development/create')) {
@@ -20,25 +20,27 @@ const BackLink = ({ scrolledPast }: Props) => {
   }
 
   return (
-    <ArrowLink
-      useAsBtn={formState.isDirty}
-      to={backLink}
-      onClick={() => onLeavePage(`${backLink}`)}
-      direction="left">
-      <>
-        {backLink != null && backLink.indexOf('productions') > -1 && (
-          <> {t(`PD.BackToProductions`)}</>
-        )}
-        {backLink != null && backLink.indexOf('price-calculations') > -1 && (
-          <> {t(`PD.BackToCalculations`)}</>
-        )}
-        {backLink != null &&
-          backLink.indexOf('price-calculations') === -1 &&
-          backLink.indexOf('productions') === -1 && (
-            <>{t(`PD.BackToOverview`)}</>
+    <>
+      <ArrowLink
+        useAsBtn={formState.isDirty}
+        onClick={() => onLeavePage(`${backLink}`)}
+        direction="left">
+        <>
+          {backLink != null && backLink.indexOf('productions') > -1 && (
+            <> {t(`PD.BackToProductions`)}</>
           )}
-      </>
-    </ArrowLink>
+          {backLink != null && backLink.indexOf('price-calculations') > -1 && (
+            <> {t(`PD.BackToCalculations`)}</>
+          )}
+          {backLink != null &&
+            backLink.indexOf('price-calculations') === -1 &&
+            backLink.indexOf('productions') === -1 && (
+              <>{t(`PD.BackToOverview`)}</>
+            )}
+        </>
+      </ArrowLink>
+      {modalComponent}
+    </>
   );
 };
 
