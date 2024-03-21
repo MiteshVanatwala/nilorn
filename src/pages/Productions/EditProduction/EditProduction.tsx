@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, useOutsideClick } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
@@ -17,13 +17,14 @@ import {
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
+import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -38,6 +39,7 @@ const EditProduction = ({
   createNew,
   production,
 }: Props) => {
+  const ref = useRef(null);
   const form = useForm({
     defaultValues: {
       ...production,
@@ -46,6 +48,9 @@ const EditProduction = ({
   const { close } = useContext(ModalContext);
   const { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { onLeavePage, modalComponent, setUnsavedChanges } =
+    useUnsavedChanges();
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -96,14 +101,27 @@ const EditProduction = ({
       setVendorOptions(mapVendorsToOptions(vendors));
     }
   }, [vendors]);
+
   useEffect(() => {
     if (isSuccessCreate || isSuccessPatch) {
       close();
     }
   }, [close, isSuccessCreate, isSuccessPatch]);
 
+  useEffect(() => {
+    setUnsavedChanges(form.formState.isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
+
+  useOutsideClick({
+    ref: ref,
+    handler: () => {
+      onLeavePage(sessionStorage.getItem('backLink') ?? '');
+    },
+  });
+
   return (
-    <Box mb={SPACE.LG} px={SPACE.SM}>
+    <Box mb={SPACE.LG} px={SPACE.SM} ref={ref}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(submitForm)}>
           <ProductDevelopmentModalTopSection
@@ -137,6 +155,7 @@ const EditProduction = ({
           />
         </form>
       </FormProvider>
+      {modalComponent}
     </Box>
   );
 };

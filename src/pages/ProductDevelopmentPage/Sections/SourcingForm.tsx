@@ -41,7 +41,7 @@ const SourcingForm = ({
   const { data: productDevelopmentData } = useProductDevelopment(no);
   const { formState } = useFormContext();
 
-  const { onLeavePage } = useUnsavedChanges();
+  const { onLeavePage, modalComponent } = useUnsavedChanges();
 
   const isSaved =
     productDevelopmentData &&
@@ -131,7 +131,6 @@ const SourcingForm = ({
                   `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
                 )
               }
-              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
               direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
@@ -152,7 +151,6 @@ const SourcingForm = ({
                       `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
                     )
                   }
-                  to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                   direction="right">
                   <>
                     {(connectedProductions &&
@@ -171,6 +169,7 @@ const SourcingForm = ({
           </HStack>
         )}
       </GridItem>
+      {modalComponent}
     </Grid>
   );
 };

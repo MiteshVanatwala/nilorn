@@ -13,6 +13,7 @@ type Props = {
   confirmType?: 'DELETE' | 'PRIMARY';
   cancelText?: string;
   confirmText?: string;
+  onClose?: () => void;
 };
 
 const ConfirmModal = ({
@@ -22,13 +23,10 @@ const ConfirmModal = ({
   confirmType = 'PRIMARY',
   cancelText,
   confirmText,
+  onClose,
 }: Props) => {
-  const { close } = useModal();
   const { t } = useTranslation();
-
-  const onCancel = () => {
-    close();
-  };
+  const { close } = useModal();
 
   return (
     <ModalBody>
@@ -58,7 +56,9 @@ const ConfirmModal = ({
           </Button>
           <Button
             variant={'secondary'}
-            onClick={onCancel}
+            onClick={() => {
+              onClose ? onClose() : close();
+            }}
             rightIcon={
               cancelText ? undefined : <i className="ri-close-line" />
             }>
@@ -69,5 +69,4 @@ const ConfirmModal = ({
     </ModalBody>
   );
 };
-
 export default ConfirmModal;

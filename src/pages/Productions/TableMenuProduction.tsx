@@ -19,14 +19,12 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   production?: ProductionDto;
 };
 
 const TableMenuProduction = ({
   productDevelopment,
   sourcedProduction,
-  sourcingCoIndex,
   production,
 }: Props) => {
   const { t } = useTranslation();

@@ -59,12 +59,11 @@ const ProductionsTable = ({ productions }: Props) => {
                   lg: GRID_LAYOUT_SOURCING_DESKTOP,
                 }}>
                 {p.sourcedProductions?.map((s, index) => (
-                  <>
-                    <GridTd
-                      key={
-                        p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId
-                      }
-                      style={TD_STYLE}>
+                  <Fragment
+                    key={
+                      p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId
+                    }>
+                    <GridTd style={TD_STYLE}>
                       <>
                         {s.sourcingCompanyCode}
                         {p.productDevelopmentBriefDto?.status &&
@@ -110,7 +109,6 @@ const ProductionsTable = ({ productions }: Props) => {
                                       p?.productDevelopmentBriefDto
                                     }
                                     sourcedProduction={s}
-                                    sourcingCoIndex={index}
                                     production={production}
                                   />
                                 }
@@ -120,7 +118,7 @@ const ProductionsTable = ({ productions }: Props) => {
                         ))}
                       </GridInlineTbody>
                     </GridItem>
-                  </>
+                  </Fragment>
                 ))}
               </GridInlineTbody>
             </GridItem>

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import ModalComponent from '../../components/Modal/Modal';
+import ModalContextCompoent from '../../components/Modal/ModalContextCompoent';
 
 type ModalContextType = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => void;
@@ -52,6 +52,9 @@ function useModal() {
   };
 }
 
+/**
+ *  @deprecated
+ */
 const ModalProvider = ({ children }: ModalProviderType) => {
   const { isOpen, handleModal, modalContent, close, returnFocusOnClose } =
     useModal();
@@ -66,7 +69,7 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         returnFocusOnClose,
       }}>
       {children}
-      <ModalComponent />
+      <ModalContextCompoent />
     </ModalContext.Provider>
   );
 };

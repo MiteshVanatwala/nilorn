@@ -18,7 +18,7 @@ const HeaderLink: FC<Props> = ({
   clickedStoredFilter,
   variant = 'headerLink',
 }) => {
-  const { onLeavePage } = useUnsavedChanges();
+  const { onLeavePage, modalComponent } = useUnsavedChanges();
 
   const handleClick = (url: string, clickedStoredFilter: string) => {
     const storedFilter = getCurrentStoredFilter();
@@ -33,16 +33,19 @@ const HeaderLink: FC<Props> = ({
   };
 
   return (
-    <LinkComponent
-      _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
-      variant={variant}
-      bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
-      color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
-      fontSize={fontSizes.xs}
-      onClick={e => handleClick(path, clickedStoredFilter)}
-      whiteSpace={'nowrap'}>
-      {title}
-    </LinkComponent>
+    <>
+      <LinkComponent
+        _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
+        variant={variant}
+        bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
+        color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
+        fontSize={fontSizes.xs}
+        onClick={e => handleClick(path, clickedStoredFilter)}
+        whiteSpace={'nowrap'}>
+        {title}
+      </LinkComponent>
+      {modalComponent}
+    </>
   );
 };
 

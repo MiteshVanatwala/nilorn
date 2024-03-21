@@ -3,16 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 type Props = {
   direction: 'left' | 'right';
-  to: string;
   children: JSX.Element;
   useAsBtn?: boolean;
   onClick?: () => void;
 };
-const ArrowLink = ({ to, direction, children, useAsBtn, onClick }: Props) => {
+const ArrowLink = ({ direction, children, useAsBtn, onClick }: Props) => {
   return (
     <Button
       as={NavLink}
-      to={useAsBtn ? undefined : to}
       end
       onClick={onClick ?? undefined}
       pr={0}
