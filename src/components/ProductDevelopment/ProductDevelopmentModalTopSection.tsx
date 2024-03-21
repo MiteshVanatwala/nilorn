@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
+import useFilterOptions from '../../app/hooks/useFilterOption';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -21,6 +22,7 @@ const ProductDevelopmentModalTopSection = ({
   actionBar,
 }: Props) => {
   const { close } = useContext(ModalContext);
+  const vendorOptions = useFilterOptions('vendor');
 
   return (
     <Box
@@ -84,7 +86,15 @@ const ProductDevelopmentModalTopSection = ({
                 {productDevelopment?.name}
               </Heading>
               <HStack>
-                <Text variant={'bodyBold'}>{vendorName}</Text>
+                <Link
+                  as={NavLink}
+                  to={`/productions?vendor=${
+                    vendorOptions.find(option => option.label === vendorName)
+                      ?.value
+                  }`}
+                  onClick={() => close()}>
+                  {vendorName}
+                </Link>
                 {vendorName && sourcingCompanyCode && <>{' - '}</>}
                 <Text>{sourcingCompanyCode}</Text>
               </HStack>
