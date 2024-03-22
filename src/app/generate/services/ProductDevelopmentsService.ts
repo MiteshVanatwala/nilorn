@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
+import type { NavigationItem } from '../models/NavigationItem';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
 import type { Status } from '../models/Status';
@@ -62,6 +63,71 @@ includeClosed?: boolean,
             query: {
                 'PageNumber': pageNumber,
                 'PageSize': pageSize,
+                'SortKey': sortKey,
+                'SearchQuery': searchQuery,
+                'Clients': clients,
+                'Projects': projects,
+                'Statuses': statuses,
+                'ItemCategories': itemCategories,
+                'ProductGroups': productGroups,
+                'FoldingTypes': foldingTypes,
+                'FinishedLengths': finishedLengths,
+                'FinishedWidths': finishedWidths,
+                'FinishedHeights': finishedHeights,
+                'SourcingCompanies': sourcingCompanies,
+                'Vendors': vendors,
+                'OpComps': opComps,
+                'Members': members,
+                'IncludeClosed': includeClosed,
+            },
+        });
+    }
+
+    /**
+     * @param productDevelopmentNo 
+     * @param sortKey 
+     * @param searchQuery 
+     * @param clients 
+     * @param projects 
+     * @param statuses 
+     * @param itemCategories 
+     * @param productGroups 
+     * @param foldingTypes 
+     * @param finishedLengths 
+     * @param finishedWidths 
+     * @param finishedHeights 
+     * @param sourcingCompanies 
+     * @param vendors 
+     * @param opComps 
+     * @param members 
+     * @param includeClosed 
+     * @returns NavigationItem Success
+     * @throws ApiError
+     */
+    public static getApiProductDevelopmentsNavigation(
+productDevelopmentNo?: string,
+sortKey?: string,
+searchQuery?: string,
+clients?: string,
+projects?: string,
+statuses?: string,
+itemCategories?: string,
+productGroups?: string,
+foldingTypes?: string,
+finishedLengths?: string,
+finishedWidths?: string,
+finishedHeights?: string,
+sourcingCompanies?: string,
+vendors?: string,
+opComps?: string,
+members?: string,
+includeClosed?: boolean,
+): CancelablePromise<NavigationItem> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/ProductDevelopments/Navigation',
+            query: {
+                'ProductDevelopmentNo': productDevelopmentNo,
                 'SortKey': sortKey,
                 'SearchQuery': searchQuery,
                 'Clients': clients,

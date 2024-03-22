@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreatePriceCalculationCommand } from '../models/CreatePriceCalculationCommand';
+import type { DefaultPriceCalculationDto } from '../models/DefaultPriceCalculationDto';
+import type { NavigationItem } from '../models/NavigationItem';
 import type { PriceCalculationDto } from '../models/PriceCalculationDto';
 import type { PriceDto } from '../models/PriceDto';
 import type { UpdatePriceCalculationCommand } from '../models/UpdatePriceCalculationCommand';
@@ -76,6 +78,43 @@ requestBody?: UpdateSalesPriceCommand,
             url: '/api/PriceCalculation/SalesPrice',
             body: requestBody,
             mediaType: 'application/json',
+        });
+    }
+
+    /**
+     * @param productDevelopmentNo 
+     * @param sourcingCompanycode 
+     * @returns DefaultPriceCalculationDto Success
+     * @throws ApiError
+     */
+    public static getApiPriceCalculationDefaultValues(
+productDevelopmentNo?: string,
+sourcingCompanycode?: string,
+): CancelablePromise<DefaultPriceCalculationDto> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/PriceCalculation/DefaultValues',
+            query: {
+                'ProductDevelopmentNo': productDevelopmentNo,
+                'SourcingCompanycode': sourcingCompanycode,
+            },
+        });
+    }
+
+    /**
+     * @param id 
+     * @returns NavigationItem Success
+     * @throws ApiError
+     */
+    public static getApiPriceCalculationNavigation(
+id?: string,
+): CancelablePromise<NavigationItem> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/PriceCalculation/Navigation',
+            query: {
+                'Id': id,
+            },
         });
     }
 
