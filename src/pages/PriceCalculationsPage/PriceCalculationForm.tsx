@@ -26,6 +26,7 @@ type Props = {
   production: ProductionDto;
   createNew: boolean;
   showChanges: boolean;
+  currencyCode?: string;
 };
 
 const PriceCalculationForm = ({
@@ -34,6 +35,7 @@ const PriceCalculationForm = ({
   production,
   createNew,
   showChanges,
+  currencyCode,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -189,13 +191,6 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <Select
-            key={
-              (production?.id !== undefined ? production?.id : '') +
-              calculation?.id +
-              calculation?.currencyCode +
-              currency?.length +
-              currency?.find(o => o.value === calculation?.currencyCode)?.value
-            }
             registerOptions={{ required: true }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
@@ -204,9 +199,9 @@ const PriceCalculationForm = ({
             changelog={currencyCodeChangelog}
             options={currency as SelectOption[]}
             defaultValue={
-              calculation?.currencyCode
+              currencyCode
                 ? (currency as SelectOption[])?.find(
-                    o => o.value === calculation?.currencyCode
+                    o => o.value === currencyCode
                   )
                 : undefined
             }

@@ -7,7 +7,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 import { SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -15,8 +15,9 @@ import PriceCalculationActionBar from './PriceCalculationActionBar';
 import {
   useCreateCalculation,
   usePatchCalculation,
+  usePriceCalculationDefaultValues,
 } from '../../app/api/calculation';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 
@@ -39,12 +40,24 @@ const PriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
+  const { mutate: updateCalculation } = usePatchCalculation();
+  const { mutate: createCalculation } = useCreateCalculation();
+  const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
     undefined,
     calculation?.id ?? ''
   );
 
+  const {
+    data: defaultValues,
+    isLoading: isLoadingDefaultValues,
+    isSuccess: isLoadedDefaultValues,
+  } = usePriceCalculationDefaultValues(
+    productDevelopment?.no ?? '',
+    sourcedProduction.sourcingCompanyCode ?? '',
+    createNew
+  );
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
       ? calculation?.priceDtos.map(item => item.margin)
@@ -65,9 +78,18 @@ const PriceCalculationModal = ({
     },
   });
 
-  const { mutate: updateCalculation } = usePatchCalculation();
-  const { mutate: createCalculation } = useCreateCalculation();
-  const { close } = useContext(ModalContext);
+  useEffect(() => {
+    if (createNew && isLoadedDefaultValues) {
+      form.reset({
+        currencyRate: defaultValues?.currencyRate,
+        currencyCode: defaultValues?.salesCurrency?.code,
+        internalCommission: defaultValues?.internalCommission,
+        indirectCost: defaultValues?.indirectCost,
+        freightIncluded: defaultValues?.freightIncluded,
+        margin: defaultValues?.margin,
+      });
+    }
+  }, [createNew, defaultValues, form, isLoadedDefaultValues]);
 
   function submitForm(form: FieldValues) {
     if (createNew) {
@@ -104,12 +126,20 @@ const PriceCalculationModal = ({
               />
             }
           />
-          <PriceCalculationForm
-            calculation={calculation}
-            production={production}
-            createNew={createNew ?? false}
-            showChanges={showChanges}
-          />
+          <Skeleton
+            isLoaded={(createNew && !isLoadingDefaultValues) || !createNew}>
+            <PriceCalculationForm
+              calculation={calculation}
+              currencyCode={
+                defaultValues?.salesCurrency?.code ??
+                calculation?.currencyCode ??
+                undefined
+              }
+              production={production}
+              createNew={createNew ?? false}
+              showChanges={showChanges}
+            />
+          </Skeleton>
         </form>
       </FormProvider>
     </Box>

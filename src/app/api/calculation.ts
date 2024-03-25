@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
@@ -122,3 +122,27 @@ export function useDeleteCalculation(id: string) {
     }
   );
 }
+
+export const usePriceCalculationDefaultValues = (
+  productDevelopmentNo: string,
+  sourcingCompanycode: string,
+  enable: boolean = false
+) => {
+  return useQuery(
+    [
+      QueryKeysEnum.PriceCalculation,
+      QueryKeysEnum.DefaultValues,
+      productDevelopmentNo,
+      sourcingCompanycode,
+    ],
+    () =>
+      PriceCalculationService.getApiPriceCalculationDefaultValues(
+        productDevelopmentNo,
+        sourcingCompanycode
+      ).then(res => res),
+    {
+      enabled: enable,
+      retry: 0,
+    }
+  );
+};

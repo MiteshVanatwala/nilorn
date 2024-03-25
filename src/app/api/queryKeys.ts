@@ -10,6 +10,7 @@ enum QueryKeysEnum {
   ProductDevelopmentDeep = 'ProductDevelopmentDeep',
   ProductDevelopmentImage = 'ProductDevelopmentImage',
   FoldingType = 'FoldingType',
+  PriceCalculation = 'PriceCalculation',
   ItemCategory = 'ItemCategory',
   ProductGroup = 'ProductGroup',
   Projects = 'Projects',
@@ -20,6 +21,7 @@ enum QueryKeysEnum {
   Currency = 'Currency',
   SourcingQty = 'SourcingQty',
   Attachments = 'Attachments',
+  DefaultValues = 'DefaultValues',
 }
 
 export default QueryKeysEnum;
