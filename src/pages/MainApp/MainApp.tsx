@@ -6,18 +6,13 @@ import { useCurrentUser } from '../../app/api/User';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ErrorPage from '../../components/ErrorBoundary/ErrorPage';
-import { useAuth } from 'react-oidc-context';
+import { useSignOut } from '../../app/hooks/useSignOut';
 
 function MainApp() {
   const { t } = useTranslation();
-
-  const auth = useAuth();
   const { data: user, isError } = useCurrentUser();
 
-  const signOut = () => {
-    auth.removeUser();
-    auth.signoutRedirect();
-  };
+  const signOut = useSignOut();
 
   if (isError) {
     return (
