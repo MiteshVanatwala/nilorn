@@ -129,3 +129,20 @@ export const useMembers = (no: string) => {
     }
   );
 };
+
+export const useProductDevelopmentNavigation = (no: string) => {
+  // TODO: from session storage
+
+  return useQuery(
+    [QueryKeysEnum.ProductDevelopment, QueryKeysEnum.Navigation, no],
+    () =>
+      ProductDevelopmentsService.getApiProductDevelopmentsNavigation(no).then(
+        res => res
+      ),
+    {
+      cacheTime: 0,
+      retry: 0,
+      enabled: no !== '',
+    }
+  );
+};

@@ -151,7 +151,7 @@ function ProductDevelopmentForm({
             </GridItem>
           </Grid>
         </ContentPage>
-        <BottomSection />
+        <BottomSection no={no} />
       </form>
     </FormProvider>
   );
