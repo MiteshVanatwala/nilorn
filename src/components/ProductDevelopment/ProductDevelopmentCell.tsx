@@ -4,7 +4,7 @@ import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { NavLink } from 'react-router-dom';
-import { getCurrentStoredFilter } from '../Filter/FilterHelper';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 
 const ProductDevelopmentCell = ({
   no,

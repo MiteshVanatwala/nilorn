@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
+import { useFilterFormSearchParams } from '../utils/FilterHelper';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
 

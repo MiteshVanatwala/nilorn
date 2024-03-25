@@ -1,6 +1,6 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
-import { getSortValue, onFilterChange } from '../Filter/FilterHelper';
+import { getSortValue, onFilterChange } from '../../app/utils/FilterHelper';
 import { useEffect } from 'react';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 

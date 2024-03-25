@@ -2,7 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { FormInputProps, SelectOption } from '../../app/types/types';
-import { GroupSelectOption } from '../Filter/FilterHelper';
+import { GroupSelectOption } from '../../app/utils/FilterHelper';
 import { MultiValue } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
 

@@ -1,6 +1,6 @@
-import { FilterKeys } from '../../app/types/types';
+import { FilterKeys } from '../types/types';
 import { ColumnSort } from '@tanstack/table-core';
-import { SelectOption } from '../../app/types/types';
+import { SelectOption } from '../types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
@@ -138,4 +138,23 @@ export function getCurrentStoredFilter() {
     storedFilter = 'prevFilterCalculation';
   }
   return storedFilter;
+}
+
+export function parseSearchParams(queryStr: string): Record<string, string> {
+  if (queryStr.startsWith('?')) {
+    queryStr = queryStr.substring(1);
+  }
+
+  if (!queryStr) {
+    return {};
+  }
+  const paramsArray = queryStr.split('&');
+  const parsedParams: Record<string, string> = {};
+
+  paramsArray.forEach(param => {
+    const [key, value] = param.split('=');
+    parsedParams[key] = decodeURIComponent(value);
+  });
+
+  return parsedParams;
 }

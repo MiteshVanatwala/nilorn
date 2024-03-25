@@ -5,7 +5,7 @@ import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import { getSortState } from '../../components/Filter/FilterHelper';
+import { getSortState } from '../../app/utils/FilterHelper';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import { useFormContext } from 'react-hook-form';
 import { useLocation } from 'react-router';

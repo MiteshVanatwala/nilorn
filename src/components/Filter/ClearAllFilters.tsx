@@ -2,7 +2,7 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { getCurrentStoredFilter } from './FilterHelper';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 
 const ClearAllFilters = () => {
   const { reset, getValues } = useFormContext();

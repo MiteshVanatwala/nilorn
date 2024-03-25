@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import { ProductDevelopmentsService } from '../../app/generate';
-import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
+import { useFilterFormSearchParams } from '../utils/FilterHelper';
 
 export function useProductDevelopmentsFilter() {
   const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));

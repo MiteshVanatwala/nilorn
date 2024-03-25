@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { FilterInput, SelectOption } from '../../app/types/types';
 import FilterSelect from './FilterSelect';
 import { useFormContext } from 'react-hook-form';
-import { findMultiDefaultValues } from './FilterHelper';
+import { findMultiDefaultValues } from '../../app/utils/FilterHelper';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import InputField from '../Form/InputField';
 

@@ -2,7 +2,7 @@ import { Link as LinkComponent } from '@chakra-ui/react';
 import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
-import { getCurrentStoredFilter } from '../Filter/FilterHelper';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 
 interface Props {
