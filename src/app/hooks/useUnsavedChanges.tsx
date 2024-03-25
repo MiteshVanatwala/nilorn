@@ -35,7 +35,7 @@ export function useUnsavedChanges() {
   }
 
   function onLeavePage(path: string) {
-    if (sessionStorage.getItem(IS_DIRTY) === 'true') {
+    if (hasUnsavedChanges()) {
       return openModal(`${path}`);
     }
     close();

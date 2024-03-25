@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from 'react';
-import ModalContextCompoent from '../../components/Modal/ModalContextCompoent';
+import ModalContextComponent from '../../components/Modal/ModalContextComponent';
 
 type ModalContextType = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => void;
@@ -69,7 +69,7 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         returnFocusOnClose,
       }}>
       {children}
-      <ModalContextCompoent />
+      <ModalContextComponent />
     </ModalContext.Provider>
   );
 };

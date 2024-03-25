@@ -7,9 +7,7 @@ import TextArea from '../../../components/Form/TextArea';
 import { useProductions } from '../../../app/api/production';
 import ReleasedProductions from './ReleasedProductions';
 import ArrowLink from '../../../components/Link/ArrowLink';
-import { useFormContext } from 'react-hook-form';
 import { useProductDevelopment } from '../../../app/api/productDevelopment';
-import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 import {
   useAuthorizedEdit,
   useAuthorizedSee,
@@ -39,9 +37,6 @@ const SourcingForm = ({
     sourcingCompanyCode
   );
   const { data: productDevelopmentData } = useProductDevelopment(no);
-  const { formState } = useFormContext();
-
-  const { onLeavePage, modalComponent } = useUnsavedChanges();
 
   const isSaved =
     productDevelopmentData &&
@@ -125,12 +120,7 @@ const SourcingForm = ({
         {isSaved && (
           <HStack spacing={SPACE.XL}>
             <ArrowLink
-              useAsBtn={formState.isDirty}
-              onClick={() =>
-                onLeavePage(
-                  `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                )
-              }
+              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
               direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
@@ -145,12 +135,7 @@ const SourcingForm = ({
                 cp => cp.priceCalculations && cp.released
               )?.length > 0 && (
                 <ArrowLink
-                  useAsBtn={formState.isDirty}
-                  onClick={() =>
-                    onLeavePage(
-                      `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                    )
-                  }
+                  to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                   direction="right">
                   <>
                     {(connectedProductions &&
@@ -169,7 +154,6 @@ const SourcingForm = ({
           </HStack>
         )}
       </GridItem> */}
-      {modalComponent}
     </Grid>
   );
 };

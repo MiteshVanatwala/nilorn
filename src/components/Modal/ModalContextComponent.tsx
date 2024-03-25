@@ -6,7 +6,7 @@ import Modal from './Modal';
 /**
  * Use modal with `ModalContext`.
  */
-const ModalContextCompoent = () => {
+const ModalContextComponent = () => {
   const { modalContent, isOpen, close, returnFocusOnClose } =
     useContext(ModalContext);
 
@@ -20,4 +20,4 @@ const ModalContextCompoent = () => {
   );
 };
 
-export default ModalContextCompoent;
+export default ModalContextComponent;
