@@ -10,6 +10,8 @@ import QueryKeysEnum from './queryKeys';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 import { useNavigate } from 'react-router';
+import { SESSION_STORAGE } from '../utils/constant';
+import { parseSearchParams } from '../utils/FilterHelper';
 
 export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
@@ -83,7 +85,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
       onSuccess: async (res: ProductDevelopmentDto) => {
         if (res.status === Status.DELETED) {
           window.location.replace(
-            sessionStorage.getItem('prevFilterOverview') ?? '/'
+            sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? '/'
           );
         } else {
           showToast({
@@ -131,14 +133,52 @@ export const useMembers = (no: string) => {
 };
 
 export const useProductDevelopmentNavigation = (no: string) => {
-  // TODO: from session storage
+  const filterPath = sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview);
+
+  const parsedParams = parseSearchParams(filterPath ?? '');
+
+  // Extract parameters
+  const {
+    sortKey,
+    searchQuery,
+    clients,
+    projects,
+    statuses,
+    itemCategories,
+    productGroups,
+    foldingTypes,
+    finishedLengths,
+    finishedWidths,
+    finishedHeights,
+    sourcingCompanies,
+    vendors,
+    opComps,
+    members,
+    includeClosed,
+  } = parsedParams;
 
   return useQuery(
     [QueryKeysEnum.ProductDevelopment, QueryKeysEnum.Navigation, no],
     () =>
-      ProductDevelopmentsService.getApiProductDevelopmentsNavigation(no).then(
-        res => res
-      ),
+      ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
+        no,
+        sortKey,
+        searchQuery,
+        clients,
+        projects,
+        statuses,
+        itemCategories,
+        productGroups,
+        foldingTypes,
+        finishedLengths,
+        finishedWidths,
+        finishedHeights,
+        sourcingCompanies,
+        vendors,
+        opComps,
+        members,
+        !!includeClosed
+      ).then(res => res),
     {
       cacheTime: 0,
       retry: 0,

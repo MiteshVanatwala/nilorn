@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem } from '@chakra-ui/layout';
 import ContentSection from '../../Templates/ContentSection';
-import { COLORS } from '../../../theme/Constants';
+import { COLORS, GRID } from '../../../theme/Constants';
 import ArrowLink from '../../../components/Link/ArrowLink';
 import { useProductDevelopmentNavigation } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
@@ -22,12 +22,12 @@ const BottomSection = ({ no }: Props) => {
       zIndex={99}
       borderTop={`solid 1px ${COLORS.GRAY[10]}`}>
       <ContentSection>
-        <Grid justifyContent={'space-between'} display={'flex'}>
+        <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
           <GridItem>
             {data?.previous && (
               <ArrowLink
                 direction={'left'}
-                path={`/product-development/${data?.previous}`}>
+                to={`/product-development/${data?.previous}`}>
                 <>{t('Common.Previous')}</>
               </ArrowLink>
             )}
@@ -36,7 +36,7 @@ const BottomSection = ({ no }: Props) => {
             {data?.next && (
               <ArrowLink
                 direction={'right'}
-                path={`/product-development/${data?.next}`}>
+                to={`/product-development/${data?.next}`}>
                 <>{t('Common.Next')}</>
               </ArrowLink>
             )}
