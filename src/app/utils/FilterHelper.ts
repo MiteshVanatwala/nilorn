@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 import { SortingState } from '@tanstack/table-core';
+import { SESSION_STORAGE } from './constant';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -131,11 +132,11 @@ export function getSortState(sortValue: string): SortingState {
 export function getCurrentStoredFilter() {
   let storedFilter = '';
   if (window.location.pathname.includes('/productions')) {
-    storedFilter = 'prevFilterProductions';
+    storedFilter = SESSION_STORAGE.prevFilterProductions;
   } else if (window.location.pathname === '/') {
-    storedFilter = 'prevFilterOverview';
+    storedFilter = SESSION_STORAGE.prevFilterOverview;
   } else if (window.location.pathname.includes('/price-calculations')) {
-    storedFilter = 'prevFilterCalculation';
+    storedFilter = SESSION_STORAGE.prevFilterCalculation;
   }
   return storedFilter;
 }

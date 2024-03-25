@@ -11,6 +11,7 @@ import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
@@ -41,7 +42,10 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     const search = window.location.search;
     const anchor = id ? `#${id}` : '';
     sessionStorage.setItem('backLink', path + search + anchor);
-    sessionStorage.setItem('prevFilterOverview', window.location.search);
+    sessionStorage.setItem(
+      SESSION_STORAGE.prevFilterOverview,
+      window.location.search
+    );
     navigate(url);
   };
   return (

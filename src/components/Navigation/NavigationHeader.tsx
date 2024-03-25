@@ -16,6 +16,7 @@ import UserMenu from './UserMenu';
 import { GRID } from '../../theme/Constants';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import HeaderLink from './HeaderLink';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -52,27 +53,27 @@ const NavigationHeader = () => {
                     />
                   }
                   path="/"
-                  clickedStoredFilter="prevFilterOverview"
+                  clickedStoredFilter={SESSION_STORAGE.prevFilterOverview}
                 />
               </HStack>
               <HStack m={0} divider={<HeaderDivider />}>
                 <HeaderLink
                   title={t('Common.Title')}
                   path="/"
-                  clickedStoredFilter="prevFilterOverview"
+                  clickedStoredFilter={SESSION_STORAGE.prevFilterOverview}
                 />
                 {showProduction && (
                   <HeaderLink
                     title={t('Menu.HypProduction')}
                     path="/productions"
-                    clickedStoredFilter="prevFilterProductions"
+                    clickedStoredFilter={SESSION_STORAGE.prevFilterProductions}
                   />
                 )}
                 {showCalculation && (
                   <HeaderLink
                     title={t('Menu.HypPrice')}
                     path="/price-calculations"
-                    clickedStoredFilter="prevFilterCalculation"
+                    clickedStoredFilter={SESSION_STORAGE.prevFilterCalculation}
                   />
                 )}
               </HStack>
