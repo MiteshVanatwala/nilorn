@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DeleteSearchProfileCommand } from '../models/DeleteSearchProfileCommand';
 import type { OptionItem } from '../models/OptionItem';
 import type { UpsertSearchProfileCommand } from '../models/UpsertSearchProfileCommand';
 
@@ -40,18 +39,19 @@ requestBody?: UpsertSearchProfileCommand,
     }
 
     /**
-     * @param requestBody 
+     * @param name 
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiSearchProfiles(
-requestBody?: DeleteSearchProfileCommand,
+name: string,
 ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/SearchProfiles',
-            body: requestBody,
-            mediaType: 'application/json',
+            url: '/api/SearchProfiles/{name}',
+            path: {
+                'name': name,
+            },
         });
     }
 

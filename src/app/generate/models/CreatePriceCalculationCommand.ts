@@ -5,10 +5,10 @@
 
 export type CreatePriceCalculationCommand = {
     productionId?: string;
-    currencyRate?: number | null;
+    currencyRate?: number;
     currencyCode?: string | null;
     internalCommission?: number | null;
     indirectCost?: number | null;
     freightIncluded?: number | null;
-    margin?: number | null;
+    margin?: number;
 };

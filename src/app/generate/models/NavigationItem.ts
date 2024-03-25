@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type DeleteSearchProfileCommand = {
-    name?: string | null;
-    userName?: string | null;
-    query?: string | null;
+export type NavigationItem = {
+    previous?: string | null;
+    next?: string | null;
 };
