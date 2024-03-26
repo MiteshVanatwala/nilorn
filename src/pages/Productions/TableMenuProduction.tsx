@@ -15,6 +15,7 @@ import {
 } from '../../app/api/editProduction';
 import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -30,6 +31,8 @@ const TableMenuProduction = ({
   const { t } = useTranslation();
   const { handleModal, close } = useContext(ModalContext);
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
+  const navigate = useNavigate();
+
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
     !production?.released
@@ -52,15 +55,19 @@ const TableMenuProduction = ({
   return (
     <>
       <MenuItem
-        onClick={() =>
+        onClick={() => {
+          const searchParams = new URLSearchParams(window.location.search);
+          navigate(
+            `/productions/${production?.id ?? ''}?${searchParams.toString()}`
+          );
           handleModal(
             <EditProduction
               productDevelopment={productDevelopment}
               sourcedProduction={sourcedProduction}
               production={production}
             />
-          )
-        }
+          );
+        }}
         icon={
           <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
         }>

@@ -25,6 +25,7 @@ import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
+import { useNavigate } from 'react-router';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -39,6 +40,7 @@ const EditProduction = ({
   createNew,
   production,
 }: Props) => {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const form = useForm({
     defaultValues: {
@@ -49,8 +51,7 @@ const EditProduction = ({
   const { data: vendors } = useGetVendors(!createNew);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
 
-  const { onLeavePage, modalComponent, setUnsavedChanges } =
-    useUnsavedChanges();
+  const { setUnsavedChanges } = useUnsavedChanges();
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -116,7 +117,8 @@ const EditProduction = ({
   useOutsideClick({
     ref: ref,
     handler: () => {
-      onLeavePage(sessionStorage.getItem('backLink') ?? '');
+      const searchParams = new URLSearchParams(window.location.search);
+      navigate(`/productions?${searchParams.toString()}`);
     },
   });
 
@@ -155,7 +157,7 @@ const EditProduction = ({
           />
         </form>
       </FormProvider>
-      {modalComponent}
+      {/* {modalComponent} */}
     </Box>
   );
 };

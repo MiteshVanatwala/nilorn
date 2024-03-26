@@ -21,7 +21,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
 
   useEffect(() => {
     queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment]);
-  }, [queryClient]);
+  }, [queryClient, no]);
 
   const { data, isLoading, isError, isSuccess } = useProductDevelopment(
     no ?? ''

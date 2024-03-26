@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
-  PriceCalculationDto,
+  CreatePriceCalculationCommand,
   PriceCalculationService,
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
@@ -45,7 +45,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: PriceCalculationDto) =>
+    (body: CreatePriceCalculationCommand) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),

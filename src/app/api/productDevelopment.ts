@@ -158,7 +158,12 @@ export const useProductDevelopmentNavigation = (no: string) => {
   } = parsedParams;
 
   return useQuery(
-    [QueryKeysEnum.ProductDevelopment, QueryKeysEnum.Navigation, no],
+    [
+      QueryKeysEnum.ProductDevelopment,
+      QueryKeysEnum.Navigation,
+      no,
+      filterPath,
+    ],
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
         no,
@@ -180,7 +185,6 @@ export const useProductDevelopmentNavigation = (no: string) => {
         !!includeClosed
       ).then(res => res),
     {
-      cacheTime: 0,
       retry: 0,
       enabled: no !== '',
     }

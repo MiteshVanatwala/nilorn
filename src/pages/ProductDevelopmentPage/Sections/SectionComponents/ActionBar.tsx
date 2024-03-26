@@ -41,8 +41,7 @@ const ActionBar = ({
     trigger,
     register,
   } = useFormContext();
-  const { onLeavePage, hasUnsavedChanges, modalComponent } =
-    useUnsavedChanges();
+  const { hasUnsavedChanges } = useUnsavedChanges();
 
   const artwork = useWatch({ name: 'artwork' });
   const { statuses } = useStatusOptions();
@@ -144,11 +143,7 @@ const ActionBar = ({
             {hasProductions && (
               <MenuItem
                 as={NavLink}
-                onClick={() =>
-                  onLeavePage(
-                    `/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                  )
-                }
+                to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}
@@ -162,11 +157,7 @@ const ActionBar = ({
             {showCalculation && hasPriceCalculation && (
               <MenuItem
                 as={NavLink}
-                onClick={() =>
-                  onLeavePage(
-                    `/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`
-                  )
-                }
+                to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
                   <Text
                     as={'i'}
@@ -230,7 +221,7 @@ const ActionBar = ({
             <Button variant={'primary'} isDisabled={disableEdit} type="submit">
               {t('Common.Save')}
             </Button>
-            {modalComponent}
+            {/* {modalComponent} */}
           </>
         ) : (
           <Button variant="primary" type="submit">

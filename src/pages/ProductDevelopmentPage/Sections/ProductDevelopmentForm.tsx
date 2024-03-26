@@ -101,7 +101,8 @@ function ProductDevelopmentForm({
 
   useEffect(() => {
     setUnsavedChanges(form.formState.isDirty);
-  }, [form.formState.isDirty, setUnsavedChanges]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
 
   return (
     <FormProvider {...form}>

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ErrorPage from '../../components/ErrorBoundary/ErrorPage';
 import { useAuth } from 'react-oidc-context';
+import LeavePageModal from '../../components/Modal/LeavePageModal';
 
 function MainApp() {
   const { t } = useTranslation();
@@ -38,6 +39,7 @@ function MainApp() {
       <Flex h={'100%'} minH={'100%'} flexDirection="column" p={0}>
         <ModalProvider>
           <NavigationHeader />
+          <LeavePageModal />
           <Outlet />
         </ModalProvider>
       </Flex>
@@ -46,4 +48,5 @@ function MainApp() {
 
   return <SpinnerOverlay />;
 }
+
 export default MainApp;
