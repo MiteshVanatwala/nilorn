@@ -1,9 +1,10 @@
-import { GridItem } from '@chakra-ui/react';
+import { GridItem, HStack, VStack } from '@chakra-ui/react';
 import { ProductionDto } from '../../app/generate';
 import { CSSProperties, Fragment } from 'react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
 import CommentPopup from '../CommentPopup/CommentPopup';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   production: ProductionDto;
@@ -15,10 +16,12 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
   return (
     <>
       <GridTd style={style}>
-        <>
-          {production.vendorName}
-          {tableMenu}
-        </>
+        <HStack justify={'space-between'} w={'100%'}>
+          <VStack align={'start'} gap={SPACE.XXS}>
+            <>{production.vendorName}</>
+          </VStack>
+          <>{tableMenu}</>
+        </HStack>
       </GridTd>
       <GridTd style={style}>
         <CommentPopup comment={production.comment} />
