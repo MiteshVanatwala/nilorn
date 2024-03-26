@@ -1,8 +1,9 @@
 import { Row, flexRender } from '@tanstack/react-table';
-import { MouseEvent, useMemo } from 'react';
+import { MouseEvent, useEffect, useMemo, useRef } from 'react';
 
 import { Td, Tr } from '@chakra-ui/table';
 import { COLORS } from '../../theme/Constants';
+import { useLocation } from 'react-router';
 
 export type TBodyRowProps<Data extends object> = {
   row: Row<Data>;
@@ -22,9 +23,20 @@ export function TBodyRow<Data extends object>({
   hoverBgColor,
   id,
 }: TBodyRowProps<Data>) {
+  const location = useLocation();
+  const ref = useRef<HTMLTableRowElement>(null);
+
+  useEffect(() => {
+    if (!!ref?.current && id && location.hash === `#${id}`) {
+      ref.current.scrollIntoView();
+      location.hash = '';
+    }
+  }, [location, id]);
+
   const tRow = useMemo(() => {
     return (
       <Tr
+        ref={ref}
         id={id}
         pointerEvents={'auto'}
         bgColor={bgColor}
