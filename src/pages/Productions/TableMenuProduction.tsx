@@ -7,6 +7,7 @@ import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
+  Role,
   SourcedProductionDto,
 } from '../../app/generate';
 import {
@@ -15,6 +16,8 @@ import {
 } from '../../app/api/editProduction';
 import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { useCurrentUser } from '../../app/api/User';
+import { useNavigate } from 'react-router';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -30,7 +33,13 @@ const TableMenuProduction = ({
   production,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
+  const { data: user } = useCurrentUser();
+  const showCalculationLink =
+    user?.role !== Role.PRODUCT_DEVELOPER &&
+    !!production?.released &&
+    !!productDevelopment?.no;
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
@@ -86,6 +95,24 @@ const TableMenuProduction = ({
           {!production?.released
             ? t('Production.Release')
             : t('Production.Remove')}
+        </MenuItem>
+      )}
+
+      {showCalculationLink && (
+        <MenuItem
+          onClick={() =>
+            navigate(
+              `/price-calculations?productDevelopments=${productDevelopment?.no}`
+            )
+          }
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-calculator-line"
+            />
+          }>
+          {t('Production.ViewCalculation')}
         </MenuItem>
       )}
 

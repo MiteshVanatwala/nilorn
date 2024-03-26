@@ -119,6 +119,7 @@ const EditProduction = ({
                 production={production}
                 status={productDevelopment?.status}
                 createNew={createNew}
+                productDevelopment={productDevelopment}
               />
             }
           />
