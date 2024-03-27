@@ -210,8 +210,7 @@
     "ChooseVendor": "Choose vendor",
     "CreateSuccess": "Production created",
     "CreateAndReleaseSuccess": "Production created and released for sales",
-    "Deleted": "Production deleted",
-    "ViewCalculation": "View calculation"
+    "Deleted": "Production deleted"
   },
   "PriceCalc": {
     "AddCalculation": "Add calculation",
@@ -234,7 +233,6 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
-    "ViewCalculation": "View calculation",
     "Feedback": {
       "Success": {
         "Update": "Calculation has been saved.",

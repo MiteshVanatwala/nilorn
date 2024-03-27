@@ -7,7 +7,6 @@ import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
   ProductionDto,
-  Role,
   SourcedProductionDto,
 } from '../../app/generate';
 import {
@@ -16,8 +15,8 @@ import {
 } from '../../app/api/editProduction';
 import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
-import { useCurrentUser } from '../../app/api/User';
 import { useNavigate } from 'react-router';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -35,9 +34,8 @@ const TableMenuProduction = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
-  const { data: user } = useCurrentUser();
   const showCalculationLink =
-    user?.role !== Role.PRODUCT_DEVELOPER &&
+    useAuthorizedSee('calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
@@ -112,7 +110,7 @@ const TableMenuProduction = ({
               className="ri-calculator-line"
             />
           }>
-          {t('Production.ViewCalculation')}
+          {t('PD.ViewCalculation')}
         </MenuItem>
       )}
 

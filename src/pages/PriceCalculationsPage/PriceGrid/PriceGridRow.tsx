@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, Link, VStack } from '@chakra-ui/react';
+import { Button, GridItem, Link, VStack, HStack } from '@chakra-ui/react';
 import {
   PriceCalculationDto,
   PriceDto,
@@ -127,8 +127,8 @@ function PriceGridRow({
         <GridTd>
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
-              <Box>
-                <>
+              <HStack justify={'space-between'} w={'100%'}>
+                <VStack align={'start'} gap={SPACE.XXS}>
                   <Link
                     as={NavLink}
                     to={`/productions?vendor=${
@@ -138,9 +138,11 @@ function PriceGridRow({
                     }`}>
                     {production.vendorName}
                   </Link>
+                </VStack>
+                <>
                   {productDevelopment?.status &&
-                    !isClosed(productDevelopment?.status) &&
-                    production?.released && (
+                    !isClosed(productDevelopment.status) &&
+                    production.released && (
                       <TableMenuCalculation
                         sourcedProduction={sourcedProduction}
                         productDevelopment={productDevelopment}
@@ -157,7 +159,7 @@ function PriceGridRow({
                       />
                     )}
                 </>
-              </Box>
+              </HStack>
               {enableEdit && (
                 <>
                   <Button

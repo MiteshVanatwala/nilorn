@@ -6,7 +6,6 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
 import {
   MediaFileDto,
-  ProductDevelopmentBriefDto,
   ProductionDto,
   Role,
   Status,
@@ -32,7 +31,7 @@ type Props = {
   disableEdit?: boolean;
   production?: ProductionDto;
   status?: Status;
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopmentNo?: string | null;
 };
 
 const ActionBarEditProduction = ({
@@ -43,7 +42,7 @@ const ActionBarEditProduction = ({
   status,
   setShowChanges,
   showChanges,
-  productDevelopment,
+  productDevelopmentNo,
 }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ const ActionBarEditProduction = ({
   const showCalculationLink =
     user?.role !== Role.PRODUCT_DEVELOPER &&
     !!production?.released &&
-    !!productDevelopment?.no;
+    !!productDevelopmentNo;
 
   const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
     useDeleteProduction();
@@ -103,7 +102,7 @@ const ActionBarEditProduction = ({
               <MenuItem
                 onClick={() => {
                   navigate(
-                    `/price-calculations?productDevelopments=${productDevelopment?.no}`
+                    `/price-calculations?productDevelopments=${productDevelopmentNo}`
                   );
                 }}
                 icon={
@@ -113,7 +112,7 @@ const ActionBarEditProduction = ({
                     className="ri-calculator-line"
                   />
                 }>
-                {t('Production.ViewCalculation')}
+                {t('PD.ViewCalculation')}
               </MenuItem>
             )}
             {!disableEdit && status && !isClosed(status) && (
