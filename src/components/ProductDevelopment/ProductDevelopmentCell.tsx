@@ -3,8 +3,9 @@ import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
-import { NavLink } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentStoredFilter } from '../Filter/FilterHelper';
+import { MouseEvent, useEffect, useRef } from 'react';
 
 const ProductDevelopmentCell = ({
   no,
@@ -14,8 +15,34 @@ const ProductDevelopmentCell = ({
   status,
   project,
 }: ProductDevelopmentBriefDto) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!!ref?.current && no && location.hash === `#${no}`) {
+      ref.current.scrollIntoView();
+      location.hash = '';
+    }
+  }, [location, no]);
+
+  const handleClick = (
+    e: MouseEvent<HTMLAnchorElement>,
+    url: string,
+    id: string
+  ) => {
+    e.stopPropagation();
+    const path = window.location.pathname ?? '/';
+    const search = window.location.search;
+    const anchor = id ? `#${id}` : '';
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem('backLink', path + search + anchor);
+    sessionStorage.setItem(storedFilter, search);
+    navigate(url);
+  };
+
   return (
-    <Box w={'100%'} h={'100%'}>
+    <Box w={'100%'} h={'100%'} ref={ref}>
       <VStack py={SPACE.XS} spacing={SPACE.XS} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
           <VStack
@@ -23,17 +50,10 @@ const ProductDevelopmentCell = ({
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
             <Link
-              onClick={() => {
-                sessionStorage.setItem(
-                  'backLink',
-                  window.location.pathname + window.location.search
-                );
-                const storedFilter = getCurrentStoredFilter();
-
-                sessionStorage.setItem(storedFilter, window.location.search);
-              }}
-              as={NavLink}
-              to={`/product-development/${no}`}>
+              as={Text}
+              onClick={e => {
+                handleClick(e, `/product-development/${no}`, no ?? '');
+              }}>
               #{no}
             </Link>
             <Text variant={'bodyBigBlack'}>{name}</Text>
