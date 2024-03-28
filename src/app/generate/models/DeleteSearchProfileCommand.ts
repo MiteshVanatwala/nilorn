@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type DeleteSearchProfileCommand = {
-    name?: string | null;
-    userName?: string | null;
-    query?: string | null;
+  name?: string | null;
+  userName?: string | null;
+  query?: string | null;
 };

@@ -77,7 +77,7 @@ const SourcingForm = ({
             }}
           />
 
-          {!disableEdit && !connectedProductions?.length && allowedToRemove && (
+          {/* {!disableEdit && !connectedProductions?.length && allowedToRemove && (
             <Button
               mt={SPACE}
               variant={'secondarySmall'}
@@ -85,7 +85,7 @@ const SourcingForm = ({
               rightIcon={<i className={'ri-delete-bin-line'} />}>
               {t('PD.RemoveSourcing')}
             </Button>
-          )}
+          )} */}
         </VStack>
       </GridItem>
       <GridItem
@@ -112,11 +112,11 @@ const SourcingForm = ({
           lg: 8,
           xl: 10,
         }}>
-        <ReleasedProductions
+        {/* <ReleasedProductions
           data={connectedProductions?.filter(cp => cp.released) ?? []}
-        />
+        /> */}
       </GridItem>
-      <GridItem
+      {/* <GridItem
         colSpan={{
           base: 2,
           lg: 5,
@@ -170,7 +170,7 @@ const SourcingForm = ({
               )}
           </HStack>
         )}
-      </GridItem>
+      </GridItem> */}
     </Grid>
   );
 };

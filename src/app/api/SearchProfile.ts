@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
-import { SearchProfilesService, UpsertSearchProfileCommand } from '../generate';
+import {
+  SearchProfilesService,
+  UpsertSearchProfileCommand,
+  DeleteSearchProfileCommand,
+} from '../generate';
 
 export function useSearchProfile() {
   return useQuery(
@@ -20,6 +24,22 @@ export const useCreateOrUpdateSearchProfile = () => {
       SearchProfilesService.postApiSearchProfiles(body).then(
         response => response
       ),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.SearchProfiles]);
+      },
+    }
+  );
+};
+
+export const useDeleteSearchProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (name: string) => {
+      return SearchProfilesService.deleteApiSearchProfiles(name).then(
+        response => response
+      );
+    },
     {
       onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.SearchProfiles]);

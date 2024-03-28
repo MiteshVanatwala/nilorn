@@ -11,48 +11,48 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class SearchProfilesService {
+  /**
+   * @returns OptionItem Success
+   * @throws ApiError
+   */
+  public static getApiSearchProfiles(): CancelablePromise<Array<OptionItem>> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/SearchProfiles',
+    });
+  }
 
-    /**
-     * @returns OptionItem Success
-     * @throws ApiError
-     */
-    public static getApiSearchProfiles(): CancelablePromise<Array<OptionItem>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/SearchProfiles',
-        });
-    }
+  /**
+   * @param requestBody
+   * @returns any Success
+   * @throws ApiError
+   */
+  public static postApiSearchProfiles(
+    requestBody?: UpsertSearchProfileCommand
+  ): CancelablePromise<any> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/api/SearchProfiles',
+      body: requestBody,
+      mediaType: 'application/json',
+    });
+  }
 
-    /**
-     * @param requestBody 
-     * @returns any Success
-     * @throws ApiError
-     */
-    public static postApiSearchProfiles(
-requestBody?: UpsertSearchProfileCommand,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/SearchProfiles',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
+  /**
+   * @param requestBody
+   * @returns any Success
+   * @throws ApiError
+   */
 
-    /**
-     * @param requestBody 
-     * @returns any Success
-     * @throws ApiError
-     */
-    public static deleteApiSearchProfiles(
-requestBody?: DeleteSearchProfileCommand,
-): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/SearchProfiles',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-
+  public static deleteApiSearchProfiles(
+    filterName: string
+  ): CancelablePromise<any> {
+    const apiUrl = `/api/SearchProfiles/${filterName}`;
+    return __request(OpenAPI, {
+      method: 'DELETE',
+      url: apiUrl,
+      body: undefined,
+      mediaType: 'application/json',
+    });
+  }
 }
