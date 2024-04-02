@@ -55,6 +55,7 @@ const SearchProfileModalContent = ({
   const onDelete = () => {
     if (searchProfileName) {
       deleteSearchProfile(searchProfileName);
+      close();
     }
   };
 
@@ -146,12 +147,14 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
-          <Button
-            variant={'primary'}
-            onClick={onDelete}
-            rightIcon={<i className="ri-delete-line" />}>
-            {t('Common.Delete')}
-          </Button>
+          {searchProfileName && (
+            <Button
+              variant={'primary'}
+              onClick={onDelete}
+              rightIcon={<i className="ri-delete-line" />}>
+              {t('Common.Delete')}
+            </Button>
+          )}
           <Button
             variant={'secondary'}
             onClick={onCancel}
