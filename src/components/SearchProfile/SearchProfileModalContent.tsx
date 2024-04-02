@@ -147,16 +147,16 @@ const SearchProfileModalContent = ({
             {t('Common.Save')}
           </Button>
           <Button
+            variant={'primary'}
+            onClick={onDelete}
+            rightIcon={<i className="ri-delete-line" />}>
+            {t('Common.Delete')}
+          </Button>
+          <Button
             variant={'secondary'}
             onClick={onCancel}
             rightIcon={<i className="ri-close-line" />}>
             {t('Common.Cancel')}
-          </Button>
-          <Button
-            variant={'secondary'}
-            onClick={onDelete}
-            rightIcon={<i className="ri-close-line" />}>
-            {t('Common.Delete')}
           </Button>
         </HStack>
       </ModalFooter>
