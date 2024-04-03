@@ -8,19 +8,15 @@ import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { getSortState } from '../../components/Filter/FilterHelper';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import { useFormContext } from 'react-hook-form';
-import { useLocation } from 'react-router';
-import { scrollSelectorIntoView } from '../../app/utils/common';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 function OverviewTableContainer() {
   const { getValues } = useFormContext();
-  const location = useLocation();
   const { t } = useTranslation();
   const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
 
-  const { data, isError, isLoading, isFetching } =
-    useProductDevelopmentsFilter();
+  const { data, isError, isLoading } = useProductDevelopmentsFilter();
 
   useEffect(() => {
     if (initSort) {
@@ -28,21 +24,13 @@ function OverviewTableContainer() {
     }
   }, [setSortState, initSort]);
 
-  useEffect(() => {
-    if (data && !isLoading && location.hash) {
-      setTimeout(() => {
-        scrollSelectorIntoView(location.hash);
-      }, 800);
-    }
-  }, [location.hash, data, isLoading]);
-
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
   }
 
   return (
     <>
-      {(isLoading || isFetching) && <SpinnerOverlay />}
+      {isLoading && <SpinnerOverlay />}
       <OverviewTable
         data={data?.items ?? []}
         sortState={sortState}
