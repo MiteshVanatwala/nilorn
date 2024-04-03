@@ -21,7 +21,7 @@ const ProductDevelopmentCell = ({
 
   useEffect(() => {
     if (!!ref?.current && no && location.hash === `#${no}`) {
-      ref.current.scrollIntoView();
+      ref.current.scrollIntoView({ block: 'start', inline: 'center' });
       location.hash = '';
     }
   }, [location, no]);

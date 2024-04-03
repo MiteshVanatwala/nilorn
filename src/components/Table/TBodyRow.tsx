@@ -28,7 +28,7 @@ export function TBodyRow<Data extends object>({
 
   useEffect(() => {
     if (!!ref?.current && id && location.hash === `#${id}`) {
-      ref.current.scrollIntoView();
+      ref.current.scrollIntoView({ block: 'start', inline: 'center' });
       location.hash = '';
     }
   }, [location, id]);
