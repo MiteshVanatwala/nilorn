@@ -15,6 +15,8 @@ import {
 } from '../../app/api/editProduction';
 import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { useNavigate } from 'react-router';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -30,7 +32,12 @@ const TableMenuProduction = ({
   production,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
+  const showCalculationLink =
+    useAuthorizedSee('calculation') &&
+    !!production?.released &&
+    !!productDevelopment?.no;
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
@@ -86,6 +93,24 @@ const TableMenuProduction = ({
           {!production?.released
             ? t('Production.Release')
             : t('Production.Remove')}
+        </MenuItem>
+      )}
+
+      {showCalculationLink && (
+        <MenuItem
+          onClick={() =>
+            navigate(
+              `/price-calculations?productDevelopments=${productDevelopment?.no}`
+            )
+          }
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-calculator-line"
+            />
+          }>
+          {t('PD.ViewCalculation')}
         </MenuItem>
       )}
 
