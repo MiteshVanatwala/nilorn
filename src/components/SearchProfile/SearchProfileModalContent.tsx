@@ -49,11 +49,13 @@ const SearchProfileModalContent = ({
     useDeleteSearchProfile();
 
   const onCancel = () => {
+    setSearchProfileName('');
     close();
   };
 
   const onDelete = () => {
     if (searchProfileName) {
+      setSearchProfileName('');
       deleteSearchProfile(searchProfileName);
       close();
     }
