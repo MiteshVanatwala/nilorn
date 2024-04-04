@@ -12,7 +12,10 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { COLORS, SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import { useToast } from '../../app/hooks/useToast';
-import { useCreateOrUpdateSearchProfile } from '../../app/api/SearchProfile';
+import {
+  useCreateOrUpdateSearchProfile,
+  useDeleteSearchProfile,
+} from '../../app/api/SearchProfile';
 import FormLabelComponent from '../Form/FormLabelComponent';
 import { FieldError } from 'react-hook-form';
 type Props = {
@@ -42,10 +45,22 @@ const SearchProfileModalContent = ({
     isSuccess,
     isError,
   } = useCreateOrUpdateSearchProfile();
+  const { mutate: deleteSearchProfile, isError: deleteError } =
+    useDeleteSearchProfile();
 
   const onCancel = () => {
+    setSearchProfileName('');
     close();
   };
+
+  const onDelete = () => {
+    if (searchProfileName) {
+      setSearchProfileName('');
+      deleteSearchProfile(searchProfileName);
+      close();
+    }
+  };
+
   async function onSubmit(): Promise<void> {
     const queryString = window.location.href.split('?')[1];
     setDefaultSearchProfile(searchProfileName ?? '');
@@ -89,6 +104,15 @@ const SearchProfileModalContent = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
+  useEffect(() => {
+    if (deleteError) {
+      showToast({
+        status: 'error',
+        description: t('Errors.SearchProfileDelete'),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteError]);
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
@@ -125,6 +149,14 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
+          {searchProfileName && (
+            <Button
+              variant={'primary'}
+              onClick={onDelete}
+              rightIcon={<i className="ri-delete-line" />}>
+              {t('Common.Delete')}
+            </Button>
+          )}
           <Button
             variant={'secondary'}
             onClick={onCancel}
