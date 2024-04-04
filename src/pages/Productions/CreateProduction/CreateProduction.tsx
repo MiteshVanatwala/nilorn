@@ -1,0 +1,128 @@
+import { Box } from '@chakra-ui/react';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
+import { SPACE } from '../../../theme/Constants';
+import {
+  ChangelogType,
+  ProductDevelopmentBriefDto,
+  ProductionDto,
+  PurchasePriceDto,
+  SourcedProductionDto,
+} from '../../../app/generate';
+
+import { useCreateProduction } from '../../../app/api/editProduction';
+import { useGetVendors } from '../../../app/api/vendors';
+import { SelectOption } from '../../../app/types/types';
+import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
+import { useContext, useEffect, useState } from 'react';
+import EditProductionFormContent from '../EditProduction/EditProductionFormContent';
+import { ModalContext } from '../../../app/context/ModalContext';
+import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
+import { isClosed } from '../../../app/utils/status';
+import ActionBarEditProduction from '../EditProduction/ActionBarEditProduction';
+import { useToggleChangelog } from '../../../app/hooks/useChangelog';
+
+type Props = {
+  productDevelopment?: ProductDevelopmentBriefDto;
+  sourcedProduction: SourcedProductionDto;
+  production?: ProductionDto;
+};
+
+const CreateProduction = ({
+  productDevelopment,
+  sourcedProduction,
+  production,
+}: Props) => {
+  const form = useForm({
+    defaultValues: {
+      ...production,
+    },
+  });
+  const { close } = useContext(ModalContext);
+  const { data: vendors } = useGetVendors(false);
+  const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { showChanges, setShowChanges } = useToggleChangelog(
+    ChangelogType.PRODUCTION,
+    undefined,
+    production?.id
+  );
+
+  const { mutate: createProduction } = useCreateProduction();
+
+  let { data } = useGetSourcingQuantities(
+    sourcedProduction?.sourcingId ? sourcedProduction?.sourcingId : '',
+    true
+  );
+
+  useEffect(() => {
+    const mappedDefaultQuantities: PurchasePriceDto[] =
+      data?.map(
+        q =>
+          ({
+            id: undefined,
+            quantity: q ?? null,
+            price: undefined,
+          } as PurchasePriceDto)
+      ) ?? [];
+    if (mappedDefaultQuantities !== undefined) {
+      form.setValue('purchasePrices', mappedDefaultQuantities);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  function submitForm(form: FieldValues) {
+    createProduction(form, {
+      onSuccess: () => {
+        close();
+      },
+    });
+  }
+
+  useEffect(() => {
+    if (vendors) {
+      setVendorOptions(mapVendorsToOptions(vendors));
+    }
+  }, [vendors]);
+
+  return (
+    <Box mb={SPACE.LG} px={SPACE.SM}>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(submitForm)}>
+          <ProductDevelopmentModalTopSection
+            productDevelopment={productDevelopment}
+            sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+            vendorName={production?.vendorName}
+            actionBar={
+              <ActionBarEditProduction
+                production={production}
+                artwork={productDevelopment?.artwork}
+                showChanges={showChanges}
+                setShowChanges={(s: boolean) => setShowChanges(s)}
+                disableEdit={production?.released}
+                status={productDevelopment?.status}
+                createNew={true}
+                productDevelopmentNo={productDevelopment?.no}
+              />
+            }
+          />
+          <EditProductionFormContent
+            sourcedProduction={sourcedProduction}
+            productDevelopment={productDevelopment}
+            createNew={true}
+            production={production}
+            showChanges={showChanges}
+            disableEdit={
+              production?.released ||
+              (productDevelopment?.status
+                ? isClosed(productDevelopment.status)
+                : false)
+            }
+          />
+        </form>
+      </FormProvider>
+    </Box>
+  );
+};
+
+export default CreateProduction;

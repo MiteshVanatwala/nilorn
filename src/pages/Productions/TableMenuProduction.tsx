@@ -4,11 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
-import {
-  ProductDevelopmentBriefDto,
-  ProductionDto,
-  SourcedProductionDto,
-} from '../../app/generate';
+import { ProductDevelopmentBriefDto, ProductionDto } from '../../app/generate';
 import {
   useDeleteProduction,
   useReleaseForSales,
@@ -17,19 +13,18 @@ import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { useNavigate } from 'react-router';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import { ServerFilter } from '../../app/types/types';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
-  sourcingCoIndex: number;
   production?: ProductionDto;
+  filters: ServerFilter;
 };
 
 const TableMenuProduction = ({
   productDevelopment,
-  sourcedProduction,
-  sourcingCoIndex,
   production,
+  filters,
 }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -43,6 +38,7 @@ const TableMenuProduction = ({
     production ? production?.id?.toString() : undefined,
     !production?.released
   );
+
   function releaseForSalesFunc(id: string | undefined, release: boolean) {
     if (production?.vendorId !== '') {
       releaseForSales();
@@ -52,21 +48,22 @@ const TableMenuProduction = ({
   function deleteProductionFunc() {
     deleteProduction({ id: production?.id ?? '' });
   }
+
   useEffect(() => {
     if (isSuccess) {
       close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
+
   return (
     <>
       <MenuItem
         onClick={() =>
           handleModal(
             <EditProduction
-              productDevelopment={productDevelopment}
-              sourcedProduction={sourcedProduction}
-              production={production}
+              productionId={production?.id ?? ''}
+              filters={filters}
             />
           )
         }

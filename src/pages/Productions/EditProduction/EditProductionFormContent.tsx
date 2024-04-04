@@ -23,7 +23,7 @@ import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
+  sourcedProduction?: SourcedProductionDto;
   createNew?: boolean;
   production?: ProductionDto;
   disableEdit?: boolean;
@@ -94,7 +94,7 @@ const EditProductionFormContent = ({
                 options={mapVendorsToOptions(
                   vendors.filter(
                     vendor =>
-                      !sourcedProduction.productions?.some(
+                      !sourcedProduction?.productions?.some(
                         production => production.vendorId === vendor.id
                       )
                   ),

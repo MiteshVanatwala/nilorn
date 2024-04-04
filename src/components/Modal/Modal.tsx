@@ -39,7 +39,7 @@ const Modal = () => {
             mt={SPACE.SM}
             mr={SPACE.SM}
           />
-          <ModalBody>{modalContent}</ModalBody>
+          <ModalBody position={'relative'}>{modalContent}</ModalBody>
         </ModalContent>
       </ChakraModal>
     </>
