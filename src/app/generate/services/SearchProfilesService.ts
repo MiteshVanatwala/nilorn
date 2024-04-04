@@ -39,20 +39,17 @@ export class SearchProfilesService {
   }
 
   /**
-   * @param requestBody
+   * @param name
    * @returns any Success
    * @throws ApiError
    */
-
-  public static deleteApiSearchProfiles(
-    filterName: string
-  ): CancelablePromise<any> {
-    const apiUrl = `/api/SearchProfiles/${filterName}`;
+  public static deleteApiSearchProfiles(name: string): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: 'DELETE',
-      url: apiUrl,
-      body: undefined,
-      mediaType: 'application/json',
+      url: '/api/SearchProfiles/{name}',
+      path: {
+        name: name,
+      },
     });
   }
 }

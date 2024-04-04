@@ -18,3 +18,4 @@ export type CreateProductionCommand = {
     vendorId?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;
 };
+

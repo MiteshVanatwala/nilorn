@@ -8,3 +8,4 @@ export type Currency = {
     description?: string | null;
     unitRounding?: number | null;
 };
+

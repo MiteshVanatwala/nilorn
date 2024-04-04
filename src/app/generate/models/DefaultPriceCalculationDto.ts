@@ -13,3 +13,4 @@ export type DefaultPriceCalculationDto = {
     indirectCost?: number | null;
     currencyRate?: number | null;
 };
+

@@ -16,47 +16,47 @@ import { request as __request } from '../core/request';
 export class ProductDevelopmentsService {
 
     /**
-     * @param pageNumber 
-     * @param pageSize 
-     * @param sortKey 
-     * @param searchQuery 
-     * @param clients 
-     * @param projects 
-     * @param statuses 
-     * @param itemCategories 
-     * @param productGroups 
-     * @param foldingTypes 
-     * @param finishedLengths 
-     * @param finishedWidths 
-     * @param finishedHeights 
-     * @param sourcingCompanies 
-     * @param vendors 
-     * @param opComps 
-     * @param members 
-     * @param includeClosed 
+     * @param pageNumber
+     * @param pageSize
+     * @param sortKey
+     * @param searchQuery
+     * @param clients
+     * @param projects
+     * @param statuses
+     * @param itemCategories
+     * @param productGroups
+     * @param foldingTypes
+     * @param finishedLengths
+     * @param finishedWidths
+     * @param finishedHeights
+     * @param sourcingCompanies
+     * @param vendors
+     * @param opComps
+     * @param members
+     * @param includeClosed
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsFilter(
-pageNumber?: number,
-pageSize?: number,
-sortKey?: string,
-searchQuery?: string,
-clients?: string,
-projects?: string,
-statuses?: string,
-itemCategories?: string,
-productGroups?: string,
-foldingTypes?: string,
-finishedLengths?: string,
-finishedWidths?: string,
-finishedHeights?: string,
-sourcingCompanies?: string,
-vendors?: string,
-opComps?: string,
-members?: string,
-includeClosed?: boolean,
-): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
+        pageNumber?: number,
+        pageSize?: number,
+        sortKey?: string,
+        searchQuery?: string,
+        clients?: string,
+        projects?: string,
+        statuses?: string,
+        itemCategories?: string,
+        productGroups?: string,
+        foldingTypes?: string,
+        finishedLengths?: string,
+        finishedWidths?: string,
+        finishedHeights?: string,
+        sourcingCompanies?: string,
+        vendors?: string,
+        opComps?: string,
+        members?: string,
+        includeClosed?: boolean,
+    ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/Filter',
@@ -84,45 +84,45 @@ includeClosed?: boolean,
     }
 
     /**
-     * @param productDevelopmentNo 
-     * @param sortKey 
-     * @param searchQuery 
-     * @param clients 
-     * @param projects 
-     * @param statuses 
-     * @param itemCategories 
-     * @param productGroups 
-     * @param foldingTypes 
-     * @param finishedLengths 
-     * @param finishedWidths 
-     * @param finishedHeights 
-     * @param sourcingCompanies 
-     * @param vendors 
-     * @param opComps 
-     * @param members 
-     * @param includeClosed 
+     * @param productDevelopmentNo
+     * @param sortKey
+     * @param searchQuery
+     * @param clients
+     * @param projects
+     * @param statuses
+     * @param itemCategories
+     * @param productGroups
+     * @param foldingTypes
+     * @param finishedLengths
+     * @param finishedWidths
+     * @param finishedHeights
+     * @param sourcingCompanies
+     * @param vendors
+     * @param opComps
+     * @param members
+     * @param includeClosed
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsNavigation(
-productDevelopmentNo?: string,
-sortKey?: string,
-searchQuery?: string,
-clients?: string,
-projects?: string,
-statuses?: string,
-itemCategories?: string,
-productGroups?: string,
-foldingTypes?: string,
-finishedLengths?: string,
-finishedWidths?: string,
-finishedHeights?: string,
-sourcingCompanies?: string,
-vendors?: string,
-opComps?: string,
-members?: string,
-includeClosed?: boolean,
-): CancelablePromise<NavigationItem> {
+        productDevelopmentNo?: string,
+        sortKey?: string,
+        searchQuery?: string,
+        clients?: string,
+        projects?: string,
+        statuses?: string,
+        itemCategories?: string,
+        productGroups?: string,
+        foldingTypes?: string,
+        finishedLengths?: string,
+        finishedWidths?: string,
+        finishedHeights?: string,
+        sourcingCompanies?: string,
+        vendors?: string,
+        opComps?: string,
+        members?: string,
+        includeClosed?: boolean,
+    ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/Navigation',
@@ -149,13 +149,13 @@ includeClosed?: boolean,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-requestBody?: CreateProductDevelopmentCommand,
-): CancelablePromise<string> {
+        requestBody?: CreateProductDevelopmentCommand,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments',
@@ -165,13 +165,13 @@ requestBody?: CreateProductDevelopmentCommand,
     }
 
     /**
-     * @param no 
+     * @param no
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static getApiProductDevelopments(
-no: string,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/{no}',
@@ -182,15 +182,15 @@ no: string,
     }
 
     /**
-     * @param no 
-     * @param requestBody 
+     * @param no
+     * @param requestBody
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments(
-no: string,
-requestBody?: UpdateProductDevelopmentDto,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+        requestBody?: UpdateProductDevelopmentDto,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}',
@@ -203,15 +203,15 @@ requestBody?: UpdateProductDevelopmentDto,
     }
 
     /**
-     * @param no 
-     * @param status 
+     * @param no
+     * @param status
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments1(
-no: string,
-status: Status,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+        status: Status,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}/{status}',

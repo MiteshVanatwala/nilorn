@@ -25,3 +25,4 @@ export type UpdateProductDevelopmentDto = {
     members?: Array<MemberBriefDto> | null;
     status?: Status;
 };
+

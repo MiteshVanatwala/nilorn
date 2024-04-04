@@ -4,7 +4,9 @@
 /* eslint-disable */
 import type { CreateProductionCommand } from '../models/CreateProductionCommand';
 import type { DeleteProductionCommand } from '../models/DeleteProductionCommand';
+import type { NavigationItem } from '../models/NavigationItem';
 import type { ProductionDto } from '../models/ProductionDto';
+import type { ProductionExtendedDto } from '../models/ProductionExtendedDto';
 import type { UpdateProductionCommand } from '../models/UpdateProductionCommand';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -45,6 +47,23 @@ export class ProductionsService {
   }
 
   /**
+   * @param id
+   * @returns ProductionExtendedDto Success
+   * @throws ApiError
+   */
+  public static getApiProductions(
+    id?: string
+  ): CancelablePromise<ProductionExtendedDto> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/Productions',
+      query: {
+        id: id,
+      },
+    });
+  }
+
+  /**
    * @param requestBody
    * @returns ProductionDto Success
    * @throws ApiError
@@ -61,13 +80,48 @@ export class ProductionsService {
   }
 
   /**
+   * @param id
+   * @param includeCalculations
+   * @param productDevelopments
+   * @param vendors
+   * @param sourcingCompanies
+   * @param clients
+   * @param projects
+   * @returns NavigationItem Success
+   * @throws ApiError
+   */
+  public static getApiProductionsNavigation(
+    id: string,
+    includeCalculations?: boolean,
+    productDevelopments?: string,
+    vendors?: string,
+    sourcingCompanies?: string,
+    clients?: string,
+    projects?: string
+  ): CancelablePromise<NavigationItem> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/api/Productions/Navigation',
+      query: {
+        Id: id,
+        IncludeCalculations: includeCalculations,
+        ProductDevelopments: productDevelopments,
+        Vendors: vendors,
+        SourcingCompanies: sourcingCompanies,
+        Clients: clients,
+        Projects: projects,
+      },
+    });
+  }
+
+  /**
    * @param no
    * @param sourcingCompanyCode
    * @param released
    * @returns ProductionDto Success
    * @throws ApiError
    */
-  public static getApiProductions(
+  public static getApiProductions1(
     no: string,
     sourcingCompanyCode: string,
     released?: boolean
