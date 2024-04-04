@@ -21,15 +21,34 @@ export class SearchProfilesService {
     });
   }
 
-  public static deleteApiSearchProfiles(
-    filterName: string
+  /**
+   * @param requestBody
+   * @returns any Success
+   * @throws ApiError
+   */
+  public static postApiSearchProfiles(
+    requestBody?: UpsertSearchProfileCommand
   ): CancelablePromise<any> {
-    const apiUrl = `/api/SearchProfiles/${filterName}`;
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/api/SearchProfiles',
+      body: requestBody,
+      mediaType: 'application/json',
+    });
+  }
+
+  /**
+   * @param name
+   * @returns any Success
+   * @throws ApiError
+   */
+  public static deleteApiSearchProfiles(name: string): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: 'DELETE',
-      url: apiUrl,
-      body: undefined,
-      mediaType: 'application/json',
+      url: '/api/SearchProfiles/{name}',
+      path: {
+        name: name,
+      },
     });
   }
 }
