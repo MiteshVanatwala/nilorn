@@ -22,12 +22,14 @@ type Props = {
   activeSearchProfileName?: string;
   setActiveSearchProfileName(val: string): void;
   setDefaultSearchProfile(val: string): void;
+  isValueSelected: boolean;
 };
 
 const SearchProfileModalContent = ({
   activeSearchProfileName,
   setActiveSearchProfileName,
   setDefaultSearchProfile,
+  isValueSelected,
 }: Props) => {
   const { showToast } = useToast();
   const { t } = useTranslation();
@@ -149,7 +151,7 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
-          {searchProfileName && (
+          {isValueSelected && (
             <Button
               variant={'primary'}
               onClick={onDelete}
@@ -157,6 +159,7 @@ const SearchProfileModalContent = ({
               {t('Common.Delete')}
             </Button>
           )}
+
           <Button
             variant={'secondary'}
             onClick={onCancel}
