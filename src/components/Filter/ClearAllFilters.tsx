@@ -5,14 +5,16 @@ import { useTranslation } from 'react-i18next';
 import { getCurrentStoredFilter } from './FilterHelper';
 
 const ClearAllFilters = () => {
-  const { reset, getValues } = useFormContext();
+  const { setValue } = useFormContext();
   const { t } = useTranslation();
 
   const handleClick = () => {
-    const pageNumber = getValues('pageNumber');
-    const pageSize = getValues('pageSize');
-    const searchQuery = '';
-    reset({ pageNumber, pageSize, searchQuery });
+    setValue('searchQuery', undefined);
+    setValue('clients', undefined);
+    setValue('productDevelopments', undefined);
+    setValue('projects', undefined);
+    setValue('sourcingCompanies', undefined);
+    setValue('vendor', undefined);
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
   };
