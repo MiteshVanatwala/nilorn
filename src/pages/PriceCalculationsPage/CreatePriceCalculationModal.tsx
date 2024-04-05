@@ -20,6 +20,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
+import { ServerFilter } from '../../app/types/types';
 
 type Props = {
   createNew?: boolean;
@@ -29,9 +30,10 @@ type Props = {
   artwork?: MediaFileDto;
   production: ProductionDto;
   calculation: PriceCalculationDto | undefined;
+  filters?: ServerFilter;
 };
 
-const PriceCalculationModal = ({
+const CreatePriceCalculationModal = ({
   createNew,
   productDevelopment,
   sourcedProduction,
@@ -135,9 +137,9 @@ const PriceCalculationModal = ({
                 calculation?.currencyCode ??
                 undefined
               }
-              production={production}
               createNew={createNew ?? false}
               showChanges={showChanges}
+              productionId={production.id}
             />
           </Skeleton>
         </form>
@@ -146,4 +148,4 @@ const PriceCalculationModal = ({
   );
 };
 
-export default PriceCalculationModal;
+export default CreatePriceCalculationModal;

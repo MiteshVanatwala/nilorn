@@ -39,17 +39,22 @@ export class MediaFileService {
 
     /**
      * @param id
+     * @param keepInSharePoint
      * @returns boolean Success
      * @throws ApiError
      */
     public static deleteApiMediaFile(
         id: string,
+        keepInSharePoint?: boolean,
     ): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/MediaFile/{id}',
             path: {
                 'id': id,
+            },
+            query: {
+                'keepInSharePoint': keepInSharePoint,
             },
         });
     }

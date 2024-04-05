@@ -9,6 +9,18 @@ import {
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
+import { ServerFilter } from '../types/types';
+
+export const usePriceCalculation = (id: string) => {
+  return useQuery(
+    [QueryKeysEnum.PriceCalculation, id],
+    () => PriceCalculationService.getApiPriceCalculation(id).then(res => res),
+    {
+      retry: 0,
+      keepPreviousData: true,
+    }
+  );
+};
 
 export const usePatchCalculation = () => {
   const { t } = useTranslation();
@@ -142,6 +154,40 @@ export const usePriceCalculationDefaultValues = (
       ).then(res => res),
     {
       enabled: enable,
+      retry: 0,
+    }
+  );
+};
+
+export const usePriceCalculationNavigation = (
+  id: string,
+  filters: ServerFilter
+) => {
+  const { vendors, clients, sourcingCompanies, productDevelopments, projects } =
+    filters || {};
+
+  return useQuery(
+    [
+      QueryKeysEnum.PriceCalculation,
+      QueryKeysEnum.Navigation,
+      id,
+      vendors,
+      clients,
+      sourcingCompanies,
+      productDevelopments,
+      projects,
+    ],
+    () =>
+      PriceCalculationService.getApiPriceCalculationNavigation(
+        id,
+        true,
+        productDevelopments,
+        vendors,
+        sourcingCompanies,
+        clients,
+        projects
+      ).then(res => res),
+    {
       retry: 0,
     }
   );

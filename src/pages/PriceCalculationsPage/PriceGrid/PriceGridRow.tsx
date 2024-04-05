@@ -27,6 +27,7 @@ import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { NavLink } from 'react-router-dom';
+import { useFormStateFilters } from '../../../app/hooks/useFormStateFilters';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -42,6 +43,7 @@ function PriceGridRow({
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
   const vendorOptions = useFilterOptions('vendor');
+  const filters = useFormStateFilters();
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
@@ -156,6 +158,7 @@ function PriceGridRow({
                             production?.priceCalculations?.length <= 0) ??
                           true
                         }
+                        filters={filters}
                       />
                     )}
                 </>

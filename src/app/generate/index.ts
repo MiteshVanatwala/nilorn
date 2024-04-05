@@ -52,6 +52,7 @@ export type { UpdateSalesPriceCommand } from './models/UpdateSalesPriceCommand';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 
+export { CertificateService } from './services/CertificateService';
 export { ChangelogService } from './services/ChangelogService';
 export { ClientService } from './services/ClientService';
 export { CurrencyService } from './services/CurrencyService';

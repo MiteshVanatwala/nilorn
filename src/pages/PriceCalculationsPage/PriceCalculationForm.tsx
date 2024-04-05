@@ -5,11 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
-import {
-  PriceCalculationDto,
-  PriceDto,
-  ProductionDto,
-} from '../../app/generate';
+import { PriceCalculationDto, PriceDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
@@ -23,19 +19,19 @@ import {
 type Props = {
   disableEdit?: boolean;
   calculation: PriceCalculationDto | undefined;
-  production: ProductionDto;
   createNew: boolean;
   showChanges: boolean;
   currencyCode?: string;
+  productionId?: string;
 };
 
 const PriceCalculationForm = ({
   disableEdit,
   calculation,
-  production,
   createNew,
   showChanges,
   currencyCode,
+  productionId,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -183,7 +179,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={2}>
           <InputField
             readonly={true}
-            defaultValue={production.currencyCode ?? ''}
+            defaultValue={currencyCode ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
@@ -223,7 +219,7 @@ const PriceCalculationForm = ({
             <InputField
               type="hidden"
               readonly={true}
-              defaultValue={production.id ?? ''}
+              defaultValue={productionId ?? ''}
               name={'productionId'}
             />
           </GridItem>
