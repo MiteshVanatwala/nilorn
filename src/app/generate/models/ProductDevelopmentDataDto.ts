@@ -6,17 +6,13 @@
 import type { MediaFileDto } from './MediaFileDto';
 import type { Status } from './Status';
 
-export type ProductDevelopmentBriefDto = {
+export type ProductDevelopmentDataDto = {
     no?: string | null;
-    thumbnailData?: string | null;
     name?: string | null;
+    thumbnailData?: string | null;
     status?: Status;
-    versions?: number;
+    projectCode?: string | null;
+    clientName?: string | null;
     artwork?: MediaFileDto;
-    client?: string | null;
-    project?: string | null;
-    productGroup?: string | null;
-    itemCategory?: string | null;
-    sourcings?: Array<string> | null;
 };
 

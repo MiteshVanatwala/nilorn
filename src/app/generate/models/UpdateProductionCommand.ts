@@ -17,3 +17,4 @@ export type UpdateProductionCommand = {
     id?: string;
     purchasePrices?: Array<PurchasePriceDto> | null;
 };
+

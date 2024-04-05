@@ -12,19 +12,19 @@ import { request as __request } from '../core/request';
 export class MediaFileService {
 
     /**
-     * @param productDevelopmentNo 
-     * @param mediaFileType 
-     * @param formData 
+     * @param productDevelopmentNo
+     * @param mediaFileType
+     * @param formData
      * @returns MediaFileDto Success
      * @throws ApiError
      */
     public static postApiMediaFileUpload(
-productDevelopmentNo: string,
-mediaFileType: MediaFileType,
-formData?: {
-file?: Blob;
-},
-): CancelablePromise<MediaFileDto> {
+        productDevelopmentNo: string,
+        mediaFileType: MediaFileType,
+        formData?: {
+            file?: Blob;
+        },
+    ): CancelablePromise<MediaFileDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/MediaFile/upload/{mediaFileType}/{productDevelopmentNo}',
@@ -38,13 +38,13 @@ file?: Blob;
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns boolean Success
      * @throws ApiError
      */
     public static deleteApiMediaFile(
-id: string,
-): CancelablePromise<boolean> {
+        id: string,
+    ): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/MediaFile/{id}',
@@ -55,13 +55,13 @@ id: string,
     }
 
     /**
-     * @param id 
+     * @param id
      * @returns any Success
      * @throws ApiError
      */
     public static getApiMediaFile(
-id: string,
-): CancelablePromise<any> {
+        id: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/MediaFile/{id}',
@@ -72,13 +72,13 @@ id: string,
     }
 
     /**
-     * @param productDevelopmentNo 
+     * @param productDevelopmentNo
      * @returns MediaFileDto Success
      * @throws ApiError
      */
     public static getApiMediaFileAttachments(
-productDevelopmentNo: string,
-): CancelablePromise<Array<MediaFileDto>> {
+        productDevelopmentNo: string,
+    ): CancelablePromise<Array<MediaFileDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/MediaFile/attachments/{productDevelopmentNo}',

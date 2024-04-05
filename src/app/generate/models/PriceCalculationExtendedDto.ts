@@ -4,8 +4,9 @@
 /* eslint-disable */
 
 import type { PriceDto } from './PriceDto';
+import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
 
-export type PriceCalculationDto = {
+export type PriceCalculationExtendedDto = {
     id?: string;
     productionId?: string;
     currencyCode?: string | null;
@@ -15,5 +16,8 @@ export type PriceCalculationDto = {
     freightIncluded?: number | null;
     priceDtos?: Array<PriceDto> | null;
     lastModified?: string | null;
+    productDevelopmentDataDto?: ProductDevelopmentDataDto;
+    vendorName?: string | null;
+    sourcingCompanyCode?: string | null;
 };
 

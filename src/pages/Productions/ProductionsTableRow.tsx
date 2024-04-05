@@ -18,12 +18,14 @@ import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 import { isClosed } from '../../app/utils/status';
+import { useFormStateFilters } from '../../app/hooks/useFormStateFilters';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
 };
 
 const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
+  const filters = useFormStateFilters();
   return (
     <Fragment key={p?.productDevelopmentBriefDto?.no}>
       <GridTd colSpan={2}>
@@ -77,9 +79,8 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                           children={
                             <TableMenuProduction
                               productDevelopment={p?.productDevelopmentBriefDto}
-                              sourcedProduction={s}
-                              sourcingCoIndex={index}
                               production={production}
+                              filters={filters}
                             />
                           }
                         />

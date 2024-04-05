@@ -4,20 +4,21 @@ import { SPACE, COLORS, BORDER_RADIUS } from '../../theme/Constants';
 
 type Props = {
   text?: string;
+  fillContainer?: boolean;
 };
-const SpinnerOverlay = ({ text }: Props) => {
+const SpinnerOverlay = ({ text, fillContainer = false }: Props) => {
   return (
     <Center
-      bg={COLORS.GRAY[5] + '50'}
+      bg={COLORS.GRAY[5] + (fillContainer ? '90' : '50')}
       zIndex={9}
-      h="100vh"
-      w="100vw"
+      h={fillContainer ? '100%' : '100vh'}
+      w={fillContainer ? '100%' : '100vw'}
       top={0}
       left={0}
-      position={'fixed'}
+      position={fillContainer ? 'absolute' : 'fixed'}
       flexDirection={'column'}
       gap={SPACE.XL}
-      borderRadius={BORDER_RADIUS.LG}>
+      borderRadius={fillContainer ? undefined : BORDER_RADIUS.LG}>
       <Spinner size="xl" />
       {text && (
         <Heading as={'h2'} variant={'h4'} color={COLORS.GRAY[90]}>

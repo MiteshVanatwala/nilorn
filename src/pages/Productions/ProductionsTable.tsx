@@ -36,8 +36,8 @@ const ProductionsTable = ({ productions }: Props) => {
       <GridTh>{t('PD.SourcingCompany')}</GridTh>
       <ProductionGridHeader />
       <>
-        {productions.map(p => (
-          <ProductionsTableRow productDevelopment={p} />
+        {productions.map((p, i) => (
+          <ProductionsTableRow key={i} productDevelopment={p} />
         ))}
       </>
     </GridTable>

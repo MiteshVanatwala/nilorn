@@ -12,3 +12,4 @@ export type CreatePriceCalculationCommand = {
     freightIncluded?: number | null;
     margin?: number;
 };
+

@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
 import QueryKeysEnum from './queryKeys';
-import { ProductDevelopmentDeepService, ProductionsService } from '../generate';
+import { ProductDevelopmentDeepService } from '../generate';
 
 export function useProductDevelopmentDeepFilter(
   includeCalculations: boolean,
@@ -51,21 +51,6 @@ export function useProductDevelopmentDeepFilter(
       cacheTime: 1000 * 20,
       staleTime: 1000 * 20,
       enabled: pageNumber > 0 && pageSize > 0,
-    }
-  );
-}
-
-export function useProductions(
-  no: string,
-  sourcingCompanyCode: string,
-  released?: boolean | undefined
-) {
-  return useQuery(
-    [QueryKeysEnum.Productions, no, sourcingCompanyCode, released],
-    () =>
-      ProductionsService.getApiProductions(no, sourcingCompanyCode, released),
-    {
-      retry: 0,
     }
   );
 }

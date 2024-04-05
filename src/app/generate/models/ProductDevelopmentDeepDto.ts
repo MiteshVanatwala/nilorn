@@ -10,3 +10,4 @@ export type ProductDevelopmentDeepDto = {
     productDevelopmentBriefDto?: ProductDevelopmentBriefDto;
     sourcedProductions?: Array<SourcedProductionDto> | null;
 };
+

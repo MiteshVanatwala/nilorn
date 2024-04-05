@@ -22,3 +22,4 @@ export type CreateProductDevelopmentCommand = {
     clientNo?: string | null;
     sourcings?: Array<SourcingDto> | null;
 };
+

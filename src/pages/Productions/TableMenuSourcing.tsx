@@ -3,11 +3,11 @@ import { SIZES } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
-import EditProduction from './EditProduction/EditProduction';
 import {
   ProductDevelopmentBriefDto,
   SourcedProductionDto,
 } from '../../app/generate';
+import CreateProduction from './CreateProduction/CreateProduction';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -27,10 +27,9 @@ const TableMenuSourcing = ({
     <MenuItem
       onClick={() =>
         handleModal(
-          <EditProduction
+          <CreateProduction
             productDevelopment={productDevelopment}
             sourcedProduction={sourcedProduction}
-            createNew={true}
           />
         )
       }

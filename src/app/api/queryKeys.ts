@@ -22,6 +22,7 @@ enum QueryKeysEnum {
   SourcingQty = 'SourcingQty',
   Attachments = 'Attachments',
   DefaultValues = 'DefaultValues',
+  Navigation = 'Navigation',
 }
 
 export default QueryKeysEnum;
