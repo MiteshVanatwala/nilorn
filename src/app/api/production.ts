@@ -9,7 +9,6 @@ export function useProduction(id: string) {
     () => ProductionsService.getApiProductions(id),
     {
       retry: 0,
-      keepPreviousData: true,
     }
   );
 }

@@ -23,7 +23,6 @@ import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { ServerFilter } from '../../app/types/types';
 
 type Props = {
-  createNew?: boolean;
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   lastModified?: string;
@@ -34,7 +33,6 @@ type Props = {
 };
 
 const CreatePriceCalculationModal = ({
-  createNew,
   productDevelopment,
   sourcedProduction,
   lastModified,
@@ -58,7 +56,7 @@ const CreatePriceCalculationModal = ({
   } = usePriceCalculationDefaultValues(
     productDevelopment?.no ?? '',
     sourcedProduction.sourcingCompanyCode ?? '',
-    createNew
+    true
   );
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
@@ -81,7 +79,7 @@ const CreatePriceCalculationModal = ({
   });
 
   useEffect(() => {
-    if (createNew && isLoadedDefaultValues) {
+    if (isLoadedDefaultValues) {
       form.reset({
         currencyRate: defaultValues?.currencyRate,
         currencyCode: defaultValues?.salesCurrency?.code,
@@ -91,22 +89,14 @@ const CreatePriceCalculationModal = ({
         margin: defaultValues?.margin,
       });
     }
-  }, [createNew, defaultValues, form, isLoadedDefaultValues]);
+  }, [defaultValues, form, isLoadedDefaultValues]);
 
   function submitForm(form: FieldValues) {
-    if (createNew) {
-      createCalculation(form, {
-        onSuccess: () => {
-          close();
-        },
-      });
-    } else {
-      updateCalculation(form, {
-        onSuccess: () => {
-          close();
-        },
-      });
-    }
+    createCalculation(form, {
+      onSuccess: () => {
+        close();
+      },
+    });
   }
 
   return (
@@ -120,7 +110,7 @@ const CreatePriceCalculationModal = ({
             actionBar={
               <PriceCalculationActionBar
                 artwork={artwork}
-                createNew={createNew}
+                createNew={true}
                 lastModified={lastModified}
                 id={calculation?.id ?? ''}
                 showChanges={showChanges}
@@ -128,8 +118,7 @@ const CreatePriceCalculationModal = ({
               />
             }
           />
-          <Skeleton
-            isLoaded={(createNew && !isLoadingDefaultValues) || !createNew}>
+          <Skeleton isLoaded={!isLoadingDefaultValues}>
             <PriceCalculationForm
               calculation={calculation}
               currencyCode={
@@ -137,7 +126,7 @@ const CreatePriceCalculationModal = ({
                 calculation?.currencyCode ??
                 undefined
               }
-              createNew={createNew ?? false}
+              createNew={false}
               showChanges={showChanges}
               productionId={production.id}
             />

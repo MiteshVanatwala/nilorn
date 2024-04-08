@@ -104,6 +104,7 @@ const ActionBarEditProduction = ({
                   navigate(
                     `/price-calculations?productDevelopments=${productDevelopmentNo}`
                   );
+                  close();
                 }}
                 icon={
                   <Text

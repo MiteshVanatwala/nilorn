@@ -34,6 +34,7 @@ export const usePatchCalculation = () => {
       ),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
