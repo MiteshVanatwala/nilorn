@@ -63,7 +63,6 @@ const TableMenuCalculation = ({
               <CreatePriceCalculationModal
                 productDevelopment={productDevelopment}
                 sourcedProduction={sourcedProduction}
-                createNew={createNew}
                 lastModified={lastModified}
                 artwork={artwork}
                 production={production}
