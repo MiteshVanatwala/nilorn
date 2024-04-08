@@ -50,16 +50,17 @@ const SearchProfileModalContent = ({
   const { mutate: deleteSearchProfile, isError: deleteError } =
     useDeleteSearchProfile();
 
+  const [inputChanged, setInputChanged] = useState(false);
+
   const onCancel = () => {
-    setSearchProfileName('');
-    close();
+    onClose();
   };
 
   const onDelete = () => {
     if (searchProfileName) {
       setSearchProfileName('');
       deleteSearchProfile(searchProfileName);
-      close();
+      onClose();
     }
   };
 
@@ -93,7 +94,7 @@ const SearchProfileModalContent = ({
         status: 'success',
         description: t('Filter.FilterSaved'),
       });
-      close();
+      onClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
@@ -118,6 +119,21 @@ const SearchProfileModalContent = ({
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchProfileName(e.target.value);
+    setActiveSearchProfileName(e.target.value);
+    setDefaultSearchProfile('');
+    setErrorMsgName(undefined);
+    setInputChanged(true);
+    setInputChanged(e.target.value !== activeSearchProfileName);
+  };
+
+  const onClose = () => {
+    setSearchProfileName('');
+    close();
+  };
+
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>
@@ -132,12 +148,7 @@ const SearchProfileModalContent = ({
           variant={'standard'}
           name={'searchProfileName'}
           placeholder={t('Common.Placeholder')}
-          onChange={e => {
-            setSearchProfileName(e.target.value);
-            setActiveSearchProfileName(e.target.value);
-            setDefaultSearchProfile('');
-            setErrorMsgName(undefined);
-          }}
+          onChange={handleInputChange}
         />
         {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
         {errorMsgQuery && <Text color={COLORS.ERROR}>{errorMsgQuery}</Text>}
@@ -151,7 +162,7 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
-          {isValueSelected && (
+          {isValueSelected && !inputChanged && (
             <Button
               variant={'primary'}
               onClick={onDelete}
