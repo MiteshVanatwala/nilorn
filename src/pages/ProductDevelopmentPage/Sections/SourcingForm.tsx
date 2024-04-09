@@ -4,7 +4,7 @@ import { GRID, SPACE } from '../../../theme/Constants';
 import InputField from '../../../components/Form/InputField';
 import Quantity from './SectionComponents/Quantity';
 import TextArea from '../../../components/Form/TextArea';
-import { useProductions } from '../../../app/api/productDevelopmentDeep';
+import { useProductions } from '../../../app/api/production';
 import ReleasedProductions from './ReleasedProductions';
 import ArrowLink from '../../../components/Link/ArrowLink';
 import { useProductDevelopment } from '../../../app/api/productDevelopment';
@@ -72,7 +72,7 @@ const SourcingForm = ({
             }}
           />
 
-          {!disableEdit && !connectedProductions?.length && allowedToRemove && (
+          {/* {!disableEdit && !connectedProductions?.length && allowedToRemove && (
             <Button
               mt={SPACE}
               variant={'secondarySmall'}
@@ -80,7 +80,7 @@ const SourcingForm = ({
               rightIcon={<i className={'ri-delete-bin-line'} />}>
               {t('PD.RemoveSourcing')}
             </Button>
-          )}
+          )} */}
         </VStack>
       </GridItem>
       <GridItem
@@ -107,11 +107,11 @@ const SourcingForm = ({
           lg: 8,
           xl: 10,
         }}>
-        <ReleasedProductions
+        {/* <ReleasedProductions
           data={connectedProductions?.filter(cp => cp.released) ?? []}
-        />
+        /> */}
       </GridItem>
-      <GridItem
+      {/* <GridItem
         colSpan={{
           base: 2,
           lg: 5,
@@ -153,7 +153,7 @@ const SourcingForm = ({
               )}
           </HStack>
         )}
-      </GridItem>
+      </GridItem> */}
     </Grid>
   );
 };

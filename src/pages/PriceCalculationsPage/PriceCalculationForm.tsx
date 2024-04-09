@@ -5,11 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import { useGetCurrencies } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
-import {
-  PriceCalculationDto,
-  PriceDto,
-  ProductionDto,
-} from '../../app/generate';
+import { PriceCalculationDto, PriceDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
@@ -23,17 +19,19 @@ import {
 type Props = {
   disableEdit?: boolean;
   calculation: PriceCalculationDto | undefined;
-  production: ProductionDto;
   createNew: boolean;
   showChanges: boolean;
+  currencyCode?: string;
+  productionId?: string;
 };
 
 const PriceCalculationForm = ({
   disableEdit,
   calculation,
-  production,
   createNew,
   showChanges,
+  currencyCode,
+  productionId,
 }: Props) => {
   const { t } = useTranslation();
   let { data: currency } = useGetCurrencies();
@@ -58,7 +56,6 @@ const PriceCalculationForm = ({
     'internalCommission',
     id
   );
-
   const freightIncludedValue = useWatch({ name: 'freightIncluded' });
   const marginValue = useWatch({ name: 'margin' });
   const currencyRateValue = useWatch({ name: 'currencyRate' });
@@ -97,7 +94,13 @@ const PriceCalculationForm = ({
     });
     setCalculationItems(updatedItems ?? null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freightIncluded, margin, currencyRate, internalCommission, indirectCost]);
+  }, [
+    freightIncludedValue,
+    marginValue,
+    currencyRateValue,
+    internalCommisionValue,
+    indirectCostValue,
+  ]);
 
   return (
     <>
@@ -181,7 +184,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={2}>
           <InputField
             readonly={true}
-            defaultValue={production.currencyCode ?? ''}
+            defaultValue={currencyCode ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
@@ -189,13 +192,6 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <Select
-            key={
-              (production?.id !== undefined ? production?.id : '') +
-              calculation?.id +
-              calculation?.currencyCode +
-              currency?.length +
-              currency?.find(o => o.value === calculation?.currencyCode)?.value
-            }
             registerOptions={{ required: true }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
@@ -204,9 +200,9 @@ const PriceCalculationForm = ({
             changelog={currencyCodeChangelog}
             options={currency as SelectOption[]}
             defaultValue={
-              calculation?.currencyCode
+              currencyCode
                 ? (currency as SelectOption[])?.find(
-                    o => o.value === calculation?.currencyCode
+                    o => o.value === currencyCode
                   )
                 : undefined
             }
@@ -228,7 +224,7 @@ const PriceCalculationForm = ({
             <InputField
               type="hidden"
               readonly={true}
-              defaultValue={production.id ?? ''}
+              defaultValue={productionId ?? ''}
               name={'productionId'}
             />
           </GridItem>

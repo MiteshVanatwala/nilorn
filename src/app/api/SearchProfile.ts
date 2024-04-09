@@ -27,3 +27,19 @@ export const useCreateOrUpdateSearchProfile = () => {
     }
   );
 };
+
+export const useDeleteSearchProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (name: string) => {
+      return SearchProfilesService.deleteApiSearchProfiles(name).then(
+        response => response
+      );
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.SearchProfiles]);
+      },
+    }
+  );
+};

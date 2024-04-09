@@ -4,11 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
-import {
-  ProductDevelopmentBriefDto,
-  ProductionDto,
-  SourcedProductionDto,
-} from '../../app/generate';
+import { ProductDevelopmentBriefDto, ProductionDto } from '../../app/generate';
 import {
   useDeleteProduction,
   useReleaseForSales,
@@ -16,27 +12,34 @@ import {
 import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import { ServerFilter } from '../../app/types/types';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
-  sourcedProduction: SourcedProductionDto;
   production?: ProductionDto;
+  filters: ServerFilter;
 };
 
 const TableMenuProduction = ({
   productDevelopment,
-  sourcedProduction,
   production,
+  filters,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal, close } = useContext(ModalContext);
-  const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const navigate = useNavigate();
+  const { handleModal, close } = useContext(ModalContext);
+  const showCalculationLink =
+    useAuthorizedSee('calculation') &&
+    !!production?.released &&
+    !!productDevelopment?.no;
 
+  const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
     !production?.released
   );
+
   function releaseForSalesFunc(id: string | undefined, release: boolean) {
     if (production?.vendorId !== '') {
       releaseForSales();
@@ -46,12 +49,14 @@ const TableMenuProduction = ({
   function deleteProductionFunc() {
     deleteProduction({ id: production?.id ?? '' });
   }
+
   useEffect(() => {
     if (isSuccess) {
       close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
+
   return (
     <>
       <MenuItem
@@ -62,9 +67,8 @@ const TableMenuProduction = ({
           );
           handleModal(
             <EditProduction
-              productDevelopment={productDevelopment}
-              sourcedProduction={sourcedProduction}
-              production={production}
+              productionId={production?.id ?? ''}
+              filters={filters}
             />
           );
         }}
@@ -91,6 +95,24 @@ const TableMenuProduction = ({
           {!production?.released
             ? t('Production.Release')
             : t('Production.Remove')}
+        </MenuItem>
+      )}
+
+      {showCalculationLink && (
+        <MenuItem
+          onClick={() =>
+            navigate(
+              `/price-calculations?productDevelopments=${productDevelopment?.no}`
+            )
+          }
+          icon={
+            <Text
+              as={'i'}
+              fontSize={SIZES.ICON.MD}
+              className="ri-calculator-line"
+            />
+          }>
+          {t('PD.ViewCalculation')}
         </MenuItem>
       )}
 

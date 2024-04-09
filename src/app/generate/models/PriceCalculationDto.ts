@@ -16,3 +16,4 @@ export type PriceCalculationDto = {
     priceDtos?: Array<PriceDto> | null;
     lastModified?: string | null;
 };
+

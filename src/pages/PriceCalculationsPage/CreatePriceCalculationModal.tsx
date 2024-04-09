@@ -7,31 +7,31 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 import { SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
 import {
   useCreateCalculation,
-  usePatchCalculation,
+  usePriceCalculationDefaultValues,
 } from '../../app/api/calculation';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
+import { ServerFilter } from '../../app/types/types';
 
 type Props = {
-  createNew?: boolean;
   productDevelopment?: ProductDevelopmentBriefDto;
   sourcedProduction: SourcedProductionDto;
   lastModified?: string;
   artwork?: MediaFileDto;
   production: ProductionDto;
   calculation: PriceCalculationDto | undefined;
+  filters?: ServerFilter;
 };
 
-const PriceCalculationModal = ({
-  createNew,
+const CreatePriceCalculationModal = ({
   productDevelopment,
   sourcedProduction,
   lastModified,
@@ -39,12 +39,23 @@ const PriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
+  const { mutate: createCalculation } = useCreateCalculation();
+  const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
     undefined,
     calculation?.id ?? ''
   );
 
+  const {
+    data: defaultValues,
+    isLoading: isLoadingDefaultValues,
+    isSuccess: isLoadedDefaultValues,
+  } = usePriceCalculationDefaultValues(
+    productDevelopment?.no ?? '',
+    sourcedProduction.sourcingCompanyCode ?? '',
+    true
+  );
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
       ? calculation?.priceDtos.map(item => item.margin)
@@ -52,7 +63,7 @@ const PriceCalculationModal = ({
 
   const form = useForm({
     defaultValues: {
-      id: calculation?.id,
+      productionId: production?.id,
       currencyRate: calculation?.currencyRate,
       currencyCode: calculation?.currencyCode,
       internalCommission: calculation?.internalCommission,
@@ -65,24 +76,26 @@ const PriceCalculationModal = ({
     },
   });
 
-  const { mutate: updateCalculation } = usePatchCalculation();
-  const { mutate: createCalculation } = useCreateCalculation();
-  const { close } = useContext(ModalContext);
-
-  function submitForm(form: FieldValues) {
-    if (createNew) {
-      createCalculation(form, {
-        onSuccess: () => {
-          close();
-        },
-      });
-    } else {
-      updateCalculation(form, {
-        onSuccess: () => {
-          close();
-        },
+  useEffect(() => {
+    if (isLoadedDefaultValues) {
+      form.reset({
+        productionId: production.id,
+        currencyRate: defaultValues?.currencyRate,
+        currencyCode: defaultValues?.salesCurrency?.code,
+        internalCommission: defaultValues?.internalCommission,
+        indirectCost: defaultValues?.indirectCost,
+        freightIncluded: defaultValues?.freightIncluded,
+        margin: defaultValues?.margin,
       });
     }
+  }, [defaultValues, form, isLoadedDefaultValues, production.id]);
+
+  function submitForm(form: FieldValues) {
+    createCalculation(form, {
+      onSuccess: () => {
+        close();
+      },
+    });
   }
 
   return (
@@ -96,7 +109,7 @@ const PriceCalculationModal = ({
             actionBar={
               <PriceCalculationActionBar
                 artwork={artwork}
-                createNew={createNew}
+                createNew={true}
                 lastModified={lastModified}
                 id={calculation?.id ?? ''}
                 showChanges={showChanges}
@@ -104,16 +117,23 @@ const PriceCalculationModal = ({
               />
             }
           />
-          <PriceCalculationForm
-            calculation={calculation}
-            production={production}
-            createNew={createNew ?? false}
-            showChanges={showChanges}
-          />
+          <Skeleton isLoaded={!isLoadingDefaultValues}>
+            <PriceCalculationForm
+              calculation={calculation}
+              currencyCode={
+                defaultValues?.salesCurrency?.code ??
+                calculation?.currencyCode ??
+                undefined
+              }
+              createNew={true}
+              showChanges={showChanges}
+              productionId={production.id}
+            />
+          </Skeleton>
         </form>
       </FormProvider>
     </Box>
   );
 };
 
-export default PriceCalculationModal;
+export default CreatePriceCalculationModal;

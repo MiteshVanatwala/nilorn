@@ -221,7 +221,6 @@ const ActionBar = ({
             <Button variant={'primary'} isDisabled={disableEdit} type="submit">
               {t('Common.Save')}
             </Button>
-            {/* {modalComponent} */}
           </>
         ) : (
           <Button variant="primary" type="submit">

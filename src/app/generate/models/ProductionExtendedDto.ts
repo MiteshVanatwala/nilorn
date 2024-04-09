@@ -3,9 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { PriceCalculationDto } from './PriceCalculationDto';
+import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
-export type CreateProductionCommand = {
+export type ProductionExtendedDto = {
     currencyCode?: string | null;
     released?: boolean;
     moq?: number | null;
@@ -14,8 +16,13 @@ export type CreateProductionCommand = {
     sampleLeadTime?: number | null;
     productionLeadTime?: number | null;
     comment?: string | null;
-    sourcingId?: string | null;
+    id?: string;
     vendorId?: string | null;
+    priceCalculations?: Array<PriceCalculationDto> | null;
+    productDevelopmentDataDto?: ProductDevelopmentDataDto;
     purchasePrices?: Array<PurchasePriceDto> | null;
+    vendorName?: string | null;
+    sourcingCompanyCode?: string | null;
+    lastModified?: string | null;
 };
 

@@ -11,27 +11,27 @@ import { request as __request } from '../core/request';
 export class ProductDevelopmentDeepService {
 
     /**
-     * @param pageNumber 
-     * @param pageSize 
-     * @param includeCalculations 
-     * @param productDevelopments 
-     * @param vendors 
-     * @param sourcingCompanies 
-     * @param clients 
-     * @param projects 
+     * @param pageNumber
+     * @param pageSize
+     * @param includeCalculations
+     * @param productDevelopments
+     * @param vendors
+     * @param sourcingCompanies
+     * @param clients
+     * @param projects
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentDeep(
-pageNumber?: number,
-pageSize?: number,
-includeCalculations?: boolean,
-productDevelopments?: string,
-vendors?: string,
-sourcingCompanies?: string,
-clients?: string,
-projects?: string,
-): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
+        pageNumber?: number,
+        pageSize?: number,
+        includeCalculations?: boolean,
+        productDevelopments?: string,
+        vendors?: string,
+        sourcingCompanies?: string,
+        clients?: string,
+        projects?: string,
+    ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopmentDeep',

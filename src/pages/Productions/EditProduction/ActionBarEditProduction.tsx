@@ -4,7 +4,12 @@ import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext } from 'react-hook-form';
-import { MediaFileDto, ProductionDto, Status } from '../../../app/generate';
+import {
+  MediaFileDto,
+  ProductionDto,
+  Role,
+  Status,
+} from '../../../app/generate';
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
@@ -15,6 +20,8 @@ import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import { useNavigate } from 'react-router';
+import { useCurrentUser } from '../../../app/api/User';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -24,6 +31,7 @@ type Props = {
   disableEdit?: boolean;
   production?: ProductionDto;
   status?: Status;
+  productDevelopmentNo?: string | null;
 };
 
 const ActionBarEditProduction = ({
@@ -34,10 +42,17 @@ const ActionBarEditProduction = ({
   status,
   setShowChanges,
   showChanges,
+  productDevelopmentNo,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { getValues, setValue } = useFormContext();
   const { handleModal, close } = useContext(ModalContext);
+  const { data: user } = useCurrentUser();
+  const showCalculationLink =
+    user?.role !== Role.PRODUCT_DEVELOPER &&
+    !!production?.released &&
+    !!productDevelopmentNo;
 
   const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
     useDeleteProduction();
@@ -83,6 +98,24 @@ const ActionBarEditProduction = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
+            {showCalculationLink && (
+              <MenuItem
+                onClick={() => {
+                  navigate(
+                    `/price-calculations?productDevelopments=${productDevelopmentNo}`
+                  );
+                  close();
+                }}
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-calculator-line"
+                  />
+                }>
+                {t('PD.ViewCalculation')}
+              </MenuItem>
+            )}
             {!disableEdit && status && !isClosed(status) && (
               <MenuItem
                 onClick={() =>

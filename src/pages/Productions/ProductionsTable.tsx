@@ -1,32 +1,22 @@
-import { GridItem } from '@chakra-ui/react';
-import PDCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
 import { useTranslation } from 'react-i18next';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
-import TableMenuContainer from '../../components/Table/TableMenuContainer';
-import TableMenuProduction from './TableMenuProduction';
-import TableMenuSourcing from './TableMenuSourcing';
-import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow';
 import ProductionGridHeader from '../../components/ProductionGrid/ProductionGridHeader';
-import { TD_STYLE, TD_STYLE_RELEASED } from '../../theme/Constants/tableGrid';
 import {
-  GridInlineTbody,
   GridTable,
-  GridTd,
   GridTh,
 } from '../../components/GridTable/GridTableElements';
-import { Fragment } from 'react';
-import { isClosed } from '../../app/utils/status';
+import ProductionsTableRow from './ProductionsTableRow';
 
 const GRID_LAYOUT_DESKTOP =
   'repeat(4, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
-const GRID_LAYOUT_SOURCING_DESKTOP =
+export const GRID_LAYOUT_SOURCING_DESKTOP =
   'repeat(1, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 export const GRID_LAYOUT_PRODUCTION_DESKTOP =
   '[Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
-const GRID_LAYOUT_SOURCING =
+export const GRID_LAYOUT_SOURCING =
   'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 export const GRID_LAYOUT_PRODUCTION =
   '[Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
@@ -46,83 +36,8 @@ const ProductionsTable = ({ productions }: Props) => {
       <GridTh>{t('PD.SourcingCompany')}</GridTh>
       <ProductionGridHeader />
       <>
-        {productions.map(p => (
-          <Fragment key={p?.productDevelopmentBriefDto?.no}>
-            <GridTd colSpan={2}>
-              <PDCell {...p.productDevelopmentBriefDto} />
-            </GridTd>
-            <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
-            <GridItem colSpan={7}>
-              <GridInlineTbody
-                gridTemplateColumns={{
-                  base: GRID_LAYOUT_SOURCING,
-                  lg: GRID_LAYOUT_SOURCING_DESKTOP,
-                }}>
-                {p.sourcedProductions?.map((s, index) => (
-                  <Fragment
-                    key={
-                      p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId
-                    }>
-                    <GridTd style={TD_STYLE}>
-                      <>
-                        {s.sourcingCompanyCode}
-                        {p.productDevelopmentBriefDto?.status &&
-                          !isClosed(p.productDevelopmentBriefDto.status) && (
-                            <TableMenuContainer
-                              children={
-                                <TableMenuSourcing
-                                  productDevelopment={
-                                    p?.productDevelopmentBriefDto
-                                  }
-                                  sourcedProduction={s}
-                                  sourcingCoIndex={index}
-                                />
-                              }
-                            />
-                          )}
-                      </>
-                    </GridTd>
-                    <GridItem
-                      colSpan={6}
-                      style={
-                        s.productions?.length === 0 ? TD_STYLE : undefined
-                      }>
-                      <GridInlineTbody
-                        gridTemplateColumns={{
-                          base: GRID_LAYOUT_PRODUCTION,
-                          lg: GRID_LAYOUT_PRODUCTION_DESKTOP,
-                        }}>
-                        {s.productions?.map(production => (
-                          <ProductionGridRow
-                            key={production?.id}
-                            production={production}
-                            style={
-                              production?.released
-                                ? TD_STYLE_RELEASED
-                                : TD_STYLE
-                            }
-                            tableMenu={
-                              <TableMenuContainer
-                                children={
-                                  <TableMenuProduction
-                                    productDevelopment={
-                                      p?.productDevelopmentBriefDto
-                                    }
-                                    sourcedProduction={s}
-                                    production={production}
-                                  />
-                                }
-                              />
-                            }
-                          />
-                        ))}
-                      </GridInlineTbody>
-                    </GridItem>
-                  </Fragment>
-                ))}
-              </GridInlineTbody>
-            </GridItem>
-          </Fragment>
+        {productions.map((p, i) => (
+          <ProductionsTableRow key={i} productDevelopment={p} />
         ))}
       </>
     </GridTable>

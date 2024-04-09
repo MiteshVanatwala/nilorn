@@ -12,19 +12,24 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { COLORS, SPACE } from '../../theme/Constants';
 import ModalHeading from '../Modal/ModalHeading';
 import { useToast } from '../../app/hooks/useToast';
-import { useCreateOrUpdateSearchProfile } from '../../app/api/SearchProfile';
+import {
+  useCreateOrUpdateSearchProfile,
+  useDeleteSearchProfile,
+} from '../../app/api/SearchProfile';
 import FormLabelComponent from '../Form/FormLabelComponent';
 import { FieldError } from 'react-hook-form';
 type Props = {
   activeSearchProfileName?: string;
   setActiveSearchProfileName(val: string): void;
   setDefaultSearchProfile(val: string): void;
+  isValueSelected: boolean;
 };
 
 const SearchProfileModalContent = ({
   activeSearchProfileName,
   setActiveSearchProfileName,
   setDefaultSearchProfile,
+  isValueSelected,
 }: Props) => {
   const { showToast } = useToast();
   const { t } = useTranslation();
@@ -42,10 +47,24 @@ const SearchProfileModalContent = ({
     isSuccess,
     isError,
   } = useCreateOrUpdateSearchProfile();
+  const { mutate: deleteSearchProfile, isError: deleteError } =
+    useDeleteSearchProfile();
+
+  const [inputChanged, setInputChanged] = useState(false);
 
   const onCancel = () => {
+    setSearchProfileName('');
     close();
   };
+
+  const onDelete = () => {
+    if (searchProfileName) {
+      setSearchProfileName('');
+      deleteSearchProfile(searchProfileName);
+      close();
+    }
+  };
+
   async function onSubmit(): Promise<void> {
     const queryString = window.location.href.split('?')[1];
     setDefaultSearchProfile(searchProfileName ?? '');
@@ -89,9 +108,27 @@ const SearchProfileModalContent = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
+  useEffect(() => {
+    if (deleteError) {
+      showToast({
+        status: 'error',
+        description: t('Errors.SearchProfileDelete'),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteError]);
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchProfileName(e.target.value);
+    setActiveSearchProfileName(e.target.value);
+    setDefaultSearchProfile('');
+    setErrorMsgName(undefined);
+    setInputChanged(true);
+  };
+
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>
@@ -106,12 +143,7 @@ const SearchProfileModalContent = ({
           variant={'standard'}
           name={'searchProfileName'}
           placeholder={t('Common.Placeholder')}
-          onChange={e => {
-            setSearchProfileName(e.target.value);
-            setActiveSearchProfileName(e.target.value);
-            setDefaultSearchProfile('');
-            setErrorMsgName(undefined);
-          }}
+          onChange={handleInputChange}
         />
         {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
         {errorMsgQuery && <Text color={COLORS.ERROR}>{errorMsgQuery}</Text>}
@@ -125,6 +157,15 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
+          {isValueSelected && !inputChanged && (
+            <Button
+              variant={'primary'}
+              onClick={onDelete}
+              rightIcon={<i className="ri-delete-line" />}>
+              {t('Common.Delete')}
+            </Button>
+          )}
+
           <Button
             variant={'secondary'}
             onClick={onCancel}

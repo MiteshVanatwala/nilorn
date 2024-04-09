@@ -94,6 +94,7 @@ const SearchProfile = () => {
                 setActiveSearchProfileName={setActiveSearchProfileName}
                 activeSearchProfileName={activeSearchProfileName}
                 setDefaultSearchProfile={setDefaultSearchProfile}
+                isValueSelected={!!(selected || defaultSearchProfile)}
               />
             )
           }>

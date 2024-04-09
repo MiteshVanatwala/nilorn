@@ -62,3 +62,13 @@ export enum FieldState {
   'VALID',
   'ERROR',
 }
+
+export type ServerFilter = {
+  pageSize?: number;
+  pageNumber?: number;
+  vendors?: string;
+  clients?: string;
+  sourcingCompanies?: string;
+  productDevelopments?: string;
+  projects?: string;
+};

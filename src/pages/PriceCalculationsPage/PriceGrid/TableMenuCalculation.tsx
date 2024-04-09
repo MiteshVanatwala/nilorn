@@ -11,9 +11,11 @@ import {
   SourcedProductionDto,
 } from '../../../app/generate';
 import TableMenuContainer from '../../../components/Table/TableMenuContainer';
-import PriceCalculationModal from '../PriceCalculationModal';
 import { useDeleteCalculation } from '../../../app/api/calculation';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
+import { ServerFilter } from '../../../app/types/types';
+import EditPriceCalculationModal from '../EditPriceCalculationModal';
+import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
 
 type Props = {
   createNew: boolean;
@@ -24,6 +26,7 @@ type Props = {
   artwork?: MediaFileDto;
   production: ProductionDto;
   calculation: PriceCalculationDto | undefined;
+  filters: ServerFilter;
 };
 
 const TableMenuCalculation = ({
@@ -35,6 +38,7 @@ const TableMenuCalculation = ({
   artwork,
   production,
   calculation,
+  filters,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal, close } = useContext(ModalContext);
@@ -42,26 +46,35 @@ const TableMenuCalculation = ({
   const { mutate: deleteCalculation, isSuccess } = useDeleteCalculation(
     calculation?.id ?? ''
   );
+
   useEffect(() => {
     if (isSuccess) {
       close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
+
   return (
     <TableMenuContainer>
       <MenuItem
         onClick={() =>
           handleModal(
-            <PriceCalculationModal
-              productDevelopment={productDevelopment}
-              sourcedProduction={sourcedProduction}
-              createNew={createNew}
-              lastModified={lastModified}
-              artwork={artwork}
-              production={production}
-              calculation={calculation}
-            />
+            createNew ? (
+              <CreatePriceCalculationModal
+                productDevelopment={productDevelopment}
+                sourcedProduction={sourcedProduction}
+                lastModified={lastModified}
+                artwork={artwork}
+                production={production}
+                calculation={calculation}
+                filters={filters}
+              />
+            ) : (
+              <EditPriceCalculationModal
+                calculationId={calculation?.id ?? ''}
+                filters={filters}
+              />
+            )
           )
         }
         icon={

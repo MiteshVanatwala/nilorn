@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
@@ -9,6 +9,18 @@ import {
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
+import { ServerFilter } from '../types/types';
+
+export const usePriceCalculation = (id: string) => {
+  return useQuery(
+    [QueryKeysEnum.PriceCalculation, id],
+    () => PriceCalculationService.getApiPriceCalculation(id).then(res => res),
+    {
+      retry: 0,
+      keepPreviousData: true,
+    }
+  );
+};
 
 export const usePatchCalculation = () => {
   const { t } = useTranslation();
@@ -22,6 +34,7 @@ export const usePatchCalculation = () => {
       ),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
@@ -122,3 +135,61 @@ export function useDeleteCalculation(id: string) {
     }
   );
 }
+
+export const usePriceCalculationDefaultValues = (
+  productDevelopmentNo: string,
+  sourcingCompanycode: string,
+  enable: boolean = false
+) => {
+  return useQuery(
+    [
+      QueryKeysEnum.PriceCalculation,
+      QueryKeysEnum.DefaultValues,
+      productDevelopmentNo,
+      sourcingCompanycode,
+    ],
+    () =>
+      PriceCalculationService.getApiPriceCalculationDefaultValues(
+        productDevelopmentNo,
+        sourcingCompanycode
+      ).then(res => res),
+    {
+      enabled: enable,
+      retry: 0,
+    }
+  );
+};
+
+export const usePriceCalculationNavigation = (
+  id: string,
+  filters: ServerFilter
+) => {
+  const { vendors, clients, sourcingCompanies, productDevelopments, projects } =
+    filters || {};
+
+  return useQuery(
+    [
+      QueryKeysEnum.PriceCalculation,
+      QueryKeysEnum.Navigation,
+      id,
+      vendors,
+      clients,
+      sourcingCompanies,
+      productDevelopments,
+      projects,
+    ],
+    () =>
+      PriceCalculationService.getApiPriceCalculationNavigation(
+        id,
+        true,
+        productDevelopments,
+        vendors,
+        sourcingCompanies,
+        clients,
+        projects
+      ).then(res => res),
+    {
+      retry: 0,
+    }
+  );
+};

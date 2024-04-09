@@ -19,3 +19,4 @@ export type ProductDevelopmentBriefDto = {
     itemCategory?: string | null;
     sourcings?: Array<string> | null;
 };
+

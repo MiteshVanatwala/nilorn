@@ -36,6 +36,7 @@ export type { ProductDevelopmentDeepDto } from './models/ProductDevelopmentDeepD
 export type { ProductDevelopmentDeepDtoPaginatedList } from './models/ProductDevelopmentDeepDtoPaginatedList';
 export type { ProductDevelopmentDto } from './models/ProductDevelopmentDto';
 export type { ProductionDto } from './models/ProductionDto';
+export type { ProductionExtendedDto } from './models/ProductionExtendedDto';
 export type { ProjectDto } from './models/ProjectDto';
 export type { PurchasePriceDto } from './models/PurchasePriceDto';
 export { Role } from './models/Role';
@@ -51,6 +52,7 @@ export type { UpdateSalesPriceCommand } from './models/UpdateSalesPriceCommand';
 export type { UpsertSearchProfileCommand } from './models/UpsertSearchProfileCommand';
 export type { VendorDto } from './models/VendorDto';
 
+export { CertificateService } from './services/CertificateService';
 export { ChangelogService } from './services/ChangelogService';
 export { ClientService } from './services/ClientService';
 export { CurrencyService } from './services/CurrencyService';

@@ -1,4 +1,4 @@
-import { Box, Button, GridItem, Link, VStack } from '@chakra-ui/react';
+import { Button, GridItem, Link, VStack, HStack } from '@chakra-ui/react';
 import {
   PriceCalculationDto,
   PriceDto,
@@ -27,6 +27,7 @@ import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { NavLink } from 'react-router-dom';
+import { useFormStateFilters } from '../../../app/hooks/useFormStateFilters';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -42,6 +43,7 @@ function PriceGridRow({
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
   const vendorOptions = useFilterOptions('vendor');
+  const filters = useFormStateFilters();
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
@@ -127,8 +129,8 @@ function PriceGridRow({
         <GridTd>
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
-              <Box>
-                <>
+              <HStack justify={'space-between'} w={'100%'}>
+                <VStack align={'start'} gap={SPACE.XXS}>
                   <Link
                     as={NavLink}
                     to={`/productions?vendor=${
@@ -138,9 +140,11 @@ function PriceGridRow({
                     }`}>
                     {production.vendorName}
                   </Link>
+                </VStack>
+                <>
                   {productDevelopment?.status &&
-                    !isClosed(productDevelopment?.status) &&
-                    production?.released && (
+                    !isClosed(productDevelopment.status) &&
+                    production.released && (
                       <TableMenuCalculation
                         sourcedProduction={sourcedProduction}
                         productDevelopment={productDevelopment}
@@ -154,10 +158,11 @@ function PriceGridRow({
                             production?.priceCalculations?.length <= 0) ??
                           true
                         }
+                        filters={filters}
                       />
                     )}
                 </>
-              </Box>
+              </HStack>
               {enableEdit && (
                 <>
                   <Button

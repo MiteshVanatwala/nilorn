@@ -6,11 +6,11 @@ import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
-import { ProductDevelopmentBriefDto } from '../../app/generate';
+import { ProductDevelopmentDataDto } from '../../app/generate';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcingCompanyCode?: string | null;
   vendorName?: string | null;
   actionBar: JSX.Element;
@@ -132,8 +132,8 @@ const ProductDevelopmentModalTopSection = ({
             md: 3,
             lg: 4,
           }}>
-          <Text>{productDevelopment?.client}</Text>
-          <Text>{productDevelopment?.project}</Text>
+          <Text>{productDevelopment?.clientName}</Text>
+          <Text>{productDevelopment?.projectCode}</Text>
         </GridItem>
         <GridItem
           colSpan={{
