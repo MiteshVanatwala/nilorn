@@ -56,7 +56,6 @@ const PriceCalculationForm = ({
     'internalCommission',
     id
   );
-
   const freightIncludedValue = useWatch({ name: 'freightIncluded' });
   const marginValue = useWatch({ name: 'margin' });
   const currencyRateValue = useWatch({ name: 'currencyRate' });
@@ -95,7 +94,13 @@ const PriceCalculationForm = ({
     });
     setCalculationItems(updatedItems ?? null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [freightIncluded, margin, currencyRate, internalCommission, indirectCost]);
+  }, [
+    freightIncludedValue,
+    marginValue,
+    currencyRateValue,
+    internalCommisionValue,
+    indirectCostValue,
+  ]);
 
   return (
     <>

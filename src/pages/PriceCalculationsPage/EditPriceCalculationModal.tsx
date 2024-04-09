@@ -25,7 +25,7 @@ type Props = {
 const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { t } = useTranslation();
   const [activeCalculationId, setActiveCalculationId] = useState(calculationId);
-  const { data: productionNavigation } = usePriceCalculationNavigation(
+  const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
     filters
   );
@@ -44,8 +44,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   );
 
   const margins = useMemo(() => {
-    return priceCalculation?.priceDtos !== null &&
-      priceCalculation?.priceDtos !== undefined
+    return priceCalculation?.priceDtos
       ? priceCalculation?.priceDtos.map(item => item.margin)
       : null;
   }, [priceCalculation]);
@@ -114,9 +113,9 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
           color={COLORS.BLACK}
           variant={'link'}
           leftIcon={<i className="ri-arrow-left-line" />}
-          isDisabled={!productionNavigation?.previous}
+          isDisabled={!priceCalculationNavigation?.previous}
           onClick={() =>
-            setActiveCalculationId(productionNavigation?.previous ?? '')
+            setActiveCalculationId(priceCalculationNavigation?.previous ?? '')
           }>
           {`${t('Common.Previous')} ${t('PD.FilterLabel.vendor')}`}
         </Button>
@@ -124,9 +123,9 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
           color={COLORS.BLACK}
           variant={'link'}
           rightIcon={<i className="ri-arrow-right-line" />}
-          isDisabled={!productionNavigation?.next}
+          isDisabled={!priceCalculationNavigation?.next}
           onClick={() =>
-            setActiveCalculationId(productionNavigation?.next ?? '')
+            setActiveCalculationId(priceCalculationNavigation?.next ?? '')
           }>
           {`${t('Common.Next')} ${t('PD.FilterLabel.vendor')}`}
         </Button>
