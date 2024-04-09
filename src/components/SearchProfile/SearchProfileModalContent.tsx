@@ -53,7 +53,8 @@ const SearchProfileModalContent = ({
   const [inputChanged, setInputChanged] = useState(false);
 
   const onCancel = () => {
-    onClose();
+    setSearchProfileName('');
+    close();
   };
 
   const onDelete = () => {
@@ -126,11 +127,6 @@ const SearchProfileModalContent = ({
     setDefaultSearchProfile('');
     setErrorMsgName(undefined);
     setInputChanged(true);
-  };
-
-  const onClose = () => {
-    setSearchProfileName('');
-    close();
   };
 
   return (
