@@ -60,7 +60,7 @@ const SearchProfileModalContent = ({
     if (searchProfileName) {
       setSearchProfileName('');
       deleteSearchProfile(searchProfileName);
-      onClose();
+      close();
     }
   };
 
@@ -94,7 +94,7 @@ const SearchProfileModalContent = ({
         status: 'success',
         description: t('Filter.FilterSaved'),
       });
-      onClose();
+      close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
@@ -126,7 +126,6 @@ const SearchProfileModalContent = ({
     setDefaultSearchProfile('');
     setErrorMsgName(undefined);
     setInputChanged(true);
-    setInputChanged(e.target.value !== activeSearchProfileName);
   };
 
   const onClose = () => {
