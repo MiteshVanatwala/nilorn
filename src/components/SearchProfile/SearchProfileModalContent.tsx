@@ -50,6 +50,8 @@ const SearchProfileModalContent = ({
   const { mutate: deleteSearchProfile, isError: deleteError } =
     useDeleteSearchProfile();
 
+  const [inputChanged, setInputChanged] = useState(false);
+
   const onCancel = () => {
     setSearchProfileName('');
     close();
@@ -118,6 +120,15 @@ const SearchProfileModalContent = ({
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchProfileName(e.target.value);
+    setActiveSearchProfileName(e.target.value);
+    setDefaultSearchProfile('');
+    setErrorMsgName(undefined);
+    setInputChanged(true);
+  };
+
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>
@@ -132,12 +143,7 @@ const SearchProfileModalContent = ({
           variant={'standard'}
           name={'searchProfileName'}
           placeholder={t('Common.Placeholder')}
-          onChange={e => {
-            setSearchProfileName(e.target.value);
-            setActiveSearchProfileName(e.target.value);
-            setDefaultSearchProfile('');
-            setErrorMsgName(undefined);
-          }}
+          onChange={handleInputChange}
         />
         {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
         {errorMsgQuery && <Text color={COLORS.ERROR}>{errorMsgQuery}</Text>}
@@ -151,7 +157,7 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
-          {isValueSelected && (
+          {isValueSelected && !inputChanged && (
             <Button
               variant={'primary'}
               onClick={onDelete}
