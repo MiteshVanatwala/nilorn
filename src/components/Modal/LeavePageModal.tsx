@@ -12,6 +12,8 @@ type LocationsProps = {
   currentLocation: Location<any>;
   nextLocation: Location<any>;
 };
+
+// TODO; Make one leave page compoennt and one blocker.
 const LeavePageModal = () => {
   const location = useLocation();
   const { t } = useTranslation();

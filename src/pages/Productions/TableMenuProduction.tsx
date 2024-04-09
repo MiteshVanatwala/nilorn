@@ -61,10 +61,6 @@ const TableMenuProduction = ({
     <>
       <MenuItem
         onClick={() => {
-          const searchParams = new URLSearchParams(window.location.search);
-          navigate(
-            `/productions/${production?.id ?? ''}?${searchParams.toString()}`
-          );
           handleModal(
             <EditProduction
               productionId={production?.id ?? ''}

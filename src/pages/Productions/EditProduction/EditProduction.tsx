@@ -18,13 +18,13 @@ import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
-import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
   useProduction,
   useProductionNavigation,
 } from '../../../app/api/production';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
+import { useLeavePageContext } from '../../../app/context/LeavePageContext';
 
 type Props = {
   productionId: string;
@@ -100,8 +100,7 @@ const EditProduction = ({ productionId }: Props) => {
   useOutsideClick({
     ref: ref,
     handler: () => {
-      // const searchParams = new URLSearchParams(window.location.search);
-      // navigate(`/productions?${searchParams.toString()}`);
+      // TODO: Open confimmodal manuely
     },
   });
 

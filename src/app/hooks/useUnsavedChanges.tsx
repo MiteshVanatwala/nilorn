@@ -18,17 +18,6 @@ export function useUnsavedChanges() {
     return sessionStorage.getItem(IS_DIRTY) === 'true';
   }
 
-  const modalComponent = (
-    <LeavePageModal
-      ref={modalRef}
-      title={t('PD.UnsavedChanges')}
-      description={t('PD.UnsavedChangesMsg')}
-      onConfirm={discardChanges}
-      cancelText={t('Common.No')}
-      confirmText={t('Common.Yes')}
-    />
-  );
-
   return {
     hasUnsavedChanges,
     setUnsavedChanges,

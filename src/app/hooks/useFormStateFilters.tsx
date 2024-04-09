@@ -1,5 +1,5 @@
-import { useFilterFormSearchParams } from '../../components/Filter/FilterHelper';
 import { ServerFilter } from '../types/types';
+import { useFilterFormSearchParams } from '../utils/FilterHelper';
 
 export const useFormStateFilters = (): ServerFilter => {
   const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));

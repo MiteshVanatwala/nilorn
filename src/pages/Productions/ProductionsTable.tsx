@@ -37,7 +37,10 @@ const ProductionsTable = ({ productions }: Props) => {
       <ProductionGridHeader />
       <>
         {productions.map((p, i) => (
-          <ProductionsTableRow key={i} productDevelopment={p} />
+          <ProductionsTableRow
+            key={`ProductionsTableRow_${p.productDevelopmentBriefDto?.no}_${i}`}
+            productDevelopment={p}
+          />
         ))}
       </>
     </GridTable>
