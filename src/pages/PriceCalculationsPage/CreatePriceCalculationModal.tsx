@@ -14,7 +14,6 @@ import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
 import {
   useCreateCalculation,
-  usePatchCalculation,
   usePriceCalculationDefaultValues,
 } from '../../app/api/calculation';
 import { useContext, useEffect } from 'react';
@@ -40,7 +39,6 @@ const CreatePriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
-  const { mutate: updateCalculation } = usePatchCalculation();
   const { mutate: createCalculation } = useCreateCalculation();
   const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
@@ -65,7 +63,7 @@ const CreatePriceCalculationModal = ({
 
   const form = useForm({
     defaultValues: {
-      id: calculation?.id,
+      productionId: production?.id,
       currencyRate: calculation?.currencyRate,
       currencyCode: calculation?.currencyCode,
       internalCommission: calculation?.internalCommission,
@@ -81,6 +79,7 @@ const CreatePriceCalculationModal = ({
   useEffect(() => {
     if (isLoadedDefaultValues) {
       form.reset({
+        productionId: production.id,
         currencyRate: defaultValues?.currencyRate,
         currencyCode: defaultValues?.salesCurrency?.code,
         internalCommission: defaultValues?.internalCommission,
@@ -89,7 +88,7 @@ const CreatePriceCalculationModal = ({
         margin: defaultValues?.margin,
       });
     }
-  }, [defaultValues, form, isLoadedDefaultValues]);
+  }, [defaultValues, form, isLoadedDefaultValues, production.id]);
 
   function submitForm(form: FieldValues) {
     createCalculation(form, {
@@ -126,7 +125,7 @@ const CreatePriceCalculationModal = ({
                 calculation?.currencyCode ??
                 undefined
               }
-              createNew={false}
+              createNew={true}
               showChanges={showChanges}
               productionId={production.id}
             />
