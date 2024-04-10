@@ -27,7 +27,7 @@ type Props = {
 const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
   const filters = useFormStateFilters();
   return (
-    <Fragment key={p?.productDevelopmentBriefDto?.no}>
+    <Fragment>
       <GridTd colSpan={2}>
         <PDCell {...p.productDevelopmentBriefDto} />
       </GridTd>
@@ -39,7 +39,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
             lg: GRID_LAYOUT_SOURCING_DESKTOP,
           }}>
           {p.sourcedProductions?.map((s, index) => (
-            <>
+            <Fragment key={`sourcedProductions_${s.sourcingId}_${index}`}>
               <GridTd
                 key={p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId}
                 style={TD_STYLE}>
@@ -89,7 +89,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                   ))}
                 </GridInlineTbody>
               </GridItem>
-            </>
+            </Fragment>
           ))}
         </GridInlineTbody>
       </GridItem>

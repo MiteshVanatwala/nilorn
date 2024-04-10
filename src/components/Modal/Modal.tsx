@@ -13,20 +13,13 @@ type Props = {
   returnFocusOnClose?: boolean;
   close: () => void;
   children: JSX.Element;
-  closeOnOverlayClick?: boolean;
 };
-const Modal = ({
-  isOpen,
-  close,
-  returnFocusOnClose,
-  children,
-  closeOnOverlayClick = false,
-}: Props) => {
+
+const Modal = ({ isOpen, close, returnFocusOnClose, children }: Props) => {
   return (
     <ChakraModal
       isOpen={isOpen}
       onClose={close}
-      closeOnOverlayClick={closeOnOverlayClick}
       motionPreset={'scale'}
       isCentered
       returnFocusOnClose={returnFocusOnClose}>

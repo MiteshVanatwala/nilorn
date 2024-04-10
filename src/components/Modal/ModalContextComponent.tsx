@@ -13,7 +13,10 @@ const ModalContextComponent = () => {
   return (
     <Modal
       isOpen={isOpen}
-      close={close}
+      close={() => {
+        console.log('close modal');
+        close();
+      }}
       returnFocusOnClose={returnFocusOnClose}>
       <ModalBody> {modalContent}</ModalBody>
     </Modal>

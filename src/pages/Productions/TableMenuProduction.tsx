@@ -33,7 +33,6 @@ const TableMenuProduction = ({
     useAuthorizedSee('calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
-
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
@@ -60,14 +59,14 @@ const TableMenuProduction = ({
   return (
     <>
       <MenuItem
-        onClick={() => {
+        onClick={() =>
           handleModal(
             <EditProduction
               productionId={production?.id ?? ''}
               filters={filters}
             />
-          );
-        }}
+          )
+        }
         icon={
           <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
         }>
