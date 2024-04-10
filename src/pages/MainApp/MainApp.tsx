@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ErrorPage from '../../components/ErrorBoundary/ErrorPage';
 import { useSignOut } from '../../app/hooks/useSignOut';
-import LeavePageModal from '../../components/Modal/LeavePageModal';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 
 function MainApp() {
   const { t } = useTranslation();
@@ -34,7 +34,7 @@ function MainApp() {
       <Flex h={'100%'} minH={'100%'} flexDirection="column" p={0}>
         <ModalProvider>
           <NavigationHeader />
-          <LeavePageModal />
+          <LeavePageBlocker />
           <Outlet />
         </ModalProvider>
       </Flex>
