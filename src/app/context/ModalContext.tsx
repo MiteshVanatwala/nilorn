@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from 'react';
 import ModalContextComponent from '../../components/Modal/ModalContextComponent';
 
 type ModalContextType = {
@@ -7,6 +13,8 @@ type ModalContextType = {
   modalContent?: JSX.Element | boolean;
   isOpen: boolean;
   returnFocusOnClose?: boolean;
+  preventClose: boolean;
+  setPreventClose: Dispatch<SetStateAction<boolean>>;
 };
 
 const defaultState = {
@@ -15,6 +23,8 @@ const defaultState = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => {},
   modalContent: false,
   returnFocusOnClose: true,
+  preventClose: false,
+  setPreventClose: () => {},
 };
 
 const ModalContext = createContext<ModalContextType>(defaultState);
@@ -27,6 +37,7 @@ function useModal() {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<JSX.Element | boolean>();
   const [returnFocusOnClose, setReturnFocusOnClose] = useState<boolean>();
+  const [preventClose, setPreventClose] = useState<boolean>(false);
 
   const handleModal = (
     content: JSX.Element | boolean = false,
@@ -49,6 +60,8 @@ function useModal() {
     modalContent,
     close,
     returnFocusOnClose,
+    preventClose,
+    setPreventClose,
   };
 }
 
@@ -56,8 +69,15 @@ function useModal() {
  *  @deprecated
  */
 const ModalProvider = ({ children }: ModalProviderType) => {
-  const { isOpen, handleModal, modalContent, close, returnFocusOnClose } =
-    useModal();
+  const {
+    isOpen,
+    handleModal,
+    modalContent,
+    close,
+    returnFocusOnClose,
+    preventClose,
+    setPreventClose,
+  } = useModal();
 
   return (
     <ModalContext.Provider
@@ -67,6 +87,8 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         modalContent,
         close,
         returnFocusOnClose,
+        preventClose,
+        setPreventClose,
       }}>
       {children}
       <ModalContextComponent />

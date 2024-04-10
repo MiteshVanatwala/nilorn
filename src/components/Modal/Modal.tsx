@@ -21,6 +21,7 @@ const Modal = ({ isOpen, close, returnFocusOnClose, children }: Props) => {
       isOpen={isOpen}
       onClose={close}
       motionPreset={'scale'}
+      onEsc={() => console.log(' on esc')}
       isCentered
       returnFocusOnClose={returnFocusOnClose}>
       <ModalOverlay />
