@@ -137,6 +137,19 @@ const EditProduction = ({ productionId }: Props) => {
     },
   });
 
+  useEffect(() => {
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (hasUnsavedChanges() && e.key === 'Escape') {
+        openLeavePageModal();
+      }
+    };
+
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  });
+
   return (
     <>
       <LeavePageModal
