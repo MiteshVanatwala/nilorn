@@ -5,7 +5,8 @@ import {
   SetStateAction,
   useState,
 } from 'react';
-import ModalContextComponent from '../../components/Modal/ModalContextComponent';
+import Modal from '../../components/Modal/Modal';
+import { ModalBody } from '@chakra-ui/react';
 
 type ModalContextType = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => void;
@@ -33,7 +34,10 @@ type ModalProviderType = {
   children: ReactNode;
 };
 
-function useModal() {
+/**
+ *  @deprecated
+ */
+const ModalProvider = ({ children }: ModalProviderType) => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<JSX.Element | boolean>();
   const [returnFocusOnClose, setReturnFocusOnClose] = useState<boolean>();
@@ -54,31 +58,6 @@ function useModal() {
     setOpen(false);
   };
 
-  return {
-    isOpen,
-    handleModal,
-    modalContent,
-    close,
-    returnFocusOnClose,
-    preventClose,
-    setPreventClose,
-  };
-}
-
-/**
- *  @deprecated
- */
-const ModalProvider = ({ children }: ModalProviderType) => {
-  const {
-    isOpen,
-    handleModal,
-    modalContent,
-    close,
-    returnFocusOnClose,
-    preventClose,
-    setPreventClose,
-  } = useModal();
-
   return (
     <ModalContext.Provider
       value={{
@@ -91,7 +70,13 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         setPreventClose,
       }}>
       {children}
-      <ModalContextComponent />
+      <Modal
+        isOpen={isOpen}
+        closeOnEsc={!preventClose}
+        close={close}
+        returnFocusOnClose={returnFocusOnClose}>
+        <ModalBody> {modalContent}</ModalBody>
+      </Modal>
     </ModalContext.Provider>
   );
 };
