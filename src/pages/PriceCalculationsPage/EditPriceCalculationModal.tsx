@@ -135,6 +135,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     const handleKeyUp = (e: KeyboardEvent) => {
       if (hasUnsavedChanges() && e.key === 'Escape') {
         openLeavePageModal();
+        setPendingCalculationId(undefined);
       }
     };
 
@@ -157,6 +158,9 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
           } else {
             close();
           }
+        }}
+        onCancel={() => {
+          setPendingCalculationId(undefined);
         }}
       />
 
