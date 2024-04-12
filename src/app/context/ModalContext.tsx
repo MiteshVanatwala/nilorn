@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useState } from 'react';
-import ModalContextComponent from '../../components/Modal/ModalContextComponent';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from 'react';
+import Modal from '../../components/Modal/Modal';
+import { ModalBody } from '@chakra-ui/react';
 
 type ModalContextType = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => void;
@@ -7,6 +14,8 @@ type ModalContextType = {
   modalContent?: JSX.Element | boolean;
   isOpen: boolean;
   returnFocusOnClose?: boolean;
+  preventClose: boolean;
+  setPreventClose: Dispatch<SetStateAction<boolean>>;
 };
 
 const defaultState = {
@@ -15,6 +24,8 @@ const defaultState = {
   handleModal: (content?: JSX.Element, returnFocusOnClose?: boolean) => {},
   modalContent: false,
   returnFocusOnClose: true,
+  preventClose: false,
+  setPreventClose: () => {},
 };
 
 const ModalContext = createContext<ModalContextType>(defaultState);
@@ -23,10 +34,14 @@ type ModalProviderType = {
   children: ReactNode;
 };
 
-function useModal() {
+/**
+ *  @deprecated
+ */
+const ModalProvider = ({ children }: ModalProviderType) => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<JSX.Element | boolean>();
   const [returnFocusOnClose, setReturnFocusOnClose] = useState<boolean>();
+  const [preventClose, setPreventClose] = useState<boolean>(false);
 
   const handleModal = (
     content: JSX.Element | boolean = false,
@@ -43,22 +58,6 @@ function useModal() {
     setOpen(false);
   };
 
-  return {
-    isOpen,
-    handleModal,
-    modalContent,
-    close,
-    returnFocusOnClose,
-  };
-}
-
-/**
- *  @deprecated
- */
-const ModalProvider = ({ children }: ModalProviderType) => {
-  const { isOpen, handleModal, modalContent, close, returnFocusOnClose } =
-    useModal();
-
   return (
     <ModalContext.Provider
       value={{
@@ -67,9 +66,17 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         modalContent,
         close,
         returnFocusOnClose,
+        preventClose,
+        setPreventClose,
       }}>
       {children}
-      <ModalContextComponent />
+      <Modal
+        isOpen={isOpen}
+        closeOnEsc={!preventClose}
+        close={close}
+        returnFocusOnClose={returnFocusOnClose}>
+        <ModalBody> {modalContent}</ModalBody>
+      </Modal>
     </ModalContext.Provider>
   );
 };

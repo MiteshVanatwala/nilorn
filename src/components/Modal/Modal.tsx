@@ -12,14 +12,22 @@ type Props = {
   isOpen: boolean;
   returnFocusOnClose?: boolean;
   close: () => void;
+  closeOnEsc?: boolean;
   children: JSX.Element;
 };
 
-const Modal = ({ isOpen, close, returnFocusOnClose, children }: Props) => {
+const Modal = ({
+  isOpen,
+  close,
+  returnFocusOnClose,
+  children,
+  closeOnEsc = true,
+}: Props) => {
   return (
     <ChakraModal
+      closeOnEsc={closeOnEsc}
       isOpen={isOpen}
-      onClose={close}
+      onClose={closeOnEsc ? close : () => {}}
       motionPreset={'scale'}
       isCentered
       returnFocusOnClose={returnFocusOnClose}>

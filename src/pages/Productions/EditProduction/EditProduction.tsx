@@ -39,7 +39,7 @@ const EditProduction = ({ productionId }: Props) => {
 
   const { t } = useTranslation();
   const form = useForm();
-  const { close } = useContext(ModalContext);
+  const { close, setPreventClose } = useContext(ModalContext);
   const { data: vendors } = useGetVendors(false);
   const [, setVendorOptions] = useState<SelectOption[]>([]);
   const [activeProductionId, setActiveProductionId] =
@@ -103,6 +103,7 @@ const EditProduction = ({ productionId }: Props) => {
 
   useEffect(() => {
     setUnsavedChanges(form.formState.isDirty);
+    setPreventClose(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
@@ -129,8 +130,24 @@ const EditProduction = ({ productionId }: Props) => {
     handler: () => {
       if (hasUnsavedChanges()) {
         openLeavePageModal();
+        setPreventClose(true);
+      } else {
+        close();
       }
     },
+  });
+
+  useEffect(() => {
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (hasUnsavedChanges() && e.key === 'Escape') {
+        openLeavePageModal();
+      }
+    };
+
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp);
+    };
   });
 
   return (
@@ -138,6 +155,7 @@ const EditProduction = ({ productionId }: Props) => {
       <LeavePageModal
         ref={modalRef}
         onConfirm={() => {
+          setPreventClose(false);
           modalRef.current?.onClose();
           discardChanges();
           if (pendingProductionId) {
