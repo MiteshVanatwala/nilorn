@@ -11,13 +11,17 @@ export type ModalRef = {
 
 type Props = {
   onConfirm: () => void;
+  onCancel?: () => void;
   confirmType?: 'PRIMARY';
   cancelText?: string;
   confirmText?: string;
 };
 
 const LeavePageModal = forwardRef<ModalRef, Props>(
-  ({ onConfirm, confirmType = 'PRIMARY', cancelText, confirmText }, ref) => {
+  (
+    { onConfirm, onCancel, confirmType = 'PRIMARY', cancelText, confirmText },
+    ref
+  ) => {
     const { t } = useTranslation();
     const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -27,12 +31,17 @@ const LeavePageModal = forwardRef<ModalRef, Props>(
     }));
 
     return (
-      <Modal isOpen={isOpen} close={onClose}>
+      <Modal isOpen={isOpen} close={onClose} onOverlayClick={onCancel}>
         <ConfirmModal
           title={t('PD.UnsavedChanges')}
           description={t('PD.UnsavedChangesMsg')}
           onConfirm={onConfirm}
-          onClose={onClose}
+          onClose={() => {
+            if (onCancel) {
+              onCancel();
+            }
+            onClose();
+          }}
           confirmType={confirmType}
           cancelText={cancelText}
           confirmText={confirmText}
