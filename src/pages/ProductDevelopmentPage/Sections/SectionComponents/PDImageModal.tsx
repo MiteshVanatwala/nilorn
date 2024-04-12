@@ -12,7 +12,14 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
-import { ChangeEvent, useRef, useState, ClipboardEvent } from 'react';
+import {
+  ChangeEvent,
+  useRef,
+  useState,
+  ClipboardEvent,
+  useCallback,
+  useEffect,
+} from 'react';
 import {
   useDeletePDImage,
   useGetPDImage,
@@ -23,6 +30,9 @@ import { useCurrentUser } from '../../../../app/api/User';
 import TRANSITION from '../../../../theme/Constants/transition';
 import { isClosed } from '../../../../app/utils/status';
 import { Status } from '../../../../app/generate';
+import { unstable_useBlocker as useBlocker } from 'react-router-dom';
+import { useModal } from '../../../../app/hooks/useModal';
+import { LocationsProps } from '../../../../app/types/types';
 
 type Props = {
   imageUrl: string | undefined;
@@ -34,6 +44,7 @@ type Props = {
 const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { isOpen, close } = useModal();
 
   let [pasteError, setPasteError] = useState<boolean>(false);
   const { data: user } = useCurrentUser();
@@ -97,6 +108,21 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
       }
     }
   };
+
+  const handleBlockerCallback = useCallback(
+    () =>
+      ({ currentLocation, nextLocation }: LocationsProps) =>
+        currentLocation.pathname !== nextLocation.pathname && isOpen,
+    [isOpen]
+  );
+
+  let blocker = useBlocker(handleBlockerCallback());
+
+  useEffect(() => {
+    if (blocker && blocker.state === 'blocked') {
+      close();
+    }
+  }, [blocker, close]);
 
   return (
     <Box
