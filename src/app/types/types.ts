@@ -1,5 +1,6 @@
 import { RegisterOptions, ValidationRule } from 'react-hook-form';
 import { ChangelogItemDto } from '../generate';
+import { Location } from 'react-router';
 
 export type FilterKeys =
   | 'pageNumber'
@@ -71,4 +72,9 @@ export type ServerFilter = {
   sourcingCompanies?: string;
   productDevelopments?: string;
   projects?: string;
+};
+
+export type LocationsProps = {
+  currentLocation: Location<any>;
+  nextLocation: Location<any>;
 };

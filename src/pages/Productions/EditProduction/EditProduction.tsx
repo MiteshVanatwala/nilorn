@@ -141,6 +141,7 @@ const EditProduction = ({ productionId }: Props) => {
     const handleKeyUp = (e: KeyboardEvent) => {
       if (hasUnsavedChanges() && e.key === 'Escape') {
         openLeavePageModal();
+        setPendingProductionId(undefined);
       }
     };
 
@@ -163,6 +164,9 @@ const EditProduction = ({ productionId }: Props) => {
           } else {
             close();
           }
+        }}
+        onCancel={() => {
+          setPendingProductionId(undefined);
         }}
       />
       <Box mb={SPACE.LG} px={SPACE.SM} ref={outsideRef}>

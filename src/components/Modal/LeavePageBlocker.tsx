@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { Location, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useModal } from '../../app/hooks/useModal';
 import { unstable_useBlocker as useBlocker } from 'react-router-dom';
 import LeavePageModal, { ModalRef } from './LeavePageModal';
-
-type LocationsProps = {
-  currentLocation: Location<any>;
-  nextLocation: Location<any>;
-};
+import { LocationsProps } from '../../app/types/types';
 
 const LeavePageBlocker = () => {
   const modalRef = useRef<ModalRef>(null);

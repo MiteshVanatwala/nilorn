@@ -14,6 +14,7 @@ type Props = {
   close: () => void;
   closeOnEsc?: boolean;
   children: JSX.Element;
+  onOverlayClick?: () => void;
 };
 
 const Modal = ({
@@ -22,10 +23,12 @@ const Modal = ({
   returnFocusOnClose,
   children,
   closeOnEsc = true,
+  onOverlayClick,
 }: Props) => {
   return (
     <ChakraModal
       closeOnEsc={closeOnEsc}
+      onOverlayClick={onOverlayClick}
       isOpen={isOpen}
       onClose={closeOnEsc ? close : () => {}}
       motionPreset={'scale'}
