@@ -78,12 +78,36 @@ const CertificateInputRow = ({
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <InputField name={certificatePercentageName} />
+          <InputField
+            name={certificatePercentageName}
+            min={0}
+            max={100}
+            registerOptions={{
+              valueAsNumber: true,
+              min: {
+                value: 0,
+                message: `${t(
+                  'Production.Feedback.Error.CertificatePercentage'
+                )}`,
+              },
+              max: {
+                value: 100,
+                message: `${t(
+                  'Production.Feedback.Error.CertificatePercentage'
+                )}`,
+              },
+            }}
+          />
         )}
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <InputField name={certificateWeightName} />
+          <InputField
+            name={certificateWeightName}
+            registerOptions={{
+              valueAsNumber: true,
+            }}
+          />
         )}
       </GridItem>
       <GridItem>

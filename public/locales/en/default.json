@@ -215,7 +215,12 @@
     "CertificateCode": "Certificate Code",
     "CertificateCategory": "Certificate Category",
     "CertificateClass": "Certificate Class",
-    "CertificateWeight": "Certificate Weight"
+    "CertificateWeight": "Certificate Weight",
+    "Feedback": {
+      "Error": {
+        "CertificatePercentage": "Percentage should be between 0 and 100"
+      }
+    }
   },
   "PriceCalc": {
     "AddCalculation": "Add calculation",
