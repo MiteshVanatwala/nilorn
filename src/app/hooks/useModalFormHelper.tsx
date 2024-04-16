@@ -15,8 +15,8 @@ import { ModalContext } from '../context/ModalContext';
 import { useOutsideClick } from '@chakra-ui/react';
 
 const useModalFormHelper = (
-  initNavId: string,
-  outsideRef: RefObject<HTMLElement>
+  outsideRef: RefObject<HTMLElement>,
+  initNavId: string = ''
 ) => {
   const modalRef = useRef<ModalRef>(null);
 

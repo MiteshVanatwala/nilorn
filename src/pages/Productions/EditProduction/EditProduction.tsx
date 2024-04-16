@@ -1,4 +1,4 @@
-import { Box, Button, HStack, useOutsideClick } from '@chakra-ui/react';
+import { Box, Button, HStack } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { COLORS, SPACE } from '../../../theme/Constants';
@@ -17,17 +17,13 @@ import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
-import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 import { useTranslation } from 'react-i18next';
 import {
   useProduction,
   useProductionNavigation,
 } from '../../../app/api/production';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
-import LeavePageModal, {
-  ModalRef,
-} from '../../../components/Modal/LeavePageModal';
-import useCloseModalOnNavigation from '../../../app/hooks/useCloseModalOnNavigation';
+import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 
 type Props = {
   productionId: string;
@@ -35,21 +31,16 @@ type Props = {
 };
 
 const EditProduction = ({ productionId }: Props) => {
-  const isBlocked = useCloseModalOnNavigation(true);
-
   const outsideRef = useRef(null);
-  const modalRef = useRef<ModalRef>(null);
+  const { activeProductionId, onNavigate, setDirty, leavePageModal } =
+    useModalFormHelper(outsideRef, productionId);
 
-  const { t } = useTranslation();
-  const form = useForm();
-  const { close, setPreventClose } = useContext(ModalContext);
+  const { close } = useContext(ModalContext);
   const { data: vendors } = useGetVendors(false);
+  const { t } = useTranslation();
+
+  const form = useForm();
   const [, setVendorOptions] = useState<SelectOption[]>([]);
-  const [activeProductionId, setActiveProductionId] =
-    useState<string>(productionId);
-  const [pendingProductionId, setPendingProductionId] = useState<
-    string | undefined
-  >(undefined);
 
   const {
     data: productionExt,
@@ -68,9 +59,6 @@ const EditProduction = ({ productionId }: Props) => {
   const { data: productionNavigation } =
     useProductionNavigation(activeProductionId);
 
-  const { discardChanges, setUnsavedChanges, hasUnsavedChanges } =
-    useUnsavedChanges();
-
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
     undefined,
@@ -88,15 +76,6 @@ const EditProduction = ({ productionId }: Props) => {
       },
     });
   }
-
-  useEffect(() => {
-    if (isBlocked && hasUnsavedChanges()) {
-      openLeavePageModal();
-    } else if (isBlocked) {
-      close();
-    }
-  }, [close, hasUnsavedChanges, isBlocked]);
-
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};
 
@@ -113,73 +92,13 @@ const EditProduction = ({ productionId }: Props) => {
   }, [vendors]);
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
-    setPreventClose(form.formState.isDirty);
+    setDirty(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
-  useEffect(() => {
-    setPendingProductionId(undefined);
-  }, [activeProductionId]);
-
-  const openLeavePageModal = () => {
-    modalRef.current?.onOpen();
-  };
-
-  const onNavigate = (productionNavigation: string) => {
-    setPendingProductionId(productionNavigation);
-
-    if (hasUnsavedChanges()) {
-      openLeavePageModal();
-    } else {
-      setActiveProductionId(productionNavigation);
-    }
-  };
-
-  useOutsideClick({
-    ref: outsideRef,
-    handler: () => {
-      if (hasUnsavedChanges()) {
-        openLeavePageModal();
-        setPreventClose(true);
-      } else {
-        close();
-      }
-    },
-  });
-
-  useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (hasUnsavedChanges() && e.key === 'Escape') {
-        openLeavePageModal();
-        setPendingProductionId(undefined);
-      }
-    };
-
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  });
-
   return (
     <>
-      <LeavePageModal
-        ref={modalRef}
-        onConfirm={() => {
-          setPreventClose(false);
-          modalRef.current?.onClose();
-          discardChanges();
-          if (pendingProductionId) {
-            setActiveProductionId(pendingProductionId);
-          } else {
-            close();
-          }
-        }}
-        onCancel={() => {
-          setPendingProductionId(undefined);
-        }}
-      />
+      {leavePageModal}
       <Box mb={SPACE.LG} px={SPACE.SM} ref={outsideRef}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
