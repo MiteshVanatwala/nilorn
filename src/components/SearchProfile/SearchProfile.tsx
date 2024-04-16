@@ -98,7 +98,7 @@ const SearchProfile = () => {
               />
             )
           }>
-          {activeSearchProfileName && defaultSearchProfile
+          {selected && isDirty
             ? t('Filter.UpdateSearchProfile')
             : t('Filter.SaveSearchProfile')}
         </Button>
