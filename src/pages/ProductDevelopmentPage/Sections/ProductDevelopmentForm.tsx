@@ -71,6 +71,7 @@ function ProductDevelopmentForm({
     form.setValue('members', defaultValues?.members, {
       shouldDirty: false,
     });
+    form.reset(defaultValues);
     if (
       (defaultValues?.status && isClosed(defaultValues?.status)) ||
       !allowedToEdit
