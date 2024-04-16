@@ -60,8 +60,7 @@ const PriceCalculationActionBar = ({
                       title={t('PD.DeleteTitle')}
                       description={t('PD.DeleteMsg')}
                       onConfirm={() => deleteCalculation()}
-                      cancelText={t('Common.No')}
-                      confirmText={t('Common.Yes')}
+                      confirmType={'DELETE'}
                     />
                   )
                 }

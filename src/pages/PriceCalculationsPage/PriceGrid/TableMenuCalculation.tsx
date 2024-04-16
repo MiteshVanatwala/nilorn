@@ -104,9 +104,8 @@ const TableMenuCalculation = ({
               <ConfirmModal
                 title={t('PD.DeleteTitle')}
                 description={t('PD.DeleteMsg')}
+                confirmType={'DELETE'}
                 onConfirm={() => deleteCalculation()}
-                cancelText={t('Common.No')}
-                confirmText={t('Common.Yes')}
               />
             )
           }

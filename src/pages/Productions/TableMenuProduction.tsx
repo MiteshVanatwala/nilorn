@@ -118,9 +118,8 @@ const TableMenuProduction = ({
               <ConfirmModal
                 title={t('PD.DeleteTitle')}
                 description={t('PD.DeleteMsg')}
+                confirmType={'DELETE'}
                 onConfirm={() => deleteProductionFunc()}
-                cancelText={t('Common.No')}
-                confirmText={t('Common.Yes')}
               />
             )
           }
