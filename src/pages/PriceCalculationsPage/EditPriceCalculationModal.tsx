@@ -28,14 +28,14 @@ type Props = {
 const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
+  const form = useForm();
+
   const {
     activeNavId: activeCalculationId,
     onNavigate,
     setDirty,
     leavePageModal,
   } = useModalFormHelper(outsideRef, calculationId);
-
-  const form = useForm();
   const { close } = useContext(ModalContext);
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
@@ -79,6 +79,10 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     }
   }, [priceCalculation, form, margins]);
 
+  useEffect(() => {
+    setDirty(form.formState.isDirty);
+  }, [form.formState.isDirty, setDirty]);
+
   function submitForm(form: FieldValues) {
     updateCalculation(form, {
       onSuccess: () => {
@@ -86,11 +90,6 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
       },
     });
   }
-
-  useEffect(() => {
-    setDirty(form.formState.isDirty);
-  }, [form.formState.isDirty, setDirty]);
-
   return (
     <>
       {leavePageModal}

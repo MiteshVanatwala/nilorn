@@ -31,22 +31,32 @@ type Props = {
 };
 
 const EditProduction = ({ productionId }: Props) => {
-  const outsideRef = useRef(null);
-  const { activeProductionId, onNavigate, setDirty, leavePageModal } =
-    useModalFormHelper(outsideRef, productionId);
-
-  const { close } = useContext(ModalContext);
-  const { data: vendors } = useGetVendors(false);
   const { t } = useTranslation();
-
+  const outsideRef = useRef(null);
   const form = useForm();
+
+  const {
+    activeNavId: activeProductionId,
+    onNavigate,
+    setDirty,
+    leavePageModal,
+  } = useModalFormHelper(outsideRef, productionId);
+  const { close } = useContext(ModalContext);
+
   const [, setVendorOptions] = useState<SelectOption[]>([]);
+
+  const { data: vendors } = useGetVendors(false);
 
   const {
     data: productionExt,
     isLoading,
     isRefetching,
   } = useProduction(activeProductionId);
+  const { data: productionNavigation } =
+    useProductionNavigation(activeProductionId);
+
+  const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
+    productionExt || {};
 
   const production = useMemo(() => {
     const newProduction: Omit<
@@ -55,9 +65,6 @@ const EditProduction = ({ productionId }: Props) => {
     > = productionExt || {};
     return newProduction as ProductionDto;
   }, [productionExt]);
-
-  const { data: productionNavigation } =
-    useProductionNavigation(activeProductionId);
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -68,16 +75,6 @@ const EditProduction = ({ productionId }: Props) => {
   const { mutate: updateProduction } = usePatchProduction(
     !productionExt?.released
   );
-
-  function submitForm(form: FieldValues) {
-    updateProduction(form, {
-      onSuccess: () => {
-        close();
-      },
-    });
-  }
-  const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
-    productionExt || {};
 
   useEffect(() => {
     if (production) {
@@ -93,13 +90,20 @@ const EditProduction = ({ productionId }: Props) => {
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
+  }, [form.formState.isDirty, setDirty]);
+
+  function submitForm(form: FieldValues) {
+    updateProduction(form, {
+      onSuccess: () => {
+        close();
+      },
+    });
+  }
 
   return (
     <>
       {leavePageModal}
-      <Box mb={SPACE.LG} px={SPACE.SM} ref={outsideRef}>
+      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(submitForm)}>
