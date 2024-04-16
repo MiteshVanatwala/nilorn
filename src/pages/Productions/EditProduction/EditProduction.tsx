@@ -27,6 +27,7 @@ import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
 import LeavePageModal, {
   ModalRef,
 } from '../../../components/Modal/LeavePageModal';
+import useCloseModalOnNavigation from '../../../app/hooks/useCloseModalOnNavigation';
 
 type Props = {
   productionId: string;
@@ -34,6 +35,8 @@ type Props = {
 };
 
 const EditProduction = ({ productionId }: Props) => {
+  const isBlocked = useCloseModalOnNavigation(true);
+
   const outsideRef = useRef(null);
   const modalRef = useRef<ModalRef>(null);
 
@@ -85,6 +88,14 @@ const EditProduction = ({ productionId }: Props) => {
       },
     });
   }
+
+  useEffect(() => {
+    if (isBlocked && hasUnsavedChanges()) {
+      openLeavePageModal();
+    } else if (isBlocked) {
+      close();
+    }
+  }, [close, hasUnsavedChanges, isBlocked]);
 
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};

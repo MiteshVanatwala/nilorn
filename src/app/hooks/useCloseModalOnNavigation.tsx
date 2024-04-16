@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useModal } from './useModal';
 import { LocationsProps } from '../types/types';
 import { unstable_useBlocker as useBlocker } from 'react-router';
 
-const useCloseModalOnNavigation = () => {
+const useCloseModalOnNavigation = (preventClose: boolean = false) => {
   const { isOpen, close } = useModal();
+  const [isBlocked, setBlocked] = useState<boolean>(false);
 
   const handleBlockerCallback = useCallback(
     () =>
@@ -17,9 +18,14 @@ const useCloseModalOnNavigation = () => {
 
   useEffect(() => {
     if (blocker && blocker.state === 'blocked') {
-      close();
+      setBlocked(true);
+      if (!preventClose) {
+        close();
+      }
     }
-  }, [blocker, close]);
+  }, [blocker, close, preventClose]);
+
+  return isBlocked;
 };
 
 export default useCloseModalOnNavigation;
