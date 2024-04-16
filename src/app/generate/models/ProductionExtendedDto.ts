@@ -5,6 +5,7 @@
 
 import type { PriceCalculationDto } from './PriceCalculationDto';
 import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
+import type { ProductionCertificateDto } from './ProductionCertificateDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type ProductionExtendedDto = {
@@ -19,6 +20,7 @@ export type ProductionExtendedDto = {
     id?: string;
     vendorId?: string | null;
     priceCalculations?: Array<PriceCalculationDto> | null;
+    productionCertificates?: Array<ProductionCertificateDto> | null;
     productDevelopmentDataDto?: ProductDevelopmentDataDto;
     purchasePrices?: Array<PurchasePriceDto> | null;
     vendorName?: string | null;
