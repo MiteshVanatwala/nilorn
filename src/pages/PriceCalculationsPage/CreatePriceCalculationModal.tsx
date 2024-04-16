@@ -16,10 +16,11 @@ import {
   useCreateCalculation,
   usePriceCalculationDefaultValues,
 } from '../../app/api/calculation';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { ServerFilter } from '../../app/types/types';
+import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -39,6 +40,9 @@ const CreatePriceCalculationModal = ({
   production,
   calculation,
 }: Props) => {
+  const outsideRef = useRef(null);
+  const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
+
   const { mutate: createCalculation } = useCreateCalculation();
   const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
@@ -98,41 +102,48 @@ const CreatePriceCalculationModal = ({
     });
   }
 
+  useEffect(() => {
+    setDirty(form.formState.isDirty);
+  }, [form.formState.isDirty, setDirty]);
+
   return (
-    <Box mb={SPACE.LG} px={SPACE.SM}>
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(submitForm)}>
-          <ProductDevelopmentModalTopSection
-            productDevelopment={productDevelopment}
-            sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-            vendorName={production?.vendorName}
-            actionBar={
-              <PriceCalculationActionBar
-                artwork={artwork}
-                createNew={true}
-                lastModified={lastModified}
-                id={calculation?.id ?? ''}
-                showChanges={showChanges}
-                setShowChanges={(s: boolean) => setShowChanges(s)}
-              />
-            }
-          />
-          <Skeleton isLoaded={!isLoadingDefaultValues}>
-            <PriceCalculationForm
-              calculation={calculation}
-              currencyCode={
-                defaultValues?.salesCurrency?.code ??
-                calculation?.currencyCode ??
-                undefined
+    <>
+      {leavePageModal}
+      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(submitForm)}>
+            <ProductDevelopmentModalTopSection
+              productDevelopment={productDevelopment}
+              sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+              vendorName={production?.vendorName}
+              actionBar={
+                <PriceCalculationActionBar
+                  artwork={artwork}
+                  createNew={true}
+                  lastModified={lastModified}
+                  id={calculation?.id ?? ''}
+                  showChanges={showChanges}
+                  setShowChanges={(s: boolean) => setShowChanges(s)}
+                />
               }
-              createNew={true}
-              showChanges={showChanges}
-              productionId={production.id}
             />
-          </Skeleton>
-        </form>
-      </FormProvider>
-    </Box>
+            <Skeleton isLoaded={!isLoadingDefaultValues}>
+              <PriceCalculationForm
+                calculation={calculation}
+                currencyCode={
+                  defaultValues?.salesCurrency?.code ??
+                  calculation?.currencyCode ??
+                  undefined
+                }
+                createNew={true}
+                showChanges={showChanges}
+                productionId={production.id}
+              />
+            </Skeleton>
+          </form>
+        </FormProvider>
+      </Box>
+    </>
   );
 };
 
