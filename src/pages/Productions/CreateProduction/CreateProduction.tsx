@@ -14,13 +14,14 @@ import { useCreateProduction } from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import EditProductionFormContent from '../EditProduction/EditProductionFormContent';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { useGetSourcingQuantities } from '../../../app/api/SourcingQuantities';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from '../EditProduction/ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
+import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -33,6 +34,9 @@ const CreateProduction = ({
   sourcedProduction,
   production,
 }: Props) => {
+  const outsideRef = useRef(null);
+  const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
+
   const form = useForm({
     defaultValues: {
       ...production,
@@ -85,43 +89,50 @@ const CreateProduction = ({
     }
   }, [vendors]);
 
+  useEffect(() => {
+    setDirty(form.formState.isDirty);
+  }, [form.formState.isDirty, setDirty]);
+
   return (
-    <Box mb={SPACE.LG} px={SPACE.SM}>
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(submitForm)}>
-          <ProductDevelopmentModalTopSection
-            productDevelopment={productDevelopment}
-            sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-            vendorName={production?.vendorName}
-            actionBar={
-              <ActionBarEditProduction
-                production={production}
-                artwork={productDevelopment?.artwork}
-                showChanges={showChanges}
-                setShowChanges={(s: boolean) => setShowChanges(s)}
-                disableEdit={production?.released}
-                status={productDevelopment?.status}
-                createNew={true}
-                productDevelopmentNo={productDevelopment?.no}
-              />
-            }
-          />
-          <EditProductionFormContent
-            sourcedProduction={sourcedProduction}
-            productDevelopment={productDevelopment}
-            createNew={true}
-            production={production}
-            showChanges={showChanges}
-            disableEdit={
-              production?.released ||
-              (productDevelopment?.status
-                ? isClosed(productDevelopment.status)
-                : false)
-            }
-          />
-        </form>
-      </FormProvider>
-    </Box>
+    <>
+      {leavePageModal}
+      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(submitForm)}>
+            <ProductDevelopmentModalTopSection
+              productDevelopment={productDevelopment}
+              sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+              vendorName={production?.vendorName}
+              actionBar={
+                <ActionBarEditProduction
+                  production={production}
+                  artwork={productDevelopment?.artwork}
+                  showChanges={showChanges}
+                  setShowChanges={(s: boolean) => setShowChanges(s)}
+                  disableEdit={production?.released}
+                  status={productDevelopment?.status}
+                  createNew={true}
+                  productDevelopmentNo={productDevelopment?.no}
+                />
+              }
+            />
+            <EditProductionFormContent
+              sourcedProduction={sourcedProduction}
+              productDevelopment={productDevelopment}
+              createNew={true}
+              production={production}
+              showChanges={showChanges}
+              disableEdit={
+                production?.released ||
+                (productDevelopment?.status
+                  ? isClosed(productDevelopment.status)
+                  : false)
+              }
+            />
+          </form>
+        </FormProvider>
+      </Box>
+    </>
   );
 };
 
