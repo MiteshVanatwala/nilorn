@@ -112,7 +112,7 @@ const useModalFormHelper = (
   );
 
   return {
-    activeProductionId: activeNavId,
+    activeNavId,
     leavePageModal,
     onNavigate,
     setDirty,

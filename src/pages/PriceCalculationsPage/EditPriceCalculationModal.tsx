@@ -1,12 +1,6 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { ChangelogType } from '../../app/generate';
-import {
-  Box,
-  Grid,
-  GridItem,
-  Skeleton,
-  useOutsideClick,
-} from '@chakra-ui/react';
+import { Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
 import { GRID, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -16,18 +10,15 @@ import {
   usePriceCalculation,
   usePriceCalculationNavigation,
 } from '../../app/api/calculation';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { ServerFilter } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import LeavePageModal, {
-  ModalRef,
-} from '../../components/Modal/LeavePageModal';
-import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
+import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 
 type Props = {
   calculationId: string;
@@ -37,8 +28,16 @@ type Props = {
 const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
-  const modalRef = useRef<ModalRef>(null);
-  const [activeCalculationId, setActiveCalculationId] = useState(calculationId);
+  const {
+    activeNavId: activeCalculationId,
+    onNavigate,
+    setDirty,
+    leavePageModal,
+  } = useModalFormHelper(outsideRef, calculationId);
+
+  const form = useForm();
+  const { close } = useContext(ModalContext);
+
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
     filters
@@ -48,14 +47,9 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     isLoading,
     isRefetching,
   } = usePriceCalculation(activeCalculationId);
-  const [pendingCalculationId, setPendingCalculationId] = useState<
-    string | undefined
-  >(undefined);
 
   const { mutate: updateCalculation } = usePatchCalculation();
-  const { close, setPreventClose } = useContext(ModalContext);
-  const { discardChanges, setUnsavedChanges, hasUnsavedChanges } =
-    useUnsavedChanges();
+
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
     undefined,
@@ -67,8 +61,6 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
       ? priceCalculation?.priceDtos.map(item => item.margin)
       : null;
   }, [priceCalculation]);
-
-  const form = useForm();
 
   useEffect(() => {
     if (priceCalculation) {
@@ -96,75 +88,13 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   }
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
-    setPreventClose(form.formState.isDirty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
-
-  useEffect(() => {
-    setPendingCalculationId(undefined);
-  }, [activeCalculationId]);
-
-  const openLeavePageModal = () => {
-    modalRef.current?.onOpen();
-  };
-
-  const onNavigate = (calculationId: string) => {
-    setPendingCalculationId(calculationId);
-
-    if (hasUnsavedChanges()) {
-      openLeavePageModal();
-    } else {
-      setActiveCalculationId(calculationId);
-    }
-  };
-
-  useOutsideClick({
-    ref: outsideRef,
-    handler: () => {
-      if (hasUnsavedChanges()) {
-        openLeavePageModal();
-        setPreventClose(true);
-      } else {
-        close();
-      }
-    },
-  });
-
-  useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (hasUnsavedChanges() && e.key === 'Escape') {
-        openLeavePageModal();
-        setPendingCalculationId(undefined);
-      }
-    };
-
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  });
+    setDirty(form.formState.isDirty);
+  }, [form.formState.isDirty, setDirty]);
 
   return (
     <>
-      <LeavePageModal
-        ref={modalRef}
-        onConfirm={() => {
-          setPreventClose(false);
-          modalRef.current?.onClose();
-          discardChanges();
-          if (pendingCalculationId) {
-            setActiveCalculationId(pendingCalculationId);
-          } else {
-            close();
-          }
-        }}
-        onCancel={() => {
-          setPendingCalculationId(undefined);
-        }}
-      />
-
-      <Box mb={SPACE.LG} px={SPACE.SM} ref={outsideRef}>
+      {leavePageModal}
+      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(submitForm)}>
