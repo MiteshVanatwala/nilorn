@@ -26,6 +26,7 @@ enum QueryKeysEnum {
   Certificate = 'Certificate',
   CertificateClasses = 'CertificateClasses',
   CertificateCategories = 'CertificateCategories',
+  CompositionMaterial = 'CompositionMaterial',
 }
 
 export default QueryKeysEnum;

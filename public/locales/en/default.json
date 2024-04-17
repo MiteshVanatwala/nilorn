@@ -40,7 +40,8 @@
     "LastEdited": "Last edited",
     "ReadComment": "Read comment",
     "NumberOfHits": "Number of hits:",
-    "Percentage": "Percentage"
+    "Percentage": "Percentage",
+    "Percentage_sign": "%"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -216,6 +217,7 @@
     "CertificateCategory": "Certificate Category",
     "CertificateClass": "Certificate Class",
     "CertificateWeight": "Certificate Weight",
+    "CompositionMaterial": "Material",
     "Feedback": {
       "Error": {
         "CertificatePercentage": "Percentage should be between 0 and 100"
