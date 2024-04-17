@@ -39,7 +39,8 @@
     "Confirm": "Confirm",
     "LastEdited": "Last edited",
     "ReadComment": "Read comment",
-    "NumberOfHits": "Number of hits:"
+    "NumberOfHits": "Number of hits:",
+    "Percentage": "Percentage"
   },
   "Menu": {
     "Hyphome": "Start",
@@ -210,7 +211,16 @@
     "ChooseVendor": "Choose vendor",
     "CreateSuccess": "Production created",
     "CreateAndReleaseSuccess": "Production created and released for sales",
-    "Deleted": "Production deleted"
+    "Deleted": "Production deleted",
+    "CertificateCode": "Certificate Code",
+    "CertificateCategory": "Certificate Category",
+    "CertificateClass": "Certificate Class",
+    "CertificateWeight": "Certificate Weight",
+    "Feedback": {
+      "Error": {
+        "CertificatePercentage": "Percentage should be between 0 and 100"
+      }
+    }
   },
   "PriceCalc": {
     "AddCalculation": "Add calculation",

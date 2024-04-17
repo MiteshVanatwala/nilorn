@@ -35,6 +35,7 @@ export type { ProductDevelopmentDataDto } from './models/ProductDevelopmentDataD
 export type { ProductDevelopmentDeepDto } from './models/ProductDevelopmentDeepDto';
 export type { ProductDevelopmentDeepDtoPaginatedList } from './models/ProductDevelopmentDeepDtoPaginatedList';
 export type { ProductDevelopmentDto } from './models/ProductDevelopmentDto';
+export type { ProductionCertificateDto } from './models/ProductionCertificateDto';
 export type { ProductionDto } from './models/ProductionDto';
 export type { ProductionExtendedDto } from './models/ProductionExtendedDto';
 export type { ProjectDto } from './models/ProjectDto';
@@ -55,6 +56,7 @@ export type { VendorDto } from './models/VendorDto';
 export { CertificateService } from './services/CertificateService';
 export { ChangelogService } from './services/ChangelogService';
 export { ClientService } from './services/ClientService';
+export { CompositionMaterialService } from './services/CompositionMaterialService';
 export { CurrencyService } from './services/CurrencyService';
 export { FoldingTypeService } from './services/FoldingTypeService';
 export { ImageService } from './services/ImageService';

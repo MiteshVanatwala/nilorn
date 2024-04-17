@@ -23,6 +23,9 @@ enum QueryKeysEnum {
   Attachments = 'Attachments',
   DefaultValues = 'DefaultValues',
   Navigation = 'Navigation',
+  Certificate = 'Certificate',
+  CertificateClasses = 'CertificateClasses',
+  CertificateCategories = 'CertificateCategories',
 }
 
 export default QueryKeysEnum;
