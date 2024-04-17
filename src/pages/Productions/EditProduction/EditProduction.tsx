@@ -24,6 +24,7 @@ import {
 } from '../../../app/api/production';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
+import CertificateSection from '../CertificatesSection/CertificatesSection';
 
 type Props = {
   productionId: string;
@@ -136,6 +137,9 @@ const EditProduction = ({ productionId }: Props) => {
                   ? isClosed(productDevelopmentDataDto?.status!!)
                   : false)
               }
+            />
+            <CertificateSection
+              defaultValues={production.productionCertificates ?? undefined}
             />
           </form>
         </FormProvider>
