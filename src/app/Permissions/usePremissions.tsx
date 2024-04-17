@@ -6,8 +6,7 @@ import {
   ROLES_ALLOWED_SEE_SOURCING,
   ROLES_ALLOWED_TO_UPLOAD_FILE,
   ROLES_ALLOWED_TO_EDIT_PD,
-  ROLES_ALLOWED_TO_REMOVE_SOURCING,
-  ROLES_ALLOWED_TO_ADD_SOURCING,
+  ROLES_ALLOWED_TO_ADD_REMOVE_SOURCING,
 } from './Permissions';
 
 export function useAuthorizedSee(
@@ -39,9 +38,8 @@ export function useAuthorizedEdit(
       case 'productDevelopment':
         return ROLES_ALLOWED_TO_EDIT_PD.includes(user?.role);
       case 'addSourcing':
-        return ROLES_ALLOWED_TO_ADD_SOURCING.includes(user?.role);
       case 'removeSourcing':
-        return ROLES_ALLOWED_TO_REMOVE_SOURCING.includes(user?.role);
+        return ROLES_ALLOWED_TO_ADD_REMOVE_SOURCING.includes(user?.role);
       case 'uploadFile':
         return ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user?.role);
     }
