@@ -20,7 +20,7 @@ const useModalFormHelper = (
 ) => {
   const modalRef = useRef<ModalRef>(null);
 
-  const isBlocked = useCloseModalOnNavigation(true);
+  const { isBlocked, proceedBlocker } = useCloseModalOnNavigation(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
   const { discardChanges, hasUnsavedChanges, setUnsavedChanges } =
@@ -39,9 +39,10 @@ const useModalFormHelper = (
     if (isBlocked && hasUnsavedChanges()) {
       openLeavePageModal();
     } else if (isBlocked) {
+      proceedBlocker();
       close();
     }
-  }, [close, hasUnsavedChanges, isBlocked, openLeavePageModal]);
+  }, [close, hasUnsavedChanges, isBlocked, openLeavePageModal, proceedBlocker]);
 
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -95,6 +96,7 @@ const useModalFormHelper = (
       setActiveNavId(pendingNavId);
     } else {
       close();
+      proceedBlocker();
     }
   };
 

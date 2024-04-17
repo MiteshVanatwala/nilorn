@@ -20,8 +20,9 @@ import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
-import { useNavigate } from 'react-router';
 import { useCurrentUser } from '../../../app/api/User';
+import { NavLink } from 'react-router-dom';
+import { NAV_LINK } from '../../../app/hooks/useCloseModalOnNavigation';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -45,7 +46,6 @@ const ActionBarEditProduction = ({
   productDevelopmentNo,
 }: Props) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { getValues, setValue } = useFormContext();
   const { handleModal, close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
@@ -100,12 +100,9 @@ const ActionBarEditProduction = ({
             </MenuItem>
             {showCalculationLink && (
               <MenuItem
-                onClick={() => {
-                  navigate(
-                    `/price-calculations?productDevelopments=${productDevelopmentNo}`
-                  );
-                  close();
-                }}
+                as={NavLink}
+                to={`/price-calculations?productDevelopments=${productDevelopmentNo}`}
+                state={NAV_LINK}
                 icon={
                   <Text
                     as={'i'}
