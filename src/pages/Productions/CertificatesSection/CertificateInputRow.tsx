@@ -113,7 +113,7 @@ const CertificateInputRow = ({
       <GridItem>
         <IconButton
           variant={'ghost'}
-          aria-label={t('PD.Artwork')}
+          aria-label={t('Common.Remove')}
           onClick={onDelete}
           icon={<Text as={'i'} className="ri-close-line" />}
         />
