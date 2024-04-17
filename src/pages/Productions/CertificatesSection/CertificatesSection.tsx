@@ -6,30 +6,36 @@ import CertificatesHeader from './CertificatesHeader';
 import { useCertificateCodes } from '../../../app/api/certificates';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../app/types/types';
+import { ProductionCertificateDto } from '../../../app/generate';
+import { useEffect } from 'react';
 
-type Certificate = {
-  certificateCode?: string;
-  certificateCategory?: string;
-  certificateClass?: string;
-  certificatePercentage?: number;
-  certificateWeight?: number;
+type Props = {
+  defaultValues?: ProductionCertificateDto[];
 };
 
-const CertificateSection = () => {
+const CertificateSection = ({ defaultValues }: Props) => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
-  const fieldName = 'certificates';
+  const { control, setValue, getValues } = useFormContext();
+  const fieldName = 'productionCertificates';
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
   });
-  const certificates = useWatch({ name: fieldName }) as Certificate[];
+  const certificates = useWatch({
+    name: fieldName,
+  }) as ProductionCertificateDto[];
   const { data: certificateCodes } = useCertificateCodes();
   const filteredOptions = certificates?.length
     ? certificateCodes?.filter(
         code => !certificates.some(c => c.certificateCode === code.value)
       )
     : certificateCodes;
+
+  useEffect(() => {
+    if (defaultValues?.length && !getValues(fieldName)) {
+      setValue(fieldName, defaultValues);
+    }
+  }, [defaultValues, getValues, setValue]);
 
   return (
     <VStack align={'start'} gap={SPACE.SM}>
@@ -38,15 +44,19 @@ const CertificateSection = () => {
         columnGap={SPACE.SM}
         rowGap={SPACE.SM}>
         <CertificatesHeader />
-        {fields.map((field, index) => (
-          <CertificateInputRow
-            key={field.id}
-            fieldName={fieldName}
-            index={index}
-            certificateCodeOptions={filteredOptions as SelectOption[]}
-            onDelete={() => remove(index)}
-          />
-        ))}
+        {fields.map((field, index) => {
+          return (
+            <CertificateInputRow
+              key={field.id}
+              fieldName={fieldName}
+              index={index}
+              options={certificateCodes as SelectOption[]}
+              filteredOptions={filteredOptions as SelectOption[]}
+              onDelete={() => remove(index)}
+              defaultValues={defaultValues?.find(d => d.id === field.id)}
+            />
+          );
+        })}
       </Grid>
       {filteredOptions?.length && fields?.length < filteredOptions?.length && (
         <Button
@@ -54,10 +64,11 @@ const CertificateSection = () => {
           variant={'secondarySmall'}
           onClick={() =>
             append({
+              id: undefined,
               certificateCode: undefined,
-              certificateCategory: undefined,
-              certificateClass: undefined,
-              certificatePercentage: undefined,
+              certificateCategoryCode: undefined,
+              certificateClassCode: undefined,
+              percentage: undefined,
               certificateWeight: undefined,
             })
           }

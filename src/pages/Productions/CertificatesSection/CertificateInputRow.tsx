@@ -1,85 +1,103 @@
 import { useTranslation } from 'react-i18next';
 import InputField from '../../../components/Form/InputField';
 import { SelectOption } from '../../../app/types/types';
-import { GridItem, IconButton, Skeleton, Text } from '@chakra-ui/react';
-import Select from '../../../components/Form/Select';
+import { GridItem, IconButton, Text } from '@chakra-ui/react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import {
   useCertificateCategories,
   useCertificateClasses,
 } from '../../../app/api/certificates';
-import { useEffect } from 'react';
+import { ProductionCertificateDto } from '../../../app/generate';
+import SelectBase from '../../../components/Form/SelectBase';
 
 type Props = {
-  certificateCodeOptions: SelectOption[];
+  options: SelectOption[];
+  filteredOptions: SelectOption[];
   fieldName: string;
   index: number;
   onDelete: () => void;
+  defaultValues?: ProductionCertificateDto;
 };
 
 const CertificateInputRow = ({
   fieldName,
   index,
-  certificateCodeOptions,
+  options,
+  filteredOptions,
   onDelete,
 }: Props) => {
   const { t } = useTranslation();
+  const { setValue } = useFormContext();
   const certificateCodeName = `${fieldName}.${index}.certificateCode`;
-  const certificateCategoryName = `${fieldName}.${index}.certificateCategory`;
-  const certificateClassName = `${fieldName}.${index}.certificateClass`;
-  const certificatePercentageName = `${fieldName}.${index}.certificatePercentage`;
+  const certificateCategoryName = `${fieldName}.${index}.certificateCategoryCode`;
+  const certificateClassName = `${fieldName}.${index}.certificateClassCode`;
+  const percentageName = `${fieldName}.${index}.percentage`;
   const certificateWeightName = `${fieldName}.${index}.certificateWeight`;
 
   const selectedCertificateCode = useWatch({ name: certificateCodeName });
+  const selectedCategory = useWatch({ name: certificateCategoryName });
+  const selectedClass = useWatch({ name: certificateClassName });
 
-  const { setValue } = useFormContext();
-
-  useEffect(() => {
-    if (selectedCertificateCode) {
-      setValue(certificateCategoryName, undefined);
-      setValue(certificateClassName, undefined);
-      setValue(certificatePercentageName, undefined);
-      setValue(certificateWeightName, undefined);
-    }
-  }, [selectedCertificateCode]);
-
-  const { data: categories, isLoading: categorieIsLoading } =
-    useCertificateCategories(selectedCertificateCode);
-  const { data: classes, isLoading: classesIsLoading } = useCertificateClasses(
+  const { data: categories } = useCertificateCategories(
     selectedCertificateCode
   );
+  const categoryOptions = (categories ?? []) as SelectOption[];
+
+  const { data: classes } = useCertificateClasses(selectedCertificateCode);
+  const classOptions = (classes ?? []) as SelectOption[];
+
+  const onChangeCode = (newValue: SelectOption) => {
+    setValue(certificateCodeName, newValue.value);
+    setValue(certificateCategoryName, undefined);
+    setValue(certificateClassName, undefined);
+    setValue(percentageName, undefined);
+    setValue(certificateWeightName, undefined);
+  };
+
+  const onChangeCategory = (newValue: SelectOption) => {
+    setValue(certificateCategoryName, newValue.value);
+  };
+
+  const onChangeClass = (newValue: SelectOption) => {
+    setValue(certificateClassName, newValue.value);
+  };
 
   return (
     <>
       <GridItem>
-        <Select name={certificateCodeName} options={certificateCodeOptions} />
-      </GridItem>
-      <GridItem>
-        {!!selectedCertificateCode && (
-          <Skeleton isLoaded={!!categories && !categorieIsLoading}>
-            <Select
-              name={certificateCategoryName}
-              options={categories as SelectOption[]}
-              isDisabled={!categories?.length}
-            />
-          </Skeleton>
+        {options && (
+          <SelectBase
+            name={certificateCodeName}
+            options={filteredOptions}
+            onChange={onChangeCode}
+            value={options.find(opt => opt.value === selectedCertificateCode)}
+          />
         )}
       </GridItem>
       <GridItem>
-        {!!selectedCertificateCode && (
-          <Skeleton isLoaded={!!classes && !classesIsLoading}>
-            <Select
-              name={certificateClassName}
-              options={classes as SelectOption[]}
-              isDisabled={!classes?.length}
-            />
-          </Skeleton>
+        {!!selectedCertificateCode && categories && categoryOptions && (
+          <SelectBase
+            name={certificateCategoryName}
+            options={categoryOptions}
+            onChange={onChangeCategory}
+            value={categoryOptions?.find(opt => opt.value === selectedCategory)}
+          />
+        )}
+      </GridItem>
+      <GridItem>
+        {!!selectedCertificateCode && classes && classOptions && (
+          <SelectBase
+            name={certificateClassName}
+            options={classOptions}
+            onChange={onChangeClass}
+            value={classOptions?.find(opt => opt.value === selectedClass)}
+          />
         )}
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
           <InputField
-            name={certificatePercentageName}
+            name={percentageName}
             min={0}
             max={100}
             registerOptions={{
