@@ -81,7 +81,8 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
-  }, [form.formState.isDirty, setDirty]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
     updateCalculation(form, {

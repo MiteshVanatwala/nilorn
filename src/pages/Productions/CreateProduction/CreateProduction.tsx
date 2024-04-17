@@ -91,7 +91,8 @@ const CreateProduction = ({
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
-  }, [form.formState.isDirty, setDirty]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
 
   return (
     <>
