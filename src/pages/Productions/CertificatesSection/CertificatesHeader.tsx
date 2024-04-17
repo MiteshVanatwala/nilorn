@@ -1,36 +1,34 @@
-import { FormLabel, GridItem } from '@chakra-ui/react';
+import { GridItem } from '@chakra-ui/react';
 import FormLabelComponent from '../../../components/Form/FormLabelComponent';
 import { useTranslation } from 'react-i18next';
 
 const CertificatesHeader = () => {
   const { t } = useTranslation();
-  console.log();
   return (
     <>
       <GridItem>
-        <FormLabel paddingBottom={'.2rem'} mb="0" w={'auto'}>
-          {t('Production.CertificateCode')}
-        </FormLabel>
+        <FormLabelComponent name={''} label={t('Production.CertificateCode')} />
       </GridItem>
       <GridItem>
-        <FormLabel paddingBottom={'.2rem'} mb="0" w={'auto'}>
-          {t('Production.CertificateCategory')}
-        </FormLabel>
+        <FormLabelComponent
+          name={''}
+          label={t('Production.CertificateCategory')}
+        />
       </GridItem>
       <GridItem>
-        <FormLabel paddingBottom={'.2rem'} mb="0" w={'auto'}>
-          {t('Production.CertificateClass')}
-        </FormLabel>
+        <FormLabelComponent
+          name={''}
+          label={t('Production.CertificateClass')}
+        />
       </GridItem>
       <GridItem>
-        <FormLabel paddingBottom={'.2rem'} mb="0" w={'auto'}>
-          {t('Common.Percentage')}
-        </FormLabel>
+        <FormLabelComponent name={''} label={t('Common.Percentage')} />
       </GridItem>
       <GridItem>
-        <FormLabel paddingBottom={'.2rem'} mb="0" w={'auto'}>
-          {t('Production.CertificateWeight')}
-        </FormLabel>
+        <FormLabelComponent
+          name={''}
+          label={t('Production.CertificateWeight')}
+        />
       </GridItem>
       <GridItem />
     </>
