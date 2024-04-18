@@ -4,7 +4,6 @@
 /* eslint-disable */
 
 import type { PriceCalculationDto } from './PriceCalculationDto';
-import type { ProductionCertificateDto } from './ProductionCertificateDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
 export type ProductionDto = {
@@ -21,7 +20,6 @@ export type ProductionDto = {
     vendorName?: string | null;
     purchasePrices?: Array<PurchasePriceDto> | null;
     priceCalculations?: Array<PriceCalculationDto> | null;
-    productionCertificates?: Array<ProductionCertificateDto> | null;
     lastModified?: string | null;
 };
 

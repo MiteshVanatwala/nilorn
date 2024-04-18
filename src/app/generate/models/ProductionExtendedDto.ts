@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CompositionDto } from './CompositionDto';
 import type { PriceCalculationDto } from './PriceCalculationDto';
 import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
 import type { ProductionCertificateDto } from './ProductionCertificateDto';
@@ -19,10 +20,11 @@ export type ProductionExtendedDto = {
     comment?: string | null;
     id?: string;
     vendorId?: string | null;
-    priceCalculations?: Array<PriceCalculationDto> | null;
-    productionCertificates?: Array<ProductionCertificateDto> | null;
-    productDevelopmentDataDto?: ProductDevelopmentDataDto;
     purchasePrices?: Array<PurchasePriceDto> | null;
+    priceCalculations?: Array<PriceCalculationDto> | null;
+    productDevelopmentDataDto?: ProductDevelopmentDataDto;
+    productionCertificates?: Array<ProductionCertificateDto> | null;
+    compositions?: Array<CompositionDto> | null;
     vendorName?: string | null;
     sourcingCompanyCode?: string | null;
     lastModified?: string | null;
