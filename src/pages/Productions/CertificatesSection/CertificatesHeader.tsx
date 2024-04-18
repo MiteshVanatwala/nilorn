@@ -22,7 +22,7 @@ const CertificatesHeader = () => {
         />
       </GridItem>
       <GridItem>
-        <FormLabelComponent name={''} label={t('Common.Percentage')} />
+        <FormLabelComponent name={''} label={t('Common.Percentage_sign')} />
       </GridItem>
       <GridItem>
         <FormLabelComponent

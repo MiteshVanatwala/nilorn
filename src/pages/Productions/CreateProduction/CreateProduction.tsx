@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, HStack } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
@@ -22,6 +22,7 @@ import { isClosed } from '../../../app/utils/status';
 import ActionBarEditProduction from '../EditProduction/ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
+import CertificateSection from '../CertificatesSection/CertificatesSection';
 
 type Props = {
   productDevelopment?: ProductDevelopmentBriefDto;
@@ -130,6 +131,8 @@ const CreateProduction = ({
                   : false)
               }
             />
+
+            <CertificateSection />
           </form>
         </FormProvider>
       </Box>

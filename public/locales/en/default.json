@@ -213,14 +213,16 @@
     "CreateSuccess": "Production created",
     "CreateAndReleaseSuccess": "Production created and released for sales",
     "Deleted": "Production deleted",
+    "Certificates": "Certificates",
     "CertificateCode": "Certificate Code",
     "CertificateCategory": "Certificate Category",
     "CertificateClass": "Certificate Class",
     "CertificateWeight": "Certificate Weight",
     "CompositionMaterial": "Material",
+    "PercentPlaceholder": "0-100",
     "Feedback": {
       "Error": {
-        "CertificatePercentage": "Percentage should be between 0 and 100"
+        "Percentage": "Percentage should be between 0 and 100"
       }
     }
   },
