@@ -1,11 +1,4 @@
-import {
-  Accordion,
-  Button,
-  Grid,
-  HStack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Button, Grid, HStack, Text, VStack } from '@chakra-ui/react';
 import { COLORS, SPACE } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
@@ -13,7 +6,6 @@ import CompositionMaterialHeader from './CompositionMaterialHeader';
 import CompositionMaterialRow from './CompositionMaterialRow';
 import { SelectOption } from '../../../app/types/types';
 import { useEffect } from 'react';
-import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { CompositionDto } from '../../../app/generate';
 import { useCompositionMaterials } from '../../../app/api/production';
 

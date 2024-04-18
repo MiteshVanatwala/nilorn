@@ -1,5 +1,5 @@
 import CertificateInputRow from './CertificateInputRow';
-import { Accordion, Button, Grid, VStack } from '@chakra-ui/react';
+import { Button, Grid, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../theme/Constants';
 import CertificatesHeader from './CertificatesHeader';
@@ -8,7 +8,6 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../app/types/types';
 import { ProductionCertificateDto } from '../../../app/generate';
 import { useEffect } from 'react';
-import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 
 type Props = {
   defaultValues?: ProductionCertificateDto[];
