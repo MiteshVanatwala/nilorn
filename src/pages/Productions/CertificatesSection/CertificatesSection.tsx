@@ -3,7 +3,7 @@ import { Button, Grid, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../theme/Constants';
 import CertificatesHeader from './CertificatesHeader';
-import { useCertificateCodes } from '../../../app/api/certificates';
+import { useCertificateCodes } from '../../../app/api/production';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../app/types/types';
 import { ProductionCertificateDto } from '../../../app/generate';

@@ -1,5 +1,9 @@
 import { useQuery } from 'react-query';
-import { CompositionMaterialService, ProductionsService } from '../generate';
+import {
+  CertificateService,
+  CompositionMaterialService,
+  ProductionsService,
+} from '../generate';
 import QueryKeysEnum from './queryKeys';
 import { ServerFilter } from '../types/types';
 
@@ -64,6 +68,42 @@ export const useCompositionMaterials = () => {
     [QueryKeysEnum.CompositionMaterial],
     () =>
       CompositionMaterialService.getApiCompositionMaterial().then(res => res),
+    {
+      retry: 0,
+    }
+  );
+};
+
+export const useCertificateCodes = () => {
+  return useQuery(
+    [QueryKeysEnum.Certificate],
+    () => CertificateService.getApiCertificate().then(res => res),
+    {
+      retry: 0,
+    }
+  );
+};
+
+export const useCertificateClasses = (certificateCode: string) => {
+  return useQuery(
+    [QueryKeysEnum.CertificateClasses, certificateCode],
+    () =>
+      CertificateService.getApiCertificateClasses(certificateCode).then(
+        res => res
+      ),
+    {
+      retry: 0,
+    }
+  );
+};
+
+export const useCertificateCategories = (certificateCode: string) => {
+  return useQuery(
+    [QueryKeysEnum.CertificateCategories, certificateCode],
+    () =>
+      CertificateService.getApiCertificateCategories(certificateCode).then(
+        res => res
+      ),
     {
       retry: 0,
     }
