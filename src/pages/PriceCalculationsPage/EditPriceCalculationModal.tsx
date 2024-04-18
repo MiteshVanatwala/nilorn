@@ -22,10 +22,15 @@ import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 
 type Props = {
   calculationId: string;
+  purchaseCurrency: string;
   filters: ServerFilter;
 };
 
-const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
+const EditPriceCalculationModal = ({
+  calculationId,
+  filters,
+  purchaseCurrency,
+}: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm();
@@ -66,6 +71,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     if (priceCalculation) {
       form.reset({
         id: priceCalculation?.id,
+        purchaseCurrency: purchaseCurrency,
         currencyRate: priceCalculation?.currencyRate,
         currencyCode: priceCalculation?.currencyCode,
         internalCommission: priceCalculation?.internalCommission,

@@ -71,6 +71,7 @@ const TableMenuCalculation = ({
               />
             ) : (
               <EditPriceCalculationModal
+                purchaseCurrency={production.currencyCode ?? ''}
                 calculationId={calculation?.id ?? ''}
                 filters={filters}
               />

@@ -68,6 +68,7 @@ const CreatePriceCalculationModal = ({
   const form = useForm({
     defaultValues: {
       productionId: production?.id,
+      purchaseCurrency: production.currencyCode,
       currencyRate: calculation?.currencyRate,
       currencyCode: calculation?.currencyCode,
       internalCommission: calculation?.internalCommission,
@@ -84,6 +85,7 @@ const CreatePriceCalculationModal = ({
     if (isLoadedDefaultValues) {
       form.reset({
         productionId: production.id,
+        purchaseCurrency: production.currencyCode,
         currencyRate: defaultValues?.currencyRate,
         currencyCode: defaultValues?.salesCurrency?.code,
         internalCommission: defaultValues?.internalCommission,
@@ -92,7 +94,13 @@ const CreatePriceCalculationModal = ({
         margin: defaultValues?.margin,
       });
     }
-  }, [defaultValues, form, isLoadedDefaultValues, production.id]);
+  }, [
+    defaultValues,
+    form,
+    isLoadedDefaultValues,
+    production.currencyCode,
+    production.id,
+  ]);
 
   function submitForm(form: FieldValues) {
     createCalculation(form, {
