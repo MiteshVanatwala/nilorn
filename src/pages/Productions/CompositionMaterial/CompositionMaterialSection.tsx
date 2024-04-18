@@ -24,7 +24,7 @@ type Props = {
 const CompositionMaterialSection = ({ defaultValues }: Props) => {
   const { t } = useTranslation();
   const { control, getValues, setValue } = useFormContext();
-  const fieldName = 'compositionMaterial';
+  const fieldName = 'compositions';
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
@@ -32,6 +32,7 @@ const CompositionMaterialSection = ({ defaultValues }: Props) => {
   const registerdCompositionMaterial = useWatch({
     name: fieldName,
   }) as CompositionDto[];
+
   const { data: materialOptions } = useCompositionMaterials();
 
   const unSelectedMaterialOptions = registerdCompositionMaterial?.length
@@ -59,9 +60,10 @@ const CompositionMaterialSection = ({ defaultValues }: Props) => {
       <AccordionItem title={t('Composition')}>
         <VStack align={'start'} gap={SPACE.SM} width={'min-content'}>
           <Grid
-            templateColumns={'15rem 5rem min-content'}
+            templateColumns={'20rem 7rem min-content'}
             columnGap={SPACE.SM}
-            rowGap={SPACE.SM}>
+            rowGap={SPACE.SM}
+            w={'100%'}>
             <CompositionMaterialHeader />
             {fields.map((field, index) => (
               <CompositionMaterialRow
