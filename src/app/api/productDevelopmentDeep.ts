@@ -32,7 +32,6 @@ export function useProductDevelopmentDeepFilter(
       productDevelopments,
       projects,
     ],
-
     () =>
       ProductDevelopmentDeepService.getApiProductDevelopmentDeep(
         pageNumber,
