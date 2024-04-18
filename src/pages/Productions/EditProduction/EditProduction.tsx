@@ -139,7 +139,7 @@ const EditProduction = ({ productionId }: Props) => {
               }
             />
             <CertificateSection
-              defaultValues={production.productionCertificates ?? undefined}
+              defaultValues={productionExt?.productionCertificates ?? undefined}
             />
           </form>
         </FormProvider>

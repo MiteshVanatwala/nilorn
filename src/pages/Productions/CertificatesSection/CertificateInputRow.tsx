@@ -12,7 +12,7 @@ import SelectBase from '../../../components/Form/SelectBase';
 
 type Props = {
   options: SelectOption[];
-  filteredOptions: SelectOption[];
+  unselectedOptions: SelectOption[];
   fieldName: string;
   index: number;
   onDelete: () => void;
@@ -23,7 +23,7 @@ const CertificateInputRow = ({
   fieldName,
   index,
   options,
-  filteredOptions,
+  unselectedOptions,
   onDelete,
 }: Props) => {
   const { t } = useTranslation();
@@ -67,8 +67,9 @@ const CertificateInputRow = ({
       <GridItem>
         {options && (
           <SelectBase
+            isSearchable
             name={certificateCodeName}
-            options={filteredOptions}
+            options={unselectedOptions}
             onChange={onChangeCode}
             value={options.find(opt => opt.value === selectedCertificateCode)}
           />
@@ -77,6 +78,7 @@ const CertificateInputRow = ({
       <GridItem>
         {!!selectedCertificateCode && categories && categoryOptions && (
           <SelectBase
+            isSearchable
             name={certificateCategoryName}
             options={categoryOptions}
             onChange={onChangeCategory}
@@ -87,6 +89,7 @@ const CertificateInputRow = ({
       <GridItem>
         {!!selectedCertificateCode && classes && classOptions && (
           <SelectBase
+            isSearchable
             name={certificateClassName}
             options={classOptions}
             onChange={onChangeClass}
@@ -98,21 +101,19 @@ const CertificateInputRow = ({
         {!!selectedCertificateCode && (
           <InputField
             name={percentageName}
+            type="number"
+            placeholder={t('Production.PercentPlaceholder')}
             min={0}
             max={100}
             registerOptions={{
               valueAsNumber: true,
               min: {
                 value: 0,
-                message: `${t(
-                  'Production.Feedback.Error.CertificatePercentage'
-                )}`,
+                message: `${t('Production.Feedback.Error.Percentage')}`,
               },
               max: {
                 value: 100,
-                message: `${t(
-                  'Production.Feedback.Error.CertificatePercentage'
-                )}`,
+                message: `${t('Production.Feedback.Error.Percentage')}`,
               },
             }}
           />
@@ -122,6 +123,7 @@ const CertificateInputRow = ({
         {!!selectedCertificateCode && (
           <InputField
             name={certificateWeightName}
+            type="number"
             registerOptions={{
               valueAsNumber: true,
             }}
