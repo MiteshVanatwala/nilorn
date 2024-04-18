@@ -120,7 +120,7 @@ const SourcingForm = ({
         {isSaved && (
           <HStack spacing={SPACE.XL}>
             <ArrowLink
-              to={`/productions/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+              to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1`}
               direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
@@ -135,7 +135,7 @@ const SourcingForm = ({
                 cp => cp.priceCalculations && cp.released
               )?.length > 0 && (
                 <ArrowLink
-                  to={`/price-calculations/?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+                  to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                   direction="right">
                   <>
                     {(connectedProductions &&

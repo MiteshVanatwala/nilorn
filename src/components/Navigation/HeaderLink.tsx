@@ -18,8 +18,6 @@ const HeaderLink: FC<Props> = ({
   clickedStoredFilter,
   variant = 'headerLink',
 }) => {
-  const pathname = window.location.pathname.replace(/\/$/, '');
-
   const navigate = useNavigate();
   const handleClick = (url: string, clickedStoredFilter: string) => {
     const storedFilter = getCurrentStoredFilter();
@@ -38,8 +36,8 @@ const HeaderLink: FC<Props> = ({
       <LinkComponent
         _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
         variant={variant}
-        bg={pathname === path ? COLORS.GRAY[0] : ''}
-        color={pathname === path ? COLORS.BLUE[200] : ''}
+        bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
+        color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
         onClick={e => handleClick(path, clickedStoredFilter)}
         whiteSpace={'nowrap'}>
