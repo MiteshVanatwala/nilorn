@@ -6,7 +6,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import {
   useCertificateCategories,
   useCertificateClasses,
-} from '../../../app/api/certificates';
+} from '../../../app/api/production';
 import { ProductionCertificateDto } from '../../../app/generate';
 import SelectBase from '../../../components/Form/SelectBase';
 

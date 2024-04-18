@@ -24,6 +24,7 @@ import {
 } from '../../../app/api/production';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
+import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
 
 type Props = {
@@ -126,6 +127,7 @@ const EditProduction = ({ productionId }: Props) => {
                 />
               }
             />
+
             <EditProductionFormContent
               productDevelopment={productDevelopmentDataDto}
               createNew={false}
@@ -140,6 +142,9 @@ const EditProduction = ({ productionId }: Props) => {
             />
             <CertificateSection
               defaultValues={productionExt?.productionCertificates ?? undefined}
+            />
+            <CompositionMaterialSection
+              defaultValues={productionExt?.compositions ?? []}
             />
           </form>
         </FormProvider>

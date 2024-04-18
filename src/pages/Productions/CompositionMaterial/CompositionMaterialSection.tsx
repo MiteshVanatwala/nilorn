@@ -1,60 +1,95 @@
-import { Button, Grid, VStack } from '@chakra-ui/react';
-import { SPACE } from '../../../theme/Constants';
+import { Button, Grid, HStack, Text, VStack } from '@chakra-ui/react';
+import { COLORS, SPACE } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
-import { useCompositionMaterial } from '../../../app/api/compositionMaterial';
 import CompositionMaterialHeader from './CompositionMaterialHeader';
 import CompositionMaterialRow from './CompositionMaterialRow';
 import { SelectOption } from '../../../app/types/types';
+import { useEffect } from 'react';
+import { CompositionDto } from '../../../app/generate';
+import { useCompositionMaterials } from '../../../app/api/production';
 
-const CompositionMaterialSection = () => {
+type Props = {
+  defaultValues?: CompositionDto[];
+};
+
+const CompositionMaterialSection = ({ defaultValues }: Props) => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
-  const fieldName = 'compositionMaterial';
+  const { control, getValues, setValue } = useFormContext();
+  const fieldName = 'compositions';
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
   });
-  const registerdCompositionMaterial = useWatch({ name: fieldName }) as any[];
-  const { data } = useCompositionMaterial();
+  const registerdCompositionMaterial = useWatch({
+    name: fieldName,
+  }) as CompositionDto[];
 
-  const filteredOptions = registerdCompositionMaterial?.length
-    ? data?.filter(
-        cm => !registerdCompositionMaterial.some(rcm => rcm.value === cm.value)
+  const { data: materialOptions } = useCompositionMaterials();
+
+  const unSelectedMaterialOptions = registerdCompositionMaterial?.length
+    ? materialOptions?.filter(
+        cm =>
+          !registerdCompositionMaterial.some(
+            rcm => rcm.compositionMaterialCode === cm.value
+          )
       )
-    : data;
+    : materialOptions;
+
+  useEffect(() => {
+    if (defaultValues?.length && !getValues(fieldName)) {
+      setValue(fieldName, defaultValues);
+    }
+  }, [defaultValues, getValues, setValue]);
+
+  let sum = 0;
+  registerdCompositionMaterial?.forEach(m => {
+    sum = sum + (!m.quantity ? 0 : m.quantity);
+  });
 
   return (
-    <VStack align={'start'} gap={SPACE.SM}>
+    <VStack align={'start'} gap={SPACE.SM} width={'min-content'} pt={SPACE.XL}>
       <Grid
-        templateColumns={'repeat(3, 1fr)'}
+        templateColumns={'20rem 7rem min-content'}
         columnGap={SPACE.SM}
-        rowGap={SPACE.SM}>
+        rowGap={SPACE.SM}
+        w={'100%'}>
         <CompositionMaterialHeader />
         {fields.map((field, index) => (
           <CompositionMaterialRow
             key={field.id}
             fieldName={fieldName}
             index={index}
-            options={filteredOptions as SelectOption[]}
+            unSelectedOptions={unSelectedMaterialOptions as SelectOption[]}
+            options={materialOptions as SelectOption[]}
             onDelete={() => remove(index)}
           />
         ))}
       </Grid>
-      {filteredOptions?.length && fields?.length < filteredOptions?.length && (
-        <Button
-          isDisabled={!data}
-          variant={'secondarySmall'}
-          onClick={() =>
-            append({
-              material: undefined,
-              value: undefined,
-            })
-          }
-          rightIcon={<i className={'ri-add-line'} />}>
-          {t('Common.Add')}
-        </Button>
-      )}
+      <HStack justify={'space-between'} w={'100%'} pr={'4.5rem'}>
+        {unSelectedMaterialOptions?.length &&
+          fields?.length < unSelectedMaterialOptions?.length && (
+            <Button
+              isDisabled={!materialOptions}
+              variant={'secondarySmall'}
+              onClick={() =>
+                append({
+                  material: undefined,
+                  value: undefined,
+                })
+              }
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
+        {registerdCompositionMaterial?.length && (
+          <Text
+            variant={'bodyBold'}
+            color={sum > 100 ? COLORS.ERROR : undefined}>
+            {!sum ? '-' : sum} {t('Common.Percentage_sign')}
+          </Text>
+        )}
+      </HStack>
     </VStack>
   );
 };
