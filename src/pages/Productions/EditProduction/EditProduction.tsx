@@ -25,6 +25,7 @@ import {
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
+import CertificateSection from '../CertificatesSection/CertificatesSection';
 
 type Props = {
   productionId: string;
