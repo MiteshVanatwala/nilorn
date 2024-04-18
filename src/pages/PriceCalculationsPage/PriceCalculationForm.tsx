@@ -53,7 +53,7 @@ const PriceCalculationForm = ({
   );
   const indirectCostChangelog = useCalculationChangelog('IndirectCost', id);
   const internalCommissionChangelog = useCalculationChangelog(
-    'internalCommission',
+    'InternalCommission',
     id
   );
   const freightIncludedValue = useWatch({ name: 'freightIncluded' });
