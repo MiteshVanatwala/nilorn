@@ -6,6 +6,7 @@
 export type Currency = {
     code?: string | null;
     description?: string | null;
-    unitRounding?: number | null;
+    salesDecimals?: number | null;
+    costDecimals?: number | null;
+    marginDecimals?: number | null;
 };
-

@@ -11,4 +11,3 @@ export type ProductionCertificateDto = {
     percentage?: number;
     certificateWeight?: number;
 };
-

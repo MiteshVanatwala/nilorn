@@ -3,11 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ProductDevelopmentBriefDto } from './ProductDevelopmentBriefDto';
+import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
 import type { SourcedProductionDto } from './SourcedProductionDto';
 
 export type ProductDevelopmentDeepDto = {
-    productDevelopmentBriefDto?: ProductDevelopmentBriefDto;
+    productDevelopmentDataDto?: ProductDevelopmentDataDto;
     sourcedProductions?: Array<SourcedProductionDto> | null;
 };
-

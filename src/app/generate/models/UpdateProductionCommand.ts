@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CompositionDto } from './CompositionDto';
 import type { ProductionCertificateDto } from './ProductionCertificateDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
@@ -18,5 +19,5 @@ export type UpdateProductionCommand = {
     id?: string;
     purchasePrices?: Array<PurchasePriceDto> | null;
     productionCertificates?: Array<ProductionCertificateDto> | null;
+    compositions?: Array<CompositionDto> | null;
 };
-

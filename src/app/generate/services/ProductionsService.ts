@@ -16,13 +16,13 @@ import { request as __request } from '../core/request';
 export class ProductionsService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ProductionDto Success
      * @throws ApiError
      */
     public static postApiProductions(
-        requestBody?: CreateProductionCommand,
-    ): CancelablePromise<ProductionDto> {
+requestBody?: CreateProductionCommand,
+): CancelablePromise<ProductionDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Productions',
@@ -32,13 +32,13 @@ export class ProductionsService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiProductions(
-        requestBody?: DeleteProductionCommand,
-    ): CancelablePromise<any> {
+requestBody?: DeleteProductionCommand,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Productions',
@@ -48,13 +48,13 @@ export class ProductionsService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns ProductionExtendedDto Success
      * @throws ApiError
      */
     public static getApiProductions(
-        id?: string,
-    ): CancelablePromise<ProductionExtendedDto> {
+id?: string,
+): CancelablePromise<ProductionExtendedDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Productions',
@@ -65,13 +65,13 @@ export class ProductionsService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns ProductionDto Success
      * @throws ApiError
      */
     public static patchApiProductions(
-        requestBody?: UpdateProductionCommand,
-    ): CancelablePromise<ProductionDto> {
+requestBody?: UpdateProductionCommand,
+): CancelablePromise<ProductionDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/Productions',
@@ -81,25 +81,25 @@ export class ProductionsService {
     }
 
     /**
-     * @param id
-     * @param includeCalculations
-     * @param productDevelopments
-     * @param vendors
-     * @param sourcingCompanies
-     * @param clients
-     * @param projects
+     * @param id 
+     * @param includeCalculations 
+     * @param productDevelopments 
+     * @param vendors 
+     * @param sourcingCompanies 
+     * @param clients 
+     * @param projects 
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static getApiProductionsNavigation(
-        id: string,
-        includeCalculations?: boolean,
-        productDevelopments?: string,
-        vendors?: string,
-        sourcingCompanies?: string,
-        clients?: string,
-        projects?: string,
-    ): CancelablePromise<NavigationItem> {
+id: string,
+includeCalculations?: boolean,
+productDevelopments?: string,
+vendors?: string,
+sourcingCompanies?: string,
+clients?: string,
+projects?: string,
+): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Productions/Navigation',
@@ -116,17 +116,17 @@ export class ProductionsService {
     }
 
     /**
-     * @param no
-     * @param sourcingCompanyCode
-     * @param released
+     * @param no 
+     * @param sourcingCompanyCode 
+     * @param released 
      * @returns ProductionDto Success
      * @throws ApiError
      */
     public static getApiProductions1(
-        no: string,
-        sourcingCompanyCode: string,
-        released?: boolean,
-    ): CancelablePromise<Array<ProductionDto>> {
+no: string,
+sourcingCompanyCode: string,
+released?: boolean,
+): CancelablePromise<Array<ProductionDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Productions/{no}/{sourcingCompanyCode}',
@@ -141,15 +141,15 @@ export class ProductionsService {
     }
 
     /**
-     * @param id
-     * @param released
+     * @param id 
+     * @param released 
      * @returns ProductionDto Success
      * @throws ApiError
      */
     public static patchApiProductionsReleaseProduction(
-        id: string,
-        released: boolean,
-    ): CancelablePromise<ProductionDto> {
+id: string,
+released: boolean,
+): CancelablePromise<ProductionDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/Productions/releaseProduction/{id}/{released}',

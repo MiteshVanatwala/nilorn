@@ -9,4 +9,3 @@ export type SourcingDto = {
     clientRequirement?: string | null;
     quantities?: Array<number> | null;
 };
-

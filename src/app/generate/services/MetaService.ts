@@ -11,21 +11,21 @@ import { request as __request } from '../core/request';
 export class MetaService {
 
     /**
-     * @param name
-     * @param role
-     * @param belongsToSourcingCompany
-     * @param amountOfClients
-     * @param includeSeedFromCsv
+     * @param name 
+     * @param role 
+     * @param belongsToSourcingCompany 
+     * @param amountOfClients 
+     * @param includeSeedFromCsv 
      * @returns boolean Success
      * @throws ApiError
      */
     public static getApiMetaSeed(
-        name?: string,
-        role?: Role,
-        belongsToSourcingCompany?: boolean,
-        amountOfClients?: number,
-        includeSeedFromCsv?: boolean,
-    ): CancelablePromise<boolean> {
+name?: string,
+role?: Role,
+belongsToSourcingCompany?: boolean,
+amountOfClients?: number,
+includeSeedFromCsv?: boolean,
+): CancelablePromise<boolean> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Meta/Seed',

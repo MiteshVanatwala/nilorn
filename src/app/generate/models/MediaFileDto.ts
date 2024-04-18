@@ -7,4 +7,3 @@ export type MediaFileDto = {
     name?: string | null;
     id?: string;
 };
-

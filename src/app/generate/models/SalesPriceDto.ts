@@ -7,4 +7,3 @@ export type SalesPriceDto = {
     salesPriceId?: string;
     margin?: number;
 };
-
