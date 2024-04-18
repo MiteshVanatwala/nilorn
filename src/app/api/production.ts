@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { ProductionsService } from '../generate';
+import { CompositionMaterialService, ProductionsService } from '../generate';
 import QueryKeysEnum from './queryKeys';
 import { ServerFilter } from '../types/types';
 
@@ -58,3 +58,14 @@ export function useProductionNavigation(id: string, filters?: ServerFilter) {
     }
   );
 }
+
+export const useCompositionMaterials = () => {
+  return useQuery(
+    [QueryKeysEnum.CompositionMaterial],
+    () =>
+      CompositionMaterialService.getApiCompositionMaterial().then(res => res),
+    {
+      retry: 0,
+    }
+  );
+};

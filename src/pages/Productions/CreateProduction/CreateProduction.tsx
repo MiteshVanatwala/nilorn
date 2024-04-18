@@ -23,6 +23,7 @@ import ActionBarEditProduction from '../EditProduction/ActionBarEditProduction';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
+import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -133,6 +134,7 @@ const CreateProduction = ({
             />
 
             <CertificateSection />
+            <CompositionMaterialSection />
           </form>
         </FormProvider>
       </Box>
