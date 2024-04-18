@@ -43,50 +43,46 @@ const CertificateSection = ({ defaultValues }: Props) => {
     fields?.length < (certificateCodes?.length ?? 0);
 
   return (
-    <Accordion variant={'card'} defaultIndex={[0]} allowMultiple>
-      <AccordionItem title={t('Production.Certificates')}>
-        <VStack align={'start'} gap={SPACE.SM}>
-          <Grid
-            templateColumns={'repeat(3, 1fr) 7rem max-content min-content'}
-            columnGap={SPACE.SM}
-            rowGap={SPACE.SM}
-            w={'100%'}>
-            <CertificatesHeader />
-            {fields.map((field, index) => {
-              return (
-                <CertificateInputRow
-                  key={field.id}
-                  fieldName={fieldName}
-                  index={index}
-                  options={certificateCodes as SelectOption[]}
-                  unselectedOptions={unselectedOptions as SelectOption[]}
-                  onDelete={() => remove(index)}
-                  defaultValues={defaultValues?.find(d => d.id === field.id)}
-                />
-              );
-            })}
-          </Grid>
-          {showAddButton && (
-            <Button
-              isDisabled={!certificateCodes}
-              variant={'secondarySmall'}
-              onClick={() =>
-                append({
-                  id: undefined,
-                  certificateCode: undefined,
-                  certificateCategoryCode: undefined,
-                  certificateClassCode: undefined,
-                  percentage: undefined,
-                  certificateWeight: undefined,
-                })
-              }
-              rightIcon={<i className={'ri-add-line'} />}>
-              {t('Common.Add')}
-            </Button>
-          )}
-        </VStack>
-      </AccordionItem>
-    </Accordion>
+    <VStack align={'start'} gap={SPACE.SM} pt={SPACE.XL}>
+      <Grid
+        templateColumns={'repeat(3, 1fr) 7rem max-content min-content'}
+        columnGap={SPACE.SM}
+        rowGap={SPACE.SM}
+        w={'100%'}>
+        <CertificatesHeader />
+        {fields.map((field, index) => {
+          return (
+            <CertificateInputRow
+              key={field.id}
+              fieldName={fieldName}
+              index={index}
+              options={certificateCodes as SelectOption[]}
+              unselectedOptions={unselectedOptions as SelectOption[]}
+              onDelete={() => remove(index)}
+              defaultValues={defaultValues?.find(d => d.id === field.id)}
+            />
+          );
+        })}
+      </Grid>
+      {showAddButton && (
+        <Button
+          isDisabled={!certificateCodes}
+          variant={'secondarySmall'}
+          onClick={() =>
+            append({
+              id: undefined,
+              certificateCode: undefined,
+              certificateCategoryCode: undefined,
+              certificateClassCode: undefined,
+              percentage: undefined,
+              certificateWeight: undefined,
+            })
+          }
+          rightIcon={<i className={'ri-add-line'} />}>
+          {t('Common.Add')}
+        </Button>
+      )}
+    </VStack>
   );
 };
 

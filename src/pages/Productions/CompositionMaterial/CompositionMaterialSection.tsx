@@ -56,53 +56,49 @@ const CompositionMaterialSection = ({ defaultValues }: Props) => {
   });
 
   return (
-    <Accordion variant={'card'} defaultIndex={[0]} allowMultiple>
-      <AccordionItem title={t('Composition')}>
-        <VStack align={'start'} gap={SPACE.SM} width={'min-content'}>
-          <Grid
-            templateColumns={'20rem 7rem min-content'}
-            columnGap={SPACE.SM}
-            rowGap={SPACE.SM}
-            w={'100%'}>
-            <CompositionMaterialHeader />
-            {fields.map((field, index) => (
-              <CompositionMaterialRow
-                key={field.id}
-                fieldName={fieldName}
-                index={index}
-                unSelectedOptions={unSelectedMaterialOptions as SelectOption[]}
-                options={materialOptions as SelectOption[]}
-                onDelete={() => remove(index)}
-              />
-            ))}
-          </Grid>
-          <HStack justify={'space-between'} w={'100%'} pr={'4.5rem'}>
-            {unSelectedMaterialOptions?.length &&
-              fields?.length < unSelectedMaterialOptions?.length && (
-                <Button
-                  isDisabled={!materialOptions}
-                  variant={'secondarySmall'}
-                  onClick={() =>
-                    append({
-                      material: undefined,
-                      value: undefined,
-                    })
-                  }
-                  rightIcon={<i className={'ri-add-line'} />}>
-                  {t('Common.Add')}
-                </Button>
-              )}
-            {registerdCompositionMaterial?.length && (
-              <Text
-                variant={'bodyBold'}
-                color={sum > 100 ? COLORS.ERROR : undefined}>
-                {!sum ? '-' : sum} {t('Common.Percentage_sign')}
-              </Text>
-            )}
-          </HStack>
-        </VStack>
-      </AccordionItem>
-    </Accordion>
+    <VStack align={'start'} gap={SPACE.SM} width={'min-content'} pt={SPACE.XL}>
+      <Grid
+        templateColumns={'20rem 7rem min-content'}
+        columnGap={SPACE.SM}
+        rowGap={SPACE.SM}
+        w={'100%'}>
+        <CompositionMaterialHeader />
+        {fields.map((field, index) => (
+          <CompositionMaterialRow
+            key={field.id}
+            fieldName={fieldName}
+            index={index}
+            unSelectedOptions={unSelectedMaterialOptions as SelectOption[]}
+            options={materialOptions as SelectOption[]}
+            onDelete={() => remove(index)}
+          />
+        ))}
+      </Grid>
+      <HStack justify={'space-between'} w={'100%'} pr={'4.5rem'}>
+        {unSelectedMaterialOptions?.length &&
+          fields?.length < unSelectedMaterialOptions?.length && (
+            <Button
+              isDisabled={!materialOptions}
+              variant={'secondarySmall'}
+              onClick={() =>
+                append({
+                  material: undefined,
+                  value: undefined,
+                })
+              }
+              rightIcon={<i className={'ri-add-line'} />}>
+              {t('Common.Add')}
+            </Button>
+          )}
+        {registerdCompositionMaterial?.length && (
+          <Text
+            variant={'bodyBold'}
+            color={sum > 100 ? COLORS.ERROR : undefined}>
+            {!sum ? '-' : sum} {t('Common.Percentage_sign')}
+          </Text>
+        )}
+      </HStack>
+    </VStack>
   );
 };
 
