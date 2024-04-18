@@ -3,7 +3,7 @@ import {
   ChangelogType,
   MediaFileDto,
   PriceCalculationDto,
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
@@ -23,7 +23,7 @@ import { ServerFilter } from '../../app/types/types';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction: SourcedProductionDto;
   lastModified?: string;
   artwork?: MediaFileDto;

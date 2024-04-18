@@ -6,7 +6,7 @@ import { ModalContext } from '../../../app/context/ModalContext';
 import {
   MediaFileDto,
   PriceCalculationDto,
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   ProductionDto,
   SourcedProductionDto,
 } from '../../../app/generate';
@@ -19,7 +19,7 @@ import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
 
 type Props = {
   createNew: boolean;
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction: SourcedProductionDto;
   onEditInline: () => void;
   lastModified?: string;

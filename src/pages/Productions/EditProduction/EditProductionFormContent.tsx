@@ -7,7 +7,7 @@ import TextArea from '../../../components/Form/TextArea';
 import Select from '../../../components/Form/Select';
 import QuantityPurchase from '../QuantityPurchase';
 import {
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   ProductionDto,
   SourcedProductionDto,
   VendorDto,
@@ -22,7 +22,7 @@ import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction?: SourcedProductionDto;
   createNew?: boolean;
   production?: ProductionDto;

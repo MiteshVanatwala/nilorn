@@ -1,6 +1,6 @@
 import { Box, Text, Image, HStack, VStack, Link } from '@chakra-ui/react';
 import StatusBadge from '../Status/StatusBadge';
-import { ProductDevelopmentBriefDto, Status } from '../../app/generate';
+import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
@@ -13,8 +13,8 @@ const ProductDevelopmentCell = ({
   artwork,
   thumbnailData,
   status,
-  project,
-}: ProductDevelopmentBriefDto) => {
+  projectCode,
+}: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,7 +68,7 @@ const ProductDevelopmentCell = ({
             src={`data:image/jpeg;base64,${thumbnailData}`}
           />
         )}
-        {project && <Text>{project}</Text>}
+        {projectCode && <Text>{projectCode}</Text>}
         <StatusBadge status={status as Status} />
       </VStack>
     </Box>

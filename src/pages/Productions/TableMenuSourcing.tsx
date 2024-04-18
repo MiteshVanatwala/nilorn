@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import {
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   SourcedProductionDto,
 } from '../../app/generate';
 import CreateProduction from './CreateProduction/CreateProduction';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction: SourcedProductionDto;
   sourcingCoIndex: number;
 };

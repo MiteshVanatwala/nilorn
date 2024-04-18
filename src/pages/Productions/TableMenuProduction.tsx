@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
-import { ProductDevelopmentBriefDto, ProductionDto } from '../../app/generate';
+import { ProductDevelopmentDataDto, ProductionDto } from '../../app/generate';
 import {
   useDeleteProduction,
   useReleaseForSales,
@@ -16,7 +16,7 @@ import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import { ServerFilter } from '../../app/types/types';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   production?: ProductionDto;
   filters: ServerFilter;
 };

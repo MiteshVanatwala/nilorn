@@ -2,7 +2,7 @@ import { Button, GridItem, Link, VStack, HStack } from '@chakra-ui/react';
 import {
   PriceCalculationDto,
   PriceDto,
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   ProductionDto,
   SalesPriceDto,
   SourcedProductionDto,
@@ -31,7 +31,7 @@ import { useFormStateFilters } from '../../../app/hooks/useFormStateFilters';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   production: ProductionDto;
   tableMenu?: JSX.Element;
 };

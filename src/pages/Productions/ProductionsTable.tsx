@@ -38,7 +38,7 @@ const ProductionsTable = ({ productions }: Props) => {
       <>
         {productions.map((p, i) => (
           <ProductionsTableRow
-            key={`ProductionsTableRow_${p.productDevelopmentBriefDto?.no}_${i}`}
+            key={`ProductionsTableRow_${p.productDevelopmentDataDto?.no}_${i}`}
             productDevelopment={p}
           />
         ))}

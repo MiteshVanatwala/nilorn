@@ -21,11 +21,11 @@ type Props = {
 
 const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
   return (
-    <Fragment key={p?.productDevelopmentBriefDto?.no}>
+    <Fragment key={p?.productDevelopmentDataDto?.no}>
       <GridTd colSpan={2} id={'1'}>
-        <ProductDevelopmentCell {...p.productDevelopmentBriefDto} />
+        <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
       </GridTd>
-      <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
+      <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
       <GridItem colSpan={11}>
         <GridInlineTbody
           gridTemplateColumns={{
@@ -35,10 +35,10 @@ const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
           <>
             {p.sourcedProductions?.map(s => (
               <Fragment
-                key={p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId}>
+                key={p?.productDevelopmentDataDto?.no + '-' + s?.sourcingId}>
                 <GridTd
                   colSpan={1}
-                  key={p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId}
+                  key={p?.productDevelopmentDataDto?.no + '-' + s?.sourcingId}
                   style={TD_STYLE}>
                   <>{s.sourcingCompanyCode}</>
                 </GridTd>
@@ -53,7 +53,7 @@ const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
                         s.productions?.map(production => (
                           <PriceGridRow
                             key={
-                              p?.productDevelopmentBriefDto?.no +
+                              p?.productDevelopmentDataDto?.no +
                               '-' +
                               s?.sourcingId +
                               '-' +
@@ -61,7 +61,7 @@ const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
                             }
                             production={production}
                             sourcedProduction={s}
-                            productDevelopment={p.productDevelopmentBriefDto}
+                            productDevelopment={p.productDevelopmentDataDto}
                           />
                         ))
                       ) : (

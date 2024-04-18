@@ -1,10 +1,10 @@
-import { Box, HStack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { SPACE } from '../../../theme/Constants';
 import {
   ChangelogType,
-  ProductDevelopmentBriefDto,
+  ProductDevelopmentDataDto,
   ProductionDto,
   PurchasePriceDto,
   SourcedProductionDto,
@@ -25,7 +25,7 @@ import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentBriefDto;
+  productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction: SourcedProductionDto;
   production?: ProductionDto;
 };

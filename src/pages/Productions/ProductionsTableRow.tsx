@@ -29,9 +29,9 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
   return (
     <Fragment>
       <GridTd colSpan={2}>
-        <PDCell {...p.productDevelopmentBriefDto} />
+        <PDCell {...p.productDevelopmentDataDto} />
       </GridTd>
-      <GridTd>{p.productDevelopmentBriefDto?.client ?? ''}</GridTd>
+      <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
       <GridItem colSpan={7}>
         <GridInlineTbody
           gridTemplateColumns={{
@@ -41,16 +41,16 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
           {p.sourcedProductions?.map((s, index) => (
             <Fragment key={`sourcedProductions_${s.sourcingId}_${index}`}>
               <GridTd
-                key={p?.productDevelopmentBriefDto?.no + '-' + s?.sourcingId}
+                key={p?.productDevelopmentDataDto?.no + '-' + s?.sourcingId}
                 style={TD_STYLE}>
                 <>
                   {s.sourcingCompanyCode}
-                  {p.productDevelopmentBriefDto?.status &&
-                    !isClosed(p.productDevelopmentBriefDto.status) && (
+                  {p.productDevelopmentDataDto?.status &&
+                    !isClosed(p.productDevelopmentDataDto.status) && (
                       <TableMenuContainer
                         children={
                           <TableMenuSourcing
-                            productDevelopment={p?.productDevelopmentBriefDto}
+                            productDevelopment={p?.productDevelopmentDataDto}
                             sourcedProduction={s}
                             sourcingCoIndex={index}
                           />
@@ -78,7 +78,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                         <TableMenuContainer
                           children={
                             <TableMenuProduction
-                              productDevelopment={p?.productDevelopmentBriefDto}
+                              productDevelopment={p?.productDevelopmentDataDto}
                               production={production}
                               filters={filters}
                             />
