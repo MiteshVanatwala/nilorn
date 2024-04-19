@@ -2,7 +2,6 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { forwardRef, useImperativeHandle } from 'react';
 import Modal from './Modal';
 import ConfirmModal from './ConfirmModal';
-import { useTranslation } from 'react-i18next';
 
 export type ModalRef = {
   onOpen: () => void;
@@ -10,19 +9,28 @@ export type ModalRef = {
 };
 
 type Props = {
+  title: string;
+  description: string;
   onConfirm: () => void;
   onCancel?: () => void;
-  confirmType?: 'PRIMARY';
+  confirmType?: 'PRIMARY' | 'DELETE';
   cancelText?: string;
   confirmText?: string;
 };
 
-const LeavePageModal = forwardRef<ModalRef, Props>(
+const IsolatedModal = forwardRef<ModalRef, Props>(
   (
-    { onConfirm, onCancel, confirmType = 'PRIMARY', cancelText, confirmText },
+    {
+      title,
+      description,
+      onConfirm,
+      onCancel,
+      confirmType = 'PRIMARY',
+      cancelText,
+      confirmText,
+    },
     ref
   ) => {
-    const { t } = useTranslation();
     const { isOpen, onClose, onOpen } = useDisclosure();
 
     useImperativeHandle(ref, () => ({
@@ -33,8 +41,8 @@ const LeavePageModal = forwardRef<ModalRef, Props>(
     return (
       <Modal isOpen={isOpen} close={onClose} onOverlayClick={onCancel}>
         <ConfirmModal
-          title={t('PD.UnsavedChanges')}
-          description={t('PD.UnsavedChangesMsg')}
+          title={title}
+          description={description}
           onConfirm={onConfirm}
           onClose={() => {
             if (onCancel) {
@@ -51,4 +59,4 @@ const LeavePageModal = forwardRef<ModalRef, Props>(
   }
 );
 
-export default LeavePageModal;
+export default IsolatedModal;

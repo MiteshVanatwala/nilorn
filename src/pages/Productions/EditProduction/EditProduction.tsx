@@ -7,7 +7,10 @@ import {
   ProductionDto,
   ProductionExtendedDto,
 } from '../../../app/generate';
-import { usePatchProduction } from '../../../app/api/editProduction';
+import {
+  useDeleteProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption, ServerFilter } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
@@ -26,6 +29,7 @@ import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
+import useDeleteModal from '../../../app/hooks/useDeleteModal';
 
 type Props = {
   productionId: string;
@@ -36,18 +40,26 @@ const EditProduction = ({ productionId }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm();
+  const {
+    deleteModal,
+    isOpen: isDeleteModalOpen,
+    setOpen: setDeleteModalOpen,
+  } = useDeleteModal(outsideRef, deleteProductionFunc);
 
   const {
     activeNavId: activeProductionId,
     onNavigate,
     setDirty,
     leavePageModal,
-  } = useModalFormHelper(outsideRef, productionId);
+  } = useModalFormHelper(outsideRef, productionId, isDeleteModalOpen);
+
   const { close } = useContext(ModalContext);
 
   const [, setVendorOptions] = useState<SelectOption[]>([]);
 
   const { data: vendors } = useGetVendors(false);
+  const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
+    useDeleteProduction();
 
   const {
     data: productionExt,
@@ -103,8 +115,24 @@ const EditProduction = ({ productionId }: Props) => {
     });
   }
 
+  function deleteProductionFunc() {
+    deleteProduction({ id: production?.id ?? '' });
+  }
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      close();
+      setDeleteModalOpen(false);
+    }
+  }, [close, isSuccessDelete, setDeleteModalOpen]);
+
   return (
     <>
+      {deleteModal}
       {leavePageModal}
       <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
@@ -116,6 +144,7 @@ const EditProduction = ({ productionId }: Props) => {
               vendorName={vendorName}
               actionBar={
                 <ActionBarEditProduction
+                  handleDelete={openDeleteModal}
                   production={production}
                   artwork={productDevelopmentDataDto?.artwork}
                   showChanges={showChanges}

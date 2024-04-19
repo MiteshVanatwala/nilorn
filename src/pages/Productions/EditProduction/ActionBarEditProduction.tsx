@@ -13,13 +13,11 @@ import {
 import { useContext, useEffect } from 'react';
 import {
   useCreateProduction,
-  useDeleteProduction,
   usePatchProduction,
 } from '../../../app/api/editProduction';
 import { ModalContext } from '../../../app/context/ModalContext';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
-import ConfirmModal from '../../../components/Modal/ConfirmModal';
 import { useCurrentUser } from '../../../app/api/User';
 import { NavLink } from 'react-router-dom';
 import { NAV_LINK } from '../../../app/hooks/useCloseModalOnNavigation';
@@ -33,6 +31,7 @@ type Props = {
   production?: ProductionDto;
   status?: Status;
   productDevelopmentNo?: string | null;
+  handleDelete?: () => void;
 };
 
 const ActionBarEditProduction = ({
@@ -44,26 +43,22 @@ const ActionBarEditProduction = ({
   setShowChanges,
   showChanges,
   productDevelopmentNo,
+  handleDelete,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
-  const { handleModal, close } = useContext(ModalContext);
+  const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
   const showCalculationLink =
     user?.role !== Role.PRODUCT_DEVELOPER &&
     !!production?.released &&
     !!productDevelopmentNo;
 
-  const { mutate: deleteProduction, isSuccess: isSuccessDelete } =
-    useDeleteProduction();
-
   const { mutate: updateProduction, isSuccess: isSuccessPatch } =
     usePatchProduction();
   const { mutate: createProduction, isSuccess: isSuccessCreate } =
     useCreateProduction();
-  function deleteProductionFunc() {
-    deleteProduction({ id: production?.id ?? '' });
-  }
+
   function handleSaveAndRelease() {
     setValue('released', true);
     if (createNew) {
@@ -72,11 +67,12 @@ const ActionBarEditProduction = ({
       updateProduction(getValues());
     }
   }
+
   useEffect(() => {
-    if (isSuccessDelete || isSuccessPatch || isSuccessCreate) {
+    if (isSuccessPatch || isSuccessCreate) {
       close();
     }
-  }, [close, isSuccessPatch, isSuccessDelete, isSuccessCreate]);
+  }, [close, isSuccessPatch, isSuccessCreate]);
 
   return (
     <ActionBarTemplate
@@ -113,18 +109,9 @@ const ActionBarEditProduction = ({
                 {t('PD.ViewCalculation')}
               </MenuItem>
             )}
-            {!disableEdit && status && !isClosed(status) && (
+            {!disableEdit && status && !isClosed(status) && handleDelete && (
               <MenuItem
-                onClick={() =>
-                  handleModal(
-                    <ConfirmModal
-                      title={t('PD.DeleteTitle')}
-                      description={t('PD.DeleteMsg')}
-                      confirmType={'DELETE'}
-                      onConfirm={() => deleteProductionFunc()}
-                    />
-                  )
-                }
+                onClick={handleDelete}
                 icon={
                   <Text
                     as={'i'}

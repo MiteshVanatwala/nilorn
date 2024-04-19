@@ -83,7 +83,7 @@ const EditPriceCalculationModal = ({
             : null,
       });
     }
-  }, [priceCalculation, form, margins]);
+  }, [priceCalculation, form, margins, purchaseCurrency]);
 
   useEffect(() => {
     setDirty(form.formState.isDirty);

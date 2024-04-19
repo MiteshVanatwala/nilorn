@@ -3,10 +3,12 @@ import { useLocation } from 'react-router';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useModal } from '../../app/hooks/useModal';
 import { unstable_useBlocker as useBlocker } from 'react-router-dom';
-import LeavePageModal, { ModalRef } from './LeavePageModal';
+import IsolatedModal, { ModalRef } from './IsolatedModal';
 import { LocationsProps } from '../../app/types/types';
+import { useTranslation } from 'react-i18next';
 
 const LeavePageBlocker = () => {
+  const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
 
   const location = useLocation();
@@ -41,7 +43,14 @@ const LeavePageBlocker = () => {
     modalRef.current?.onClose();
   };
 
-  return <LeavePageModal ref={modalRef} onConfirm={onConfirm} />;
+  return (
+    <IsolatedModal
+      ref={modalRef}
+      title={t('PD.UnsavedChanges')}
+      description={t('PD.UnsavedChangesMsg')}
+      onConfirm={onConfirm}
+    />
+  );
 };
 
 export default LeavePageBlocker;

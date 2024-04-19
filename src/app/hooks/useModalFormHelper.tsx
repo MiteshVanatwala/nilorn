@@ -7,17 +7,18 @@ import {
   useState,
 } from 'react';
 import { useUnsavedChanges } from './useUnsavedChanges';
-import LeavePageModal, {
-  ModalRef,
-} from '../../components/Modal/LeavePageModal';
+import IsolatedModal, { ModalRef } from '../../components/Modal/IsolatedModal';
 import useCloseModalOnNavigation from './useCloseModalOnNavigation';
 import { ModalContext } from '../context/ModalContext';
 import { useOutsideClick } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const useModalFormHelper = (
   outsideRef: RefObject<HTMLElement>,
-  initNavId: string = ''
+  initNavId: string = '',
+  preventOutsideClick?: boolean
 ) => {
+  const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
 
   const { isBlocked, proceedBlocker } = useCloseModalOnNavigation(true);
@@ -61,11 +62,13 @@ const useModalFormHelper = (
   useOutsideClick({
     ref: outsideRef,
     handler: () => {
-      if (hasUnsavedChanges()) {
-        openLeavePageModal();
-        setPreventClose(true);
-      } else {
-        close();
+      if (!preventOutsideClick) {
+        if (hasUnsavedChanges()) {
+          openLeavePageModal();
+          setPreventClose(true);
+        } else {
+          close();
+        }
       }
     },
   });
@@ -110,7 +113,13 @@ const useModalFormHelper = (
   };
 
   const leavePageModal = (
-    <LeavePageModal ref={modalRef} onConfirm={onConfirm} onCancel={onCancel} />
+    <IsolatedModal
+      ref={modalRef}
+      title={t('PD.UnsavedChanges')}
+      description={t('PD.UnsavedChangesMsg')}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
+    />
   );
 
   return {
