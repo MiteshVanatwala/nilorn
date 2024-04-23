@@ -21,7 +21,11 @@ const useModalFormHelper = (
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
 
-  const { isBlocked, proceedBlocker } = useCloseModalOnNavigation(true);
+  const {
+    isBlocked,
+    proceedBlocker,
+    setBlocked: setBlockedRoute,
+  } = useCloseModalOnNavigation(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
   const { discardChanges, hasUnsavedChanges, setUnsavedChanges } =
@@ -42,8 +46,16 @@ const useModalFormHelper = (
     } else if (isBlocked) {
       proceedBlocker();
       close();
+      setBlockedRoute(false);
     }
-  }, [close, hasUnsavedChanges, isBlocked, openLeavePageModal, proceedBlocker]);
+  }, [
+    close,
+    hasUnsavedChanges,
+    isBlocked,
+    openLeavePageModal,
+    proceedBlocker,
+    setBlockedRoute,
+  ]);
 
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -104,6 +116,7 @@ const useModalFormHelper = (
   };
 
   const onCancel = () => {
+    setBlockedRoute(false);
     setPendingNavId(undefined);
   };
 

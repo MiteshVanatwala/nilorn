@@ -37,7 +37,7 @@ const useCloseModalOnNavigation = (preventClose: boolean = false) => {
     }
   };
 
-  return { isBlocked, proceedBlocker };
+  return { isBlocked, setBlocked, proceedBlocker };
 };
 
 export default useCloseModalOnNavigation;
