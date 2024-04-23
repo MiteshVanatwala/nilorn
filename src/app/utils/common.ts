@@ -32,3 +32,13 @@ export function scrollSelectorIntoView(selector: string) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
+
+export function roundUp(
+  num: number | null | undefined,
+  numDecimals: number | null | undefined
+): number | null | undefined {
+  if (!!num && !!numDecimals) {
+    return Number(num.toFixed(numDecimals));
+  }
+  return num;
+}

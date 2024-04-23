@@ -17,7 +17,7 @@ import { useGetVendors } from '../../../app/api/vendors';
 import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useEffect, useState } from 'react';
-import { useGetCurrencies } from '../../../app/api/currency';
+import { useGetCurrenciesFilterOption } from '../../../app/api/currency';
 import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 
@@ -41,7 +41,7 @@ const EditProductionFormContent = ({
   const { t } = useTranslation();
 
   const { data: vendors } = useGetVendors(!createNew);
-  const { data: currency } = useGetCurrencies();
+  const { data: currency } = useGetCurrenciesFilterOption();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
   const newSelctedVendor = useWatch({ name: 'vendorId' });

@@ -3,7 +3,7 @@ import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
-import { useGetCurrencies } from '../../app/api/currency';
+import { useGetCurrenciesFilterOption } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
 import { PriceCalculationDto, PriceDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
@@ -35,7 +35,7 @@ const PriceCalculationForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
-  let { data: currency } = useGetCurrencies();
+  let { data: currency } = useGetCurrenciesFilterOption();
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );

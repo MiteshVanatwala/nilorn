@@ -5,6 +5,9 @@ import { GridTd } from '../../components/GridTable/GridTableElements';
 import { COLORS, SPACE } from '../../theme/Constants';
 import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
 import { Box } from '@chakra-ui/react';
+import { roundUp } from '../../app/utils/common';
+import { useWatch } from 'react-hook-form';
+import { useGetCurrency } from '../../app/api/currency';
 
 type Props = {
   calculation: PriceDto;
@@ -19,6 +22,9 @@ function EditCalculationGridRow({
   index,
   showChanges,
 }: Props) {
+  const currencyCode = useWatch({ name: 'currencyCode' });
+  const { data: currencyData } = useGetCurrency(currencyCode);
+
   return (
     <>
       <GridTd
@@ -37,7 +43,7 @@ function EditCalculationGridRow({
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
         py={SPACE.XS}
         style={style}>
-        {calculation.cost}
+        {roundUp(calculation.cost, currencyData?.costDecimals)}
       </GridTd>
       <GridTd
         bg={`${index % 2 === 0 ? '' : COLORS.GRAY[10]}`}
@@ -45,7 +51,7 @@ function EditCalculationGridRow({
         style={style}
         position={'relative'}>
         <>
-          {calculation.margin}
+          {roundUp(calculation.margin, currencyData?.marginDecimals)}
           <Box position={'absolute'} right={SPACE.XS}>
             <ChangelogListItem
               showChanges={showChanges}
@@ -62,7 +68,7 @@ function EditCalculationGridRow({
         style={style}
         position={'relative'}>
         <>
-          {calculation.salesPrice}
+          {roundUp(calculation.salesPrice, currencyData?.salesDecimals)}
           <Box position={'absolute'} right={SPACE.XS}>
             <ChangelogListItem
               showChanges={showChanges}
