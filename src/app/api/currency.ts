@@ -5,7 +5,7 @@ import { CurrencyService } from '../generate';
 export function useGetCurrencies() {
   return useQuery(
     [QueryKeysEnum.Currency],
-    () => CurrencyService.getApiCurrency().then(res => res),
+    () => CurrencyService.getApiCurrencyFilterOption().then(res => res),
     {
       retry: 1,
     }
