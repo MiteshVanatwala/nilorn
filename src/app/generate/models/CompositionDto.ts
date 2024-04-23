@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type CompositionDto = {
-  id?: string;
-  compositionMaterialCode?: string | null;
-  quantity?: number | null;
+    id?: string;
+    compositionMaterialCode?: string | null;
+    quantity?: number | null;
 };
