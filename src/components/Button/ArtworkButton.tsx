@@ -19,6 +19,7 @@ const ArtworkButton = ({ size, artwork }: Props) => {
   );
 
   const handleClick = () => {
+    // TODO: Preview
     downloadFile();
   };
 
