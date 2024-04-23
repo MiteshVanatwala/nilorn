@@ -65,16 +65,21 @@ const PriceCalculationForm = ({
   const freightIncluded = freightIncludedValue
     ? Number(freightIncludedValue)
     : 0;
-  const margin = marginValue ? Number(marginValue) : null;
-  const currencyRate = currencyRateValue ? Number(currencyRateValue) : 1;
+
+  const margin =
+    isNaN(marginValue) || marginValue === null ? null : Number(marginValue);
+  const currencyRate = isNaN(currencyRateValue) ? 0 : Number(currencyRateValue);
   const internalCommission = internalCommisionValue
     ? Number(internalCommisionValue)
     : 0;
   const indirectCost = indirectCostValue ? Number(indirectCostValue) : 0;
-
   useEffect(() => {
     let updatedItems: PriceDto[] = [];
     calculationItems?.forEach(item => {
+      const initItemMargin =
+        calculation?.priceDtos?.find(
+          pd => pd.salesPriceId === item.salesPriceId
+        )?.margin ?? 0;
       const updatedCost = calculateCost(item.purchasePrice ?? 0, {
         internalCommission,
         currencyRate,
@@ -83,12 +88,13 @@ const PriceCalculationForm = ({
       const salesPrice = calculateSalesPrice(
         updatedCost ?? 0,
         freightIncluded,
-        margin ? margin : item.margin ? item.margin : 0
+        margin !== null ? margin : initItemMargin
       );
+
       updatedItems.push({
         ...item,
         salesPrice,
-        margin,
+        margin: margin !== null ? margin : initItemMargin,
         cost: updatedCost,
       });
     });
@@ -100,6 +106,7 @@ const PriceCalculationForm = ({
     currencyRateValue,
     internalCommisionValue,
     indirectCostValue,
+    calculation?.priceDtos,
   ]);
 
   return (
