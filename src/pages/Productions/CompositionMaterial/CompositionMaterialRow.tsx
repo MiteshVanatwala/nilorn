@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { SelectOption } from '../../../app/types/types';
-import { GridItem, IconButton, Text } from '@chakra-ui/react';
+import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
 import InputField from '../../../components/Form/InputField';
 import SelectBase from '../../../components/Form/SelectBase';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -66,12 +66,14 @@ const CompositionMaterialRow = ({
         />
       </GridItem>
       <GridItem>
-        <IconButton
-          variant={'ghost'}
-          aria-label={t('Common.Remove')}
-          onClick={onDelete}
-          icon={<Text as={'i'} className="ri-close-line" />}
-        />
+        <Tooltip label={t('Common.Remove')}>
+          <IconButton
+            variant={'deleteIconBtn'}
+            aria-label={t('Common.Remove')}
+            onClick={onDelete}
+            icon={<i className="ri-close-line" />}
+          />
+        </Tooltip>
       </GridItem>
     </>
   );

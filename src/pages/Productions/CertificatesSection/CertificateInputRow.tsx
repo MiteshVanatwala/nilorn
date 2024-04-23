@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import InputField from '../../../components/Form/InputField';
 import { SelectOption } from '../../../app/types/types';
-import { GridItem, IconButton, Text } from '@chakra-ui/react';
+import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import {
   useCertificateCategories,
@@ -131,12 +131,14 @@ const CertificateInputRow = ({
         )}
       </GridItem>
       <GridItem>
-        <IconButton
-          variant={'ghost'}
-          aria-label={t('Common.Remove')}
-          onClick={onDelete}
-          icon={<Text as={'i'} className="ri-close-line" />}
-        />
+        <Tooltip label={t('Common.Remove')}>
+          <IconButton
+            variant={'deleteIconBtn'}
+            aria-label={t('Common.Remove')}
+            onClick={onDelete}
+            icon={<i className="ri-close-line" />}
+          />
+        </Tooltip>
       </GridItem>
     </>
   );
