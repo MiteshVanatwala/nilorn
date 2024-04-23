@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { MediaFileDto } from '../../app/generate';
 import { useDeleteMediaFile, useDownloadFile } from '../../app/api/mediaFile';
+import ConfirmModal from '../Modal/ConfirmModal';
+import { useModal } from '../../app/hooks/useModal';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -28,6 +30,7 @@ export const File = ({
 }: Props) => {
   const id: string = file.id ?? '';
   const { t } = useTranslation();
+  const { handleModal, close } = useModal();
 
   const { mutateAsync: deleteFile, isLoading: isDeleting } =
     useDeleteMediaFile(id);
@@ -40,12 +43,17 @@ export const File = ({
   async function removeFile() {
     const res = await deleteFile();
     if (res) {
+      close();
       onRemove && onRemove(id);
     }
   }
 
-  async function getFile() {
+  async function download() {
     downloadFile();
+  }
+
+  async function preview() {
+    alert(`preview ${file.name}`);
   }
 
   return (
@@ -74,12 +82,21 @@ export const File = ({
       </Tooltip>
       {status === 'loading' && <Spinner />}
       {status === 'success' && (
-        <Box minW={'5rem'}>
+        <Box minW={'8rem'}>
+          <Tooltip label={t('Common.Preview')}>
+            <IconButton
+              variant={'iconBtn'}
+              aria-label={t('Common.Preview')}
+              onClick={preview}
+              disabled={isDeleting}
+              icon={<i className="ri-eye-line" />}
+            />
+          </Tooltip>
           <Tooltip label={t('Common.Download')}>
             <IconButton
               variant={'iconBtn'}
               aria-label={t('Common.Download')}
-              onClick={getFile}
+              onClick={download}
               isLoading={isDownloading}
               disabled={isDeleting}
               icon={<i className="ri-download-line" />}
@@ -94,7 +111,16 @@ export const File = ({
                 aria-label={t('Common.Remove')}
                 icon={<i className={'ri-close-line'} />}
                 mr={0}
-                onClick={removeFile}
+                onClick={() =>
+                  handleModal(
+                    <ConfirmModal
+                      title={t('PD.DeleteTitle')}
+                      description={t('PD.DeleteFile', { name: file.name })}
+                      confirmType="DELETE"
+                      onConfirm={() => removeFile()}
+                    />
+                  )
+                }
               />
             </Tooltip>
           )}
