@@ -3,7 +3,7 @@ import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface Props {
   title?: string | JSX.Element;
@@ -19,6 +19,7 @@ const HeaderLink: FC<Props> = ({
   variant = 'headerLink',
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = (url: string, clickedStoredFilter: string) => {
     const storedFilter = getCurrentStoredFilter();
 
@@ -36,8 +37,8 @@ const HeaderLink: FC<Props> = ({
       <LinkComponent
         _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
         variant={variant}
-        bg={window.location.pathname === path ? COLORS.GRAY[0] : ''}
-        color={window.location.pathname === path ? COLORS.BLUE[200] : ''}
+        bg={location.pathname === path ? COLORS.GRAY[0] : ''}
+        color={location.pathname === path ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
         onClick={e => handleClick(path, clickedStoredFilter)}
         whiteSpace={'nowrap'}>
