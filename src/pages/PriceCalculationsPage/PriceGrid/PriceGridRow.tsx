@@ -28,6 +28,8 @@ import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { NavLink } from 'react-router-dom';
 import { useFormStateFilters } from '../../../app/hooks/useFormStateFilters';
+import { useQueryClient } from 'react-query';
+import QueryKeysEnum from '../../../app/api/queryKeys';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -44,6 +46,7 @@ function PriceGridRow({
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
   const vendorOptions = useFilterOptions('vendor');
   const filters = useFormStateFilters();
+  const queryClient = useQueryClient();
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
@@ -88,7 +91,6 @@ function PriceGridRow({
     setEnableEdit(false);
     setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
   };
-
   const submitForm = () => {
     const body: UpdateSalesPriceCommand = {
       salesPrices: formData as SalesPriceDto[],
@@ -96,6 +98,7 @@ function PriceGridRow({
     saveSalesPrices(body, {
       onSuccess: async () => {
         setEnableEdit(false);
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
       },
     });
   };
