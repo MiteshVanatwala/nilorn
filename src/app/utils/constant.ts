@@ -4,4 +4,5 @@ export const SESSION_STORAGE = {
   prevFilterOverview: 'prevFilterOverview',
   prevFilterProductions: 'prevFilterProductions',
   prevFilterCalculation: 'prevFilterCalculation',
+  backLink: 'backLink',
 };

@@ -6,6 +6,7 @@ import ArtworkButton from '../Button/ArtworkButton';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MouseEvent, useEffect, useRef } from 'react';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 const ProductDevelopmentCell = ({
   no,
@@ -36,7 +37,7 @@ const ProductDevelopmentCell = ({
     const search = window.location.search;
     const anchor = id ? `#${id}` : '';
     const storedFilter = getCurrentStoredFilter();
-    sessionStorage.setItem('backLink', path + search + anchor);
+    sessionStorage.setItem(SESSION_STORAGE.backLink, path + search + anchor);
     sessionStorage.setItem(storedFilter, search);
     navigate(url);
   };

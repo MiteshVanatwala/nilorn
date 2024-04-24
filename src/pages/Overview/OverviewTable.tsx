@@ -41,7 +41,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
     const anchor = id ? `#${id}` : '';
-    sessionStorage.setItem('backLink', path + search + anchor);
+    sessionStorage.setItem(SESSION_STORAGE.backLink, path + search + anchor);
     sessionStorage.setItem(
       SESSION_STORAGE.prevFilterOverview,
       window.location.search

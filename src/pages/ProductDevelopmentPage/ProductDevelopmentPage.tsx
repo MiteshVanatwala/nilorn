@@ -9,6 +9,7 @@ import { useCurrentUser } from '../../app/api/User';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../app/api/queryKeys';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 type Props = {
   createNew: boolean;
@@ -60,6 +61,13 @@ function ProductDevelopmentPage({ createNew }: Props) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSticky]);
+
+  if (createNew) {
+    sessionStorage.setItem(
+      SESSION_STORAGE.backLink,
+      `/${sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? ''}`
+    );
+  }
 
   if (
     isError ||

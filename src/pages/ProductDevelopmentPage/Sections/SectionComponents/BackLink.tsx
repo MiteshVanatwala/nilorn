@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import ArrowLink from '../../../../components/Link/ArrowLink';
+import { SESSION_STORAGE } from '../../../../app/utils/constant';
 
 type Props = {
   scrolledPast: boolean;
@@ -7,10 +8,8 @@ type Props = {
 const BackLink = ({ scrolledPast }: Props) => {
   const { t } = useTranslation();
 
-  let backLink = sessionStorage.getItem('backLink') ?? '/';
-  if (backLink.indexOf('product-development/create')) {
-    backLink = backLink.replace('product-development/create', '');
-  }
+  let backLink = sessionStorage.getItem(SESSION_STORAGE.backLink) ?? '/';
+
   if (scrolledPast) {
     return <></>;
   }
