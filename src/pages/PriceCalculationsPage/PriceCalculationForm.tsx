@@ -9,7 +9,7 @@ import { PriceCalculationDto, PriceDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { MAX_MARGIN } from '../../app/utils/constant';
 import {
   calculateCost,
@@ -34,6 +34,7 @@ const PriceCalculationForm = ({
   productionId,
 }: Props) => {
   const { t } = useTranslation();
+  const { setValue } = useFormContext();
   let { data: currency } = useGetCurrencies();
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
@@ -73,6 +74,7 @@ const PriceCalculationForm = ({
     ? Number(internalCommisionValue)
     : 0;
   const indirectCost = indirectCostValue ? Number(indirectCostValue) : 0;
+
   useEffect(() => {
     let updatedItems: PriceDto[] = [];
     calculationItems?.forEach(item => {
@@ -108,6 +110,12 @@ const PriceCalculationForm = ({
     indirectCostValue,
     calculation?.priceDtos,
   ]);
+
+  useEffect(() => {
+    if (margin && margin > MAX_MARGIN) {
+      setValue('margin', MAX_MARGIN);
+    }
+  }, [margin, setValue]);
 
   return (
     <>

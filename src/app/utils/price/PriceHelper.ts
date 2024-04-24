@@ -57,7 +57,7 @@ export function calculateCost(
   calculation: PriceCalculationDto
 ): number | null {
   const internalCommission = calculation.internalCommission ?? 0;
-  const currencyRate = calculation.currencyRate ?? 1;
+  const currencyRate = calculation.currencyRate ?? 0;
   const indirectCost = calculation.indirectCost ?? 0;
 
   return (
