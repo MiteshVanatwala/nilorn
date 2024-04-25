@@ -7,8 +7,8 @@ export const useCurrentUser = () => {
     [QueryKeysEnum.User],
     () => MembersService.getApiMembersCurrent().then(res => res),
     {
-      cacheTime: Infinity,
-      staleTime: Infinity,
+      cacheTime: 60 * 1000 * 5,
+      staleTime: 60 * 1000 * 5,
       retry: 0,
     }
   );
