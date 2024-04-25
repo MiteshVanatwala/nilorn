@@ -3,13 +3,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CurrencyDto } from './CurrencyDto';
 import type { PriceDto } from './PriceDto';
 import type { ProductDevelopmentDataDto } from './ProductDevelopmentDataDto';
 
 export type PriceCalculationExtendedDto = {
     id?: string;
     productionId?: string;
-    currencyCode?: string | null;
+    currency?: CurrencyDto;
     currencyRate?: number | null;
     internalCommission?: number | null;
     indirectCost?: number | null;

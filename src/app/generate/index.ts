@@ -17,7 +17,6 @@ export type { CreatePriceCalculationCommand } from './models/CreatePriceCalculat
 export type { CreateProductDevelopmentCommand } from './models/CreateProductDevelopmentCommand';
 export type { CreateProductionCommand } from './models/CreateProductionCommand';
 export type { CreateProjectCommand } from './models/CreateProjectCommand';
-export type { Currency } from './models/Currency';
 export type { CurrencyDto } from './models/CurrencyDto';
 export type { DefaultPriceCalculationDto } from './models/DefaultPriceCalculationDto';
 export type { DeleteProductionCommand } from './models/DeleteProductionCommand';

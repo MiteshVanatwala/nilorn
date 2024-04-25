@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Currency } from './Currency';
+import type { CurrencyDto } from './CurrencyDto';
 
 export type DefaultPriceCalculationDto = {
     margin?: number | null;
     freightIncluded?: number | null;
-    salesCurrency?: Currency;
+    salesCurrency?: CurrencyDto;
     internalCommission?: number | null;
     indirectCost?: number | null;
     currencyRate?: number | null;

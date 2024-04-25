@@ -3,13 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Currency } from './Currency';
+import type { CurrencyDto } from './CurrencyDto';
 
 export type VendorDto = {
     id?: string;
     no?: string | null;
     name?: string | null;
     currencyCode?: string | null;
-    currency?: Currency;
+    currency?: CurrencyDto;
     countryRegionCode?: string | null;
 };
