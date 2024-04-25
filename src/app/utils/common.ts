@@ -37,8 +37,11 @@ export function roundUp(
   num: number | null | undefined,
   numDecimals: number | null | undefined
 ): number | null | undefined {
-  if (!!num && !!numDecimals) {
-    return Number(num.toFixed(numDecimals));
+  if (numDecimals !== null && numDecimals !== undefined) {
+    if (!!num) {
+      return Number(num.toFixed(numDecimals));
+    }
+    return num;
   }
   return num;
 }

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
 import { useGetCurrenciesFilterOption } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
-import { PriceCalculationDto, PriceDto } from '../../app/generate';
+import { CurrencyDto, PriceCalculationDto, PriceDto } from '../../app/generate';
 import { useCalculationChangelog } from '../../app/hooks/useChangelog';
 import PriceCalculationFormTable from './PriceCalculationFormTable';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ type Props = {
   calculation: PriceCalculationDto | undefined;
   createNew: boolean;
   showChanges: boolean;
-  currencyCode?: string;
+  currency?: CurrencyDto;
   productionId?: string;
 };
 
@@ -30,12 +30,12 @@ const PriceCalculationForm = ({
   calculation,
   createNew,
   showChanges,
-  currencyCode,
+  currency,
   productionId,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
-  let { data: currency } = useGetCurrenciesFilterOption();
+  let { data: currencies } = useGetCurrenciesFilterOption();
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
@@ -199,7 +199,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={2}>
           <InputField
             readonly={true}
-            defaultValue={currencyCode ?? ''}
+            defaultValue={currency?.code ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
             placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
@@ -213,11 +213,11 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             name={'currencyCode'}
             changelog={currencyCodeChangelog}
-            options={currency as SelectOption[]}
+            options={currencies as SelectOption[]}
             defaultValue={
-              currencyCode
-                ? (currency as SelectOption[])?.find(
-                    o => o.value === currencyCode
+              currency?.code
+                ? (currencies as SelectOption[])?.find(
+                    o => o.value === currency?.code
                   )
                 : undefined
             }

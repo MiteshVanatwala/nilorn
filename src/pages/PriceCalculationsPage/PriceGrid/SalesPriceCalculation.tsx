@@ -9,7 +9,6 @@ import {
 import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
 import { MAX_MARGIN } from '../../../app/utils/constant';
 import { roundUp } from '../../../app/utils/common';
-import { useGetCurrency } from '../../../app/api/currency';
 
 type Props = {
   enableEdit: boolean;
@@ -34,10 +33,6 @@ const SalesPriceCalculation = ({
   salesPrice,
   onCalculationChange,
 }: Props) => {
-  const { data: currencyData } = useGetCurrency(
-    calculation?.currencyCode ?? undefined
-  );
-
   const changeMargin = (e: ChangeEvent<HTMLInputElement>) => {
     let value = Number(e.target.value);
     value = isNaN(value) ? 0 : value;
@@ -69,7 +64,9 @@ const SalesPriceCalculation = ({
 
   return (
     <>
-      <GridTd>{roundUp(price.cost, currencyData?.costDecimals)}</GridTd>
+      <GridTd>
+        {roundUp(price.cost, calculation?.currency?.costDecimals)}
+      </GridTd>
       <GridTd>
         <>
           {enableEdit ? (
@@ -83,7 +80,7 @@ const SalesPriceCalculation = ({
               borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
-            <>{roundUp(margin, currencyData?.marginDecimals)}</>
+            <>{roundUp(margin, calculation?.currency?.marginDecimals)}</>
           )}
         </>
       </GridTd>
@@ -100,7 +97,7 @@ const SalesPriceCalculation = ({
               borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
-            <>{roundUp(salesPrice, currencyData?.salesDecimals)}</>
+            <>{roundUp(salesPrice, calculation?.currency?.salesDecimals)}</>
           )}
         </>
       </GridTd>

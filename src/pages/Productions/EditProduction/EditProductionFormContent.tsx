@@ -41,7 +41,7 @@ const EditProductionFormContent = ({
   const { t } = useTranslation();
 
   const { data: vendors } = useGetVendors(!createNew);
-  const { data: currency } = useGetCurrenciesFilterOption();
+  const { data: currencies } = useGetCurrenciesFilterOption();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
   const newSelctedVendor = useWatch({ name: 'vendorId' });
@@ -174,22 +174,24 @@ const EditProductionFormContent = ({
               isDisabled={disableEdit}
               key={
                 (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
-                currency?.length +
-                currency?.find(co => co.value === selectedVendor?.currencyCode)
+                currencies?.length +
+                currencies?.find(
+                  co => co.value === selectedVendor?.currencyCode
+                )
               }
               label={`${t('Production.Currency')}`}
               defaultValue={
                 createNew
                   ? selectedVendor
-                    ? (currency?.find(
+                    ? (currencies?.find(
                         co => co.value === selectedVendor?.currencyCode
                       ) as SelectOption)
                     : undefined
-                  : (currency?.find(
+                  : (currencies?.find(
                       co => co.value === production?.currencyCode
                     ) as SelectOption)
               }
-              options={(currency as SelectOption[]) ?? []}
+              options={(currencies as SelectOption[]) ?? []}
               name={'currencyCode'}
               changelog={currencyCodeChangelog}
             />

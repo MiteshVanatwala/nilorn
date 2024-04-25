@@ -70,7 +70,7 @@ const CreatePriceCalculationModal = ({
       productionId: production?.id,
       purchaseCurrency: production.currencyCode,
       currencyRate: calculation?.currencyRate,
-      currencyCode: calculation?.currencyCode,
+      currencyCode: calculation?.currency?.code,
       internalCommission: calculation?.internalCommission,
       indirectCost: calculation?.indirectCost,
       freightIncluded: calculation?.freightIncluded,
@@ -139,9 +139,9 @@ const CreatePriceCalculationModal = ({
             <Skeleton isLoaded={!isLoadingDefaultValues}>
               <PriceCalculationForm
                 calculation={calculation}
-                currencyCode={
-                  defaultValues?.salesCurrency?.code ??
-                  calculation?.currencyCode ??
+                currency={
+                  defaultValues?.salesCurrency ??
+                  calculation?.currency ??
                   undefined
                 }
                 createNew={true}

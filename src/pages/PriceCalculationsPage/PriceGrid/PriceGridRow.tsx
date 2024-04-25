@@ -223,7 +223,7 @@ function PriceGridRow({
               </GridInlineTbody>
             </GridItem>
             <GridTd>{production.currencyCode}</GridTd>
-            <GridTd>{calculation?.currencyCode}</GridTd>
+            <GridTd>{calculation?.currency?.code}</GridTd>
             <GridItem
               colSpan={3}
               onClick={createNew ? undefined : openRowForInlineEdit}>

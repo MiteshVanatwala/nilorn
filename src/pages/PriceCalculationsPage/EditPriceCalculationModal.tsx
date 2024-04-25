@@ -73,7 +73,7 @@ const EditPriceCalculationModal = ({
         id: priceCalculation?.id,
         purchaseCurrency: purchaseCurrency,
         currencyRate: priceCalculation?.currencyRate,
-        currencyCode: priceCalculation?.currencyCode,
+        currencyCode: priceCalculation?.currency?.code,
         internalCommission: priceCalculation?.internalCommission,
         indirectCost: priceCalculation?.indirectCost,
         freightIncluded: priceCalculation?.freightIncluded,
@@ -122,7 +122,7 @@ const EditPriceCalculationModal = ({
             <Skeleton isLoaded={!!priceCalculation}>
               <PriceCalculationForm
                 calculation={priceCalculation}
-                currencyCode={priceCalculation?.currencyCode ?? undefined}
+                currency={priceCalculation?.currency ?? undefined}
                 createNew={false}
                 showChanges={showChanges}
                 productionId={priceCalculation?.productionId}
