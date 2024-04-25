@@ -48,7 +48,10 @@ const UploadFile = ({
             ref={inputRef}
             multiple={multiple}
             accept={accept}
-            onChange={onFileUpload}
+            onChange={e => {
+              onFileUpload(e);
+              e.target.value = '';
+            }}
           />
           {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
             <Button

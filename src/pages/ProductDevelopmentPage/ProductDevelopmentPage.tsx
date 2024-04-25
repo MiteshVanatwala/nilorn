@@ -24,9 +24,8 @@ function ProductDevelopmentPage({ createNew }: Props) {
     queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment]);
   }, [queryClient, no]);
 
-  const { data, isLoading, isError, isSuccess } = useProductDevelopment(
-    no ?? ''
-  );
+  const { data, isLoading, isError, isSuccess, isRefetching } =
+    useProductDevelopment(no ?? '');
   const {
     data: user,
     isLoading: isUserLoading,
@@ -76,7 +75,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return <NotFoundPage />;
   }
 
-  if (isLoading || isUserLoading) {
+  if (isLoading || isUserLoading || isRefetching) {
     return <SpinnerOverlay />;
   }
 

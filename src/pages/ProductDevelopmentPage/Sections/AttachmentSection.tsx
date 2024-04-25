@@ -1,12 +1,12 @@
 import { Grid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../theme/Constants';
-import { useFormContext } from 'react-hook-form';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { MediaFileType } from '../../../app/generate';
 import FileSection from './FileSection';
 import { useAttachments } from '../../../app/api/mediaFile';
 import Alert from '../../../components/Feedback/Alert';
+import { useFormContext } from 'react-hook-form';
 
 export const ARTWORK: string = 'artwork';
 
@@ -23,7 +23,12 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
 
   const artwork = watch(ARTWORK);
 
-  const { data: attachments, isFetched } = useAttachments(no);
+  const {
+    data: attachments,
+    isFetched,
+    isRefetching,
+    isLoading,
+  } = useAttachments(no);
 
   return (
     <>
@@ -47,7 +52,7 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
               disableEdit={disableEdit || isClosed}
               heading={t('PD.Artwork')}
             />
-            {isFetched && (
+            {isFetched && !isRefetching && !isLoading && (
               <FileSection
                 no={no}
                 type={MediaFileType.ATTACHMENT}

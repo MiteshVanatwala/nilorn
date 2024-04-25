@@ -75,10 +75,11 @@ export function useDownloadFile(id: string, fileName: string) {
 
 export function useAttachments(no: string) {
   return useQuery(
-    [QueryKeysEnum.Attachments, no],
+    [QueryKeysEnum.ProductDevelopment, no, QueryKeysEnum.Attachments],
     () => MediaFileService.getApiMediaFileAttachments(no).then(res => res),
     {
       retry: 0,
+      keepPreviousData: false,
     }
   );
 }

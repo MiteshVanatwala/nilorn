@@ -117,6 +117,7 @@ export const useProductDevelopment = (no: string) => {
       staleTime: Infinity,
       cacheTime: Infinity,
       enabled: no !== '',
+      keepPreviousData: false,
     }
   );
 };

@@ -172,7 +172,8 @@
       "Success": {
         "Update": "Product development have been saved.",
         "UpdateStatus": "Product development status have been updated to {{status}}.",
-        "Created": "Product development with no #{{no}} has been created."
+        "Created": "Product development with no #{{no}} has been created.",
+        "FileUpdated": "File with name {{name}} has been updated"
       },
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
@@ -181,7 +182,8 @@
         "FieldLength": "Max length is {{length}} characters",
         "Create": "Failed to create new product development",
         "Update": "Failed to update product development",
-        "UpdateStatus": "Failed to change status on product development"
+        "UpdateStatus": "Failed to change status on product development",
+        "FileUpdated": "Failed to update file with name {{name}}"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status"

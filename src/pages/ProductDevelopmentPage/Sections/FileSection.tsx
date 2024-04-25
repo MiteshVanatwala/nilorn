@@ -5,7 +5,6 @@ import UploadFile from '../../../components/File/UploadFile';
 import { MediaFileDto, MediaFileType, Status } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
-
 import { ARTWORK } from './AttachmentSection';
 import { useToast } from '../../../app/hooks/useToast';
 import { useUpdateProductDevelopmentWithStatus } from '../../../app/api/productDevelopment';
@@ -56,20 +55,43 @@ const FileSection = ({
   const handleUpload = async (files: FileList) => {
     const uploadPromises = Array.from(files).map(async file => {
       const filename = file.name;
-      setMediaFiles(prevStatus => [
-        ...prevStatus,
-        {
-          id: undefined,
-          name: filename,
-          status: 'loading',
-        },
-      ]);
+
+      const match = mediaFiles.find(mf => mf.name === filename);
+      if (!match) {
+        setMediaFiles(prevStatus => [
+          ...prevStatus,
+          {
+            id: undefined,
+            name: filename,
+            status: 'loading',
+          },
+        ]);
+      } else {
+        setMediaFiles(prevMediaFiles => {
+          return prevMediaFiles.map(prev =>
+            prev.name === filename
+              ? {
+                  ...prev,
+                  status: 'loading',
+                }
+              : prev
+          );
+        });
+      }
 
       try {
         const res = await mutateAsync(file);
+        if (match) {
+          showToast({
+            status: 'success',
+            description: t('PD.Feedback.Success.FileUpdated', {
+              name: match.name,
+            }),
+          });
+        }
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
-            prev.id === undefined && prev.name === res.name
+            prev.name === res.name
               ? { ...prev, ...res, status: 'success' }
               : prev
           );
@@ -79,11 +101,17 @@ const FileSection = ({
           submitStatus(Status.ARTWORK);
         }
       } catch (err) {
+        if (match) {
+          showToast({
+            status: 'error',
+            description: t('PD.Feedback.Error.FileUpdated', {
+              name: match.name,
+            }),
+          });
+        }
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
-            prev.id === undefined && prev.name === filename
-              ? { ...prev, status: 'error' }
-              : prev
+            prev.name === filename ? { ...prev, status: 'error' } : prev
           );
         });
         console.error(err);
@@ -126,13 +154,13 @@ const FileSection = ({
       </GridItem>
       {mediaFiles.map((f, i) => (
         <GridItem
-          key={`${f.id}-${i}`}
+          key={`${f?.id}-${i}`}
           colSpan={{
             lg: 2,
           }}>
           <File
             file={f}
-            status={f.status ?? 'success'}
+            status={f?.status ?? 'success'}
             onRemove={disableEdit ? undefined : (id: string) => removeFile(id)}
           />
         </GridItem>
