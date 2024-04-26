@@ -93,6 +93,7 @@ const EditPriceCalculationModal = ({
   function submitForm(form: FieldValues) {
     updateCalculation(form, {
       onSuccess: () => {
+        setDirty(false);
         close();
       },
     });

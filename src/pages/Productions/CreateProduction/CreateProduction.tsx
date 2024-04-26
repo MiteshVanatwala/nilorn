@@ -80,6 +80,7 @@ const CreateProduction = ({
   function submitForm(form: FieldValues) {
     createProduction(form, {
       onSuccess: () => {
+        setDirty(false);
         close();
       },
     });
