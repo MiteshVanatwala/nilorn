@@ -110,6 +110,7 @@ const EditProduction = ({ productionId }: Props) => {
   function submitForm(form: FieldValues) {
     updateProduction(form, {
       onSuccess: () => {
+        setDirty(false);
         close();
       },
     });
