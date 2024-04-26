@@ -139,7 +139,7 @@ export function useDeleteCalculation(id: string) {
 export const usePriceCalculationDefaultValues = (
   productDevelopmentNo: string,
   sourcingCompanycode: string,
-  vendorNo: string
+  vendorId: string
 ) => {
   return useQuery(
     [
@@ -147,13 +147,13 @@ export const usePriceCalculationDefaultValues = (
       QueryKeysEnum.DefaultValues,
       productDevelopmentNo,
       sourcingCompanycode,
-      vendorNo,
+      vendorId,
     ],
     () =>
       PriceCalculationService.getApiPriceCalculationDefaultValues(
         productDevelopmentNo,
         sourcingCompanycode,
-        vendorNo
+        vendorId
       ).then(res => res),
     {
       retry: 0,
