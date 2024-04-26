@@ -6,6 +6,7 @@ import ProductDevelopmentModalTopSection from '../../components/ProductDevelopme
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
 import {
+  useDeleteCalculation,
   usePatchCalculation,
   usePriceCalculation,
   usePriceCalculationNavigation,
@@ -19,6 +20,7 @@ import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
+import useDeleteModal from '../../app/hooks/useDeleteModal';
 
 type Props = {
   calculationId: string;
@@ -34,13 +36,18 @@ const EditPriceCalculationModal = ({
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm();
+  const {
+    deleteModal,
+    isOpen: isDeleteModalOpen,
+    setOpen: setDeleteModalOpen,
+  } = useDeleteModal(outsideRef, deleteProductionFunc);
 
   const {
     activeNavId: activeCalculationId,
     onNavigate,
     setDirty,
     leavePageModal,
-  } = useModalFormHelper(outsideRef, calculationId);
+  } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
   const { close } = useContext(ModalContext);
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
@@ -54,6 +61,8 @@ const EditPriceCalculationModal = ({
   } = usePriceCalculation(activeCalculationId);
 
   const { mutate: updateCalculation } = usePatchCalculation();
+  const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
+    useDeleteCalculation(calculationId);
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
@@ -98,8 +107,25 @@ const EditPriceCalculationModal = ({
       },
     });
   }
+
+  function deleteProductionFunc() {
+    deleteCalculation();
+  }
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      close();
+      setDeleteModalOpen(false);
+    }
+  }, [close, isSuccessDelete, setDeleteModalOpen]);
+
   return (
     <>
+      {deleteModal}
       {leavePageModal}
       <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
@@ -111,6 +137,7 @@ const EditPriceCalculationModal = ({
               vendorName={priceCalculation?.vendorName}
               actionBar={
                 <PriceCalculationActionBar
+                  handleDelete={openDeleteModal}
                   artwork={priceCalculation?.productDevelopmentDataDto?.artwork}
                   createNew={false}
                   lastModified={priceCalculation?.lastModified ?? ''}

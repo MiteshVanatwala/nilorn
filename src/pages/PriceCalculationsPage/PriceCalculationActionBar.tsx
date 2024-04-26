@@ -5,10 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
 import { MediaFileDto } from '../../app/generate';
-import { useDeleteCalculation } from '../../app/api/calculation';
-import ConfirmModal from '../../components/Modal/ConfirmModal';
-import { useContext } from 'react';
-import { ModalContext } from '../../app/context/ModalContext';
 
 type Props = {
   artwork?: MediaFileDto;
@@ -18,6 +14,7 @@ type Props = {
   id: string;
   setShowChanges: (showChanges: boolean) => void;
   showChanges: boolean;
+  handleDelete?: () => void;
 };
 
 const PriceCalculationActionBar = ({
@@ -28,11 +25,9 @@ const PriceCalculationActionBar = ({
   id,
   setShowChanges,
   showChanges,
+  handleDelete,
 }: Props) => {
   const { t } = useTranslation();
-
-  const { mutate: deleteCalculation } = useDeleteCalculation(id);
-  const { handleModal } = useContext(ModalContext);
 
   return (
     <ActionBarTemplate
@@ -52,18 +47,9 @@ const PriceCalculationActionBar = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
-            {!disableEdit && (
+            {!disableEdit && handleDelete && (
               <MenuItem
-                onClick={() =>
-                  handleModal(
-                    <ConfirmModal
-                      title={t('PD.DeleteTitle')}
-                      description={t('PD.DeleteMsg')}
-                      onConfirm={() => deleteCalculation()}
-                      confirmType={'DELETE'}
-                    />
-                  )
-                }
+                onClick={handleDelete}
                 icon={
                   <Text
                     as={'i'}
