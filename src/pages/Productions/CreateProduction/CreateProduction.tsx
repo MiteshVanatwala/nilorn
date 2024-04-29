@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
-import { SPACE } from '../../../theme/Constants';
+import { SIZES, SPACE } from '../../../theme/Constants';
 import {
   ChangelogType,
   ProductDevelopmentDataDto,
@@ -100,7 +100,11 @@ const CreateProduction = ({
   return (
     <>
       {leavePageModal}
-      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+      <Box
+        ref={outsideRef}
+        mb={SPACE.LG}
+        px={SPACE.SM}
+        maxW={SIZES.CONTAINER.LG}>
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection

@@ -1,7 +1,7 @@
 import { Box, Button, HStack } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
-import { COLORS, SPACE } from '../../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import {
   ChangelogType,
   ProductionDto,
@@ -155,7 +155,11 @@ const EditProduction = ({ productionId }: Props) => {
     <>
       {deleteModal}
       {leavePageModal}
-      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+      <Box
+        ref={outsideRef}
+        mb={SPACE.LG}
+        px={SPACE.SM}
+        maxW={SIZES.CONTAINER.LG}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(submitForm)}>
