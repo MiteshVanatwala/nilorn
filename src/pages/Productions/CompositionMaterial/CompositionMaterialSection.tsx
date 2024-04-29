@@ -11,9 +11,13 @@ import { useCompositionMaterials } from '../../../app/api/production';
 
 type Props = {
   defaultValues?: CompositionDto[];
+  disableEdit?: boolean;
 };
 
-const CompositionMaterialSection = ({ defaultValues }: Props) => {
+const CompositionMaterialSection = ({
+  defaultValues,
+  disableEdit = false,
+}: Props) => {
   const { t } = useTranslation();
   const { control, getValues, setValue } = useFormContext();
   const fieldName = 'compositions';
@@ -47,6 +51,11 @@ const CompositionMaterialSection = ({ defaultValues }: Props) => {
     sum = sum + (!m.quantity ? 0 : m.quantity);
   });
 
+  const showAddButton =
+    unSelectedMaterialOptions?.length &&
+    fields?.length < (unSelectedMaterialOptions?.length ?? 0) &&
+    !disableEdit;
+
   return (
     <VStack align={'start'} gap={SPACE.SM} width={'min-content'} pt={SPACE.XL}>
       <Grid
@@ -63,25 +72,25 @@ const CompositionMaterialSection = ({ defaultValues }: Props) => {
             unSelectedOptions={unSelectedMaterialOptions as SelectOption[]}
             options={materialOptions as SelectOption[]}
             onDelete={() => remove(index)}
+            disableEdit={disableEdit}
           />
         ))}
       </Grid>
       <HStack justify={'space-between'} w={'100%'} pr={'4.5rem'}>
-        {unSelectedMaterialOptions?.length &&
-          fields?.length < unSelectedMaterialOptions?.length && (
-            <Button
-              isDisabled={!materialOptions}
-              variant={'secondarySmall'}
-              onClick={() =>
-                append({
-                  material: undefined,
-                  value: undefined,
-                })
-              }
-              rightIcon={<i className={'ri-add-line'} />}>
-              {t('Common.Add')}
-            </Button>
-          )}
+        {showAddButton && (
+          <Button
+            isDisabled={!materialOptions}
+            variant={'secondarySmall'}
+            onClick={() =>
+              append({
+                material: undefined,
+                value: undefined,
+              })
+            }
+            rightIcon={<i className={'ri-add-line'} />}>
+            {t('Common.Add')}
+          </Button>
+        )}
         {registerdCompositionMaterial?.length && (
           <Text
             variant={'bodyBold'}

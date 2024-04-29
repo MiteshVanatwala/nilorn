@@ -89,6 +89,16 @@ const EditProduction = ({ productionId }: Props) => {
   const { mutate: updateProduction } = usePatchProduction(
     !productionExt?.released
   );
+  const [disableEdit, setDisableEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    setDisableEdit(
+      production?.released ||
+        (productDevelopmentDataDto?.status
+          ? isClosed(productDevelopmentDataDto?.status!!)
+          : false)
+    );
+  }, [productDevelopmentDataDto?.status, production?.released]);
 
   useEffect(() => {
     if (production) {
@@ -163,18 +173,14 @@ const EditProduction = ({ productionId }: Props) => {
               createNew={false}
               production={production}
               showChanges={showChanges}
-              disableEdit={
-                production?.released ||
-                (productDevelopmentDataDto?.status
-                  ? isClosed(productDevelopmentDataDto?.status!!)
-                  : false)
-              }
+              disableEdit={disableEdit}
             />
             <CertificateSection
               defaultValues={productionExt?.productionCertificates ?? undefined}
             />
             <CompositionMaterialSection
               defaultValues={productionExt?.compositions ?? []}
+              disableEdit={disableEdit}
             />
           </form>
         </FormProvider>

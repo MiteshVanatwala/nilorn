@@ -11,6 +11,7 @@ type Props = {
   fieldName: string;
   index: number;
   onDelete: () => void;
+  disableEdit: boolean;
 };
 
 const CompositionMaterialRow = ({
@@ -19,6 +20,7 @@ const CompositionMaterialRow = ({
   options,
   unSelectedOptions,
   onDelete,
+  disableEdit,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
@@ -42,6 +44,7 @@ const CompositionMaterialRow = ({
             options={unSelectedOptions}
             onChange={onChangeMaterial}
             value={options.find(opt => opt.value === selectedMaterial)}
+            readOnly={disableEdit}
           />
         )}
       </GridItem>
@@ -52,6 +55,7 @@ const CompositionMaterialRow = ({
           type="decimal"
           min={0}
           max={100}
+          readonly={disableEdit}
           registerOptions={{
             valueAsNumber: true,
             min: {
@@ -66,14 +70,16 @@ const CompositionMaterialRow = ({
         />
       </GridItem>
       <GridItem>
-        <Tooltip label={t('Common.Remove')}>
-          <IconButton
-            variant={'deleteIconBtn'}
-            aria-label={t('Common.Remove')}
-            onClick={onDelete}
-            icon={<i className="ri-close-line" />}
-          />
-        </Tooltip>
+        {!disableEdit && (
+          <Tooltip label={t('Common.Remove')}>
+            <IconButton
+              variant={'deleteIconBtn'}
+              aria-label={t('Common.Remove')}
+              onClick={onDelete}
+              icon={<i className="ri-close-line" />}
+            />
+          </Tooltip>
+        )}
       </GridItem>
     </>
   );
