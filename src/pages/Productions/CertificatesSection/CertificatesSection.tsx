@@ -11,9 +11,10 @@ import { useEffect } from 'react';
 
 type Props = {
   defaultValues?: ProductionCertificateDto[];
+  disableEdit?: boolean;
 };
 
-const CertificateSection = ({ defaultValues }: Props) => {
+const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
   const { t } = useTranslation();
   const { control, setValue, getValues } = useFormContext();
   const fieldName = 'productionCertificates';
@@ -39,7 +40,8 @@ const CertificateSection = ({ defaultValues }: Props) => {
 
   const showAddButton =
     unselectedOptions?.length &&
-    fields?.length < (certificateCodes?.length ?? 0);
+    fields?.length < (certificateCodes?.length ?? 0) &&
+    !disableEdit;
 
   return (
     <VStack align={'start'} gap={SPACE.SM} pt={SPACE.XL}>
@@ -59,6 +61,7 @@ const CertificateSection = ({ defaultValues }: Props) => {
               unselectedOptions={unselectedOptions as SelectOption[]}
               onDelete={() => remove(index)}
               defaultValues={defaultValues?.find(d => d.id === field.id)}
+              disableEdit={disableEdit}
             />
           );
         })}

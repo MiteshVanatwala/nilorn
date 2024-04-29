@@ -80,6 +80,7 @@ const EditProduction = ({ productionId }: Props) => {
     return newProduction as ProductionDto;
   }, [productionExt]);
 
+  const [disableEdit, setDisableEdit] = useState<boolean>(false);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
     undefined,
@@ -90,6 +91,15 @@ const EditProduction = ({ productionId }: Props) => {
     !productionExt?.released
   );
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    setDisableEdit(
+      production?.released ||
+        (productDevelopmentDataDto?.status
+          ? isClosed(productDevelopmentDataDto?.status!!)
+          : false)
+    );
+  }, [productDevelopmentDataDto?.status, production?.released]);
 
   useEffect(() => {
     setDisableEdit(
@@ -177,6 +187,7 @@ const EditProduction = ({ productionId }: Props) => {
             />
             <CertificateSection
               defaultValues={productionExt?.productionCertificates ?? undefined}
+              disableEdit={disableEdit}
             />
             <CompositionMaterialSection
               defaultValues={productionExt?.compositions ?? []}
