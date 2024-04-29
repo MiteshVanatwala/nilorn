@@ -3,7 +3,8 @@ import { SelectOption } from '../../../app/types/types';
 import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
 import InputField from '../../../components/Form/InputField';
 import SelectBase from '../../../components/Form/SelectBase';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import ControlWrapper from '../../../components/Form/ControlWrapper';
 
 type Props = {
   options: SelectOption[];
@@ -23,7 +24,11 @@ const CompositionMaterialRow = ({
   disableEdit,
 }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    control,
+    formState: { errors },
+  } = useFormContext();
   const materialName = `${fieldName}.${index}.compositionMaterialCode`;
   const percentName = `${fieldName}.${index}.quantity`;
 
@@ -38,14 +43,23 @@ const CompositionMaterialRow = ({
     <>
       <GridItem>
         {options && (
-          <SelectBase
-            isSearchable
-            name={materialName}
-            options={unSelectedOptions}
-            onChange={onChangeMaterial}
-            value={options.find(opt => opt.value === selectedMaterial)}
-            readOnly={disableEdit}
-          />
+          <ControlWrapper name={materialName} errors={errors}>
+            <Controller
+              name={materialName}
+              control={control}
+              rules={{ required: true }}
+              render={() => (
+                <SelectBase
+                  isSearchable
+                  name={materialName}
+                  options={unSelectedOptions}
+                  onChange={onChangeMaterial}
+                  value={options.find(opt => opt.value === selectedMaterial)}
+                  readOnly={disableEdit}
+                />
+              )}
+            />
+          </ControlWrapper>
         )}
       </GridItem>
       <GridItem>
