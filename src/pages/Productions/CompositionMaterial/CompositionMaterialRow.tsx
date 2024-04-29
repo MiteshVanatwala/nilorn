@@ -49,7 +49,7 @@ const CompositionMaterialRow = ({
         <InputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
-          type="number"
+          type="decimal"
           min={0}
           max={100}
           registerOptions={{
