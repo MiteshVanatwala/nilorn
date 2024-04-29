@@ -2,13 +2,14 @@ import { useTranslation } from 'react-i18next';
 import InputField from '../../../components/Form/InputField';
 import { SelectOption } from '../../../app/types/types';
 import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import {
   useCertificateCategories,
   useCertificateClasses,
 } from '../../../app/api/production';
 import { ProductionCertificateDto } from '../../../app/generate';
 import SelectBase from '../../../components/Form/SelectBase';
+import ControlWrapper from '../../../components/Form/ControlWrapper';
 
 type Props = {
   options: SelectOption[];
@@ -17,6 +18,7 @@ type Props = {
   index: number;
   onDelete: () => void;
   defaultValues?: ProductionCertificateDto;
+  disableEdit?: boolean;
 };
 
 const CertificateInputRow = ({
@@ -25,9 +27,15 @@ const CertificateInputRow = ({
   options,
   unselectedOptions,
   onDelete,
+  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   const certificateCodeName = `${fieldName}.${index}.certificateCode`;
   const certificateCategoryName = `${fieldName}.${index}.certificateCategoryCode`;
   const certificateClassName = `${fieldName}.${index}.certificateClassCode`;
@@ -66,13 +74,25 @@ const CertificateInputRow = ({
     <>
       <GridItem>
         {options && (
-          <SelectBase
-            isSearchable
-            name={certificateCodeName}
-            options={unselectedOptions}
-            onChange={onChangeCode}
-            value={options.find(opt => opt.value === selectedCertificateCode)}
-          />
+          <ControlWrapper name={certificateCodeName} errors={errors}>
+            <Controller
+              name={certificateCodeName}
+              control={control}
+              rules={{ required: true }}
+              render={() => (
+                <SelectBase
+                  isSearchable
+                  name={certificateCodeName}
+                  options={unselectedOptions}
+                  onChange={onChangeCode}
+                  value={options.find(
+                    opt => opt.value === selectedCertificateCode
+                  )}
+                  readOnly={disableEdit}
+                />
+              )}
+            />
+          </ControlWrapper>
         )}
       </GridItem>
       <GridItem>
@@ -83,6 +103,7 @@ const CertificateInputRow = ({
             options={categoryOptions}
             onChange={onChangeCategory}
             value={categoryOptions?.find(opt => opt.value === selectedCategory)}
+            readOnly={disableEdit}
           />
         )}
       </GridItem>
@@ -94,6 +115,7 @@ const CertificateInputRow = ({
             options={classOptions}
             onChange={onChangeClass}
             value={classOptions?.find(opt => opt.value === selectedClass)}
+            readOnly={disableEdit}
           />
         )}
       </GridItem>
@@ -116,6 +138,7 @@ const CertificateInputRow = ({
                 message: `${t('Production.Feedback.Error.Percentage')}`,
               },
             }}
+            readonly={disableEdit}
           />
         )}
       </GridItem>
@@ -123,22 +146,25 @@ const CertificateInputRow = ({
         {!!selectedCertificateCode && (
           <InputField
             name={certificateWeightName}
-            type="number"
+            type="decimal"
             registerOptions={{
               valueAsNumber: true,
             }}
+            readonly={disableEdit}
           />
         )}
       </GridItem>
       <GridItem>
-        <Tooltip label={t('Common.Remove')}>
-          <IconButton
-            variant={'deleteIconBtn'}
-            aria-label={t('Common.Remove')}
-            onClick={onDelete}
-            icon={<i className="ri-close-line" />}
-          />
-        </Tooltip>
+        {!disableEdit && (
+          <Tooltip label={t('Common.Remove')}>
+            <IconButton
+              variant={'deleteIconBtn'}
+              aria-label={t('Common.Remove')}
+              onClick={onDelete}
+              icon={<i className="ri-close-line" />}
+            />
+          </Tooltip>
+        )}
       </GridItem>
     </>
   );
