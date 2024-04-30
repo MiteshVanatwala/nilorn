@@ -6,7 +6,7 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryClient } from 'react-query';
 const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 const ProductDevelopmentFilter = lazy(
-  () => import('../../components/Filter/ProductDevelopmentFilter')
+  () => import('./ProductDevelopmentFilter')
 );
 
 function Overview() {

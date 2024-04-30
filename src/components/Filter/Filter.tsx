@@ -3,11 +3,11 @@ import { GRID, SPACE } from '../../theme/Constants';
 import InputSearch from '../Form/InputSearch';
 import { useTranslation } from 'react-i18next';
 import InputSwitch from './InputSwitch';
-import { SelectOption } from '../../app/types/types';
+import { FilterInput } from '../../app/types/types';
 
 type Props = {
   hasSearch?: boolean;
-  filterInputs: SelectOption<any>[];
+  filterInputs: FilterInput[];
   wideFilter?: boolean;
 };
 

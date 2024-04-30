@@ -13,11 +13,7 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react';
-import {
-  SelectOption,
-  FilterInput as AdvanceFilterType,
-  FilterInput,
-} from '../../app/types/types';
+import { SelectOption, FilterInput } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import InputSwitch from './InputSwitch';
@@ -26,7 +22,7 @@ import AdvanceFilterSelect from './AdvanceFilterSelect';
 import FilterSwitch from './FilterSwitch';
 
 type Props = {
-  filters: SelectOption<FilterInput>[];
+  filters: FilterInput[];
   wideFilter?: boolean;
   hideIncludeClosed?: boolean;
 };
@@ -39,12 +35,12 @@ const AdvanceFilter = ({
   const { t } = useTranslation();
   const { unregister, getValues } = useFormContext();
   const [selected, setSelected] = useState<
-    MultiValue<SelectOption<AdvanceFilterType>>
+    MultiValue<SelectOption<FilterInput>>
   >([]);
 
   const handleSelect = (
-    selectedOption: MultiValue<SelectOption<AdvanceFilterType>> | undefined,
-    actionMeta: ActionMeta<SelectOption<AdvanceFilterType>>
+    selectedOption: MultiValue<SelectOption<FilterInput>> | undefined,
+    actionMeta: ActionMeta<SelectOption<FilterInput>>
   ) => {
     if (actionMeta.action === 'clear') {
       selected.map(s => unregister(s.value.name));
@@ -68,14 +64,12 @@ const AdvanceFilter = ({
 
     Object.entries(getValues()).forEach(([key, value]) => {
       filters?.forEach(filterItem => {
-        if (
-          filterItem &&
-          'value' in filterItem &&
-          filterItem.value &&
-          filterItem.value.name === key
-        ) {
+        if (filterItem && filterItem.name === key) {
           if (filterItem !== undefined) {
-            activeAdvancedFilterArr.push(filterItem);
+            activeAdvancedFilterArr.push({
+              label: t(`PD.FilterLabel.${filterItem.name}`),
+              value: filterItem,
+            });
           }
         }
       });
@@ -83,7 +77,7 @@ const AdvanceFilter = ({
     if (activeAdvancedFilterArr.length) {
       setSelected(activeAdvancedFilterArr);
     }
-  }, [getValues, filters]);
+  }, [getValues, filters, t]);
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
@@ -123,7 +117,12 @@ const AdvanceFilter = ({
             <GridItem colSpan={2} zIndex={9}>
               <AdvanceFilterSelect
                 name={'ov-advance'}
-                options={filters}
+                options={filters.map(f => {
+                  return {
+                    label: t(`PD.FilterLabel.${f.name}`),
+                    value: f,
+                  } as SelectOption;
+                })}
                 value={selected}
                 onChange={(option, event) => {
                   handleSelect(option, event);
@@ -168,7 +167,7 @@ const AdvanceFilter = ({
                   icon={<i className="ri-close-line" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
-                <InputSwitch option={so} />
+                <InputSwitch option={so.value} />
               </GridItem>
             ))}
           </Grid>

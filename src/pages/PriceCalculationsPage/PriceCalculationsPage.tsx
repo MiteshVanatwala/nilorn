@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { PaginationProvider } from '../../app/context/PaginationProvider';
 import FormuQuerySubmit from '../../components/Form/FormQuerySubmit';
-import ProductionsFilter from '../Productions/ProductionsFilter';
 import ContentPage from '../Templates/ContentPage';
 import PriceCalculationsTableContainer from './PriceCalculationsTableContainer';
 import { useQueryClient } from 'react-query';
 import { useEffect } from 'react';
 import QueryKeysEnum from '../../app/api/queryKeys';
+import PriceCalculationsFilter from './PriceCalculationsFilter';
 
 function PriceCalculationsPage() {
   const form = useForm();
@@ -21,7 +21,7 @@ function PriceCalculationsPage() {
     <ContentPage>
       <PaginationProvider>
         <FormuQuerySubmit form={form}>
-          <ProductionsFilter /> {/** TODO Make own filter */}
+          <PriceCalculationsFilter />
           <PriceCalculationsTableContainer />
         </FormuQuerySubmit>
       </PaginationProvider>
