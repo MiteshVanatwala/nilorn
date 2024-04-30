@@ -23,7 +23,9 @@ export type FilterKeys =
   | 'members'
   | 'includeClosed'
   | 'ActiveSearchProfile'
-  | 'productDevelopments';
+  | 'productDevelopments'
+  | 'certificates'
+  | 'indirectCost';
 
 export interface FormInputProps {
   name: string;

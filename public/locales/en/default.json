@@ -165,10 +165,12 @@
       "vendor": "Vendor",
       "stockLocation": "Stock Location",
       "opComp": "Operational Company",
-      "Members": "Members",
+      "members": "Members",
       "sourcingCompanies": "Sourcing",
       "productDevelopments_short": "Product Development No.",
-      "productDevelopments": "Product Development Number"
+      "productDevelopments": "Product Development Number",
+      "certificates": "Certificates",
+      "indirectCost": "Indirect Cost"
     },
     "Feedback": {
       "Success": {
