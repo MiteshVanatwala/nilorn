@@ -66,7 +66,7 @@ const menuButton = defineStyle({
 });
 
 const textBtn = defineStyle({
-  ...text.variants.bodyRegular,
+  ...text.variants.bodyBold,
   color: COLORS.BLACK,
   padding: '0',
   borderRadius: 'none',

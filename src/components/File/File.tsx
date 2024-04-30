@@ -6,7 +6,7 @@ import {
   Tooltip,
   Flex,
   Spinner,
-  Button,
+  Link,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
@@ -14,7 +14,6 @@ import { MediaFileDto } from '../../app/generate';
 import { useDeleteMediaFile, useDownloadFile } from '../../app/api/mediaFile';
 import ConfirmModal from '../Modal/ConfirmModal';
 import { useModal } from '../../app/hooks/useModal';
-import { error } from 'console';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -50,14 +49,6 @@ export const File = ({
     }
   }
 
-  async function download() {
-    downloadFile();
-  }
-
-  async function preview() {
-    alert(`preview ${file.name}`);
-  }
-
   return (
     <HStack justifyContent={'space-between'}>
       <Tooltip
@@ -75,17 +66,15 @@ export const File = ({
               <>{icon}</>
             )}
           </Box>
-          <Text
-            noOfLines={1}
-            color={status === 'error' ? COLORS.ERROR : 'inherit'}>
-            <>
-              {status === 'error' ? (
-                t('PD.FailToUpload')
-              ) : (
-                <Button variant={'textBtn'}>{file.name ?? ''}</Button>
-              )}
-            </>
-          </Text>
+          {status === 'error' ? (
+            <Text noOfLines={1} color={COLORS.ERROR}>
+              {t('PD.FailToUpload')}
+            </Text>
+          ) : (
+            <Link target="_blank" href={`${file?.webUrl}`} noOfLines={1}>
+              <>{file.name ?? ''}</>
+            </Link>
+          )}
         </Flex>
       </Tooltip>
       {status === 'loading' && <Spinner />}
@@ -95,7 +84,7 @@ export const File = ({
             <IconButton
               variant={'iconBtn'}
               aria-label={t('Common.Download')}
-              onClick={download}
+              onClick={downloadFile}
               isLoading={isDownloading}
               disabled={isDeleting}
               icon={<i className="ri-download-line" />}
@@ -116,7 +105,7 @@ export const File = ({
                       title={t('PD.DeleteTitle')}
                       description={t('PD.DeleteFile', { name: file.name })}
                       confirmType="DELETE"
-                      onConfirm={() => removeFile()}
+                      onConfirm={removeFile}
                     />
                   )
                 }

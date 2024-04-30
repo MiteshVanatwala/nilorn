@@ -80,6 +80,7 @@ export function useAttachments(no: string) {
     {
       retry: 0,
       keepPreviousData: false,
+      refetchOnWindowFocus: false,
     }
   );
 }
