@@ -90,16 +90,6 @@ const EditProduction = ({ productionId }: Props) => {
   const { mutate: updateProduction } = usePatchProduction(
     !productionExt?.released
   );
-  const [disableEdit, setDisableEdit] = useState<boolean>(false);
-
-  useEffect(() => {
-    setDisableEdit(
-      production?.released ||
-        (productDevelopmentDataDto?.status
-          ? isClosed(productDevelopmentDataDto?.status!!)
-          : false)
-    );
-  }, [productDevelopmentDataDto?.status, production?.released]);
 
   useEffect(() => {
     setDisableEdit(
