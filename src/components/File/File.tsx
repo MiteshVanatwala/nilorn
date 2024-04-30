@@ -6,6 +6,7 @@ import {
   Tooltip,
   Flex,
   Spinner,
+  Button,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
@@ -13,6 +14,7 @@ import { MediaFileDto } from '../../app/generate';
 import { useDeleteMediaFile, useDownloadFile } from '../../app/api/mediaFile';
 import ConfirmModal from '../Modal/ConfirmModal';
 import { useModal } from '../../app/hooks/useModal';
+import { error } from 'console';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -58,7 +60,8 @@ export const File = ({
 
   return (
     <HStack justifyContent={'space-between'}>
-      <Tooltip label={file.name ?? ''}>
+      <Tooltip
+        label={`${status === 'success' && t('Common.Preview')} ${file.name}`}>
         <Flex>
           <Box mr={SPACE.XS} display={'inline-block'}>
             {status === 'error' ? (
@@ -75,23 +78,19 @@ export const File = ({
           <Text
             noOfLines={1}
             color={status === 'error' ? COLORS.ERROR : 'inherit'}>
-            {status === 'error' && <>{t('PD.FailToUpload')}</>}
-            {file.name ?? ''}
+            <>
+              {status === 'error' ? (
+                t('PD.FailToUpload')
+              ) : (
+                <Button variant={'textBtn'}>{file.name ?? ''}</Button>
+              )}
+            </>
           </Text>
         </Flex>
       </Tooltip>
       {status === 'loading' && <Spinner />}
       {status === 'success' && (
-        <Box minW={'8rem'}>
-          <Tooltip label={t('Common.Preview')}>
-            <IconButton
-              variant={'iconBtn'}
-              aria-label={t('Common.Preview')}
-              onClick={preview}
-              disabled={isDeleting}
-              icon={<i className="ri-eye-line" />}
-            />
-          </Tooltip>
+        <Box minW={'5rem'}>
           <Tooltip label={t('Common.Download')}>
             <IconButton
               variant={'iconBtn'}

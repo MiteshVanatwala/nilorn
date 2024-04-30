@@ -10,6 +10,7 @@ import type { Status } from './Status';
 export type UpdateProductDevelopmentDto = {
     name?: string | null;
     description?: string | null;
+    versionSpecification?: string | null;
     itemNo?: string | null;
     itemCategoryCode?: string | null;
     productGroupCode?: string | null;

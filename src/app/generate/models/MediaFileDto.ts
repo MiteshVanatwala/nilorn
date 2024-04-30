@@ -6,4 +6,5 @@
 export type MediaFileDto = {
     name?: string | null;
     id?: string;
+    webUrl?: string | null;
 };

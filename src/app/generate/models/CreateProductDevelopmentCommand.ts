@@ -8,6 +8,7 @@ import type { SourcingDto } from './SourcingDto';
 export type CreateProductDevelopmentCommand = {
     name?: string | null;
     description?: string | null;
+    versionSpecification?: string | null;
     itemNo?: string | null;
     projectCode?: string | null;
     itemCategoryCode?: string | null;

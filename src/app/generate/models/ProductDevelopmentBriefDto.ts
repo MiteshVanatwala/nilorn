@@ -10,6 +10,7 @@ export type ProductDevelopmentBriefDto = {
     no?: string | null;
     thumbnailData?: string | null;
     name?: string | null;
+    versionSpecification?: string | null;
     status?: Status;
     versions?: number;
     artwork?: MediaFileDto;
