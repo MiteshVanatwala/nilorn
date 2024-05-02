@@ -8,15 +8,15 @@ const allFilters: FilterInput[] = [
   { type: 'select', name: 'itemCategories' },
   { type: 'select', name: 'productGroups' },
   { type: 'select', name: 'foldingTypes' },
-  { type: 'text', name: 'finishedLengths' },
-  { type: 'text', name: 'finishedWidths' },
-  { type: 'text', name: 'finishedHeights' },
+  { type: 'number', name: 'finishedLengths' },
+  { type: 'number', name: 'finishedWidths' },
+  { type: 'number', name: 'finishedHeights' },
   { type: 'select', name: 'vendor' },
   { type: 'select', name: 'opComp' },
   { type: 'select', name: 'sourcingCompanies' },
   { type: 'select', name: 'members' },
   { type: 'select', name: 'certificates' },
-  { type: 'text', name: 'indirectCost' },
+  { type: 'number', name: 'indirectCost' },
 ];
 
 export const useFilterList = (

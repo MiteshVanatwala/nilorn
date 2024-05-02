@@ -38,6 +38,16 @@ const InputSwitch = ({ option }: Props) => {
           options={options}
         />
       );
+    case 'number':
+      return (
+        <InputField
+          label={optionLabel}
+          placeholder={`${t('Filter.Enter')} ${optionLabel}`}
+          type="decimal"
+          variant="filled"
+          name={optionValueName}
+        />
+      );
   }
 };
 

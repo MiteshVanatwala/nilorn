@@ -48,7 +48,7 @@ export type SelectOption<T = any> = {
 };
 
 export type FilterInput = {
-  type: 'select' | 'text';
+  type: 'select' | 'text' | 'number';
   name: FilterKeys;
 };
 
