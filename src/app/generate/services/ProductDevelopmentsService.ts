@@ -20,6 +20,7 @@ export class ProductDevelopmentsService {
      * @param pageSize 
      * @param sortKey 
      * @param searchQuery 
+     * @param productDevelopments 
      * @param clients 
      * @param projects 
      * @param statuses 
@@ -42,6 +43,7 @@ pageNumber?: number,
 pageSize?: number,
 sortKey?: string,
 searchQuery?: string,
+productDevelopments?: string,
 clients?: string,
 projects?: string,
 statuses?: string,
@@ -65,6 +67,7 @@ includeClosed?: boolean,
                 'PageSize': pageSize,
                 'SortKey': sortKey,
                 'SearchQuery': searchQuery,
+                'ProductDevelopments': productDevelopments,
                 'Clients': clients,
                 'Projects': projects,
                 'Statuses': statuses,
@@ -87,6 +90,7 @@ includeClosed?: boolean,
      * @param productDevelopmentNo 
      * @param sortKey 
      * @param searchQuery 
+     * @param productDevelopments 
      * @param clients 
      * @param projects 
      * @param statuses 
@@ -108,6 +112,7 @@ includeClosed?: boolean,
 productDevelopmentNo?: string,
 sortKey?: string,
 searchQuery?: string,
+productDevelopments?: string,
 clients?: string,
 projects?: string,
 statuses?: string,
@@ -130,6 +135,7 @@ includeClosed?: boolean,
                 'ProductDevelopmentNo': productDevelopmentNo,
                 'SortKey': sortKey,
                 'SearchQuery': searchQuery,
+                'ProductDevelopments': productDevelopments,
                 'Clients': clients,
                 'Projects': projects,
                 'Statuses': statuses,

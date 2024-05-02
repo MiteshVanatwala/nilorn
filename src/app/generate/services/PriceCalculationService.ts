@@ -103,6 +103,7 @@ requestBody?: UpdateSalesPriceCommand,
      * @param productDevelopmentNo 
      * @param sourcingCompanycode 
      * @param vendorId 
+     * @param purchaseCurrency 
      * @returns DefaultPriceCalculationDto Success
      * @throws ApiError
      */
@@ -110,6 +111,7 @@ requestBody?: UpdateSalesPriceCommand,
 productDevelopmentNo?: string,
 sourcingCompanycode?: string,
 vendorId?: string,
+purchaseCurrency?: string,
 ): CancelablePromise<DefaultPriceCalculationDto> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -118,6 +120,7 @@ vendorId?: string,
                 'ProductDevelopmentNo': productDevelopmentNo,
                 'SourcingCompanycode': sourcingCompanycode,
                 'VendorId': vendorId,
+                'PurchaseCurrency': purchaseCurrency,
             },
         });
     }
