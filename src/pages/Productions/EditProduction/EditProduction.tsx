@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Skeleton } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
@@ -171,22 +171,29 @@ const EditProduction = ({ productionId }: Props) => {
                 />
               }
             />
-
-            <EditProductionFormContent
-              productDevelopment={productDevelopmentDataDto}
-              createNew={false}
-              production={production}
-              showChanges={showChanges}
-              disableEdit={disableEdit}
-            />
-            <CertificateSection
-              defaultValues={productionExt?.productionCertificates ?? undefined}
-              disableEdit={disableEdit}
-            />
-            <CompositionMaterialSection
-              defaultValues={productionExt?.compositions ?? []}
-              disableEdit={disableEdit}
-            />
+            <Skeleton isLoaded={!isLoading && !isRefetching}>
+              <EditProductionFormContent
+                productDevelopment={productDevelopmentDataDto}
+                createNew={false}
+                production={production}
+                showChanges={showChanges}
+                disableEdit={disableEdit}
+              />
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading && !isRefetching}>
+              <CertificateSection
+                defaultValues={
+                  productionExt?.productionCertificates ?? undefined
+                }
+                disableEdit={disableEdit}
+              />
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading && !isRefetching}>
+              <CompositionMaterialSection
+                defaultValues={productionExt?.compositions ?? []}
+                disableEdit={disableEdit}
+              />
+            </Skeleton>
           </form>
         </FormProvider>
         <HStack justify={'space-between'} py={SPACE.XL}>
