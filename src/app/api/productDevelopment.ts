@@ -143,6 +143,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
   const {
     sortKey,
     searchQuery,
+    productDevelopments,
     clients,
     projects,
     statuses,
@@ -171,6 +172,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
         no,
         sortKey,
         searchQuery,
+        productDevelopments,
         clients,
         projects,
         statuses,

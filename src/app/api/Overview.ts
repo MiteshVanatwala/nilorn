@@ -13,6 +13,7 @@ export function useProductDevelopmentsFilter() {
   const pageSize = useFilterFormSearchParams('pageSize') ? currentPageSize : 25;
   const sortKey = useFilterFormSearchParams('sortKey');
   const searchQuery = useFilterFormSearchParams('searchQuery', 400);
+  const productDevelopments = useFilterFormSearchParams('productDevelopments');
   const clients = useFilterFormSearchParams('clients');
   const projects = useFilterFormSearchParams('projects');
   const statuses = useFilterFormSearchParams('statuses');
@@ -35,6 +36,7 @@ export function useProductDevelopmentsFilter() {
       pageSize,
       sortKey,
       searchQuery,
+      productDevelopments,
       clients,
       projects,
       statuses,
@@ -56,6 +58,7 @@ export function useProductDevelopmentsFilter() {
         pageSize,
         sortKey,
         searchQuery,
+        productDevelopments,
         clients,
         projects,
         statuses,
@@ -66,8 +69,8 @@ export function useProductDevelopmentsFilter() {
         finishedWidths,
         finishedHeights,
         sourcingCompanies,
-        vendors,
         // @ts-ignore // more the 15 props
+        vendors,
         opComps,
         members,
         !!includeClosed
