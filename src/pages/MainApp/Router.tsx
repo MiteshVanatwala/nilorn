@@ -8,6 +8,7 @@ import SigninOidc from '../Auth/SigninOidc';
 import ProductionsPage from '../Productions/ProductionsPage';
 import NotFoundPage from '../NotFound/NotFoundPage';
 import PriceCalculationsPage from '../PriceCalculationsPage/PriceCalculationsPage';
+import SignoutOidc from '../Auth/SignoutOidc';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
         errorElement: <RouteError />,
         children: [
           { path: 'signin-oidc', element: <SigninOidc /> },
+          { path: 'signout-oidc', element: <SignoutOidc /> },
           { element: <HomePage />, index: true },
           {
             path: 'product-development/:no',
