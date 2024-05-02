@@ -62,7 +62,7 @@ const AdvanceFilter = ({
   useEffect(() => {
     const activeAdvancedFilterArr: SelectOption[] = [];
 
-    Object.entries(getValues()).forEach(([key, value]) => {
+    Object.entries(getValues()).forEach(([key]) => {
       filters?.forEach(filterItem => {
         if (filterItem && filterItem.name === key) {
           if (filterItem !== undefined) {

@@ -14,30 +14,27 @@ const InputSwitch = ({ option }: Props) => {
   const { t } = useTranslation();
   const form = useFormContext();
 
-  const optionLabel = t(`PD.FilterLabel.${option.name}`);
-  const optionValueName = option.name;
+  const { name, type } = option || {};
+  const optionLabel = t(`PD.FilterLabel.${name}`);
 
-  const options = useFilterOptions(option.name);
+  const options = useFilterOptions(name);
 
-  switch (option.type) {
+  switch (type) {
     case 'text':
       return (
         <InputField
           label={optionLabel}
           placeholder={`${t('Filter.Enter')} ${optionLabel}`}
           variant="filled"
-          name={optionValueName}
+          name={name}
         />
       );
     case 'select':
       return (
         <FilterSelect
           label={optionLabel}
-          name={optionValueName}
-          defaultValue={findMultiDefaultValues(
-            options,
-            form.getValues(optionValueName)
-          )}
+          name={name}
+          defaultValue={findMultiDefaultValues(options, form.getValues(name))}
           options={options}
         />
       );
