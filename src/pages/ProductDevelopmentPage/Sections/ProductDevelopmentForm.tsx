@@ -123,6 +123,7 @@ function ProductDevelopmentForm({
                 <Accordion
                   variant={'card'}
                   defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
+                  marginBottom={SPACE.XXL}
                   allowMultiple>
                   <GeneralSection
                     createNew={createNew}

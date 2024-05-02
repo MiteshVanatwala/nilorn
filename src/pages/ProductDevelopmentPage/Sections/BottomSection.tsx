@@ -19,7 +19,7 @@ const BottomSection = ({ no }: Props) => {
       bottom={0}
       left={0}
       right={0}
-      zIndex={99}
+      zIndex={1}
       borderTop={`solid 1px ${COLORS.GRAY[10]}`}>
       <ContentSection>
         <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>

@@ -12,6 +12,7 @@ import { useToast } from '../hooks/useToast';
 import { useNavigate } from 'react-router';
 import { SESSION_STORAGE } from '../utils/constant';
 import { parseSearchParams } from '../utils/FilterHelper';
+import { useBackInfo } from '../hooks/useBackInfo';
 
 export const useCreateProductDevelopment = () => {
   const { t } = useTranslation();
@@ -134,9 +135,9 @@ export const useMembers = (no: string) => {
 };
 
 export const useProductDevelopmentNavigation = (no: string) => {
-  const filterPath = sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview);
+  const { backInfo } = useBackInfo();
 
-  const parsedParams = parseSearchParams(filterPath ?? '');
+  const parsedParams = parseSearchParams(backInfo?.filter ?? '');
 
   // Extract parameters
   const {
@@ -163,7 +164,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
       QueryKeysEnum.ProductDevelopment,
       QueryKeysEnum.Navigation,
       no,
-      filterPath,
+      backInfo?.filter,
     ],
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
@@ -187,7 +188,9 @@ export const useProductDevelopmentNavigation = (no: string) => {
       ).then(res => res),
     {
       retry: 0,
-      enabled: no !== '',
+      enabled: no !== '' || !!backInfo,
+      cacheTime: 100,
+      staleTime: 100,
     }
   );
 };
