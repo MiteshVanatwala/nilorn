@@ -45,7 +45,7 @@ const InputSwitch = ({ option }: Props) => {
           placeholder={`${t('Filter.Enter')} ${optionLabel}`}
           type="decimal"
           variant="filled"
-          name={optionValueName}
+          name={name}
         />
       );
   }
