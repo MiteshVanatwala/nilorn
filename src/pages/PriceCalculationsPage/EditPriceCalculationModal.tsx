@@ -147,7 +147,8 @@ const EditPriceCalculationModal = ({
                 />
               }
             />
-            <Skeleton isLoaded={!!priceCalculation}>
+            <Skeleton
+              isLoaded={!!priceCalculation && !isLoading && !isRefetching}>
               <PriceCalculationForm
                 calculation={priceCalculation}
                 currency={priceCalculation?.currency ?? undefined}
