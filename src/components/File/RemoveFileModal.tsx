@@ -43,7 +43,7 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
       <ModalBody>
         <ModalHeading mb={'0'} textAlign="center" title={t('PD.DeleteTitle')} />
         <ModalBody px={0}>
-          <Text textAlign={'center'}>{t('PD.DeleteFile')}</Text>
+          <Text textAlign={'center'}>{t('PD.File.DeleteFile')}</Text>
         </ModalBody>
         <ModalFooter justifyContent={'center'}>
           <HStack spacing={SPACE.LG} marginTop={SPACE.MD}>

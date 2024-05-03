@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { isClosed } from '../../app/utils/status';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
@@ -20,6 +22,7 @@ type Props = {
 };
 
 const OverviewTable = ({ data, sortState, setSortState }: Props) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const columns = useOverviewColumns();
 
@@ -48,6 +51,13 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     );
     navigate(url);
   };
+
+  const handelUpload = (file: File, no: string | null | undefined) => {
+    if (!!no) {
+      console.log('Upload file: ', file, ' to PD: ', no);
+    }
+  };
+
   return (
     <Table>
       <Thead position={'sticky'} top={0}>
@@ -64,6 +74,14 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
               row={row}
               id={rowNo}
               bgColor={bgColor}
+              tooltipMsg={t('PD.File.DragDropArtwork', {
+                no: (row.original as ProductDevelopmentBriefDto).no,
+              })}
+              onUpload={
+                row.original?.status && !isClosed(row.original?.status)
+                  ? (file: File) => handelUpload(file, row.original?.no)
+                  : undefined
+              }
               onClick={e =>
                 handleClick(e, `product-development/${row.original.no}`, rowNo)
               }
