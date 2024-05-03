@@ -14,6 +14,9 @@ import { MediaFileDto } from '../../app/generate';
 import { useDeleteMediaFile, useDownloadFile } from '../../app/api/mediaFile';
 import ConfirmModal from '../Modal/ConfirmModal';
 import { useModal } from '../../app/hooks/useModal';
+import RemoveFileModal from './RemoveFileModal';
+import { useRef, useCallback } from 'react';
+import { ModalRef } from '../Modal/IsolatedModal';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -31,23 +34,20 @@ export const File = ({
 }: Props) => {
   const id: string = file.id ?? '';
   const { t } = useTranslation();
-  const { handleModal, close } = useModal();
-
-  const { mutateAsync: deleteFile, isLoading: isDeleting } =
-    useDeleteMediaFile(id);
+  const modalRef = useRef<ModalRef>(null);
 
   const { downloadFile, isLoading: isDownloading } = useDownloadFile(
     id,
     file.name ?? ''
   );
 
-  async function removeFile() {
-    const res = await deleteFile();
-    if (res) {
-      close();
-      onRemove && onRemove(id);
-    }
-  }
+  const openDeleteModal = () => {
+    modalRef.current?.onOpen();
+  };
+
+  const removeFile = (id: string) => {
+    onRemove && onRemove(id);
+  };
 
   return (
     <HStack justifyContent={'space-between'}>
@@ -86,34 +86,24 @@ export const File = ({
               aria-label={t('Common.Download')}
               onClick={downloadFile}
               isLoading={isDownloading}
-              disabled={isDeleting}
               icon={<i className="ri-download-line" />}
             />
           </Tooltip>
           {onRemove && (
             <Tooltip label={t('Common.Remove')}>
               <IconButton
-                isLoading={isDeleting}
                 disabled={isDownloading}
                 variant={'deleteIconBtn'}
                 aria-label={t('Common.Remove')}
                 icon={<i className={'ri-close-line'} />}
                 mr={0}
-                onClick={() =>
-                  handleModal(
-                    <ConfirmModal
-                      title={t('PD.DeleteTitle')}
-                      description={t('PD.DeleteFile', { name: file.name })}
-                      confirmType="DELETE"
-                      onConfirm={removeFile}
-                    />
-                  )
-                }
+                onClick={openDeleteModal}
               />
             </Tooltip>
           )}
         </Box>
       )}
+      <RemoveFileModal ref={modalRef} id={id} onRemove={removeFile} />
     </HStack>
   );
 };

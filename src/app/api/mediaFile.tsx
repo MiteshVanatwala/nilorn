@@ -23,7 +23,10 @@ export function useDeleteMediaFile(id: string) {
   const { showToast } = useToast();
 
   return useMutation(
-    () => MediaFileService.deleteApiMediaFile(id).then(res => res),
+    (keepInSharePoint?: boolean) =>
+      MediaFileService.deleteApiMediaFile(id, keepInSharePoint).then(
+        res => res
+      ),
     {
       onError: async (err: ApiError) => {
         showToast({
