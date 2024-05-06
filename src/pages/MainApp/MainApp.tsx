@@ -13,7 +13,7 @@ function MainApp() {
   const { t } = useTranslation();
   const { data: user, isError } = useCurrentUser();
 
-  const signOut = useSignOut();
+  const { signOut } = useSignOut();
 
   if (isError) {
     return (

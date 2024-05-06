@@ -6,11 +6,11 @@ import { useSignOut } from '../../app/hooks/useSignOut';
 const UserMenu = () => {
   const { t } = useTranslation();
 
-  const signOut = useSignOut();
+  const { signOutNavigate } = useSignOut();
 
   return (
     <HeaderMenu title={t('Menu.HypUser')}>
-      <HeaderMenuButton onClick={signOut}>
+      <HeaderMenuButton onClick={signOutNavigate}>
         <>{t('Menu.HypLogout')}</>
       </HeaderMenuButton>
     </HeaderMenu>
