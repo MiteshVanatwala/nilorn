@@ -14,11 +14,23 @@ export class ProductDevelopmentDeepService {
      * @param pageNumber 
      * @param pageSize 
      * @param includeCalculations 
+     * @param sortKey 
+     * @param searchQuery 
      * @param productDevelopments 
-     * @param vendors 
-     * @param sourcingCompanies 
      * @param clients 
      * @param projects 
+     * @param statuses 
+     * @param itemCategories 
+     * @param productGroups 
+     * @param foldingTypes 
+     * @param finishedLengths 
+     * @param finishedWidths 
+     * @param finishedHeights 
+     * @param sourcingCompanies 
+     * @param vendors 
+     * @param opComps 
+     * @param members 
+     * @param includeClosed 
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
      */
@@ -26,11 +38,23 @@ export class ProductDevelopmentDeepService {
 pageNumber?: number,
 pageSize?: number,
 includeCalculations?: boolean,
+sortKey?: string,
+searchQuery?: string,
 productDevelopments?: string,
-vendors?: string,
-sourcingCompanies?: string,
 clients?: string,
 projects?: string,
+statuses?: string,
+itemCategories?: string,
+productGroups?: string,
+foldingTypes?: string,
+finishedLengths?: string,
+finishedWidths?: string,
+finishedHeights?: string,
+sourcingCompanies?: string,
+vendors?: string,
+opComps?: string,
+members?: string,
+includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -39,11 +63,23 @@ projects?: string,
                 'PageNumber': pageNumber,
                 'PageSize': pageSize,
                 'IncludeCalculations': includeCalculations,
+                'SortKey': sortKey,
+                'SearchQuery': searchQuery,
                 'ProductDevelopments': productDevelopments,
-                'Vendors': vendors,
-                'SourcingCompanies': sourcingCompanies,
                 'Clients': clients,
                 'Projects': projects,
+                'Statuses': statuses,
+                'ItemCategories': itemCategories,
+                'ProductGroups': productGroups,
+                'FoldingTypes': foldingTypes,
+                'FinishedLengths': finishedLengths,
+                'FinishedWidths': finishedWidths,
+                'FinishedHeights': finishedHeights,
+                'SourcingCompanies': sourcingCompanies,
+                'Vendors': vendors,
+                'OpComps': opComps,
+                'Members': members,
+                'IncludeClosed': includeClosed,
             },
         });
     }

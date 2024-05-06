@@ -58,7 +58,8 @@ const CreatePriceCalculationModal = ({
   } = usePriceCalculationDefaultValues(
     productDevelopment?.no ?? '',
     sourcedProduction.sourcingCompanyCode ?? '',
-    production?.vendorId ?? ''
+    production?.vendorId ?? '',
+    production.currencyCode ?? ''
   );
   const margins =
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
