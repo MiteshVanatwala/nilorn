@@ -10,6 +10,7 @@ import NowrapText from '../../components/Text/NowrapText';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
 import ArtworkButton from '../../components/Button/ArtworkButton';
 import { Text, Tooltip } from '@chakra-ui/react';
+import CommentPopup from '../../components/CommentPopup/CommentPopup';
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -46,8 +47,15 @@ const useOverviewColumns = () => {
     columnHelper.accessor('versions', {
       header: `${t('PD.Version')}`,
       enableSorting: false,
-      cell: info =>
-        info.getValue() === 0 ? '' : (info.getValue() as number) + 1,
+      cell: info => {
+        const versions = info.getValue() as number;
+        return (
+          <CommentPopup
+            icon={<Text>{versions > 0 ? versions + 1 : <>TBD</>}</Text>}
+            comment={info.row.original?.versionSpecification ?? ''}
+          />
+        );
+      },
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,

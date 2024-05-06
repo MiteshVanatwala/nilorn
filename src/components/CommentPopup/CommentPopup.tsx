@@ -7,8 +7,9 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {
   comment?: string | null | undefined;
+  icon?: JSX.Element;
 };
-const CommentPopup = ({ comment }: Props) => {
+const CommentPopup = ({ comment, icon }: Props) => {
   const { t } = useTranslation();
   const [isDirty, setIsDirty] = useState(false);
 
@@ -31,11 +32,13 @@ const CommentPopup = ({ comment }: Props) => {
               padding={SPACE.SM}
               onMouseEnter={() => setIsDirty(true)}
               icon={
-                <Text
-                  as={'i'}
-                  fontSize={SIZES.ICON.MD}
-                  className="ri-message-2-line"
-                />
+                icon ?? (
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-message-2-line"
+                  />
+                )
               }
             />
           }
