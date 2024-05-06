@@ -25,7 +25,7 @@ export type FilterKeys =
   | 'ActiveSearchProfile'
   | 'productDevelopments'
   | 'certificates'
-  | 'indirectCost';
+  | 'indirectCosts';
 
 export interface FormInputProps {
   name: string;

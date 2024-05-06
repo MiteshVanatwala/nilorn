@@ -157,6 +157,8 @@ export const useProductDevelopmentNavigation = (no: string) => {
     vendors,
     opComps,
     members,
+    certificates,
+    indirectCosts,
     includeClosed,
   } = parsedParams;
 
@@ -170,6 +172,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
         no,
+        false,
         sortKey,
         searchQuery,
         productDevelopments,
@@ -186,6 +189,8 @@ export const useProductDevelopmentNavigation = (no: string) => {
         vendors,
         opComps,
         members,
+        certificates,
+        indirectCosts,
         !!includeClosed
       ).then(res => res),
     {

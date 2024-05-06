@@ -27,6 +27,8 @@ export function useProductDevelopmentsFilter() {
   const vendors = useFilterFormSearchParams('vendor');
   const opComps = useFilterFormSearchParams('opComp');
   const members = useFilterFormSearchParams('members');
+  const certificates = useFilterFormSearchParams('certificates');
+  const indirectCosts = useFilterFormSearchParams('indirectCosts');
   const includeClosed = useFilterFormSearchParams('includeClosed');
 
   return useQuery(
@@ -50,6 +52,8 @@ export function useProductDevelopmentsFilter() {
       vendors,
       opComps,
       members,
+      certificates,
+      indirectCosts,
       includeClosed,
     ],
     () =>
@@ -73,6 +77,8 @@ export function useProductDevelopmentsFilter() {
         vendors,
         opComps,
         members,
+        certificates,
+        indirectCosts,
         !!includeClosed
       ).then(res => res),
     {

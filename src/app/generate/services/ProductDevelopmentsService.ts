@@ -34,6 +34,8 @@ export class ProductDevelopmentsService {
      * @param vendors 
      * @param opComps 
      * @param members 
+     * @param certificates 
+     * @param indirectCosts 
      * @param includeClosed 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
@@ -57,6 +59,8 @@ sourcingCompanies?: string,
 vendors?: string,
 opComps?: string,
 members?: string,
+certificates?: string,
+indirectCosts?: string,
 includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
@@ -81,6 +85,8 @@ includeClosed?: boolean,
                 'Vendors': vendors,
                 'OpComps': opComps,
                 'Members': members,
+                'Certificates': certificates,
+                'IndirectCosts': indirectCosts,
                 'IncludeClosed': includeClosed,
             },
         });
@@ -88,6 +94,7 @@ includeClosed?: boolean,
 
     /**
      * @param productDevelopmentNo 
+     * @param includeOnlyWithSourcings 
      * @param sortKey 
      * @param searchQuery 
      * @param productDevelopments 
@@ -104,12 +111,15 @@ includeClosed?: boolean,
      * @param vendors 
      * @param opComps 
      * @param members 
+     * @param certificates 
+     * @param indirectCosts 
      * @param includeClosed 
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsNavigation(
 productDevelopmentNo?: string,
+includeOnlyWithSourcings?: boolean,
 sortKey?: string,
 searchQuery?: string,
 productDevelopments?: string,
@@ -126,6 +136,8 @@ sourcingCompanies?: string,
 vendors?: string,
 opComps?: string,
 members?: string,
+certificates?: string,
+indirectCosts?: string,
 includeClosed?: boolean,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
@@ -133,6 +145,7 @@ includeClosed?: boolean,
             url: '/api/ProductDevelopments/Navigation',
             query: {
                 'ProductDevelopmentNo': productDevelopmentNo,
+                'IncludeOnlyWithSourcings': includeOnlyWithSourcings,
                 'SortKey': sortKey,
                 'SearchQuery': searchQuery,
                 'ProductDevelopments': productDevelopments,
@@ -149,6 +162,8 @@ includeClosed?: boolean,
                 'Vendors': vendors,
                 'OpComps': opComps,
                 'Members': members,
+                'Certificates': certificates,
+                'IndirectCosts': indirectCosts,
                 'IncludeClosed': includeClosed,
             },
         });

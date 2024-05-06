@@ -16,7 +16,7 @@ const allFilters: FilterInput[] = [
   { type: 'select', name: 'sourcingCompanies' },
   { type: 'select', name: 'members' },
   { type: 'select', name: 'certificates' },
-  { type: 'number', name: 'indirectCost' },
+  { type: 'number', name: 'indirectCosts' },
 ];
 
 export const useFilterList = (

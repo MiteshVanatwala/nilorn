@@ -30,6 +30,8 @@ export class ProductDevelopmentDeepService {
      * @param vendors 
      * @param opComps 
      * @param members 
+     * @param certificates 
+     * @param indirectCosts 
      * @param includeClosed 
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
@@ -54,6 +56,8 @@ sourcingCompanies?: string,
 vendors?: string,
 opComps?: string,
 members?: string,
+certificates?: string,
+indirectCosts?: string,
 includeClosed?: boolean,
 ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
@@ -79,6 +83,8 @@ includeClosed?: boolean,
                 'Vendors': vendors,
                 'OpComps': opComps,
                 'Members': members,
+                'Certificates': certificates,
+                'IndirectCosts': indirectCosts,
                 'IncludeClosed': includeClosed,
             },
         });
