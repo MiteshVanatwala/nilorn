@@ -7,6 +7,7 @@ export const useBackInfo = () => {
 
   const [backInfo, setBackInfo] = useState<{
     link: string;
+    view: 'productions' | 'price-calculations' | 'overview';
     label: string;
     filter: string;
   }>();
@@ -17,6 +18,7 @@ export const useBackInfo = () => {
       if (backLink.indexOf('productions') > -1) {
         setBackInfo({
           link: backLink,
+          view: 'productions',
           label: t('PD.BackToProductions'),
           filter:
             sessionStorage.getItem(SESSION_STORAGE.prevFilterProductions) ?? '',
@@ -24,6 +26,7 @@ export const useBackInfo = () => {
       } else if (backLink.indexOf('price-calculations') > -1) {
         setBackInfo({
           link: backLink,
+          view: 'price-calculations',
           label: t('PD.BackToCalculations'),
           filter:
             sessionStorage.getItem(SESSION_STORAGE.prevFilterCalculation) ?? '',
@@ -31,6 +34,7 @@ export const useBackInfo = () => {
       } else {
         setBackInfo({
           link: backLink,
+          view: 'overview',
           label: t('PD.BackToOverview'),
           filter:
             sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? '',

@@ -172,7 +172,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
     () =>
       ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
         no,
-        false,
+        backInfo?.view !== 'overview',
         sortKey,
         searchQuery,
         productDevelopments,
