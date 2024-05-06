@@ -37,13 +37,9 @@ export function TBodyRow<Data extends object>({
     }
   }, [location, id]);
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const handleDragEvent = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setIsDraggingOver(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDraggingOver(false);
+    setIsDraggingOver(event.type === 'dragover');
   };
 
   const tRow = useMemo(() => {
@@ -80,8 +76,8 @@ export function TBodyRow<Data extends object>({
           bgColor={bgColor}
           onClick={e => onClick && onClick(e)}
           {...(onUpload && {
-            onDragOver: handleDragOver,
-            onDragLeave: handleDragLeave,
+            onDragOver: handleDragEvent,
+            onDragLeave: handleDragEvent,
             onDrop: handleDrop,
           })}
           _hover={{

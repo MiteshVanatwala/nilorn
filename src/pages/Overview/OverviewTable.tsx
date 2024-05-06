@@ -52,7 +52,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     navigate(url);
   };
 
-  const handelUpload = (file: File, no: string | null | undefined) => {
+  const handleUpload = (file: File, no: string | null | undefined) => {
     if (!!no) {
       console.log('Upload file: ', file, ' to PD: ', no);
     }
@@ -79,7 +79,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
               })}
               onUpload={
                 row.original?.status && !isClosed(row.original?.status)
-                  ? (file: File) => handelUpload(file, row.original?.no)
+                  ? (file: File) => handleUpload(file, rowNo)
                   : undefined
               }
               onClick={e =>

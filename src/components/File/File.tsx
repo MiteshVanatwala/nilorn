@@ -11,11 +11,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { MediaFileDto } from '../../app/generate';
-import { useDeleteMediaFile, useDownloadFile } from '../../app/api/mediaFile';
-import ConfirmModal from '../Modal/ConfirmModal';
-import { useModal } from '../../app/hooks/useModal';
+import { useDownloadFile } from '../../app/api/mediaFile';
 import RemoveFileModal from './RemoveFileModal';
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import { ModalRef } from '../Modal/IsolatedModal';
 
 type FileStatus = 'loading' | 'success' | 'error';
