@@ -63,7 +63,16 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
           colSpan={{
             base: 0,
             lg: 6,
-          }}></GridItem>
+          }}>
+          <InputField
+            label={`${t('PD.FormContent.VersionSpecification')}`}
+            placeholder={`${t('Common.Placeholder')}`}
+            changelog={itemNoChangelog}
+            name={'versionSpecification'}
+            readonly={disableEdit}
+            registerOptions={{ maxLength: 60 }}
+          />
+        </GridItem>
         <GridItem
           colSpan={{
             base: 12,

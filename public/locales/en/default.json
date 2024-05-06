@@ -131,7 +131,8 @@
       "TargetPurchasePrice": "Target Purchaser Price",
       "FoldingType": "Folding Type",
       "Quantity": "Quantity",
-      "ClientRequirements": "Client Requirements"
+      "ClientRequirements": "Client Requirements",
+      "VersionSpecification": "Version Specification"
     },
     "StatusLabel": {
       "New": "New",
