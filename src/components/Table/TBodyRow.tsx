@@ -13,6 +13,7 @@ export type TBodyRowProps<Data extends object> = {
   tooltipMsg?: string;
   hoverBgColor?: string;
   id?: string;
+  isLoading?: boolean;
 };
 
 export function TBodyRow<Data extends object>({
@@ -23,6 +24,7 @@ export function TBodyRow<Data extends object>({
   tooltipMsg,
   hoverBgColor,
   id,
+  isLoading,
 }: TBodyRowProps<Data>) {
   const location = useLocation();
   const ref = useRef<HTMLTableRowElement>(null);
@@ -88,18 +90,23 @@ export function TBodyRow<Data extends object>({
           backgroundColor={isDraggingOver ? COLORS.GRAY[10] : 'inherit'}
           borderStyle={isDraggingOver ? 'dashed' : 'inherit'}>
           {onUpload && (
-            <Input
-              type="file"
-              onChange={handleFileChange}
-              ref={inputRef}
-              multiple={false}
-              display={'none'}
-            />
+            <Td display={'none'}>
+              <Input
+                type="file"
+                onChange={handleFileChange}
+                ref={inputRef}
+                multiple={false}
+                display={'none'}
+              />
+            </Td>
           )}
           {row.getVisibleCells().map((cell, i) => {
             return (
               <Td key={i}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                {flexRender(cell.column.columnDef.cell, {
+                  ...cell.getContext(),
+                  isLoading: isLoading,
+                })}
               </Td>
             );
           })}
@@ -111,6 +118,7 @@ export function TBodyRow<Data extends object>({
     hoverBgColor,
     id,
     isDraggingOver,
+    isLoading,
     onClick,
     onUpload,
     row,

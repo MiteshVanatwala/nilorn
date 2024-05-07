@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { createColumnHelper } from '@tanstack/react-table';
+import { CellContext, createColumnHelper } from '@tanstack/react-table';
 import StatusBadge from '../../components/Status/StatusBadge';
 import {
   MediaFileDto,
@@ -9,8 +9,13 @@ import {
 import NowrapText from '../../components/Text/NowrapText';
 import ImagePopup from '../../components/ImagePopup/ImagePopup';
 import ArtworkButton from '../../components/Button/ArtworkButton';
-import { Text, Tooltip } from '@chakra-ui/react';
+import { Spinner, Text, Tooltip } from '@chakra-ui/react';
 import CommentPopup from '../../components/CommentPopup/CommentPopup';
+
+interface CustomCellContext
+  extends CellContext<ProductDevelopmentBriefDto, MediaFileDto | undefined> {
+  isLoading?: boolean;
+}
 
 const useOverviewColumns = () => {
   const { t } = useTranslation();
@@ -49,6 +54,7 @@ const useOverviewColumns = () => {
       enableSorting: false,
       cell: info => {
         const versions = info.getValue() as number;
+        // console.log('info', info?.isLoading);
         return (
           <CommentPopup
             icon={<Text>{versions > 0 ? versions + 1 : <>TBD</>}</Text>}
@@ -64,15 +70,20 @@ const useOverviewColumns = () => {
     columnHelper.accessor('artwork', {
       header: `${t('PD.Artwork')}`,
       enableSorting: false,
-      cell: info =>
-        info.getValue() ? (
-          <ArtworkButton
-            size="SMALL"
-            artwork={info.getValue() as MediaFileDto}
-          />
-        ) : (
-          ''
-        ),
+      cell: (info: CustomCellContext) => {
+        console.log('info', info.isLoading);
+        if (info.isLoading) {
+          return <Spinner />;
+        } else if (info.getValue()) {
+          return (
+            <ArtworkButton
+              size="SMALL"
+              artwork={info.getValue() as MediaFileDto}
+            />
+          );
+        }
+        return <></>;
+      },
     }),
     columnHelper.accessor('client', {
       header: `${t('PD.Client')}`,
