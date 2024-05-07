@@ -70,7 +70,10 @@ export function TBodyRow<Data extends object>({
         display={'inline'}
         placement={'top'}
         label={tooltipMsg}
-        isOpen={isDraggingOver}>
+        isOpen={isDraggingOver}
+        portalProps={{
+          containerRef: ref,
+        }}>
         <Tr
           ref={ref}
           id={id}
