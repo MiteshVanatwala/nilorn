@@ -9,7 +9,7 @@ import { THeadRow } from '../../components/Table/THeadRow';
 import { COLORS } from '../../theme/Constants';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
 import { Dispatch, SetStateAction } from 'react';
-import OverviewTableRow from './OverviewTableRow';
+import OverviewTableRowContainer from './OverviewTableRowContainer';
 
 type Props = {
   data: ProductDevelopmentBriefDto[];
@@ -40,7 +40,9 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       <Tbody>
         {table.getRowModel().rows.map((row, i) => {
           const bgColor = i % 2 === 0 ? COLORS.WHITE : COLORS.GRAY[5];
-          return <OverviewTableRow key={1} row={row} bgColor={bgColor} />;
+          return (
+            <OverviewTableRowContainer key={i} row={row} bgColor={bgColor} />
+          );
         })}
       </Tbody>
     </Table>

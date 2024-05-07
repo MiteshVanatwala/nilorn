@@ -116,7 +116,9 @@
       "MediaFileInfo": "Artwork and attachments can only be added after the product development is created.",
       "DragDropArtwork": "Drop artwork to uplod to product development: {{no}}",
       "Delete": "Delete file",
-      "RemoveLink": "Remove link"
+      "RemoveLink": "Remove link",
+      "ReplaceArtworkTitle": "Artwork already exists",
+      "ReplaceArtworkDescription": "Do you want to replace it?"
     },
     "FormContent": {
       "FinishedLength": "Finished Length",

@@ -54,7 +54,6 @@ const useOverviewColumns = () => {
       enableSorting: false,
       cell: info => {
         const versions = info.getValue() as number;
-        // console.log('info', info?.isLoading);
         return (
           <CommentPopup
             icon={<Text>{versions > 0 ? versions + 1 : <>TBD</>}</Text>}
@@ -71,7 +70,6 @@ const useOverviewColumns = () => {
       header: `${t('PD.Artwork')}`,
       enableSorting: false,
       cell: (info: CustomCellContext) => {
-        console.log('info', info.isLoading);
         if (info.isLoading) {
           return <Spinner />;
         } else if (info.getValue()) {

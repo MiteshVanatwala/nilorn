@@ -17,18 +17,19 @@ type Props = {
   bgColor?: string;
 };
 
-const OverviewTableRow = ({ row, bgColor }: Props) => {
+const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { showToast } = useToast();
+
   const modalRef = useRef<ModalRef>(null);
+  const queryClient = useQueryClient();
+
   const { no, artwork } = row.original;
   const rowNo = no ?? '';
 
-  const queryClient = useQueryClient();
-  const { mutate, isLoading } = useUploadFile(rowNo, MediaFileType.ARTWORK);
-
   const [file, setFile] = useState<File | undefined>(undefined);
+  const { mutate, isLoading } = useUploadFile(rowNo, MediaFileType.ARTWORK);
 
   const handleClick = (
     e: MouseEvent<HTMLTableRowElement>,
@@ -82,8 +83,10 @@ const OverviewTableRow = ({ row, bgColor }: Props) => {
     <>
       <IsolatedModal
         ref={modalRef}
-        description="Vill du?"
-        title="Säker?"
+        title={t('PD.File.ReplaceArtworkTitle')}
+        description={t('PD.File.ReplaceArtworkDescription')}
+        confirmText={t('Common.Yes')}
+        cancelText={t('Common.No')}
         onConfirm={() => file && uploadFile(file, true)}
       />
       <TBodyRow
@@ -107,4 +110,4 @@ const OverviewTableRow = ({ row, bgColor }: Props) => {
   );
 };
 
-export default OverviewTableRow;
+export default OverviewTableRowContainer;
