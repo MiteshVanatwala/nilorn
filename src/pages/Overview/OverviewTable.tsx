@@ -8,7 +8,7 @@ import {
 import { THeadRow } from '../../components/Table/THeadRow';
 import { COLORS } from '../../theme/Constants';
 import { ProductDevelopmentBriefDto } from '../../app/generate';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, Fragment, SetStateAction } from 'react';
 import OverviewTableRowContainer from './OverviewTableRowContainer';
 
 type Props = {
@@ -40,9 +40,17 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
       <Tbody>
         {table.getRowModel().rows.map((row, i) => {
           const bgColor = i % 2 === 0 ? COLORS.WHITE : COLORS.GRAY[5];
-          return (
-            <OverviewTableRowContainer key={i} row={row} bgColor={bgColor} />
-          );
+          if (row.original.no) {
+            return (
+              <OverviewTableRowContainer
+                key={i}
+                no={row.original.no}
+                row={row}
+                bgColor={bgColor}
+              />
+            );
+          }
+          return <Fragment key={i} />;
         })}
       </Tbody>
     </Table>

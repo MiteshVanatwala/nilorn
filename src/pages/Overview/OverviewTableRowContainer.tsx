@@ -13,11 +13,12 @@ import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../app/api/queryKeys';
 
 type Props = {
+  no: string;
   row: Row<ProductDevelopmentBriefDto>;
   bgColor?: string;
 };
 
-const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
+const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -25,27 +26,25 @@ const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
   const modalRef = useRef<ModalRef>(null);
   const queryClient = useQueryClient();
 
-  const { no, artwork } = row.original;
-  const rowNo = no ?? '';
+  const { artwork } = row.original;
 
   const [file, setFile] = useState<File | undefined>(undefined);
-  const { mutate, isLoading } = useUploadFile(rowNo, MediaFileType.ARTWORK);
+  const { mutate: upload, isLoading } = useUploadFile(
+    no,
+    MediaFileType.ARTWORK
+  );
 
-  const handleClick = (
-    e: MouseEvent<HTMLTableRowElement>,
-    url: string,
-    id: string
-  ) => {
+  const handleClick = (e: MouseEvent<HTMLTableRowElement>) => {
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
-    const anchor = id ? `#${id}` : '';
+    const anchor = `#${no}`;
     sessionStorage.setItem(SESSION_STORAGE.backLink, path + search + anchor);
     sessionStorage.setItem(
       SESSION_STORAGE.prevFilterOverview,
       window.location.search
     );
-    navigate(url);
+    navigate(`product-development/${no}`);
   };
 
   const handelUpload = (file: File) => {
@@ -58,7 +57,7 @@ const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
   };
 
   const uploadFile = async (file: File, replace?: boolean) => {
-    mutate(file, {
+    upload(file, {
       onSuccess: () => {
         showToast({
           status: 'success',
@@ -91,7 +90,7 @@ const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
       />
       <TBodyRow
         row={row}
-        id={rowNo}
+        id={no}
         bgColor={bgColor}
         isLoading={isLoading}
         tooltipMsg={t('PD.File.DragDropArtwork', {
@@ -102,9 +101,7 @@ const OverviewTableRowContainer = ({ row, bgColor }: Props) => {
             ? (file: File) => handelUpload(file)
             : undefined
         }
-        onClick={e =>
-          handleClick(e, `product-development/${row.original.no}`, rowNo)
-        }
+        onClick={e => handleClick(e)}
       />
     </>
   );
