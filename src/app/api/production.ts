@@ -74,12 +74,13 @@ export const useCompositionMaterials = () => {
   );
 };
 
-export const useCertificateCodes = () => {
+export const useCertificateCodes = (enable: boolean = true) => {
   return useQuery(
     [QueryKeysEnum.Certificate],
     () => CertificateService.getApiCertificate().then(res => res),
     {
       retry: 0,
+      enabled: enable,
     }
   );
 };

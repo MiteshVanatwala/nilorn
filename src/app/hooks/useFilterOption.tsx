@@ -8,6 +8,7 @@ import {
   useVendors,
 } from '../api/FilterInfo';
 import { useGetProjectsOptions } from '../api/Projects';
+import { useCertificateCodes } from '../api/production';
 import { ClientDto, MemberBriefDto, VendorDto } from '../generate';
 import { FilterKeys, SelectOption } from '../types/types';
 import { useStatusOptions } from './useStatus';
@@ -64,6 +65,9 @@ const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
   const { data: productGroups } = useProductGroup(
     name === 'productGroups' ?? false
   );
+  const { data: certificates } = useCertificateCodes(
+    name === 'certificates' ?? false
+  );
 
   const { statuses } = useStatusOptions();
 
@@ -82,6 +86,7 @@ const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
     itemCategories: itemCategories as SelectOption[],
     productGroups: productGroups as SelectOption[],
     projects: projects as SelectOption[],
+    certificates: certificates as SelectOption[],
   };
 
   return dataMap[name] || [];
