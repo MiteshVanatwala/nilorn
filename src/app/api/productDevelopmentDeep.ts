@@ -14,11 +14,25 @@ export function useProductDevelopmentDeepFilter(
       ? currentPageNumber
       : 1;
   const pageSize = useFilterFormSearchParams('pageSize') ? currentPageSize : 25;
-  const vendors = useFilterFormSearchParams('vendor');
-  const clients = useFilterFormSearchParams('clients');
-  const sourcingCompanies = useFilterFormSearchParams('sourcingCompanies');
+  const sortKey = useFilterFormSearchParams('sortKey');
+  const searchQuery = useFilterFormSearchParams('searchQuery', 400);
   const productDevelopments = useFilterFormSearchParams('productDevelopments');
+  const clients = useFilterFormSearchParams('clients');
   const projects = useFilterFormSearchParams('projects');
+  const statuses = useFilterFormSearchParams('statuses');
+  const itemCategories = useFilterFormSearchParams('itemCategories');
+  const productGroups = useFilterFormSearchParams('productGroups');
+  const foldingTypes = useFilterFormSearchParams('foldingTypes');
+  const finishedLengths = useFilterFormSearchParams('finishedLengths');
+  const finishedWidths = useFilterFormSearchParams('finishedWidths');
+  const finishedHeights = useFilterFormSearchParams('finishedHeights');
+  const sourcingCompanies = useFilterFormSearchParams('sourcingCompanies');
+  const vendors = useFilterFormSearchParams('vendor');
+  const opComps = useFilterFormSearchParams('opComp');
+  const members = useFilterFormSearchParams('members');
+  const certificates = useFilterFormSearchParams('certificates');
+  const indirectCosts = useFilterFormSearchParams('indirectCosts');
+  const includeClosed = useFilterFormSearchParams('includeClosed');
 
   return useQuery(
     [
@@ -26,22 +40,52 @@ export function useProductDevelopmentDeepFilter(
       pageNumber,
       pageSize,
       includeCalculations,
-      vendors,
-      clients,
-      sourcingCompanies,
+      sortKey,
+      searchQuery,
       productDevelopments,
+      clients,
       projects,
+      statuses,
+      itemCategories,
+      productGroups,
+      foldingTypes,
+      finishedLengths,
+      finishedWidths,
+      finishedHeights,
+      sourcingCompanies,
+      // @ts-ignore // more the 15 props
+      vendors,
+      opComps,
+      members,
+      certificates,
+      indirectCosts,
+      !!includeClosed,
     ],
     () =>
       ProductDevelopmentDeepService.getApiProductDevelopmentDeep(
         pageNumber,
         pageSize,
         includeCalculations,
+        sortKey,
+        searchQuery,
         productDevelopments,
-        vendors,
-        sourcingCompanies,
         clients,
-        projects
+        projects,
+        statuses,
+        itemCategories,
+        productGroups,
+        foldingTypes,
+        finishedLengths,
+        finishedWidths,
+        finishedHeights,
+        sourcingCompanies,
+        // @ts-ignore // more the 15 props
+        vendors,
+        opComps,
+        members,
+        certificates,
+        indirectCosts,
+        !!includeClosed
       ).then(res => res),
     {
       retry: 0,
