@@ -10,6 +10,7 @@ export type TBodyRowProps<Data extends object> = {
   bgColor?: string;
   onClick?: (e: MouseEvent<HTMLTableRowElement>) => void;
   onUpload?: (file: File) => void;
+  acceptFileType?: string;
   tooltipMsg?: string;
   hoverBgColor?: string;
   id?: string;
@@ -25,6 +26,7 @@ export function TBodyRow<Data extends object>({
   hoverBgColor,
   id,
   isLoading,
+  acceptFileType,
 }: TBodyRowProps<Data>) {
   const location = useLocation();
   const ref = useRef<HTMLTableRowElement>(null);
@@ -39,12 +41,21 @@ export function TBodyRow<Data extends object>({
     }
   }, [location, id]);
 
-  const handleDragEvent = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDraggingOver(event.type === 'dragover');
-  };
-
   const tRow = useMemo(() => {
+    const handleDragEvent = (event: React.DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      const files = event.dataTransfer.items;
+
+      if (
+        files.length === 1 &&
+        files[0].kind === 'file' &&
+        ((acceptFileType && files[0].type === acceptFileType) || true)
+      ) {
+        setIsDraggingOver(event.type === 'dragover');
+      } else {
+        setIsDraggingOver(false);
+      }
+    };
     const handleUpload = (file: File) => {
       setIsDraggingOver(false);
       onUpload && onUpload(file);
@@ -117,6 +128,7 @@ export function TBodyRow<Data extends object>({
       </Tooltip>
     );
   }, [
+    acceptFileType,
     bgColor,
     hoverBgColor,
     id,

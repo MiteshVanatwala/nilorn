@@ -203,7 +203,8 @@
         "FileUpdated": "Failed to update file with name {{name}}"
       },
       "Info": {
-        "NeedToSave": "Product development needs to be saved before changing status"
+        "NeedToSave": "Product development needs to be saved before changing status",
+        "ArtworkPdf": "Artwork need to be of typ .pdf"
       }
     }
   },

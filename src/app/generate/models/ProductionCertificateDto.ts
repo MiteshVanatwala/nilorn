@@ -4,11 +4,10 @@
 /* eslint-disable */
 
 export type ProductionCertificateDto = {
-    id?: string;
-    certificateCode?: string | null;
-    certificateCategoryCode?: string | null;
-    certificateClassCode?: string | null;
-    percentage?: number | null;
-    certificateWeight?: number | null;
+  id?: string;
+  certificateCode?: string | null;
+  certificateCategoryCode?: string | null;
+  certificateClassCode?: string | null;
+  percentage?: number | null;
+  certificateWeight?: number | null;
 };
-

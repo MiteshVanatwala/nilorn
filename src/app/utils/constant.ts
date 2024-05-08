@@ -8,3 +8,5 @@ export const SESSION_STORAGE = {
   prevFilterCalculation: 'prevFilterCalculation',
   backLink: 'backLink',
 };
+
+export const ARTWORK_FILE_TYPE = 'application/pdf';

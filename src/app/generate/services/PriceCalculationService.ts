@@ -127,13 +127,22 @@ export class PriceCalculationService {
     }
 
     /**
+<<<<<<< HEAD
      * @param requestBody
+=======
+     * @param requestBody 
+>>>>>>> 20278ba (Generate api)
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static postApiPriceCalculationNavigation(
+<<<<<<< HEAD
         requestBody?: GetNavigationForPriceCalculationQuery,
     ): CancelablePromise<NavigationItem> {
+=======
+requestBody?: GetNavigationForPriceCalculationQuery,
+): CancelablePromise<NavigationItem> {
+>>>>>>> 20278ba (Generate api)
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/PriceCalculation/Navigation',

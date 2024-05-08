@@ -3,7 +3,7 @@ import { TBodyRow } from '../../components/Table/TBodyRow';
 import { useNavigate } from 'react-router';
 import { MediaFileType, ProductDevelopmentBriefDto } from '../../app/generate';
 import { MouseEvent, useRef, useState } from 'react';
-import { SESSION_STORAGE } from '../../app/utils/constant';
+import { ARTWORK_FILE_TYPE, SESSION_STORAGE } from '../../app/utils/constant';
 import { isClosed } from '../../app/utils/status';
 import { useTranslation } from 'react-i18next';
 import IsolatedModal, { ModalRef } from '../../components/Modal/IsolatedModal';
@@ -49,11 +49,18 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
   };
 
   const handelUpload = (file: File) => {
-    if (!!artwork) {
-      modalRef.current?.onOpen();
-      setFile(file);
-    } else if (!!no) {
-      uploadFile(file);
+    if (file.type === ARTWORK_FILE_TYPE) {
+      if (!!artwork) {
+        modalRef.current?.onOpen();
+        setFile(file);
+      } else if (!!no) {
+        uploadFile(file);
+      }
+    } else {
+      showToast({
+        status: 'info',
+        description: t('PD.Feedback.Info.ArtworkUploadType'),
+      });
     }
   };
 
@@ -102,6 +109,7 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
             ? (file: File) => handelUpload(file)
             : undefined
         }
+        acceptFileType={ARTWORK_FILE_TYPE}
         onClick={e => handleClick(e)}
       />
     </>
