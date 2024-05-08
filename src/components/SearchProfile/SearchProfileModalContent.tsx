@@ -157,11 +157,14 @@ const SearchProfileModalContent = ({
             rightIcon={<i className="ri-save-line" />}>
             {t('Common.Save')}
           </Button>
-          {isValueSelected && !inputChanged && (
+          {isValueSelected && (
             <Button
-              variant={'primary'}
+              isDisabled={
+                inputChanged && activeSearchProfileName !== searchProfileName
+              }
+              variant={'deleteBtn'}
               onClick={onDelete}
-              rightIcon={<i className="ri-delete-line" />}>
+              rightIcon={<i className="ri-delete-bin-line" />}>
               {t('Common.Delete')}
             </Button>
           )}
