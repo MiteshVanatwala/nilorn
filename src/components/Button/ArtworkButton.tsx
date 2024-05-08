@@ -20,6 +20,9 @@ const ArtworkButton = ({ size, artwork }: Props) => {
         as={'a'}
         target="_blank"
         href={`${artwork.webUrl}`}
+        onClick={e => {
+          e.stopPropagation();
+        }}
         icon={
           <Image
             src={images.pdf}
