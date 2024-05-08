@@ -31,7 +31,8 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const { mutate: upload, isLoading } = useUploadFile(
     no,
-    MediaFileType.ARTWORK
+    MediaFileType.ARTWORK,
+    row.original?.status
   );
 
   const handleClick = (e: MouseEvent<HTMLTableRowElement>) => {

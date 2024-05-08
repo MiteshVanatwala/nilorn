@@ -7,9 +7,7 @@ import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
 import { useToast } from '../../../app/hooks/useToast';
-import { useUpdateProductDevelopmentWithStatus } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
-import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -32,15 +30,13 @@ const FileSection = ({
   type,
   defaultValue = [],
 }: Props) => {
-  const { setValue, trigger, getValues } = useFormContext();
-  const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+  const { setValue, getValues } = useFormContext();
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
   const { t } = useTranslation();
   const currentStatus = getValues('status') as Status;
-  const { hasUnsavedChanges } = useUnsavedChanges();
 
-  const { mutateAsync } = useUploadFile(no, type);
+  const { mutateAsync } = useUploadFile(no, type, currentStatus);
   const { showToast } = useToast();
   const removeFile = (id: string) => {
     if (type === MediaFileType.ARTWORK) {
@@ -98,7 +94,6 @@ const FileSection = ({
         });
         if (type === MediaFileType.ARTWORK) {
           setValue(ARTWORK, res);
-          submitStatus(Status.ARTWORK);
         }
       } catch (err) {
         if (match) {
@@ -120,22 +115,6 @@ const FileSection = ({
 
     await Promise.all(uploadPromises);
   };
-  async function submitStatus(status: Status): Promise<void> {
-    if (currentStatus === status) {
-      return;
-    }
-    if (hasUnsavedChanges()) {
-      showToast({
-        status: 'info',
-        description: t('PD.Feedback.Info.NeedToSave'),
-      });
-      return;
-    }
-    const res = await trigger();
-    if (res) {
-      updateStatus(status);
-    }
-  }
 
   return (
     <>

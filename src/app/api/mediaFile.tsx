@@ -1,19 +1,38 @@
 import { useMutation, useQuery } from 'react-query';
-import { ApiError, MediaFileService, MediaFileType } from '../generate';
+import { ApiError, MediaFileService, MediaFileType, Status } from '../generate';
 import QueryKeysEnum from './queryKeys';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OpenAPI } from '../generate';
 import { downloadBlob } from '../utils/file';
 import { useToast } from '../hooks/useToast';
+import { useUpdateProductDevelopmentWithStatus } from './productDevelopment';
 
-export const useUploadFile = (no: string, mediaFileType: MediaFileType) => {
+export const useUploadFile = (
+  no: string,
+  mediaFileType: MediaFileType,
+  currentStatus?: Status
+) => {
+  const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+
+  async function submitStatus(): Promise<void> {
+    if (currentStatus !== Status.DESIGN) {
+      return;
+    }
+    updateStatus(Status.ARTWORK);
+  }
+
   return useMutation(
     (file: Blob) =>
       MediaFileService.postApiMediaFileUpload(no, mediaFileType, { file }).then(
         res => res
       ),
     {
+      onSuccess: async () => {
+        if (mediaFileType === MediaFileType.ARTWORK) {
+          submitStatus();
+        }
+      },
       retry: 0,
     }
   );

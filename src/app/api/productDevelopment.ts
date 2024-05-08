@@ -96,6 +96,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
             })}`,
           });
           queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment, no]);
+          queryClient.invalidateQueries([QueryKeysEnum.Overview]);
         }
       },
       onError: async (err: ApiError) => {
