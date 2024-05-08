@@ -159,3 +159,23 @@ export function parseSearchParams(queryStr: string): Record<string, string> {
 
   return parsedParams;
 }
+
+export function useClearAllFilters() {
+  const { reset, getValues, setValue } = useFormContext();
+
+  const clearFilters = () => {
+    const pageNumber = getValues('pageNumber');
+    const pageSize = getValues('pageSize');
+    const searchQuery = '';
+
+    reset();
+    setValue('pageNumber', pageNumber);
+    setValue('pageSize', pageSize);
+    setValue('searchQuery', searchQuery);
+
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem(storedFilter, '');
+  };
+
+  return clearFilters;
+}

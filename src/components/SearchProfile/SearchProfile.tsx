@@ -84,9 +84,7 @@ const SearchProfile = () => {
         <Button
           zIndex={'0'}
           marginTop={SPACE.XXS}
-          fontWeight={'500'}
           variant={'secondary'}
-          height={'3.5rem'}
           leftIcon={<i className="ri-save-line" />}
           onClick={() =>
             handleModal(

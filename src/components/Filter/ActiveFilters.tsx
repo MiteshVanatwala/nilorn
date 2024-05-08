@@ -7,12 +7,18 @@ import { useFormContext } from 'react-hook-form';
 import { Fragment, useEffect, useState } from 'react';
 import { FilterKeys, SelectOption } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
+import { useClearAllFilters } from '../../app/utils/FilterHelper';
 
 const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
   const { t } = useTranslation();
-  const { watch } = useFormContext();
+  const {
+    watch,
+    formState: { isDirty },
+  } = useFormContext();
+  const clearFilters = useClearAllFilters();
+
   let [hasValues, setHasValues] = useState<boolean>(false);
   const watchedEntries = Object.entries(watch());
 
@@ -21,7 +27,11 @@ const ActiveFilters = () => {
       .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
       .some(([_, value]) => value?.label || (value && value[0]));
     setHasValues(foundValue);
-  }, [watchedEntries]);
+
+    if (!foundValue && isDirty) {
+      clearFilters();
+    }
+  }, [clearFilters, isDirty, watchedEntries]);
 
   return (
     <Flex
