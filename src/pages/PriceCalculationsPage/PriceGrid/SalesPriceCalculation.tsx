@@ -7,7 +7,7 @@ import {
   calculateSalesPrice,
 } from '../../../app/utils/price/PriceHelper';
 import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
-import { MAX_MARGIN } from '../../../app/utils/constant';
+import { MAX_MARGIN, STEP } from '../../../app/utils/constant';
 import { roundUp } from '../../../app/utils/common';
 
 type Props = {
@@ -75,6 +75,7 @@ const SalesPriceCalculation = ({
               value={margin ?? 0}
               max={MAX_MARGIN}
               type="number"
+              step={STEP}
               variant={'outline'}
               my={SPACE.XXS}
               borderRadius={BORDER_RADIUS.XS}
@@ -91,7 +92,8 @@ const SalesPriceCalculation = ({
               onChange={changeSalesPrice}
               value={salesPrice ?? 0}
               min={0}
-              type="decimal"
+              type="number"
+              step={STEP}
               variant={'outline'}
               my={SPACE.XXS}
               borderRadius={BORDER_RADIUS.XS}

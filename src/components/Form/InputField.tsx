@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
+import { STEP } from '../../app/utils/constant';
 
 interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
@@ -52,7 +53,7 @@ const InputField = ({
         placeholder={placeholder}
         max={max}
         min={min}
-        step={type === 'decimal' ? '0.000000000000000001' : ''}
+        step={type === 'decimal' ? STEP : ''}
         type={type === 'decimal' ? 'number' : type}
         cursor={readonly ? 'default' : 'text'}
         {...register(name, registerOptions)}
