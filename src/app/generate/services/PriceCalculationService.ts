@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { CreatePriceCalculationCommand } from '../models/CreatePriceCalculationCommand';
 import type { DefaultPriceCalculationDto } from '../models/DefaultPriceCalculationDto';
+import type { GetNavigationForPriceCalculationQuery } from '../models/GetNavigationForPriceCalculationQuery';
 import type { NavigationItem } from '../models/NavigationItem';
 import type { PriceCalculationDto } from '../models/PriceCalculationDto';
 import type { PriceCalculationExtendedDto } from '../models/PriceCalculationExtendedDto';
@@ -126,37 +127,18 @@ purchaseCurrency?: string,
     }
 
     /**
-     * @param id 
-     * @param includeCalculations 
-     * @param productDevelopments 
-     * @param vendors 
-     * @param sourcingCompanies 
-     * @param clients 
-     * @param projects 
+     * @param requestBody 
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static getApiPriceCalculationNavigation(
-id: string,
-includeCalculations?: boolean,
-productDevelopments?: string,
-vendors?: string,
-sourcingCompanies?: string,
-clients?: string,
-projects?: string,
+requestBody?: GetNavigationForPriceCalculationQuery,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PriceCalculation/Navigation',
-            query: {
-                'Id': id,
-                'IncludeCalculations': includeCalculations,
-                'ProductDevelopments': productDevelopments,
-                'Vendors': vendors,
-                'SourcingCompanies': sourcingCompanies,
-                'Clients': clients,
-                'Projects': projects,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

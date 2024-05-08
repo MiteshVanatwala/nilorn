@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { CreateProductDevelopmentCommand } from '../models/CreateProductDevelopmentCommand';
+import type { GetForFilterProductDevelopmentsWithPaginationQuery } from '../models/GetForFilterProductDevelopmentsWithPaginationQuery';
+import type { GetNavigationForProductDevelopmentQuery } from '../models/GetNavigationForProductDevelopmentQuery';
 import type { NavigationItem } from '../models/NavigationItem';
 import type { ProductDevelopmentBriefDtoPaginatedList } from '../models/ProductDevelopmentBriefDtoPaginatedList';
 import type { ProductDevelopmentDto } from '../models/ProductDevelopmentDto';
@@ -16,156 +18,34 @@ import { request as __request } from '../core/request';
 export class ProductDevelopmentsService {
 
     /**
-     * @param pageNumber 
-     * @param pageSize 
-     * @param sortKey 
-     * @param searchQuery 
-     * @param productDevelopments 
-     * @param clients 
-     * @param projects 
-     * @param statuses 
-     * @param itemCategories 
-     * @param productGroups 
-     * @param foldingTypes 
-     * @param finishedLengths 
-     * @param finishedWidths 
-     * @param finishedHeights 
-     * @param sourcingCompanies 
-     * @param vendors 
-     * @param opComps 
-     * @param members 
-     * @param certificates 
-     * @param indirectCosts 
-     * @param includeClosed 
+     * @param requestBody 
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsFilter(
-pageNumber?: number,
-pageSize?: number,
-sortKey?: string,
-searchQuery?: string,
-productDevelopments?: string,
-clients?: string,
-projects?: string,
-statuses?: string,
-itemCategories?: string,
-productGroups?: string,
-foldingTypes?: string,
-finishedLengths?: string,
-finishedWidths?: string,
-finishedHeights?: string,
-sourcingCompanies?: string,
-vendors?: string,
-opComps?: string,
-members?: string,
-certificates?: string,
-indirectCosts?: string,
-includeClosed?: boolean,
+requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/Filter',
-            query: {
-                'PageNumber': pageNumber,
-                'PageSize': pageSize,
-                'SortKey': sortKey,
-                'SearchQuery': searchQuery,
-                'ProductDevelopments': productDevelopments,
-                'Clients': clients,
-                'Projects': projects,
-                'Statuses': statuses,
-                'ItemCategories': itemCategories,
-                'ProductGroups': productGroups,
-                'FoldingTypes': foldingTypes,
-                'FinishedLengths': finishedLengths,
-                'FinishedWidths': finishedWidths,
-                'FinishedHeights': finishedHeights,
-                'SourcingCompanies': sourcingCompanies,
-                'Vendors': vendors,
-                'OpComps': opComps,
-                'Members': members,
-                'Certificates': certificates,
-                'IndirectCosts': indirectCosts,
-                'IncludeClosed': includeClosed,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
     /**
-     * @param productDevelopmentNo 
-     * @param includeOnlyWithSourcings 
-     * @param sortKey 
-     * @param searchQuery 
-     * @param productDevelopments 
-     * @param clients 
-     * @param projects 
-     * @param statuses 
-     * @param itemCategories 
-     * @param productGroups 
-     * @param foldingTypes 
-     * @param finishedLengths 
-     * @param finishedWidths 
-     * @param finishedHeights 
-     * @param sourcingCompanies 
-     * @param vendors 
-     * @param opComps 
-     * @param members 
-     * @param certificates 
-     * @param indirectCosts 
-     * @param includeClosed 
+     * @param requestBody 
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static getApiProductDevelopmentsNavigation(
-productDevelopmentNo?: string,
-includeOnlyWithSourcings?: boolean,
-sortKey?: string,
-searchQuery?: string,
-productDevelopments?: string,
-clients?: string,
-projects?: string,
-statuses?: string,
-itemCategories?: string,
-productGroups?: string,
-foldingTypes?: string,
-finishedLengths?: string,
-finishedWidths?: string,
-finishedHeights?: string,
-sourcingCompanies?: string,
-vendors?: string,
-opComps?: string,
-members?: string,
-certificates?: string,
-indirectCosts?: string,
-includeClosed?: boolean,
+requestBody?: GetNavigationForProductDevelopmentQuery,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/Navigation',
-            query: {
-                'ProductDevelopmentNo': productDevelopmentNo,
-                'IncludeOnlyWithSourcings': includeOnlyWithSourcings,
-                'SortKey': sortKey,
-                'SearchQuery': searchQuery,
-                'ProductDevelopments': productDevelopments,
-                'Clients': clients,
-                'Projects': projects,
-                'Statuses': statuses,
-                'ItemCategories': itemCategories,
-                'ProductGroups': productGroups,
-                'FoldingTypes': foldingTypes,
-                'FinishedLengths': finishedLengths,
-                'FinishedWidths': finishedWidths,
-                'FinishedHeights': finishedHeights,
-                'SourcingCompanies': sourcingCompanies,
-                'Vendors': vendors,
-                'OpComps': opComps,
-                'Members': members,
-                'Certificates': certificates,
-                'IndirectCosts': indirectCosts,
-                'IncludeClosed': includeClosed,
-            },
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
