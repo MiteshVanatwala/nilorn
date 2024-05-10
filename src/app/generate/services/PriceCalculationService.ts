@@ -131,11 +131,11 @@ purchaseCurrency?: string,
      * @returns NavigationItem Success
      * @throws ApiError
      */
-    public static getApiPriceCalculationNavigation(
+    public static postApiPriceCalculationNavigation(
 requestBody?: GetNavigationForPriceCalculationQuery,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/api/PriceCalculation/Navigation',
             body: requestBody,
             mediaType: 'application/json',

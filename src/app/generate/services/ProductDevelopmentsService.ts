@@ -22,11 +22,11 @@ export class ProductDevelopmentsService {
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
-    public static getApiProductDevelopmentsFilter(
+    public static postApiProductDevelopmentsFilter(
 requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
 ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/api/ProductDevelopments/Filter',
             body: requestBody,
             mediaType: 'application/json',
@@ -38,11 +38,11 @@ requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
      * @returns NavigationItem Success
      * @throws ApiError
      */
-    public static getApiProductDevelopmentsNavigation(
+    public static postApiProductDevelopmentsNavigation(
 requestBody?: GetNavigationForProductDevelopmentQuery,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/api/ProductDevelopments/Navigation',
             body: requestBody,
             mediaType: 'application/json',

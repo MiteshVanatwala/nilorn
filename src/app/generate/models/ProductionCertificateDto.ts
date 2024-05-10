@@ -8,6 +8,6 @@ export type ProductionCertificateDto = {
     certificateCode?: string | null;
     certificateCategoryCode?: string | null;
     certificateClassCode?: string | null;
-    percentage?: number;
-    certificateWeight?: number;
+    percentage?: number | null;
+    certificateWeight?: number | null;
 };

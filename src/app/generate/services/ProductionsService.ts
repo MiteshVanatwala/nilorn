@@ -86,11 +86,11 @@ requestBody?: UpdateProductionCommand,
      * @returns NavigationItem Success
      * @throws ApiError
      */
-    public static getApiProductionsNavigation(
+    public static postApiProductionsNavigation(
 requestBody?: GetNavigationForProductionQuery,
 ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/api/Productions/Navigation',
             body: requestBody,
             mediaType: 'application/json',

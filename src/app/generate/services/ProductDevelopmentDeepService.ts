@@ -16,11 +16,11 @@ export class ProductDevelopmentDeepService {
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
      */
-    public static getApiProductDevelopmentDeep(
+    public static postApiProductDevelopmentDeep(
 requestBody?: GetFilteredProductDevelopmentDeepWithPaginationQuery,
 ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
-            method: 'GET',
+            method: 'POST',
             url: '/api/ProductDevelopmentDeep',
             body: requestBody,
             mediaType: 'application/json',
