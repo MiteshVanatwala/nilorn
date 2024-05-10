@@ -1,27 +1,7 @@
-import { ServerFilter } from '../types/types';
-import { useFilterFormSearchParams } from '../utils/FilterHelper';
+import { useFilterFormFormWatch } from '../utils/FilterHelper';
 
-export const useFormStateFilters = (): ServerFilter => {
-  const currentPageNumber = Number(useFilterFormSearchParams('pageNumber'));
-  const currentPageSize = Number(useFilterFormSearchParams('pageSize'));
-  const pageNumber =
-    useFilterFormSearchParams('pageNumber') !== undefined
-      ? currentPageNumber
-      : 1;
-  const pageSize = useFilterFormSearchParams('pageSize') ? currentPageSize : 25;
-  const vendors = useFilterFormSearchParams('vendor');
-  const clients = useFilterFormSearchParams('clients');
-  const sourcingCompanies = useFilterFormSearchParams('sourcingCompanies');
-  const productDevelopments = useFilterFormSearchParams('productDevelopments');
-  const projects = useFilterFormSearchParams('projects');
+export const useFormStateFilters = () => {
+  const filters = useFilterFormFormWatch();
 
-  return {
-    pageSize,
-    pageNumber,
-    vendors,
-    clients,
-    sourcingCompanies,
-    productDevelopments,
-    projects,
-  };
+  return filters;
 };

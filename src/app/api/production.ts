@@ -2,10 +2,10 @@ import { useQuery } from 'react-query';
 import {
   CertificateService,
   CompositionMaterialService,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery,
   ProductionsService,
 } from '../generate';
 import QueryKeysEnum from './queryKeys';
-import { ServerFilter } from '../types/types';
 
 export function useProduction(id: string) {
   return useQuery(
@@ -32,31 +32,22 @@ export function useProductions(
   );
 }
 
-export function useProductionNavigation(id: string, filters?: ServerFilter) {
-  const { vendors, clients, sourcingCompanies, productDevelopments, projects } =
-    filters || {};
-
+export function useProductionNavigation(
+  id: string,
+  filters?: GetFilteredProductDevelopmentDeepWithPaginationQuery
+) {
   return useQuery(
     [
       QueryKeysEnum.Productions,
       QueryKeysEnum.Navigation,
       id,
-      vendors,
-      clients,
-      sourcingCompanies,
-      productDevelopments,
-      projects,
+      JSON.stringify(filters),
     ],
     () =>
-      ProductionsService.getApiProductionsNavigation(
-        id,
-        false,
-        productDevelopments,
-        vendors,
-        sourcingCompanies,
-        clients,
-        projects
-      ),
+      ProductionsService.postApiProductionsNavigation({
+        ...filters,
+        id: id,
+      }),
     {
       retry: 0,
     }

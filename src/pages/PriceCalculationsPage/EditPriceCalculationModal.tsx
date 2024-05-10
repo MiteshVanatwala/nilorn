@@ -1,5 +1,8 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { ChangelogType } from '../../app/generate';
+import {
+  ChangelogType,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+} from '../../app/generate';
 import { Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
 import { GRID, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
@@ -14,7 +17,6 @@ import {
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
-import { ServerFilter } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ArrowLink from '../../components/Link/ArrowLink';

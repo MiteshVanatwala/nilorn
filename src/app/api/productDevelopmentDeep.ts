@@ -14,11 +14,16 @@ export function useProductDevelopmentDeepFilter(
     useFilterFormFormWatch();
 
   return useQuery(
-    [QueryKeysEnum.ProductDevelopmentDeep, JSON.stringify(requestBody)],
+    [
+      QueryKeysEnum.ProductDevelopmentDeep,
+      includeCalculations,
+      JSON.stringify(requestBody),
+    ],
     () =>
-      ProductDevelopmentDeepService.postApiProductDevelopmentDeep(
-        requestBody
-      ).then(res => res),
+      ProductDevelopmentDeepService.postApiProductDevelopmentDeep({
+        ...requestBody,
+        includeCalculations: includeCalculations,
+      }).then(res => res),
     {
       retry: 0,
       keepPreviousData: keepPreviousData,

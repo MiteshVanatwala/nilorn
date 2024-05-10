@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import EditProduction from './EditProduction/EditProduction';
-import { ProductDevelopmentDataDto, ProductionDto } from '../../app/generate';
+import {
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+  ProductDevelopmentDataDto,
+  ProductionDto,
+} from '../../app/generate';
 import {
   useDeleteProduction,
   useReleaseForSales,
@@ -13,7 +17,6 @@ import { isClosed } from '../../app/utils/status';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { useNavigate } from 'react-router-dom';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
-import { ServerFilter } from '../../app/types/types';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;

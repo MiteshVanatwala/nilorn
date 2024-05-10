@@ -66,16 +66,6 @@ export enum FieldState {
   'ERROR',
 }
 
-export type ServerFilter = {
-  pageSize?: number;
-  pageNumber?: number;
-  vendors?: string;
-  clients?: string;
-  sourcingCompanies?: string;
-  productDevelopments?: string;
-  projects?: string;
-};
-
 export type LocationsProps = {
   currentLocation: Location<any>;
   nextLocation: Location<any>;

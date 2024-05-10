@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
   MediaFileDto,
   PriceCalculationDto,
   ProductDevelopmentDataDto,
@@ -13,7 +14,6 @@ import {
 import TableMenuContainer from '../../../components/Table/TableMenuContainer';
 import { useDeleteCalculation } from '../../../app/api/calculation';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
-import { ServerFilter } from '../../../app/types/types';
 import EditPriceCalculationModal from '../EditPriceCalculationModal';
 import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
 

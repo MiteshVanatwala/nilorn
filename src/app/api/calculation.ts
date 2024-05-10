@@ -5,11 +5,11 @@ import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
   CreatePriceCalculationCommand,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery,
   PriceCalculationService,
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
-import { ServerFilter } from '../types/types';
 
 export const usePriceCalculation = (id: string) => {
   return useQuery(
@@ -149,13 +149,13 @@ export const usePriceCalculationDefaultValues = (
       productDevelopmentNo,
       sourcingCompanycode,
       vendorId,
-      purchaseCurrencyCode
+      purchaseCurrencyCode,
     ],
     () =>
       PriceCalculationService.getApiPriceCalculationDefaultValues(
         productDevelopmentNo,
         sourcingCompanycode,
-        vendorId, 
+        vendorId,
         purchaseCurrencyCode
       ).then(res => res),
     {
@@ -166,32 +166,20 @@ export const usePriceCalculationDefaultValues = (
 
 export const usePriceCalculationNavigation = (
   id: string,
-  filters: ServerFilter
+  filters: GetFilteredProductDevelopmentDeepWithPaginationQuery
 ) => {
-  const { vendors, clients, sourcingCompanies, productDevelopments, projects } =
-    filters || {};
-
   return useQuery(
     [
       QueryKeysEnum.PriceCalculation,
       QueryKeysEnum.Navigation,
       id,
-      vendors,
-      clients,
-      sourcingCompanies,
-      productDevelopments,
-      projects,
+      JSON.stringify(filters),
     ],
     () =>
-      PriceCalculationService.getApiPriceCalculationNavigation(
-        id,
-        true,
-        productDevelopments,
-        vendors,
-        sourcingCompanies,
-        clients,
-        projects
-      ).then(res => res),
+      PriceCalculationService.postApiPriceCalculationNavigation({
+        ...filters,
+        id: id,
+      }).then(res => res),
     {
       retry: 0,
     }

@@ -1,6 +1,7 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import {
   ChangelogType,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
   MediaFileDto,
   PriceCalculationDto,
   ProductDevelopmentDataDto,
@@ -19,7 +20,6 @@ import {
 import { useContext, useEffect, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
-import { ServerFilter } from '../../app/types/types';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 
 type Props = {

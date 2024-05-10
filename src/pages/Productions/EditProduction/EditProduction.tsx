@@ -4,6 +4,7 @@ import ProductDevelopmentModalTopSection from '../../../components/ProductDevelo
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import {
   ChangelogType,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
   ProductionDto,
   ProductionExtendedDto,
 } from '../../../app/generate';
@@ -12,7 +13,7 @@ import {
   usePatchProduction,
 } from '../../../app/api/editProduction';
 import { useGetVendors } from '../../../app/api/vendors';
-import { SelectOption, ServerFilter } from '../../../app/types/types';
+import { SelectOption } from '../../../app/types/types';
 import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import EditProductionFormContent from './EditProductionFormContent';
