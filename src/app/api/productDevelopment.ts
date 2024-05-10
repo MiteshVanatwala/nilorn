@@ -138,30 +138,7 @@ export const useMembers = (no: string) => {
 export const useProductDevelopmentNavigation = (no: string) => {
   const { backInfo } = useBackInfo();
 
-  const parsedParams = parseSearchParams(backInfo?.filter ?? '');
-
-  // Extract parameters
-  const {
-    sortKey,
-    searchQuery,
-    productDevelopments,
-    clients,
-    projects,
-    statuses,
-    itemCategories,
-    productGroups,
-    foldingTypes,
-    finishedLengths,
-    finishedWidths,
-    finishedHeights,
-    sourcingCompanies,
-    vendors,
-    opComps,
-    members,
-    certificates,
-    indirectCosts,
-    includeClosed,
-  } = parsedParams;
+  const filters = parseSearchParams(backInfo?.filter ?? '');
 
   return useQuery(
     [
@@ -171,29 +148,10 @@ export const useProductDevelopmentNavigation = (no: string) => {
       backInfo?.filter,
     ],
     () =>
-      ProductDevelopmentsService.getApiProductDevelopmentsNavigation(
-        no,
-        backInfo?.view !== 'overview',
-        sortKey,
-        searchQuery,
-        productDevelopments,
-        clients,
-        projects,
-        statuses,
-        itemCategories,
-        productGroups,
-        foldingTypes,
-        finishedLengths,
-        finishedWidths,
-        finishedHeights,
-        sourcingCompanies,
-        vendors,
-        opComps,
-        members,
-        certificates,
-        indirectCosts,
-        !!includeClosed
-      ).then(res => res),
+      ProductDevelopmentsService.postApiProductDevelopmentsNavigation({
+        ...filters,
+        productDevelopmentNo: no,
+      }).then(res => res),
     {
       retry: 0,
       enabled: no !== '' || !!backInfo,

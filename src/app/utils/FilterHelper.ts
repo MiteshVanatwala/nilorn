@@ -1,9 +1,7 @@
-import { FilterKeys } from '../types/types';
 import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../types/types';
 import { useEffect, useState } from 'react';
-import { FieldValues, useFormContext } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
+import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
 import { SESSION_STORAGE } from './constant';
 
@@ -89,33 +87,37 @@ export function findMultiDefaultValues(
   }
 }
 
-/**
- * @deprecated Use useFilterFormSearchParams and within the formcontext instead.
- */
-export function useFilterSearchParams(
-  name: FilterKeys,
-  delay: number = 0
-): string | undefined {
-  const [searchParam] = useSearchParams();
-  const value = useDebounce(searchParam.get(name), delay);
+export const transformObjectToStrings = (obj: {
+  [key: string]: any;
+}): {
+  [key: string]: string | boolean;
+} => {
+  const transformedObj: any = { ...obj };
 
-  return value ?? undefined;
-}
+  Object.keys(transformedObj).forEach(key => {
+    if (Array.isArray(transformedObj[key])) {
+      transformedObj[key] = (transformedObj[key] as SelectOption[]).map(
+        item => {
+          if (typeof item === 'object' && item?.value !== undefined) {
+            return item.value;
+          }
+          return item;
+        }
+      );
+    } else if (
+      typeof transformedObj[key] === 'object' &&
+      transformedObj[key]?.value !== undefined
+    ) {
+      transformedObj[key] = transformedObj[key].value;
+    }
+  });
 
-export function useFilterFormSearchParams(
-  name: FilterKeys,
-  delay: number = 0
-): string | undefined {
-  const { watch } = useFormContext();
+  return transformedObj;
+};
 
-  const value = useDebounce(
-    Array.isArray(watch(name))
-      ? (watch(name) as SelectOption[])?.map(v => v.value).join(',')
-      : watch(name),
-    delay
-  );
-
-  return value ?? undefined;
+export function useFilterFormFormWatch() {
+  const watch = useWatch();
+  return transformObjectToStrings(watch);
 }
 
 export function getSortValue(columnSort: ColumnSort): string {
