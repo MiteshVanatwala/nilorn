@@ -1,31 +1,13 @@
 import { RegisterOptions, ValidationRule } from 'react-hook-form';
-import { ChangelogItemDto } from '../generate';
+import {
+  ChangelogItemDto,
+  GetForFilterProductDevelopmentsWithPaginationQuery,
+} from '../generate';
 import { Location } from 'react-router';
 
 export type FilterKeys =
-  | 'pageNumber'
-  | 'pageSize'
-  | 'sortKey'
-  | 'searchQuery'
-  | 'number'
-  | 'clients'
-  | 'projects'
-  | 'statuses'
-  | 'itemCategories'
-  | 'productGroups'
-  | 'foldingTypes'
-  | 'finishedLengths'
-  | 'finishedWidths'
-  | 'finishedHeights'
-  | 'sourcingCompanies'
-  | 'vendor'
-  | 'opComp'
-  | 'members'
-  | 'includeClosed'
-  | 'ActiveSearchProfile'
-  | 'productDevelopments'
-  | 'certificates'
-  | 'indirectCosts';
+  | keyof GetForFilterProductDevelopmentsWithPaginationQuery
+  | 'ActiveSearchProfile';
 
 export interface FormInputProps {
   name: string;

@@ -44,7 +44,7 @@ function PriceGridRow({
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
-  const vendorOptions = useFilterOptions('vendor');
+  const vendorOptions = useFilterOptions('vendors');
   const filters = useFormStateFilters();
   const queryClient = useQueryClient();
 

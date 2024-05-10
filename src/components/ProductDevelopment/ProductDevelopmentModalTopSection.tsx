@@ -22,7 +22,7 @@ const ProductDevelopmentModalTopSection = ({
   actionBar,
 }: Props) => {
   const { close } = useContext(ModalContext);
-  const vendorOptions = useFilterOptions('vendor');
+  const vendorOptions = useFilterOptions('vendors');
 
   return (
     <Box

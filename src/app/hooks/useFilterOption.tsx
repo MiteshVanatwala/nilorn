@@ -49,12 +49,12 @@ const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
     undefined,
     name === 'projects' ?? false
   );
-  const { data: vendors } = useVendors(name === 'vendor');
+  const { data: vendors } = useVendors(name === 'vendors');
   const { data: sourcingCompanies } = useOpCompOption(
     name === 'sourcingCompanies' ?? false,
     true
   );
-  const { data: opComp } = useOpCompOption(name === 'opComp' ?? false);
+  const { data: opComp } = useOpCompOption(name === 'opComps' ?? false);
   const { data: members } = useMembers(name === 'members' ?? false);
   const { data: foldingTypes } = useFoldingType(
     name === 'foldingTypes' ?? false
@@ -76,12 +76,12 @@ const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
   }
 
   const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
-    vendor: mapVendorsToOptions(vendors),
+    vendors: mapVendorsToOptions(vendors),
     members: mapMembersToOptions(members),
     clients: mapClientsToOptions(clients),
     statuses: statuses,
     sourcingCompanies: sourcingCompanies as SelectOption[],
-    opComp: opComp as SelectOption[],
+    opComps: opComp as SelectOption[],
     foldingTypes: foldingTypes as SelectOption[],
     itemCategories: itemCategories as SelectOption[],
     productGroups: productGroups as SelectOption[],
