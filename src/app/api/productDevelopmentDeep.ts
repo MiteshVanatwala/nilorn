@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useFilterFormFormWatch } from '../utils/FilterHelper';
+import { useFormStateFilters } from '../utils/FilterHelper';
 import QueryKeysEnum from './queryKeys';
 import {
   GetFilteredProductDevelopmentDeepWithPaginationQuery,
@@ -11,7 +11,7 @@ export function useProductDevelopmentDeepFilter(
   keepPreviousData: boolean = true
 ) {
   const requestBody: GetFilteredProductDevelopmentDeepWithPaginationQuery =
-    useFilterFormFormWatch();
+    useFormStateFilters();
 
   return useQuery(
     [

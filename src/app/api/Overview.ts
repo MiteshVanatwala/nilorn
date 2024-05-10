@@ -4,11 +4,11 @@ import {
   GetForFilterProductDevelopmentsWithPaginationQuery,
   ProductDevelopmentsService,
 } from '../../app/generate';
-import { useFilterFormFormWatch } from '../utils/FilterHelper';
+import { useFormStateFilters } from '../utils/FilterHelper';
 
 export function useProductDevelopmentsFilter() {
   const requestBody: GetForFilterProductDevelopmentsWithPaginationQuery =
-    useFilterFormFormWatch();
+    useFormStateFilters();
 
   return useQuery(
     [QueryKeysEnum.Overview, JSON.stringify(requestBody)],

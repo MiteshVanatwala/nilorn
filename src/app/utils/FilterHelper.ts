@@ -115,7 +115,7 @@ export const transformObjectToStrings = (obj: {
   return transformedObj;
 };
 
-export function useFilterFormFormWatch() {
+export function useFormStateFilters() {
   const watch = useWatch();
   return transformObjectToStrings(watch);
 }

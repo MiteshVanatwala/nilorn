@@ -18,7 +18,7 @@ import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 import { isClosed } from '../../app/utils/status';
-import { useFormStateFilters } from '../../app/hooks/useFormStateFilters';
+import { useFormStateFilters } from '../../app/utils/FilterHelper';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;

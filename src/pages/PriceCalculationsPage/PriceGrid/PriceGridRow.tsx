@@ -27,9 +27,9 @@ import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { NavLink } from 'react-router-dom';
-import { useFormStateFilters } from '../../../app/hooks/useFormStateFilters';
 import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../../app/api/queryKeys';
+import { useFormStateFilters } from '../../../app/utils/FilterHelper';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
