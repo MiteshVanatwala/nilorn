@@ -206,7 +206,7 @@ const EditProduction = ({ productionId }: Props) => {
             onClick={() => {
               onNavigate(productionNavigation?.previous ?? '');
             }}>
-            {`${t('Common.Previous')} ${t('PD.FilterLabel.vendor')}`}
+            {`${t('Common.Previous')} ${t('Production.Vendor')}`}
           </Button>
           <Button
             color={COLORS.BLACK}
@@ -216,7 +216,7 @@ const EditProduction = ({ productionId }: Props) => {
             onClick={() => {
               onNavigate(productionNavigation?.next ?? '');
             }}>
-            {`${t('Common.Next')} ${t('PD.FilterLabel.vendor')}`}
+            {`${t('Common.Next')} ${t('Production.Vendor')}`}
           </Button>
         </HStack>
       </Box>

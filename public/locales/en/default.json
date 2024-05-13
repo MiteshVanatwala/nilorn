@@ -170,9 +170,9 @@
       "finishedLengths": "Finished Length",
       "finishedWidths": "Finished Width",
       "finishedHeights": "Finished Height",
-      "vendor": "Vendor",
+      "vendors": "Vendor",
       "stockLocation": "Stock Location",
-      "opComp": "Operational Company",
+      "opComps": "Operational Company",
       "members": "Members",
       "sourcingCompanies": "Sourcing",
       "productDevelopments_short": "Product Development No.",
@@ -234,6 +234,7 @@
     "CertificateWeight": "Certificate Weight",
     "CompositionMaterial": "Material",
     "PercentPlaceholder": "0-100",
+    "Vendor": "Vendor",
     "Feedback": {
       "Error": {
         "Percentage": "Percentage should be between 0 and 100"

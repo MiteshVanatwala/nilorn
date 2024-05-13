@@ -26,11 +26,10 @@ const LeavePageBlocker = () => {
   let blocker = useBlocker(handleBlockerCallback());
 
   useEffect(() => {
-    if (blocker && blocker.state === 'blocked' && modalRef.current?.onOpen()) {
-      console.log('blocker.state', blocker.state);
-      modalRef.current.onOpen();
+    if (blocker && blocker.state === 'blocked') {
+      modalRef.current?.onOpen();
     }
-  }, [blocker]);
+  }, [blocker, blocker?.state]);
 
   useEffect(() => {
     close();
@@ -38,9 +37,11 @@ const LeavePageBlocker = () => {
   }, [location]);
 
   const onConfirm = () => {
-    discardChanges();
-    (blocker as any).proceed();
-    modalRef.current?.onClose();
+    if (typeof (blocker as any).proceed === 'function') {
+      discardChanges();
+      (blocker as any).proceed();
+      modalRef.current?.onClose();
+    }
   };
 
   return (
