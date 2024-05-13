@@ -10,7 +10,7 @@ const ProductionsTableContainer = () => {
   const { t } = useTranslation();
 
   const { data, isError, isLoading, isFetching } =
-    useProductDevelopmentDeepFilter(false);
+    useProductDevelopmentDeepFilter(false, CHUNK_SIZES[0]);
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;

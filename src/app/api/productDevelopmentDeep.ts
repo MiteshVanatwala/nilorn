@@ -8,10 +8,14 @@ import {
 
 export function useProductDevelopmentDeepFilter(
   includeCalculations: boolean,
+  pageSize: number = 25,
   keepPreviousData: boolean = true
 ) {
   const requestBody: GetFilteredProductDevelopmentDeepWithPaginationQuery =
     useFormStateFilters();
+
+  requestBody.pageSize =
+    requestBody.pageSize !== undefined ? requestBody.pageSize : pageSize;
 
   return useQuery(
     [

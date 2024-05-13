@@ -16,7 +16,9 @@ function OverviewTableContainer() {
   const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
 
-  const { data, isError, isLoading } = useProductDevelopmentsFilter();
+  const { data, isError, isLoading } = useProductDevelopmentsFilter(
+    CHUNK_SIZES[0]
+  );
 
   useEffect(() => {
     if (initSort) {

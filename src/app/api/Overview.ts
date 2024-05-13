@@ -6,9 +6,12 @@ import {
 } from '../../app/generate';
 import { useFormStateFilters } from '../utils/FilterHelper';
 
-export function useProductDevelopmentsFilter() {
+export function useProductDevelopmentsFilter(pageSize: number = 25) {
   const requestBody: GetForFilterProductDevelopmentsWithPaginationQuery =
     useFormStateFilters();
+
+  requestBody.pageSize =
+    requestBody.pageSize !== undefined ? requestBody.pageSize : pageSize;
 
   return useQuery(
     [QueryKeysEnum.Overview, JSON.stringify(requestBody)],
