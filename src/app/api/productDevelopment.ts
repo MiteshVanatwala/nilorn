@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ApiError,
+  GetNavigationForProductDevelopmentQuery,
   MembersService,
   ProductDevelopmentDto,
   ProductDevelopmentsService,
@@ -138,7 +139,9 @@ export const useMembers = (no: string) => {
 export const useProductDevelopmentNavigation = (no: string) => {
   const { backInfo } = useBackInfo();
 
-  const filters = parseSearchParams(backInfo?.filter ?? '');
+  const filters: GetNavigationForProductDevelopmentQuery = parseSearchParams(
+    backInfo?.filter ?? ''
+  );
 
   return useQuery(
     [
@@ -150,6 +153,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
     () =>
       ProductDevelopmentsService.postApiProductDevelopmentsNavigation({
         ...filters,
+        includeOnlyWithSourcings: backInfo?.view !== 'overview',
         productDevelopmentNo: no,
       }).then(res => res),
     {
