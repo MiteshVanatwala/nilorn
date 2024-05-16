@@ -1,5 +1,5 @@
 import { Button, Menu, MenuButton, MenuList } from '@chakra-ui/react';
-import { BORDER_RADIUS, COLORS, SIZES, SPACE } from '../../theme/Constants';
+import { BORDER_RADIUS, COLORS, SIZES } from '../../theme/Constants';
 import text from '../../theme/text';
 
 interface Props {

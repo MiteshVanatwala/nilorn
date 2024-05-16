@@ -1,4 +1,4 @@
-import { Center, Link as LinkComponent } from '@chakra-ui/react';
+import { Link as LinkComponent } from '@chakra-ui/react';
 import COLORS from '../../theme/Constants/colors';
 import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
