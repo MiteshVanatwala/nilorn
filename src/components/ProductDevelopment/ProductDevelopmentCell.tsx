@@ -1,7 +1,7 @@
 import { Box, Text, Image, HStack, VStack, Link } from '@chakra-ui/react';
 import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentDataDto, Status } from '../../app/generate';
-import { SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -57,7 +57,9 @@ const ProductDevelopmentCell = ({
               }}>
               #{no}
             </Link>
-            <Text variant={'bodyBigBlack'}>{name}</Text>
+            <Text variant={'bodyBigBlack'} color={COLORS.GRAY[80]}>
+              {name}
+            </Text>
           </VStack>
           {artwork && <ArtworkButton artwork={artwork} />}
         </HStack>

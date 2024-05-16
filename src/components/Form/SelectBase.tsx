@@ -75,6 +75,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   invisible?: boolean;
   readOnly?: boolean;
   hideSelected?: boolean;
+  isSelected?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -96,6 +97,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   dark = false,
   invisible = false,
   hideSelected = false,
+  isSelected = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
@@ -103,7 +105,12 @@ const SelectBase = <IsMulti extends boolean = false>({
     ? COLORS.WHITE
     : invisible
     ? COLORS.GRAY[80]
-    : COLORS.GRAY[70];
+    : COLORS.BLACK;
+  const placeHolderColor = dark
+    ? COLORS.WHITE
+    : invisible
+    ? COLORS.GRAY[80]
+    : COLORS.GRAY[80];
   const bgColor = dark
     ? COLORS.GRAY[70]
     : invisible
@@ -188,8 +195,8 @@ const SelectBase = <IsMulti extends boolean = false>({
         }),
         placeholder: base => ({
           ...base,
-          fontWeight: 400,
-          color: color,
+          fontWeight: text.variants.bodyRegular.fontWeight,
+          color: isSelected && showSelectedCount ? color : placeHolderColor,
         }),
         input: base => ({
           ...base,
@@ -210,9 +217,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: COLORS.GRAY[10],
           px: SPACE.XS,
           py: SPACE.XXS,
-          maxW: '22rem',
+          // maxW: '22rem',
           wordWrap: 'break-word',
-          h: 'auto',
           '&:hover': {
             backgroundColor: COLORS.GRAY[20],
           },
