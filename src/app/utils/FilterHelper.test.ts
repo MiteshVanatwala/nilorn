@@ -1,4 +1,4 @@
-import { parseSearchParams, transformObjectToStrings } from './FilterHelper';
+import { convertQueryStringToObject, parseSearchParams } from './FilterHelper';
 
 describe('parseSearchParams', () => {
   it('should parse query string without leading ?', () => {
@@ -46,47 +46,51 @@ describe('parseSearchParams', () => {
   });
 });
 
-describe('transformObjectToStrings', () => {
-  it('transforms object with arrays of objects to strings', () => {
-    const obj = {
-      array1: [{ value: 'foo' }, { value: 'bar' }],
-      array2: [{ value: true }, { value: false }],
-      otherProp: 'baz',
-    };
-
+describe('convertQueryStringToObject', () => {
+  it('should parse and convert a basic query string', () => {
+    const query =
+      '?searchQuery=asdf&clients=EUC101481,EUC100320&statuses=Artwork&indirectCosts=23';
     const expected = {
-      array1: ['foo', 'bar'],
-      array2: [true, false],
-      otherProp: 'baz',
+      searchQuery: 'asdf',
+      clients: ['EUC101481', 'EUC100320'],
+      statuses: ['Artwork'],
+      indirectCosts: '23',
     };
-
-    expect(transformObjectToStrings(obj)).toEqual(expected);
+    expect(convertQueryStringToObject(query)).toEqual(expected);
   });
 
-  it('transforms object with single object values to strings', () => {
-    const obj = {
-      prop1: { value: 'hello' },
-      prop2: { value: true },
-      prop3: 'world',
-    };
-
-    const expected = {
-      prop1: 'hello',
-      prop2: true,
-      prop3: 'world',
-    };
-
-    expect(transformObjectToStrings(obj)).toEqual(expected);
+  it('should handle missing values', () => {
+    const query = '?searchQuery=&clients=&statuses=&indirectCosts=';
+    const expected = {};
+    expect(convertQueryStringToObject(query)).toEqual(expected);
   });
 
-  it('does not modify object with non-matching values', () => {
-    const obj = {
-      prop1: { name: 'hello' },
-      prop2: ['foo', 'bar'],
-      prop3: 42,
-      prop4: 'world',
+  it('should handle unknown parameters', () => {
+    const query = '?unknownParam=test&clients=EUC101481';
+    const expected = {
+      unknownParam: 'test',
+      clients: ['EUC101481'],
     };
+    expect(convertQueryStringToObject(query)).toEqual(expected);
+  });
 
-    expect(transformObjectToStrings(obj)).toEqual(obj);
+  it('should handle multiple parameters of the same type', () => {
+    const query = '?clients=EUC101481,EUC100320';
+    const expected = {
+      clients: ['EUC101481', 'EUC100320'],
+    };
+    expect(convertQueryStringToObject(query)).toEqual(expected);
+  });
+
+  it('should handle mixed types', () => {
+    const query =
+      '?searchQuery=test&clients=EUC101481,EUC100320&finishedWidths=50&finishedHeights=100';
+    const expected = {
+      searchQuery: 'test',
+      clients: ['EUC101481', 'EUC100320'],
+      finishedWidths: '50',
+      finishedHeights: '100',
+    };
+    expect(convertQueryStringToObject(query)).toEqual(expected);
   });
 });
