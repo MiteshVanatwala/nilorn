@@ -48,26 +48,19 @@ const IntegerInputField = ({
 
   const onChangeCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;
-    const nativeEvent = e.nativeEvent as InputEvent;
-    const lastInput = nativeEvent.data;
-    const [previInteger, prevDecimals] = prevValue.split('.');
-    if (!targetValue) {
-      if (!lastInput && !!prevDecimals) {
-        setPrevValue(!!previInteger ? previInteger : '');
-      } else if (lastInput === '.') {
-        setPrevValue(!!previInteger ? previInteger : '');
-      } else if (lastInput === ',') {
-        setPrevValue(!!previInteger ? previInteger : '');
-      }
-    } else {
-      setPrevValue(targetValue);
+    let dotNotatedValue = targetValue.replace(',', '.');
+    if (dotNotatedValue[0] === '.') {
+      dotNotatedValue = `0${dotNotatedValue}`;
+    }
+    if (!isNaN(parseFloat(dotNotatedValue))) {
+      setPrevValue(dotNotatedValue);
     }
   };
 
   const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!prevValue) {
       setFormValue(name, min);
-      setFormattedValue('');
+      setFormattedValue(min ? `${min}` : '');
     } else {
       const parsedInt = parseInt(prevValue);
       setFormValue(name, parsedInt);
@@ -106,7 +99,7 @@ const IntegerInputField = ({
         )}
 
         <Input
-          type={'number'}
+          type={'text'}
           opacity={showFormattedValue ? '0%' : readonly ? '70%' : ''}
           variant={variant}
           isReadOnly={readonly}
