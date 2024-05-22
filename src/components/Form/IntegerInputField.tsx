@@ -51,10 +51,14 @@ const IntegerInputField = ({
     const nativeEvent = e.nativeEvent as InputEvent;
     const lastInput = nativeEvent.data;
     const [previInteger, prevDecimals] = prevValue.split('.');
-    if (!lastInput && !targetValue && !!prevDecimals) {
-      setPrevValue(!!previInteger ? previInteger : '');
-    } else if (lastInput === '.' && !targetValue) {
-      setPrevValue(!!previInteger ? previInteger : '');
+    if (!targetValue) {
+      if (!lastInput && !!prevDecimals) {
+        setPrevValue(!!previInteger ? previInteger : '');
+      } else if (lastInput === '.') {
+        setPrevValue(!!previInteger ? previInteger : '');
+      } else if (lastInput === ',') {
+        setPrevValue(!!previInteger ? previInteger : '');
+      }
     } else {
       setPrevValue(targetValue);
     }
@@ -94,12 +98,13 @@ const IntegerInputField = ({
             w={'100%'}
             pb={'0.9rem'}
             position={'absolute'}
-            top={'0.6rem'}
+            top={'0.7rem'}
             left={0}
             borderBottom={`1px solid #e2e8f0`}>
             {formattedValue}
           </Text>
         )}
+
         <Input
           type={'number'}
           opacity={showFormattedValue ? '0%' : readonly ? '70%' : ''}

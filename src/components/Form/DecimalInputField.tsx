@@ -1,7 +1,12 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
-import { useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  FieldError,
+  ValidationRule,
+  useFormContext,
+} from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { STEP } from '../../app/utils/constant';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
@@ -52,10 +57,14 @@ const DecimalInputField = ({
     const nativeEvent = e.nativeEvent as InputEvent;
     const lastInput = nativeEvent.data;
     const [previInteger, prevDecimals] = prevValue.split('.');
-    if (!lastInput && !targetValue && !!prevDecimals) {
-      setPrevValue(!!previInteger ? previInteger : '');
-    } else if (lastInput === '.' && !targetValue) {
-      setPrevValue(!!previInteger ? previInteger : '');
+    if (!targetValue) {
+      if (!lastInput && !!prevDecimals) {
+        setPrevValue(!!previInteger ? previInteger : '');
+      } else if (lastInput === '.') {
+        setPrevValue(!!previInteger ? previInteger : '');
+      } else if (lastInput === ',') {
+        setPrevValue(!!previInteger ? previInteger : '');
+      }
     } else {
       setPrevValue(targetValue);
     }
@@ -95,7 +104,7 @@ const DecimalInputField = ({
             w={'100%'}
             pb={'0.9rem'}
             position={'absolute'}
-            top={'0.6rem'}
+            top={'0.7rem'}
             left={0}
             borderBottom={
               variant === 'standard' ? `1px solid #e2e8f0` : 'none'
@@ -103,6 +112,7 @@ const DecimalInputField = ({
             {formattedValue}
           </Text>
         )}
+
         <Input
           type={'number'}
           opacity={showFormattedValue ? '0%' : readonly ? '70%' : '100%'}
