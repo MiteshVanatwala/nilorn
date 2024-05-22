@@ -7,7 +7,7 @@ import { useWatch } from 'react-hook-form';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
-import IntegerInputField from '../../../components/Form/IntegerInputField';
+import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 
 type Props = {
   disableEdit: boolean;
@@ -47,30 +47,33 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <GridItem colSpan={2}>
-              <IntegerInputField
+              <FormattedNumberInputField
                 label={`${t('PD.FormContent.FinishedLengthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedLength'}
                 registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
+                type={'integer'}
               />
             </GridItem>
             <GridItem colSpan={2}>
-              <IntegerInputField
+              <FormattedNumberInputField
                 label={`${t('PD.FormContent.FinishedWidthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedWidth'}
                 registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
+                type={'integer'}
               />
             </GridItem>
             <GridItem colSpan={2}>
-              <IntegerInputField
+              <FormattedNumberInputField
                 label={`${t('PD.FormContent.FinishedHeightMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedHeight'}
                 registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
+                type={'integer'}
               />
             </GridItem>
           </Grid>

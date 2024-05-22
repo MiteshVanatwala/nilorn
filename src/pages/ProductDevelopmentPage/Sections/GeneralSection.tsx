@@ -13,8 +13,7 @@ import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import { useEffect, useState } from 'react';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 import { Status } from '../../../app/generate';
-import DecimalInputField from '../../../components/Form/DecimalInputField';
-import IntegerInputField from '../../../components/Form/IntegerInputField';
+import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 type Props = {
   disableEdit: boolean;
   createNew: boolean;
@@ -164,7 +163,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               />
             </GridItem>
             <GridItem colSpan={2}>
-              <DecimalInputField
+              <FormattedNumberInputField
                 label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
@@ -173,12 +172,13 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               />
             </GridItem>
             <GridItem colSpan={2}>
-              <IntegerInputField
+              <FormattedNumberInputField
                 label={`${t('PD.FormContent.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'sampleQuantity'}
                 registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
+                type={'integer'}
               />
             </GridItem>
           </Grid>

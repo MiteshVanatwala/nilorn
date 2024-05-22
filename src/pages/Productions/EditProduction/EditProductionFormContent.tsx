@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import { useGetCurrenciesFilterOption } from '../../../app/api/currency';
 import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
-import IntegerInputField from '../../../components/Form/IntegerInputField';
+import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -121,48 +121,53 @@ const EditProductionFormContent = ({
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <IntegerInputField
+            <FormattedNumberInputField
               name={'sampleLeadTime'}
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               registerOptions={{ valueAsNumber: true }}
+              type={'integer'}
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <IntegerInputField
+            <FormattedNumberInputField
               name={'productionLeadTime'}
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               registerOptions={{ valueAsNumber: true }}
+              type={'integer'}
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <IntegerInputField
+            <FormattedNumberInputField
               name={'moq'}
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               registerOptions={{ valueAsNumber: true }}
+              type={'integer'}
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <IntegerInputField
+            <FormattedNumberInputField
               name={'toolCharge'}
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               registerOptions={{ valueAsNumber: true }}
+              type={'integer'}
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <IntegerInputField
+            <FormattedNumberInputField
               name={'sampleCharge'}
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               registerOptions={{ valueAsNumber: true }}
+              type={'integer'}
             />
           </GridItem>
           <GridItem colSpan={1}>

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { uniqueInArray } from '../../../../app/utils/common';
-import IntegerInputField from '../../../../components/Form/IntegerInputField';
+import FormattedNumberInputField from '../../../../components/Form/FormattedNumberInputField';
 
 type Props = {
   formKey: string;
@@ -45,7 +45,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
           {fields.map((item, index) => {
             return (
               <Box key={item.id} position={'relative'}>
-                <IntegerInputField
+                <FormattedNumberInputField
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   readonly={disableEdit}
@@ -55,6 +55,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                     validate: (value: number) =>
                       validateUniqueValues(value, index),
                   }}
+                  type={'integer'}
                 />
                 {!disableEdit && (
                   <IconButton

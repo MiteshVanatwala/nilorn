@@ -14,8 +14,7 @@ import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
 import { ChangelogType } from '../../app/generate';
 import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
-import DecimalInputField from '../../components/Form/DecimalInputField';
-import IntegerInputField from '../../components/Form/IntegerInputField';
+import FormattedNumberInputField from '../../components/Form/FormattedNumberInputField';
 
 type Props = {
   disableEdit?: boolean;
@@ -75,11 +74,12 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
               <Box w={'100%'} key={item.id} position={'relative'}>
                 <HStack gap={SPACE.LG} w={'100%'}>
                   <Box w={'50%'} position={'relative'}>
-                    <IntegerInputField
+                    <FormattedNumberInputField
                       name={`${fieldName}.${index}.quantity`}
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
+                      type={'integer'}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
@@ -91,7 +91,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                     </Box>
                   </Box>
                   <Box w={'50%'} position={'relative'}>
-                    <DecimalInputField
+                    <FormattedNumberInputField
                       name={`${fieldName}.${index}.price`}
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}

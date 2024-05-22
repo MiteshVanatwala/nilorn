@@ -15,7 +15,7 @@ import {
   calculateCost,
   calculateSalesPrice,
 } from '../../app/utils/price/PriceHelper';
-import DecimalInputField from '../../components/Form/DecimalInputField';
+import FormattedNumberInputField from '../../components/Form/FormattedNumberInputField';
 
 type Props = {
   disableEdit?: boolean;
@@ -131,7 +131,7 @@ const PriceCalculationForm = ({
           lg: SPACE.LG,
         }}>
         <GridItem colSpan={2}>
-          <DecimalInputField
+          <FormattedNumberInputField
             name={'internalCommission'}
             label={`${
               t('PriceCalc.InternalCommission') + t('PriceCalc.Percentage')
@@ -141,7 +141,7 @@ const PriceCalculationForm = ({
             registerOptions={{
               valueAsNumber: true,
               min: {
-                value: 0,
+                value: 10,
                 message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
               },
             }}
@@ -150,7 +150,7 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <DecimalInputField
+          <FormattedNumberInputField
             name={'indirectCost'}
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
@@ -167,7 +167,7 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <DecimalInputField
+          <FormattedNumberInputField
             name={'freightIncluded'}
             label={`${t('PriceCalc.FreightIncluded')}`}
             placeholder={`${t('Common.Placeholder')}`}
@@ -177,7 +177,7 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <DecimalInputField
+          <FormattedNumberInputField
             name={'margin'}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
@@ -222,7 +222,7 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <DecimalInputField
+          <FormattedNumberInputField
             name={'currencyRate'}
             label={`${t('PriceCalc.CurrencyRate')}`}
             placeholder={`${t('Common.Placeholder')}`}

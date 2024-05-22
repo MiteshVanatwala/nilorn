@@ -4,7 +4,7 @@ import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
 import SelectBase from '../../../components/Form/SelectBase';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
-import DecimalInputField from '../../../components/Form/DecimalInputField';
+import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 
 type Props = {
   options: SelectOption[];
@@ -63,7 +63,7 @@ const CompositionMaterialRow = ({
         )}
       </GridItem>
       <GridItem>
-        <DecimalInputField
+        <FormattedNumberInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
           min={0}

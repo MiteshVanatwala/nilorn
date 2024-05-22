@@ -9,7 +9,7 @@ import {
 import { ProductionCertificateDto } from '../../../app/generate';
 import SelectBase from '../../../components/Form/SelectBase';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
-import DecimalInputField from '../../../components/Form/DecimalInputField';
+import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 
 type Props = {
   options: SelectOption[];
@@ -121,7 +121,7 @@ const CertificateInputRow = ({
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <DecimalInputField
+          <FormattedNumberInputField
             name={percentageName}
             placeholder={t('Production.PercentPlaceholder')}
             min={0}
@@ -143,7 +143,7 @@ const CertificateInputRow = ({
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <DecimalInputField
+          <FormattedNumberInputField
             name={certificateWeightName}
             registerOptions={{
               valueAsNumber: true,

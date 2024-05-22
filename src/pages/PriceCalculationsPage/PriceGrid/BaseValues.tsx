@@ -1,4 +1,4 @@
-import { List, ListItem, Text } from '@chakra-ui/react';
+import { List, ListItem } from '@chakra-ui/react';
 import { PriceCalculationDto } from '../../../app/generate';
 import { useTranslation } from 'react-i18next';
 import { numToThousandSeparatedsStr } from '../../../app/utils/common';

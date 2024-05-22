@@ -1,12 +1,7 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
-import {
-  Controller,
-  FieldError,
-  ValidationRule,
-  useFormContext,
-} from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { STEP } from '../../app/utils/constant';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
@@ -18,9 +13,10 @@ interface Props extends FormInputProps {
   readonly?: boolean;
   max?: number;
   min?: number;
+  type?: 'integer' | 'decimal';
 }
 
-const DecimalInputField = ({
+const FormattedNumberInputField = ({
   name,
   label,
   placeholder,
@@ -33,6 +29,7 @@ const DecimalInputField = ({
   readonly = false,
   max,
   min,
+  type,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [formattedValue, setFormattedValue] = useState('');
@@ -48,9 +45,12 @@ const DecimalInputField = ({
   useEffect(() => {
     const getValue = getValues(name);
     const dVal = getValue ?? defaultValue;
-    setFormattedValue(dVal ? numToThousandSeparatedsStr(dVal.toString()) : '');
+    setFormattedValue(dVal ? numToThousandSeparatedsStr(dVal) : '');
+    setFormattedValue(
+      dVal ? numToThousandSeparatedsStr(dVal, type === 'decimal') : ''
+    );
     setPrevValue(dVal ? dVal.toString() : '');
-  }, [defaultValue, getValues, name]);
+  }, [defaultValue, getValues, name, type]);
 
   const onChangeCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;
@@ -68,9 +68,12 @@ const DecimalInputField = ({
       setFormValue(name, min);
       setFormattedValue(min ? `${min}` : '');
     } else {
-      const parsedValue = parseFloat(prevValue);
+      const parsedValue =
+        type === 'decimal' ? parseFloat(prevValue) : parseInt(prevValue);
       setFormValue(name, parsedValue);
-      setFormattedValue(numToThousandSeparatedsStr(parsedValue));
+      setFormattedValue(
+        numToThousandSeparatedsStr(parsedValue, type === 'decimal')
+      );
     }
     setIsActive(false);
   };
@@ -99,28 +102,21 @@ const DecimalInputField = ({
             position={'absolute'}
             top={'0.7rem'}
             left={0}
-            borderBottom={
-              variant === 'standard' ? `1px solid #e2e8f0` : 'none'
-            }>
+            borderBottom={`1px solid #e2e8f0`}>
             {formattedValue}
           </Text>
         )}
 
         <Input
-          type={'text'}
+          type={isActive ? 'text' : 'number'}
           opacity={showFormattedValue ? '0%' : readonly ? '70%' : '100%'}
-          color={
-            showFormattedValue && variant === 'filled'
-              ? 'transparent'
-              : 'inherit'
-          }
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}
           placeholder={placeholder}
           max={max}
           min={min}
-          step={STEP}
+          step={type === 'decimal' ? STEP : 1}
           onChangeCapture={onChangeCapture}
           cursor={readonly ? 'default' : 'text'}
           {...register(name, {
@@ -133,4 +129,4 @@ const DecimalInputField = ({
   );
 };
 
-export default DecimalInputField;
+export default FormattedNumberInputField;
