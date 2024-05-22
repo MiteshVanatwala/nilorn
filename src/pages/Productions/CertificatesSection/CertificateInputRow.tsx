@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import InputField from '../../../components/Form/InputField';
 import { SelectOption } from '../../../app/types/types';
 import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
@@ -10,6 +9,7 @@ import {
 import { ProductionCertificateDto } from '../../../app/generate';
 import SelectBase from '../../../components/Form/SelectBase';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
+import DecimalInputField from '../../../components/Form/DecimalInputField';
 
 type Props = {
   options: SelectOption[];
@@ -121,9 +121,8 @@ const CertificateInputRow = ({
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <InputField
+          <DecimalInputField
             name={percentageName}
-            type="number"
             placeholder={t('Production.PercentPlaceholder')}
             min={0}
             max={100}
@@ -144,9 +143,8 @@ const CertificateInputRow = ({
       </GridItem>
       <GridItem>
         {!!selectedCertificateCode && (
-          <InputField
+          <DecimalInputField
             name={certificateWeightName}
-            type="decimal"
             registerOptions={{
               valueAsNumber: true,
             }}

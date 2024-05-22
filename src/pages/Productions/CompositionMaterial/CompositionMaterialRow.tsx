@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { SelectOption } from '../../../app/types/types';
 import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
-import InputField from '../../../components/Form/InputField';
 import SelectBase from '../../../components/Form/SelectBase';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
+import DecimalInputField from '../../../components/Form/DecimalInputField';
 
 type Props = {
   options: SelectOption[];
@@ -63,10 +63,9 @@ const CompositionMaterialRow = ({
         )}
       </GridItem>
       <GridItem>
-        <InputField
+        <DecimalInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
-          type="decimal"
           min={0}
           max={100}
           readonly={disableEdit}
