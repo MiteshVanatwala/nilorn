@@ -8,7 +8,7 @@ import {
 } from '../../../app/utils/price/PriceHelper';
 import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
 import { MAX_MARGIN, STEP } from '../../../app/utils/constant';
-import { roundUp } from '../../../app/utils/common';
+import { numToThousandSeparatedsStr, roundUp } from '../../../app/utils/common';
 
 type Props = {
   enableEdit: boolean;
@@ -65,7 +65,9 @@ const SalesPriceCalculation = ({
   return (
     <>
       <GridTd>
-        {roundUp(price.cost, calculation?.currency?.costDecimals)}
+        {numToThousandSeparatedsStr(
+          roundUp(price.cost, calculation?.currency?.costDecimals)
+        )}
       </GridTd>
       <GridTd>
         <>
@@ -81,7 +83,11 @@ const SalesPriceCalculation = ({
               borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
-            <>{roundUp(margin, calculation?.currency?.marginDecimals)}</>
+            <>
+              {numToThousandSeparatedsStr(
+                roundUp(margin, calculation?.currency?.marginDecimals)
+              )}
+            </>
           )}
         </>
       </GridTd>
@@ -99,7 +105,11 @@ const SalesPriceCalculation = ({
               borderRadius={BORDER_RADIUS.XS}
             />
           ) : (
-            <>{roundUp(salesPrice, calculation?.currency?.salesDecimals)}</>
+            <>
+              {numToThousandSeparatedsStr(
+                roundUp(salesPrice, calculation?.currency?.salesDecimals)
+              )}
+            </>
           )}
         </>
       </GridTd>

@@ -30,6 +30,7 @@ import { NavLink } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../../app/api/queryKeys';
 import { useFormStateFilters } from '../../../app/utils/FilterHelper';
+import { numToThousandSeparatedsStr } from '../../../app/utils/common';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -204,8 +205,12 @@ function PriceGridRow({
                           key={
                             calculation?.productionId + '-purchasePrice-' + i
                           }>
-                          <GridTd>{pc.quantity}</GridTd>
-                          <GridTd>{pc.purchasePrice}</GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pc.quantity)}
+                          </GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pc.purchasePrice)}
+                          </GridTd>
                         </Fragment>
                       ))}
                     </>
@@ -213,8 +218,12 @@ function PriceGridRow({
                     <>
                       {production.purchasePrices?.map((pp, i) => (
                         <Fragment key={production?.id + '-purchasePrice-' + i}>
-                          <GridTd>{pp.quantity}</GridTd>
-                          <GridTd>{pp.price}</GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.quantity)}
+                          </GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.price)}
+                          </GridTd>
                         </Fragment>
                       ))}
                     </>
