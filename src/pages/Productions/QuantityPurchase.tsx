@@ -10,11 +10,13 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
 import { ChangelogType } from '../../app/generate';
 import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
+import DecimalInputField from '../../components/Form/DecimalInputField';
+import IntegerInputField from '../../components/Form/IntegerInputField';
+
 type Props = {
   disableEdit?: boolean;
   showChanges: boolean;
@@ -73,10 +75,9 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
               <Box w={'100%'} key={item.id} position={'relative'}>
                 <HStack gap={SPACE.LG} w={'100%'}>
                   <Box w={'50%'} position={'relative'}>
-                    <InputField
-                      placeholder={`${t('Common.Placeholder')}`}
+                    <IntegerInputField
                       name={`${fieldName}.${index}.quantity`}
-                      type="number"
+                      placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true, required: true }}
                     />
@@ -90,10 +91,9 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                     </Box>
                   </Box>
                   <Box w={'50%'} position={'relative'}>
-                    <InputField
-                      placeholder={`${t('Common.Placeholder')}`}
+                    <DecimalInputField
                       name={`${fieldName}.${index}.price`}
-                      type="decimal"
+                      placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
                       registerOptions={{ valueAsNumber: true }}
                     />

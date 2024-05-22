@@ -10,8 +10,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import InputField from '../../../../components/Form/InputField';
 import { uniqueInArray } from '../../../../app/utils/common';
+import IntegerInputField from '../../../../components/Form/IntegerInputField';
 
 type Props = {
   formKey: string;
@@ -45,10 +45,9 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
           {fields.map((item, index) => {
             return (
               <Box key={item.id} position={'relative'}>
-                <InputField
+                <IntegerInputField
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
-                  type="number"
                   readonly={disableEdit}
                   registerOptions={{
                     valueAsNumber: true,
