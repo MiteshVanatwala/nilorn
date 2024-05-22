@@ -217,7 +217,6 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: COLORS.GRAY[10],
           px: SPACE.XS,
           py: SPACE.XXS,
-          // maxW: '22rem',
           wordWrap: 'break-word',
           '&:hover': {
             backgroundColor: COLORS.GRAY[20],

@@ -39,12 +39,7 @@ const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
         id={name}
         onChange={e => setChecked(e.target?.checked)}
       />
-      <FormLabel
-        htmlFor={name}
-        ml={SPACE.XS}
-        mb={0}
-        fontWeight={text.variants.bodyRegular.fontWeight}
-        color={COLORS.BLACK}>
+      <FormLabel variant={'thin'} htmlFor={name} ml={SPACE.XS} mb={0}>
         {label}
       </FormLabel>
     </FormControl>
