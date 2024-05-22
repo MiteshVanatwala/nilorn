@@ -10,17 +10,17 @@ export const link = {
   },
   variants: {
     textLink: {
-      color: COLORS.GRAY[80],
+      color: COLORS.BLACK,
       fontSize: fontSizes.xs,
-      fontWeight: 700,
+      fontWeight: 400,
       padding: '0',
       borderRadius: 'none',
       height: '2rem',
       border: 'none',
       textDecoration: 'none !important',
-      boxShadow: `0 1px 0 0 ${COLORS.GRAY[60]}`,
+      boxShadow: `0 1px 0 0 ${COLORS.BLACK}`,
       _hover: {
-        boxShadow: `0 2px 0 0 ${COLORS.GRAY[80]}`,
+        boxShadow: `0 2px 0 0 ${COLORS.BLACK}`,
       },
     },
     headerLink: {

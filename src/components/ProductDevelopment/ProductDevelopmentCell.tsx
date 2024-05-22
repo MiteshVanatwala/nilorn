@@ -47,19 +47,18 @@ const ProductDevelopmentCell = ({
       <VStack py={SPACE.XS} spacing={SPACE.XS} alignItems={'baseline'}>
         <HStack justifyContent={'space-between'} width={'100%'}>
           <VStack
-            gap={0}
+            gap={SPACE.XXS}
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
             <Link
+              variant={'textLink'}
               as={Text}
               onClick={e => {
                 handleClick(e, `/product-development/${no}`, no ?? '');
               }}>
               #{no}
             </Link>
-            <Text variant={'bodyBigBlack'} color={COLORS.GRAY[80]}>
-              {name}
-            </Text>
+            <Text variant={'bodyBold'}>{name}</Text>
           </VStack>
           {artwork && <ArtworkButton artwork={artwork} />}
         </HStack>
