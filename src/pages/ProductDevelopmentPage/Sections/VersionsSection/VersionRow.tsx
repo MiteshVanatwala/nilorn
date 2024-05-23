@@ -1,5 +1,4 @@
-import { GridItem, Text, Tooltip } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
+import { GridItem, Text, TextProps, Tooltip } from '@chakra-ui/react';
 import { SPACE } from '../../../../theme/Constants';
 import ImagePopup from '../../../../components/ImagePopup/ImagePopup';
 import StatusBadge from '../../../../components/Status/StatusBadge';
@@ -11,14 +10,19 @@ type Props = {
 };
 
 const VersionRow = ({ version, bgColor }: Props) => {
-  const { t } = useTranslation();
-
   const gridItemStyles = {
     colSpan: 1,
     bgColor: bgColor,
     px: SPACE.SM,
     py: SPACE.XS,
     alignContent: 'center',
+  };
+
+  const commonTextStyles: TextProps = {
+    maxW: '30ch',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   };
 
   return (
@@ -28,24 +32,13 @@ const VersionRow = ({ version, bgColor }: Props) => {
       </GridItem>
 
       <GridItem colStart={2} {...gridItemStyles}>
-        <Text
-          variant={'bodyBold'}
-          maxW={'30ch'}
-          overflow={'hidden'}
-          textOverflow={'ellipsis'}
-          whiteSpace={'nowrap'}>
+        <Text variant={'bodyBold'} {...commonTextStyles}>
           {version.name}
         </Text>
       </GridItem>
 
       <GridItem colStart={3} {...gridItemStyles}>
-        <Text
-          maxW={'30ch'}
-          overflow={'hidden'}
-          textOverflow={'ellipsis'}
-          whiteSpace={'nowrap'}>
-          {version.no}
-        </Text>
+        <Text {...commonTextStyles}>{version.no}</Text>
       </GridItem>
 
       <GridItem colStart={4} {...gridItemStyles}>
@@ -58,18 +51,12 @@ const VersionRow = ({ version, bgColor }: Props) => {
 
       <GridItem colStart={6} {...gridItemStyles}>
         <Tooltip label={version.specification}>
-          <Text
-            maxW={'30ch'}
-            overflow={'hidden'}
-            textOverflow={'ellipsis'}
-            whiteSpace={'nowrap'}>
-            {version.specification}
-          </Text>
+          <Text {...commonTextStyles}>{version.specification}</Text>
         </Tooltip>
       </GridItem>
 
       <GridItem colStart={7} {...gridItemStyles}>
-        <Text>{version.sourcings}</Text>
+        <Text {...commonTextStyles}>{version.sourcings}</Text>
       </GridItem>
     </>
   );

@@ -195,7 +195,10 @@ export const useCreateCopyProductDevelopment = (no: string, name: string) => {
   );
 };
 
-export const useCreateVersionProductDevelopment = (no: string) => {
+export const useCreateVersionProductDevelopment = (
+  no: string,
+  name: string
+) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
@@ -203,22 +206,21 @@ export const useCreateVersionProductDevelopment = (no: string) => {
 
   return useMutation(
     () =>
-      ProductDevelopmentsService.patchApiProductDevelopments1(
+      ProductDevelopmentsService.postApiProductDevelopmentsVersion(
         no,
-        Status.APPROVED
+        name
       ).then(response => response),
     {
-      onSuccess: async (res: ProductDevelopmentDto) => {
-        navigate('product-development/[ADD NO HERE FROM API]');
+      onSuccess: async (no: string) => {
+        navigate(`product-development/${no}`);
         showToast({
           status: 'success',
           description: `${t('PD.Feedback.Success.Created', {
-            no: '[ADD NO HERE FROM API]',
+            no: no,
           })}`,
         });
-        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
         queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        queryClient.invalidateQueries([QueryKeysEnum.Navigation]);
       },
       onError: async (err: ApiError) => {
         showToast({

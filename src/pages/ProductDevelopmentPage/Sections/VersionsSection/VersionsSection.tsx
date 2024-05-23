@@ -1,11 +1,8 @@
-import { Grid, GridItem, Text, Tooltip } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { COLORS, SPACE } from '../../../../theme/Constants';
+import { COLORS } from '../../../../theme/Constants';
 import { Status } from '../../../../app/generate';
 import AccordionItem from '../../../../components/AccordionItem/AccordionItem';
-import ImagePopup from '../../../../components/ImagePopup/ImagePopup';
-import StatusBadge from '../../../../components/Status/StatusBadge';
-import { Fragment } from 'react';
 import VersionRow from './VersionRow';
 
 export type Version = {

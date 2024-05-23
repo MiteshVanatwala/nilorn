@@ -7,7 +7,7 @@ import {
   SPACE,
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
-import ActionBar from './SectionComponents/ActionBar';
+import ActionBar from './SectionComponents/ActionBar/ActionBar';
 import { VStack, Input } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
