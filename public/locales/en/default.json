@@ -167,7 +167,8 @@
       "Sourcing": "Sourcing",
       "Attachments": "Attachments",
       "ProductDesign": "Design",
-      "General": "General"
+      "General": "General",
+      "Versions": "Versions"
     },
     "FilterLabel": {
       "searchQuery": "",

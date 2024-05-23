@@ -11,12 +11,14 @@ type Props = {
   title: string;
   children: JSX.Element;
   headlineColor?: string;
+  panelPadding?: string;
 };
 
 const AccordionItem = ({
   title,
   children,
   headlineColor = COLORS.WHITE,
+  panelPadding,
 }: Props) => {
   return (
     <ChakraAccordionItem>
@@ -28,7 +30,7 @@ const AccordionItem = ({
           <AccordionIcon />
         </HStack>
       </AccordionButton>
-      <AccordionPanel>{children}</AccordionPanel>
+      <AccordionPanel p={panelPadding}>{children}</AccordionPanel>
     </ChakraAccordionItem>
   );
 };
