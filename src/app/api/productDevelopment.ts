@@ -165,33 +165,31 @@ export const useProductDevelopmentNavigation = (no: string) => {
   );
 };
 
-export const useCreateCopyProductDevelopment = (no: string) => {
+export const useCreateCopyProductDevelopment = (no: string, name: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation(
     () =>
-      ProductDevelopmentsService.patchApiProductDevelopments1(
-        no,
-        Status.APPROVED
-      ).then(response => response),
+      ProductDevelopmentsService.postApiProductDevelopmentsCopy(no, name).then(
+        response => response
+      ),
     {
-      onSuccess: async (res: ProductDevelopmentDto) => {
+      onSuccess: async (no: string) => {
         showToast({
           status: 'success',
-          description: `${t('PD.Feedback.Success.Created', {
-            no: '[ADD NO HERE FROM API]',
-          })}`,
+          description: `${t('PD.Feedback.Success.Created', { no: no })}`,
         });
-        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
-        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        navigate(`/product-development/${no}`);
         queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        queryClient.invalidateQueries([QueryKeysEnum.Navigation]);
       },
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: err.body.title,
+          title: `${t('PD.Feedback.Error.Create')}`,
         });
       },
     }

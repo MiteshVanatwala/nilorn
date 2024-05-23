@@ -27,6 +27,7 @@ import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
 
 type Props = {
   no: string;
+  name: string;
   createNew?: boolean;
   disableEdit: boolean;
   hasPriceCalculation: boolean;
@@ -35,6 +36,7 @@ type Props = {
 const ActionBar = ({
   createNew,
   no,
+  name,
   disableEdit,
   hasPriceCalculation,
   hasProductions,
@@ -55,7 +57,7 @@ const ActionBar = ({
   const currentStatus = useWatch({ name: 'status' }) as Status;
 
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
-  const { mutate: copy } = useCreateCopyProductDevelopment(no);
+  const { mutate: copy } = useCreateCopyProductDevelopment(no, name);
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();

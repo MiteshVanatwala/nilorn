@@ -29,6 +29,7 @@ type Props = {
   defaultValues?: ProductDevelopmentDto;
   scrolledPast: boolean;
   no: string;
+  name: string;
 };
 
 function ProductDevelopmentForm({
@@ -36,6 +37,7 @@ function ProductDevelopmentForm({
   defaultValues,
   scrolledPast,
   no,
+  name,
 }: Props) {
   const showSourcing = useAuthorizedSee('sourcing');
   const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
@@ -112,6 +114,7 @@ function ProductDevelopmentForm({
           disableEdit={disableEdit}
           createNew={createNew}
           no={no}
+          name={name}
           scrolledPast={scrolledPast}
           hasPriceCalculation={defaultValues?.hasPriceCalculation ?? false}
           hasProductions={defaultValues?.hasProductions ?? false}
