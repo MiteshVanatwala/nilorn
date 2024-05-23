@@ -123,4 +123,44 @@ export class ProductDevelopmentsService {
         });
     }
 
+    /**
+     * @param no
+     * @param name
+     * @returns string Success
+     * @throws ApiError
+     */
+    public static postApiProductDevelopmentsCopy(
+        no: string,
+        name: string,
+    ): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/ProductDevelopments/Copy/{no}/{name}',
+            path: {
+                'no': no,
+                'name': name,
+            },
+        });
+    }
+
+    /**
+     * @param no
+     * @param name
+     * @returns string Success
+     * @throws ApiError
+     */
+    public static postApiProductDevelopmentsVersion(
+        no: string,
+        name: string,
+    ): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/ProductDevelopments/Version/{no}/{name}',
+            path: {
+                'no': no,
+                'name': name,
+            },
+        });
+    }
+
 }
