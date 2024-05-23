@@ -1,8 +1,7 @@
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { SPACE } from '../../theme/Constants';
 import { useFormContext } from 'react-hook-form';
 import { useCallback, useEffect, useState } from 'react';
-import text from '../../theme/text';
 
 type Props = {
   label: string;
