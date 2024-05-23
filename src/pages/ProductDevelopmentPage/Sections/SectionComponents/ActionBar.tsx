@@ -12,6 +12,7 @@ import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
 import { useCurrentUser } from '../../../../app/api/User';
 import {
   useCreateCopyProductDevelopment,
+  useCreateVersionProductDevelopment,
   useUpdateProductDevelopmentWithStatus,
 } from '../../../../app/api/productDevelopment';
 import { ChangelogType, Status } from '../../../../app/generate';
@@ -59,6 +60,7 @@ const ActionBar = ({
 
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { mutate: copy } = useCreateCopyProductDevelopment(no, name);
+  const { mutate: createVersion } = useCreateVersionProductDevelopment(no);
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
@@ -114,6 +116,9 @@ const ActionBar = ({
   async function copyProductDevelopment() {
     copy();
   }
+  async function createVersionProductDevelopment() {
+    createVersion();
+  }
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -155,6 +160,34 @@ const ActionBar = ({
                   />
                 }>
                 {t('PD.CreateCopy')}
+              </MenuItem>
+            )}
+            {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
+              <MenuItem
+                disabled={true}
+                onClick={() =>
+                  handleModal(
+                    <ConfirmModal
+                      title={t('PD.CreateVersionConfirmModal.Title')}
+                      description={t(
+                        'PD.CreateVersionConfirmModal.Description',
+                        {
+                          no: no,
+                        }
+                      )}
+                      confirmType={'PRIMARY'}
+                      onConfirm={createVersionProductDevelopment}
+                    />
+                  )
+                }
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-file-copy-line"
+                  />
+                }>
+                {t('PD.CreateVersion')}
               </MenuItem>
             )}
             {!disableEdit && (

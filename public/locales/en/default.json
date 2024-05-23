@@ -115,6 +115,11 @@
       "Title": "Create copy",
       "Description": "Would you like to create a copy of product development {{no}}?"
     },
+    "CreateVersion": "Create version",
+    "CreateVersionConfirmModal": {
+      "Title": "Create version",
+      "Description": "Would you like to create a new version of product development {{no}}?"
+    },
     "File": {
       "BrowseFile": "Browse files...",
       "DeleteFile": "Do you want to delete the file, or only remove the link to the file (file will be kept in Teams)",
