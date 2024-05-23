@@ -164,3 +164,36 @@ export const useProductDevelopmentNavigation = (no: string) => {
     }
   );
 };
+
+export const useCreateCopyProductDevelopment = (no: string) => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    () =>
+      ProductDevelopmentsService.patchApiProductDevelopments1(
+        no,
+        Status.APPROVED
+      ).then(response => response),
+    {
+      onSuccess: async (res: ProductDevelopmentDto) => {
+        showToast({
+          status: 'success',
+          description: `${t('PD.Feedback.Success.Created', {
+            no: '[ADD NO HERE FROM API]',
+          })}`,
+        });
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
+        queryClient.invalidateQueries([QueryKeysEnum.Productions]);
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: err.body.title,
+        });
+      },
+    }
+  );
+};
