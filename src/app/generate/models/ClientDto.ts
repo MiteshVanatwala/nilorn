@@ -12,3 +12,4 @@ export type ClientDto = {
     accountManager?: MemberBriefDto;
     targetMargin?: number;
 };
+

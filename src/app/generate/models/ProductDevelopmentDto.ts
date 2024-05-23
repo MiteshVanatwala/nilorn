@@ -36,3 +36,4 @@ export type ProductDevelopmentDto = {
     hasPriceCalculation?: boolean;
     lastModified?: string | null;
 };
+

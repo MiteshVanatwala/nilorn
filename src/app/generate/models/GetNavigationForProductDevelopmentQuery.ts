@@ -27,3 +27,4 @@ export type GetNavigationForProductDevelopmentQuery = {
     productDevelopmentNo?: string | null;
     includeOnlyWithSourcings?: boolean;
 };
+
