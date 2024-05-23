@@ -54,7 +54,7 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
         modalRef.current?.onOpen();
         setFile(file);
       } else if (!!no) {
-        uploadFile(file);
+        uploadFile(file, false);
       }
     } else {
       showToast({
@@ -64,26 +64,29 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
     }
   };
 
-  const uploadFile = async (file: File, replace?: boolean) => {
-    upload(file, {
-      onSuccess: () => {
-        showToast({
-          status: 'success',
-          description: t('PD.Feedback.Success.FileUpdated', {
-            name: file?.name,
-          }),
-        });
-        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
-      },
-      onError: () => {
-        showToast({
-          status: 'error',
-          description: t('PD.Feedback.Error.FileUpdated', {
-            name: file?.name,
-          }),
-        });
-      },
-    });
+  const uploadFile = async (file: File, replaceArtwork: boolean) => {
+    upload(
+      { file, replaceArtwork },
+      {
+        onSuccess: () => {
+          showToast({
+            status: 'success',
+            description: t('PD.Feedback.Success.FileUpdated', {
+              name: file?.name,
+            }),
+          });
+          queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        },
+        onError: () => {
+          showToast({
+            status: 'error',
+            description: t('PD.Feedback.Error.FileUpdated', {
+              name: file?.name,
+            }),
+          });
+        },
+      }
+    );
   };
 
   return (
