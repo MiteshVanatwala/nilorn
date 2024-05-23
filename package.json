@@ -16,7 +16,6 @@
     "@types/react-dom": "^18.2.7",
     "chakra-react-select": "^4.7.2",
     "framer-motion": "^10.16.4",
-    "i18next": "^23.11.4",
     "i18next-http-backend": "^2.2.2",
     "npm": "^10.1.0",
     "react": "^18.2.0",
