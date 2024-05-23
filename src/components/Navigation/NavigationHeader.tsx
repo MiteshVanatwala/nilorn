@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Container,
   Flex,
   Grid,
@@ -8,15 +9,15 @@ import {
   Image,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { images } from '../../assets/';
 import COLORS from '../../theme/Constants/colors';
 import SIZES from '../../theme/Constants/sizes';
 import HeaderDivider from './HeaderDivider';
 import UserMenu from './UserMenu';
-import { GRID } from '../../theme/Constants';
+import { GRID, SPACE } from '../../theme/Constants';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import HeaderLink from './HeaderLink';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import logoSvg from '../../assets/svgs/logo.svg';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -29,33 +30,42 @@ const NavigationHeader = () => {
       centerContent
       width={'100%'}
       maxW={'100%'}
-      bgColor={COLORS.GRAY[5]}
-      zIndex={99}>
+      zIndex={99}
+      borderBottom={`1px solid ${COLORS.GRAY[40]}`}
+      p={0}>
       <Box maxW={SIZES.CONTAINER.XL} w={'100%'}>
         <Grid
           templateColumns={{
             base: GRID.TEMPLATE_COLUMNS.base,
-            lg: GRID.TEMPLATE_COLUMNS.sm,
-            md: GRID.TEMPLATE_COLUMNS.md,
+            md: GRID.TEMPLATE_COLUMNS.sm,
+            sm: GRID.TEMPLATE_COLUMNS.md,
           }}>
           <GridItem
-            borderBottom={{ base: `solid 1px ${COLORS.GRAY[30]}`, lg: 'none' }}>
+            borderBottom={{ base: `solid 1px ${COLORS.GRAY[40]}`, md: 'none' }}>
             <Flex alignItems="center">
               <HStack m={0}>
                 <HeaderLink
                   variant="logo"
                   title={
-                    <Image
-                      src={images.logo}
+                    <Center
                       height="6.9rem"
-                      width="auto"
-                      min-width={'100% !important'}
-                    />
+                      w={'max-content'}
+                      pr={SPACE.XL}
+                      pl={SPACE.LG}>
+                      <Image
+                        src={logoSvg}
+                        height={'3.9rem'}
+                        pb={'0.6rem'}
+                        width="auto"
+                        min-width={'100% !important'}
+                      />
+                    </Center>
                   }
                   path="/"
                   clickedStoredFilter={SESSION_STORAGE.prevFilterOverview}
                 />
               </HStack>
+              <HeaderDivider />
               <HStack m={0} divider={<HeaderDivider />}>
                 <HeaderLink
                   title={t('Common.Title')}

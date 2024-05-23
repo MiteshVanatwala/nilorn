@@ -38,7 +38,7 @@ const baseStyle = definePartsStyle({
     paddingInlineEnd: 0,
     borderWidth: 1,
     borderColor: COLORS.GRAY[20],
-    color: COLORS.GRAY[80],
+    color: COLORS.BLACK,
     paddingLeft: '0.6rem',
     paddingRight: '0.6rem',
     pY: 0,

@@ -7,7 +7,7 @@ const HeaderDivider = () => {
       orientation="vertical"
       opacity={1}
       m={0}
-      borderColor={COLORS.GRAY[30]}
+      borderColor={COLORS.GRAY[40]}
       height="6.9rem"
     />
   );

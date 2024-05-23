@@ -4,6 +4,7 @@ import fontSizes from '../../theme/fontSizes';
 import { FC } from 'react';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useLocation, useNavigate } from 'react-router-dom';
+import text from '../../theme/text';
 
 interface Props {
   title?: string | JSX.Element;
@@ -29,17 +30,23 @@ const HeaderLink: FC<Props> = ({
       '?pageSize=25&pageNumber=1';
 
     const newUrl = url + prevFilter;
-    navigate(newUrl);
+
+    if (location.pathname !== url) {
+      navigate(newUrl);
+    }
   };
+
+  const isActive = location.pathname === path;
 
   return (
     <>
       <LinkComponent
-        _hover={{ bg: COLORS.GRAY[0], color: COLORS.BLUE[200] }}
+        _hover={{ bg: variant !== 'logo' ? COLORS.GRAY[10] : COLORS.GRAY[0] }}
         variant={variant}
-        bg={location.pathname === path ? COLORS.GRAY[0] : ''}
-        color={location.pathname === path ? COLORS.BLUE[200] : ''}
+        bg={isActive ? COLORS.GRAY[0] : ''}
+        color={isActive ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
+        fontWeight={text.variants.bodyRegular.fontWeight}
         onClick={e => handleClick(path, clickedStoredFilter)}
         whiteSpace={'nowrap'}>
         {title}

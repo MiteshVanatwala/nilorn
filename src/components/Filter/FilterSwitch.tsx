@@ -1,7 +1,8 @@
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import { SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
 import { useFormContext } from 'react-hook-form';
 import { useCallback, useEffect, useState } from 'react';
+import text from '../../theme/text';
 
 type Props = {
   label: string;
@@ -38,7 +39,7 @@ const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
         id={name}
         onChange={e => setChecked(e.target?.checked)}
       />
-      <FormLabel htmlFor={name} ml={SPACE.XS} mb={0} fontWeight={'400'}>
+      <FormLabel variant={'thin'} htmlFor={name} ml={SPACE.XS} mb={0}>
         {label}
       </FormLabel>
     </FormControl>

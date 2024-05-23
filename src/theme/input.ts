@@ -7,6 +7,7 @@ import {
 import COLORS from './Constants/colors';
 import { SPACE } from './Constants';
 import fontSizes from './fontSizes';
+import text from './text';
 
 const importantValue = (value: string) => {
   return `${value} !important`;
@@ -77,9 +78,8 @@ const sizes = {
 const baseStyle = definePartsStyle({
   field: {
     paddingBottom: '0.2rem',
-    color: COLORS.GRAY[80],
     h: '3.7rem',
-    fontWeight: 400,
+    fontWeight: text.variants.bodyRegular.fontWeight,
     ':focus-visible': {
       borderColor: importantValue(COLORS.GRAY[60]),
       boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),

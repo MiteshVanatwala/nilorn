@@ -8,7 +8,12 @@ export const formLabel = {
     letterSpacing: '0.02em',
     marginBottom: SPACE.SM,
   },
-  variants: {},
+  variants: {
+    thin: {
+      ...text.variants.bodyRegular,
+      color: COLORS.BLACK,
+    },
+  },
 };
 
 export const inputGroup = {

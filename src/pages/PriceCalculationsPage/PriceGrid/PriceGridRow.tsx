@@ -135,6 +135,7 @@ function PriceGridRow({
               <HStack justify={'space-between'} w={'100%'}>
                 <VStack align={'start'} gap={SPACE.XXS}>
                   <Link
+                    variant={'textLink'}
                     as={NavLink}
                     to={`/productions?vendor=${
                       vendorOptions.find(

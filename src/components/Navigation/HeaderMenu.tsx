@@ -1,5 +1,6 @@
 import { Button, Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { BORDER_RADIUS, COLORS, SIZES } from '../../theme/Constants';
+import text from '../../theme/text';
 
 interface Props {
   title: string;
@@ -8,10 +9,13 @@ interface Props {
 
 const HeaderMenu = ({ title, children }: Props) => {
   return (
-    <Menu gutter={0}>
+    <Menu gutter={6}>
       <MenuButton
         as={Button}
         variant="menuButton"
+        color={COLORS.BLACK}
+        _hover={{ bgColor: COLORS.GRAY[10] }}
+        fontWeight={text.variants.bodyRegular}
         rightIcon={
           <i
             className="ri-arrow-down-s-fill"

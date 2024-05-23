@@ -57,10 +57,11 @@ const Select = <IsMulti extends boolean = false>({
         name={name}
         rules={registerOptions}
         defaultValue={defaultValue}
-        render={({ field: { onChange, onBlur, name, ref } }) => {
+        render={({ field: { onChange, onBlur, name, ref, value } }) => {
           return (
             <SelectBase
               isMulti={isMulti}
+              isSelected={(isMulti && value?.length) || (!isMulti && !!value)}
               isControlled={false}
               readOnly={isDisabled}
               name={name}
