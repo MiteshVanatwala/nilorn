@@ -56,7 +56,11 @@ const useOverviewColumns = () => {
         const versions = info.getValue() as number;
         return (
           <CommentPopup
-            icon={<Text>{versions > 0 ? versions + 1 : <>TBD</>}</Text>}
+            icon={
+              <Text opacity={!versions ? 0 : 1}>
+                {versions > 0 ? versions + 1 : 0}
+              </Text>
+            }
             comment={info.row.original?.versionSpecification ?? ''}
           />
         );
