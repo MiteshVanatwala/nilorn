@@ -9,18 +9,21 @@ import Popup, { PopupTrigger } from '../Popup/Popup';
 type Props = {
   comment?: string | null | undefined;
   icon?: JSX.Element;
+  showIcon?: boolean;
 };
-const CommentPopup = ({ comment, icon }: Props) => {
+const CommentPopup = ({ comment, icon, showIcon }: Props) => {
   const { t } = useTranslation();
   const [isDirty, setIsDirty] = useState(false);
 
-  if (!!comment) {
-    const lines = comment
-      .split('\n')
-      .map((line, index) => (
-        <Text key={index}>{isNullOrWhiteSpace(line) ? '\u00A0' : line}</Text>
-      ));
+  let lines = !!comment?.length
+    ? comment
+        .split('\n')
+        .map((line, index) => (
+          <Text key={index}>{isNullOrWhiteSpace(line) ? '\u00A0' : line}</Text>
+        ))
+    : undefined;
 
+  if (!!lines || showIcon) {
     return (
       <>
         <Popup
@@ -44,6 +47,7 @@ const CommentPopup = ({ comment, icon }: Props) => {
             />
           }
           content={isDirty ? <Box>{lines}</Box> : <></>}
+          hideContent={!lines}
         />
       </>
     );
