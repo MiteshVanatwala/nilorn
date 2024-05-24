@@ -29,7 +29,7 @@ const FormattedNumberInputField = ({
   readonly = false,
   max,
   min,
-  type,
+  type = 'decimal',
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [formattedValue, setFormattedValue] = useState('');
@@ -45,7 +45,6 @@ const FormattedNumberInputField = ({
   useEffect(() => {
     const getValue = getValues(name);
     const dVal = getValue ?? defaultValue;
-    setFormattedValue(dVal ? numToThousandSeparatedsStr(dVal) : '');
     setFormattedValue(
       dVal ? numToThousandSeparatedsStr(dVal, type === 'decimal') : ''
     );
