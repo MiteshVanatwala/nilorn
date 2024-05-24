@@ -9,9 +9,8 @@ import Popup, { PopupTrigger } from '../Popup/Popup';
 type Props = {
   comment?: string | null | undefined;
   icon?: JSX.Element;
-  showIcon?: boolean;
 };
-const CommentPopup = ({ comment, icon, showIcon }: Props) => {
+const CommentPopup = ({ comment, icon }: Props) => {
   const { t } = useTranslation();
   const [isDirty, setIsDirty] = useState(false);
 
@@ -23,35 +22,37 @@ const CommentPopup = ({ comment, icon, showIcon }: Props) => {
         ))
     : undefined;
 
-  if (!!lines || showIcon) {
+  const iconButton = (
+    <IconButton
+      aria-label={t('Common.ReadComment')}
+      variant={'ghost'}
+      padding={SPACE.SM}
+      onMouseEnter={() => setIsDirty(true)}
+      icon={
+        icon ?? (
+          <RemixIcon
+            component="Text"
+            icon="MESSAGE_2_LINE"
+            fontSize={SIZES.ICON.MD}
+          />
+        )
+      }
+    />
+  );
+
+  if (!!lines) {
     return (
       <>
         <Popup
           isPortal={false}
           trigger={PopupTrigger.HOVER}
-          triggerElement={
-            <IconButton
-              aria-label={t('Common.ReadComment')}
-              variant={'ghost'}
-              padding={SPACE.SM}
-              onMouseEnter={() => setIsDirty(true)}
-              icon={
-                icon ?? (
-                  <RemixIcon
-                    component="Text"
-                    icon="MESSAGE_2_LINE"
-                    fontSize={SIZES.ICON.MD}
-                  />
-                )
-              }
-            />
-          }
+          triggerElement={iconButton}
           content={isDirty ? <Box>{lines}</Box> : <></>}
-          hideContent={!lines}
         />
       </>
     );
   }
+
   return <></>;
 };
 

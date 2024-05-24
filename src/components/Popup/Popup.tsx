@@ -25,7 +25,6 @@ type Props = {
   position?: PopupPosition;
   isPortal?: boolean;
   size?: 'small';
-  hideContent?: boolean;
 };
 
 const Popup = ({
@@ -35,11 +34,9 @@ const Popup = ({
   position = PopupPosition.BELOW,
   isPortal,
   size,
-  hideContent = false,
 }: Props) => {
   const popupContent = (
     <PopoverContent
-      hidden={hideContent}
       maxW={SIZES.CONTAINER.XS}
       onClick={e => e.stopPropagation()}>
       <PopoverArrow />
