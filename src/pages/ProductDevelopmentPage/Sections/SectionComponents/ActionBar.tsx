@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useStatusOptions } from '../../../../app/hooks/useStatus';
-import { useUpdateProductDevelopmentWithStatus } from '../../../../app/api/productDevelopment';
+import {
+  useCreateCopyProductDevelopment,
+  useUpdateProductDevelopmentWithStatus,
+} from '../../../../app/api/productDevelopment';
 import { ChangelogType, Status } from '../../../../app/generate';
 import { useToggleChangelog } from '../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../app/hooks/useModal';
@@ -13,13 +16,18 @@ import ConfirmModal from '../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../app/api/User';
-import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../app/Permissions/Permissions';
+import {
+  ROLES_ALLOWED_TO_CHANGE_CLOSED,
+  ROLES_ALLOWED_TO_CREATE,
+} from '../../../../app/Permissions/Permissions';
 import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 import { NavLink } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../app/utils/common';
 import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
+
 type Props = {
   no: string;
+  name: string;
   createNew?: boolean;
   disableEdit: boolean;
   hasPriceCalculation: boolean;
@@ -28,6 +36,7 @@ type Props = {
 const ActionBar = ({
   createNew,
   no,
+  name,
   disableEdit,
   hasPriceCalculation,
   hasProductions,
@@ -48,6 +57,7 @@ const ActionBar = ({
   const currentStatus = useWatch({ name: 'status' }) as Status;
 
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
+  const { mutate: copy } = useCreateCopyProductDevelopment(no, name);
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
@@ -100,6 +110,9 @@ const ActionBar = ({
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
   }
+  async function copyProductDevelopment() {
+    copy();
+  }
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -118,6 +131,31 @@ const ActionBar = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
+            {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
+              <MenuItem
+                disabled={true}
+                onClick={() =>
+                  handleModal(
+                    <ConfirmModal
+                      title={t('PD.CreateCopyConfirmModal.Title')}
+                      description={t('PD.CreateCopyConfirmModal.Description', {
+                        no: no,
+                      })}
+                      confirmType={'PRIMARY'}
+                      onConfirm={copyProductDevelopment}
+                    />
+                  )
+                }
+                icon={
+                  <Text
+                    as={'i'}
+                    fontSize={SIZES.ICON.MD}
+                    className="ri-file-copy-line"
+                  />
+                }>
+                {t('PD.CreateCopy')}
+              </MenuItem>
+            )}
             {!disableEdit && (
               <MenuItem
                 onClick={() =>

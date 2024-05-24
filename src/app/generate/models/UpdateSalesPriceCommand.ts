@@ -8,3 +8,4 @@ import type { SalesPriceDto } from './SalesPriceDto';
 export type UpdateSalesPriceCommand = {
     salesPrices?: Array<SalesPriceDto> | null;
 };
+

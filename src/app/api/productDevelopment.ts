@@ -163,3 +163,34 @@ export const useProductDevelopmentNavigation = (no: string) => {
     }
   );
 };
+
+export const useCreateCopyProductDevelopment = (no: string, name: string) => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation(
+    () =>
+      ProductDevelopmentsService.postApiProductDevelopmentsCopy(no, name).then(
+        response => response
+      ),
+    {
+      onSuccess: async (no: string) => {
+        showToast({
+          status: 'success',
+          description: `${t('PD.Feedback.Success.Created', { no: no })}`,
+        });
+        navigate(`/product-development/${no}`);
+        queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+        queryClient.invalidateQueries([QueryKeysEnum.Navigation]);
+      },
+      onError: async (err: ApiError) => {
+        showToast({
+          status: 'error',
+          title: `${t('PD.Feedback.Error.Create')}`,
+        });
+      },
+    }
+  );
+};

@@ -12,13 +12,13 @@ import { request as __request } from '../core/request';
 export class ProductDevelopmentDeepService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns ProductDevelopmentDeepDtoPaginatedList Success
      * @throws ApiError
      */
     public static postApiProductDevelopmentDeep(
-requestBody?: GetFilteredProductDevelopmentDeepWithPaginationQuery,
-): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
+        requestBody?: GetFilteredProductDevelopmentDeepWithPaginationQuery,
+    ): CancelablePromise<ProductDevelopmentDeepDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopmentDeep',

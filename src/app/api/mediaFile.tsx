@@ -24,9 +24,9 @@ export const useUploadFile = (
 
   return useMutation(
     (file: Blob) =>
-      MediaFileService.postApiMediaFileUpload(no, mediaFileType, { file }).then(
-        res => res
-      ),
+      MediaFileService.postApiMediaFileUpload(no, mediaFileType, true, {
+        file,
+      }).then(res => res),
     {
       onSuccess: async () => {
         if (mediaFileType === MediaFileType.ARTWORK) {
