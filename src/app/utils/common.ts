@@ -33,15 +33,52 @@ export function scrollSelectorIntoView(selector: string) {
   }
 }
 
+function round(num: number, decimalPlaces = 0): number {
+  if (num < 0) return -round(-num, decimalPlaces);
+  var p = Math.pow(10, decimalPlaces);
+  var n = num * p;
+  var f = n - Math.floor(n);
+  var e = Number.EPSILON * n;
+
+  // Determine whether this fraction is a midpoint value.
+  return f >= 0.5 - e ? Math.ceil(n) / p : Math.floor(n) / p;
+}
+
 export function roundUp(
   num: number | null | undefined,
   numDecimals: number | null | undefined
 ): number | null | undefined {
   if (numDecimals !== null && numDecimals !== undefined) {
     if (!!num) {
-      return Number(num.toFixed(numDecimals));
+      const roundedNum = round(num, numDecimals);
+      return Number(roundedNum.toFixed(numDecimals));
     }
     return num;
   }
   return num;
+}
+
+export function numToThousandSeparatedsStr(
+  value: string | number | undefined | null,
+  includeDecimals: boolean = true
+) {
+  if (value === undefined || value === null) {
+    return '';
+  }
+  let [intStr, decStr] =
+    typeof value === 'number' ? value.toString().split('.') : value.split('.');
+  const formattedIntegerPart = [...intStr].reduceRight((prev, curr, i, arr) => {
+    const reveresedIndex = arr.length - i - 1;
+    if (reveresedIndex && reveresedIndex % 3 === 0) {
+      return `${curr} ${prev}`;
+    }
+    return `${curr}${prev}`;
+  }, '');
+
+  if (includeDecimals) {
+    return `${formattedIntegerPart}${
+      isNaN(Number(decStr)) ? `` : `,${decStr}`
+    }`;
+  }
+  return formattedIntegerPart;
 }

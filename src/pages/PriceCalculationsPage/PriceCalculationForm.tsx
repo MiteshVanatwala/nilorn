@@ -15,6 +15,7 @@ import {
   calculateCost,
   calculateSalesPrice,
 } from '../../app/utils/price/PriceHelper';
+import FormattedNumberInputField from '../../components/Form/FormattedNumberInputField';
 
 type Props = {
   disableEdit?: boolean;
@@ -130,28 +131,30 @@ const PriceCalculationForm = ({
           lg: SPACE.LG,
         }}>
         <GridItem colSpan={2}>
-          <InputField
-            type="decimal"
-            registerOptions={{
-              valueAsNumber: true,
-              min: {
-                value: 0,
-                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
-              },
-            }}
-            readonly={disableEdit}
+          <FormattedNumberInputField
+            name={'internalCommission'}
             label={`${
               t('PriceCalc.InternalCommission') + t('PriceCalc.Percentage')
             }`}
             placeholder={`${t('Common.Placeholder')}`}
-            name={'internalCommission'}
-            changelog={internalCommissionChangelog}
+            readonly={disableEdit}
+            registerOptions={{
+              valueAsNumber: true,
+              min: {
+                value: 10,
+                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
+              },
+            }}
             min={0}
+            changelog={internalCommissionChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <InputField
-            type="decimal"
+          <FormattedNumberInputField
+            name={'indirectCost'}
+            label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
+            placeholder={`${t('Common.Placeholder')}`}
+            readonly={disableEdit}
             registerOptions={{
               valueAsNumber: true,
               min: {
@@ -159,27 +162,26 @@ const PriceCalculationForm = ({
                 message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
               },
             }}
-            readonly={disableEdit}
-            label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
-            placeholder={`${t('Common.Placeholder')}`}
-            name={'indirectCost'}
-            changelog={indirectCostChangelog}
             min={0}
+            changelog={indirectCostChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <InputField
-            type="decimal"
-            registerOptions={{ valueAsNumber: true }}
-            readonly={disableEdit}
+          <FormattedNumberInputField
+            name={'freightIncluded'}
             label={`${t('PriceCalc.FreightIncluded')}`}
             placeholder={`${t('Common.Placeholder')}`}
-            name={'freightIncluded'}
+            readonly={disableEdit}
+            registerOptions={{ valueAsNumber: true }}
             changelog={freightIncludedChangelog}
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <InputField
+          <FormattedNumberInputField
+            name={'margin'}
+            label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
+            placeholder={`${t('Common.Placeholder')}`}
+            readonly={disableEdit}
             registerOptions={{
               valueAsNumber: true,
               required: createNew,
@@ -188,11 +190,7 @@ const PriceCalculationForm = ({
                 message: `${t('PriceCalc.Feedback.Error.MarginTooHigh')}`,
               },
             }}
-            label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
-            placeholder={`${t('Common.Placeholder')}`}
-            name={'margin'}
-            type={'decimal'}
-            readonly={disableEdit}
+            changelog={freightIncludedChangelog}
             max={MAX_MARGIN}
           />
         </GridItem>
@@ -224,13 +222,12 @@ const PriceCalculationForm = ({
           />
         </GridItem>
         <GridItem colSpan={2}>
-          <InputField
-            type="decimal"
-            registerOptions={{ required: true, valueAsNumber: true }}
-            readonly={disableEdit}
+          <FormattedNumberInputField
+            name={'currencyRate'}
             label={`${t('PriceCalc.CurrencyRate')}`}
             placeholder={`${t('Common.Placeholder')}`}
-            name={'currencyRate'}
+            readonly={disableEdit}
+            registerOptions={{ required: true, valueAsNumber: true }}
             changelog={currencyRateChangelog}
           />
         </GridItem>
