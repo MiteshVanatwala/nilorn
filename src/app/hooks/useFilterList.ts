@@ -1,7 +1,7 @@
 import { FilterInput, FilterKeys } from '../types/types';
 import { useEffect, useState } from 'react';
 
-const allFilters: FilterInput[] = [
+export const allFilters: FilterInput[] = [
   { name: 'clients', type: 'select' },
   { name: 'projects', type: 'select' },
   { name: 'statuses', type: 'select' },

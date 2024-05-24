@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
 import { SESSION_STORAGE } from './constant';
+import { allFilters } from '../hooks/useFilterList';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -162,6 +163,26 @@ export function parseSearchParams(queryStr: string): Record<string, string> {
   return parsedParams;
 }
 
+export function convertQueryStringToObject(
+  queryStr: string
+): Record<string, string | string[]> {
+  const parsed = parseSearchParams(queryStr);
+  const result: Record<string, string | string[]> = {};
+
+  for (const key in parsed) {
+    const value = parsed[key];
+    if (value === '') continue;
+
+    const filter = allFilters.find(f => f.name === key);
+    if (filter && filter.type === 'select') {
+      result[key] = value.split(',');
+    } else {
+      result[key] = value;
+    }
+  }
+
+  return result;
+}
 export function useClearAllFilters() {
   const { reset, getValues, setValue } = useFormContext();
 

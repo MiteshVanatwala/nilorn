@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 import { useNavigate } from 'react-router';
 import { SESSION_STORAGE } from '../utils/constant';
-import { parseSearchParams } from '../utils/FilterHelper';
+import { convertQueryStringToObject } from '../utils/FilterHelper';
 import { useBackInfo } from '../hooks/useBackInfo';
 
 export const useCreateProductDevelopment = () => {
@@ -139,9 +139,8 @@ export const useMembers = (no: string) => {
 export const useProductDevelopmentNavigation = (no: string) => {
   const { backInfo } = useBackInfo();
 
-  const filters: GetNavigationForProductDevelopmentQuery = parseSearchParams(
-    backInfo?.filter ?? ''
-  );
+  const filters: GetNavigationForProductDevelopmentQuery =
+    convertQueryStringToObject(backInfo?.filter ?? '');
 
   return useQuery(
     [
