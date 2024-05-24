@@ -28,7 +28,7 @@ const VersionsSection = ({ versions }: Props) => {
         <Grid w={'100%'} templateColumns={'repeat(7, 1fr)'}>
           {versions.map((version, i) => {
             const bgColor = i % 2 === 1 ? COLORS.GRAY[5] : undefined;
-            return <VersionRow version={version} bgColor={bgColor} />;
+            return <VersionRow key={i} version={version} bgColor={bgColor} />;
           })}
         </Grid>
       </>
