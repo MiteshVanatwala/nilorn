@@ -18,7 +18,7 @@ export const useStatusOptions = () => {
     {
       label: t('PD.StatusLabel.Artwork'),
       value: Status.ARTWORK,
-      color: 'blue',
+      color: 'orange',
     },
     {
       label: t('PD.StatusLabel.Sourcing'),
@@ -28,7 +28,7 @@ export const useStatusOptions = () => {
     {
       label: t('PD.StatusLabel.Calculation'),
       value: Status.CALCULATION,
-      color: 'blue',
+      color: 'yellow',
     },
     {
       label: t('PD.StatusLabel.Approved'),
