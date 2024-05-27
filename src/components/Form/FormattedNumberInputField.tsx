@@ -14,6 +14,7 @@ interface Props extends FormInputProps {
   max?: number;
   min?: number;
   type?: 'integer' | 'decimal';
+  focusOnMount?: boolean;
 }
 
 const FormattedNumberInputField = ({
@@ -30,6 +31,7 @@ const FormattedNumberInputField = ({
   max,
   min,
   type = 'decimal',
+  focusOnMount = false,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [formattedValue, setFormattedValue] = useState('');
@@ -39,8 +41,13 @@ const FormattedNumberInputField = ({
     register,
     setValue: setFormValue,
     getValues,
+    setFocus,
     formState: { errors },
   } = useFormContext();
+
+  useEffect(() => {
+    focusOnMount && setFocus(name);
+  }, [setFocus, name, focusOnMount]);
 
   useEffect(() => {
     const getValue = getValues(name);
