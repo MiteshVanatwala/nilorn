@@ -23,7 +23,7 @@ import { useCurrentUser } from '../../../../app/api/User';
 import TRANSITION from '../../../../theme/Constants/transition';
 import { isClosed } from '../../../../app/utils/status';
 import { Status } from '../../../../app/generate';
-import useCloseModalOnNavigation from '../../../../app/hooks/useCloseModalOnNavigation';
+import useModalNavigationBlocker from '../../../../app/hooks/useModalNavigationBlocker';
 
 type Props = {
   imageUrl: string | undefined;
@@ -33,7 +33,7 @@ type Props = {
 };
 
 const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
-  useCloseModalOnNavigation();
+  useModalNavigationBlocker();
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 

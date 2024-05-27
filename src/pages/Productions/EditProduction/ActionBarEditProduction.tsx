@@ -20,7 +20,7 @@ import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../app/api/User';
 import { NavLink } from 'react-router-dom';
-import { NAV_LINK } from '../../../app/hooks/useCloseModalOnNavigation';
+import { NAV_LINK } from '../../../app/hooks/useModalNavigationBlocker';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;

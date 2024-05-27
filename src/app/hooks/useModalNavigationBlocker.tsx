@@ -5,7 +5,7 @@ import { unstable_useBlocker as useBlocker } from 'react-router';
 
 export const NAV_LINK = 'nav-link';
 
-const useCloseModalOnNavigation = (preventClose: boolean = false) => {
+const useModalNavigationBlocker = (preventClose: boolean = false) => {
   const { isOpen, close } = useModal();
   const [isBlocked, setBlocked] = useState<boolean>(false);
   const [isInline, setInline] = useState<boolean>(false);
@@ -13,7 +13,10 @@ const useCloseModalOnNavigation = (preventClose: boolean = false) => {
   const handleBlockerCallback = useCallback(
     () =>
       ({ currentLocation, nextLocation }: LocationsProps) => {
-        setInline(nextLocation.state === NAV_LINK);
+        if (nextLocation.state === NAV_LINK) {
+          setInline(true);
+          return isOpen;
+        }
         return currentLocation.pathname !== nextLocation.pathname && isOpen;
       },
     [isOpen]
@@ -40,4 +43,4 @@ const useCloseModalOnNavigation = (preventClose: boolean = false) => {
   return { isBlocked, setBlocked, proceedBlocker };
 };
 
-export default useCloseModalOnNavigation;
+export default useModalNavigationBlocker;

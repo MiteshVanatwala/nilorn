@@ -4,10 +4,9 @@ import { Image, Link, VStack } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { ModalContext } from '../../app/context/ModalContext';
 import { ProductDevelopmentDataDto } from '../../app/generate';
 import useFilterOptions from '../../app/hooks/useFilterOption';
+import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -21,7 +20,6 @@ const ProductDevelopmentModalTopSection = ({
   vendorName,
   actionBar,
 }: Props) => {
-  const { close } = useContext(ModalContext);
   const vendorOptions = useFilterOptions('vendors');
 
   return (
@@ -88,11 +86,11 @@ const ProductDevelopmentModalTopSection = ({
               <HStack>
                 <Link
                   as={NavLink}
-                  to={`/productions?vendor=${
+                  state={NAV_LINK}
+                  to={`/productions?vendors=${
                     vendorOptions.find(option => option.label === vendorName)
                       ?.value
-                  }`}
-                  onClick={() => close()}>
+                  }`}>
                   {vendorName}
                 </Link>
                 {vendorName && sourcingCompanyCode && <>{' - '}</>}
@@ -103,8 +101,8 @@ const ProductDevelopmentModalTopSection = ({
                   {productDevelopment?.no && (
                     <Link
                       as={NavLink}
-                      to={`/product-development/${productDevelopment?.no}`}
-                      onClick={() => close()}>
+                      state={NAV_LINK}
+                      to={`/product-development/${productDevelopment?.no}`}>
                       #{productDevelopment?.no}
                     </Link>
                   )}

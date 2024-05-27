@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { useUnsavedChanges } from './useUnsavedChanges';
 import IsolatedModal, { ModalRef } from '../../components/Modal/IsolatedModal';
-import useCloseModalOnNavigation from './useCloseModalOnNavigation';
+import useModalNavigationBlocker from './useModalNavigationBlocker';
 import { ModalContext } from '../context/ModalContext';
 import { useOutsideClick } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ const useModalFormHelper = (
     isBlocked,
     proceedBlocker,
     setBlocked: setBlockedRoute,
-  } = useCloseModalOnNavigation(true);
+  } = useModalNavigationBlocker(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
   const { discardChanges, hasUnsavedChanges, setUnsavedChanges } =
