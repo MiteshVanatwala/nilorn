@@ -17,7 +17,10 @@ export const usePriceCalculation = (id: string) => {
     () => PriceCalculationService.getApiPriceCalculation(id).then(res => res),
     {
       retry: 0,
+      cacheTime: 0,
+      staleTime: 0,
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
     }
   );
 };
