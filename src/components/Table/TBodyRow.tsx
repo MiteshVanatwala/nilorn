@@ -49,7 +49,7 @@ export function TBodyRow<Data extends object>({
       if (
         files.length === 1 &&
         files[0].kind === 'file' &&
-        ((acceptFileType && files[0].type === acceptFileType) || true)
+        ((acceptFileType && files[0].type === acceptFileType) || false)
       ) {
         setIsDraggingOver(event.type === 'dragover');
       } else {

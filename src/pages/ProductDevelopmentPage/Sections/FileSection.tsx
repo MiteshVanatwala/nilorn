@@ -76,7 +76,7 @@ const FileSection = ({
       }
 
       try {
-        const res = await mutateAsync(file);
+        const res = await mutateAsync({ file: file });
         if (match) {
           showToast({
             status: 'success',

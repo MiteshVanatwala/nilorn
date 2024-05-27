@@ -28,7 +28,7 @@ export const useUploadFile = (
       replaceArtwork = false,
     }: {
       file: File;
-      replaceArtwork: boolean;
+      replaceArtwork?: boolean;
     }) =>
       MediaFileService.postApiMediaFileUpload(
         no,

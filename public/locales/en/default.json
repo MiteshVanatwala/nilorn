@@ -190,7 +190,7 @@
         "Update": "Product development have been saved.",
         "UpdateStatus": "Product development status have been updated to {{status}}.",
         "Created": "Product development with no #{{no}} has been created.",
-        "FileUpdated": "File with name {{name}} has been updated"
+        "FileUpdated": "File {{name}} uploaded successfully."
       },
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
@@ -200,11 +200,11 @@
         "Create": "Failed to create new product development",
         "Update": "Failed to update product development",
         "UpdateStatus": "Failed to change status on product development",
-        "FileUpdated": "Failed to update file with name {{name}}"
+        "FileUpdated": "Failed to upload file {{name}}"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status",
-        "ArtworkPdf": "Artwork need to be of typ .pdf"
+        "ArtworkPdf": "Artwork needs to be of type .pdf"
       }
     }
   },

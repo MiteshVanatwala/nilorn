@@ -65,6 +65,7 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
   };
 
   const uploadFile = async (file: File, replaceArtwork: boolean) => {
+    modalRef.current?.onClose();
     upload(
       { file, replaceArtwork },
       {
