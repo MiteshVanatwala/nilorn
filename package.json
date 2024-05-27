@@ -37,7 +37,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "openapi --input https://umbrella-api-test.nilorn.com/swagger/v1/swagger.json --output ./src/app/generate"
+    "generate": "openapi --input https://umbrella-api-test.nilorn.com/swagger/v1/swagger.json --output ./src/app/generate",
+    "gen:theme-typings": "chakra-cli tokens ./src/theme/theme.ts",
+    "postinstall": "npm run gen:theme-typings"
   },
   "eslintConfig": {
     "extends": [
@@ -58,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^2.4.1",
     "cross-env": "^7.0.3",
     "openapi-typescript-codegen": "^0.25.0"
   }
