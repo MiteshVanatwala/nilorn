@@ -139,7 +139,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                   </Button>
 
                   <Button
-                    variant={'secondary'}
+                    variant={'deleteBtn'}
                     onClick={() => deletePDImage()}
                     leftIcon={<i className={'ri-delete-bin-line'} />}>
                     {t('Common.Delete')}
