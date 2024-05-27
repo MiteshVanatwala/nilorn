@@ -6,21 +6,21 @@ import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class SourcingService {
+export class ExcelService {
 
     /**
-     * @param id 
-     * @returns number Success
+     * @param projectId 
+     * @returns any Success
      * @throws ApiError
      */
-    public static getApiSourcingQuantities(
-id: string,
-): CancelablePromise<Array<number>> {
+    public static getApiExcelGetExcel(
+projectId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/Sourcing/{id}/quantities',
+            url: '/api/Excel/GetExcel/{projectId}',
             path: {
-                'id': id,
+                'projectId': projectId,
             },
         });
     }

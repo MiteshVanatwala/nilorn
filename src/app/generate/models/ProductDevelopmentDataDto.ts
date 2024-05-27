@@ -15,4 +15,3 @@ export type ProductDevelopmentDataDto = {
     clientName?: string | null;
     artwork?: MediaFileDto;
 };
-

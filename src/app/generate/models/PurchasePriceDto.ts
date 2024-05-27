@@ -8,4 +8,3 @@ export type PurchasePriceDto = {
     quantity?: number;
     price?: number | null;
 };
-

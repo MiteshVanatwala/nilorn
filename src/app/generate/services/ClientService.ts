@@ -11,13 +11,13 @@ import { request as __request } from '../core/request';
 export class ClientService {
 
     /**
-     * @param filterByAccess
+     * @param filterByAccess 
      * @returns ClientDto Success
      * @throws ApiError
      */
     public static getApiClient(
-        filterByAccess: boolean = true,
-    ): CancelablePromise<Array<ClientDto>> {
+filterByAccess: boolean = true,
+): CancelablePromise<Array<ClientDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Client/{filterByAccess}',

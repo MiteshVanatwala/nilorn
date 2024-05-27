@@ -27,7 +27,3 @@ export type GetForFilterProductDevelopmentsWithPaginationQuery = {
     pageNumber?: number;
     pageSize?: number;
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> 20278ba (Generate api)

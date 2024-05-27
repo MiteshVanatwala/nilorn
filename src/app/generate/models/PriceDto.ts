@@ -11,4 +11,3 @@ export type PriceDto = {
     quantity?: number;
     margin?: number | null;
 };
-

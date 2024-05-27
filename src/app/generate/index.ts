@@ -64,6 +64,7 @@ export { ChangelogService } from './services/ChangelogService';
 export { ClientService } from './services/ClientService';
 export { CompositionMaterialService } from './services/CompositionMaterialService';
 export { CurrencyService } from './services/CurrencyService';
+export { ExcelService } from './services/ExcelService';
 export { FoldingTypeService } from './services/FoldingTypeService';
 export { ImageService } from './services/ImageService';
 export { ItemCategoryService } from './services/ItemCategoryService';
