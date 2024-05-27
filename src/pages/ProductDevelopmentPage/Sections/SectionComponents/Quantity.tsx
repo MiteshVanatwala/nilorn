@@ -16,9 +16,10 @@ import FormattedNumberInputField from '../../../../components/Form/FormattedNumb
 type Props = {
   formKey: string;
   disableEdit: boolean;
+  focusOnAdd?: boolean;
 };
 
-const Quantity = ({ formKey, disableEdit }: Props) => {
+const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const FORM_KEY = `${formKey}.quantities`;
 
   const { t } = useTranslation();
@@ -56,6 +57,7 @@ const Quantity = ({ formKey, disableEdit }: Props) => {
                       validateUniqueValues(value, index),
                   }}
                   type={'integer'}
+                  focusOnMount={focusOnAdd}
                 />
                 {!disableEdit && (
                   <IconButton

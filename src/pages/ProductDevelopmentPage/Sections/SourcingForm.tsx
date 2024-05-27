@@ -99,7 +99,11 @@ const SourcingForm = ({
           lg: 9,
           xl: 11,
         }}>
-        <Quantity disableEdit={disableEdit} formKey={sourcingIndexKey} />
+        <Quantity
+          focusOnAdd
+          disableEdit={disableEdit}
+          formKey={sourcingIndexKey}
+        />
       </GridItem>
       <GridItem
         colSpan={{
