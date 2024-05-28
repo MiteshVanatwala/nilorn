@@ -26,7 +26,6 @@ const ProjectSelect = ({
   const { t } = useTranslation();
   const {
     setValue,
-    reset,
     formState: { errors },
   } = useFormContext();
   const inputName = 'projectCode';
@@ -41,7 +40,7 @@ const ProjectSelect = ({
 
   const onChange = (option: SelectOption) => {
     if (option.value === clearProjectItem.value) {
-      reset();
+      setValue(inputName, undefined);
     } else {
       setValue(inputName, option.value, { shouldDirty: true });
     }
@@ -60,6 +59,7 @@ const ProjectSelect = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
+
   return (
     <Box
       zIndex={8}
