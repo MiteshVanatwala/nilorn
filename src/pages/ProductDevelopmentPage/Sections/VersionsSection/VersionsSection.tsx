@@ -6,13 +6,13 @@ import AccordionItem from '../../../../components/AccordionItem/AccordionItem';
 import VersionRow from './VersionRow';
 
 export type Version = {
-  img: string;
-  name: string;
-  no: string;
+  no?: string;
+  name?: string;
   status: Status;
-  artwork: string;
-  specification: string;
-  sourcings: string;
+  thumbNailData?: string;
+  artwork?: string;
+  versionSpecification?: string;
+  sourcings?: string;
 };
 
 type Props = {

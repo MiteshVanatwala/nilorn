@@ -43,50 +43,51 @@ function ProductDevelopmentForm({
   const showSourcing = useAuthorizedSee('sourcing');
   const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
   const allowedToEdit = useAuthorizedEdit('productDevelopment');
+
   const versions: Version[] = [
     {
-      img: '',
-      name: 'Name',
       no: '#123456789',
+      name: 'Name',
       status: Status.APPROVED,
       artwork: 'artwork',
-      specification: 'specification',
+      versionSpecification: 'specification',
       sourcings: 'sourcings',
+      thumbNailData: '',
     },
     {
-      img: '',
+      thumbNailData: '',
       name: 'Name',
       no: '#123456789',
       status: Status.CALCULATION,
       artwork: 'artwork',
-      specification: 'specification',
+      versionSpecification: 'specification',
       sourcings: 'sourcings',
     },
     {
-      img: '',
+      thumbNailData: '',
       name: 'Name Name Name Name Name Name Name Name',
       no: '#123456789',
       status: Status.DESIGN,
       artwork: 'artwork',
-      specification: 'specification',
+      versionSpecification: 'specification',
       sourcings: 'sourcings',
     },
     {
-      img: '',
+      thumbNailData: '',
       name: 'Name',
       no: '#123456789',
       status: Status.APPROVED,
       artwork: 'artwork',
-      specification: 'specification',
+      versionSpecification: 'specification',
       sourcings: 'sourcings',
     },
     {
-      img: '',
+      thumbNailData: '',
       name: 'Name Name Name',
       no: '#123456789',
       status: Status.APPROVED,
       artwork: 'artwork',
-      specification: 'specification',
+      versionSpecification: 'specification',
       sourcings: 'sourcings',
     },
   ];

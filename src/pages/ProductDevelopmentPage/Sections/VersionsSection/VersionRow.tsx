@@ -28,7 +28,7 @@ const VersionRow = ({ version, bgColor }: Props) => {
   return (
     <>
       <GridItem colStart={1} {...gridItemStyles}>
-        <ImagePopup thumbnail={true} alt="Artwork" src={version.img} />
+        <ImagePopup thumbnail={true} alt="Artwork" src={version.artwork} />
       </GridItem>
 
       <GridItem colStart={2} {...gridItemStyles}>
@@ -50,8 +50,8 @@ const VersionRow = ({ version, bgColor }: Props) => {
       </GridItem>
 
       <GridItem colStart={6} {...gridItemStyles}>
-        <Tooltip label={version.specification}>
-          <Text {...commonTextStyles}>{version.specification}</Text>
+        <Tooltip label={version.versionSpecification}>
+          <Text {...commonTextStyles}>{version.versionSpecification}</Text>
         </Tooltip>
       </GridItem>
 
