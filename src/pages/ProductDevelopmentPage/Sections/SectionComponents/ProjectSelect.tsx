@@ -33,8 +33,17 @@ const ProjectSelect = ({
   const clientNumberWatch = useWatch({ name: 'clientNo' });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
 
+  const clearProjectItem = {
+    value: '',
+    label: `${t('PD.ClearProjectLabel')}`,
+  };
+
   const onChange = (option: SelectOption) => {
-    setValue(inputName, option.value, { shouldDirty: true });
+    if (option.value === clearProjectItem.value) {
+      setValue(inputName, undefined);
+    } else {
+      setValue(inputName, option.value, { shouldDirty: true });
+    }
   };
 
   useEffect(() => {
@@ -44,17 +53,13 @@ const ProjectSelect = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
 
-  const clearProjectItem = {
-    value: '',
-    label: `${t('PD.ClearProjectLabel')}`,
-  };
-
   useEffect(() => {
     if (options) {
       setOptionItems([clearProjectItem, ...options]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options]);
+
   return (
     <Box
       zIndex={8}
