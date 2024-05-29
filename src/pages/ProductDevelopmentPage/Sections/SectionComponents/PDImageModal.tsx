@@ -135,7 +135,10 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                     name="file"
                     onChange={submitForm}
                   />
-                  <Button variant={'secondary'} onClick={onButtonClick}>
+                  <Button
+                    variant={'secondary'}
+                    leftIcon={<RemixIcon icon="FILE_3_LINE" />}
+                    onClick={onButtonClick}>
                     {t('PD.BrowseFile')}
                   </Button>
 
@@ -212,7 +215,10 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                 name="file"
                 onChange={submitForm}
               />
-              <Button variant={'secondary'} onClick={onButtonClick}>
+              <Button
+                variant={'secondary'}
+                leftIcon={<RemixIcon icon="FILE_3_LINE" />}
+                onClick={onButtonClick}>
                 {t('PD.BrowseFile')}
               </Button>
             </GridItem>
