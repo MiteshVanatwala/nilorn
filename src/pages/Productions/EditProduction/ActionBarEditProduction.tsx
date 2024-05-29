@@ -1,26 +1,26 @@
-import { Text } from '@chakra-ui/layout';
-import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { Button, ButtonGroup, IconButton } from '@chakra-ui/button';
-import { useTranslation } from 'react-i18next';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
+import { useContext, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import { useCurrentUser } from '../../../app/api/User';
+import {
+  useCreateProduction,
+  usePatchProduction,
+} from '../../../app/api/editProduction';
+import { ModalContext } from '../../../app/context/ModalContext';
 import {
   MediaFileDto,
   ProductionDto,
   Role,
   Status,
 } from '../../../app/generate';
-import { useContext, useEffect } from 'react';
-import {
-  useCreateProduction,
-  usePatchProduction,
-} from '../../../app/api/editProduction';
-import { ModalContext } from '../../../app/context/ModalContext';
+import { NAV_LINK } from '../../../app/hooks/useModalNavigationBlocker';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
-import { useCurrentUser } from '../../../app/api/User';
-import { NavLink } from 'react-router-dom';
-import { NAV_LINK } from '../../../app/hooks/useModalNavigationBlocker';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -86,10 +86,10 @@ const ActionBarEditProduction = ({
                 setShowChanges(!showChanges);
               }}
               icon={
-                <Text
-                  as={'i'}
+                <RemixIcon
+                  component="Text"
+                  icon="HISTORY_LINE"
                   fontSize={SIZES.ICON.MD}
-                  className="ri-history-line"
                 />
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
@@ -100,10 +100,10 @@ const ActionBarEditProduction = ({
                 to={`/price-calculations?productDevelopments=${productDevelopmentNo}`}
                 state={NAV_LINK}
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="CALCULATOR_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-calculator-line"
                   />
                 }>
                 {t('PD.ViewCalculation')}
@@ -113,10 +113,10 @@ const ActionBarEditProduction = ({
               <MenuItem
                 onClick={handleDelete}
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="DELETE_BIN_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
                   />
                 }>
                 {t('Common.Remove')}
@@ -142,7 +142,9 @@ const ActionBarEditProduction = ({
                       padding={SPACE.SM}
                       aria-label={t('Common.MoreOptions')}
                       borderLeft={`1px solid ${COLORS.WHITE}`}
-                      icon={<Text as={'i'} className="ri-arrow-down-s-line" />}
+                      icon={
+                        <RemixIcon component="Text" icon="ARROW_DOWN_S_LINE" />
+                      }
                     />
                     <MenuList>
                       <MenuItem onClick={() => handleSaveAndRelease()}>

@@ -1,21 +1,22 @@
-import { MenuItem, Text } from '@chakra-ui/react';
-import { SIZES } from '../../../theme/Constants';
-import { useTranslation } from 'react-i18next';
+import { MenuItem } from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDeleteCalculation } from '../../../app/api/calculation';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
-  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
   MediaFileDto,
   PriceCalculationDto,
   ProductDevelopmentDataDto,
   ProductionDto,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
   SourcedProductionDto,
 } from '../../../app/generate';
-import TableMenuContainer from '../../../components/Table/TableMenuContainer';
-import { useDeleteCalculation } from '../../../app/api/calculation';
+import RemixIcon from '../../../components/Icon/RemixIcon';
 import ConfirmModal from '../../../components/Modal/ConfirmModal';
-import EditPriceCalculationModal from '../EditPriceCalculationModal';
+import TableMenuContainer from '../../../components/Table/TableMenuContainer';
+import { SIZES } from '../../../theme/Constants';
 import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
+import EditPriceCalculationModal from '../EditPriceCalculationModal';
 
 type Props = {
   createNew: boolean;
@@ -79,10 +80,10 @@ const TableMenuCalculation = ({
           )
         }
         icon={
-          <Text
-            as={'i'}
+          <RemixIcon
+            component="Text"
             fontSize={SIZES.ICON.MD}
-            className={createNew ? 'ri-add-line' : 'ri-edit-line'}
+            icon={createNew ? 'ADD_LINE' : 'EDIT_LINE'}
           />
         }>
         {createNew
@@ -93,7 +94,11 @@ const TableMenuCalculation = ({
         <MenuItem
           onClick={onEditInline}
           icon={
-            <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
+            <RemixIcon
+              component="Text"
+              fontSize={SIZES.ICON.MD}
+              icon="EDIT_LINE"
+            />
           }>
           {t('PriceCalc.EditInline')}
         </MenuItem>
@@ -111,10 +116,10 @@ const TableMenuCalculation = ({
             )
           }
           icon={
-            <Text
-              as={'i'}
+            <RemixIcon
+              component="Text"
               fontSize={SIZES.ICON.MD}
-              className="ri-delete-bin-6-line"
+              icon="DELETE_BIN_6_LINE"
             />
           }>
           {t('Common.Remove')}

@@ -12,6 +12,7 @@ import {
   useAuthorizedEdit,
   useAuthorizedSee,
 } from '../../../app/Permissions/usePremissions';
+import RemixIcon from '../../../components/Icon/RemixIcon';
 
 type Props = {
   no: string;
@@ -77,7 +78,7 @@ const SourcingForm = ({
               mt={SPACE}
               variant={'secondarySmall'}
               onClick={onRemove}
-              rightIcon={<i className={'ri-delete-bin-line'} />}>
+              rightIcon={<RemixIcon icon='DELETE_BIN_LINE' />}>
               {t('PD.RemoveSourcing')}
             </Button>
           )}

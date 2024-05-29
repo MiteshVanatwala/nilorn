@@ -1,7 +1,8 @@
-import { IconButton, Menu, MenuButton, MenuList, Text } from '@chakra-ui/react';
-import { SPACE } from '../../theme/Constants';
-import { useTranslation } from 'react-i18next';
+import { IconButton, Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   children: ReactNode;
@@ -17,7 +18,7 @@ const TableMenuContainer = ({ children }: Props) => {
         variant={'ghost'}
         padding={SPACE.SM}
         aria-label={t('Common.More')}
-        icon={<Text as={'i'} className="ri-more-line" />}
+        icon={<RemixIcon component="Text" icon="MORE_LINE" />}
       />
       <MenuList lineHeight={1.5}>{children}</MenuList>
     </Menu>

@@ -1,6 +1,7 @@
 import { IconButton, Tooltip } from '@chakra-ui/react';
-import { useDownloadFile } from '../../app/hooks/useDownloadFile';
 import { useTranslation } from 'react-i18next';
+import { useDownloadFile } from '../../app/hooks/useDownloadFile';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   url: string;
@@ -25,7 +26,7 @@ const DownloadButton = ({
       aria-label={t('Common.Download')}
       onClick={() => downloadFile(url, fileName, method)}
       isLoading={isLoading}
-      icon={<i className="ri-download-line" />}
+      icon={<RemixIcon icon="DOWNLOAD_LINE" />}
     />
   );
 

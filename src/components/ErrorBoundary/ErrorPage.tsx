@@ -1,6 +1,7 @@
 import { Box, Button, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { SPACE, COLORS } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Pros = {
   title?: string;
@@ -26,10 +27,10 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
           <Heading variant="h1" as="h1" color={COLORS.ERROR}>
             <>
               {title ? title : <>{t('Common.errorTitle')}</>}
-              <Text
-                as="i"
-                color={'inherit'}
-                className="ri-alert-line"
+              <RemixIcon
+                component="Text"
+                icon="ALERT_LINE"
+                color="inherit"
                 position="relative"
                 top={2}
                 left={2}

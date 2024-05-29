@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   HStack,
@@ -7,12 +6,14 @@ import {
   ModalFooter,
   Text,
 } from '@chakra-ui/react';
-import { COLORS, SPACE } from '../../../../theme/Constants';
-import ModalHeading from '../../../../components/Modal/ModalHeading';
 import { FormEvent, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useCreateProject } from '../../../../app/api/Projects';
 import { ModalContext } from '../../../../app/context/ModalContext';
 import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
-import { useCreateProject } from '../../../../app/api/Projects';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
+import ModalHeading from '../../../../components/Modal/ModalHeading';
+import { COLORS, SPACE } from '../../../../theme/Constants';
 type Props = {
   setDefaultProject(val: string): void;
   clientNo: string;
@@ -79,13 +80,13 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
             type="submit"
             variant={'primary'}
             onClick={onSubmit}
-            rightIcon={<i className="ri-save-line" />}>
+            rightIcon={<RemixIcon icon="SAVE_LINE" />}>
             {t('Common.Save')}
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
-            rightIcon={<i className="ri-close-line" />}>
+            rightIcon={<RemixIcon icon="CLOSE_LINE" />}>
             {t('Common.Cancel')}
           </Button>
         </HStack>

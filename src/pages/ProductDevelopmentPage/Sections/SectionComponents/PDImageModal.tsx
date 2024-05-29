@@ -1,29 +1,30 @@
-import { useTranslation } from 'react-i18next';
 import {
   Box,
-  Image,
   Button,
+  Flex,
   Grid,
   GridItem,
-  Text,
-  Input,
-  Flex,
-  VStack,
   HStack,
+  Image,
+  Input,
+  Text,
+  VStack,
 } from '@chakra-ui/react';
-import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
-import { ChangeEvent, useRef, useState, ClipboardEvent } from 'react';
+import { ChangeEvent, ClipboardEvent, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 import {
   useDeletePDImage,
   useGetPDImage,
   useUploadPDImage,
 } from '../../../../app/api/PDImage';
-import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../../../app/api/User';
-import TRANSITION from '../../../../theme/Constants/transition';
-import { isClosed } from '../../../../app/utils/status';
 import { Status } from '../../../../app/generate';
 import useModalNavigationBlocker from '../../../../app/hooks/useModalNavigationBlocker';
+import { isClosed } from '../../../../app/utils/status';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
+import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
+import TRANSITION from '../../../../theme/Constants/transition';
 
 type Props = {
   imageUrl: string | undefined;
@@ -141,7 +142,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                   <Button
                     variant={'deleteBtn'}
                     onClick={() => deletePDImage()}
-                    leftIcon={<i className={'ri-delete-bin-line'} />}>
+                    leftIcon={<RemixIcon icon="DELETE_BIN_LINE" />}>
                     {t('Common.Delete')}
                   </Button>
 
@@ -187,11 +188,11 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                 }}
                 minH={SIZES.CONTAINER.XXXS}>
                 <VStack>
-                  <Text
+                  <RemixIcon
+                    component="Text"
                     fontSize={SIZES.FONT.LG}
                     color={COLORS.GRAY[60]}
-                    as={'i'}
-                    className={'ri-upload-2-line'}
+                    icon="UPLOAD_2_LINE"
                   />
                   <Text mb={SPACE.XXS}>{t('PD.ClickPaste')}</Text>
                 </VStack>

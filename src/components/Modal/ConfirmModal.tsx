@@ -1,10 +1,11 @@
-import { ModalBody, ModalFooter } from '@chakra-ui/modal';
-import ModalHeading from './ModalHeading';
-import { HStack, Text } from '@chakra-ui/layout';
-import { SPACE } from '../../theme/Constants';
 import { Button } from '@chakra-ui/button';
+import { HStack, Text } from '@chakra-ui/layout';
+import { ModalBody, ModalFooter } from '@chakra-ui/modal';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../app/hooks/useModal';
+import { SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
+import ModalHeading from './ModalHeading';
 
 type Props = {
   title: string;
@@ -43,7 +44,7 @@ const ConfirmModal = ({
             onClick={onConfirm}
             rightIcon={
               confirmType === 'DELETE' ? (
-                <i className="ri-delete-bin-line" />
+                <RemixIcon icon={'DELETE_BIN_LINE'} />
               ) : (
                 <></>
               )
@@ -60,7 +61,7 @@ const ConfirmModal = ({
               onClose ? onClose() : close();
             }}
             rightIcon={
-              cancelText ? undefined : <i className="ri-close-line" />
+              cancelText ? undefined : <RemixIcon icon="CLOSE_LINE" />
             }>
             {cancelText ?? t('Common.Cancel')}
           </Button>

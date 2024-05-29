@@ -1,12 +1,13 @@
-import { MenuItem, Text } from '@chakra-ui/react';
-import { SIZES } from '../../theme/Constants';
-import { useTranslation } from 'react-i18next';
+import { MenuItem } from '@chakra-ui/react';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../app/context/ModalContext';
 import {
   ProductDevelopmentDataDto,
   SourcedProductionDto,
 } from '../../app/generate';
+import RemixIcon from '../../components/Icon/RemixIcon';
+import { SIZES } from '../../theme/Constants';
 import CreateProduction from './CreateProduction/CreateProduction';
 
 type Props = {
@@ -33,7 +34,9 @@ const TableMenuSourcing = ({
           />
         )
       }
-      icon={<Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-add-line" />}>
+      icon={
+        <RemixIcon component="Text" fontSize={SIZES.ICON.MD} icon="ADD_LINE" />
+      }>
       {t('Production.CreateProduction')}
     </MenuItem>
   );

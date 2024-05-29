@@ -1,22 +1,23 @@
-import { MenuItem, Text } from '@chakra-ui/react';
-import { SIZES } from '../../theme/Constants';
-import { useTranslation } from 'react-i18next';
+import { MenuItem } from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
-import { ModalContext } from '../../app/context/ModalContext';
-import EditProduction from './EditProduction/EditProduction';
-import {
-  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
-  ProductDevelopmentDataDto,
-  ProductionDto,
-} from '../../app/generate';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import {
   useDeleteProduction,
   useReleaseForSales,
 } from '../../app/api/editProduction';
+import { ModalContext } from '../../app/context/ModalContext';
+import {
+  ProductDevelopmentDataDto,
+  ProductionDto,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+} from '../../app/generate';
 import { isClosed } from '../../app/utils/status';
+import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
-import { useNavigate } from 'react-router-dom';
-import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import { SIZES } from '../../theme/Constants';
+import EditProduction from './EditProduction/EditProduction';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -71,7 +72,11 @@ const TableMenuProduction = ({
           )
         }
         icon={
-          <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-edit-line" />
+          <RemixIcon
+            component="Text"
+            icon="EDIT_LINE"
+            fontSize={SIZES.ICON.MD}
+          />
         }>
         {t('Common.Edit')}
       </MenuItem>
@@ -84,10 +89,10 @@ const TableMenuProduction = ({
             )
           }
           icon={
-            <Text
-              as={'i'}
+            <RemixIcon
+              component="Text"
+              icon="TOGGLE_LINE"
               fontSize={SIZES.ICON.MD}
-              className="ri-toggle-line"
             />
           }>
           {!production?.released
@@ -104,10 +109,10 @@ const TableMenuProduction = ({
             )
           }
           icon={
-            <Text
-              as={'i'}
+            <RemixIcon
+              component="Text"
+              icon="CALCULATOR_LINE"
               fontSize={SIZES.ICON.MD}
-              className="ri-calculator-line"
             />
           }>
           {t('PD.ViewCalculation')}
@@ -127,10 +132,10 @@ const TableMenuProduction = ({
             )
           }
           icon={
-            <Text
-              as={'i'}
+            <RemixIcon
+              component="Text"
+              icon="DELETE_BIN_6_LINE"
               fontSize={SIZES.ICON.MD}
-              className="ri-delete-bin-6-line"
             />
           }>
           {t('Common.Remove')}

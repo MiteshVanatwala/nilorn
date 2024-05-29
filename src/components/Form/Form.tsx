@@ -1,6 +1,7 @@
-import { Text, Spinner } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 import { FieldState } from '../../app/types/types';
 import { COLORS, SIZES } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 
 export function getValidationStyle(
   state?: FieldState,
@@ -17,10 +18,10 @@ export function getValidationStyle(
       return {
         color: COLORS.ERROR,
         icon: (
-          <Text
-            as={'i'}
+          <RemixIcon
+            component="Text"
+            icon="CLOSE_CIRCLE_LINE"
             color={'inherit'}
-            className="ri-close-circle-line"
             fontSize={SIZES.ICON.SM}
           />
         ),
@@ -29,10 +30,10 @@ export function getValidationStyle(
       return {
         color: COLORS.GREEN.PRIMARY,
         icon: (
-          <Text
-            as={'i'}
+          <RemixIcon
+            component="Text"
+            icon="CHECK_LINE"
             color={'inherit'}
-            className="ri-check-line"
             fontSize={SIZES.ICON.SM}
           />
         ),

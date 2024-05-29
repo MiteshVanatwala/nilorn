@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../app/Permissions/Permissions';
 import { useCurrentUser } from '../../app/api/User';
 import { SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   heading: string;
@@ -57,7 +58,7 @@ const UploadFile = ({
             <Button
               variant={'secondarySmall'}
               onClick={onButtonClick}
-              rightIcon={<i className={'ri-add-line'} />}>
+              rightIcon={<RemixIcon icon="ADD_LINE" />}>
               {t('Common.Add')}
             </Button>
           )}

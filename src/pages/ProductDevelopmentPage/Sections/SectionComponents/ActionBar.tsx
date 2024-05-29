@@ -1,10 +1,15 @@
-import { Text, Box } from '@chakra-ui/layout';
-import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 import { Button } from '@chakra-ui/button';
-import { useTranslation } from 'react-i18next';
+import { Box } from '@chakra-ui/layout';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useStatusOptions } from '../../../../app/hooks/useStatus';
+import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
+import {
+  ROLES_ALLOWED_TO_CHANGE_CLOSED,
+  ROLES_ALLOWED_TO_CREATE,
+} from '../../../../app/Permissions/Permissions';
+import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
+import { useCurrentUser } from '../../../../app/api/User';
 import {
   useCreateCopyProductDevelopment,
   useUpdateProductDevelopmentWithStatus,
@@ -12,18 +17,14 @@ import {
 import { ChangelogType, Status } from '../../../../app/generate';
 import { useToggleChangelog } from '../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../app/hooks/useModal';
-import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+import { useStatusOptions } from '../../../../app/hooks/useStatus';
 import { useToast } from '../../../../app/hooks/useToast';
-import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
-import { useCurrentUser } from '../../../../app/api/User';
-import {
-  ROLES_ALLOWED_TO_CHANGE_CLOSED,
-  ROLES_ALLOWED_TO_CREATE,
-} from '../../../../app/Permissions/Permissions';
 import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
-import { NavLink } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../app/utils/common';
-import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
+import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
+import ConfirmModal from '../../../../components/Modal/ConfirmModal';
+import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
 
 type Props = {
   no: string;
@@ -123,10 +124,10 @@ const ActionBar = ({
             <MenuItem
               onClick={() => setShowChanges(!showChanges)}
               icon={
-                <Text
-                  as={'i'}
+                <RemixIcon
+                  component="Text"
                   fontSize={SIZES.ICON.MD}
-                  className="ri-history-line"
+                  icon="HISTORY_LINE"
                 />
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
@@ -147,10 +148,10 @@ const ActionBar = ({
                   )
                 }
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="FILE_COPY_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-file-copy-line"
                   />
                 }>
                 {t('PD.CreateCopy')}
@@ -169,10 +170,10 @@ const ActionBar = ({
                   )
                 }
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="DELETE_BIN_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
                   />
                 }>
                 {t('Common.Delete')}
@@ -183,10 +184,10 @@ const ActionBar = ({
                 as={NavLink}
                 to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="ARROW_LEFT_RIGHT_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-arrow-left-right-line"
                   />
                 }>
                 {t('PD.EditCompareProduction')}
@@ -197,10 +198,10 @@ const ActionBar = ({
                 as={NavLink}
                 to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1`}
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="LINE_CHART_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-line-chart-line"
                   />
                 }>
                 {t('PD.EditCompareCalculation')}
@@ -224,7 +225,7 @@ const ActionBar = ({
                 as={Button}
                 variant={'secondary'}
                 padding={SPACE.SM}>
-                {currentStatus} <i className="ri-arrow-down-s-line" />
+                {currentStatus} <RemixIcon icon="ARROW_DOWN_S_LINE" />
               </MenuButton>
               <MenuList>
                 {statuses.map(s => (

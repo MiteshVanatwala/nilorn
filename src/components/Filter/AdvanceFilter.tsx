@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { ActionMeta, MultiValue } from 'chakra-react-select';
 import {
   Accordion,
   AccordionButton,
@@ -13,13 +11,16 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react';
-import { SelectOption, FilterInput } from '../../app/types/types';
-import { useTranslation } from 'react-i18next';
+import { ActionMeta, MultiValue } from 'chakra-react-select';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import InputSwitch from './InputSwitch';
+import { useTranslation } from 'react-i18next';
+import { FilterInput, SelectOption } from '../../app/types/types';
 import { COLORS, GRID, SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 import FilterSwitch from './FilterSwitch';
+import InputSwitch from './InputSwitch';
 
 type Props = {
   filters: FilterInput[];
@@ -164,7 +165,7 @@ const AdvanceFilter = ({
                   top={0}
                   variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
-                  icon={<i className="ri-close-line" />}
+                  icon={<RemixIcon icon="CLOSE_LINE" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
                 <InputSwitch option={so.value} />

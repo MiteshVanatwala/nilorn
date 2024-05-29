@@ -1,20 +1,21 @@
 import {
-  Grid,
-  FormLabel,
-  Button,
-  GridItem,
-  VStack,
-  IconButton,
   Box,
+  Button,
+  FormLabel,
+  Grid,
+  GridItem,
   HStack,
+  IconButton,
+  VStack,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { GRID, SPACE } from '../../theme/Constants';
 import { useEffect } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ChangelogType } from '../../app/generate';
 import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
 import FormattedNumberInputField from '../../components/Form/FormattedNumberInputField';
+import RemixIcon from '../../components/Icon/RemixIcon';
+import { GRID, SPACE } from '../../theme/Constants';
 
 type Props = {
   disableEdit?: boolean;
@@ -118,7 +119,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                     translateY={'-50%'}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
-                    icon={<i className="ri-close-line" />}
+                    icon={<RemixIcon icon="CLOSE_LINE" />}
                     onClick={() => remove(index)}
                   />
                 )}
@@ -132,7 +133,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                 append({ quantity: null, price: null });
                 focusLastField();
               }}
-              rightIcon={<i className={'ri-add-line'} />}>
+              rightIcon={<RemixIcon icon="ADD_LINE" />}>
               {t('Common.Add')}
             </Button>
           )}

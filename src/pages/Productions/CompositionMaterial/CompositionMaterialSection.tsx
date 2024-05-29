@@ -1,13 +1,14 @@
 import { Button, Grid, HStack, Text, VStack } from '@chakra-ui/react';
-import { COLORS, SPACE } from '../../../theme/Constants';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useCompositionMaterials } from '../../../app/api/production';
+import { CompositionDto } from '../../../app/generate';
+import { SelectOption } from '../../../app/types/types';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import { COLORS, SPACE } from '../../../theme/Constants';
 import CompositionMaterialHeader from './CompositionMaterialHeader';
 import CompositionMaterialRow from './CompositionMaterialRow';
-import { SelectOption } from '../../../app/types/types';
-import { useEffect } from 'react';
-import { CompositionDto } from '../../../app/generate';
-import { useCompositionMaterials } from '../../../app/api/production';
 
 type Props = {
   defaultValues?: CompositionDto[];
@@ -87,7 +88,7 @@ const CompositionMaterialSection = ({
                 value: undefined,
               })
             }
-            rightIcon={<i className={'ri-add-line'} />}>
+            rightIcon={<RemixIcon icon="ADD_LINE" />}>
             {t('Common.Add')}
           </Button>
         )}
