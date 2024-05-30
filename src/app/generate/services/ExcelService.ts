@@ -7,18 +7,22 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class ExcelService {
-  /**
-   * @param projectId
-   * @returns any Success
-   * @throws ApiError
-   */
-  public static getApiExcelGetExcel(projectId: string): CancelablePromise<any> {
-    return __request(OpenAPI, {
-      method: 'GET',
-      url: '/api/Excel/GetExcel/{projectId}',
-      path: {
-        projectId: projectId,
-      },
-    });
-  }
+
+    /**
+     * @param projectId
+     * @returns any Success
+     * @throws ApiError
+     */
+    public static getApiExcelGetExcel(
+        projectId: string,
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/Excel/GetExcel/{projectId}',
+            path: {
+                'projectId': projectId,
+            },
+        });
+    }
+
 }

@@ -11,3 +11,4 @@ export type MemberBriefDto = {
     role?: Role;
     opCompCode?: string | null;
 };
+
