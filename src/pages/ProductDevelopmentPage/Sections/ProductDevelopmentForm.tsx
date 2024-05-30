@@ -129,7 +129,7 @@ function ProductDevelopmentForm({
                   defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
                   marginBottom={SPACE.XXL}
                   allowMultiple>
-                  {defaultValues?.versions?.length && (
+                  {!!defaultValues?.versions?.length && (
                     <VersionsSection versions={defaultValues.versions} />
                   )}
                   <GeneralSection
