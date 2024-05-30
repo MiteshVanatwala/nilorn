@@ -30,6 +30,7 @@ type Props = {
   defaultValues?: ProductDevelopmentDto;
   scrolledPast: boolean;
   no: string;
+  name: string;
 };
 
 function ProductDevelopmentForm({
@@ -37,6 +38,7 @@ function ProductDevelopmentForm({
   defaultValues,
   scrolledPast,
   no,
+  name,
 }: Props) {
   const showSourcing = useAuthorizedSee('sourcing');
   const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
@@ -110,6 +112,7 @@ function ProductDevelopmentForm({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <TopSection
+          name={name}
           disableEdit={disableEdit}
           createNew={createNew}
           no={no}

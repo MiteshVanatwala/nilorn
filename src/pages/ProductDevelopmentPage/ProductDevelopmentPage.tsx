@@ -87,6 +87,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
       <Box ref={ref}>
         <ProductDevelopmentForm
           no={no ?? ''}
+          name={data?.name ?? ''}
           scrolledPast={scrolledPast}
           defaultValues={data}
           createNew={createNew}

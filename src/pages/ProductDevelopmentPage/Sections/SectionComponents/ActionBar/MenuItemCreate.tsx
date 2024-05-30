@@ -11,16 +11,17 @@ import { SIZES } from '../../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
+  name: string;
   no: string;
   createType: 'version' | 'copy';
 };
-const MenuItemCreate = ({ no, createType }: Props) => {
+const MenuItemCreate = ({ no, createType, name }: Props) => {
   const { t } = useTranslation();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
 
   const { mutate: createVersion } = useCreateVersionProductDevelopment(no);
-  const { mutate: copy } = useCreateCopyProductDevelopment(no);
+  const { mutate: copy } = useCreateCopyProductDevelopment(no, name);
 
   async function copyProductDevelopment() {
     copy();
