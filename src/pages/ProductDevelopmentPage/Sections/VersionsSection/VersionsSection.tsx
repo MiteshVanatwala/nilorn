@@ -1,22 +1,12 @@
 import { Grid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { COLORS } from '../../../../theme/Constants';
-import { Status } from '../../../../app/generate';
+import { ProductDevelopmentVersionDto } from '../../../../app/generate';
 import AccordionItem from '../../../../components/AccordionItem/AccordionItem';
 import VersionRow from './VersionRow';
 
-export type Version = {
-  no?: string;
-  name?: string;
-  status: Status;
-  thumbNailData?: string;
-  artwork?: string;
-  versionSpecification?: string;
-  sourcings?: string;
-};
-
 type Props = {
-  versions: Version[];
+  versions: ProductDevelopmentVersionDto[];
 };
 
 const VersionsSection = ({ versions }: Props) => {

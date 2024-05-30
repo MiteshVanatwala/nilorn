@@ -15,7 +15,7 @@ import SourcingSection from './SourcingSection';
 import BottomSection from './BottomSection';
 import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
-import { ProductDevelopmentDto, Status } from '../../../app/generate';
+import { ProductDevelopmentDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
 import { scrollNameIntoView } from '../../../app/utils/common';
 import {
@@ -23,7 +23,7 @@ import {
   useAuthorizedEdit,
 } from '../../../app/Permissions/usePremissions';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
-import VersionsSection, { Version } from './VersionsSection/VersionsSection';
+import VersionsSection from './VersionsSection/VersionsSection';
 
 type Props = {
   createNew: boolean;
@@ -43,54 +43,6 @@ function ProductDevelopmentForm({
   const showSourcing = useAuthorizedSee('sourcing');
   const allowedToUploadFiles = useAuthorizedEdit('uploadFile');
   const allowedToEdit = useAuthorizedEdit('productDevelopment');
-
-  const versions: Version[] = [
-    {
-      no: '#123456789',
-      name: 'Name',
-      status: Status.APPROVED,
-      artwork: 'artwork',
-      versionSpecification: 'specification',
-      sourcings: 'sourcings',
-      thumbNailData: '',
-    },
-    {
-      thumbNailData: '',
-      name: 'Name',
-      no: '#123456789',
-      status: Status.CALCULATION,
-      artwork: 'artwork',
-      versionSpecification: 'specification',
-      sourcings: 'sourcings',
-    },
-    {
-      thumbNailData: '',
-      name: 'Name Name Name Name Name Name Name Name',
-      no: '#123456789',
-      status: Status.DESIGN,
-      artwork: 'artwork',
-      versionSpecification: 'specification',
-      sourcings: 'sourcings',
-    },
-    {
-      thumbNailData: '',
-      name: 'Name',
-      no: '#123456789',
-      status: Status.APPROVED,
-      artwork: 'artwork',
-      versionSpecification: 'specification',
-      sourcings: 'sourcings',
-    },
-    {
-      thumbNailData: '',
-      name: 'Name Name Name',
-      no: '#123456789',
-      status: Status.APPROVED,
-      artwork: 'artwork',
-      versionSpecification: 'specification',
-      sourcings: 'sourcings',
-    },
-  ];
 
   const { data: user } = useCurrentUser();
 
@@ -177,7 +129,9 @@ function ProductDevelopmentForm({
                   defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
                   marginBottom={SPACE.XXL}
                   allowMultiple>
-                  {versions.length && <VersionsSection versions={versions} />}
+                  {defaultValues?.versions?.length && (
+                    <VersionsSection versions={defaultValues.versions} />
+                  )}
                   <GeneralSection
                     createNew={createNew}
                     disableEdit={disableEdit}
