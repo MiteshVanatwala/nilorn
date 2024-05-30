@@ -14,9 +14,13 @@ const ArrowLink = ({ direction, children, to, onClick }: Props) => {
     pr: 0,
     variant: direction === 'left' ? 'backButton' : 'forwardButton',
     leftIcon:
-      direction === 'left' ? <RemixIcon icon="ARROW_LEFT_LINE" /> : undefined,
+      direction === 'left' ? (
+        <RemixIcon component="i" icon="ARROW_LEFT_LINE" />
+      ) : undefined,
     rightIcon:
-      direction === 'left' ? undefined : <RemixIcon icon="ARROW_RIGHT_LINE" />,
+      direction === 'left' ? undefined : (
+        <RemixIcon component="i" icon="ARROW_RIGHT_LINE" />
+      ),
   };
   if (onClick && !to) {
     return (

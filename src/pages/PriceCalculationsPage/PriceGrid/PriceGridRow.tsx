@@ -174,13 +174,13 @@ function PriceGridRow({
                   <Button
                     onClick={submitForm}
                     variant={'primarySmall'}
-                    rightIcon={<RemixIcon icon="CHECK_LINE" />}>
+                    rightIcon={<RemixIcon component="i" icon="CHECK_LINE" />}>
                     {t('Common.Save')}
                   </Button>
                   <Button
                     onClick={closeRowForInlineEdit}
                     variant={'secondarySmall'}
-                    rightIcon={<RemixIcon icon="CLOSE_LINE" />}>
+                    rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
                     {t('Common.Cancel')}
                   </Button>
                 </>

@@ -86,7 +86,7 @@ const SearchProfile = () => {
           zIndex={'0'}
           marginTop={SPACE.XXS}
           variant={'secondary'}
-          leftIcon={<RemixIcon icon="SAVE_LINE" />}
+          leftIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
           onClick={() =>
             handleModal(
               <SearchProfileModalContent

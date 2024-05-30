@@ -32,7 +32,7 @@ const MenuListWithAddBtn = ({
             />
           )
         }
-        rightIcon={<RemixIcon icon="ADD_LINE" />}>
+        rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
         {t('Common.Add')}
       </Button>
       {children}

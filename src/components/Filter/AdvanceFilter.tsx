@@ -165,7 +165,7 @@ const AdvanceFilter = ({
                   top={0}
                   variant={'deleteIconBtn'}
                   aria-label={t('Filter.Remove')}
-                  icon={<RemixIcon icon="CLOSE_LINE" />}
+                  icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
                 <InputSwitch option={so.value} />

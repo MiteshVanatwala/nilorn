@@ -155,7 +155,7 @@ const SearchProfileModalContent = ({
             type="submit"
             variant={'primary'}
             onClick={onSubmit}
-            rightIcon={<RemixIcon icon="SAVE_LINE" />}>
+            rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
             {t('Common.Save')}
           </Button>
           {isValueSelected && (
@@ -165,7 +165,7 @@ const SearchProfileModalContent = ({
               }
               variant={'deleteBtn'}
               onClick={onDelete}
-              rightIcon={<RemixIcon icon="DELETE_BIN_LINE" />}>
+              rightIcon={<RemixIcon component="i" icon="DELETE_BIN_LINE" />}>
               {t('Common.Delete')}
             </Button>
           )}
@@ -173,7 +173,7 @@ const SearchProfileModalContent = ({
           <Button
             variant={'secondary'}
             onClick={onCancel}
-            rightIcon={<RemixIcon icon="CLOSE_LINE" />}>
+            rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
             {t('Common.Cancel')}
           </Button>
         </HStack>

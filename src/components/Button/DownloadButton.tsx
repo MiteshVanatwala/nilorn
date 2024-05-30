@@ -26,7 +26,7 @@ const DownloadButton = ({
       aria-label={t('Common.Download')}
       onClick={() => downloadFile(url, fileName, method)}
       isLoading={isLoading}
-      icon={<RemixIcon icon="DOWNLOAD_LINE" />}
+      icon={<RemixIcon component="i" icon="DOWNLOAD_LINE" />}
     />
   );
 

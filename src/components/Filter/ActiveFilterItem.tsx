@@ -29,7 +29,7 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
       border={`solid 1px ${COLORS.GRAY[30]}`}
       px={SPACE.SM}
       py={SPACE.XXS}
-      rightIcon={<RemixIcon icon="CLOSE_LINE" />}
+      rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}
       borderRadius={BORDER_RADIUS.SM}
       _hover={{
         backgroundColor: COLORS.GRAY[10],

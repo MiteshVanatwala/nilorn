@@ -44,7 +44,7 @@ const ConfirmModal = ({
             onClick={onConfirm}
             rightIcon={
               confirmType === 'DELETE' ? (
-                <RemixIcon icon={'DELETE_BIN_LINE'} />
+                <RemixIcon component="i" icon={'DELETE_BIN_LINE'} />
               ) : (
                 <></>
               )
@@ -61,7 +61,9 @@ const ConfirmModal = ({
               onClose ? onClose() : close();
             }}
             rightIcon={
-              cancelText ? undefined : <RemixIcon icon="CLOSE_LINE" />
+              cancelText ? undefined : (
+                <RemixIcon component="i" icon="CLOSE_LINE" />
+              )
             }>
             {cancelText ?? t('Common.Cancel')}
           </Button>

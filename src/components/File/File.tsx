@@ -85,7 +85,7 @@ export const File = ({
               aria-label={t('Common.Download')}
               onClick={downloadFile}
               isLoading={isDownloading}
-              icon={<RemixIcon icon="DOWNLOAD_LINE" />}
+              icon={<RemixIcon component="i" icon="DOWNLOAD_LINE" />}
             />
           </Tooltip>
           {onRemove && (
@@ -94,7 +94,7 @@ export const File = ({
                 disabled={isDownloading}
                 variant={'deleteIconBtn'}
                 aria-label={t('Common.Remove')}
-                icon={<RemixIcon icon="CLOSE_LINE" />}
+                icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                 mr={0}
                 onClick={openDeleteModal}
               />

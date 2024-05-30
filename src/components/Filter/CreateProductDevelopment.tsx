@@ -15,7 +15,7 @@ const CreateProductDevelopment = () => {
         <Link as={NavLink} to={'/product-development/create'}>
           <Button
             alignSelf={'end'}
-            leftIcon={<RemixIcon icon="ADD_LINE" />}
+            leftIcon={<RemixIcon component="i" icon="ADD_LINE" />}
             variant={'primary'}>
             {t('Common.CreateNew')}
           </Button>

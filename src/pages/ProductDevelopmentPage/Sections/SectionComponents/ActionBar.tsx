@@ -225,7 +225,8 @@ const ActionBar = ({
                 as={Button}
                 variant={'secondary'}
                 padding={SPACE.SM}>
-                {currentStatus} <RemixIcon icon="ARROW_DOWN_S_LINE" />
+                {currentStatus}{' '}
+                <RemixIcon component="i" icon="ARROW_DOWN_S_LINE" />
               </MenuButton>
               <MenuList>
                 {statuses.map(s => (

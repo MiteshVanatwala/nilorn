@@ -19,6 +19,7 @@ const HeaderMenu = ({ title, children }: Props) => {
         fontWeight={text.variants.bodyRegular}
         rightIcon={
           <RemixIcon
+            component="i"
             style={{ fontSize: SIZES.ICON.MD }}
             icon="ARROW_DOWN_S_FILL"
           />

@@ -3,24 +3,18 @@ import { HTMLAttributes } from 'react';
 import { REMIX_ICONS } from '../../theme/Constants';
 
 type RemixIconTextProps = {
-  component?: 'Text';
+  component: 'Text';
   icon: keyof typeof REMIX_ICONS.CLASS_NAMES;
 } & TextProps;
 
 type RemixIconIProps = {
-  component?: 'i';
+  component: 'i';
   icon: keyof typeof REMIX_ICONS.CLASS_NAMES;
-} & HTMLAttributes<HTMLElement>;
+} & Pick<HTMLAttributes<HTMLElement>, 'style' | 'className'>;
 
 type Props = RemixIconIProps | RemixIconTextProps;
 
-const RemixIcon = ({
-  icon,
-  component = 'i',
-  style,
-  className,
-  ...rest
-}: Props) => {
+const RemixIcon = ({ icon, component, style, className, ...rest }: Props) => {
   switch (component) {
     case 'i':
       return (

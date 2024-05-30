@@ -119,7 +119,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                     translateY={'-50%'}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
-                    icon={<RemixIcon icon="CLOSE_LINE" />}
+                    icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                     onClick={() => remove(index)}
                   />
                 )}
@@ -133,7 +133,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                 append({ quantity: null, price: null });
                 focusLastField();
               }}
-              rightIcon={<RemixIcon icon="ADD_LINE" />}>
+              rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
               {t('Common.Add')}
             </Button>
           )}

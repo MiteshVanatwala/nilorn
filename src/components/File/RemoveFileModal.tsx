@@ -52,14 +52,14 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
               onClick={() => deleteFile(false)}
               isLoading={isDeleting}
               variant={'deleteBtn'}
-              rightIcon={<RemixIcon icon="DELETE_BIN_LINE" />}>
+              rightIcon={<RemixIcon component="i" icon="DELETE_BIN_LINE" />}>
               {t('PD.File.Delete')}
             </Button>
             <Button
               onClick={() => removeLink(true)}
               isLoading={isRemovingLink}
               variant={'secondary'}
-              rightIcon={<RemixIcon icon="LINK_UNLINK_M" />}>
+              rightIcon={<RemixIcon component="i" icon="LINK_UNLINK_M" />}>
               {t('PD.File.RemoveLink')}
             </Button>
             <Button variant={'secondary'} onClick={onClose}>

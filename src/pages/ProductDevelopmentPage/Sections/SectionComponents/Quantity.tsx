@@ -68,7 +68,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
                     top={4}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
-                    icon={<RemixIcon icon="CLOSE_LINE" />}
+                    icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                     onClick={() => remove(index)}
                   />
                 )}
@@ -79,7 +79,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
             <Button
               variant={'secondarySmall'}
               onClick={() => append({ value: '' })}
-              rightIcon={<RemixIcon icon="ADD_LINE" />}>
+              rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
               {t('Common.Add')}
             </Button>
           )}

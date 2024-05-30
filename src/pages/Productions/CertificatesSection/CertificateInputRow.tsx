@@ -160,7 +160,7 @@ const CertificateInputRow = ({
               variant={'deleteIconBtn'}
               aria-label={t('Common.Remove')}
               onClick={onDelete}
-              icon={<RemixIcon icon="CLOSE_LINE" />}
+              icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
             />
           </Tooltip>
         )}

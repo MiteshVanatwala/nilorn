@@ -202,7 +202,7 @@ const EditProduction = ({ productionId }: Props) => {
           <Button
             color={COLORS.BLACK}
             variant={'link'}
-            leftIcon={<RemixIcon icon="ARROW_LEFT_LINE" />}
+            leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
             isDisabled={!productionNavigation?.previous}
             onClick={() => {
               onNavigate(productionNavigation?.previous ?? '');
@@ -212,7 +212,7 @@ const EditProduction = ({ productionId }: Props) => {
           <Button
             color={COLORS.BLACK}
             variant={'link'}
-            rightIcon={<RemixIcon icon="ARROW_RIGHT_LINE" />}
+            rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
             isDisabled={!productionNavigation?.next}
             onClick={() => {
               onNavigate(productionNavigation?.next ?? '');

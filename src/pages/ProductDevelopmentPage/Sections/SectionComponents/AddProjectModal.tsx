@@ -80,13 +80,13 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
             type="submit"
             variant={'primary'}
             onClick={onSubmit}
-            rightIcon={<RemixIcon icon="SAVE_LINE" />}>
+            rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
             {t('Common.Save')}
           </Button>
           <Button
             variant={'secondary'}
             onClick={onCancel}
-            rightIcon={<RemixIcon icon="CLOSE_LINE" />}>
+            rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
             {t('Common.Cancel')}
           </Button>
         </HStack>
