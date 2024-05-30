@@ -20,7 +20,7 @@ const RemixIcon = (props: Props) => {
     const { icon, style } = (props as RemixIconIProps) || {};
     return <i style={style} className={REMIX_ICONS.CLASS_NAMES[icon]} />;
   } else {
-    const { icon, ...rest } = (props as RemixIconTextProps) || {};
+    const { icon, component, ...rest } = (props as RemixIconTextProps) || {};
     return (
       <Text {...rest} as={'i'} className={REMIX_ICONS.CLASS_NAMES[icon]} />
     );
