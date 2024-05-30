@@ -174,7 +174,7 @@ function PriceGridRow({
                   <Button
                     onClick={submitForm}
                     variant={'primarySmall'}
-                    rightIcon={<RemixIcon component="i" icon="CHECK_LINE" />}>
+                    rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
                     {t('Common.Save')}
                   </Button>
                   <Button
