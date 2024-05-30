@@ -48,7 +48,7 @@ export function useDebounce<T>(value: T, delay: number): T {
 
 export function onFilterChange(formValues: FieldValues) {
   const output = Object.entries(formValues).reduce((result, [key, value]) => {
-    if (key !== 'ActiveSearchProfile' && value !== undefined && value !== '') {
+    if (value !== undefined && value !== '') {
       if (typeof value === 'string' || typeof value === 'number') {
         result[key] = value.toString();
       } else if (Array.isArray(value)) {

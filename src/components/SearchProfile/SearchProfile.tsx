@@ -22,7 +22,6 @@ const SearchProfile = () => {
   } = useFormContext();
   const [activeSearchProfileName, setActiveSearchProfileName] =
     useState<string>('');
-  const [defaultSearchProfile, setDefaultSearchProfile] = useState<string>('');
   const { setValue, reset } = useFormContext();
   let { data } = useSearchProfile();
 
@@ -40,16 +39,22 @@ const SearchProfile = () => {
     }
 
     setActiveSearchProfileName(option.label);
-    setDefaultSearchProfile(option.label);
   };
 
   useEffect(() => {
     if (!isDirty) {
-      setDefaultSearchProfile('');
       setSelected(undefined);
       setActiveSearchProfileName('');
     }
   }, [isDirty]);
+
+  useEffect(() => {
+    console.log('activeSearchProfileName chnage: ', activeSearchProfileName);
+    setSelected(
+      (data?.find(c => c.label === activeSearchProfileName) as SelectOption) ??
+        undefined
+    );
+  }, [activeSearchProfileName, data]);
 
   return (
     <GridItem
@@ -72,9 +77,9 @@ const SearchProfile = () => {
             name="SearchProfile"
             onChange={onChange}
             value={
-              defaultSearchProfile
+              activeSearchProfileName
                 ? (data?.find(
-                    c => c.label === defaultSearchProfile
+                    c => c.label === activeSearchProfileName
                   ) as SelectOption)
                 : selected
             }
@@ -91,12 +96,11 @@ const SearchProfile = () => {
               <SearchProfileModalContent
                 setActiveSearchProfileName={setActiveSearchProfileName}
                 activeSearchProfileName={activeSearchProfileName}
-                setDefaultSearchProfile={setDefaultSearchProfile}
-                isValueSelected={!!(selected || defaultSearchProfile)}
+                isValueSelected={!!(selected || activeSearchProfileName)}
               />
             )
           }>
-          {selected && isDirty
+          {selected
             ? t('Filter.UpdateSearchProfile')
             : t('Filter.SaveSearchProfile')}
         </Button>

@@ -17,19 +17,18 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToast } from '../../app/hooks/useToast';
 import { COLORS, SPACE } from '../../theme/Constants';
 import FormLabelComponent from '../Form/FormLabelComponent';
-import RemixIcon from '../Icon/RemixIcon';
 import ModalHeading from '../Modal/ModalHeading';
+import RemixIcon from '../Icon/RemixIcon';
+
 type Props = {
   activeSearchProfileName?: string;
   setActiveSearchProfileName(val: string): void;
-  setDefaultSearchProfile(val: string): void;
   isValueSelected: boolean;
 };
 
 const SearchProfileModalContent = ({
   activeSearchProfileName,
   setActiveSearchProfileName,
-  setDefaultSearchProfile,
   isValueSelected,
 }: Props) => {
   const { showToast } = useToast();
@@ -68,7 +67,7 @@ const SearchProfileModalContent = ({
 
   async function onSubmit(): Promise<void> {
     const queryString = window.location.href.split('?')[1];
-    setDefaultSearchProfile(searchProfileName ?? '');
+    setActiveSearchProfileName(searchProfileName ?? '');
 
     const data = {
       name: searchProfileName,
@@ -86,10 +85,7 @@ const SearchProfileModalContent = ({
       createOrUpdateSearchProfile(data);
     }
   }
-  useEffect(() => {
-    setActiveSearchProfileName(searchProfileName ?? '');
-    setSearchProfileName(searchProfileName);
-  }, [searchProfileName, setActiveSearchProfileName]);
+
   useEffect(() => {
     if (isSuccess) {
       showToast({
@@ -118,14 +114,13 @@ const SearchProfileModalContent = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteError]);
+
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchProfileName(e.target.value);
-    setActiveSearchProfileName(e.target.value);
-    setDefaultSearchProfile('');
     setErrorMsgName(undefined);
     setInputChanged(true);
   };

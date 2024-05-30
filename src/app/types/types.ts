@@ -6,8 +6,7 @@ import {
 import { Location } from 'react-router';
 
 export type FilterKeys =
-  | keyof GetForFilterProductDevelopmentsWithPaginationQuery
-  | 'ActiveSearchProfile';
+  | keyof GetForFilterProductDevelopmentsWithPaginationQuery;
 
 export interface FormInputProps {
   name: string;
