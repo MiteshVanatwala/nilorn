@@ -12,18 +12,14 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {
   no: string;
-  name: string;
   createType: 'version' | 'copy';
 };
-const MenuItemCreate = ({ no, createType, name }: Props) => {
+const MenuItemCreate = ({ no, createType }: Props) => {
   const { t } = useTranslation();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
 
-  const { mutate: createVersion } = useCreateVersionProductDevelopment(
-    no,
-    name
-  );
+  const { mutate: createVersion } = useCreateVersionProductDevelopment(no);
   const { mutate: copy } = useCreateCopyProductDevelopment(no);
 
   async function copyProductDevelopment() {

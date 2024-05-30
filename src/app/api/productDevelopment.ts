@@ -195,10 +195,7 @@ export const useCreateCopyProductDevelopment = (no: string, name: string) => {
   );
 };
 
-export const useCreateVersionProductDevelopment = (
-  no: string,
-  name: string
-) => {
+export const useCreateVersionProductDevelopment = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
@@ -206,13 +203,12 @@ export const useCreateVersionProductDevelopment = (
 
   return useMutation(
     () =>
-      ProductDevelopmentsService.postApiProductDevelopmentsVersion(
-        no,
-        name
-      ).then(response => response),
+      ProductDevelopmentsService.postApiProductDevelopmentsVersion1(no).then(
+        response => response
+      ),
     {
       onSuccess: async (no: string) => {
-        navigate(`product-development/${no}`);
+        navigate(`/product-development/${no}`);
         showToast({
           status: 'success',
           description: `${t('PD.Feedback.Success.Created', {

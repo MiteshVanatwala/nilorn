@@ -23,7 +23,6 @@ import RemixIcon from '../../../../../components/Icon/RemixIcon';
 
 type Props = {
   no: string;
-  name: string;
   createNew?: boolean;
   disableEdit: boolean;
   hasPriceCalculation: boolean;
@@ -32,7 +31,6 @@ type Props = {
 const ActionBar = ({
   createNew,
   no,
-  name,
   disableEdit,
   hasPriceCalculation,
   hasProductions,
@@ -126,8 +124,8 @@ const ActionBar = ({
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
 
-            <MenuItemCreate no={no} createType={'copy'} name={name} />
-            <MenuItemCreate no={no} createType={'version'} name={name} />
+            <MenuItemCreate no={no} createType={'copy'} />
+            <MenuItemCreate no={no} createType={'version'} />
 
             {!disableEdit && (
               <MenuItem
