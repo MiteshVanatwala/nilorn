@@ -5,34 +5,25 @@ import { REMIX_ICONS } from '../../theme/Constants';
 type RemixIconTextProps = {
   component: 'Text';
   icon: keyof typeof REMIX_ICONS.CLASS_NAMES;
-} & TextProps;
+} & Omit<TextProps, 'className' | 'as'>;
 
 type RemixIconIProps = {
   component: 'i';
   icon: keyof typeof REMIX_ICONS.CLASS_NAMES;
-} & Pick<HTMLAttributes<HTMLElement>, 'style' | 'className'>;
+} & Pick<HTMLAttributes<HTMLElement>, 'style'>;
 
 type Props = RemixIconIProps | RemixIconTextProps;
 
-const RemixIcon = ({ icon, component, style, className, ...rest }: Props) => {
-  switch (component) {
-    case 'i':
-      return (
-        <i
-          style={style}
-          className={className ?? REMIX_ICONS.CLASS_NAMES[icon]}
-        />
-      );
-    case 'Text':
-      return (
-        <Text
-          {...rest}
-          style={style}
-          className={className ?? REMIX_ICONS.CLASS_NAMES[icon]}
-        />
-      );
-    default:
-      return null;
+const RemixIcon = (props: Props) => {
+  const { component } = props || {};
+  if (component === 'i') {
+    const { icon, style } = (props as RemixIconIProps) || {};
+    return <i style={style} className={REMIX_ICONS.CLASS_NAMES[icon]} />;
+  } else {
+    const { icon, ...rest } = (props as RemixIconTextProps) || {};
+    return (
+      <Text {...rest} as={'i'} className={REMIX_ICONS.CLASS_NAMES[icon]} />
+    );
   }
 };
 
