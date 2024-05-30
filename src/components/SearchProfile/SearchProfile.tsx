@@ -49,7 +49,6 @@ const SearchProfile = () => {
   }, [isDirty]);
 
   useEffect(() => {
-    console.log('activeSearchProfileName chnage: ', activeSearchProfileName);
     setSelected(
       (data?.find(c => c.label === activeSearchProfileName) as SelectOption) ??
         undefined
@@ -71,7 +70,7 @@ const SearchProfile = () => {
             mb="0"
             w={'auto'}
             htmlFor={'SearchProfile'}>
-            {t('Filter.SavedFilters')}
+            {t('Filter.SearchProfile.Label')}
           </FormLabel>
           <SelectBase
             name="SearchProfile"
@@ -101,8 +100,8 @@ const SearchProfile = () => {
             )
           }>
           {selected
-            ? t('Filter.UpdateSearchProfile')
-            : t('Filter.SaveSearchProfile')}
+            ? t('Filter.SearchProfile.Update')
+            : t('Filter.SearchProfile.Save')}
         </Button>
       </VStack>
     </GridItem>

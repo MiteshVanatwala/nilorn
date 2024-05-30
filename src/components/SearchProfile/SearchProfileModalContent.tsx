@@ -6,18 +6,17 @@ import {
   ModalFooter,
   Text,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { FieldError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { ModalContext } from '../../app/context/ModalContext';
+import { COLORS, SPACE } from '../../theme/Constants';
+import ModalHeading from '../Modal/ModalHeading';
 import {
   useCreateOrUpdateSearchProfile,
   useDeleteSearchProfile,
 } from '../../app/api/SearchProfile';
-import { ModalContext } from '../../app/context/ModalContext';
-import { useToast } from '../../app/hooks/useToast';
-import { COLORS, SPACE } from '../../theme/Constants';
 import FormLabelComponent from '../Form/FormLabelComponent';
-import ModalHeading from '../Modal/ModalHeading';
 import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
@@ -31,7 +30,6 @@ const SearchProfileModalContent = ({
   setActiveSearchProfileName,
   isValueSelected,
 }: Props) => {
-  const { showToast } = useToast();
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const [errorMsgQuery, setErrorMsgQuery] = useState<string | undefined>();
@@ -42,13 +40,9 @@ const SearchProfileModalContent = ({
   const [searchProfileName, setSearchProfileName] = useState<
     string | undefined
   >(activeSearchProfileName);
-  const {
-    mutate: createOrUpdateSearchProfile,
-    isSuccess,
-    isError,
-  } = useCreateOrUpdateSearchProfile();
-  const { mutate: deleteSearchProfile, isError: deleteError } =
-    useDeleteSearchProfile();
+  const { mutate: createOrUpdateSearchProfile } =
+    useCreateOrUpdateSearchProfile();
+  const { mutate: deleteSearchProfile } = useDeleteSearchProfile();
 
   const [inputChanged, setInputChanged] = useState(false);
 
@@ -60,8 +54,11 @@ const SearchProfileModalContent = ({
   const onDelete = () => {
     if (searchProfileName) {
       setSearchProfileName('');
-      deleteSearchProfile(searchProfileName);
-      close();
+      deleteSearchProfile(searchProfileName, {
+        onSuccess: async () => {
+          close();
+        },
+      });
     }
   };
 
@@ -82,38 +79,13 @@ const SearchProfileModalContent = ({
       setErrorMsgName(undefined);
     }
     if (searchProfileName !== '' && queryString) {
-      createOrUpdateSearchProfile(data);
+      createOrUpdateSearchProfile(data, {
+        onSuccess: async () => {
+          close();
+        },
+      });
     }
   }
-
-  useEffect(() => {
-    if (isSuccess) {
-      showToast({
-        status: 'success',
-        description: t('Filter.FilterSaved'),
-      });
-      close();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
-  useEffect(() => {
-    if (isError) {
-      showToast({
-        status: 'error',
-        description: t('Errors.SearchProfileSave'),
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError]);
-  useEffect(() => {
-    if (deleteError) {
-      showToast({
-        status: 'error',
-        description: t('Errors.SearchProfileDelete'),
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteError]);
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -128,10 +100,10 @@ const SearchProfileModalContent = ({
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>
-        <ModalHeading title={t('Filter.SaveSearchProfile')} />
+        <ModalHeading title={t('Filter.SearchProfile.Heading')} />
         <FormLabelComponent
           error={errorMsgName ? errorFieldMsg : undefined}
-          label={`${t('Filter.SearchProfileName')} *`}
+          label={`${t('Filter.SearchProfile.Name')} *`}
           name={'searchProfileName'}
         />
         <Input
