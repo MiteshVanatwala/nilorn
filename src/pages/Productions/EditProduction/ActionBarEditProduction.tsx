@@ -129,7 +129,13 @@ const ActionBarEditProduction = ({
         <ButtonGroup isAttached variant="primary">
           {status && !isClosed(status) && (
             <>
-              <Button type="submit">
+              <Button
+                type="submit"
+                rightIcon={
+                  !createNew ? (
+                    <RemixIcon component="i" icon="SAVE_LINE" />
+                  ) : undefined
+                }>
                 {createNew
                   ? t('Production.CreateProduction')
                   : t('Common.Save')}

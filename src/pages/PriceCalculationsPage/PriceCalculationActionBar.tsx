@@ -64,7 +64,14 @@ const PriceCalculationActionBar = ({
         ) : undefined
       }
       actionButtons={
-        <Button variant={'primary'} type="submit">
+        <Button
+          variant={'primary'}
+          type="submit"
+          rightIcon={
+            !createNew ? (
+              <RemixIcon component="i" icon="SAVE_LINE" />
+            ) : undefined
+          }>
           {createNew ? t('PriceCalc.CreateCalculation') : t('Common.Save')}
         </Button>
       }
