@@ -2,7 +2,6 @@ import { Button } from '@chakra-ui/button';
 import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
 import { useEffect, useState } from 'react';
-import { ActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import SearchProfileModalContent from './SearchProfileModalContent';
 import { useFormContext } from 'react-hook-form';
@@ -11,6 +10,7 @@ import { SelectOption } from '../../app/types/types';
 import { SPACE } from '../../theme/Constants';
 import { useSearchProfile } from '../../app/api/SearchProfile';
 import SelectBase from '../Form/SelectBase';
+import { parseSearchParams } from '../../app/utils/FilterHelper';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -25,20 +25,19 @@ const SearchProfile = () => {
   const { setValue, reset } = useFormContext();
   let { data } = useSearchProfile();
 
-  const onChange = (
-    option: SelectOption,
-    actionMeta: ActionMeta<SelectOption>
-  ) => {
+  const onChange = (option: SelectOption) => {
     reset();
     setSelected(option);
-    const optionVal = option.value;
-    const splitOptionVal = optionVal.split('&');
-    splitOptionVal.forEach((item: string) => {
-      const splitItem = item.split('=');
-      setValue(splitItem[0], decodeURIComponent(splitItem[1]), {
+    const queryStr = option.value;
+    const filters = parseSearchParams(queryStr);
+
+    for (const name in filters) {
+      const value = filters[name];
+      setValue(name, value, {
         shouldDirty: true,
       });
-    });
+    }
+
     setActiveSearchProfileName(option.label);
     setDefaultSearchProfile(option.label);
   };

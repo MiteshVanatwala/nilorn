@@ -20,6 +20,7 @@ import InputSwitch from './InputSwitch';
 import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
 import FilterSwitch from './FilterSwitch';
+import { INCLUDE_CLOSED } from '../../app/utils/constant';
 
 type Props = {
   filters: FilterInput[];
@@ -133,11 +134,11 @@ const AdvanceFilter = ({
               <GridItem colSpan={3}>
                 <FilterSwitch
                   defaultChecked={
-                    getValues('includeClosed') === 'true' ||
-                    getValues('includeClosed')?.value
+                    getValues(INCLUDE_CLOSED) === 'true' ||
+                    getValues(INCLUDE_CLOSED)?.value
                   }
                   label={t('PD.IncludeClosed')}
-                  name="includeClosed"
+                  name={INCLUDE_CLOSED}
                 />
               </GridItem>
             )}

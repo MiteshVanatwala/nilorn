@@ -1,4 +1,7 @@
-import { convertQueryStringToObject, parseSearchParams } from './FilterHelper';
+import {
+  convertQueryStringToFilterObject,
+  parseSearchParams,
+} from './FilterHelper';
 
 describe('parseSearchParams', () => {
   it('should parse query string without leading ?', () => {
@@ -56,13 +59,13 @@ describe('convertQueryStringToObject', () => {
       statuses: ['Artwork'],
       indirectCosts: '23',
     };
-    expect(convertQueryStringToObject(query)).toEqual(expected);
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
   });
 
   it('should handle missing values', () => {
     const query = '?searchQuery=&clients=&statuses=&indirectCosts=';
     const expected = {};
-    expect(convertQueryStringToObject(query)).toEqual(expected);
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
   });
 
   it('should handle unknown parameters', () => {
@@ -71,7 +74,16 @@ describe('convertQueryStringToObject', () => {
       unknownParam: 'test',
       clients: ['EUC101481'],
     };
-    expect(convertQueryStringToObject(query)).toEqual(expected);
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
+  });
+
+  it(`should handle 'includeClosed' parameter as boolean`, () => {
+    const query = '?includeClosed=true&searchQuery=true';
+    const expected = {
+      searchQuery: 'true',
+      includeClosed: true,
+    };
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
   });
 
   it('should handle multiple parameters of the same type', () => {
@@ -79,7 +91,7 @@ describe('convertQueryStringToObject', () => {
     const expected = {
       clients: ['EUC101481', 'EUC100320'],
     };
-    expect(convertQueryStringToObject(query)).toEqual(expected);
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
   });
 
   it('should handle mixed types', () => {
@@ -91,6 +103,6 @@ describe('convertQueryStringToObject', () => {
       finishedWidths: '50',
       finishedHeights: '100',
     };
-    expect(convertQueryStringToObject(query)).toEqual(expected);
+    expect(convertQueryStringToFilterObject(query)).toEqual(expected);
   });
 });
