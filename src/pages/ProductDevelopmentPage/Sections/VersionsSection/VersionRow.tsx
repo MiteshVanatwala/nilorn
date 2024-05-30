@@ -39,7 +39,11 @@ const VersionRow = ({ version, bgColor }: Props) => {
   return (
     <>
       <GridItem colStart={1} {...gridItemStyles}>
-        <ImagePopup thumbnail={true} alt="Artwork" src={thumbnailData} />
+        <ImagePopup
+          thumbnail={true}
+          alt="Thumbnail image"
+          src={thumbnailData ? `data:image/jpeg;base64,${thumbnailData}` : ''}
+        />
       </GridItem>
 
       <GridItem colStart={2} {...gridItemStyles}>
@@ -57,7 +61,7 @@ const VersionRow = ({ version, bgColor }: Props) => {
       </GridItem>
 
       <GridItem colStart={5} {...gridItemStyles}>
-        {artwork && <ArtworkButton artwork={artwork} />}
+        {artwork && <ArtworkButton size={'SMALL'} artwork={artwork} />}
       </GridItem>
 
       <GridItem colStart={6} {...gridItemStyles}>
