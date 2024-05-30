@@ -153,7 +153,15 @@ const ActionBarEditProduction = ({
                       }
                     />
                     <MenuList>
-                      <MenuItem onClick={() => handleSaveAndRelease()}>
+                      <MenuItem
+                        onClick={() => handleSaveAndRelease()}
+                        icon={
+                          <RemixIcon
+                            component="Text"
+                            icon="TOGGLE_LINE"
+                            fontSize={SIZES.ICON.MD}
+                          />
+                        }>
                         {createNew
                           ? t('Production.CreateAndRelease')
                           : t('Production.SaveAndRelease')}
