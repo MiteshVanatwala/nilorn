@@ -1,8 +1,9 @@
-import { useTranslation } from 'react-i18next';
-import { SelectOption } from '../../../../app/types/types';
-import { MenuListProps } from 'chakra-react-select';
 import { Box, Button } from '@chakra-ui/react';
+import { MenuListProps } from 'chakra-react-select';
+import { useTranslation } from 'react-i18next';
 import { useModal } from '../../../../app/hooks/useModal';
+import { SelectOption } from '../../../../app/types/types';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
 import { COLORS, SPACE } from '../../../../theme/Constants';
 import AddProjectModal from './AddProjectModal';
 
@@ -31,7 +32,7 @@ const MenuListWithAddBtn = ({
             />
           )
         }
-        rightIcon={<i className={'ri-add-line'} />}>
+        rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
         {t('Common.Add')}
       </Button>
       {children}

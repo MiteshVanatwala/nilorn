@@ -6,14 +6,14 @@ import {
   components,
 } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
-import { Text } from '@chakra-ui/react';
 import { COLORS } from '../../theme/Constants';
 import { SelectOption } from '../../app/types/types';
+import RemixIcon from '../Icon/RemixIcon';
 
 const DropdownIndicator = (props: DropdownIndicatorProps) => {
   return (
     <components.DropdownIndicator {...props}>
-      <Text as={'i'} color={COLORS.WHITE} className={'ri-add-line'} />
+      <RemixIcon component='Text' color={COLORS.WHITE} icon='ADD_LINE' />
     </components.DropdownIndicator>
   );
 };

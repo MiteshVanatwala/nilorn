@@ -1,10 +1,11 @@
+import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { SelectOption } from '../../../app/types/types';
-import { GridItem, IconButton, Tooltip } from '@chakra-ui/react';
-import SelectBase from '../../../components/Form/SelectBase';
-import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
+import SelectBase from '../../../components/Form/SelectBase';
+import RemixIcon from '../../../components/Icon/RemixIcon';
 
 type Props = {
   options: SelectOption[];
@@ -89,7 +90,7 @@ const CompositionMaterialRow = ({
               variant={'deleteIconBtn'}
               aria-label={t('Common.Remove')}
               onClick={onDelete}
-              icon={<i className="ri-close-line" />}
+              icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
             />
           </Tooltip>
         )}

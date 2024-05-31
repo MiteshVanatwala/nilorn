@@ -14,12 +14,13 @@ import {
 } from 'chakra-react-select';
 import text from '../../theme/text';
 import { SelectOption } from '../../app/types/types';
+import RemixIcon from '../Icon/RemixIcon';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
     return (
       <components.DropdownIndicator {...props}>
-        <Text as={'i'} className={'ri-arrow-down-s-fill'} />
+        <RemixIcon component='Text' icon='ARROW_DOWN_S_FILL' />
       </components.DropdownIndicator>
     );
   },

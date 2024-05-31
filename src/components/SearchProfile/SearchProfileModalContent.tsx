@@ -1,23 +1,24 @@
 import {
-  ModalFooter,
-  ModalBody,
   Button,
   HStack,
   Input,
+  ModalBody,
+  ModalFooter,
   Text,
 } from '@chakra-ui/react';
 import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FieldError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ModalContext } from '../../app/context/ModalContext';
-import { COLORS, SPACE } from '../../theme/Constants';
-import ModalHeading from '../Modal/ModalHeading';
-import { useToast } from '../../app/hooks/useToast';
 import {
   useCreateOrUpdateSearchProfile,
   useDeleteSearchProfile,
 } from '../../app/api/SearchProfile';
+import { ModalContext } from '../../app/context/ModalContext';
+import { useToast } from '../../app/hooks/useToast';
+import { COLORS, SPACE } from '../../theme/Constants';
 import FormLabelComponent from '../Form/FormLabelComponent';
-import { FieldError } from 'react-hook-form';
+import RemixIcon from '../Icon/RemixIcon';
+import ModalHeading from '../Modal/ModalHeading';
 type Props = {
   activeSearchProfileName?: string;
   setActiveSearchProfileName(val: string): void;
@@ -154,7 +155,7 @@ const SearchProfileModalContent = ({
             type="submit"
             variant={'primary'}
             onClick={onSubmit}
-            rightIcon={<i className="ri-save-line" />}>
+            rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
             {t('Common.Save')}
           </Button>
           {isValueSelected && (
@@ -164,7 +165,7 @@ const SearchProfileModalContent = ({
               }
               variant={'deleteBtn'}
               onClick={onDelete}
-              rightIcon={<i className="ri-delete-bin-line" />}>
+              rightIcon={<RemixIcon component="i" icon="DELETE_BIN_LINE" />}>
               {t('Common.Delete')}
             </Button>
           )}
@@ -172,7 +173,7 @@ const SearchProfileModalContent = ({
           <Button
             variant={'secondary'}
             onClick={onCancel}
-            rightIcon={<i className="ri-close-line" />}>
+            rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
             {t('Common.Cancel')}
           </Button>
         </HStack>

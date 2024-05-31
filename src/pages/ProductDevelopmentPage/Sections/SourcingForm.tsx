@@ -1,17 +1,18 @@
 import { Button, Grid, GridItem, HStack, VStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
-import InputField from '../../../components/Form/InputField';
-import Quantity from './SectionComponents/Quantity';
-import TextArea from '../../../components/Form/TextArea';
-import { useProductions } from '../../../app/api/production';
-import ReleasedProductions from './ReleasedProductions';
-import ArrowLink from '../../../components/Link/ArrowLink';
-import { useProductDevelopment } from '../../../app/api/productDevelopment';
 import {
   useAuthorizedEdit,
   useAuthorizedSee,
 } from '../../../app/Permissions/usePremissions';
+import { useProductDevelopment } from '../../../app/api/productDevelopment';
+import { useProductions } from '../../../app/api/production';
+import InputField from '../../../components/Form/InputField';
+import TextArea from '../../../components/Form/TextArea';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import ArrowLink from '../../../components/Link/ArrowLink';
+import { GRID, SPACE } from '../../../theme/Constants';
+import ReleasedProductions from './ReleasedProductions';
+import Quantity from './SectionComponents/Quantity';
 
 type Props = {
   no: string;
@@ -77,7 +78,7 @@ const SourcingForm = ({
               mt={SPACE}
               variant={'secondarySmall'}
               onClick={onRemove}
-              rightIcon={<i className={'ri-delete-bin-line'} />}>
+              rightIcon={<RemixIcon component="i" icon="DELETE_BIN_LINE" />}>
               {t('PD.RemoveSourcing')}
             </Button>
           )}

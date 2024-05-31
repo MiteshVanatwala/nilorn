@@ -1,8 +1,9 @@
-import { IconButton, Text } from '@chakra-ui/react';
-import Popup, { PopupPosition, PopupTrigger } from '../Popup/Popup';
-import { COLORS } from '../../theme/Constants';
-import ChangelogPopupContent from './ChangelogPopupContent';
+import { IconButton } from '@chakra-ui/react';
 import { ChangelogItemDto } from '../../app/generate';
+import { COLORS } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
+import Popup, { PopupPosition, PopupTrigger } from '../Popup/Popup';
+import ChangelogPopupContent from './ChangelogPopupContent';
 
 type Props = {
   data: ChangelogItemDto[];
@@ -25,10 +26,10 @@ const ChangelogPopup = ({ data }: Props) => {
           bg={COLORS.YELLOW.LIGHT}
           color={COLORS.GRAY[90]}
           icon={
-            <Text
-              as={'i'}
+            <RemixIcon
+              component="Text"
               color={COLORS.GRAY[90]}
-              className={'ri-history-line'}
+              icon="HISTORY_LINE"
             />
           }
         />

@@ -1,5 +1,6 @@
-import { Text, IconButton, Tooltip, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, IconButton, Text, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import RemixIcon from '../../components/Icon/RemixIcon';
 import { COLORS, GRID, SPACE } from '../../theme/Constants';
 
 type Props = {
@@ -53,7 +54,7 @@ export const Member = ({
               <IconButton
                 variant={'deleteIconBtn'}
                 aria-label={t('Common.Remove')}
-                icon={<i className={'ri-close-line'} />}
+                icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                 mr={0}
                 onClick={onRemove}
               />

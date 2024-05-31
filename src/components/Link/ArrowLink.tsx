@@ -1,5 +1,6 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   direction: 'left' | 'right';
@@ -13,10 +14,12 @@ const ArrowLink = ({ direction, children, to, onClick }: Props) => {
     pr: 0,
     variant: direction === 'left' ? 'backButton' : 'forwardButton',
     leftIcon:
-      direction === 'left' ? <i className={`ri-arrow-left-line`} /> : undefined,
+      direction === 'left' ? (
+        <RemixIcon component="i" icon="ARROW_LEFT_LINE" />
+      ) : undefined,
     rightIcon:
       direction === 'left' ? undefined : (
-        <i className={`ri-arrow-right-line`} />
+        <RemixIcon component="i" icon="ARROW_RIGHT_LINE" />
       ),
   };
   if (onClick && !to) {

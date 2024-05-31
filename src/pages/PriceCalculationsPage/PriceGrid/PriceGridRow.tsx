@@ -1,4 +1,10 @@
-import { Button, GridItem, Link, VStack, HStack } from '@chakra-ui/react';
+import { Button, GridItem, HStack, Link, VStack } from '@chakra-ui/react';
+import { Fragment, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
+import { NavLink } from 'react-router-dom';
+import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
+import QueryKeysEnum from '../../../app/api/queryKeys';
 import {
   PriceCalculationDto,
   PriceDto,
@@ -8,29 +14,24 @@ import {
   SourcedProductionDto,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
-import { Fragment, useEffect, useState } from 'react';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
+import { useFormStateFilters } from '../../../app/utils/FilterHelper';
+import { numToThousandSeparatedsStr } from '../../../app/utils/common';
+import { isClosed } from '../../../app/utils/status';
+import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import {
   GridInlineTbody,
   GridTd,
 } from '../../../components/GridTable/GridTableElements';
-import { useTranslation } from 'react-i18next';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import { SPACE } from '../../../theme/Constants';
 import {
   GRID_LAYOUT_PRICE,
   GRID_LAYOUT_PRICE_DESKTOP,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
-import { SPACE } from '../../../theme/Constants';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
-import { isClosed } from '../../../app/utils/status';
-import CommentPopup from '../../../components/CommentPopup/CommentPopup';
-import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
-import useFilterOptions from '../../../app/hooks/useFilterOption';
-import { NavLink } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
-import QueryKeysEnum from '../../../app/api/queryKeys';
-import { useFormStateFilters } from '../../../app/utils/FilterHelper';
-import { numToThousandSeparatedsStr } from '../../../app/utils/common';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -173,13 +174,13 @@ function PriceGridRow({
                   <Button
                     onClick={submitForm}
                     variant={'primarySmall'}
-                    rightIcon={<i className="ri-check-line" />}>
+                    rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
                     {t('Common.Save')}
                   </Button>
                   <Button
                     onClick={closeRowForInlineEdit}
                     variant={'secondarySmall'}
-                    rightIcon={<i className="ri-close-line" />}>
+                    rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
                     {t('Common.Cancel')}
                   </Button>
                 </>

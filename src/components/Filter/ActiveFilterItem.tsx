@@ -1,8 +1,9 @@
-import { FC } from 'react';
-import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import { Button, Text } from '@chakra-ui/react';
+import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { INCLUDE_CLOSED } from '../../app/utils/constant';
+import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   label: string;
@@ -29,7 +30,7 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
       border={`solid 1px ${COLORS.GRAY[30]}`}
       px={SPACE.SM}
       py={SPACE.XXS}
-      rightIcon={<i className="ri-close-line" />}
+      rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}
       borderRadius={BORDER_RADIUS.SM}
       _hover={{
         backgroundColor: COLORS.GRAY[10],

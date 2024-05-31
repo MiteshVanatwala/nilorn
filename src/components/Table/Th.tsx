@@ -1,6 +1,6 @@
 import { Th as ChakraTh, TableColumnHeaderProps, Text } from '@chakra-ui/react';
-import { flexRender, Header } from '@tanstack/react-table';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { Header, flexRender } from '@tanstack/react-table';
+import { COLORS, REMIX_ICONS, SPACE } from '../../theme/Constants';
 
 interface Props<T extends object> extends TableColumnHeaderProps {
   header: Header<T, unknown>;
@@ -13,9 +13,9 @@ export const Th = <T extends object>({ header, ...args }: Props<T>) => {
   const sortIcon = () => {
     switch (header.column.getIsSorted()) {
       case 'desc':
-        return 'ri-arrow-up-line';
+        return REMIX_ICONS.CLASS_NAMES.ARROW_UP_LINE;
       case 'asc':
-        return 'ri-arrow-down-line';
+        return REMIX_ICONS.CLASS_NAMES.ARROW_DOWN_LINE;
       default:
         return '';
     }

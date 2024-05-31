@@ -6,10 +6,11 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { COLORS, SPACE } from '../../theme/Constants';
-import ArtworkButton from '../Button/ArtworkButton';
 import { useTranslation } from 'react-i18next';
 import { MediaFileDto } from '../../app/generate';
+import { COLORS, SPACE } from '../../theme/Constants';
+import ArtworkButton from '../Button/ArtworkButton';
+import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
   artwork?: MediaFileDto;
@@ -54,7 +55,11 @@ const ActionBarTemplate = ({
               padding={SPACE.SM}
               aria-label={t('Common.More')}
               icon={
-                <Text color={COLORS.WHITE} as={'i'} className="ri-more-line" />
+                <RemixIcon
+                  component="Text"
+                  icon="MORE_LINE"
+                  color={COLORS.WHITE}
+                />
               }
             />
             {moreMenuList}

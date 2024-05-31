@@ -1,6 +1,7 @@
 import { Button, Menu, MenuButton, MenuList } from '@chakra-ui/react';
 import { BORDER_RADIUS, COLORS, SIZES } from '../../theme/Constants';
 import text from '../../theme/text';
+import RemixIcon from '../Icon/RemixIcon';
 
 interface Props {
   title: string;
@@ -17,9 +18,10 @@ const HeaderMenu = ({ title, children }: Props) => {
         _hover={{ bgColor: COLORS.GRAY[10] }}
         fontWeight={text.variants.bodyRegular}
         rightIcon={
-          <i
-            className="ri-arrow-down-s-fill"
+          <RemixIcon
+            component="i"
             style={{ fontSize: SIZES.ICON.MD }}
+            icon="ARROW_DOWN_S_FILL"
           />
         }>
         {title}

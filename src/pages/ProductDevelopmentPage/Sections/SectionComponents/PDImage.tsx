@@ -1,13 +1,14 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
-import { useModal } from '../../../../app/hooks/useModal';
-import PDImageModal from './PDImageModal';
-import { COLORS } from '../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
+import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
 import { useGetPDImage } from '../../../../app/api/PDImage';
 import { useCurrentUser } from '../../../../app/api/User';
-import { ROLES_ALLOWED_TO_UPLOAD_FILE } from '../../../../app/Permissions/Permissions';
-import { isClosed } from '../../../../app/utils/status';
 import { Status } from '../../../../app/generate';
+import { useModal } from '../../../../app/hooks/useModal';
+import { isClosed } from '../../../../app/utils/status';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
+import { COLORS } from '../../../../theme/Constants';
+import PDImageModal from './PDImageModal';
 
 type Props = {
   scrolledPast: boolean;
@@ -81,7 +82,7 @@ const PDImage = ({ scrolledPast, no, pdName, disableEdit, status }: Props) => {
       onClick={() => handleModalFunc()}>
       {user?.role && ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user.role) && (
         <>
-          <Text mr="2" as="i" className="ri-add-line" />
+          <RemixIcon component="Text" mr="2" icon="ADD_LINE" />
           <Text>{t('PD.UploadImage')}</Text>
         </>
       )}

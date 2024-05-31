@@ -1,16 +1,17 @@
 import { Button } from '@chakra-ui/button';
-import { useModal } from '../../app/hooks/useModal';
 import { VStack } from '@chakra-ui/layout';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import SearchProfileModalContent from './SearchProfileModalContent';
-import { useFormContext } from 'react-hook-form';
 import { Box, FormLabel, GridItem } from '@chakra-ui/react';
-import { SelectOption } from '../../app/types/types';
-import { SPACE } from '../../theme/Constants';
+import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { useSearchProfile } from '../../app/api/SearchProfile';
-import SelectBase from '../Form/SelectBase';
+import { useModal } from '../../app/hooks/useModal';
+import { SelectOption } from '../../app/types/types';
 import { parseSearchParams } from '../../app/utils/FilterHelper';
+import { SPACE } from '../../theme/Constants';
+import SelectBase from '../Form/SelectBase';
+import RemixIcon from '../Icon/RemixIcon';
+import SearchProfileModalContent from './SearchProfileModalContent';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -84,7 +85,7 @@ const SearchProfile = () => {
           zIndex={'0'}
           marginTop={SPACE.XXS}
           variant={'secondary'}
-          leftIcon={<i className="ri-save-line" />}
+          leftIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
           onClick={() =>
             handleModal(
               <SearchProfileModalContent

@@ -1,17 +1,18 @@
 import {
-  Grid,
-  FormLabel,
-  Button,
-  GridItem,
-  VStack,
-  IconButton,
   Box,
+  Button,
+  FormLabel,
+  Grid,
+  GridItem,
+  IconButton,
+  VStack,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../../theme/Constants';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { uniqueInArray } from '../../../../app/utils/common';
 import FormattedNumberInputField from '../../../../components/Form/FormattedNumberInputField';
+import RemixIcon from '../../../../components/Icon/RemixIcon';
+import { GRID, SPACE } from '../../../../theme/Constants';
 
 type Props = {
   formKey: string;
@@ -67,7 +68,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
                     top={4}
                     variant={'deleteIconBtn'}
                     aria-label={t('Filter.Remove')}
-                    icon={<i className="ri-close-line" />}
+                    icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                     onClick={() => remove(index)}
                   />
                 )}
@@ -78,7 +79,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
             <Button
               variant={'secondarySmall'}
               onClick={() => append({ value: '' })}
-              rightIcon={<i className={'ri-add-line'} />}>
+              rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
               {t('Common.Add')}
             </Button>
           )}

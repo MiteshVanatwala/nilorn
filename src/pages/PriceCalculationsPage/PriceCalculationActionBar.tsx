@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/layout';
-import { SIZES } from '../../theme/Constants';
 import { Button } from '@chakra-ui/button';
-import { useTranslation } from 'react-i18next';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
-import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
+import { useTranslation } from 'react-i18next';
 import { MediaFileDto } from '../../app/generate';
+import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
+import RemixIcon from '../../components/Icon/RemixIcon';
+import { SIZES } from '../../theme/Constants';
 
 type Props = {
   artwork?: MediaFileDto;
@@ -39,10 +39,10 @@ const PriceCalculationActionBar = ({
             <MenuItem
               onClick={() => setShowChanges(!showChanges)}
               icon={
-                <Text
-                  as={'i'}
+                <RemixIcon
+                  component="Text"
+                  icon="HISTORY_LINE"
                   fontSize={SIZES.ICON.MD}
-                  className="ri-history-line"
                 />
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
@@ -51,10 +51,10 @@ const PriceCalculationActionBar = ({
               <MenuItem
                 onClick={handleDelete}
                 icon={
-                  <Text
-                    as={'i'}
+                  <RemixIcon
+                    component="Text"
+                    icon="DELETE_BIN_LINE"
                     fontSize={SIZES.ICON.MD}
-                    className="ri-delete-bin-line"
                   />
                 }>
                 {t('Common.Remove')}
@@ -64,7 +64,14 @@ const PriceCalculationActionBar = ({
         ) : undefined
       }
       actionButtons={
-        <Button variant={'primary'} type="submit">
+        <Button
+          variant={'primary'}
+          type="submit"
+          rightIcon={
+            !createNew ? (
+              <RemixIcon component="i" icon="SAVE_LINE" />
+            ) : undefined
+          }>
           {createNew ? t('PriceCalc.CreateCalculation') : t('Common.Save')}
         </Button>
       }

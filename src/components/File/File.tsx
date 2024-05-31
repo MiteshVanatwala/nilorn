@@ -1,20 +1,21 @@
 import {
-  HStack,
-  Text,
-  IconButton,
   Box,
-  Tooltip,
   Flex,
-  Spinner,
+  HStack,
+  IconButton,
   Link,
+  Spinner,
+  Text,
+  Tooltip,
 } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { COLORS, SIZES, SPACE } from '../../theme/Constants';
-import { MediaFileDto } from '../../app/generate';
-import { useDownloadFile } from '../../app/api/mediaFile';
-import RemoveFileModal from './RemoveFileModal';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDownloadFile } from '../../app/api/mediaFile';
+import { MediaFileDto } from '../../app/generate';
+import { COLORS, SIZES, SPACE } from '../../theme/Constants';
+import RemixIcon from '../Icon/RemixIcon';
 import { ModalRef } from '../Modal/IsolatedModal';
+import RemoveFileModal from './RemoveFileModal';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -28,7 +29,7 @@ export const File = ({
   file,
   status,
   onRemove,
-  icon = <Text as={'i'} className={'ri-file-3-line'} />,
+  icon = <RemixIcon component="Text" icon="FILE_3_LINE" />,
 }: Props) => {
   const id: string = file.id ?? '';
   const { t } = useTranslation();
@@ -54,11 +55,11 @@ export const File = ({
         <Flex>
           <Box mr={SPACE.XS} display={'inline-block'}>
             {status === 'error' ? (
-              <Text
-                as={'i'}
+              <RemixIcon
+                component="Text"
                 fontSize={SIZES.ICON.MD}
                 color={COLORS.ERROR}
-                className={'ri-error-warning-fill'}
+                icon="ERROR_WARNING_FILL"
               />
             ) : (
               <>{icon}</>
@@ -84,7 +85,7 @@ export const File = ({
               aria-label={t('Common.Download')}
               onClick={downloadFile}
               isLoading={isDownloading}
-              icon={<i className="ri-download-line" />}
+              icon={<RemixIcon component="i" icon="DOWNLOAD_LINE" />}
             />
           </Tooltip>
           {onRemove && (
@@ -93,7 +94,7 @@ export const File = ({
                 disabled={isDownloading}
                 variant={'deleteIconBtn'}
                 aria-label={t('Common.Remove')}
-                icon={<i className={'ri-close-line'} />}
+                icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                 mr={0}
                 onClick={openDeleteModal}
               />

@@ -1,13 +1,14 @@
-import CertificateInputRow from './CertificateInputRow';
 import { Button, Grid, VStack } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import { SPACE } from '../../../theme/Constants';
-import CertificatesHeader from './CertificatesHeader';
-import { useCertificateCodes } from '../../../app/api/production';
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
-import { SelectOption } from '../../../app/types/types';
-import { ProductionCertificateDto } from '../../../app/generate';
 import { useEffect } from 'react';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useCertificateCodes } from '../../../app/api/production';
+import { ProductionCertificateDto } from '../../../app/generate';
+import { SelectOption } from '../../../app/types/types';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import { SPACE } from '../../../theme/Constants';
+import CertificateInputRow from './CertificateInputRow';
+import CertificatesHeader from './CertificatesHeader';
 
 type Props = {
   defaultValues?: ProductionCertificateDto[];
@@ -80,7 +81,7 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
               certificateWeight: undefined,
             })
           }
-          rightIcon={<i className={'ri-add-line'} />}>
+          rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
           {t('Common.Add')}
         </Button>
       )}

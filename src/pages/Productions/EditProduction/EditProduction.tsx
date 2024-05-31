@@ -1,36 +1,37 @@
 import { Box, Button, HStack, Skeleton } from '@chakra-ui/react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
-import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
-import {
-  ChangelogType,
-  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
-  ProductionDto,
-  ProductionExtendedDto,
-} from '../../../app/generate';
+import { useTranslation } from 'react-i18next';
 import {
   useDeleteProduction,
   usePatchProduction,
 } from '../../../app/api/editProduction';
-import { useGetVendors } from '../../../app/api/vendors';
-import { SelectOption } from '../../../app/types/types';
-import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import EditProductionFormContent from './EditProductionFormContent';
-import { ModalContext } from '../../../app/context/ModalContext';
-import { isClosed } from '../../../app/utils/status';
-import ActionBarEditProduction from './ActionBarEditProduction';
-import { useToggleChangelog } from '../../../app/hooks/useChangelog';
-import { useTranslation } from 'react-i18next';
 import {
   useProduction,
   useProductionNavigation,
 } from '../../../app/api/production';
-import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
-import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
-import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
-import CertificateSection from '../CertificatesSection/CertificatesSection';
+import { useGetVendors } from '../../../app/api/vendors';
+import { ModalContext } from '../../../app/context/ModalContext';
+import {
+  ChangelogType,
+  ProductionDto,
+  ProductionExtendedDto,
+  GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+} from '../../../app/generate';
+import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import useDeleteModal from '../../../app/hooks/useDeleteModal';
+import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
+import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
+import { SelectOption } from '../../../app/types/types';
+import { isClosed } from '../../../app/utils/status';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
+import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
+import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
+import CertificateSection from '../CertificatesSection/CertificatesSection';
+import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
+import ActionBarEditProduction from './ActionBarEditProduction';
+import EditProductionFormContent from './EditProductionFormContent';
 
 type Props = {
   productionId: string;
@@ -201,7 +202,7 @@ const EditProduction = ({ productionId }: Props) => {
           <Button
             color={COLORS.BLACK}
             variant={'link'}
-            leftIcon={<i className="ri-arrow-left-line" />}
+            leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
             isDisabled={!productionNavigation?.previous}
             onClick={() => {
               onNavigate(productionNavigation?.previous ?? '');
@@ -211,7 +212,7 @@ const EditProduction = ({ productionId }: Props) => {
           <Button
             color={COLORS.BLACK}
             variant={'link'}
-            rightIcon={<i className="ri-arrow-right-line" />}
+            rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
             isDisabled={!productionNavigation?.next}
             onClick={() => {
               onNavigate(productionNavigation?.next ?? '');
