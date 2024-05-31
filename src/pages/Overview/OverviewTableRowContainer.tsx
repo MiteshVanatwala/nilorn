@@ -40,9 +40,9 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
     const anchor = `#${no}`;
-    sessionStorage.setItem(SESSION_STORAGE.backLink, path + search + anchor);
+    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search + anchor);
     sessionStorage.setItem(
-      SESSION_STORAGE.prevFilterOverview,
+      SESSION_STORAGE.PREV_FILTER_OVERVIEW,
       window.location.search
     );
     navigate(`product-development/${no}`);

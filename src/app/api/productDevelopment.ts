@@ -87,7 +87,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
       onSuccess: async (res: ProductDevelopmentDto) => {
         if (res.status === Status.DELETED) {
           window.location.replace(
-            sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? '/'
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_OVERVIEW) ?? '/'
           );
         } else {
           showToast({

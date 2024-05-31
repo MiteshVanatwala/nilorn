@@ -62,7 +62,7 @@ const NavigationHeader = () => {
                     </Center>
                   }
                   path="/"
-                  clickedStoredFilter={SESSION_STORAGE.prevFilterOverview}
+                  clickedStoredFilter={SESSION_STORAGE.PREV_FILTER_OVERVIEW}
                 />
               </HStack>
               <HeaderDivider />
@@ -70,20 +70,24 @@ const NavigationHeader = () => {
                 <HeaderLink
                   title={t('Common.Title')}
                   path="/"
-                  clickedStoredFilter={SESSION_STORAGE.prevFilterOverview}
+                  clickedStoredFilter={SESSION_STORAGE.PREV_FILTER_OVERVIEW}
                 />
                 {showProduction && (
                   <HeaderLink
                     title={t('Menu.HypProduction')}
                     path="/productions"
-                    clickedStoredFilter={SESSION_STORAGE.prevFilterProductions}
+                    clickedStoredFilter={
+                      SESSION_STORAGE.PREV_FILTER_PRODUCTIONS
+                    }
                   />
                 )}
                 {showCalculation && (
                   <HeaderLink
                     title={t('Menu.HypPrice')}
                     path="/price-calculations"
-                    clickedStoredFilter={SESSION_STORAGE.prevFilterCalculation}
+                    clickedStoredFilter={
+                      SESSION_STORAGE.PREV_FILTER_CALCULATION
+                    }
                   />
                 )}
               </HStack>

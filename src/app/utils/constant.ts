@@ -3,10 +3,13 @@ export const MAX_MARGIN = 99.99;
 export const STEP = 0.000000000000000001;
 
 export const SESSION_STORAGE = {
-  prevFilterOverview: 'prevFilterOverview',
-  prevFilterProductions: 'prevFilterProductions',
-  prevFilterCalculation: 'prevFilterCalculation',
-  backLink: 'backLink',
+  PREV_FILTER_OVERVIEW: 'prevFilterOverview',
+  PREV_FILTER_PRODUCTIONS: 'prevFilterProductions',
+  PREV_FILTER_CALCULATION: 'prevFilterCalculation',
+  BACK_LINK: 'backLink',
+  LAST_VISITED_PRODUCTION: 'lastVisitedProduction',
+  LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
+  LAST_VISITED_PRICE_CALCULATION: 'lastVisitedPriceCalculation',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';

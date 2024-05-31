@@ -11,7 +11,7 @@ export const useBackInfo = () => {
     label: string;
     filter: string;
   }>();
-  const backLink = sessionStorage.getItem(SESSION_STORAGE.backLink) ?? '/';
+  const backLink = sessionStorage.getItem(SESSION_STORAGE.BACK_LINK) ?? '/';
 
   useEffect(() => {
     if (backLink != null) {
@@ -21,7 +21,7 @@ export const useBackInfo = () => {
           view: 'productions',
           label: t('PD.BackToProductions'),
           filter:
-            sessionStorage.getItem(SESSION_STORAGE.prevFilterProductions) ?? '',
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_PRODUCTIONS) ?? '',
         });
       } else if (backLink.indexOf('price-calculations') > -1) {
         setBackInfo({
@@ -29,7 +29,7 @@ export const useBackInfo = () => {
           view: 'price-calculations',
           label: t('PD.BackToCalculations'),
           filter:
-            sessionStorage.getItem(SESSION_STORAGE.prevFilterCalculation) ?? '',
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_CALCULATION) ?? '',
         });
       } else {
         setBackInfo({
@@ -37,7 +37,7 @@ export const useBackInfo = () => {
           view: 'overview',
           label: t('PD.BackToOverview'),
           filter:
-            sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? '',
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_OVERVIEW) ?? '',
         });
       }
     }

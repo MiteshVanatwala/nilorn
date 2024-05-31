@@ -137,11 +137,11 @@ export function getSortState(sortValue: string): SortingState {
 export function getCurrentStoredFilter() {
   let storedFilter = '';
   if (window.location.pathname.includes('/productions')) {
-    storedFilter = SESSION_STORAGE.prevFilterProductions;
+    storedFilter = SESSION_STORAGE.PREV_FILTER_PRODUCTIONS;
   } else if (window.location.pathname === '/') {
-    storedFilter = SESSION_STORAGE.prevFilterOverview;
+    storedFilter = SESSION_STORAGE.PREV_FILTER_OVERVIEW;
   } else if (window.location.pathname.includes('/price-calculations')) {
-    storedFilter = SESSION_STORAGE.prevFilterCalculation;
+    storedFilter = SESSION_STORAGE.PREV_FILTER_CALCULATION;
   }
   return storedFilter;
 }
