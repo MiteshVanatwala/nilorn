@@ -50,7 +50,7 @@ const useOverviewColumns = () => {
       cell: info => info.getValue(),
     }),
     columnHelper.accessor('versions', {
-      header: `${t('PD.Version')}`,
+      header: `${t('PD.Version.Version')}`,
       enableSorting: false,
       cell: info => {
         const versions = info.getValue() as number;

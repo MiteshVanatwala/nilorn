@@ -188,7 +188,7 @@ export const useCreateCopyProductDevelopment = (no: string, name: string) => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: `${t('PD.Feedback.Error.Create')}`,
+          title: `${t('PD.Feedback.Error.CreateCopy')}`,
         });
       },
     }
@@ -221,7 +221,7 @@ export const useCreateVersionProductDevelopment = (no: string) => {
       onError: async (err: ApiError) => {
         showToast({
           status: 'error',
-          title: err.body.title,
+          title: `${t('PD.Feedback.Error.CreateVersion')}`,
         });
       },
     }

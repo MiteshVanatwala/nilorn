@@ -84,7 +84,6 @@
     "Member": "Member",
     "ProductGroup": "Product group",
     "ItemCategory": "Item category",
-    "Version": "Version",
     "MemberInfo": "Members can only be added after the product development is created.",
     "CreateNew": "Create Product Development",
     "PDNamePlaceholder": "Product Development",
@@ -110,15 +109,20 @@
     "DeleteMsg": "Are you sure you want to delete this record?",
     "UnsavedChanges": "Unsaved changes",
     "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
-    "CreateCopy": "Create copy",
-    "CreateCopyConfirmModal": {
-      "Title": "Create copy",
-      "Description": "Would you like to create a copy of product development {{no}}?"
+    "Copy": {
+      "Create": "Create copy",
+      "ConfirmModal": {
+        "Title": "Create copy",
+        "Description": "Would you like to create a copy of product development {{no}}?"
+      }
     },
-    "CreateVersion": "Create version",
-    "CreateVersionConfirmModal": {
-      "Title": "Create version",
-      "Description": "Would you like to create a new version of product development {{no}}?"
+    "Version": {
+      "Version": "Version",
+      "Create": "Create version",
+      "ConfirmModal": {
+        "Title": "Create version",
+        "Description": "Would you like to create a new version of product development {{no}}?"
+      }
     },
     "File": {
       "BrowseFile": "Browse files...",
@@ -207,7 +211,9 @@
         "Create": "Failed to create new product development",
         "Update": "Failed to update product development",
         "UpdateStatus": "Failed to change status on product development",
-        "FileUpdated": "Failed to upload file {{name}}"
+        "FileUpdated": "Failed to upload file {{name}}",
+        "CreateCopy": "Failed to create copy",
+        "CreateVersion": "Failed to create version"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status",

@@ -36,8 +36,8 @@ const MenuItemCreate = ({ no, createType, name }: Props) => {
 
   const versionConfirmModal = (
     <ConfirmModal
-      title={t('PD.CreateVersionConfirmModal.Title')}
-      description={t('PD.CreateVersionConfirmModal.Description', {
+      title={t('PD.Version.ConfirmModal.Title')}
+      description={t('PD.Version.ConfirmModal.Description', {
         no: no,
       })}
       confirmType={'PRIMARY'}
@@ -47,8 +47,8 @@ const MenuItemCreate = ({ no, createType, name }: Props) => {
 
   const copyConfirmModal = (
     <ConfirmModal
-      title={t('PD.CreateCopyConfirmModal.Title')}
-      description={t('PD.CreateCopyConfirmModal.Description', {
+      title={t('PD.Copy.ConfirmModal.Title')}
+      description={t('PD.Copy.ConfirmModal.Description', {
         no: no,
       })}
       confirmType={'PRIMARY'}
@@ -60,7 +60,7 @@ const MenuItemCreate = ({ no, createType, name }: Props) => {
     createType === 'version' ? versionConfirmModal : copyConfirmModal;
 
   const menuItemLabel =
-    createType === 'version' ? t('PD.CreateVersion') : t('PD.CreateCopy');
+    createType === 'version' ? t('PD.Version.Create') : t('PD.Copy.Create');
 
   return (
     <MenuItem
