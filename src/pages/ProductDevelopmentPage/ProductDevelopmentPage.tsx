@@ -10,6 +10,7 @@ import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../app/api/queryKeys';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
 
 type Props = {
   createNew: boolean;
@@ -17,12 +18,17 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { no } = useParams();
+  const { setLastVisited } = useLastVisited(Target.PRODUCT_DEVELOPMENT);
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
     queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopment]);
   }, [queryClient, no]);
+
+  useEffect(() => {
+    setLastVisited(no ?? '');
+  }, [no, setLastVisited]);
 
   const { data, isLoading, isError, isSuccess, isRefetching } =
     useProductDevelopment(no ?? '');
@@ -63,8 +69,8 @@ function ProductDevelopmentPage({ createNew }: Props) {
 
   if (createNew) {
     sessionStorage.setItem(
-      SESSION_STORAGE.backLink,
-      `/${sessionStorage.getItem(SESSION_STORAGE.prevFilterOverview) ?? ''}`
+      SESSION_STORAGE.BACK_LINK,
+      `/${sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_OVERVIEW) ?? ''}`
     );
   }
 

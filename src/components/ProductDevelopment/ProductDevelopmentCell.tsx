@@ -5,8 +5,9 @@ import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
 
 const ProductDevelopmentCell = ({
   no,
@@ -19,13 +20,29 @@ const ProductDevelopmentCell = ({
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const { lastVisited, setLastVisited } = useLastVisited(
+    Target.PRODUCT_DEVELOPMENT
+  );
 
   useEffect(() => {
-    if (!!ref?.current && no && location.hash === `#${no}`) {
-      ref.current.scrollIntoView({ block: 'start', inline: 'center' });
-      location.hash = '';
+    if (!hasScrolled) {
+      if (
+        !!ref?.current &&
+        no &&
+        (location.hash === `#${no}` || no === lastVisited)
+      ) {
+        setTimeout(() => {
+          ref?.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+          setHasScrolled(true);
+          setLastVisited('');
+        }, 100);
+      }
     }
-  }, [location, no]);
+  }, [hasScrolled, location.hash, lastVisited, no, ref, setLastVisited]);
 
   const handleClick = (
     e: MouseEvent<HTMLAnchorElement>,
@@ -37,7 +54,7 @@ const ProductDevelopmentCell = ({
     const search = window.location.search;
     const anchor = id ? `#${id}` : '';
     const storedFilter = getCurrentStoredFilter();
-    sessionStorage.setItem(SESSION_STORAGE.backLink, path + search + anchor);
+    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search + anchor);
     sessionStorage.setItem(storedFilter, search);
     navigate(url);
   };
