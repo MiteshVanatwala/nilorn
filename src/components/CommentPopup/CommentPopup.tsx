@@ -1,5 +1,5 @@
 import { Box, IconButton, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isNullOrWhiteSpace } from '../../app/utils/common';
 import { SIZES, SPACE } from '../../theme/Constants';
@@ -12,15 +12,20 @@ type Props = {
 };
 const CommentPopup = ({ comment, icon }: Props) => {
   const { t } = useTranslation();
-  const [isDirty, setIsDirty] = useState(false);
 
-  if (!!comment) {
-    const lines = comment
-      .split('\n')
-      .map((line, index) => (
-        <Text key={index}>{isNullOrWhiteSpace(line) ? '\u00A0' : line}</Text>
-      ));
+  let lines = useMemo(() => {
+    return !!comment?.length
+      ? comment
+          .split('\n')
+          .map((line, index) => (
+            <Text key={index}>
+              {isNullOrWhiteSpace(line) ? '\u00A0' : line}
+            </Text>
+          ))
+      : undefined;
+  }, [comment]);
 
+  if (!!lines) {
     return (
       <>
         <Popup
@@ -31,7 +36,6 @@ const CommentPopup = ({ comment, icon }: Props) => {
               aria-label={t('Common.ReadComment')}
               variant={'ghost'}
               padding={SPACE.SM}
-              onMouseEnter={() => setIsDirty(true)}
               icon={
                 icon ?? (
                   <RemixIcon
@@ -43,11 +47,12 @@ const CommentPopup = ({ comment, icon }: Props) => {
               }
             />
           }
-          content={isDirty ? <Box>{lines}</Box> : <></>}
+          content={<Box>{lines}</Box>}
         />
       </>
     );
   }
+
   return <></>;
 };
 
