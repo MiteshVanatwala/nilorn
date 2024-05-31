@@ -120,7 +120,7 @@ export const transformToFilterData = (obj: {
 
 export function useFormStateFilters() {
   const watch = useWatch();
-  return useDebounce(transformToFilterData(watch), 300);
+  return transformToFilterData(watch);
 }
 
 export function getSortValue(columnSort: ColumnSort): string {
