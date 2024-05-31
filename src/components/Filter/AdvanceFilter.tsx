@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FilterInput, SelectOption } from '../../app/types/types';
+import { INCLUDE_CLOSED } from '../../app/utils/constant';
 import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import AdvanceFilterSelect from './AdvanceFilterSelect';
@@ -134,11 +135,11 @@ const AdvanceFilter = ({
               <GridItem colSpan={3}>
                 <FilterSwitch
                   defaultChecked={
-                    getValues('includeClosed') === 'true' ||
-                    getValues('includeClosed')?.value
+                    getValues(INCLUDE_CLOSED) === 'true' ||
+                    getValues(INCLUDE_CLOSED)?.value
                   }
                   label={t('PD.IncludeClosed')}
-                  name="includeClosed"
+                  name={INCLUDE_CLOSED}
                 />
               </GridItem>
             )}

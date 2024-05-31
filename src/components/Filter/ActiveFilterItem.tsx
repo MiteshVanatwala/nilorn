@@ -1,6 +1,7 @@
 import { Button, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { INCLUDE_CLOSED } from '../../app/utils/constant';
 import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 
@@ -13,7 +14,7 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
   const { resetField, setValue } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    if (queryItem === 'includeClosed') {
+    if (queryItem === INCLUDE_CLOSED) {
       setValue(queryItem, undefined);
     } else {
       resetField(queryItem);

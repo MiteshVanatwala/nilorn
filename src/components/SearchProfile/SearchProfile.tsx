@@ -4,10 +4,10 @@ import { Box, FormLabel, GridItem } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ActionMeta } from 'react-select';
 import { useSearchProfile } from '../../app/api/SearchProfile';
 import { useModal } from '../../app/hooks/useModal';
 import { SelectOption } from '../../app/types/types';
+import { parseSearchParams } from '../../app/utils/FilterHelper';
 import { SPACE } from '../../theme/Constants';
 import SelectBase from '../Form/SelectBase';
 import RemixIcon from '../Icon/RemixIcon';
@@ -26,20 +26,19 @@ const SearchProfile = () => {
   const { setValue, reset } = useFormContext();
   let { data } = useSearchProfile();
 
-  const onChange = (
-    option: SelectOption,
-    actionMeta: ActionMeta<SelectOption>
-  ) => {
+  const onChange = (option: SelectOption) => {
     reset();
     setSelected(option);
-    const optionVal = option.value;
-    const splitOptionVal = optionVal.split('&');
-    splitOptionVal.forEach((item: string) => {
-      const splitItem = item.split('=');
-      setValue(splitItem[0], decodeURIComponent(splitItem[1]), {
+    const queryStr = option.value;
+    const filters = parseSearchParams(queryStr);
+
+    for (const name in filters) {
+      const value = filters[name];
+      setValue(name, value, {
         shouldDirty: true,
       });
-    });
+    }
+
     setActiveSearchProfileName(option.label);
     setDefaultSearchProfile(option.label);
   };

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '../hooks/useToast';
 import { useNavigate } from 'react-router';
 import { SESSION_STORAGE } from '../utils/constant';
-import { convertQueryStringToObject } from '../utils/FilterHelper';
+import { convertQueryStringToFilterObject } from '../utils/FilterHelper';
 import { useBackInfo } from '../hooks/useBackInfo';
 
 export const useCreateProductDevelopment = () => {
@@ -140,7 +140,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
   const { backInfo } = useBackInfo();
 
   const filters: GetNavigationForProductDevelopmentQuery =
-    convertQueryStringToObject(backInfo?.filter ?? '');
+    convertQueryStringToFilterObject(backInfo?.filter ?? '');
 
   return useQuery(
     [

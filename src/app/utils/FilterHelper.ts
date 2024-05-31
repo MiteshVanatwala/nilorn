@@ -3,7 +3,7 @@ import { SelectOption } from '../types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
-import { SESSION_STORAGE } from './constant';
+import { INCLUDE_CLOSED, SESSION_STORAGE } from './constant';
 import { allFilters } from '../hooks/useFilterList';
 
 export function getDefaultValueSelect(
@@ -88,7 +88,7 @@ export function findMultiDefaultValues(
   }
 }
 
-export const transformObjectToStrings = (obj: {
+export const transformToFilterData = (obj: {
   [key: string]: any;
 }): {
   [key: string]: string | boolean;
@@ -110,6 +110,8 @@ export const transformObjectToStrings = (obj: {
       transformedObj[key]?.value !== undefined
     ) {
       transformedObj[key] = transformedObj[key].value;
+    } else if (typeof transformedObj[key] === 'string') {
+      transformedObj[key] = converFilterDataOnType(key, transformedObj[key]);
     }
   });
 
@@ -118,7 +120,7 @@ export const transformObjectToStrings = (obj: {
 
 export function useFormStateFilters() {
   const watch = useWatch();
-  return transformObjectToStrings(watch);
+  return useDebounce(transformToFilterData(watch), 300);
 }
 
 export function getSortValue(columnSort: ColumnSort): string {
@@ -163,22 +165,30 @@ export function parseSearchParams(queryStr: string): Record<string, string> {
   return parsedParams;
 }
 
-export function convertQueryStringToObject(
+function converFilterDataOnType(
+  key: string,
+  value: string
+): string | boolean | string[] {
+  const filter = allFilters.find(f => f.name === key);
+  if (filter && filter.type === 'select') {
+    return value.split(',');
+  } else if (key === INCLUDE_CLOSED) {
+    return value === 'true' || value;
+  } else {
+    return value;
+  }
+}
+
+export function convertQueryStringToFilterObject(
   queryStr: string
-): Record<string, string | string[]> {
+): Record<string, string | boolean | string[]> {
   const parsed = parseSearchParams(queryStr);
-  const result: Record<string, string | string[]> = {};
+  const result: Record<string, string | boolean | string[]> = {};
 
   for (const key in parsed) {
     const value = parsed[key];
     if (value === '') continue;
-
-    const filter = allFilters.find(f => f.name === key);
-    if (filter && filter.type === 'select') {
-      result[key] = value.split(',');
-    } else {
-      result[key] = value;
-    }
+    result[key] = converFilterDataOnType(key, value);
   }
 
   return result;
