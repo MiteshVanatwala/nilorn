@@ -1,4 +1,4 @@
-import { GridItem } from '@chakra-ui/react';
+import { Box, GridItem, HStack } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import File from '../../../components/File/File';
 import UploadFile from '../../../components/File/UploadFile';
@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
 import { useToast } from '../../../app/hooks/useToast';
 import { useTranslation } from 'react-i18next';
+import { SPACE } from '../../../theme/Constants';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -131,19 +132,20 @@ const FileSection = ({
           multiple={type === MediaFileType.ATTACHMENT}
         />
       </GridItem>
-      {mediaFiles.map((f, i) => (
-        <GridItem
-          key={`${f?.id}-${i}`}
-          colSpan={{
-            lg: 2,
-          }}>
-          <File
-            file={f}
-            status={f?.status ?? 'success'}
-            onRemove={disableEdit ? undefined : (id: string) => removeFile(id)}
-          />
-        </GridItem>
-      ))}
+      <GridItem as={HStack} flexWrap={'wrap'} colSpan={12}>
+        {mediaFiles.map((f, i) => (
+          <Box pb={SPACE.SM} pr={SPACE.XL}>
+            <File
+              key={`${f?.id}-${i}`}
+              file={f}
+              status={f?.status ?? 'success'}
+              onRemove={
+                disableEdit ? undefined : (id: string) => removeFile(id)
+              }
+            />
+          </Box>
+        ))}
+      </GridItem>
     </>
   );
 };
