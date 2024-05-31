@@ -34,53 +34,41 @@ const MenuItemCreate = ({ no, createType, name }: Props) => {
     return <></>;
   }
 
-  if (createType === 'version') {
-    return (
-      <MenuItem
-        disabled={true}
-        onClick={() =>
-          handleModal(
-            <ConfirmModal
-              title={t('PD.CreateVersionConfirmModal.Title')}
-              description={t('PD.CreateVersionConfirmModal.Description', {
-                no: no,
-              })}
-              confirmType={'PRIMARY'}
-              onConfirm={createVersionProductDevelopment}
-            />
-          )
-        }
-        icon={
-          <Text
-            as={'i'}
-            fontSize={SIZES.ICON.MD}
-            className="ri-file-copy-line"
-          />
-        }>
-        {t('PD.CreateVersion')}
-      </MenuItem>
-    );
-  }
+  const versionConfirmModal = (
+    <ConfirmModal
+      title={t('PD.CreateVersionConfirmModal.Title')}
+      description={t('PD.CreateVersionConfirmModal.Description', {
+        no: no,
+      })}
+      confirmType={'PRIMARY'}
+      onConfirm={createVersionProductDevelopment}
+    />
+  );
+
+  const copyConfirmModal = (
+    <ConfirmModal
+      title={t('PD.CreateCopyConfirmModal.Title')}
+      description={t('PD.CreateCopyConfirmModal.Description', {
+        no: no,
+      })}
+      confirmType={'PRIMARY'}
+      onConfirm={copyProductDevelopment}
+    />
+  );
+
+  const confirmModal =
+    createType === 'version' ? versionConfirmModal : copyConfirmModal;
+
+  const menuItemLabel =
+    createType === 'version' ? t('PD.CreateVersion') : t('PD.CreateCopy');
 
   return (
     <MenuItem
-      disabled={true}
-      onClick={() =>
-        handleModal(
-          <ConfirmModal
-            title={t('PD.CreateCopyConfirmModal.Title')}
-            description={t('PD.CreateCopyConfirmModal.Description', {
-              no: no,
-            })}
-            confirmType={'PRIMARY'}
-            onConfirm={copyProductDevelopment}
-          />
-        )
-      }
+      onClick={() => handleModal(confirmModal)}
       icon={
         <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-file-copy-line" />
       }>
-      {t('PD.CreateCopy')}
+      {menuItemLabel}
     </MenuItem>
   );
 };
