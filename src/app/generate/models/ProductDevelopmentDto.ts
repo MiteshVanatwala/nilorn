@@ -5,6 +5,7 @@
 
 import type { MediaFileDto } from './MediaFileDto';
 import type { MemberBriefDto } from './MemberBriefDto';
+import type { ProductDevelopmentVersionDto } from './ProductDevelopmentVersionDto';
 import type { SourcingDto } from './SourcingDto';
 import type { Status } from './Status';
 
@@ -29,10 +30,11 @@ export type ProductDevelopmentDto = {
     artwork?: MediaFileDto;
     client?: string | null;
     clientNo?: string | null;
-    versions?: number | null;
+    versions?: Array<ProductDevelopmentVersionDto> | null;
     sourcings?: Array<SourcingDto> | null;
     members?: Array<MemberBriefDto> | null;
     hasProductions?: boolean;
     hasPriceCalculation?: boolean;
     lastModified?: string | null;
 };
+

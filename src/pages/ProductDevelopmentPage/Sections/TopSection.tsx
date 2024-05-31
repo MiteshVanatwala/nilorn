@@ -7,7 +7,7 @@ import {
   SPACE,
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
-import ActionBar from './SectionComponents/ActionBar';
+import ActionBar from './SectionComponents/ActionBar/ActionBar';
 import { VStack, Input } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
@@ -25,8 +25,8 @@ import ChangelogPopup from '../../../components/Changelog/ChangelogPopup';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
-  no: string;
   name: string;
+  no: string;
   scrolledPast: boolean;
   createNew: boolean;
   disableEdit: boolean;
@@ -34,8 +34,8 @@ type Props = {
   hasProductions: boolean;
 };
 const TopSection = ({
-  no,
   name,
+  no,
   scrolledPast,
   createNew,
   disableEdit,

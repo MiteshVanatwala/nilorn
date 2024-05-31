@@ -1,34 +1,29 @@
-import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
+import { COLORS, SIZES, SPACE } from '../../../../../theme/Constants';
+import { Button } from '@chakra-ui/button';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useStatusOptions } from '../../../../../app/hooks/useStatus';
+import { useUpdateProductDevelopmentWithStatus } from '../../../../../app/api/productDevelopment';
+import { ChangelogType, Status } from '../../../../../app/generate';
+import { useToggleChangelog } from '../../../../../app/hooks/useChangelog';
+import { useModal } from '../../../../../app/hooks/useModal';
+import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
+import { useToast } from '../../../../../app/hooks/useToast';
+import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
+import { useCurrentUser } from '../../../../../app/api/User';
+import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../../app/Permissions/Permissions';
+import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
 import { NavLink } from 'react-router-dom';
-import {
-  ROLES_ALLOWED_TO_CHANGE_CLOSED,
-  ROLES_ALLOWED_TO_CREATE,
-} from '../../../../app/Permissions/Permissions';
-import { useAuthorizedSee } from '../../../../app/Permissions/usePremissions';
-import { useCurrentUser } from '../../../../app/api/User';
-import {
-  useCreateCopyProductDevelopment,
-  useUpdateProductDevelopmentWithStatus,
-} from '../../../../app/api/productDevelopment';
-import { ChangelogType, Status } from '../../../../app/generate';
-import { useToggleChangelog } from '../../../../app/hooks/useChangelog';
-import { useModal } from '../../../../app/hooks/useModal';
-import { useStatusOptions } from '../../../../app/hooks/useStatus';
-import { useToast } from '../../../../app/hooks/useToast';
-import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
-import { scrollNameIntoView } from '../../../../app/utils/common';
-import ActionBarTemplate from '../../../../components/ActionBar/ActionBarTemplate';
-import RemixIcon from '../../../../components/Icon/RemixIcon';
-import ConfirmModal from '../../../../components/Modal/ConfirmModal';
-import { COLORS, SIZES, SPACE } from '../../../../theme/Constants';
+import { scrollNameIntoView } from '../../../../../app/utils/common';
+import { useAuthorizedSee } from '../../../../../app/Permissions/usePremissions';
+import MenuItemCreate from './MenuItemCreate';
+import { useTranslation } from 'react-i18next';
+import RemixIcon from '../../../../../components/Icon/RemixIcon';
 
 type Props = {
-  no: string;
   name: string;
+  no: string;
   createNew?: boolean;
   disableEdit: boolean;
   hasPriceCalculation: boolean;
@@ -58,7 +53,7 @@ const ActionBar = ({
   const currentStatus = useWatch({ name: 'status' }) as Status;
 
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
-  const { mutate: copy } = useCreateCopyProductDevelopment(no, name);
+
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
@@ -111,9 +106,7 @@ const ActionBar = ({
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
   }
-  async function copyProductDevelopment() {
-    copy();
-  }
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -132,31 +125,10 @@ const ActionBar = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
-            {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
-              <MenuItem
-                disabled={true}
-                onClick={() =>
-                  handleModal(
-                    <ConfirmModal
-                      title={t('PD.CreateCopyConfirmModal.Title')}
-                      description={t('PD.CreateCopyConfirmModal.Description', {
-                        no: no,
-                      })}
-                      confirmType={'PRIMARY'}
-                      onConfirm={copyProductDevelopment}
-                    />
-                  )
-                }
-                icon={
-                  <RemixIcon
-                    component="Text"
-                    icon="FILE_COPY_LINE"
-                    fontSize={SIZES.ICON.MD}
-                  />
-                }>
-                {t('PD.CreateCopy')}
-              </MenuItem>
-            )}
+
+            <MenuItemCreate no={no} createType={'copy'} name={name} />
+            <MenuItemCreate no={no} createType={'version'} name={name} />
+
             {!disableEdit && (
               <MenuItem
                 onClick={() =>

@@ -41,6 +41,7 @@ export type { ProductDevelopmentDataDto } from './models/ProductDevelopmentDataD
 export type { ProductDevelopmentDeepDto } from './models/ProductDevelopmentDeepDto';
 export type { ProductDevelopmentDeepDtoPaginatedList } from './models/ProductDevelopmentDeepDtoPaginatedList';
 export type { ProductDevelopmentDto } from './models/ProductDevelopmentDto';
+export type { ProductDevelopmentVersionDto } from './models/ProductDevelopmentVersionDto';
 export type { ProductionCertificateDto } from './models/ProductionCertificateDto';
 export type { ProductionDto } from './models/ProductionDto';
 export type { ProductionExtendedDto } from './models/ProductionExtendedDto';

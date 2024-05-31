@@ -10,3 +10,4 @@ export type CurrencyDto = {
     costDecimals?: number | null;
     marginDecimals?: number | null;
 };
+

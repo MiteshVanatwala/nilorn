@@ -23,6 +23,7 @@ import {
   useAuthorizedEdit,
 } from '../../../app/Permissions/usePremissions';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
+import VersionsSection from './VersionsSection/VersionsSection';
 
 type Props = {
   createNew: boolean;
@@ -111,10 +112,10 @@ function ProductDevelopmentForm({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <TopSection
+          name={name}
           disableEdit={disableEdit}
           createNew={createNew}
           no={no}
-          name={name}
           scrolledPast={scrolledPast}
           hasPriceCalculation={defaultValues?.hasPriceCalculation ?? false}
           hasProductions={defaultValues?.hasProductions ?? false}
@@ -128,6 +129,9 @@ function ProductDevelopmentForm({
                   defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
                   marginBottom={SPACE.XXL}
                   allowMultiple>
+                  {!!defaultValues?.versions?.length && (
+                    <VersionsSection versions={defaultValues.versions} />
+                  )}
                   <GeneralSection
                     createNew={createNew}
                     disableEdit={disableEdit}

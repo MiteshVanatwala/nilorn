@@ -18,13 +18,13 @@ import { request as __request } from '../core/request';
 export class ProductDevelopmentsService {
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns ProductDevelopmentBriefDtoPaginatedList Success
      * @throws ApiError
      */
     public static postApiProductDevelopmentsFilter(
-requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
-): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
+        requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
+    ): CancelablePromise<ProductDevelopmentBriefDtoPaginatedList> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments/Filter',
@@ -34,13 +34,13 @@ requestBody?: GetForFilterProductDevelopmentsWithPaginationQuery,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static postApiProductDevelopmentsNavigation(
-requestBody?: GetNavigationForProductDevelopmentQuery,
-): CancelablePromise<NavigationItem> {
+        requestBody?: GetNavigationForProductDevelopmentQuery,
+    ): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments/Navigation',
@@ -50,13 +50,13 @@ requestBody?: GetNavigationForProductDevelopmentQuery,
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopments(
-requestBody?: CreateProductDevelopmentCommand,
-): CancelablePromise<string> {
+        requestBody?: CreateProductDevelopmentCommand,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments',
@@ -66,13 +66,13 @@ requestBody?: CreateProductDevelopmentCommand,
     }
 
     /**
-     * @param no 
+     * @param no
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static getApiProductDevelopments(
-no: string,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductDevelopments/{no}',
@@ -83,15 +83,15 @@ no: string,
     }
 
     /**
-     * @param no 
-     * @param requestBody 
+     * @param no
+     * @param requestBody
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments(
-no: string,
-requestBody?: UpdateProductDevelopmentDto,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+        requestBody?: UpdateProductDevelopmentDto,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}',
@@ -104,15 +104,15 @@ requestBody?: UpdateProductDevelopmentDto,
     }
 
     /**
-     * @param no 
-     * @param status 
+     * @param no
+     * @param status
      * @returns ProductDevelopmentDto Success
      * @throws ApiError
      */
     public static patchApiProductDevelopments1(
-no: string,
-status: Status,
-): CancelablePromise<ProductDevelopmentDto> {
+        no: string,
+        status: Status,
+    ): CancelablePromise<ProductDevelopmentDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/ProductDevelopments/{no}/{status}',
@@ -124,15 +124,15 @@ status: Status,
     }
 
     /**
-     * @param no 
-     * @param name 
+     * @param no
+     * @param name
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopmentsCopy(
-no: string,
-name: string,
-): CancelablePromise<string> {
+        no: string,
+        name: string,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments/Copy/{no}/{name}',
@@ -144,21 +144,39 @@ name: string,
     }
 
     /**
-     * @param no 
-     * @param name 
+     * @deprecated
+     * @param no
+     * @param name
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProductDevelopmentsVersion(
-no: string,
-name: string,
-): CancelablePromise<string> {
+        no: string,
+        name: string,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/ProductDevelopments/Version/{no}/{name}',
             path: {
                 'no': no,
                 'name': name,
+            },
+        });
+    }
+
+    /**
+     * @param no
+     * @returns string Success
+     * @throws ApiError
+     */
+    public static postApiProductDevelopmentsVersion1(
+        no: string,
+    ): CancelablePromise<string> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/ProductDevelopments/Version/{no}',
+            path: {
+                'no': no,
             },
         });
     }
