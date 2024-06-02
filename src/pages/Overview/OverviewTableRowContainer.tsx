@@ -96,8 +96,8 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
         ref={modalRef}
         title={t('PD.File.ReplaceArtworkTitle')}
         description={t('PD.File.ReplaceArtworkDescription')}
-        confirmText={t('Common.Yes')}
-        cancelText={t('Common.No')}
+        confirmText={t('Common.Confirm')}
+        cancelText={t('Common.Cancel')}
         onConfirm={() => file && uploadFile(file, true)}
       />
       <TBodyRow
