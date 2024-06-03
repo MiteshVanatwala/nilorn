@@ -52,9 +52,8 @@ const ProductDevelopmentCell = ({
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
-    const anchor = id ? `#${id}` : '';
     const storedFilter = getCurrentStoredFilter();
-    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search + anchor);
+    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
     sessionStorage.setItem(storedFilter, search);
     navigate(url);
   };
