@@ -4,8 +4,8 @@ import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MouseEvent, useEffect, useRef } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
 
@@ -19,30 +19,21 @@ const ProductDevelopmentCell = ({
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const location = useLocation();
-  const [hasScrolled, setHasScrolled] = useState(false);
   const { lastVisited, setLastVisited } = useLastVisited(
     Target.PRODUCT_DEVELOPMENT
   );
 
   useEffect(() => {
-    if (!hasScrolled) {
-      if (
-        !!ref?.current &&
-        no &&
-        (location.hash === `#${no}` || no === lastVisited)
-      ) {
-        setTimeout(() => {
-          ref?.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-          setHasScrolled(true);
-          setLastVisited('');
-        }, 100);
-      }
+    if (!!ref?.current && no && no === lastVisited) {
+      setTimeout(() => {
+        ref?.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        setLastVisited('');
+      }, 100);
     }
-  }, [hasScrolled, location.hash, lastVisited, no, ref, setLastVisited]);
+  }, [lastVisited, no, ref, setLastVisited]);
 
   const handleClick = (
     e: MouseEvent<HTMLAnchorElement>,

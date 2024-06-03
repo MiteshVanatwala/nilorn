@@ -1,5 +1,5 @@
 import { Box, IconButton, Text } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isNullOrWhiteSpace } from '../../app/utils/common';
 import { SIZES, SPACE } from '../../theme/Constants';
