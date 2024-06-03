@@ -7,9 +7,7 @@ export const SESSION_STORAGE = {
   PREV_FILTER_PRODUCTIONS: 'prevFilterProductions',
   PREV_FILTER_CALCULATION: 'prevFilterCalculation',
   BACK_LINK: 'backLink',
-  LAST_VISITED_PRODUCTION: 'lastVisitedProduction',
   LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
-  LAST_VISITED_PRICE_CALCULATION: 'lastVisitedPriceCalculation',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';
