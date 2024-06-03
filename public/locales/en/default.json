@@ -128,7 +128,7 @@
       "BrowseFile": "Browse files...",
       "DeleteFile": "Do you want to delete the file, or only remove the link to the file (file will be kept in Teams)",
       "MediaFileInfo": "Artwork and attachments can only be added after the product development is created.",
-      "DragDropArtwork": "Drop artwork to uplod to product development: {{no}}",
+      "DragDropArtwork": "Drop artwork to upload to product development: {{no}}",
       "Delete": "Delete file",
       "RemoveLink": "Remove link",
       "ReplaceArtworkTitle": "Artwork already exists",
