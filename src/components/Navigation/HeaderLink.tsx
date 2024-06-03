@@ -5,6 +5,7 @@ import { FC } from 'react';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import text from '../../theme/text';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 
 interface Props {
   title?: string | JSX.Element;
@@ -21,8 +22,11 @@ const HeaderLink: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setLastVisitedPD } = useLastVisitedPD();
+
   const handleClick = (url: string, clickedStoredFilter: string) => {
     const storedFilter = getCurrentStoredFilter();
+    setLastVisitedPD('');
 
     sessionStorage.setItem(storedFilter, window.location.search ?? '');
     const prevFilter =
