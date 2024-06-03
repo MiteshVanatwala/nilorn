@@ -42,7 +42,7 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
           <Grid
             rowGap={{
               base: SPACE.XXS,
-              lg: SPACE.SM,
+              lg: SPACE.LG,
             }}
             columnGap={{
               base: SPACE.XXS,

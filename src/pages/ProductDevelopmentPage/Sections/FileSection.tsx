@@ -118,8 +118,8 @@ const FileSection = ({
   };
 
   return (
-    <>
-      <GridItem colSpan={12}>
+    <GridItem colSpan={12}>
+      <Box pb={SPACE.MD}>
         <UploadFile
           accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
           heading={heading}
@@ -131,10 +131,10 @@ const FileSection = ({
           }
           multiple={type === MediaFileType.ATTACHMENT}
         />
-      </GridItem>
-      <GridItem as={HStack} flexWrap={'wrap'} colSpan={12}>
+      </Box>
+      <HStack flexWrap={'wrap'}>
         {mediaFiles.map((f, i) => (
-          <Box pb={SPACE.SM} pr={SPACE.XL}>
+          <Box pb={SPACE.XS} pr={SPACE.XL}>
             <File
               key={`${f?.id}-${i}`}
               file={f}
@@ -145,8 +145,8 @@ const FileSection = ({
             />
           </Box>
         ))}
-      </GridItem>
-    </>
+      </HStack>
+    </GridItem>
   );
 };
 
