@@ -14,7 +14,7 @@ const ArtworkButton = ({ size, artwork }: Props) => {
   return (
     <Tooltip label={`${t('Common.Preview')} ${artwork.name}`}>
       <IconButton
-        zIndex={9}
+        zIndex={8}
         variant={'ghost'}
         aria-label={t('PD.Artwork')}
         as={'a'}
