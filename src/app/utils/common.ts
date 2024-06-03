@@ -77,7 +77,7 @@ export function numToThousandSeparatedsStr(
 
   if (includeDecimals) {
     return `${formattedIntegerPart}${
-      isNaN(Number(decStr)) ? `` : `,${decStr}`
+      isNaN(Number(decStr)) ? `` : `.${decStr}`
     }`;
   }
   return formattedIntegerPart;
