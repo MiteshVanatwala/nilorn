@@ -67,8 +67,6 @@ const CompositionMaterialRow = ({
         <FormattedNumberInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
-          min={0}
-          max={100}
           readonly={disableEdit}
           registerOptions={{
             valueAsNumber: true,

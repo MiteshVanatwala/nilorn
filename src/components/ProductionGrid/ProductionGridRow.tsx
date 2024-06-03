@@ -5,6 +5,7 @@ import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
 import CommentPopup from '../CommentPopup/CommentPopup';
 import { SPACE } from '../../theme/Constants';
+import { numToThousandSeparatedsStr } from '../../app/utils/common';
 
 type Props = {
   production: ProductionDto;
@@ -26,7 +27,9 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
       <GridTd style={style}>
         <CommentPopup comment={production.comment} />
       </GridTd>
-      <GridTd style={style}>{production.moq}</GridTd>
+      <GridTd style={style}>
+        {numToThousandSeparatedsStr(production.moq)}
+      </GridTd>
       <GridTd style={style}>{production.currencyCode}</GridTd>
       <GridItem
         style={production.purchasePrices?.length === 0 ? style : undefined}
@@ -34,8 +37,12 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
         <GridInlineTbody gridTemplateColumns={'repeat(2, 1fr)'}>
           {production.purchasePrices?.map(pp => (
             <Fragment key={pp.id}>
-              <GridTd style={style}>{pp.quantity}</GridTd>
-              <GridTd style={style}>{pp.price}</GridTd>
+              <GridTd style={style}>
+                {numToThousandSeparatedsStr(pp.quantity)}
+              </GridTd>
+              <GridTd style={style}>
+                {numToThousandSeparatedsStr(pp.price)}
+              </GridTd>
             </Fragment>
           ))}
         </GridInlineTbody>

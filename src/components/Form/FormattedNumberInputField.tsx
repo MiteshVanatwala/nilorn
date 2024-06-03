@@ -1,7 +1,7 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { STEP } from '../../app/utils/constant';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
@@ -9,10 +9,8 @@ import { numToThousandSeparatedsStr } from '../../app/utils/common';
 interface Props extends FormInputProps {
   placeholder?: string;
   defaultValue?: number;
-  variant?: 'standard' | 'light' | 'outline' | 'filled';
+  variant?: 'standard';
   readonly?: boolean;
-  max?: number;
-  min?: number;
   type?: 'integer' | 'decimal';
   focusOnMount?: boolean;
 }
@@ -28,19 +26,16 @@ const FormattedNumberInputField = ({
   hideValidationStyle,
   changelog,
   readonly = false,
-  max,
-  min,
   type = 'decimal',
   focusOnMount = false,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [formattedValue, setFormattedValue] = useState('');
-  const [prevValue, setPrevValue] = useState('');
+  const watch = useWatch({ name: name });
 
   const {
     register,
     setValue: setFormValue,
-    getValues,
     setFocus,
     formState: { errors },
   } = useFormContext();
@@ -50,41 +45,40 @@ const FormattedNumberInputField = ({
   }, [setFocus, name, focusOnMount]);
 
   useEffect(() => {
-    const getValue = getValues(name);
-    const dVal = getValue ?? defaultValue;
-    setFormattedValue(
-      dVal ? numToThousandSeparatedsStr(dVal, type === 'decimal') : ''
-    );
-    setPrevValue(dVal ? dVal.toString() : '');
-  }, [defaultValue, getValues, name, type]);
-
-  const onChangeCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const targetValue = e.target.value;
-    let dotNotatedValue = targetValue.replace(',', '.');
-    if (dotNotatedValue[0] === '.') {
-      dotNotatedValue = `0${dotNotatedValue}`;
-    }
-    if (!isNaN(parseFloat(dotNotatedValue))) {
-      setPrevValue(dotNotatedValue);
-    }
-  };
-
-  const onBlur = () => {
-    if (!prevValue) {
-      setFormValue(name, min);
-      setFormattedValue(min ? `${min}` : '');
-    } else {
-      const parsedValue =
-        type === 'decimal' ? parseFloat(prevValue) : parseInt(prevValue);
-      setFormValue(name, parsedValue);
+    if (defaultValue !== undefined) {
       setFormattedValue(
-        numToThousandSeparatedsStr(parsedValue, type === 'decimal')
+        numToThousandSeparatedsStr(defaultValue, type === 'decimal')
       );
     }
+  }, [defaultValue, name, type]);
+
+  useEffect(() => {
+    if (!!watch) {
+      setFormattedValue(
+        numToThousandSeparatedsStr(watch, type === 'decimal') ?? ''
+      );
+    } else if (!watch) {
+      setFormattedValue('');
+    }
+  }, [watch, type]);
+
+  const onBlur = (e: React.ChangeEvent<HTMLElement>) => {
     setIsActive(false);
+    if (!watch) {
+      setFormValue(name, undefined);
+    } else if (type === 'integer') {
+      setFormValue(name, parseInt(watch));
+    } else {
+      setFormValue(name, parseFloat(watch));
+    }
   };
 
-  const onFocus = () => {
+  const onBoxFocus = () => {
+    setIsActive(true);
+    setFocus(name);
+  };
+
+  const onInputFocus = () => {
     setIsActive(true);
   };
 
@@ -100,7 +94,7 @@ const FormattedNumberInputField = ({
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
-      <Box onFocus={onFocus} position={'relative'}>
+      <Box onFocus={onBoxFocus} position={'relative'}>
         {showFormattedValue && (
           <Text
             w={'100%'}
@@ -112,23 +106,17 @@ const FormattedNumberInputField = ({
             {formattedValue}
           </Text>
         )}
-
         <Input
-          type={isActive ? 'text' : 'number'}
-          opacity={showFormattedValue ? '0%' : readonly ? '70%' : '100%'}
+          type={'number'}
+          opacity={readonly ? '70%' : showFormattedValue ? '0%' : '100%'}
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          max={max}
-          min={min}
           step={type === 'decimal' ? STEP : 1}
-          onChangeCapture={onChangeCapture}
           cursor={readonly ? 'default' : 'text'}
-          {...register(name, {
-            ...registerOptions,
-            onBlur,
-          })}
+          onFocus={onInputFocus}
+          {...register(name, { ...registerOptions, onBlur })}
         />
       </Box>
     </ControlWrapper>
