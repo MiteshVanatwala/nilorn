@@ -10,7 +10,7 @@ import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 import { useQueryClient } from 'react-query';
 import QueryKeysEnum from '../../app/api/queryKeys';
 import { SESSION_STORAGE } from '../../app/utils/constant';
-import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 
 type Props = {
   createNew: boolean;
@@ -18,7 +18,7 @@ type Props = {
 
 function ProductDevelopmentPage({ createNew }: Props) {
   const { no } = useParams();
-  const { setLastVisited } = useLastVisited(Target.PRODUCT_DEVELOPMENT);
+  const { setLastVisitedPD } = useLastVisitedPD();
 
   const queryClient = useQueryClient();
 
@@ -27,8 +27,8 @@ function ProductDevelopmentPage({ createNew }: Props) {
   }, [queryClient, no]);
 
   useEffect(() => {
-    setLastVisited(no ?? '');
-  }, [no, setLastVisited]);
+    setLastVisitedPD(no ?? '');
+  }, [no, setLastVisitedPD]);
 
   const { data, isLoading, isError, isSuccess, isRefetching } =
     useProductDevelopment(no ?? '');

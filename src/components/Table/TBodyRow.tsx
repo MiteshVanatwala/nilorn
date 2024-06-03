@@ -3,7 +3,7 @@ import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Td, Tr } from '@chakra-ui/table';
 import { COLORS } from '../../theme/Constants';
 import { Input, Tooltip } from '@chakra-ui/react';
-import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 
 export type TBodyRowProps<Data extends object> = {
   row: Row<Data>;
@@ -30,23 +30,21 @@ export function TBodyRow<Data extends object>({
 }: TBodyRowProps<Data>) {
   const ref = useRef<HTMLTableRowElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { lastVisited, setLastVisited } = useLastVisited(
-    Target.PRODUCT_DEVELOPMENT
-  );
+  const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
 
   const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!!ref?.current && id && id === lastVisited) {
+    if (!!ref?.current && id && id === lastVisitedPD) {
       setTimeout(() => {
         ref?.current?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
         });
-        setLastVisited('');
+        setLastVisitedPD('');
       }, 100);
     }
-  }, [lastVisited, id, ref, setLastVisited]);
+  }, [lastVisitedPD, id, ref, setLastVisitedPD]);
 
   const tRow = useMemo(() => {
     const handleDragEvent = (event: React.DragEvent<HTMLDivElement>) => {

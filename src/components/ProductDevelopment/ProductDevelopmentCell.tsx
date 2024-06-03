@@ -7,7 +7,7 @@ import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { useNavigate } from 'react-router-dom';
 import { MouseEvent, useEffect, useRef } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
-import { Target, useLastVisited } from '../../app/hooks/useLastVisited';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 
 const ProductDevelopmentCell = ({
   no,
@@ -19,21 +19,19 @@ const ProductDevelopmentCell = ({
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { lastVisited, setLastVisited } = useLastVisited(
-    Target.PRODUCT_DEVELOPMENT
-  );
+  const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
 
   useEffect(() => {
-    if (!!ref?.current && no && no === lastVisited) {
+    if (!!ref?.current && no && no === lastVisitedPD) {
       setTimeout(() => {
         ref?.current?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
         });
-        setLastVisited('');
+        setLastVisitedPD('');
       }, 100);
     }
-  }, [lastVisited, no, ref, setLastVisited]);
+  }, [lastVisitedPD, no, ref, setLastVisitedPD]);
 
   const handleClick = (
     e: MouseEvent<HTMLAnchorElement>,
