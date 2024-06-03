@@ -62,7 +62,10 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
               rightIcon={<RemixIcon component="i" icon="LINK_UNLINK_M" />}>
               {t('PD.File.RemoveLink')}
             </Button>
-            <Button variant={'secondary'} onClick={onClose}>
+            <Button
+              variant={'secondary'}
+              onClick={onClose}
+              rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
               {t('Common.Cancel')}
             </Button>
           </HStack>
