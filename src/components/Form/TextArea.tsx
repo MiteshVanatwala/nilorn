@@ -49,6 +49,7 @@ const TextArea = ({
         placeholder={placeholder}
         height={'auto'}
         readOnly={readonly}
+        onFocus={e => e.target.select()}
         {...register(name, registerOptions)}
       />
     </ControlWrapper>
