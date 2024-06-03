@@ -105,6 +105,7 @@ const FileSection = ({
             prev.name === filename ? { ...prev, status: 'error' } : prev
           );
         });
+        console.error(err);
       }
     });
 
