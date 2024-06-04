@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { findMultiDefaultValues } from '../../app/utils/FilterHelper';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import InputField from '../Form/InputField';
+import FilterNumberInputField from './FilterNumberInputfield';
 
 type Props = {
   option: FilterInput;
@@ -40,11 +41,9 @@ const InputSwitch = ({ option }: Props) => {
       );
     case 'number':
       return (
-        <InputField
+        <FilterNumberInputField
           label={optionLabel}
           placeholder={`${t('Filter.Enter')} ${optionLabel}`}
-          type="decimal"
-          variant="filled"
           name={name}
         />
       );

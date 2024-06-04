@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { INCLUDE_CLOSED } from '../../app/utils/constant';
 import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
+import { numToThousandSeparatedsStr } from '../../app/utils/common';
 
 type Props = {
   label: string;
@@ -38,7 +39,9 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
       onClick={() => removeFilterItem(queryItem)}
       borderColor={COLORS.GRAY[30]}>
       <Text variant={'bodyBold'}>{filterLabel ? filterLabel + ': ' : ''}</Text>
-      <Text variant={'bodyRegular'}> {label}</Text>
+      <Text variant={'bodyRegular'}>
+        {isNaN(Number(label)) ? label : numToThousandSeparatedsStr(label)}
+      </Text>
     </Button>
   );
 };

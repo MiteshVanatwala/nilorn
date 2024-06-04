@@ -141,11 +141,12 @@ const PriceCalculationForm = ({
             registerOptions={{
               valueAsNumber: true,
               min: {
-                value: 10,
-                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
+                value: 0,
+                message: `${t('PriceCalc.Feedback.Error.MinToLow', {
+                  min: 0,
+                })}`,
               },
             }}
-            min={0}
             changelog={internalCommissionChangelog}
           />
         </GridItem>
@@ -159,10 +160,11 @@ const PriceCalculationForm = ({
               valueAsNumber: true,
               min: {
                 value: 0,
-                message: `${t('PriceCalc.Feedback.Error.MinToLow')}`,
+                message: `${t('PriceCalc.Feedback.Error.MinToLow', {
+                  min: 0,
+                })}`,
               },
             }}
-            min={0}
             changelog={indirectCostChangelog}
           />
         </GridItem>
@@ -191,7 +193,6 @@ const PriceCalculationForm = ({
               },
             }}
             changelog={freightIncludedChangelog}
-            max={MAX_MARGIN}
           />
         </GridItem>
         <GridItem colStart={1} colSpan={2}>
