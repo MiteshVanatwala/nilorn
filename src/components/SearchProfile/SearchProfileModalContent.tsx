@@ -112,6 +112,7 @@ const SearchProfileModalContent = ({
         />
         <Input
           ref={inputRef}
+          autoComplete="off"
           defaultValue={activeSearchProfileName ?? undefined}
           variant={'standard'}
           name={'searchProfileName'}
