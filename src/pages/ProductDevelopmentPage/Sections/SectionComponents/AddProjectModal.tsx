@@ -6,7 +6,7 @@ import {
   ModalFooter,
   Text,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCreateProject } from '../../../../app/api/Projects';
 import { ModalContext } from '../../../../app/context/ModalContext';
@@ -18,6 +18,8 @@ type Props = {
   setDefaultProject(val: string): void;
   clientNo: string;
 };
+
+const PROJECT_NAME_MAX_LENGTH = 30;
 
 const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const { t } = useTranslation();
@@ -31,14 +33,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const { mutate: createProject, isSuccess } = useCreateProject();
 
   async function onSubmit(): Promise<void> {
-    if (projectName === '') {
-      setErrorMsgName(`${t('Errors.ProjectName')}`);
-    } else if (projectName.length > 30) {
-      setErrorMsgName(`${t('Errors.ProjectNameLength')}`);
-    } else {
-      setErrorMsgName(undefined);
-    }
-    if (projectName !== '' && projectName.length <= 30) {
+    if (validateProjectName(projectName)) {
       const projectData = {
         clientNo: clientNo,
         projectCode: projectName,
@@ -47,9 +42,30 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
       setDefaultProject(projectName);
     }
   }
+
+  const validateProjectName = (projectName: string): boolean => {
+    if (projectName === '') {
+      setErrorMsgName(`${t('Errors.ProjectName')}`);
+      return false;
+    } else if (projectName.length > PROJECT_NAME_MAX_LENGTH) {
+      setErrorMsgName(`${t('Errors.ProjectNameLength')}`);
+      return false;
+    } else {
+      setErrorMsgName(undefined);
+      return true;
+    }
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    validateProjectName(value);
+    setProjectName(value);
+  };
+
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
   useEffect(() => {
     if (isSuccess) {
       close();
@@ -65,13 +81,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
           label={`${t('PD.ProjectName')} *`}
           name={'projectName'}
         />
-        <Input
-          variant={'standard'}
-          name={'projectName'}
-          onChange={e => {
-            setProjectName(e.target.value);
-          }}
-        />
+        <Input variant={'standard'} name={'projectName'} onChange={onChange} />
         {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
       </ModalBody>
       <ModalFooter justifyContent={'center'}>
