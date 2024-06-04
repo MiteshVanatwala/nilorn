@@ -145,6 +145,7 @@ const CertificateInputRow = ({
         {!!selectedCertificateCode && (
           <FormattedNumberInputField
             name={certificateWeightName}
+            placeholder={`${t('Common.Placeholder')}`}
             registerOptions={{
               valueAsNumber: true,
             }}
