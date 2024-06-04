@@ -53,18 +53,18 @@ const FormattedNumberInputField = ({
   }, [defaultValue, name, type]);
 
   useEffect(() => {
-    if (!!watch) {
+    if (watch === undefined) {
+      setFormattedValue('');
+    } else if (!!watch) {
       setFormattedValue(
         numToThousandSeparatedsStr(watch, type === 'decimal') ?? ''
       );
-    } else if (!watch) {
-      setFormattedValue('');
     }
   }, [watch, type]);
 
   const onBlur = (e: React.ChangeEvent<HTMLElement>) => {
     setIsActive(false);
-    if (!watch) {
+    if (watch === undefined) {
       setFormValue(name, undefined);
     } else if (type === 'integer') {
       setFormValue(name, parseInt(watch));
