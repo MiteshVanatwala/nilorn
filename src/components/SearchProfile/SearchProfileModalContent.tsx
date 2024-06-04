@@ -6,18 +6,18 @@ import {
   ModalFooter,
   Text,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { FieldError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { ModalContext } from '../../app/context/ModalContext';
-import { COLORS, SPACE } from '../../theme/Constants';
-import ModalHeading from '../Modal/ModalHeading';
 import {
   useCreateOrUpdateSearchProfile,
   useDeleteSearchProfile,
 } from '../../app/api/SearchProfile';
+import { ModalContext } from '../../app/context/ModalContext';
+import { COLORS, SPACE } from '../../theme/Constants';
 import FormLabelComponent from '../Form/FormLabelComponent';
 import RemixIcon from '../Icon/RemixIcon';
+import ModalHeading from '../Modal/ModalHeading';
 
 type Props = {
   activeSearchProfileName?: string;
@@ -31,7 +31,7 @@ const SearchProfileModalContent = ({
   isValueSelected,
 }: Props) => {
   const { t } = useTranslation();
-  const { close } = useContext(ModalContext);
+  const { close, isOpen } = useContext(ModalContext);
   const [errorMsgQuery, setErrorMsgQuery] = useState<string | undefined>();
   const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
   const errorFieldMsg: FieldError = {
@@ -43,8 +43,12 @@ const SearchProfileModalContent = ({
   const { mutate: createOrUpdateSearchProfile } =
     useCreateOrUpdateSearchProfile();
   const { mutate: deleteSearchProfile } = useDeleteSearchProfile();
-
   const [inputChanged, setInputChanged] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    isOpen && inputRef.current?.focus();
+  }, [isOpen, inputRef]);
 
   const onCancel = () => {
     setSearchProfileName('');
@@ -107,6 +111,7 @@ const SearchProfileModalContent = ({
           name={'searchProfileName'}
         />
         <Input
+          ref={inputRef}
           defaultValue={activeSearchProfileName ?? undefined}
           variant={'standard'}
           name={'searchProfileName'}
