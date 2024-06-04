@@ -49,7 +49,7 @@ export const File = ({
   };
 
   return (
-    <HStack justifyContent={'space-between'}>
+    <HStack spacing={SPACE.MD}>
       <Tooltip
         label={`${status === 'success' && t('Common.Preview')} ${file.name}`}>
         <Flex>
@@ -70,7 +70,11 @@ export const File = ({
               {t('PD.FailToUpload')}
             </Text>
           ) : (
-            <Link target="_blank" href={`${file?.webUrl}`} noOfLines={1}>
+            <Link
+              maxW={'35ch'}
+              target="_blank"
+              href={`${file?.webUrl}`}
+              noOfLines={1}>
               <>{file.name ?? ''}</>
             </Link>
           )}

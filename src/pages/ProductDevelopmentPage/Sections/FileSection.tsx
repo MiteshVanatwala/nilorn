@@ -1,4 +1,4 @@
-import { GridItem } from '@chakra-ui/react';
+import { Box, GridItem, HStack } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 import File from '../../../components/File/File';
 import UploadFile from '../../../components/File/UploadFile';
@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
 import { useToast } from '../../../app/hooks/useToast';
 import { useTranslation } from 'react-i18next';
+import { SPACE } from '../../../theme/Constants';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -113,8 +114,8 @@ const FileSection = ({
   };
 
   return (
-    <>
-      <GridItem colSpan={12}>
+    <GridItem colSpan={12}>
+      <Box pb={SPACE.MD}>
         <UploadFile
           accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
           heading={heading}
@@ -126,21 +127,22 @@ const FileSection = ({
           }
           multiple={type === MediaFileType.ATTACHMENT}
         />
-      </GridItem>
-      {mediaFiles.map((f, i) => (
-        <GridItem
-          key={`${f?.id}-${i}`}
-          colSpan={{
-            lg: 2,
-          }}>
-          <File
-            file={f}
-            status={f?.status ?? 'success'}
-            onRemove={disableEdit ? undefined : (id: string) => removeFile(id)}
-          />
-        </GridItem>
-      ))}
-    </>
+      </Box>
+      <HStack flexWrap={'wrap'}>
+        {mediaFiles.map((f, i) => (
+          <Box pb={SPACE.XS} pr={SPACE.XL}>
+            <File
+              key={`${f?.id}-${i}`}
+              file={f}
+              status={f?.status ?? 'success'}
+              onRemove={
+                disableEdit ? undefined : (id: string) => removeFile(id)
+              }
+            />
+          </Box>
+        ))}
+      </HStack>
+    </GridItem>
   );
 };
 
