@@ -57,7 +57,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const { value } = e.target;
     validateProjectName(value);
     setProjectName(value);
   };
