@@ -38,7 +38,7 @@ type Props = {
   filters: ServerFilter;
 };
 
-const EditProduction = ({ productionId }: Props) => {
+const EditProduction = ({ productionId, filters }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm();
@@ -68,8 +68,10 @@ const EditProduction = ({ productionId }: Props) => {
     isLoading,
     isRefetching,
   } = useProduction(activeProductionId);
-  const { data: productionNavigation } =
-    useProductionNavigation(activeProductionId);
+  const { data: productionNavigation } = useProductionNavigation(
+    activeProductionId,
+    filters
+  );
 
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};
