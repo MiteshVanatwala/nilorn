@@ -217,7 +217,7 @@
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status",
-        "ArtworkPdf": "Artwork needs to be of type .pdf"
+        "ArtworkUploadType": "Artwork needs to be of type .pdf"
       }
     }
   },
