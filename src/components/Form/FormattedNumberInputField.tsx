@@ -53,7 +53,7 @@ const FormattedNumberInputField = ({
   }, [defaultValue, name, type]);
 
   useEffect(() => {
-    if (watch === undefined) {
+    if (isNaN(watch)) {
       setFormattedValue('');
     } else if (!!watch) {
       setFormattedValue(
@@ -64,8 +64,8 @@ const FormattedNumberInputField = ({
 
   const onBlur = (e: React.ChangeEvent<HTMLElement>) => {
     setIsActive(false);
-    if (watch === undefined) {
-      setFormValue(name, undefined);
+    if (isNaN(watch)) {
+      setFormValue(name, 0);
     } else if (type === 'integer') {
       setFormValue(name, parseInt(watch));
     } else {
