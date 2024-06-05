@@ -9,6 +9,7 @@ interface Props extends FormInputProps {
   defaultValue?: string | number | undefined | null;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   readonly?: boolean;
+  validateOnChange?: boolean;
 }
 
 const TextArea = ({
@@ -21,11 +22,20 @@ const TextArea = ({
   variant = 'standard',
   hideValidationStyle,
   readonly = false,
+  validateOnChange = true,
 }: Props) => {
   const {
     register,
+    setValue,
     formState: { errors },
   } = useFormContext();
+
+  const { onChange, ...rest } = register(name, registerOptions);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setValue(name, value, { shouldValidate: validateOnChange });
+  };
 
   return (
     <ControlWrapper
@@ -49,7 +59,8 @@ const TextArea = ({
         placeholder={placeholder}
         height={'auto'}
         readOnly={readonly}
-        {...register(name, registerOptions)}
+        onChange={handleChange}
+        {...rest}
       />
     </ControlWrapper>
   );
