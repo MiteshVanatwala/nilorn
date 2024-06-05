@@ -40,9 +40,13 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
           <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
         ) : (
           <Grid
-            gap={{
+            rowGap={{
               base: SPACE.XXS,
-              lg: SPACE.SM,
+              lg: SPACE.LG,
+            }}
+            columnGap={{
+              base: SPACE.XXS,
+              lg: SPACE.XL,
             }}
             templateColumns={GRID.TEMPLATE_COLUMNS}>
             <FileSection

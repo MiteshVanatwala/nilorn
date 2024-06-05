@@ -78,8 +78,8 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
           {!disableEdit && (
             <Button
               variant={'secondarySmall'}
-              onClick={() => append({ value: '' })}
-              rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
+              onClick={() => append(undefined)}
+              rightIcon={<RemixIcon component={'i'} icon={'ADD_LINE'} />}>
               {t('Common.Add')}
             </Button>
           )}

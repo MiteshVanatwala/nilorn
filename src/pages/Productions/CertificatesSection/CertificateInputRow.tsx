@@ -125,8 +125,6 @@ const CertificateInputRow = ({
           <FormattedNumberInputField
             name={percentageName}
             placeholder={t('Production.PercentPlaceholder')}
-            min={0}
-            max={100}
             registerOptions={{
               valueAsNumber: true,
               min: {
@@ -139,6 +137,7 @@ const CertificateInputRow = ({
               },
             }}
             readonly={disableEdit}
+            type={'integer'}
           />
         )}
       </GridItem>
@@ -146,10 +145,12 @@ const CertificateInputRow = ({
         {!!selectedCertificateCode && (
           <FormattedNumberInputField
             name={certificateWeightName}
+            placeholder={`${t('Common.Placeholder')}`}
             registerOptions={{
               valueAsNumber: true,
             }}
             readonly={disableEdit}
+            type={'integer'}
           />
         )}
       </GridItem>

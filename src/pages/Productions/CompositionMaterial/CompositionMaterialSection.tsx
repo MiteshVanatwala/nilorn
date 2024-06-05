@@ -9,6 +9,7 @@ import RemixIcon from '../../../components/Icon/RemixIcon';
 import { COLORS, SPACE } from '../../../theme/Constants';
 import CompositionMaterialHeader from './CompositionMaterialHeader';
 import CompositionMaterialRow from './CompositionMaterialRow';
+import { numToThousandSeparatedsStr } from '../../../app/utils/common';
 
 type Props = {
   defaultValues?: CompositionDto[];
@@ -96,7 +97,8 @@ const CompositionMaterialSection = ({
           <Text
             variant={'bodyBold'}
             color={sum > 100 ? COLORS.ERROR : undefined}>
-            {!sum ? '-' : sum} {t('Common.Percentage_sign')}
+            {!sum ? '-' : numToThousandSeparatedsStr(sum)}{' '}
+            {t('Common.Percentage_sign')}
           </Text>
         )}
       </HStack>
