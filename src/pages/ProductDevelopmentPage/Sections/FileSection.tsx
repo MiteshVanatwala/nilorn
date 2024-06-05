@@ -130,9 +130,8 @@ const FileSection = ({
       </Box>
       <HStack flexWrap={'wrap'}>
         {mediaFiles.map((f, i) => (
-          <Box pb={SPACE.XS} pr={SPACE.XL}>
+          <Box key={`${f?.id}-${i}`} pb={SPACE.XS} pr={SPACE.XL}>
             <File
-              key={`${f?.id}-${i}`}
               file={f}
               status={f?.status ?? 'success'}
               onRemove={
