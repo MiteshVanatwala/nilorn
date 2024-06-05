@@ -9,8 +9,6 @@ import { useTranslation } from 'react-i18next';
 import IsolatedModal, { ModalRef } from '../../components/Modal/IsolatedModal';
 import { useToast } from '../../app/hooks/useToast';
 import { useUploadFile } from '../../app/api/mediaFile';
-import { useQueryClient } from 'react-query';
-import QueryKeysEnum from '../../app/api/queryKeys';
 
 type Props = {
   no: string;
@@ -24,7 +22,6 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
   const { showToast } = useToast();
 
   const modalRef = useRef<ModalRef>(null);
-  const queryClient = useQueryClient();
 
   const { artwork } = row.original;
 
@@ -65,28 +62,7 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
 
   const uploadFile = async (file: File, replaceArtwork: boolean) => {
     modalRef.current?.onClose();
-    upload(
-      { file, replaceArtwork },
-      {
-        onSuccess: () => {
-          showToast({
-            status: 'success',
-            description: t('PD.Feedback.Success.FileUpdated', {
-              name: file?.name,
-            }),
-          });
-          queryClient.invalidateQueries([QueryKeysEnum.Overview]);
-        },
-        onError: () => {
-          showToast({
-            status: 'error',
-            description: t('PD.Feedback.Error.FileUpdated', {
-              name: file?.name,
-            }),
-          });
-        },
-      }
-    );
+    upload({ file, replaceArtwork });
   };
 
   return (

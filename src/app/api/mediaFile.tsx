@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ApiError, MediaFileService, MediaFileType, Status } from '../generate';
 import QueryKeysEnum from './queryKeys';
 import { useState } from 'react';
@@ -13,13 +13,17 @@ export const useUploadFile = (
   mediaFileType: MediaFileType,
   currentStatus?: Status
 ) => {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
   async function submitStatus(): Promise<void> {
     if (currentStatus !== Status.DESIGN) {
-      return;
+      queryClient.invalidateQueries([QueryKeysEnum.Overview]);
+    } else {
+      updateStatus(Status.ARTWORK);
     }
-    updateStatus(Status.ARTWORK);
   }
 
   return useMutation(
@@ -37,10 +41,24 @@ export const useUploadFile = (
         { file }
       ).then(res => res),
     {
-      onSuccess: async () => {
+      onSuccess: async file => {
+        showToast({
+          status: 'success',
+          description: t('PD.Feedback.Success.FileUpdated', {
+            name: file?.name,
+          }),
+        });
         if (mediaFileType === MediaFileType.ARTWORK) {
           submitStatus();
         }
+      },
+      onError: async (_, { file }) => {
+        showToast({
+          status: 'error',
+          description: t('PD.Feedback.Error.FileUpdated', {
+            name: file?.name,
+          }),
+        });
       },
       retry: 0,
     }
