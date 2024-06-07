@@ -43,7 +43,7 @@ const TableMenuProduction = ({
     !production?.released
   );
 
-  function releaseForSalesFunc(id: string | undefined, release: boolean) {
+  function releaseForSalesFunc() {
     if (production?.vendorId !== '') {
       releaseForSales();
     }
@@ -82,12 +82,7 @@ const TableMenuProduction = ({
       </MenuItem>
       {productDevelopment?.status && !isClosed(productDevelopment?.status) && (
         <MenuItem
-          onClick={() =>
-            releaseForSalesFunc(
-              production?.vendorId?.toString(),
-              production?.released ?? false
-            )
-          }
+          onClick={releaseForSalesFunc}
           icon={
             <RemixIcon
               component="Text"
