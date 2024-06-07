@@ -4,94 +4,89 @@ import {
   Input,
   ModalBody,
   ModalFooter,
-  Text,
 } from '@chakra-ui/react';
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCreateProject } from '../../../../app/api/Projects';
 import { ModalContext } from '../../../../app/context/ModalContext';
-import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
 import RemixIcon from '../../../../components/Icon/RemixIcon';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
-import { COLORS, SPACE } from '../../../../theme/Constants';
+import { SPACE } from '../../../../theme/Constants';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import ControlWrapper from '../../../../components/Form/ControlWrapper';
 type Props = {
   setDefaultProject(val: string): void;
   clientNo: string;
 };
 
 const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
+  const name = 'projectName';
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
-  const [errorMsgName, setErrorMsgName] = useState<string | undefined>();
+  const methods = useForm({mode: 'onChange'});
+  const { errors } = methods.formState;
 
-  const [projectName, setProjectName] = useState<string>('');
+  const { mutate: createProject } = useCreateProject();
+
   const onCancel = () => {
     close();
   };
-  const { mutate: createProject, isSuccess } = useCreateProject();
 
-  async function onSubmit(): Promise<void> {
-    if (projectName === '') {
-      setErrorMsgName(`${t('Errors.ProjectName')}`);
-    } else if (projectName.length > 30) {
-      setErrorMsgName(`${t('Errors.ProjectNameLength')}`);
-    } else {
-      setErrorMsgName(undefined);
-    }
-    if (projectName !== '' && projectName.length <= 30) {
-      const projectData = {
-        clientNo: clientNo,
-        projectCode: projectName,
-      };
-      createProject(projectData);
-      setDefaultProject(projectName);
-    }
+  async function onSubmit(FieldValues: FieldValues) {
+    const projectData = {
+      clientNo: clientNo,
+      projectCode: FieldValues.projectName,
+    };
+    createProject(projectData, {
+      onSuccess: () => {
+        close();
+      },
+    });
+    setDefaultProject(FieldValues.projectName);
   }
-  const onFormSubmit = (e: FormEvent) => {
-    e.preventDefault();
-  };
-  useEffect(() => {
-    if (isSuccess) {
-      close();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
 
   return (
-    <form onSubmit={onFormSubmit}>
-      <ModalBody>
-        <ModalHeading title={t('PD.AddProject')} />
-        <FormLabelComponent
-          label={`${t('PD.ProjectName')} *`}
-          name={'projectName'}
-        />
-        <Input
-          variant={'standard'}
-          name={'projectName'}
-          onChange={e => {
-            setProjectName(e.target.value);
-          }}
-        />
-        {errorMsgName && <Text color={COLORS.ERROR}>{errorMsgName}</Text>}
-      </ModalBody>
-      <ModalFooter justifyContent={'center'}>
-        <HStack spacing={SPACE.LG} marginTop={SPACE.XL}>
-          <Button
-            type="submit"
-            variant={'primary'}
-            onClick={onSubmit}
-            rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
-            {t('Common.Save')}
-          </Button>
-          <Button
-            variant={'secondary'}
-            onClick={onCancel}
-            rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
-            {t('Common.Cancel')}
-          </Button>
-        </HStack>
-      </ModalFooter>
-    </form>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <ModalBody>
+          <ModalHeading title={t('PD.AddProject')} />
+          <ControlWrapper
+            name={name}
+            label={`${t('PD.ProjectName')} *`}
+            errors={errors}>
+            <Input
+              variant={'standard'}
+              {...methods.register(name, {
+                required: {
+                  value: true,
+                  message: `${t('Errors.ProjectName')}`,
+                },
+                maxLength: {
+                  value: 30,
+                  message: `${t('Errors.ProjectNameLength')}`,
+                },
+              })}
+            />
+          </ControlWrapper>
+        </ModalBody>
+        <ModalFooter justifyContent={'center'}>
+          <HStack spacing={SPACE.LG} marginTop={SPACE.XL}>
+            <Button
+              type="submit"
+              variant={'primary'}
+              rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
+              {t('Common.Save')}
+            </Button>
+            <Button
+              variant={'secondary'}
+              onClick={onCancel}
+              rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
+              {t('Common.Cancel')}
+            </Button>
+          </HStack>
+        </ModalFooter>
+      </form>
+    </FormProvider>
   );
 };
 

@@ -1,8 +1,8 @@
 import { Textarea } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
+import ResizeTextarea from 'react-textarea-autosize';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
-import ResizeTextarea from 'react-textarea-autosize';
 
 interface Props extends FormInputProps {
   placeholder?: string;
