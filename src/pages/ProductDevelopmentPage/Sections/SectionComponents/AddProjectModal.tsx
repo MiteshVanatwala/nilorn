@@ -23,7 +23,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const name = 'projectName';
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
-  const methods = useForm();
+  const methods = useForm({mode: 'onChange'});
   const { errors } = methods.formState;
 
   const { mutate: createProject } = useCreateProject();
