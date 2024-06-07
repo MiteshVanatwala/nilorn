@@ -41,7 +41,7 @@ type Props = {
 const EditProduction = ({ productionId }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
-  const form = useForm();
+  const form = useForm({ mode: 'onChange' });
   const {
     deleteModal,
     isOpen: isDeleteModalOpen,
