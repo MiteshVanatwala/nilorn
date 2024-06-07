@@ -8,6 +8,7 @@ import { useCurrentUser } from '../../../app/api/User';
 import {
   useCreateProduction,
   usePatchProduction,
+  useReleaseForSales,
 } from '../../../app/api/editProduction';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
@@ -74,6 +75,17 @@ const ActionBarEditProduction = ({
     }
   }, [close, isSuccessPatch, isSuccessCreate]);
 
+  const { mutate: removeFromSales } = useReleaseForSales(
+    production ? production?.id?.toString() : undefined,
+    false
+  );
+
+  function removeFromSalesFunc() {
+    if (production?.vendorId !== '') {
+      removeFromSales();
+    }
+  }
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -94,6 +106,19 @@ const ActionBarEditProduction = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
+            {status && !isClosed(status) && production?.released && (
+              <MenuItem
+                onClick={removeFromSalesFunc}
+                icon={
+                  <RemixIcon
+                    component="Text"
+                    icon="TOGGLE_LINE"
+                    fontSize={SIZES.ICON.MD}
+                  />
+                }>
+                {t('Production.Remove')}
+              </MenuItem>
+            )}
             {showCalculationLink && (
               <MenuItem
                 as={NavLink}
