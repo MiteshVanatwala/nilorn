@@ -137,7 +137,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                   />
                   <Button
                     variant={'secondary'}
-                    leftIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
+                    rightIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
                     onClick={onButtonClick}>
                     {t('PD.BrowseFile')}
                   </Button>
@@ -145,7 +145,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                   <Button
                     variant={'deleteBtn'}
                     onClick={() => deletePDImage()}
-                    leftIcon={
+                    rightIcon={
                       <RemixIcon component="i" icon="DELETE_BIN_LINE" />
                     }>
                     {t('Common.Delete')}
@@ -219,7 +219,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
               />
               <Button
                 variant={'secondary'}
-                leftIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
+                rightIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
                 onClick={onButtonClick}>
                 {t('PD.BrowseFile')}
               </Button>
