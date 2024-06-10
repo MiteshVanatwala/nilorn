@@ -219,7 +219,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
               />
               <Button
                 variant={'secondary'}
-                leftIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
+                rightIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
                 onClick={onButtonClick}>
                 {t('PD.BrowseFile')}
               </Button>
