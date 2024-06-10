@@ -95,6 +95,10 @@ const useOverviewColumns = () => {
       header: `${t('PD.Project')}`,
       cell: info => info.getValue(),
     }),
+    columnHelper.accessor('itemCategory', {
+      header: `${t('PD.ItemCategory')}`,
+      cell: info => info.getValue(),
+    }),
     columnHelper.accessor('productGroup', {
       header: `${t('PD.ProductGroup')}`,
       cell: info => (
@@ -109,10 +113,6 @@ const useOverviewColumns = () => {
         </Tooltip>
       ),
       maxSize: 100,
-    }),
-    columnHelper.accessor('itemCategory', {
-      header: `${t('PD.ItemCategory')}`,
-      cell: info => info.getValue(),
     }),
     columnHelper.accessor('sourcings', {
       header: `${t('PD.SourcingCompanies')}`,
