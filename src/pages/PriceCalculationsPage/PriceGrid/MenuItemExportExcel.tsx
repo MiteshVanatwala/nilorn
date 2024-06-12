@@ -16,7 +16,7 @@ const MenuItemExportExcel = ({ productionId }: Props) => {
   const onExportExcel = () => {
     downloadFile(
       `${OpenAPI.BASE}/api/Excel/GetExcel/${encodeURIComponent(productionId)}`,
-      `Export-Calculation-${productionId}.xlsx`,
+      `Export-${productionId}.xlsx`,
       'GET'
     );
   };
