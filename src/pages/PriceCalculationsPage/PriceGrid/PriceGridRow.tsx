@@ -139,7 +139,7 @@ function PriceGridRow({
                   <Link
                     variant={'textLink'}
                     as={NavLink}
-                    to={`/productions?vendor=${
+                    to={`/productions?vendors=${
                       vendorOptions.find(
                         option => option.label === production.vendorName
                       )?.value
