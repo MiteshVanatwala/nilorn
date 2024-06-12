@@ -6,17 +6,17 @@ import { useDownloadFile } from '../../../app/hooks/useDownloadFile';
 import { OpenAPI } from '../../../app/generate';
 
 type Props = {
-  priceCalculationId: string;
+  productionId: string;
 };
 
-const MenuItemExportExcel = ({ priceCalculationId }: Props) => {
+const MenuItemExportExcel = ({ productionId }: Props) => {
   const { t } = useTranslation();
   const { downloadFile } = useDownloadFile();
 
   const onExportExcel = () => {
     downloadFile(
-      `${OpenAPI.BASE}/api/Excel/GetExcel/${priceCalculationId}`,
-      `Export-Calculation-${priceCalculationId}.xlsx`,
+      `${OpenAPI.BASE}/api/Excel/GetExcel/${encodeURIComponent(productionId)}`,
+      `Export-Calculation-${productionId}.xlsx`,
       'GET'
     );
   };
