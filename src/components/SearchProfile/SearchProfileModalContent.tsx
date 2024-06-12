@@ -60,6 +60,7 @@ const SearchProfileModalContent = ({
       setSearchProfileName('');
       deleteSearchProfile(searchProfileName, {
         onSuccess: async () => {
+          setActiveSearchProfileName('');
           close();
         },
       });
