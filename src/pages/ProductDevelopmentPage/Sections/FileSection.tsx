@@ -6,7 +6,6 @@ import { MediaFileDto, MediaFileType, Status } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
-import { useToast } from '../../../app/hooks/useToast';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../theme/Constants';
 
@@ -38,7 +37,7 @@ const FileSection = ({
   const currentStatus = getValues('status') as Status;
 
   const { mutateAsync } = useUploadFile(no, type, currentStatus);
-  const { showToast } = useToast();
+
   const removeFile = (id: string) => {
     if (type === MediaFileType.ARTWORK) {
       setValue(ARTWORK, undefined);
