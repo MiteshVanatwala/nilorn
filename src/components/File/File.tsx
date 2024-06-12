@@ -8,7 +8,7 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { MouseEventHandler, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDownloadFile } from '../../app/api/mediaFile';
 import { MediaFileDto } from '../../app/generate';
@@ -48,38 +48,45 @@ export const File = ({
     onRemove && onRemove(id);
   };
 
+  const onClick: MouseEventHandler<HTMLAnchorElement> = e => {
+    e.currentTarget.blur();
+  };
+
   return (
     <HStack spacing={SPACE.MD}>
-      <Tooltip
-        label={`${status === 'success' && t('Common.Preview')} ${file.name}`}>
-        <Flex>
-          <Box mr={SPACE.XS} display={'inline-block'}>
-            {status === 'error' ? (
-              <RemixIcon
-                component="Text"
-                fontSize={SIZES.ICON.MD}
-                color={COLORS.ERROR}
-                icon="ERROR_WARNING_FILL"
-              />
-            ) : (
-              <>{icon}</>
-            )}
-          </Box>
+      <Flex>
+        <Box mr={SPACE.XS} display={'inline-block'}>
           {status === 'error' ? (
-            <Text noOfLines={1} color={COLORS.ERROR}>
-              {t('PD.FailToUpload')}
-            </Text>
+            <RemixIcon
+              component="Text"
+              fontSize={SIZES.ICON.MD}
+              color={COLORS.ERROR}
+              icon="ERROR_WARNING_FILL"
+            />
           ) : (
+            <>{icon}</>
+          )}
+        </Box>
+        {status === 'error' ? (
+          <Text noOfLines={1} color={COLORS.ERROR}>
+            {t('PD.FailToUpload')}
+          </Text>
+        ) : (
+          <Tooltip
+            label={`${status === 'success' && t('Common.Preview')} ${
+              file.name
+            }`}>
             <Link
+              onClick={onClick}
               maxW={'35ch'}
               target="_blank"
               href={`${file?.webUrl}`}
               noOfLines={1}>
               <>{file.name ?? ''}</>
             </Link>
-          )}
-        </Flex>
-      </Tooltip>
+          </Tooltip>
+        )}
+      </Flex>
       {status === 'loading' && <Spinner />}
       {status === 'success' && (
         <Box minW={'5rem'}>
