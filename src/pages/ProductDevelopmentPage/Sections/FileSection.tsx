@@ -78,12 +78,6 @@ const FileSection = ({
 
       try {
         const res = await mutateAsync({ file: file });
-        showToast({
-          status: 'success',
-          description: t('PD.Feedback.Success.FileUpdated', {
-            name: filename,
-          }),
-        });
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
             prev.name === res.name
@@ -95,12 +89,6 @@ const FileSection = ({
           setValue(ARTWORK, res);
         }
       } catch (err) {
-        showToast({
-          status: 'error',
-          description: t('PD.Feedback.Error.FileUpdated', {
-            name: filename,
-          }),
-        });
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
             prev.name === filename ? { ...prev, status: 'error' } : prev
