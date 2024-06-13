@@ -13,6 +13,9 @@ import {
   GRID_LAYOUT_PRICE_DESKTOP,
   GRID_LAYOUT_SOURCING,
   GRID_LAYOUT_SOURCING_DESKTOP,
+  PD_COL_SPAN,
+  SOURCING_COL_SPAN,
+  VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
 
 type Props = {
@@ -22,11 +25,11 @@ type Props = {
 const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
-      <GridTd colSpan={2} id={'1'}>
+      <GridTd colSpan={PD_COL_SPAN} id={'1'}>
         <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
       </GridTd>
       <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
-      <GridItem colSpan={11}>
+      <GridItem colSpan={VENDOR_ROW_SPAN + SOURCING_COL_SPAN}>
         <GridInlineTbody
           gridTemplateColumns={{
             base: GRID_LAYOUT_SOURCING,
@@ -37,12 +40,12 @@ const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
               <Fragment
                 key={p?.productDevelopmentDataDto?.no + '-' + s?.sourcingId}>
                 <GridTd
-                  colSpan={1}
+                  colSpan={SOURCING_COL_SPAN}
                   key={p?.productDevelopmentDataDto?.no + '-' + s?.sourcingId}
                   style={TD_STYLE}>
                   <>{s.sourcingCompanyCode}</>
                 </GridTd>
-                <GridItem colSpan={10}>
+                <GridItem colSpan={VENDOR_ROW_SPAN}>
                   <GridInlineTbody
                     gridTemplateColumns={{
                       base: GRID_LAYOUT_PRICE,
@@ -65,7 +68,7 @@ const PriceCalculationsTableRow = ({ productDevelopment: p }: Props) => {
                           />
                         ))
                       ) : (
-                        <GridTd colSpan={10}></GridTd>
+                        <GridTd colSpan={VENDOR_ROW_SPAN}></GridTd>
                       )}
                     </>
                   </GridInlineTbody>

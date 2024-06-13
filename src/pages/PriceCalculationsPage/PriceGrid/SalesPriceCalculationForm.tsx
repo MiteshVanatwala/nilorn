@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import { GridTd } from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import SalesPriceCalculation from './SalesPriceCalculation';
+import { PRICE_ROW_SPAN } from '../PriceCalculationsTable';
 
 type Props = {
   enableEdit: boolean;
@@ -44,7 +45,7 @@ const SalesPriceCalculationForm = ({
         return (
           <GridTd
             key={calculation?.productionId + '-salesPrice-' + i + price.margin}
-            colSpan={3}></GridTd>
+            colSpan={PRICE_ROW_SPAN}></GridTd>
         );
       })}
     </>

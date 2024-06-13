@@ -28,6 +28,8 @@ import { SPACE } from '../../../theme/Constants';
 import {
   GRID_LAYOUT_PRICE,
   GRID_LAYOUT_PRICE_DESKTOP,
+  PRICE_ROW_SPAN,
+  VENDOR_ROW_SPAN,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
@@ -125,7 +127,7 @@ function PriceGridRow({
   };
 
   return (
-    <GridItem colSpan={10}>
+    <GridItem colSpan={VENDOR_ROW_SPAN}>
       <GridInlineTbody
         gridTemplateColumns={{
           base: GRID_LAYOUT_PRICE,
@@ -236,9 +238,10 @@ function PriceGridRow({
             <GridTd>{production.currencyCode}</GridTd>
             <GridTd>{calculation?.currency?.code}</GridTd>
             <GridItem
-              colSpan={3}
+              colSpan={PRICE_ROW_SPAN}
               onClick={createNew ? undefined : openRowForInlineEdit}>
-              <GridInlineTbody gridTemplateColumns={`repeat(3, 1fr)`}>
+              <GridInlineTbody
+                gridTemplateColumns={`repeat(${PRICE_ROW_SPAN}, 1fr)`}>
                 {!!calculation ? (
                   <SalesPriceCalculationForm
                     priceData={formData}
@@ -247,13 +250,13 @@ function PriceGridRow({
                     calculation={calculation}
                   />
                 ) : (
-                  <GridTd colSpan={3}></GridTd>
+                  <GridTd colSpan={PRICE_ROW_SPAN}></GridTd>
                 )}
               </GridInlineTbody>
             </GridItem>
           </>
         ) : (
-          <>{production.released ? <></> : <GridTd colSpan={8}></GridTd>}</>
+          <>{production.released ? <></> : <GridTd colSpan={9}></GridTd>}</>
         )}
       </GridInlineTbody>
     </GridItem>

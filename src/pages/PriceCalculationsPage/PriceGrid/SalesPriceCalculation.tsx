@@ -1,4 +1,3 @@
-
 import { GridTd } from '../../../components/GridTable/GridTableElements';
 import { PriceCalculationDto, PriceDto } from '../../../app/generate';
 import {
@@ -92,6 +91,9 @@ const SalesPriceCalculation = ({
             </>
           )}
         </>
+      </GridTd>
+      <GridTd>
+        <>Toggle</>
       </GridTd>
     </>
   );

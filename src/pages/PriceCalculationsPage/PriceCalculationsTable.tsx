@@ -7,22 +7,30 @@ import {
 import PriceCalculationsTableRow from './PriceCalculationsTableRow';
 
 const GRID_LAYOUT =
-  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
 
 export const GRID_LAYOUT_SOURCING =
-  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  'repeat(1, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
 
 export const GRID_LAYOUT_PRICE =
-  '[Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(7, minmax(100px, 1fr))';
+  '[Vendor] minmax(100px, 1fr) [Comment] 1fr [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
 
 const GRID_LAYOUT_DESKTOP =
-  'repeat(4, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(4, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(8, 1fr)';
 
 export const GRID_LAYOUT_SOURCING_DESKTOP =
-  'repeat(1, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  'repeat(1, 1fr) [Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(8, 1fr)';
 
 export const GRID_LAYOUT_PRICE_DESKTOP =
-  '[Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(7, 1fr)';
+  '[Vendor] minmax(150px, 1fr) [Comment] 1fr [BaseValues] minmax(150px, 1fr) repeat(8, 1fr)';
+
+export const PD_COL_SPAN = 2;
+export const SOURCING_COL_SPAN = 1;
+
+export const ROW_SPAN = 14;
+export const VENDOR_ROW_SPAN = 11;
+export const CALCULATION_ROW_SPAN = 9;
+export const PRICE_ROW_SPAN = 4;
 
 type Props = {
   data: ProductDevelopmentDeepDto[];
@@ -34,7 +42,9 @@ const PriceCalculationsTable = ({ data }: Props) => {
     <>
       <GridTable
         gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
-        <GridTh colSpan={2}>{t('Production.ProductDevelopments')}</GridTh>
+        <GridTh colSpan={PD_COL_SPAN}>
+          {t('Production.ProductDevelopments')}
+        </GridTh>
         <GridTh>{t('PD.Client')}</GridTh>
         <GridTh>{t('PD.SourcingCompany')}</GridTh>
         <GridTh>{t('PD.AccordionLabels.Vendor')}</GridTh>
@@ -47,6 +57,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
+        <GridTh>{t('')}</GridTh>
         <>
           {data.map((p, i) => (
             <PriceCalculationsTableRow key={i} productDevelopment={p} />
