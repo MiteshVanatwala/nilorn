@@ -45,6 +45,7 @@ export type { ProductDevelopmentVersionDto } from './models/ProductDevelopmentVe
 export type { ProductionCertificateDto } from './models/ProductionCertificateDto';
 export type { ProductionDto } from './models/ProductionDto';
 export type { ProductionExtendedDto } from './models/ProductionExtendedDto';
+export type { ProjectCardDto } from './models/ProjectCardDto';
 export type { ProjectDto } from './models/ProjectDto';
 export type { PurchasePriceDto } from './models/PurchasePriceDto';
 export { Role } from './models/Role';

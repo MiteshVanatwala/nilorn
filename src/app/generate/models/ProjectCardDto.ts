@@ -3,10 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type CurrencyDto = {
+import type { MemberDto } from './MemberDto';
+
+export type ProjectCardDto = {
     code?: string | null;
     description?: string | null;
-    salesDecimals?: number | null;
-    costDecimals?: number | null;
-    marginDecimals?: number | null;
+    clientNo?: string | null;
+    clientName?: string | null;
+    members?: Array<MemberDto> | null;
 };

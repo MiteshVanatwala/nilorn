@@ -10,5 +10,6 @@ export type PriceDto = {
     cost?: number | null;
     quantity?: number;
     margin?: number | null;
+    valid?: boolean | null;
+    included?: boolean | null;
 };
-

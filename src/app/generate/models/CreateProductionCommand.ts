@@ -22,4 +22,3 @@ export type CreateProductionCommand = {
     productionCertificates?: Array<ProductionCertificateDto> | null;
     compositions?: Array<CompositionDto> | null;
 };
-

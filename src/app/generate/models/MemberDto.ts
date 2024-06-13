@@ -15,4 +15,3 @@ export type MemberDto = {
     username?: string | null;
     role?: Role;
 };
-

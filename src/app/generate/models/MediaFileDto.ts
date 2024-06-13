@@ -8,4 +8,3 @@ export type MediaFileDto = {
     id?: string;
     webUrl?: string | null;
 };
-

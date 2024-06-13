@@ -11,4 +11,3 @@ export type ProductDevelopmentBriefDtoPaginatedList = {
     readonly totalPages?: number;
     readonly totalCount?: number;
 };
-
