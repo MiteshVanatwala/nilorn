@@ -51,3 +51,13 @@ export type LocationsProps = {
   currentLocation: Location<any>;
   nextLocation: Location<any>;
 };
+
+export enum DownloadFileType {
+  EXCEL = 'excel',
+  MEDIA = 'media',
+}
+
+export enum Method {
+  GET = 'GET',
+  POST = 'POST',
+}
