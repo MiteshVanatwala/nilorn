@@ -2,13 +2,10 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { GRID } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
-import Select from '../../../components/Form/Select';
-import { useWatch } from 'react-hook-form';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
-import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
-import { useEffect } from 'react';
+import FoldingTypeSelect from './SectionComponents/FoldingTypeSelect';
 
 type Props = {
   disableEdit: boolean;
@@ -16,19 +13,8 @@ type Props = {
 
 const ProductDesignSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
+  const foldingTypes = useFilterOptions('foldingTypes');
 
-  const foldingTypeCode = useWatch({ name: 'foldingTypeCode' });
-  let foldingTypes = useFilterOptions('foldingTypes');
-  const selectPlaceholder = t('Filter.Select');
-  useEffect(() => {
-    const hasValue = foldingTypes.find(o => o.value === foldingTypeCode);
-    const hasSelectOption = foldingTypes.find(
-      o => o.label === selectPlaceholder
-    );
-    if (!!hasValue && !hasSelectOption) {
-      foldingTypes.unshift({ label: 'Select...', value: null });
-    }
-  }, [foldingTypes, foldingTypeCode, selectPlaceholder]);
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.ProductDesign')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -39,13 +25,9 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
             lg: 2,
           }}>
           {foldingTypes?.length ? (
-            <Select
-              options={(foldingTypes as SelectOption[]) ?? []}
-              name="foldingTypeCode"
-              label={`${t('PD.FormContent.Folding')}`}
-              defaultValue={foldingTypes.find(o => o.value === foldingTypeCode)}
-              placeholder={`${t('Filter.Select')}`}
-              isDisabled={disableEdit}
+            <FoldingTypeSelect
+              options={foldingTypes ?? []}
+              disableEdit={disableEdit}
             />
           ) : (
             <SelectSkeleton
