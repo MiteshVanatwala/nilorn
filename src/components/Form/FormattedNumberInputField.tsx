@@ -5,7 +5,6 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { STEP } from '../../app/utils/constant';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
-import { COLORS } from '../../theme/Constants';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -109,7 +108,7 @@ const FormattedNumberInputField = ({
         )}
         <Input
           type={'number'}
-          opacity={readonly ? '0%' : showFormattedValue ? '0%' : '100%'}
+          opacity={showFormattedValue ? '0%' : '100%'}
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}
