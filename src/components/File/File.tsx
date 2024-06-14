@@ -10,12 +10,13 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDownloadFile } from '../../app/api/mediaFile';
+import { useDownloadFile } from '../../app/hooks/useDownloadFile';
 import { MediaFileDto } from '../../app/generate';
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import { ModalRef } from '../Modal/IsolatedModal';
 import RemoveFileModal from './RemoveFileModal';
+import { DownloadFileType, Method } from '../../app/types/types';
 
 type FileStatus = 'loading' | 'success' | 'error';
 type Props = {
@@ -35,10 +36,7 @@ export const File = ({
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
 
-  const { downloadFile, isLoading: isDownloading } = useDownloadFile(
-    id,
-    file.name ?? ''
-  );
+  const { downloadFile, isLoading: isDownloading } = useDownloadFile();
 
   const openDeleteModal = () => {
     modalRef.current?.onOpen();
@@ -46,6 +44,10 @@ export const File = ({
 
   const removeFile = (id: string) => {
     onRemove && onRemove(id);
+  };
+
+  const onDownloadFile = () => {
+    downloadFile(DownloadFileType.MEDIA, id, file.name ?? '', Method.GET);
   };
 
   return (
@@ -87,7 +89,7 @@ export const File = ({
             <IconButton
               variant={'iconBtn'}
               aria-label={t('Common.Download')}
-              onClick={downloadFile}
+              onClick={onDownloadFile}
               isLoading={isDownloading}
               icon={<RemixIcon component="i" icon="DOWNLOAD_LINE" />}
             />

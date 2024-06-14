@@ -1,26 +1,33 @@
 import { Center, MenuItem } from '@chakra-ui/react';
 import RemixIcon from '../../../components/Icon/RemixIcon';
-import { SIZES } from '../../../theme/Constants';
+import { COLORS, SIZES } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useDownloadFile } from '../../../app/hooks/useDownloadFile';
-import { OpenAPI } from '../../../app/generate';
 import Spinner from '../../../components/Spinner/Spinner';
+import { DownloadFileType } from '../../../app/types/types';
 
 type Props = {
-  productionId: string;
+  priceCalculationId: string;
 };
 
-const MenuItemExportExcel = ({ productionId }: Props) => {
+const MenuItemExportExcel = ({ priceCalculationId }: Props) => {
   const { t } = useTranslation();
-  const { downloadFile, isLoading } = useDownloadFile();
+  const { downloadFile, isLoading, isError, isSuccess } = useDownloadFile();
 
   const onExportExcel = () => {
     downloadFile(
-      `${OpenAPI.BASE}/api/Excel/GetExcel/${encodeURIComponent(productionId)}`,
-      `Export-${productionId}.xlsx`,
-      'GET'
+      DownloadFileType.EXCEL,
+      priceCalculationId,
+      `Export-${priceCalculationId}.xlsx`
     );
   };
+
+  const icon = isSuccess ? 'CHECK_LINE' : isError ? 'CLOSE_LINE' : 'EXCEL';
+  const iconColor = isSuccess
+    ? COLORS.BLUE[200]
+    : isError
+    ? COLORS.ERROR
+    : undefined;
 
   return (
     <MenuItem
@@ -33,8 +40,9 @@ const MenuItemExportExcel = ({ productionId }: Props) => {
           ) : (
             <RemixIcon
               component="Text"
+              color={iconColor}
               fontSize={SIZES.ICON.MD}
-              icon={'EXCEL'}
+              icon={icon}
             />
           )}
         </Center>

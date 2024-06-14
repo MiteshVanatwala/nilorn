@@ -1,21 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToast } from './useToast';
 import { OpenAPI } from '../generate';
 import { downloadBlob } from '../utils/file';
+import { DownloadFileType, Method } from '../types/types';
 
 export function useDownloadFile() {
   const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState(false);
+  const [isSuccess, setSuccess] = useState(false);
   const { t } = useTranslation();
   const { showToast } = useToast();
 
+  useEffect(() => {
+    if (isSuccess) {
+      setTimeout(() => {
+        setSuccess(false);
+      }, 800);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setError(false);
+      }, 800);
+    }
+  }, [isError]);
+
   const downloadFile = async (
-    url: string,
+    filetype: DownloadFileType,
+    id: string,
     fileName: string,
-    method: 'GET' | 'POST' = 'GET',
+    method: Method = Method.GET,
     body: any = {}
   ) => {
-    const isPost = method === 'POST';
+    const isPost = method === Method.POST;
     const header: HeadersInit = {
       ...OpenAPI.HEADERS,
     };
@@ -23,8 +43,13 @@ export function useDownloadFile() {
     if (isPost) {
       header['Content-Type'] = 'application/json';
     }
+    const url = `${OpenAPI.BASE}/api/${
+      filetype === 'media' ? 'MediaFile' : 'Excel/GetExcel'
+    }/${id}`;
     try {
       setLoading(true);
+      setError(false);
+      setSuccess(false);
       const data = await fetch(url, {
         method: method,
         headers: header,
@@ -36,7 +61,9 @@ export function useDownloadFile() {
         return res.blob();
       });
       downloadBlob(data, fileName);
+      setSuccess(true);
     } catch (err) {
+      setError(true);
       const error = err as Error;
       showToast({
         status: 'error',
@@ -47,5 +74,5 @@ export function useDownloadFile() {
     }
   };
 
-  return { isLoading, downloadFile };
+  return { downloadFile, isLoading, isError, isSuccess };
 }

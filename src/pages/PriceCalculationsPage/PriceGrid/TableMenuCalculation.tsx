@@ -105,7 +105,7 @@ const TableMenuCalculation = ({
         </MenuItem>
       )}
       {!createNew && (
-        <MenuItemExportExcel productionId={calculation?.productionId ?? ''} />
+        <MenuItemExportExcel priceCalculationId={calculation?.id ?? ''} />
       )}
       {!createNew && (
         <MenuItem
