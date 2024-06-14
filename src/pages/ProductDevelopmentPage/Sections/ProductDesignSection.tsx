@@ -51,7 +51,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 label={`${t('PD.FormContent.FinishedLengthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedLength'}
-                registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
                 type={'integer'}
               />
@@ -61,7 +60,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 label={`${t('PD.FormContent.FinishedWidthMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedWidth'}
-                registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
                 type={'integer'}
               />
@@ -71,7 +69,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 label={`${t('PD.FormContent.FinishedHeightMM')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'finishedHeight'}
-                registerOptions={{ valueAsNumber: true }}
                 readonly={disableEdit}
                 type={'integer'}
               />

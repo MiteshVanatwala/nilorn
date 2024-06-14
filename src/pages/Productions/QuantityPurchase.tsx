@@ -79,7 +79,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       name={`${fieldName}.${index}.quantity`}
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
-                      registerOptions={{ valueAsNumber: true, required: true }}
+                      required={true}
                       type={'integer'}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
@@ -96,7 +96,6 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       name={`${fieldName}.${index}.price`}
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
-                      registerOptions={{ valueAsNumber: true }}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
