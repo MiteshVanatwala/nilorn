@@ -86,10 +86,13 @@ function App() {
   }
 
   if (auth.isAuthenticated && !auth.isLoading) {
-    const redirectUrl = sessionStorage.getItem('redirectUrl');
+    let redirectUrl = sessionStorage.getItem('redirectUrl');
     sessionStorage.removeItem('redirectUrl');
 
     if (redirectUrl) {
+      if (redirectUrl.indexOf('/signout-callback-oidc') > -1) {
+        redirectUrl = redirectUrl.replace('/signout-callback-oidc', '');
+      }
       window.location.href = redirectUrl;
     }
     return (
