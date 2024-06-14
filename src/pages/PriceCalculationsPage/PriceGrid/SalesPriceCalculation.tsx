@@ -7,6 +7,7 @@ import {
 import { MAX_MARGIN } from '../../../app/utils/constant';
 import { numToThousandSeparatedsStr, roundUp } from '../../../app/utils/common';
 import PriceGridInput from './PriceGridInput';
+import IncludeSalesPrice from './IncludeSalesPrice';
 
 type Props = {
   enableEdit: boolean;
@@ -92,8 +93,17 @@ const SalesPriceCalculation = ({
           )}
         </>
       </GridTd>
-      <GridTd>
-        <>Toggle</>
+      <GridTd
+        onClick={e => {
+          e.stopPropagation();
+        }}>
+        {price.salesPriceId && (
+          <IncludeSalesPrice
+            salesPriceId={price.salesPriceId}
+            valid={price.valid ?? false}
+            included={price.included ?? false}
+          />
+        )}
       </GridTd>
     </>
   );

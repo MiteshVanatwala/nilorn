@@ -8,10 +8,16 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
   track: {
     p: '2px',
-    bg: COLORS.GRAY[60],
+    bg: COLORS.GRAY[30],
     _checked: {
-      bg: COLORS.BLUE[100],
+      bg: COLORS.GRAY[70],
     },
+  },
+});
+
+const invalid = definePartsStyle({
+  track: {
+    bg: COLORS.ERROR,
   },
 });
 
@@ -20,6 +26,9 @@ const switchTheme = defineMultiStyleConfig({
     size: 'lg',
   },
   baseStyle,
+  variants: {
+    invalid,
+  },
 });
 
 export default switchTheme;

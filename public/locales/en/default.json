@@ -281,19 +281,28 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "Export": {
+      "Included": "Price is to be included in quote (excel export)",
+      "NotIncluded": "Price is not to be included in quote (excel export)",
+      "Invalid": "Purchase price has been updated since price calculation was created. The row will not be included in quote (excel export)."
+    },
     "Feedback": {
       "Success": {
         "Update": "Calculation has been saved.",
         "Create": "Calculation has been created",
         "Remove": "Calculation has been deleted.",
-        "UpdateRows": "Margin and sales price has been saved."
+        "UpdateRows": "Margin and sales price has been saved.",
+        "UpdateValid": "Sales price has been validated and included in quote (excel export).",
+        "UpdateIncluded": "Sales price has been included in quote (excel export).",
+        "UpdateNotIncluded": "Sales price has been removed from quote (excel export)."
       },
       "Error": {
         "Create": "Failed to create new calculation",
         "Update": "Failed to update calculation",
         "UpdateRows": "Failed to update Margin and sales",
         "MarginTooHigh": "Margin can be maximum 99.99",
-        "MinToLow": "Can be minimum {{min}}"
+        "MinToLow": "Can be minimum {{min}}",
+        "UpdateIncluded": "Failed to update valid and include"
       }
     }
   },

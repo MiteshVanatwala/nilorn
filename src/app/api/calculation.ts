@@ -188,3 +188,38 @@ export const usePriceCalculationNavigation = (
     }
   );
 };
+
+export const useIncludeSalesPrice = (id: string, isValid: boolean) => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
+  return useMutation(
+    (include: boolean) =>
+      PriceCalculationService.patchApiPriceCalculationIncludeSalesPrice(
+        id,
+        include
+      ).then(res => res),
+    {
+      onSuccess: async res => {
+        if (!isValid && res.valid) {
+          showToast({
+            status: 'success',
+            description: t('PriceCalc.Feedback.Success.UpdateValid'),
+          });
+        } else {
+          showToast({
+            status: 'success',
+            description: res.included
+              ? t('PriceCalc.Feedback.Success.UpdateIncluded')
+              : t('PriceCalc.Feedback.Success.UpdateNotIncluded'),
+          });
+        }
+      },
+      onError: async () => {
+        showToast({
+          status: 'error',
+          description: t('PriceCalc.Error.UpdateIncluded'),
+        });
+      },
+    }
+  );
+};
