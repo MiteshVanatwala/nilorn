@@ -20,7 +20,7 @@ const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
     return (
       <components.DropdownIndicator {...props}>
-        <RemixIcon component='Text' icon='ARROW_DOWN_S_FILL' />
+        <RemixIcon component="Text" icon="ARROW_DOWN_S_FILL" />
       </components.DropdownIndicator>
     );
   },
@@ -148,7 +148,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           ...text.baseStyle,
           whiteSpace: 'noWrap',
-          height:
+          minHight:
             isMulti && !showSelectedCount
               ? 'max-content'
               : invisible
@@ -179,7 +179,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           padding: invisible ? '0' : base.padding,
           color: color,
           pt: '0',
-          height: '3.7rem',
+          minHeight: '3.7rem',
           mt: '-2px',
         }),
         menuList: base => ({
@@ -214,7 +214,7 @@ const SelectBase = <IsMulti extends boolean = false>({
         option: (base, { isSelected, isFocused }) => ({
           ...base,
           ...text.baseStyle,
-          height: SPACE.XL,
+          minHeight: SPACE.XL,
           backgroundColor: COLORS.GRAY[10],
           px: SPACE.XS,
           py: SPACE.XXS,
