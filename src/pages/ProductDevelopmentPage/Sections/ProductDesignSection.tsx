@@ -8,6 +8,7 @@ import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
+import { useEffect } from 'react';
 
 type Props = {
   disableEdit: boolean;
@@ -17,8 +18,17 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const foldingTypeCode = useWatch({ name: 'foldingTypeCode' });
-  const foldingTypes = useFilterOptions('foldingTypes');
-
+  let foldingTypes = useFilterOptions('foldingTypes');
+  const selectPlaceholder = t('Filter.Select');
+  useEffect(() => {
+    const hasValue = foldingTypes.find(o => o.value === foldingTypeCode);
+    const hasSelectOption = foldingTypes.find(
+      o => o.label === selectPlaceholder
+    );
+    if (!!hasValue && !hasSelectOption) {
+      foldingTypes.unshift({ label: 'Select...', value: null });
+    }
+  }, [foldingTypes, foldingTypeCode, selectPlaceholder]);
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.ProductDesign')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
