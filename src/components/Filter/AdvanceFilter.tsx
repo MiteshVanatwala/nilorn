@@ -12,8 +12,8 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import { ActionMeta, MultiValue } from 'chakra-react-select';
-import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useMemo, useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FilterInput, SelectOption } from '../../app/types/types';
 import { INCLUDE_CLOSED } from '../../app/utils/constant';
@@ -35,36 +35,12 @@ const AdvanceFilter = ({
   hideIncludeClosed = false,
 }: Props) => {
   const { t } = useTranslation();
-  const { unregister, getValues } = useFormContext();
-  const [selected, setSelected] = useState<
-    MultiValue<SelectOption<FilterInput>>
-  >([]);
+  const { unregister, getValues, setValue } = useFormContext();
+  const watch = useWatch();
 
-  const handleSelect = (
-    selectedOption: MultiValue<SelectOption<FilterInput>> | undefined,
-    actionMeta: ActionMeta<SelectOption<FilterInput>>
-  ) => {
-    if (actionMeta.action === 'clear') {
-      selected.map(s => unregister(s.value.name));
-    } else if (actionMeta.action === 'deselect-option') {
-      unregister(actionMeta.option?.value.name);
-    }
-    if (selectedOption !== undefined) {
-      setSelected(selectedOption);
-    }
-  };
-
-  const handleRemove = (name: string) => {
-    unregister(name);
-    setSelected(selected.filter(opt => opt.value.name !== name));
-  };
-
-  const [index, setIndex] = useState<ExpandedIndex>(-1);
-
-  useEffect(() => {
+  const activeFilters = useMemo(() => {
     const activeAdvancedFilterArr: SelectOption[] = [];
-
-    Object.entries(getValues()).forEach(([key]) => {
+    Object.entries(watch ?? {}).forEach(([key]) => {
       filters?.forEach(filterItem => {
         if (filterItem && filterItem.name === key) {
           if (filterItem !== undefined) {
@@ -76,10 +52,27 @@ const AdvanceFilter = ({
         }
       });
     });
-    if (activeAdvancedFilterArr.length) {
-      setSelected(activeAdvancedFilterArr);
+    return activeAdvancedFilterArr;
+  }, [filters, t, watch]);
+
+  const handleSelect = (
+    selectedOptions: MultiValue<SelectOption<FilterInput>> | undefined,
+    actionMeta: ActionMeta<SelectOption<FilterInput>>
+  ) => {
+    if (actionMeta.action === 'clear' && !!selectedOptions) {
+      selectedOptions.forEach(s => unregister(s.value.name));
+    } else if (actionMeta.action === 'deselect-option') {
+      unregister(actionMeta.option?.value.name);
+    } else if (actionMeta.action === 'select-option') {
+      setValue(actionMeta.option?.value.name ?? '', undefined);
     }
-  }, [getValues, filters, t]);
+  };
+
+  const handleRemove = (name: string) => {
+    unregister(name);
+  };
+
+  const [index, setIndex] = useState<ExpandedIndex>(-1);
 
   return (
     <Accordion allowToggle index={index} onChange={setIndex}>
@@ -125,7 +118,7 @@ const AdvanceFilter = ({
                     value: f,
                   } as SelectOption;
                 })}
-                value={selected}
+                value={activeFilters}
                 onChange={(option, event) => {
                   handleSelect(option, event);
                 }}
@@ -145,7 +138,7 @@ const AdvanceFilter = ({
             )}
           </Grid>
           <Grid
-            marginTop={selected.length > 0 ? SPACE.MD : ''}
+            marginTop={activeFilters.length > 0 ? SPACE.MD : ''}
             templateColumns={{
               base: GRID.TEMPLATE_COLUMNS.base,
               md: GRID.TEMPLATE_COLUMNS.md,
@@ -157,7 +150,7 @@ const AdvanceFilter = ({
               base: SPACE.XXS,
               lg: SPACE.SM,
             }}>
-            {selected.map(so => (
+            {activeFilters.map(so => (
               <GridItem colSpan={2} key={so.value.name} position={'relative'}>
                 <IconButton
                   position={'absolute'}

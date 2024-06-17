@@ -3,35 +3,24 @@ import { Flex } from '@chakra-ui/react';
 import fontSizes from '../../theme/fontSizes';
 import ActiveFilterItem from './ActiveFilterItem';
 import ClearAllFilters from './ClearAllFilters';
-import { useFormContext } from 'react-hook-form';
-import { Fragment, useEffect, useState } from 'react';
-import { FilterKeys, SelectOption } from '../../app/types/types';
+import { useWatch } from 'react-hook-form';
+import { Fragment, useMemo } from 'react';
+import { FilterKey, SelectOption } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
-import { useClearAllFilters } from '../../app/utils/FilterHelper';
 
-const ignoreKeys: FilterKeys[] = ['sortKey', 'pageNumber', 'pageSize'];
+const ignoreKeys: FilterKey[] = ['sortKey', 'pageNumber', 'pageSize'];
 
 const ActiveFilters = () => {
   const { t } = useTranslation();
-  const {
-    watch,
-    formState: { isDirty },
-  } = useFormContext();
-  const clearFilters = useClearAllFilters();
+  const watch = useWatch();
 
-  let [hasValues, setHasValues] = useState<boolean>(false);
-  const watchedEntries = Object.entries(watch());
+  const watchedEntries = useMemo(() => {
+    return Object.entries(watch);
+  }, [watch]);
 
-  useEffect(() => {
-    const foundValue = watchedEntries
-      .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
-      .some(([_, value]) => value?.label || (value && value[0]));
-    setHasValues(foundValue);
-
-    if (!foundValue && isDirty) {
-      clearFilters();
-    }
-  }, [clearFilters, isDirty, watchedEntries]);
+  const hasValues = useMemo(() => {
+    return !!Object.values(watch)?.filter(value => !!value)?.length;
+  }, [watch]);
 
   return (
     <Flex
@@ -50,7 +39,7 @@ const ActiveFilters = () => {
       flexDirection="row"
       py={{ base: SPACE.XXS, lg: SPACE.MD }}>
       {watchedEntries
-        .filter(([key, _]) => !ignoreKeys.includes(key as FilterKeys))
+        .filter(([key, _]) => !ignoreKeys.includes(key as FilterKey))
         .map(([key, value]) => {
           if (
             (typeof value === 'string' && value.includes(',')) ||
