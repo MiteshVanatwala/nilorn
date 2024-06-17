@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
 import { INCLUDE_CLOSED, SESSION_STORAGE } from './constant';
-import { allFilters } from '../hooks/useFilterList';
+import { allFilterKeys, allFilters } from '../hooks/useFilterList';
 
 export function getDefaultValueSelect(
   selectValue: string,
@@ -194,18 +194,10 @@ export function convertQueryStringToFilterObject(
   return result;
 }
 export function useClearAllFilters() {
-  const { reset, getValues, setValue } = useFormContext();
+  const { unregister } = useFormContext();
 
   const clearFilters = () => {
-    const pageNumber = getValues('pageNumber');
-    const pageSize = getValues('pageSize');
-    const searchQuery = '';
-
-    reset();
-    setValue('pageNumber', pageNumber);
-    setValue('pageSize', pageSize);
-    setValue('searchQuery', searchQuery);
-
+    unregister(allFilterKeys);
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
   };
