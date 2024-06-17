@@ -8,7 +8,7 @@ const STANDARD_KEYS: FilterKeys[] = [
 ];
 
 const PriceCalculationsFilter = () => {
-  return <FilterSection createNew standardFilterKeys={STANDARD_KEYS} />;
+  return <FilterSection standardFilterKeys={STANDARD_KEYS} />;
 };
 
 export default PriceCalculationsFilter;
