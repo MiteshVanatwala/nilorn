@@ -1,4 +1,4 @@
-import { FilterInput, FilterKeys } from '../types/types';
+import { FilterInput, FilterKey } from '../types/types';
 import { useEffect, useState } from 'react';
 
 export const allFilters: FilterInput[] = [
@@ -20,8 +20,29 @@ export const allFilters: FilterInput[] = [
   { type: 'text', name: 'productDevelopments' },
 ];
 
+export const allFilterKeys: FilterKey[] = [
+  'clients',
+  'finishedHeights',
+  'finishedLengths',
+  'finishedWidths',
+  'foldingTypes',
+  'includeCalculations',
+  'includeClosed',
+  'indirectCosts',
+  'itemCategories',
+  'members',
+  'opComps',
+  'productDevelopments',
+  'productGroups',
+  'projects',
+  'searchQuery',
+  'sourcingCompanies',
+  'statuses',
+  'vendors',
+];
+
 export const useFilterList = (
-  standardFilterKeys: FilterKeys[]
+  standardFilterKeys: FilterKey[]
 ): { standardFilters: FilterInput[]; advanceFilters: FilterInput[] } => {
   const [standardFilters, setStandardFilters] = useState<FilterInput[]>([]);
   const [advanceFilters, setAdvanceFilters] = useState<FilterInput[]>([]);

@@ -10,7 +10,7 @@ import {
 import { useGetProjectsOptions } from '../api/Projects';
 import { useCertificateCodes } from '../api/production';
 import { ClientDto, MemberBriefDto, VendorDto } from '../generate';
-import { FilterKeys, SelectOption } from '../types/types';
+import { FilterKey, SelectOption } from '../types/types';
 import { useStatusOptions } from './useStatus';
 
 const mapClientsToOptions = (clients?: ClientDto[]) => {
@@ -40,7 +40,7 @@ const mapMembersToOptions = (members?: MemberBriefDto[]) => {
   );
 };
 
-const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
+const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean) => {
   const { data: clients } = useClients(
     name === 'clients' ?? false,
     filterByAccess
@@ -75,7 +75,7 @@ const useFilterOptions = (name?: FilterKeys, filterByAccess?: boolean) => {
     return [];
   }
 
-  const dataMap: Partial<Record<FilterKeys, SelectOption[]>> = {
+  const dataMap: Partial<Record<FilterKey, SelectOption[]>> = {
     vendors: mapVendorsToOptions(vendors),
     members: mapMembersToOptions(members),
     clients: mapClientsToOptions(clients),

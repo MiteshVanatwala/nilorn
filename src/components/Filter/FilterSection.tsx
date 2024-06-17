@@ -1,6 +1,6 @@
 import { Grid, GridItem, VStack } from '@chakra-ui/react';
 import { GRID, SPACE } from '../../theme/Constants';
-import { FilterKeys } from '../../app/types/types';
+import { FilterKey } from '../../app/types/types';
 import ActiveFilters from '../../components/Filter/ActiveFilters';
 import Filter from '../../components/Filter/Filter';
 import AdvanceFilter from '../../components/Filter/AdvanceFilter';
@@ -9,7 +9,7 @@ import { useFilterList } from '../../app/hooks/useFilterList';
 import CreateProductDevelopment from './CreateProductDevelopment';
 
 type Props = {
-  standardFilterKeys: FilterKeys[];
+  standardFilterKeys: FilterKey[];
   createNew?: boolean;
 };
 

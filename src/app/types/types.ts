@@ -5,7 +5,7 @@ import {
 } from '../generate';
 import { Location } from 'react-router';
 
-export type FilterKeys =
+export type FilterKey =
   | keyof GetForFilterProductDevelopmentsWithPaginationQuery;
 
 export interface FormInputProps {
@@ -30,7 +30,7 @@ export type SelectOption<T = any> = {
 
 export type FilterInput = {
   type: 'select' | 'text' | 'number';
-  name: FilterKeys;
+  name: FilterKey;
 };
 
 export type Status = 'success' | 'error' | 'warning' | 'info';
