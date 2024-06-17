@@ -77,6 +77,7 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation(
     (status: Status) =>
@@ -86,8 +87,10 @@ export const useUpdateProductDevelopmentWithStatus = (no: string) => {
     {
       onSuccess: async (res: ProductDevelopmentDto) => {
         if (res.status === Status.DELETED) {
-          window.location.replace(
-            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_OVERVIEW) ?? '/'
+          navigate(
+            `/${sessionStorage.getItem(
+              SESSION_STORAGE.PREV_FILTER_OVERVIEW
+            )}` ?? '/'
           );
         } else {
           showToast({
