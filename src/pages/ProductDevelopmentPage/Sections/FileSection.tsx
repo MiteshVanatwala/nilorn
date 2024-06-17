@@ -6,7 +6,6 @@ import { MediaFileDto, MediaFileType, Status } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
-import { useToast } from '../../../app/hooks/useToast';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../theme/Constants';
 
@@ -38,7 +37,7 @@ const FileSection = ({
   const currentStatus = getValues('status') as Status;
 
   const { mutateAsync } = useUploadFile(no, type, currentStatus);
-  const { showToast } = useToast();
+
   const removeFile = (id: string) => {
     if (type === MediaFileType.ARTWORK) {
       setValue(ARTWORK, undefined);
@@ -78,12 +77,6 @@ const FileSection = ({
 
       try {
         const res = await mutateAsync({ file: file });
-        showToast({
-          status: 'success',
-          description: t('PD.Feedback.Success.FileUpdated', {
-            name: filename,
-          }),
-        });
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
             prev.name === res.name
@@ -95,12 +88,6 @@ const FileSection = ({
           setValue(ARTWORK, res);
         }
       } catch (err) {
-        showToast({
-          status: 'error',
-          description: t('PD.Feedback.Error.FileUpdated', {
-            name: filename,
-          }),
-        });
         setMediaFiles(prevMediaFiles => {
           return prevMediaFiles.map(prev =>
             prev.name === filename ? { ...prev, status: 'error' } : prev
