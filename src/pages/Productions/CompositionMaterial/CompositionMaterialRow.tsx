@@ -68,17 +68,10 @@ const CompositionMaterialRow = ({
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
           readonly={disableEdit}
-          registerOptions={{
-            valueAsNumber: true,
-            min: {
-              value: 0,
-              message: `${t('Production.Feedback.Error.Percentage')}`,
-            },
-            max: {
-              value: 100,
-              message: `${t('Production.Feedback.Error.Percentage')}`,
-            },
-          }}
+          min={0}
+          minMessage={`${t('Production.Feedback.Error.Percentage')}`}
+          max={100}
+          maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
         />
       </GridItem>
       <GridItem>

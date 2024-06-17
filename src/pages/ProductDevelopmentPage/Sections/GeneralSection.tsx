@@ -167,9 +167,6 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
                 label={`${t('PD.FormContent.FreightIncluded')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
-                registerOptions={{
-                  valueAsNumber: true,
-                }}
                 readonly={disableEdit}
               />
             </GridItem>
@@ -178,9 +175,6 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
                 label={`${t('PD.FormContent.SampleQuantity')}`}
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'sampleQuantity'}
-                registerOptions={{
-                  valueAsNumber: true,
-                }}
                 readonly={disableEdit}
                 type={'integer'}
               />

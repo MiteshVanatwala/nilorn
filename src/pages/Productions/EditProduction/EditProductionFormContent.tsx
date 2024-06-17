@@ -126,7 +126,6 @@ const EditProductionFormContent = ({
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              registerOptions={{ valueAsNumber: true }}
               type={'integer'}
             />
           </GridItem>
@@ -136,7 +135,6 @@ const EditProductionFormContent = ({
               label={`${t('Production.BL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              registerOptions={{ valueAsNumber: true }}
               type={'integer'}
             />
           </GridItem>
@@ -146,7 +144,6 @@ const EditProductionFormContent = ({
               label={`${t('Production.MOQ')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              registerOptions={{ valueAsNumber: true }}
               type={'integer'}
             />
           </GridItem>
@@ -156,7 +153,6 @@ const EditProductionFormContent = ({
               label={`${t('Production.Tool')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              registerOptions={{ valueAsNumber: true }}
               type={'integer'}
             />
           </GridItem>
@@ -166,7 +162,6 @@ const EditProductionFormContent = ({
               label={`${t('Production.Sample')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              registerOptions={{ valueAsNumber: true }}
               type={'integer'}
             />
           </GridItem>

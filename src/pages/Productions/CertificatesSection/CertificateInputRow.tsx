@@ -125,19 +125,11 @@ const CertificateInputRow = ({
           <FormattedNumberInputField
             name={percentageName}
             placeholder={t('Production.PercentPlaceholder')}
-            registerOptions={{
-              valueAsNumber: true,
-              min: {
-                value: 0,
-                message: `${t('Production.Feedback.Error.Percentage')}`,
-              },
-              max: {
-                value: 100,
-                message: `${t('Production.Feedback.Error.Percentage')}`,
-              },
-            }}
+            min={0}
+            minMessage={`${t('Production.Feedback.Error.Percentage')}`}
+            max={100}
+            maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
             readonly={disableEdit}
-            type={'integer'}
           />
         )}
       </GridItem>
@@ -146,11 +138,7 @@ const CertificateInputRow = ({
           <FormattedNumberInputField
             name={certificateWeightName}
             placeholder={`${t('Common.Placeholder')}`}
-            registerOptions={{
-              valueAsNumber: true,
-            }}
             readonly={disableEdit}
-            type={'integer'}
           />
         )}
       </GridItem>

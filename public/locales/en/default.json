@@ -348,7 +348,9 @@
     "ProjectName": "Project name is required",
     "ProjectNameLength": "Max length is 30 characters",
     "ProjectCreate": "Error while creating project",
-    "UniqueValue": "Value must be unique"
+    "UniqueValue": "Value must be unique",
+    "NotANumber": "Not a number",
+    "MustBeAnInteger": "Must be an integer"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",

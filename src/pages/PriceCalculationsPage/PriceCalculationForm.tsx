@@ -138,15 +138,10 @@ const PriceCalculationForm = ({
             }`}
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
-            registerOptions={{
-              valueAsNumber: true,
-              min: {
-                value: 0,
-                message: `${t('PriceCalc.Feedback.Error.MinToLow', {
-                  min: 0,
-                })}`,
-              },
-            }}
+            min={0}
+            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
+              min: 0,
+            })}`}
             changelog={internalCommissionChangelog}
           />
         </GridItem>
@@ -156,15 +151,10 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
-            registerOptions={{
-              valueAsNumber: true,
-              min: {
-                value: 0,
-                message: `${t('PriceCalc.Feedback.Error.MinToLow', {
-                  min: 0,
-                })}`,
-              },
-            }}
+            min={0}
+            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
+              min: 0,
+            })}`}
             changelog={indirectCostChangelog}
           />
         </GridItem>
@@ -174,7 +164,6 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.FreightIncluded')}`}
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
-            registerOptions={{ valueAsNumber: true }}
             changelog={freightIncludedChangelog}
           />
         </GridItem>
@@ -184,14 +173,9 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
-            registerOptions={{
-              valueAsNumber: true,
-              required: createNew,
-              max: {
-                value: MAX_MARGIN,
-                message: `${t('PriceCalc.Feedback.Error.MarginTooHigh')}`,
-              },
-            }}
+            required={createNew}
+            max={MAX_MARGIN}
+            maxMessage={`${t('PriceCalc.Feedback.Error.MarginTooHigh')}`}
             changelog={freightIncludedChangelog}
           />
         </GridItem>
@@ -228,7 +212,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.CurrencyRate')}`}
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
-            registerOptions={{ required: true, valueAsNumber: true }}
+            required={true}
             changelog={currencyRateChangelog}
           />
         </GridItem>

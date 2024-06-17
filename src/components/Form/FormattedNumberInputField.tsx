@@ -1,10 +1,10 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { RegisterOptions, useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { STEP } from '../../app/utils/constant';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
+import { useTranslation } from 'react-i18next';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -13,13 +13,18 @@ interface Props extends FormInputProps {
   readonly?: boolean;
   type?: 'integer' | 'decimal';
   focusOnMount?: boolean;
+  min?: number;
+  minMessage?: string;
+  max?: number;
+  maxMessage?: string;
+  required?: boolean;
+  validateNumber?: (value: number) => string | true;
 }
 
 const FormattedNumberInputField = ({
   name,
   label,
   placeholder,
-  registerOptions,
   helperText,
   defaultValue,
   variant = 'standard',
@@ -28,17 +33,25 @@ const FormattedNumberInputField = ({
   readonly = false,
   type = 'decimal',
   focusOnMount = false,
+  min,
+  minMessage,
+  max,
+  maxMessage,
+  required = false,
+  validateNumber,
 }: Props) => {
-  const [isActive, setIsActive] = useState(false);
-  const [formattedValue, setFormattedValue] = useState('');
-  const watch = useWatch({ name: name });
-
+  const { t } = useTranslation();
   const {
     register,
     setValue: setFormValue,
     setFocus,
+    getFieldState,
     formState: { errors },
   } = useFormContext();
+
+  const [isActive, setIsActive] = useState(false);
+  const [formattedValue, setFormattedValue] = useState('');
+  const watch = useWatch({ name: name });
 
   useEffect(() => {
     focusOnMount && setFocus(name);
@@ -62,14 +75,27 @@ const FormattedNumberInputField = ({
     }
   }, [watch, type]);
 
-  const onBlur = (e: React.ChangeEvent<HTMLElement>) => {
-    setIsActive(false);
-    if (isNaN(watch)) {
-      setFormValue(name, 0);
-    } else if (type === 'integer') {
-      setFormValue(name, parseInt(watch));
+  const onBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { invalid } = getFieldState(name);
+    if (!invalid) {
+      const targetValue = e.target.value;
+      if (!targetValue && !required) {
+        setFormValue(name, '');
+        setFormattedValue('');
+        setIsActive(false);
+        return;
+      }
+      const newStrVal = targetValue.replace(',', '.');
+      let value: number = 0;
+      if (type === 'integer') {
+        value = parseInt(newStrVal);
+      } else {
+        value = parseFloat(newStrVal);
+      }
+      setFormValue(name, value);
+      setIsActive(false);
     } else {
-      setFormValue(name, parseFloat(watch));
+      setIsActive(true);
     }
   };
 
@@ -82,14 +108,44 @@ const FormattedNumberInputField = ({
     setIsActive(true);
   };
 
-  const showFormattedValue = (!!formattedValue && !isActive) || readonly;
+  const showFormattedValue = (!!formattedValue.length && !isActive) || readonly;
+
+  const regOptions: RegisterOptions = {
+    required: required,
+    validate: (val: string | number) => {
+      if (!val && required) {
+        return t('Errors.Required');
+      }
+      let newNumVal: number;
+      let newStrVal = '';
+      if (typeof val === 'string') {
+        if (val.includes(' ')) {
+          return t('Errors.NotANumber');
+        }
+        newStrVal = val?.replace(',', '.') ?? '';
+        newNumVal = Number(newStrVal);
+      } else {
+        newNumVal = val;
+      }
+      if (isNaN(newNumVal)) {
+        return t('Errors.NotANumber');
+      } else if (type === 'integer' && newStrVal.includes('.')) {
+        return t('Errors.MustBeAnInteger');
+      } else if (min !== undefined && newNumVal < min) {
+        return minMessage;
+      } else if (max !== undefined && newNumVal > max) {
+        return maxMessage;
+      }
+      return validateNumber ? validateNumber(newNumVal) : true;
+    },
+    onBlur,
+  };
 
   return (
     <ControlWrapper
       name={name}
       label={label}
-      maxLength={registerOptions?.maxLength}
-      required={registerOptions?.required}
+      required={required}
       errors={errors}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
@@ -107,16 +163,16 @@ const FormattedNumberInputField = ({
           </Text>
         )}
         <Input
-          type={'number'}
+          type={'text'}
+          inputMode={'numeric'}
           opacity={showFormattedValue ? '0%' : '100%'}
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          step={type === 'decimal' ? STEP : 1}
           cursor={readonly ? 'default' : 'text'}
           onFocus={onInputFocus}
-          {...register(name, { ...registerOptions, onBlur })}
+          {...register(name, regOptions)}
         />
       </Box>
     </ControlWrapper>

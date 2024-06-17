@@ -51,12 +51,10 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
                   placeholder={`${t('Common.Placeholder')}`}
                   name={`${FORM_KEY}.${index}`}
                   readonly={disableEdit}
-                  registerOptions={{
-                    valueAsNumber: true,
-                    required: true,
-                    validate: (value: number) =>
-                      validateUniqueValues(value, index),
-                  }}
+                  required={true}
+                  validateNumber={(value: number) =>
+                    validateUniqueValues(value, index)
+                  }
                   type={'integer'}
                   focusOnMount={focusOnAdd}
                 />
