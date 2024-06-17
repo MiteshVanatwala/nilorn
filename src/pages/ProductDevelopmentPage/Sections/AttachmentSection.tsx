@@ -1,6 +1,6 @@
 import { Grid } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { GRID, SPACE } from '../../../theme/Constants';
+import { GRID } from '../../../theme/Constants';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { MediaFileType } from '../../../app/generate';
 import FileSection from './FileSection';
@@ -39,16 +39,7 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
         {createNew ? (
           <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
         ) : (
-          <Grid
-            rowGap={{
-              base: SPACE.XXS,
-              lg: SPACE.LG,
-            }}
-            columnGap={{
-              base: SPACE.XXS,
-              lg: SPACE.XL,
-            }}
-            templateColumns={GRID.TEMPLATE_COLUMNS}>
+          <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <FileSection
               no={no}
               type={MediaFileType.ARTWORK}
