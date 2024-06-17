@@ -100,7 +100,7 @@ const FileSection = ({
 
   return (
     <GridItem colSpan={12}>
-      <Box>
+      <Box pb={SPACE.XS}>
         <UploadFile
           accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
           heading={heading}
