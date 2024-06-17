@@ -47,7 +47,7 @@ const AdvanceFilter = ({
     if (actionMeta.action === 'clear') {
       selected.map(s => unregister(s.value.name));
     } else if (actionMeta.action === 'deselect-option') {
-      unregister(actionMeta.name);
+      unregister(actionMeta.option?.value.name);
     }
     if (selectedOption !== undefined) {
       setSelected(selectedOption);
