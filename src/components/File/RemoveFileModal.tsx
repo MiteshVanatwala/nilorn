@@ -18,12 +18,12 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const {
-    mutateAsync: deleteFile,
+    mutate: deleteFile,
     isLoading: isDeleting,
     isSuccess: isDeleted,
   } = useDeleteMediaFile(id);
   const {
-    mutateAsync: removeLink,
+    mutate: removeLink,
     isLoading: isRemovingLink,
     isSuccess: isLinkRemoved,
   } = useDeleteMediaFile(id);

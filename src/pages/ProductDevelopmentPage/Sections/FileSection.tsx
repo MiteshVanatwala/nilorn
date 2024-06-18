@@ -6,7 +6,6 @@ import { MediaFileDto, MediaFileType, Status } from '../../../app/generate';
 import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
-import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../theme/Constants';
 
 type FileStatus = 'loading' | 'success' | 'error';
@@ -33,7 +32,6 @@ const FileSection = ({
   const { setValue, getValues } = useFormContext();
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
-  const { t } = useTranslation();
   const currentStatus = getValues('status') as Status;
 
   const { mutateAsync } = useUploadFile(no, type, currentStatus);

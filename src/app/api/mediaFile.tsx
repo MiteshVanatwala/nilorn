@@ -66,6 +66,7 @@ export const useUploadFile = (
 };
 
 export function useDeleteMediaFile(id: string) {
+  const { t } = useTranslation();
   const { showToast } = useToast();
 
   return useMutation(
@@ -74,10 +75,13 @@ export function useDeleteMediaFile(id: string) {
         res => res
       ),
     {
-      onError: async (err: ApiError) => {
+      onError: async (err: ApiError, keepInSharePoint: boolean) => {
+        console.log(err);
         showToast({
           status: 'error',
-          title: err.body.title,
+          title: keepInSharePoint
+            ? t('PD.Feedback.Error.FileRemoveLink')
+            : t('PD.Feedback.Error.FileDelete'),
         });
       },
     }

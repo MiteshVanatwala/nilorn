@@ -213,7 +213,9 @@
         "UpdateStatus": "Failed to change status on product development",
         "FileUpdated": "Failed to upload file {{name}}",
         "CreateCopy": "Failed to create copy",
-        "CreateVersion": "Failed to create version"
+        "CreateVersion": "Failed to create version",
+        "FileDelete": "Failed to delete file",
+        "FileRemoveLink": "Failed to remove link to file"
       },
       "Info": {
         "NeedToSave": "Product development needs to be saved before changing status",
