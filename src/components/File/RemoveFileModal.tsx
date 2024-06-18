@@ -21,11 +21,13 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
     mutate: deleteFile,
     isLoading: isDeleting,
     isSuccess: isDeleted,
+    error: deleteError,
   } = useDeleteMediaFile(id);
   const {
     mutate: removeLink,
     isLoading: isRemovingLink,
     isSuccess: isLinkRemoved,
+    error: removeLinkError,
   } = useDeleteMediaFile(id);
 
   useImperativeHandle(ref, () => ({
@@ -38,6 +40,12 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
       onRemove(id);
     }
   }, [id, isDeleted, isLinkRemoved, onRemove]);
+
+  useEffect(() => {
+    if (deleteError?.status === 410 || removeLinkError?.status === 410) {
+      onRemove(id);
+    }
+  }, [deleteError?.status, removeLinkError?.status, id, onRemove]);
 
   return (
     <Modal isOpen={isOpen} close={onClose} onOverlayClick={onClose}>

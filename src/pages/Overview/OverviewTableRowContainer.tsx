@@ -55,7 +55,7 @@ const OverviewTableRowContainer = ({ no, row, bgColor }: Props) => {
     } else {
       showToast({
         status: 'info',
-        description: t('PD.Feedback.Info.ArtworkUploadType'),
+        description: t('PD.File.Feedback.Info.ArtworkUploadType'),
       });
     }
   };

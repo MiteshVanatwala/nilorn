@@ -76,13 +76,14 @@ export function useDeleteMediaFile(id: string) {
       ),
     {
       onError: async (err: ApiError, keepInSharePoint: boolean) => {
-        console.log(err);
-        showToast({
-          status: 'error',
-          title: keepInSharePoint
-            ? t('PD.Feedback.Error.FileRemoveLink')
-            : t('PD.Feedback.Error.FileDelete'),
-        });
+        if (err.status !== 410) {
+          showToast({
+            status: 'error',
+            title: keepInSharePoint
+              ? t('PD.File.Feedback.Error.FileRemoveLink')
+              : t('PD.File.Feedback.Error.FileDelete'),
+          });
+        }
       },
     }
   );
@@ -112,12 +113,20 @@ export function useDownloadFile(id: string, fileName: string) {
       });
       downloadBlob(data, fileName);
     } catch (err) {
-      const error = err as Error;
+      const error = err as ApiError;
       console.log(error);
-      showToast({
-        status: 'error',
-        description: error.message,
-      });
+
+      if (error.status === 410) {
+        showToast({
+          status: 'info',
+          description: t('PD.File.Feedback.Info.DownloadLinkMissing'),
+        });
+      } else {
+        showToast({
+          status: 'error',
+          description: t('PD.File.Feedback.Error.FileDownload'),
+        });
+      }
     } finally {
       setLoading(false);
     }

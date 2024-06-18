@@ -132,7 +132,21 @@
       "Delete": "Delete file",
       "RemoveLink": "Remove link",
       "ReplaceArtworkTitle": "Artwork already exists",
-      "ReplaceArtworkDescription": "Do you want to replace it?"
+      "ReplaceArtworkDescription": "Do you want to replace it?",
+      "Feedback": {
+        "Success": {
+          "FileUpdated": "File {{name}} uploaded successfully"
+        },
+        "Error": {
+          "FileDelete": "Failed to delete file",
+          "FileRemoveLink": "Failed to remove link to file",
+          "FileDownload": "Failed to download file"
+        },
+        "Info": {
+          "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
+          "ArtworkUploadType": "Artwork needs to be of type .pdf"
+        }
+      }
     },
     "FormContent": {
       "FinishedLength": "Finished Length",
@@ -200,8 +214,7 @@
       "Success": {
         "Update": "Product development have been saved.",
         "UpdateStatus": "Product development status have been updated to {{status}}.",
-        "Created": "Product development with no #{{no}} has been created.",
-        "FileUpdated": "File {{name}} uploaded successfully."
+        "Created": "Product development with no #{{no}} has been created."
       },
       "Error": {
         "NotFound": "Could not find product development with no #{{no}}",
@@ -213,13 +226,10 @@
         "UpdateStatus": "Failed to change status on product development",
         "FileUpdated": "Failed to upload file {{name}}",
         "CreateCopy": "Failed to create copy",
-        "CreateVersion": "Failed to create version",
-        "FileDelete": "Failed to delete file",
-        "FileRemoveLink": "Failed to remove link to file"
+        "CreateVersion": "Failed to create version"
       },
       "Info": {
-        "NeedToSave": "Product development needs to be saved before changing status",
-        "ArtworkUploadType": "Artwork needs to be of type .pdf"
+        "NeedToSave": "Product development needs to be saved before changing status"
       }
     }
   },
