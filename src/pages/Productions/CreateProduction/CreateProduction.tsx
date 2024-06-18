@@ -24,6 +24,7 @@ import { useToggleChangelog } from '../../../app/hooks/useChangelog';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
+import Form from '../../../components/Form/Form';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -106,7 +107,7 @@ const CreateProduction = ({
         px={SPACE.SM}
         maxW={SIZES.CONTAINER.LG}>
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(submitForm)}>
+          <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
@@ -137,10 +138,9 @@ const CreateProduction = ({
                   : false)
               }
             />
-
             <CertificateSection />
             <CompositionMaterialSection />
-          </form>
+          </Form>
         </FormProvider>
       </Box>
     </>

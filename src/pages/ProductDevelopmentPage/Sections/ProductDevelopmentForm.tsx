@@ -24,6 +24,7 @@ import {
 } from '../../../app/Permissions/usePremissions';
 import { useUnsavedChanges } from '../../../app/hooks/useUnsavedChanges';
 import VersionsSection from './VersionsSection/VersionsSection';
+import Form from '../../../components/Form/Form';
 
 type Props = {
   createNew: boolean;
@@ -110,7 +111,7 @@ function ProductDevelopmentForm({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <Form onSubmit={form.handleSubmit(onSubmit)}>
         <TopSection
           name={name}
           disableEdit={disableEdit}
@@ -162,7 +163,7 @@ function ProductDevelopmentForm({
           </Grid>
         </ContentPage>
         <BottomSection no={no} />
-      </form>
+      </Form>
     </FormProvider>
   );
 }

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FieldState } from '../types/types';
-import { getValidationStyle } from '../../components/Form/Form';
+import { getValidationStyle } from '../utils/form';
 
 export function useValidationStyleInFormContext(fieldName: string): {
   color: string;

@@ -14,6 +14,8 @@ import ModalHeading from '../../../../components/Modal/ModalHeading';
 import { SPACE } from '../../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
+import Form from '../../../../components/Form/Form';
+
 type Props = {
   setDefaultProject(val: string): void;
   clientNo: string;
@@ -23,7 +25,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const name = 'projectName';
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
-  const methods = useForm({mode: 'onChange'});
+  const methods = useForm({ mode: 'onChange' });
   const { errors } = methods.formState;
 
   const { mutate: createProject } = useCreateProject();
@@ -47,7 +49,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <Form onSubmit={methods.handleSubmit(onSubmit)}>
         <ModalBody>
           <ModalHeading title={t('PD.AddProject')} />
           <ControlWrapper
@@ -85,7 +87,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
             </Button>
           </HStack>
         </ModalFooter>
-      </form>
+      </Form>
     </FormProvider>
   );
 };

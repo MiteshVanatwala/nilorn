@@ -23,6 +23,7 @@ import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import useDeleteModal from '../../app/hooks/useDeleteModal';
+import Form from '../../components/Form/Form';
 
 type Props = {
   calculationId: string;
@@ -132,7 +133,7 @@ const EditPriceCalculationModal = ({
       <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(submitForm)}>
+          <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
               productDevelopment={priceCalculation?.productDevelopmentDataDto}
               sourcingCompanyCode={priceCalculation?.sourcingCompanyCode}
@@ -159,7 +160,7 @@ const EditPriceCalculationModal = ({
                 productionId={priceCalculation?.productionId}
               />
             </Skeleton>
-          </form>
+          </Form>
         </FormProvider>
         <ContentSection>
           <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>

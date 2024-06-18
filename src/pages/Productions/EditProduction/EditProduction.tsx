@@ -32,6 +32,7 @@ import CertificateSection from '../CertificatesSection/CertificatesSection';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import EditProductionFormContent from './EditProductionFormContent';
+import Form from '../../../components/Form/Form';
 
 type Props = {
   productionId: string;
@@ -156,7 +157,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
         maxW={SIZES.CONTAINER.LG}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(submitForm)}>
+          <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
@@ -198,7 +199,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
                 disableEdit={disableEdit}
               />
             </Skeleton>
-          </form>
+          </Form>
         </FormProvider>
         <HStack justify={'space-between'} py={SPACE.XL}>
           <Button
