@@ -1,7 +1,7 @@
 import { Input } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { STEP } from '../../../app/utils/constant';
-import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
+import { BORDER_RADIUS, COLORS, SPACE } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -13,48 +13,108 @@ type Props = {
 
 const PriceGridInput = ({ value, onChange, min, max }: Props) => {
   const { t } = useTranslation();
-
-  const [currentValue, setCurrentValue] = useState(value);
+  const [isValidNumber, setIsValidNumber] = useState(true);
+  const [isInRange, setIsInRange] = useState(true);
+  const [currentValue, setCurrentValue] = useState('');
 
   useEffect(() => {
-    setCurrentValue(!value ? undefined : value);
+    if (value !== undefined) {
+      setCurrentValue(value.toString());
+      setIsInRange(isNumInRange(value));
+      setIsValidNumber(convertToNumber(value.toString()) !== null);
+    } else {
+      setCurrentValue('');
+      setIsValidNumber(false);
+    }
   }, [value]);
 
-  const onBlur = () => {
-    if (!value) {
-      setCurrentValue(0);
+  const convertToNumber = (value: string) => {
+    const dotNotatedValue = value.replace(',', '.');
+    if (
+      !dotNotatedValue?.length ||
+      dotNotatedValue.includes(' ') ||
+      dotNotatedValue.includes('e') ||
+      isNaN(Number(dotNotatedValue))
+    ) {
+      return null;
     }
+    return parseFloat(dotNotatedValue);
   };
+
+  const isNumInRange = useCallback(
+    (num: number) => {
+      if (min !== undefined && num < min) {
+        return false;
+      }
+      if (max !== undefined && num > max) {
+        return false;
+      }
+      return true;
+    },
+    [min, max]
+  );
+
+  const getNumInRange = useCallback(
+    (num: number) => {
+      if (min !== undefined && num < min) {
+        return Math.max(num, min);
+      }
+      if (max !== undefined && num > max) {
+        return Math.min(num, max);
+      }
+      return num;
+    },
+    [min, max]
+  );
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const targetValue = e.target.value;
-    if (!targetValue?.length) {
-      setCurrentValue(undefined);
-      onChange(0);
+    setCurrentValue(targetValue);
+    const numValue = convertToNumber(targetValue);
+
+    if (numValue === null) {
+      setIsValidNumber(false);
+    } else if (!isNumInRange(numValue)) {
+      setIsInRange(false);
     } else {
-      const numValue = Number(targetValue);
-      const minValue = min || 0;
-      const maxValue = max || 0;
-      let newValue = isNaN(numValue) ? 0 : parseFloat(targetValue);
-      newValue = Math.max(newValue, minValue);
-      if (!!maxValue) {
-        newValue = Math.min(newValue, maxValue);
+      setIsValidNumber(true);
+      setIsInRange(true);
+      const lastChar = targetValue[targetValue.length - 1];
+      if (lastChar !== ',' && lastChar !== '.') {
+        onChange(numValue);
       }
-      setCurrentValue(newValue);
-      onChange(newValue);
+    }
+  };
+
+  const onBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const targetValue = e.target.value;
+    if (!isValidNumber) {
+      onChange(0);
+      setCurrentValue('0');
+      setIsValidNumber(true);
+    } else if (!isInRange) {
+      const numInRange = getNumInRange(Number(targetValue));
+      onChange(numInRange);
+      setCurrentValue(numInRange.toString());
+      setIsInRange(true);
+    } else {
+      const numValue = convertToNumber(targetValue);
+      if (numValue !== null) {
+        setCurrentValue(numValue.toString());
+        onChange(numValue);
+      }
     }
   };
 
   return (
     <Input
+      type="text"
+      inputMode={'numeric'}
       onChange={onInputChange}
       onBlur={onBlur}
       value={currentValue}
-      max={max}
-      min={min}
-      type="number"
-      step={STEP}
       variant={'outline'}
+      isInvalid={!isValidNumber || !isInRange}
       my={SPACE.XXS}
       borderRadius={BORDER_RADIUS.XS}
       placeholder={t('Common.Placeholder')}
