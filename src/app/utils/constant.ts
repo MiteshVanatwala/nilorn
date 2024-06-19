@@ -8,6 +8,7 @@ export const SESSION_STORAGE = {
   PREV_FILTER_CALCULATION: 'prevFilterCalculation',
   BACK_LINK: 'backLink',
   LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
+  IS_DIRTY: 'isDirty',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';

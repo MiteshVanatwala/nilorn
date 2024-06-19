@@ -1,17 +1,17 @@
-const IS_DIRTY = 'isDirty';
+import { SESSION_STORAGE } from '../utils/constant';
 
 export function useUnsavedChanges() {
   function setUnsavedChanges(isDirty: boolean) {
-    sessionStorage.setItem(IS_DIRTY, isDirty.toString());
+    sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, isDirty.toString());
   }
 
   function discardChanges() {
     setUnsavedChanges(false);
   }
 
-  function hasUnsavedChanges() {
-    return sessionStorage.getItem(IS_DIRTY) === 'true';
-  }
+  const hasUnsavedChanges = () => {
+    return sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'true';
+  };
 
   return {
     hasUnsavedChanges,
