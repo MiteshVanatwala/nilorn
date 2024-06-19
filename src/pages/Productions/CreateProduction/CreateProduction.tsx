@@ -41,6 +41,7 @@ const CreateProduction = ({
   const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
 
   const form = useForm({
+    mode: 'onChange',
     defaultValues: {
       ...production,
     },

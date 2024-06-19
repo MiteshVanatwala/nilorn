@@ -67,6 +67,7 @@ const CreatePriceCalculationModal = ({
       : null;
 
   const form = useForm({
+    mode: 'onChange',
     defaultValues: {
       productionId: production?.id,
       purchaseCurrency: production.currencyCode,
