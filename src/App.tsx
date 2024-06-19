@@ -8,6 +8,7 @@ import router from './pages/MainApp/Router';
 import ErrorPage from './components/ErrorBoundary/ErrorPage';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { OpenAPI } from './app/generate';
+import { SESSION_STORAGE } from './app/utils/constant';
 
 OpenAPI.BASE =
   process.env.REACT_APP_API_URL ?? 'https://umbrella-api-test.nilorn.com';
@@ -15,6 +16,10 @@ OpenAPI.BASE =
 function App() {
   const auth = useAuth();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    return sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
+  }, []);
 
   // const { showToast } = useToast();
   const mutationCache = new MutationCache({
