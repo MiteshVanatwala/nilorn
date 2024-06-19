@@ -84,44 +84,6 @@ export function useDeleteMediaFile(id: string) {
   );
 }
 
-export function useDownloadFile(id: string, fileName: string) {
-  const [isLoading, setLoading] = useState(false);
-  const { t } = useTranslation();
-  const { showToast } = useToast();
-
-  const downloadFile = async () => {
-    const url = `${OpenAPI.BASE}/api/MediaFile/${id}`;
-    const header: HeadersInit = {
-      ...OpenAPI.HEADERS,
-    };
-
-    try {
-      setLoading(true);
-      const data = await fetch(url, {
-        method: 'GET',
-        headers: header,
-      }).then(res => {
-        if (!res.ok) {
-          throw new Error(t('Common.DownloadErrorMsg'));
-        }
-        return res.blob();
-      });
-      downloadBlob(data, fileName);
-    } catch (err) {
-      const error = err as Error;
-      console.log(error);
-      showToast({
-        status: 'error',
-        description: error.message,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { isLoading, downloadFile };
-}
-
 export function useAttachments(no: string) {
   return useQuery(
     [QueryKeysEnum.ProductDevelopment, no, QueryKeysEnum.Attachments],

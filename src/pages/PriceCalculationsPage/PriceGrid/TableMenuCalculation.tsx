@@ -17,6 +17,7 @@ import TableMenuContainer from '../../../components/Table/TableMenuContainer';
 import { SIZES } from '../../../theme/Constants';
 import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
 import EditPriceCalculationModal from '../EditPriceCalculationModal';
+import MenuItemExportExcel from './MenuItemExportExcel';
 
 type Props = {
   createNew: boolean;
@@ -102,6 +103,9 @@ const TableMenuCalculation = ({
           }>
           {t('PriceCalc.EditInline')}
         </MenuItem>
+      )}
+      {!createNew && (
+        <MenuItemExportExcel priceCalculationId={calculation?.id ?? ''} />
       )}
       {!createNew && (
         <MenuItem

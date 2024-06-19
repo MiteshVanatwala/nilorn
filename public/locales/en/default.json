@@ -281,6 +281,7 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "ExportToExcel": "Export to excel",
     "Feedback": {
       "Success": {
         "Update": "Calculation has been saved.",
