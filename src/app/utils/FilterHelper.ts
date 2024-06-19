@@ -194,10 +194,16 @@ export function convertQueryStringToFilterObject(
   return result;
 }
 export function useClearAllFilters() {
-  const { unregister } = useFormContext();
+  const { unregister, getValues, setValue } = useFormContext();
 
   const clearFilters = () => {
+    const pageNumber = getValues('pageNumber');
+    const pageSize = getValues('pageSize');
+    const searchQuery = '';
     unregister(allFilterKeys);
+    setValue('pageNumber', pageNumber);
+    setValue('pageSize', pageSize);
+    setValue('searchQuery', searchQuery);
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
   };
