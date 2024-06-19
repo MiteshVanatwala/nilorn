@@ -81,9 +81,7 @@ const ActionBarEditProduction = ({
   );
 
   function removeFromSalesFunc() {
-    if (production?.vendorId !== '') {
-      removeFromSales();
-    }
+    removeFromSales();
   }
 
   return (
@@ -106,19 +104,22 @@ const ActionBarEditProduction = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
-            {status && !isClosed(status) && production?.released && (
-              <MenuItem
-                onClick={removeFromSalesFunc}
-                icon={
-                  <RemixIcon
-                    component="Text"
-                    icon="TOGGLE_LINE"
-                    fontSize={SIZES.ICON.MD}
-                  />
-                }>
-                {t('Production.Remove')}
-              </MenuItem>
-            )}
+            {status &&
+              !isClosed(status) &&
+              !!production?.released &&
+              !!production?.vendorId && (
+                <MenuItem
+                  onClick={removeFromSalesFunc}
+                  icon={
+                    <RemixIcon
+                      component="Text"
+                      icon="TOGGLE_LINE"
+                      fontSize={SIZES.ICON.MD}
+                    />
+                  }>
+                  {t('Production.Remove')}
+                </MenuItem>
+              )}
             {showCalculationLink && (
               <MenuItem
                 as={NavLink}
