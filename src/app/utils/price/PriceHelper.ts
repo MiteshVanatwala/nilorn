@@ -38,6 +38,9 @@ export function calculateMargin(
   cost: number = 0,
   freightIncluded: number = 0
 ): number {
+  if (salePrice === 0) {
+    return 0;
+  }
   return ((salePrice - cost - freightIncluded) / salePrice) * 100;
 }
 
