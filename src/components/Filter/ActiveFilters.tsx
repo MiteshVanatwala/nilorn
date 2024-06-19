@@ -19,8 +19,10 @@ const ActiveFilters = () => {
   }, [watch]);
 
   const hasValues = useMemo(() => {
-    return !!Object.values(watch)?.filter(value => !!value)?.length;
-  }, [watch]);
+    return !!watchedEntries.filter(
+      ([key, value]) => !ignoreKeys.includes(key as FilterKey) && !!value
+    )?.length;
+  }, [watchedEntries]);
 
   return (
     <Flex
