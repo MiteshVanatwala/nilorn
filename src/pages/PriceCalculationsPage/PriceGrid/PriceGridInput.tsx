@@ -1,7 +1,6 @@
 import { Input } from '@chakra-ui/react';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { STEP } from '../../../app/utils/constant';
-import { BORDER_RADIUS, COLORS, SPACE } from '../../../theme/Constants';
+import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -17,6 +16,19 @@ const PriceGridInput = ({ value, onChange, min, max }: Props) => {
   const [isInRange, setIsInRange] = useState(true);
   const [currentValue, setCurrentValue] = useState('');
 
+  const isNumInRange = useCallback(
+    (num: number) => {
+      if (min !== undefined && num < min) {
+        return false;
+      }
+      if (max !== undefined && num > max) {
+        return false;
+      }
+      return true;
+    },
+    [min, max]
+  );
+
   useEffect(() => {
     if (value !== undefined) {
       setCurrentValue(value.toString());
@@ -26,7 +38,7 @@ const PriceGridInput = ({ value, onChange, min, max }: Props) => {
       setCurrentValue('');
       setIsValidNumber(false);
     }
-  }, [value]);
+  }, [value, isNumInRange]);
 
   const convertToNumber = (value: string) => {
     const dotNotatedValue = value.replace(',', '.');
@@ -40,19 +52,6 @@ const PriceGridInput = ({ value, onChange, min, max }: Props) => {
     }
     return parseFloat(dotNotatedValue);
   };
-
-  const isNumInRange = useCallback(
-    (num: number) => {
-      if (min !== undefined && num < min) {
-        return false;
-      }
-      if (max !== undefined && num > max) {
-        return false;
-      }
-      return true;
-    },
-    [min, max]
-  );
 
   const getNumInRange = useCallback(
     (num: number) => {
