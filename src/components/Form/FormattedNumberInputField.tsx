@@ -79,8 +79,8 @@ const FormattedNumberInputField = ({
     const { invalid } = getFieldState(name);
     if (!invalid) {
       const targetValue = e.target.value;
-      if (!targetValue && !required) {
-        setFormValue(name, '');
+      if (!targetValue?.length) {
+        setFormValue(name, undefined);
         setFormattedValue('');
         setIsActive(false);
         return;
@@ -112,20 +112,34 @@ const FormattedNumberInputField = ({
 
   const regOptions: RegisterOptions = {
     required: required,
-    validate: (val: string | number) => {
-      if (!val && required) {
-        return t('Errors.Required');
+    validate: (val: string | number | undefined) => {
+      if (required) {
+        if (typeof val === 'undefined') {
+          return t('Errors.Required');
+        }
+        if (typeof val === 'string' && !val?.length) {
+          return t('Errors.Required');
+        }
       }
-      let newNumVal: number;
+
+      if (!required) {
+        if (typeof val === 'undefined') {
+          return true;
+        }
+        if (typeof val === 'string' && !val?.length) {
+          return true;
+        }
+      }
+
+      if (typeof val === 'string' && val.includes(' ')) {
+        return t('Errors.NotANumber');
+      }
+
+      let newNumVal = val as number;
       let newStrVal = '';
       if (typeof val === 'string') {
-        if (val.includes(' ')) {
-          return t('Errors.NotANumber');
-        }
         newStrVal = val?.replace(',', '.') ?? '';
         newNumVal = Number(newStrVal);
-      } else {
-        newNumVal = val;
       }
       if (isNaN(newNumVal)) {
         return t('Errors.NotANumber');
@@ -150,7 +164,10 @@ const FormattedNumberInputField = ({
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
-      <Box onFocus={onBoxFocus} position={'relative'}>
+      <Box
+        onFocus={onBoxFocus}
+        position={'relative'}
+        bgColor={required ? 'red' : undefined}>
         {showFormattedValue && (
           <Text
             w={'100%'}
