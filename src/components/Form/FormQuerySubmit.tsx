@@ -1,11 +1,11 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   getSortValue,
   onFilterChange,
   parseSearchParams,
 } from '../../app/utils/FilterHelper';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 
 export default function FormuQuerySubmit({
@@ -18,7 +18,9 @@ export default function FormuQuerySubmit({
   form: UseFormReturn<FieldValues>;
 }): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
   const { sortState } = usePaginationContext();
+  const { watch, getValues, clearErrors } = form;
 
   useEffect(() => {
     const filters = parseSearchParams(location.search ?? '');
@@ -28,33 +30,31 @@ export default function FormuQuerySubmit({
       form.setValue(name, value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, []);
+
+  const formChange = useCallback(() => {
+    let filterChangeUrl = onFilterChange(getValues());
+    const search = location.search;
+    if (search !== filterChangeUrl && search !== `?` + filterChangeUrl) {
+      navigate(`${location.pathname}?${filterChangeUrl}`, { replace: true });
+    }
+    clearErrors('serverError');
+  }, [location, getValues, navigate, clearErrors]);
 
   useEffect(() => {
-    const unregister = form.watch(() => {
+    const unregister = watch(() => {
       formChange();
     });
 
     return () => unregister.unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form]);
+  }, [watch]);
 
   useEffect(() => {
     if (sortState[0]?.id) {
       form.setValue('sortKey', getSortValue(sortState[0]));
     }
   }, [form, sortState]);
-
-  const formChange = () => {
-    let filterChangeUrl = onFilterChange(form.getValues());
-    if (
-      window.location.search !== filterChangeUrl &&
-      window.location.search !== `?` + filterChangeUrl
-    ) {
-      window.history.replaceState({}, '', `?${filterChangeUrl}`);
-    }
-    form.clearErrors('serverError');
-  };
 
   return (
     <FormProvider {...form}>
