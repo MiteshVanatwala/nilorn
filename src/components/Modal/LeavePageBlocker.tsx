@@ -4,7 +4,6 @@ import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useModal } from '../../app/hooks/useModal';
 import { unstable_useBlocker as useBlocker } from 'react-router-dom';
 import IsolatedModal, { ModalRef } from './IsolatedModal';
-import { LocationsProps } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 
 const LeavePageBlocker = () => {
@@ -15,15 +14,7 @@ const LeavePageBlocker = () => {
   const { close } = useModal();
   const { discardChanges, hasUnsavedChanges } = useUnsavedChanges();
 
-  const handleBlockerCallback = useCallback(
-    () =>
-      ({ currentLocation, nextLocation }: LocationsProps) =>
-        hasUnsavedChanges() &&
-        currentLocation.pathname !== nextLocation.pathname,
-    [hasUnsavedChanges]
-  );
-
-  let blocker = useBlocker(handleBlockerCallback());
+  let blocker = useBlocker(hasUnsavedChanges());
 
   useEffect(() => {
     if (blocker && blocker.state === 'blocked') {
@@ -37,9 +28,9 @@ const LeavePageBlocker = () => {
   }, [location]);
 
   const onConfirm = () => {
-    if (typeof (blocker as any).proceed === 'function') {
+    if (!!blocker.proceed) {
       discardChanges();
-      (blocker as any).proceed();
+      blocker.proceed();
       modalRef.current?.onClose();
     }
   };
