@@ -22,6 +22,7 @@ import {
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
+import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 
 type Props = {
   name: string;
@@ -192,7 +193,7 @@ const ActionBar = ({
               <MenuButton
                 opacity={
                   disableEdit && !isAuthorizedToCahangeStatus(currentStatus)
-                    ? '70%'
+                    ? READ_ONLY_OPACITY
                     : ''
                 }
                 as={Button}

@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import ResizeTextarea from 'react-textarea-autosize';
 import { FormInputProps } from '../../app/types/types';
 import ControlWrapper from './ControlWrapper';
+import { READ_ONLY_OPACITY } from '../../app/utils/constant';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -37,7 +38,7 @@ const TextArea = ({
       maxLength={registerOptions?.maxLength}
       hideValidationStyle={hideValidationStyle}>
       <Textarea
-        opacity={readonly ? '70%' : ''}
+        opacity={readonly ? READ_ONLY_OPACITY : ''}
         cursor={readonly ? 'default' : 'text'}
         paddingTop={'.9rem'}
         paddingBottom={'.8rem'}

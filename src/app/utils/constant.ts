@@ -14,3 +14,5 @@ export const SESSION_STORAGE = {
 export const ARTWORK_FILE_TYPE = 'application/pdf';
 
 export const INCLUDE_CLOSED = 'includeClosed';
+
+export const READ_ONLY_OPACITY = '70%';

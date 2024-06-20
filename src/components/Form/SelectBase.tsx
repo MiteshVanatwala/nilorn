@@ -15,6 +15,7 @@ import {
 import text from '../../theme/text';
 import { SelectOption } from '../../app/types/types';
 import RemixIcon from '../Icon/RemixIcon';
+import { READ_ONLY_OPACITY } from '../../app/utils/constant';
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
@@ -159,7 +160,7 @@ const SelectBase = <IsMulti extends boolean = false>({
           backgroundColor: bgColor,
           borderColor: bgColor,
           border: '2px solid',
-          opacity: readOnly ? '70%' : '',
+          opacity: readOnly ? READ_ONLY_OPACITY : '',
           _hover: {
             borderColor: !readOnly ? hover : '',
             cursor: readOnly ? 'default' : 'pointer',

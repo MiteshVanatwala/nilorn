@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
 import { HTMLInputTypeAttribute } from 'react';
 import ControlWrapper from './ControlWrapper';
-import { STEP } from '../../app/utils/constant';
+import { READ_ONLY_OPACITY, STEP } from '../../app/utils/constant';
 
 interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
@@ -46,7 +46,7 @@ const InputField = ({
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
       <Input
-        opacity={readonly ? '70%' : ''}
+        opacity={readonly ? READ_ONLY_OPACITY : ''}
         variant={variant}
         isReadOnly={readonly}
         defaultValue={defaultValue}
