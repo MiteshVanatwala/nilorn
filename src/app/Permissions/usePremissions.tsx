@@ -1,5 +1,5 @@
 import { useCurrentUser } from '../api/User';
-import { MemberBriefDto, Role } from '../generate';
+import { MemberBriefDto, Role, Status } from '../generate';
 import {
   ROLES_ALLOWED_SEE_CALCULATION,
   ROLES_ALLOWED_SEE_PRODUCTION,
@@ -7,6 +7,7 @@ import {
   ROLES_ALLOWED_TO_UPLOAD_FILE,
   ROLES_ALLOWED_TO_EDIT_PD,
   ROLES_ALLOWED_TO_ADD_REMOVE_SOURCING,
+  ROLES_ALLOWED_TO_FILTER_ON_DELETE,
 } from './Permissions';
 
 export function useAuthorizedSee(
@@ -64,4 +65,17 @@ export function useAuthorizedRemoveUser() {
   };
 
   return allowedToRemoveMember;
+}
+
+export function useAuthorizedToFilterOnStatus() {
+  const { data: user } = useCurrentUser();
+
+  return (status: Status) => {
+    if (user?.role) {
+      if (status === Status.DELETED) {
+        return ROLES_ALLOWED_TO_FILTER_ON_DELETE.includes(user.role);
+      }
+    }
+    return true;
+  };
 }

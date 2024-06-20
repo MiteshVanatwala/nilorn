@@ -1,10 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { Status } from '../generate';
+import { useAuthorizedToFilterOnStatus } from '../Permissions/usePremissions';
 
-export const useStatusOptions = () => {
+export type StatusInfo = {
+  label: string;
+  value: Status;
+  color: 'blue' | 'purple' | 'orange' | 'gray' | 'yellow' | 'green' | 'red';
+};
+export const useStatusOptions = (isFilter?: boolean) => {
+  const isAuthorizedToFilterOnStatus = useAuthorizedToFilterOnStatus();
   const { t } = useTranslation();
 
-  const statuses = [
+  const allStatuses: StatusInfo[] = [
     {
       label: t('PD.StatusLabel.New'),
       value: Status.NEW,
@@ -47,8 +54,12 @@ export const useStatusOptions = () => {
     },
   ];
 
+  const statuses = isFilter
+    ? allStatuses.filter(status => isAuthorizedToFilterOnStatus(status.value))
+    : allStatuses;
+
   const getNextStatus = (currentStatus: Status) => {
-    const currentIndex = statuses.findIndex(
+    const currentIndex = allStatuses.findIndex(
       item => item.value === currentStatus
     );
     if (currentIndex !== -1 && currentIndex < statuses.length - 1) {

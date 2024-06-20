@@ -52,4 +52,6 @@ export const ROLES_ALLOWED_SEE_CALCULATION = [
   Role.PURCHASER,
   Role.ADMIN,
 ];
+
+export const ROLES_ALLOWED_TO_FILTER_ON_DELETE = [Role.ADMIN];
 export const ROLES_ALLOWED_TO_CHANGE_CLOSED = [Role.ADMIN];
