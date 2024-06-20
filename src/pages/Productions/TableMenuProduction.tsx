@@ -13,7 +13,7 @@ import {
   ProductionDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../app/generate';
-import { isClosed } from '../../app/utils/status';
+import { isClosed as isPDClosed } from '../../app/utils/status';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
@@ -37,6 +37,9 @@ const TableMenuProduction = ({
     useAuthorizedSee('calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
+  const isClosed =
+    productDevelopment?.status && isPDClosed(productDevelopment?.status);
+
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
     production ? production?.id?.toString() : undefined,
@@ -78,9 +81,9 @@ const TableMenuProduction = ({
             fontSize={SIZES.ICON.MD}
           />
         }>
-        {t('Common.Edit')}
+        {isClosed ? t('Production.ViewProduction') : t('Common.Edit')}
       </MenuItem>
-      {productDevelopment?.status && !isClosed(productDevelopment?.status) && (
+      {!isClosed && (
         <MenuItem
           onClick={releaseForSalesFunc}
           icon={
@@ -114,7 +117,7 @@ const TableMenuProduction = ({
         </MenuItem>
       )}
 
-      {!production?.released && (
+      {!production?.released && !isClosed && (
         <MenuItem
           onClick={() =>
             handleModal(
