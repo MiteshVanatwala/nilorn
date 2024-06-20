@@ -164,10 +164,7 @@ const FormattedNumberInputField = ({
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
-      <Box
-        onFocus={onBoxFocus}
-        position={'relative'}
-        bgColor={required ? 'red' : undefined}>
+      <Box onFocus={onBoxFocus} position={'relative'}>
         {showFormattedValue && (
           <Text
             w={'100%'}

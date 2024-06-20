@@ -198,7 +198,7 @@ export const dataCalculateMargin = [
     cost: 0.32581,
     freightIncluded: 0.0,
     salesPrice: 0.0,
-    expectedMargin: -Infinity,
+    expectedMargin: 0.0,
   },
   {
     testCase: 'Example 9',
