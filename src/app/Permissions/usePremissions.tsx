@@ -8,6 +8,8 @@ import {
   ROLES_ALLOWED_TO_EDIT_PD,
   ROLES_ALLOWED_TO_ADD_REMOVE_SOURCING,
   ROLES_ALLOWED_TO_FILTER_ON_DELETE,
+  ROLES_ALLOWED_TO_CHANGE_STATUS_DELETED,
+  ROLES_ALLOWED_TO_CHANGE_STATUS,
 } from './Permissions';
 
 export function useAuthorizedSee(
@@ -72,10 +74,26 @@ export function useAuthorizedToFilterOnStatus() {
 
   return (status: Status) => {
     if (user?.role) {
-      if (status === Status.DELETED) {
-        return ROLES_ALLOWED_TO_FILTER_ON_DELETE.includes(user.role);
+      switch (status) {
+        case Status.DELETED:
+          return ROLES_ALLOWED_TO_FILTER_ON_DELETE.includes(user.role);
       }
     }
     return true;
+  };
+}
+
+export function useAuthorizedToCahngeStatus() {
+  const { data: user } = useCurrentUser();
+
+  return (status: Status) => {
+    if (user?.role) {
+      switch (status) {
+        case Status.DELETED:
+          return ROLES_ALLOWED_TO_CHANGE_STATUS_DELETED.includes(user?.role);
+      }
+      return ROLES_ALLOWED_TO_CHANGE_STATUS.includes(user.role);
+    }
+    return false;
   };
 }
