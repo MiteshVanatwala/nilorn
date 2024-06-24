@@ -11,7 +11,6 @@ type Props = {
   createNew?: boolean;
   disableEdit?: boolean;
   lastModified?: string;
-  id: string;
   setShowChanges: (showChanges: boolean) => void;
   showChanges: boolean;
   handleDelete?: () => void;
@@ -22,7 +21,6 @@ const PriceCalculationActionBar = ({
   createNew,
   disableEdit = false,
   lastModified,
-  id,
   setShowChanges,
   showChanges,
   handleDelete,
@@ -64,16 +62,20 @@ const PriceCalculationActionBar = ({
         ) : undefined
       }
       actionButtons={
-        <Button
-          variant={'primary'}
-          type="submit"
-          rightIcon={
-            !createNew ? (
-              <RemixIcon component="i" icon="SAVE_LINE" />
-            ) : undefined
-          }>
-          {createNew ? t('PriceCalc.CreateCalculation') : t('Common.Save')}
-        </Button>
+        <>
+          {!disableEdit && (
+            <Button
+              variant={'primary'}
+              type="submit"
+              rightIcon={
+                !createNew ? (
+                  <RemixIcon component="i" icon="SAVE_LINE" />
+                ) : undefined
+              }>
+              {createNew ? t('PriceCalc.CreateCalculation') : t('Common.Save')}
+            </Button>
+          )}
+        </>
       }
     />
   );

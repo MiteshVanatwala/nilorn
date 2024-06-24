@@ -81,7 +81,7 @@ const TableMenuProduction = ({
             fontSize={SIZES.ICON.MD}
           />
         }>
-        {isClosed ? t('Production.ViewProduction') : t('Common.Edit')}
+        {t('Common.Edit')}
       </MenuItem>
       {!isClosed && (
         <MenuItem

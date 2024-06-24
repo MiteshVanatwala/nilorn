@@ -133,7 +133,6 @@ const CreatePriceCalculationModal = ({
                   artwork={artwork}
                   createNew={true}
                   lastModified={lastModified}
-                  id={calculation?.id ?? ''}
                   showChanges={showChanges}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
                 />

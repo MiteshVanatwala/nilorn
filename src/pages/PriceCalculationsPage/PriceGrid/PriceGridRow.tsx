@@ -17,7 +17,6 @@ import {
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { useFormStateFilters } from '../../../app/utils/FilterHelper';
 import { numToThousandSeparatedsStr } from '../../../app/utils/common';
-import { isClosed } from '../../../app/utils/status';
 import CommentPopup from '../../../components/CommentPopup/CommentPopup';
 import {
   GridInlineTbody,
@@ -34,6 +33,7 @@ import {
 import BaseValues from './BaseValues';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
+import { isClosed as isPDClosed } from '../../../app/utils/status';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -41,6 +41,7 @@ type Props = {
   production: ProductionDto;
   tableMenu?: JSX.Element;
 };
+
 function PriceGridRow({
   production,
   productDevelopment,
@@ -51,7 +52,8 @@ function PriceGridRow({
   const vendorOptions = useFilterOptions('vendors');
   const filters = useFormStateFilters();
   const queryClient = useQueryClient();
-
+  const isClosed =
+    productDevelopment?.status && isPDClosed(productDevelopment?.status);
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
     PriceCalculationDto | undefined
@@ -150,35 +152,35 @@ function PriceGridRow({
                   </Link>
                 </VStack>
                 <>
-                  {productDevelopment?.status &&
-                    !isClosed(productDevelopment.status) &&
-                    production.released && (
-                      <TableMenuCalculation
-                        sourcedProduction={sourcedProduction}
-                        productDevelopment={productDevelopment}
-                        onEditInline={openRowForInlineEdit}
-                        lastModified={production?.lastModified ?? undefined}
-                        artwork={productDevelopment?.artwork}
-                        production={production}
-                        calculation={calculation}
-                        createNew={
-                          (production?.priceCalculations &&
-                            production?.priceCalculations?.length <= 0) ??
-                          true
-                        }
-                        filters={filters}
-                      />
-                    )}
+                  {production.released && (
+                    <TableMenuCalculation
+                      sourcedProduction={sourcedProduction}
+                      productDevelopment={productDevelopment}
+                      onEditInline={openRowForInlineEdit}
+                      lastModified={production?.lastModified ?? undefined}
+                      artwork={productDevelopment?.artwork}
+                      production={production}
+                      calculation={calculation}
+                      createNew={
+                        (production?.priceCalculations &&
+                          production?.priceCalculations?.length <= 0) ??
+                        true
+                      }
+                      filters={filters}
+                    />
+                  )}
                 </>
               </HStack>
               {enableEdit && (
                 <>
-                  <Button
-                    onClick={submitForm}
-                    variant={'primarySmall'}
-                    rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
-                    {t('Common.Save')}
-                  </Button>
+                  {!isClosed && (
+                    <Button
+                      onClick={submitForm}
+                      variant={'primarySmall'}
+                      rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
+                      {t('Common.Save')}
+                    </Button>
+                  )}
                   <Button
                     onClick={closeRowForInlineEdit}
                     variant={'secondarySmall'}

@@ -29,12 +29,14 @@ type Props = {
   calculationId: string;
   purchaseCurrency: string;
   filters: ServerFilter;
+  disableEdit: boolean;
 };
 
 const EditPriceCalculationModal = ({
   calculationId,
   filters,
   purchaseCurrency,
+  disableEdit,
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
@@ -144,8 +146,8 @@ const EditPriceCalculationModal = ({
                   artwork={priceCalculation?.productDevelopmentDataDto?.artwork}
                   createNew={false}
                   lastModified={priceCalculation?.lastModified ?? ''}
-                  id={priceCalculation?.id ?? ''}
                   showChanges={showChanges}
+                  disableEdit={disableEdit}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
                 />
               }
@@ -156,6 +158,7 @@ const EditPriceCalculationModal = ({
                 calculation={priceCalculation}
                 currency={priceCalculation?.currency ?? undefined}
                 createNew={false}
+                disableEdit={disableEdit}
                 showChanges={showChanges}
                 productionId={priceCalculation?.productionId}
               />
