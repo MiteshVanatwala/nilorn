@@ -43,7 +43,12 @@ export const GridTh = ({
   ...args
 }: TableColumnProps) => {
   return (
-    <GridItem colSpan={colSpan ?? 1} gap={TABLE_GAP} style={style} {...args}>
+    <GridItem
+      colSpan={colSpan ?? 1}
+      gap={TABLE_GAP}
+      style={style}
+      zIndex={10}
+      {...args}>
       {children}
     </GridItem>
   );
