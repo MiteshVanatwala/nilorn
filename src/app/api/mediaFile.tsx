@@ -44,7 +44,7 @@ export const useUploadFile = (
       onSuccess: async file => {
         showToast({
           status: 'success',
-          description: t('PD.Feedback.Success.FileUpdated', {
+          description: t('PD.File.Feedback.Success.FileUpdated', {
             name: file?.name,
           }),
         });
@@ -55,7 +55,7 @@ export const useUploadFile = (
       onError: async (_, { file }) => {
         showToast({
           status: 'error',
-          description: t('PD.Feedback.Error.FileUpdated', {
+          description: t('PD.File.Feedback.Error.FileUpdated', {
             name: file?.name,
           }),
         });
