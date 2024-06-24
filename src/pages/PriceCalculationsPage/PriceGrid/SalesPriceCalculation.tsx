@@ -21,6 +21,7 @@ type Props = {
     newSalesPrice: number,
     salesPriceId: string
   ) => void;
+  disableEdit?: boolean;
 };
 
 const SalesPriceCalculation = ({
@@ -31,6 +32,7 @@ const SalesPriceCalculation = ({
   margin,
   salesPrice,
   onCalculationChange,
+  disableEdit = false,
 }: Props) => {
   const changeMargin = (newMargin: number) => {
     const newSalesPrice = calculateSalesPrice(
@@ -102,6 +104,7 @@ const SalesPriceCalculation = ({
             salesPriceId={price.salesPriceId}
             valid={price.valid ?? false}
             included={price.included ?? false}
+            disableEdit={disableEdit}
           />
         )}
       </GridTd>

@@ -14,6 +14,7 @@ type Props = {
     newSalesPrice: number,
     id: string
   ) => void;
+  disableEdit?: boolean;
 };
 
 const SalesPriceCalculationForm = ({
@@ -21,6 +22,7 @@ const SalesPriceCalculationForm = ({
   enableEdit,
   onCalculationChange,
   priceData,
+  disableEdit = false,
 }: Props) => {
   return (
     <>
@@ -39,6 +41,7 @@ const SalesPriceCalculationForm = ({
               margin={priceData[i].margin ?? 0}
               salesPrice={priceData[i].salesPrice ?? 0}
               onCalculationChange={onCalculationChange}
+              disableEdit={disableEdit}
             />
           );
         }

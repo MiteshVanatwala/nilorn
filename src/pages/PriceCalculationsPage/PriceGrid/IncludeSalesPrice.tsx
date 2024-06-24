@@ -7,8 +7,14 @@ type Props = {
   salesPriceId: string;
   valid: boolean;
   included: boolean;
+  disableEdit?: boolean;
 };
-const IncludeSalesPrice = ({ salesPriceId, valid, included }: Props) => {
+const IncludeSalesPrice = ({
+  salesPriceId,
+  valid,
+  included,
+  disableEdit = false,
+}: Props) => {
   const { t } = useTranslation();
 
   const [isIncluded, setIncluded] = useState<boolean>(valid ? included : false);
@@ -45,6 +51,7 @@ const IncludeSalesPrice = ({ salesPriceId, valid, included }: Props) => {
           variant={isValid ? 'default' : 'invalid'}
           isChecked={isIncluded}
           onChange={toggleInclude}
+          isDisabled={disableEdit}
         />
       </Box>
     </Tooltip>

@@ -250,6 +250,7 @@ function PriceGridRow({
                     onCalculationChange={onInlineChange}
                     enableEdit={enableEdit}
                     calculation={calculation}
+                    disableEdit={isClosed}
                   />
                 ) : (
                   <GridTd colSpan={PRICE_ROW_SPAN}></GridTd>
