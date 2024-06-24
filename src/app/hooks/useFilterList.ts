@@ -20,27 +20,6 @@ export const allFilters: FilterInput[] = [
   { type: 'text', name: 'productDevelopments' },
 ];
 
-export const allFilterKeys: FilterKey[] = [
-  'clients',
-  'finishedHeights',
-  'finishedLengths',
-  'finishedWidths',
-  'foldingTypes',
-  'includeCalculations',
-  'includeClosed',
-  'indirectCosts',
-  'itemCategories',
-  'members',
-  'opComps',
-  'productDevelopments',
-  'productGroups',
-  'projects',
-  'searchQuery',
-  'sourcingCompanies',
-  'statuses',
-  'vendors',
-];
-
 export const useFilterList = (
   standardFilterKeys: FilterKey[]
 ): { standardFilters: FilterInput[]; advanceFilters: FilterInput[] } => {
