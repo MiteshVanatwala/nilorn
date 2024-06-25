@@ -90,7 +90,9 @@ function PriceGridRow({
 
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
   const openRowForInlineEdit = () => {
-    setEnableEdit(true);
+    if (!isClosed) {
+      setEnableEdit(true);
+    }
   };
 
   const closeRowForInlineEdit = () => {
@@ -173,14 +175,12 @@ function PriceGridRow({
               </HStack>
               {enableEdit && (
                 <>
-                  {!isClosed && (
-                    <Button
-                      onClick={submitForm}
-                      variant={'primarySmall'}
-                      rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
-                      {t('Common.Save')}
-                    </Button>
-                  )}
+                  <Button
+                    onClick={submitForm}
+                    variant={'primarySmall'}
+                    rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
+                    {t('Common.Save')}
+                  </Button>
                   <Button
                     onClick={closeRowForInlineEdit}
                     variant={'secondarySmall'}

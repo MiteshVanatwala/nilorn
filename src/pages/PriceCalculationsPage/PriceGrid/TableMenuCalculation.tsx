@@ -59,6 +59,10 @@ const TableMenuCalculation = ({
   const isClosed =
     productDevelopment?.status && isPDClosed(productDevelopment?.status);
 
+  if (createNew && isClosed) {
+    return <></>;
+  }
+
   return (
     <TableMenuContainer>
       <MenuItem
@@ -95,40 +99,40 @@ const TableMenuCalculation = ({
           ? t('PriceCalc.AddCalculation')
           : t('PriceCalc.EditCalculation')}
       </MenuItem>
-      {!createNew && (
-        <MenuItem
-          onClick={onEditInline}
-          icon={
-            <RemixIcon
-              component="Text"
-              fontSize={SIZES.ICON.MD}
-              icon="EDIT_LINE"
-            />
-          }>
-          {t('PriceCalc.EditInline')}
-        </MenuItem>
-      )}
       {!createNew && !isClosed && (
-        <MenuItem
-          onClick={() =>
-            handleModal(
-              <ConfirmModal
-                title={t('PD.DeleteTitle')}
-                description={t('PD.DeleteMsg')}
-                confirmType={'DELETE'}
-                onConfirm={() => deleteCalculation()}
+        <>
+          <MenuItem
+            onClick={onEditInline}
+            icon={
+              <RemixIcon
+                component="Text"
+                fontSize={SIZES.ICON.MD}
+                icon="EDIT_LINE"
               />
-            )
-          }
-          icon={
-            <RemixIcon
-              component="Text"
-              fontSize={SIZES.ICON.MD}
-              icon="DELETE_BIN_6_LINE"
-            />
-          }>
-          {t('Common.Remove')}
-        </MenuItem>
+            }>
+            {t('PriceCalc.EditInline')}
+          </MenuItem>
+          <MenuItem
+            onClick={() =>
+              handleModal(
+                <ConfirmModal
+                  title={t('PD.DeleteTitle')}
+                  description={t('PD.DeleteMsg')}
+                  confirmType={'DELETE'}
+                  onConfirm={() => deleteCalculation()}
+                />
+              )
+            }
+            icon={
+              <RemixIcon
+                component="Text"
+                fontSize={SIZES.ICON.MD}
+                icon="DELETE_BIN_6_LINE"
+              />
+            }>
+            {t('Common.Remove')}
+          </MenuItem>
+        </>
       )}
     </TableMenuContainer>
   );
