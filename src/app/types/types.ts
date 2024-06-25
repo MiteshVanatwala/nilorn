@@ -51,3 +51,14 @@ export type LocationsProps = {
   currentLocation: Location<any>;
   nextLocation: Location<any>;
 };
+
+export enum StatusColor {
+  NEW = 'blue',
+  DESIGN = 'purple',
+  ARTWORK = 'orange',
+  SOURCING = 'gray',
+  CALCULATION = 'yellow',
+  APPROVED = 'green',
+  REJECTED = 'red',
+  DELETED = 'red',
+}

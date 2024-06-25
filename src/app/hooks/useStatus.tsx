@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { Status } from '../generate';
 import { useAuthorizedToFilterOnStatus } from '../Permissions/usePremissions';
+import { StatusColor } from '../types/types';
 
 export type StatusInfo = {
   label: string;
   value: Status;
-  color: 'blue' | 'purple' | 'orange' | 'gray' | 'yellow' | 'green' | 'red';
+  color: StatusColor;
 };
 export const useStatusOptions = (isFilter?: boolean) => {
   const isAuthorizedToFilterOnStatus = useAuthorizedToFilterOnStatus();
@@ -15,42 +16,42 @@ export const useStatusOptions = (isFilter?: boolean) => {
     {
       label: t('PD.StatusLabel.New'),
       value: Status.NEW,
-      color: 'blue',
+      color: StatusColor.NEW,
     },
     {
       label: t('PD.StatusLabel.Design'),
       value: Status.DESIGN,
-      color: 'purple',
+      color: StatusColor.DESIGN,
     },
     {
       label: t('PD.StatusLabel.Artwork'),
       value: Status.ARTWORK,
-      color: 'orange',
+      color: StatusColor.ARTWORK,
     },
     {
       label: t('PD.StatusLabel.Sourcing'),
       value: Status.SOURCING,
-      color: 'gray',
+      color: StatusColor.SOURCING,
     },
     {
       label: t('PD.StatusLabel.Calculation'),
       value: Status.CALCULATION,
-      color: 'yellow',
+      color: StatusColor.CALCULATION,
     },
     {
       label: t('PD.StatusLabel.Approved'),
       value: Status.APPROVED,
-      color: 'green',
+      color: StatusColor.APPROVED,
     },
     {
       label: t('PD.StatusLabel.Rejected'),
       value: Status.REJECTED,
-      color: 'red',
+      color: StatusColor.REJECTED,
     },
     {
       label: t('PD.StatusLabel.Deleted'),
       value: Status.DELETED,
-      color: 'red',
+      color: StatusColor.DELETED,
     },
   ];
 
