@@ -7,6 +7,7 @@ import { OpenAPI } from '../generate';
 import { downloadBlob } from '../utils/file';
 import { useToast } from '../hooks/useToast';
 import { useUpdateProductDevelopmentWithStatus } from './productDevelopment';
+import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 
 export const useUploadFile = (
   no: string,
@@ -17,12 +18,12 @@ export const useUploadFile = (
   const queryClient = useQueryClient();
   const { showToast } = useToast();
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
-
+  const { hasUnsavedChanges } = useUnsavedChanges();
   async function submitStatus(): Promise<void> {
-    if (currentStatus !== Status.DESIGN) {
-      queryClient.invalidateQueries([QueryKeysEnum.Overview]);
-    } else {
+    if (currentStatus === Status.DESIGN && !hasUnsavedChanges()) {
       updateStatus(Status.ARTWORK);
+    } else {
+      queryClient.invalidateQueries([QueryKeysEnum.Overview]);
     }
   }
 

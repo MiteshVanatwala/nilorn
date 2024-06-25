@@ -69,7 +69,7 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean) => {
     name === 'certificates' ?? false
   );
 
-  const { statuses } = useStatusOptions();
+  const { statuses } = useStatusOptions(true);
 
   if (!name) {
     return [];

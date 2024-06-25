@@ -12,11 +12,13 @@ import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../../app/api/User';
-import { ROLES_ALLOWED_TO_CHANGE_CLOSED } from '../../../../../app/Permissions/Permissions';
 import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
 import { NavLink } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../../app/utils/common';
-import { useAuthorizedSee } from '../../../../../app/Permissions/usePremissions';
+import {
+  useAuthorizedSee,
+  useAuthorizedToChangeStatus,
+} from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
@@ -39,6 +41,7 @@ const ActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
+  const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
 
   const {
     getValues,
@@ -188,9 +191,7 @@ const ActionBar = ({
             <Menu>
               <MenuButton
                 opacity={
-                  disableEdit &&
-                  user?.role &&
-                  !ROLES_ALLOWED_TO_CHANGE_CLOSED.includes(user?.role)
+                  disableEdit && !isAuthorizedToCahangeStatus(currentStatus)
                     ? '70%'
                     : ''
                 }
@@ -207,8 +208,7 @@ const ActionBar = ({
                     value={s.value}
                     onClick={() =>
                       !disableEdit ||
-                      (user?.role &&
-                        ROLES_ALLOWED_TO_CHANGE_CLOSED.includes(user?.role))
+                      (user?.role && isAuthorizedToCahangeStatus(currentStatus))
                         ? submitStatus(s.value)
                         : ''
                     }
