@@ -51,7 +51,7 @@ const IncludeSalesPrice = ({
           variant={isValid ? 'default' : 'invalid'}
           isChecked={isIncluded}
           onChange={toggleInclude}
-          isDisabled={disableEdit}
+          isReadOnly={disableEdit}
         />
       </Box>
     </Tooltip>

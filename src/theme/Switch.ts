@@ -12,6 +12,9 @@ const baseStyle = definePartsStyle({
     _checked: {
       bg: COLORS.GRAY[70],
     },
+    _readOnly: {
+      cursor: 'default',
+    },
   },
 });
 

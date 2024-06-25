@@ -181,9 +181,7 @@ const FormattedNumberInputField = ({
         <Input
           type={'text'}
           inputMode={'numeric'}
-          opacity={
-            showFormattedValue ? '0%' : readonly ? READ_ONLY_OPACITY : '100%'
-          }
+          opacity={showFormattedValue ? '0%' : '100%'}
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}
