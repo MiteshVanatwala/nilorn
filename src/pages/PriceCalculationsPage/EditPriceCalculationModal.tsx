@@ -29,14 +29,14 @@ type Props = {
   calculationId: string;
   purchaseCurrency: string;
   filters: ServerFilter;
-  disableEdit: boolean;
+  disableEdit?: boolean;
 };
 
 const EditPriceCalculationModal = ({
   calculationId,
   filters,
   purchaseCurrency,
-  disableEdit,
+  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);

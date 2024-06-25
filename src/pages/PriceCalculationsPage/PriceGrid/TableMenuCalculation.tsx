@@ -80,7 +80,7 @@ const TableMenuCalculation = ({
               />
             ) : (
               <EditPriceCalculationModal
-                disableEdit={isClosed ?? false}
+                disableEdit={isClosed}
                 purchaseCurrency={production.currencyCode ?? ''}
                 calculationId={calculation?.id ?? ''}
                 filters={filters}

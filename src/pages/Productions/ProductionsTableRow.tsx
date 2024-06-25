@@ -17,8 +17,8 @@ import TableMenuContainer from '../../components/Table/TableMenuContainer';
 import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow';
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
-import { isClosed } from '../../app/utils/status';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
+import { isClosed as isPdClosed } from '../../app/utils/status';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
@@ -26,6 +26,10 @@ type Props = {
 
 const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
   const filters = useFormStateFilters();
+  const isClosed =
+    p.productDevelopmentDataDto?.status &&
+    isPdClosed(p.productDevelopmentDataDto?.status);
+
   return (
     <Fragment>
       <GridTd colSpan={2}>
@@ -45,18 +49,17 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                 style={TD_STYLE}>
                 <>
                   {s.sourcingCompanyCode}
-                  {p.productDevelopmentDataDto?.status &&
-                    !isClosed(p.productDevelopmentDataDto.status) && (
-                      <TableMenuContainer
-                        children={
-                          <TableMenuSourcing
-                            productDevelopment={p?.productDevelopmentDataDto}
-                            sourcedProduction={s}
-                            sourcingCoIndex={index}
-                          />
-                        }
-                      />
-                    )}
+                  {isClosed && (
+                    <TableMenuContainer
+                      children={
+                        <TableMenuSourcing
+                          disableEdit={isClosed}
+                          productDevelopment={p?.productDevelopmentDataDto}
+                          sourcedProduction={s}
+                        />
+                      }
+                    />
+                  )}
                 </>
               </GridTd>
               <GridItem
@@ -81,6 +84,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                               productDevelopment={p?.productDevelopmentDataDto}
                               production={production}
                               filters={filters}
+                              disableEdit={isClosed}
                             />
                           }
                         />

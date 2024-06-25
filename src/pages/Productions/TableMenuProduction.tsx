@@ -13,7 +13,6 @@ import {
   ProductionDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../app/generate';
-import { isClosed as isPDClosed } from '../../app/utils/status';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
@@ -23,12 +22,14 @@ type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   production?: ProductionDto;
   filters: ServerFilter;
+  disableEdit?: boolean;
 };
 
 const TableMenuProduction = ({
   productDevelopment,
   production,
   filters,
+  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -37,8 +38,6 @@ const TableMenuProduction = ({
     useAuthorizedSee('calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
-  const isClosed =
-    productDevelopment?.status && isPDClosed(productDevelopment?.status);
 
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
@@ -83,7 +82,7 @@ const TableMenuProduction = ({
         }>
         {t('Common.Edit')}
       </MenuItem>
-      {!isClosed && (
+      {!disableEdit && (
         <MenuItem
           onClick={releaseForSalesFunc}
           icon={
@@ -117,7 +116,7 @@ const TableMenuProduction = ({
         </MenuItem>
       )}
 
-      {!production?.released && !isClosed && (
+      {!production?.released && !disableEdit && (
         <MenuItem
           onClick={() =>
             handleModal(
