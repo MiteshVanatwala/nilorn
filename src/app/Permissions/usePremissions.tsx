@@ -83,7 +83,7 @@ export function useAuthorizedToFilterOnStatus() {
   };
 }
 
-export function useAuthorizedToCahngeStatus() {
+export function useAuthorizedToChangeStatus() {
   const { data: user } = useCurrentUser();
 
   return (status: Status) => {

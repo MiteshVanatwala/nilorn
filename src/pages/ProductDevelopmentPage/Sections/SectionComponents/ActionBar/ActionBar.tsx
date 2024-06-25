@@ -17,7 +17,7 @@ import { NavLink } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
-  useAuthorizedToCahngeStatus,
+  useAuthorizedToChangeStatus,
 } from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
@@ -41,7 +41,7 @@ const ActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
-  const isAuthorizedToCahangeStatus = useAuthorizedToCahngeStatus();
+  const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
 
   const {
     getValues,
