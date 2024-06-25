@@ -42,9 +42,15 @@ const CreateProduction = ({
 
   const form = useForm({
     mode: 'onChange',
-    defaultValues: {
-      ...production,
-    },
+    defaultValues: production
+      ? production
+      : {
+          moq: null,
+          sampleCharge: null,
+          toolCharge: null,
+          sampleLeadTime: null,
+          productionLeadTime: null,
+        },
   });
   const { close } = useContext(ModalContext);
   const { data: vendors } = useGetVendors(false);

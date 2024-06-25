@@ -48,7 +48,7 @@ const ProjectSelect = ({
 
   useEffect(() => {
     if (createNew) {
-      setValue(inputName, '');
+      setValue(inputName, undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
