@@ -14,7 +14,12 @@ const LeavePageBlocker = () => {
   const { close } = useModal();
   const { discardChanges, hasUnsavedChanges } = useUnsavedChanges();
 
-  let blocker = useBlocker(hasUnsavedChanges());
+  const handleBlockerCallback = useCallback(
+    () => () => hasUnsavedChanges(),
+    [hasUnsavedChanges]
+  );
+
+  let blocker = useBlocker(handleBlockerCallback());
 
   useEffect(() => {
     if (blocker && blocker.state === 'blocked') {
