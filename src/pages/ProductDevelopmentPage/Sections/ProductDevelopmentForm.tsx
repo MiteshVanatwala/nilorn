@@ -49,9 +49,15 @@ function ProductDevelopmentForm({
 
   const form = useForm<ProductDevelopmentDto>({
     mode: 'onChange',
-    defaultValues: {
-      ...defaultValues,
-    },
+    defaultValues: defaultValues
+      ? defaultValues
+      : {
+          finishedLength: null,
+          finishedWidth: null,
+          finishedHeight: null,
+          sampleQuantity: null,
+          freightIncluded: null,
+        },
   });
 
   const { setUnsavedChanges } = useUnsavedChanges();
@@ -62,11 +68,11 @@ function ProductDevelopmentForm({
   const { mutate: createProductDevelopment } = useCreateProductDevelopment();
   const { mutate: updateProductDevelopment } = useUpdateProductDevelopment(no);
 
-  function onSubmit(form: FieldValues) {
+  function onSubmit(fieldValues: FieldValues) {
     if (createNew) {
-      createProductDevelopment(form);
+      createProductDevelopment(fieldValues);
     } else {
-      updateProductDevelopment(form);
+      updateProductDevelopment(fieldValues);
     }
   }
 
