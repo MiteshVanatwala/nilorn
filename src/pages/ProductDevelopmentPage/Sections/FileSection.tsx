@@ -7,6 +7,9 @@ import { useUploadFile } from '../../../app/api/mediaFile';
 import { useState } from 'react';
 import { ARTWORK } from './AttachmentSection';
 import { SPACE } from '../../../theme/Constants';
+import { ARTWORK_FILE_TYPE } from '../../../app/utils/constant';
+import { useTranslation } from 'react-i18next';
+import { useToast } from '../../../app/hooks/useToast';
 
 type FileStatus = 'loading' | 'success' | 'error';
 
@@ -29,6 +32,8 @@ const FileSection = ({
   type,
   defaultValue = [],
 }: Props) => {
+  const { t } = useTranslation();
+  const { showToast } = useToast();
   const { setValue, getValues } = useFormContext();
   const [mediaFiles, setMediaFiles] =
     useState<MediaFileWithStatus[]>(defaultValue);
@@ -46,52 +51,60 @@ const FileSection = ({
     });
   };
 
+  async function uploadFile(file: File) {
+    const filename = file.name;
+    const match = mediaFiles.find(mf => mf.name === filename);
+    if (!match) {
+      setMediaFiles(prevStatus => [
+        ...prevStatus,
+        {
+          id: undefined,
+          name: filename,
+          status: 'loading',
+        },
+      ]);
+    } else {
+      setMediaFiles(prevMediaFiles => {
+        return prevMediaFiles.map(prev =>
+          prev.name === filename
+            ? {
+                ...prev,
+                status: 'loading',
+              }
+            : prev
+        );
+      });
+    }
+
+    try {
+      const res = await mutateAsync({ file: file });
+      setMediaFiles(prevMediaFiles => {
+        return prevMediaFiles.map(prev =>
+          prev.name === res.name ? { ...prev, ...res, status: 'success' } : prev
+        );
+      });
+      if (type === MediaFileType.ARTWORK) {
+        setValue(ARTWORK, res);
+      }
+    } catch (err) {
+      setMediaFiles(prevMediaFiles => {
+        return prevMediaFiles.map(prev =>
+          prev.name === filename ? { ...prev, status: 'error' } : prev
+        );
+      });
+      console.error(err);
+    }
+  }
+
   const handleUpload = async (files: FileList) => {
     const uploadPromises = Array.from(files).map(async file => {
-      const filename = file.name;
-
-      const match = mediaFiles.find(mf => mf.name === filename);
-      if (!match) {
-        setMediaFiles(prevStatus => [
-          ...prevStatus,
-          {
-            id: undefined,
-            name: filename,
-            status: 'loading',
-          },
-        ]);
+      if (type === MediaFileType.ARTWORK && file.type !== ARTWORK_FILE_TYPE) {
+        showToast({
+          status: 'info',
+          description: t('PD.File.Feedback.Info.ArtworkUploadType'),
+        });
       } else {
-        setMediaFiles(prevMediaFiles => {
-          return prevMediaFiles.map(prev =>
-            prev.name === filename
-              ? {
-                  ...prev,
-                  status: 'loading',
-                }
-              : prev
-          );
-        });
-      }
-
-      try {
-        const res = await mutateAsync({ file: file });
-        setMediaFiles(prevMediaFiles => {
-          return prevMediaFiles.map(prev =>
-            prev.name === res.name
-              ? { ...prev, ...res, status: 'success' }
-              : prev
-          );
-        });
-        if (type === MediaFileType.ARTWORK) {
-          setValue(ARTWORK, res);
-        }
-      } catch (err) {
-        setMediaFiles(prevMediaFiles => {
-          return prevMediaFiles.map(prev =>
-            prev.name === filename ? { ...prev, status: 'error' } : prev
-          );
-        });
-        console.error(err);
+        return await uploadFile(file);
       }
     });
 
@@ -102,7 +115,9 @@ const FileSection = ({
     <GridItem colSpan={12}>
       <Box pb={SPACE.XS}>
         <UploadFile
-          accept={type === MediaFileType.ARTWORK ? '.pdf' : undefined}
+          accept={
+            type === MediaFileType.ARTWORK ? ARTWORK_FILE_TYPE : undefined
+          }
           heading={heading}
           onUpload={handleUpload}
           showAdd={
