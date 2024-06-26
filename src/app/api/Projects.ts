@@ -43,3 +43,15 @@ export const useCreateProject = () => {
     }
   );
 };
+
+export function useGetProjectCard(clientNo: string, projectCode: string) {
+  return useQuery(
+    [QueryKeysEnum.Projects, projectCode],
+    () =>
+      ProjectsService.getApiProjects1(clientNo, projectCode).then(res => res),
+    {
+      retry: 1,
+      enabled: !!clientNo && !!projectCode,
+    }
+  );
+}
