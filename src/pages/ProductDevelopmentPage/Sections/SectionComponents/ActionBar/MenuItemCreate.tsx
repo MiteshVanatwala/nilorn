@@ -1,6 +1,4 @@
 import { MenuItem, Text } from '@chakra-ui/react';
-import { ROLES_ALLOWED_TO_CREATE } from '../../../../../app/Permissions/Permissions';
-import { useCurrentUser } from '../../../../../app/api/User';
 import { useModal } from '../../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 import {
@@ -17,7 +15,6 @@ type Props = {
 };
 const MenuItemCreate = ({ no, createType, name }: Props) => {
   const { t } = useTranslation();
-  const { data: user } = useCurrentUser();
   const { handleModal } = useModal();
 
   const { mutate: createVersion } = useCreateVersionProductDevelopment(no);
@@ -28,10 +25,6 @@ const MenuItemCreate = ({ no, createType, name }: Props) => {
   }
   async function createVersionProductDevelopment() {
     createVersion();
-  }
-
-  if (!user?.role || !ROLES_ALLOWED_TO_CREATE.includes(user.role)) {
-    return <></>;
   }
 
   const versionConfirmModal = (

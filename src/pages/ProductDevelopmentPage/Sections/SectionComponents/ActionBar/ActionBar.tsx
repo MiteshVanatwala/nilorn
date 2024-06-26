@@ -18,6 +18,8 @@ import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
   useAuthorizedToChangeStatus,
+  useAuthorizedToCreateCopy,
+  useAuthorizedToCreateVersion,
 } from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
@@ -42,6 +44,8 @@ const ActionBar = ({
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
   const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
+  const isAllowedToCreateVersion = useAuthorizedToCreateVersion();
+  const isAllowedToCreateCopy = useAuthorizedToCreateCopy();
 
   const {
     getValues,
@@ -129,8 +133,13 @@ const ActionBar = ({
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
 
-            <MenuItemCreate no={no} createType={'copy'} name={name} />
-            <MenuItemCreate no={no} createType={'version'} name={name} />
+            {isAllowedToCreateCopy && (
+              <MenuItemCreate no={no} createType={'copy'} name={name} />
+            )}
+
+            {isAllowedToCreateVersion && (
+              <MenuItemCreate no={no} createType={'version'} name={name} />
+            )}
 
             {!disableEdit && (
               <MenuItem
