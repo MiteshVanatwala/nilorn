@@ -128,13 +128,15 @@ export const useProductDevelopment = (no: string) => {
   );
 };
 
-export const useMembers = (no: string) => {
+export const useMembers = (no?: string) => {
   return useQuery(
     [QueryKeysEnum.Members, no],
-    () => MembersService.getApiMembersFilter(no).then(res => res),
+    () =>
+      no !== undefined
+        ? MembersService.getApiMembersFilter(no).then(res => res)
+        : MembersService.getApiMembersClientProject().then(res => res),
     {
       retry: 0,
-      enabled: no !== '',
     }
   );
 };
