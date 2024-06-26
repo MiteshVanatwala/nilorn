@@ -14,13 +14,13 @@ const VersionRow = ({ version, bgColor }: Props) => {
   const gridItemStyles = {
     colSpan: 1,
     bgColor: bgColor,
-    px: SPACE.SM,
+    px: SPACE.MD,
     py: SPACE.XS,
     alignContent: 'center',
   };
 
   const commonTextStyles: TextProps = {
-    maxW: '30ch',
+    w: 'min-content',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -71,7 +71,9 @@ const VersionRow = ({ version, bgColor }: Props) => {
       </GridItem>
 
       <GridItem colStart={7} {...gridItemStyles}>
-        <Text {...commonTextStyles}>{sourcings}</Text>
+        {!!sourcings && (
+          <Text {...commonTextStyles}>{sourcings.join(', ')}</Text>
+        )}
       </GridItem>
     </>
   );
