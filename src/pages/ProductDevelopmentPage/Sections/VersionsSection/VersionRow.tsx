@@ -1,4 +1,4 @@
-import { GridItem, Text, TextProps, Tooltip } from '@chakra-ui/react';
+import { Box, GridItem, Text, TextProps, Tooltip } from '@chakra-ui/react';
 import { SPACE } from '../../../../theme/Constants';
 import ImagePopup from '../../../../components/ImagePopup/ImagePopup';
 import StatusBadge from '../../../../components/Status/StatusBadge';
@@ -14,13 +14,14 @@ const VersionRow = ({ version, bgColor }: Props) => {
   const gridItemStyles = {
     colSpan: 1,
     bgColor: bgColor,
-    px: SPACE.MD,
+    px: SPACE.SM,
     py: SPACE.XS,
     alignContent: 'center',
+    overflow: 'hidden',
   };
 
   const commonTextStyles: TextProps = {
-    w: 'min-content',
+    w: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
@@ -39,11 +40,13 @@ const VersionRow = ({ version, bgColor }: Props) => {
   return (
     <>
       <GridItem colStart={1} {...gridItemStyles}>
-        <ImagePopup
-          thumbnail={true}
-          alt="Thumbnail image"
-          src={thumbnailData ? `data:image/jpeg;base64,${thumbnailData}` : ''}
-        />
+        <Box w={'30px'} h={'30px'}>
+          <ImagePopup
+            thumbnail={true}
+            alt="Thumbnail image"
+            src={thumbnailData ? `data:image/jpeg;base64,${thumbnailData}` : ''}
+          />
+        </Box>
       </GridItem>
 
       <GridItem colStart={2} {...gridItemStyles}>
