@@ -18,6 +18,7 @@ import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import HeaderLink from './HeaderLink';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import logoSvg from '../../assets/svgs/logo.svg';
+import ManageDataMenu from './ManageDataMenu';
 
 const NavigationHeader = () => {
   const { t } = useTranslation();
@@ -96,6 +97,7 @@ const NavigationHeader = () => {
           </GridItem>
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
+              <ManageDataMenu />
               <UserMenu />
             </HStack>
           </GridItem>
