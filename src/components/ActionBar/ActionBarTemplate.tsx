@@ -17,6 +17,7 @@ type Props = {
   lastModifiedDate?: string | null | undefined;
   moreMenuList?: JSX.Element;
   actionButtons: JSX.Element;
+  isDisabled?: boolean;
 };
 
 const ActionBarTemplate = ({
@@ -24,6 +25,7 @@ const ActionBarTemplate = ({
   moreMenuList,
   actionButtons,
   lastModifiedDate,
+  isDisabled = false,
 }: Props) => {
   const { t } = useTranslation();
   const formattedLastModifiedDate = lastModifiedDate
@@ -51,6 +53,7 @@ const ActionBarTemplate = ({
           <Menu>
             <MenuButton
               as={IconButton}
+              isDisabled={isDisabled}
               variant={'secondary'}
               padding={SPACE.SM}
               aria-label={t('Common.More')}

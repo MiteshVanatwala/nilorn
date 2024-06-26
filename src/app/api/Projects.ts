@@ -55,3 +55,29 @@ export function useGetProjectCard(clientNo: string, projectCode: string) {
     }
   );
 }
+
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation(
+    (projectId: string) =>
+      ProjectsService.deleteApiProjects(projectId).then(response => response),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        showToast({
+          status: 'success',
+          description: t('PD.ProjectDelete'),
+        });
+      },
+      onError: async () => {
+        showToast({
+          status: 'error',
+          title: t('Errors.ProjectDelete'),
+        });
+      },
+    }
+  );
+};
