@@ -14,7 +14,7 @@ const VersionRow = ({ version, bgColor }: Props) => {
   const gridItemStyles = {
     colSpan: 1,
     bgColor: bgColor,
-    px: SPACE.SM,
+    pr: SPACE.XXL,
     py: SPACE.XS,
     alignContent: 'center',
     overflow: 'hidden',
@@ -39,7 +39,7 @@ const VersionRow = ({ version, bgColor }: Props) => {
 
   return (
     <>
-      <GridItem colStart={1} {...gridItemStyles}>
+      <GridItem colStart={1} {...gridItemStyles} pl={SPACE.MD}>
         <Box w={'30px'} h={'30px'}>
           <ImagePopup
             thumbnail={true}
