@@ -12,9 +12,9 @@ const ManageDataMenu = () => {
       <HeaderMenuButton onClick={() => navigate('/projects')}>
         <>{t('Menu.HypProjects')}</>
       </HeaderMenuButton>
-      <HeaderMenuButton onClick={() => navigate('/clients')}>
+      {/* <HeaderMenuButton onClick={() => navigate('/clients')}>
         <>{t('Menu.HypClients')}</>
-      </HeaderMenuButton>
+      </HeaderMenuButton> */}
     </HeaderMenu>
   );
 };
