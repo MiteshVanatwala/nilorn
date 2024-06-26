@@ -10,6 +10,7 @@ import {
   ROLES_ALLOWED_TO_FILTER_ON_DELETE,
   ROLES_ALLOWED_TO_CHANGE_STATUS_DELETED,
   ROLES_ALLOWED_TO_CHANGE_STATUS,
+  ROLES_ALLOWED_TO_CREATE_VERSION,
 } from './Permissions';
 
 export function useAuthorizedSee(
@@ -96,4 +97,9 @@ export function useAuthorizedToChangeStatus() {
     }
     return false;
   };
+}
+
+export function useAuthorizedToCreateVersion() {
+  const { data: user } = useCurrentUser();
+  return user?.role && ROLES_ALLOWED_TO_CREATE_VERSION.includes(user?.role);
 }
