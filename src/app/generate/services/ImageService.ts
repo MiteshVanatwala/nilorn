@@ -9,13 +9,13 @@ import { request as __request } from '../core/request';
 export class ImageService {
 
     /**
-     * @param productDevelopmentNo 
+     * @param productDevelopmentNo
      * @returns string Success
      * @throws ApiError
      */
     public static getApiImage(
-productDevelopmentNo: string,
-): CancelablePromise<string> {
+        productDevelopmentNo: string,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Image/{productDevelopmentNo}',
@@ -26,17 +26,17 @@ productDevelopmentNo: string,
     }
 
     /**
-     * @param productDevelopmentNo 
-     * @param formData 
+     * @param productDevelopmentNo
+     * @param formData
      * @returns string Success
      * @throws ApiError
      */
     public static putApiImage(
-productDevelopmentNo: string,
-formData?: {
-file?: Blob;
-},
-): CancelablePromise<string> {
+        productDevelopmentNo: string,
+        formData?: {
+            file?: Blob;
+        },
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/Image/{productDevelopmentNo}',
@@ -49,13 +49,13 @@ file?: Blob;
     }
 
     /**
-     * @param productDevelopmentNo 
+     * @param productDevelopmentNo
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiImage(
-productDevelopmentNo: string,
-): CancelablePromise<any> {
+        productDevelopmentNo: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Image/{productDevelopmentNo}',

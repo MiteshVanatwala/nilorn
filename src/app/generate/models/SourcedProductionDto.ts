@@ -10,3 +10,4 @@ export type SourcedProductionDto = {
     sourcingCompanyCode?: string | null;
     productions?: Array<ProductionDto> | null;
 };
+
