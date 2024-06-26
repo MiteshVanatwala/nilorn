@@ -11,6 +11,7 @@ import {
   ROLES_ALLOWED_TO_CHANGE_STATUS_DELETED,
   ROLES_ALLOWED_TO_CHANGE_STATUS,
   ROLES_ALLOWED_TO_CREATE_VERSION,
+  ROLES_ALLOWED_TO_CREATE,
 } from './Permissions';
 
 export function useAuthorizedSee(
@@ -102,4 +103,9 @@ export function useAuthorizedToChangeStatus() {
 export function useAuthorizedToCreateVersion() {
   const { data: user } = useCurrentUser();
   return user?.role && ROLES_ALLOWED_TO_CREATE_VERSION.includes(user?.role);
+}
+
+export function useAuthorizedToCreateCopy() {
+  const { data: user } = useCurrentUser();
+  return user?.role && ROLES_ALLOWED_TO_CREATE.includes(user?.role);
 }
