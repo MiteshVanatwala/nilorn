@@ -167,7 +167,7 @@ export const useProductDevelopmentNavigation = (no: string) => {
   );
 };
 
-export const useCreateCopyProductDevelopment = (no: string, name: string) => {
+export const useCreateCopyProductDevelopment = (no: string) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
@@ -175,7 +175,7 @@ export const useCreateCopyProductDevelopment = (no: string, name: string) => {
 
   return useMutation(
     () =>
-      ProductDevelopmentsService.postApiProductDevelopmentsCopy(no, name).then(
+      ProductDevelopmentsService.postApiProductDevelopmentsCopy(no).then(
         response => response
       ),
     {
