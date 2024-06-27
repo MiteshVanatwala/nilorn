@@ -1,5 +1,4 @@
 import ContentPage from '../Templates/ContentPage';
-import { useTranslation } from 'react-i18next';
 import { SelectOption } from '../../app/types/types';
 import { useEffect, useMemo, useState } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
@@ -8,7 +7,6 @@ import { useGetProjectCard } from '../../app/api/Projects';
 import { useClients } from '../../app/api/FilterInfo';
 
 function ProjectsPage() {
-  const { t } = useTranslation();
   const { data: clients } = useClients();
   const clientOptions = useMemo(() => {
     return clients?.map(client => {
@@ -19,7 +17,7 @@ function ProjectsPage() {
   const [selectedProject, setSelectedProject] = useState<SelectOption>();
   const [selectedClient, setSelectedClient] = useState<SelectOption>();
 
-  const { data: projectCard, isLoading } = useGetProjectCard(
+  const { data: projectCard } = useGetProjectCard(
     selectedClient?.value,
     selectedProject?.value
   );
