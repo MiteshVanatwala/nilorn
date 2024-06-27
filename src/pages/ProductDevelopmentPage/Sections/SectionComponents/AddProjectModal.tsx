@@ -14,8 +14,9 @@ import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
 import RemixIcon from '../../../../components/Icon/RemixIcon';
 import ModalHeading from '../../../../components/Modal/ModalHeading';
 import { COLORS, SPACE } from '../../../../theme/Constants';
+
 type Props = {
-  setDefaultProject?: (val: string) => void;
+  setDefaultProject: (val: string) => void;
   clientNo: string;
 };
 
@@ -28,6 +29,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const onCancel = () => {
     close();
   };
+
   const { mutate: createProject, isSuccess } = useCreateProject();
 
   async function onSubmit(): Promise<void> {
@@ -44,12 +46,14 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
         projectCode: projectName,
       };
       createProject(projectData);
-      setDefaultProject && setDefaultProject(projectName);
+      setDefaultProject(projectName);
     }
   }
+
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
   useEffect(() => {
     if (isSuccess) {
       close();
@@ -68,6 +72,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
         <Input
           variant={'standard'}
           name={'projectName'}
+          autoFocus
           onChange={e => {
             setProjectName(e.target.value);
           }}

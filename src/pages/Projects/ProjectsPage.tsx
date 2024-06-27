@@ -18,24 +18,24 @@ function ProjectsPage() {
     }) as SelectOption[];
   }, [clients]);
 
-  const [selectedProject, setSelectedProject] = useState<SelectOption>();
-  const [selectedClient, setSelectedClient] = useState<SelectOption>();
+  const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
+  const [selectedClientNo, setSelectedClientNo] = useState<string>();
 
   const { data: projectCard } = useGetProjectCard(
-    selectedClient?.value,
-    selectedProject?.value
+    selectedClientNo ?? '',
+    selectedProjectCode ?? ''
   );
 
   const form = useForm();
   const { reset } = form;
 
   useEffect(() => {
-    if (!!selectedClient && !!selectedProject && !!projectCard) {
+    if (!!selectedClientNo && !!selectedProjectCode && !!projectCard) {
       reset({ ...projectCard });
     } else {
       reset();
     }
-  }, [reset, projectCard, selectedClient, selectedProject]);
+  }, [reset, projectCard, selectedClientNo, selectedProjectCode]);
 
   const onSubmit = (fieldValues: FieldValues) => {
     console.log(fieldValues);
@@ -46,10 +46,10 @@ function ProjectsPage() {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <ProjectsTopSection
-            selectedProject={selectedProject}
-            selectedClient={selectedClient}
-            setSelectedProject={setSelectedProject}
-            setSelectedClient={setSelectedClient}
+            selectedProjectCode={selectedProjectCode}
+            selectedClientNo={selectedClientNo}
+            setSelectedProjectCode={setSelectedProjectCode}
+            setSelectedClientNo={setSelectedClientNo}
             lastModified={new Date()}
             clientOptions={clientOptions}
           />
