@@ -9,6 +9,8 @@ import ProductionsPage from '../Productions/ProductionsPage';
 import NotFoundPage from '../NotFound/NotFoundPage';
 import PriceCalculationsPage from '../PriceCalculationsPage/PriceCalculationsPage';
 import SignoutOidc from '../Auth/SignoutOidc';
+import ProjectsPage from '../Projects/ProjectsPage';
+import ClientsPage from '../Clients/ClientPage';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
             path: 'price-calculations',
             element: <PriceCalculationsPage />,
           },
+          {
+            path: 'projects',
+            element: <ProjectsPage />,
+          },
+          // {
+          //   path: 'clients',
+          //   element: <ClientsPage />,
+          // },
           { path: '*', element: <NotFoundPage /> },
         ],
       },

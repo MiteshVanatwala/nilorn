@@ -49,12 +49,13 @@
     "HypProducts": "Product Developments",
     "HypSource": "Sourcings",
     "HypChangelog": "Changelog",
-    "HypClient": "Clients",
+    "HypClients": "Clients",
     "HypProjects": "Projects",
     "HypPrice": "Price Calculations",
     "HypProduction": "Productions",
     "HypUser": "User",
-    "HypLogout": "Log out"
+    "HypLogout": "Log out",
+    "HypManageData": "Manage data"
   },
   "PD": {
     "Image": "Image",
@@ -317,6 +318,12 @@
         "UpdateIncluded": "Failed to update valid and include"
       }
     }
+  },
+  "ManageData": {
+    "ProjectCode": "Project Code",
+    "ProjectDescription": "Project Description",
+    "ClientNo": "Client no",
+    "ClientName": "Client name"
   },
   "Changelog": {
     "To": "To",
