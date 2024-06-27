@@ -15,7 +15,11 @@ const VersionsSection = ({ versions }: Props) => {
   return (
     <AccordionItem title={t('PD.AccordionLabels.Versions')} panelPadding="0">
       <>
-        <Grid w={'100%'} templateColumns={'repeat(7, 1fr)'}>
+        <Grid
+          w={'100%'}
+          templateColumns={
+            'min-content repeat(2, minmax(min-content, 2fr)) repeat(2, minmax(min-content, 1fr)) minmax(20ch, 5fr) min-content'
+          }>
           {versions.map((version, i) => {
             const bgColor = i % 2 === 1 ? COLORS.GRAY[5] : undefined;
             return <VersionRow key={i} version={version} bgColor={bgColor} />;
