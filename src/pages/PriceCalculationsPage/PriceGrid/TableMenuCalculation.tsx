@@ -17,7 +17,7 @@ import TableMenuContainer from '../../../components/Table/TableMenuContainer';
 import { SIZES } from '../../../theme/Constants';
 import CreatePriceCalculationModal from '../CreatePriceCalculationModal';
 import EditPriceCalculationModal from '../EditPriceCalculationModal';
-import { isClosed as isPDClosed } from '../../../app/utils/status';
+import { isClosed } from '../../../app/utils/status';
 
 type Props = {
   createNew: boolean;
@@ -56,10 +56,10 @@ const TableMenuCalculation = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
-  const isClosed =
-    productDevelopment?.status && isPDClosed(productDevelopment?.status);
+  const isPDClosed =
+    productDevelopment?.status && isClosed(productDevelopment?.status);
 
-  if (createNew && isClosed) {
+  if (createNew && isPDClosed) {
     return <></>;
   }
 
@@ -80,7 +80,7 @@ const TableMenuCalculation = ({
               />
             ) : (
               <EditPriceCalculationModal
-                disableEdit={isClosed}
+                disableEdit={isPDClosed}
                 purchaseCurrency={production.currencyCode ?? ''}
                 calculationId={calculation?.id ?? ''}
                 filters={filters}
@@ -99,7 +99,7 @@ const TableMenuCalculation = ({
           ? t('PriceCalc.AddCalculation')
           : t('PriceCalc.EditCalculation')}
       </MenuItem>
-      {!createNew && !isClosed && (
+      {!createNew && !isPDClosed && (
         <>
           <MenuItem
             onClick={onEditInline}

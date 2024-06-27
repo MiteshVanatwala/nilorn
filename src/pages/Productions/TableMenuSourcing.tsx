@@ -13,20 +13,14 @@ import CreateProduction from './CreateProduction/CreateProduction';
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction: SourcedProductionDto;
-  disableEdit: boolean;
 };
 
 const TableMenuSourcing = ({
   productDevelopment,
   sourcedProduction,
-  disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useContext(ModalContext);
-
-  if (disableEdit) {
-    return <></>;
-  }
 
   return (
     <MenuItem

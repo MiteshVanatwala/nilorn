@@ -33,7 +33,7 @@ import {
 import BaseValues from './BaseValues';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
-import { isClosed as isPDClosed } from '../../../app/utils/status';
+import { isClosed } from '../../../app/utils/status';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -52,8 +52,8 @@ function PriceGridRow({
   const vendorOptions = useFilterOptions('vendors');
   const filters = useFormStateFilters();
   const queryClient = useQueryClient();
-  const isClosed =
-    productDevelopment?.status && isPDClosed(productDevelopment?.status);
+  const isPDClosed =
+    productDevelopment?.status && isClosed(productDevelopment?.status);
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
     PriceCalculationDto | undefined
@@ -90,7 +90,7 @@ function PriceGridRow({
 
   const [enableEdit, setEnableEdit] = useState<boolean>(false);
   const openRowForInlineEdit = () => {
-    if (!isClosed) {
+    if (!isPDClosed) {
       setEnableEdit(true);
     }
   };
@@ -250,7 +250,7 @@ function PriceGridRow({
                     onCalculationChange={onInlineChange}
                     enableEdit={enableEdit}
                     calculation={calculation}
-                    disableEdit={isClosed}
+                    disableEdit={isPDClosed}
                   />
                 ) : (
                   <GridTd colSpan={PRICE_ROW_SPAN}></GridTd>

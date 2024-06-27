@@ -18,7 +18,7 @@ import ProductionGridRow from '../../components/ProductionGrid/ProductionGridRow
 import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
-import { isClosed as isPdClosed } from '../../app/utils/status';
+import { isClosed } from '../../app/utils/status';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
@@ -26,9 +26,9 @@ type Props = {
 
 const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
   const filters = useFormStateFilters();
-  const isClosed =
+  const isPDClosed =
     p.productDevelopmentDataDto?.status &&
-    isPdClosed(p.productDevelopmentDataDto?.status);
+    isClosed(p.productDevelopmentDataDto?.status);
 
   return (
     <Fragment>
@@ -49,11 +49,10 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                 style={TD_STYLE}>
                 <>
                   {s.sourcingCompanyCode}
-                  {isClosed && (
+                  {!isPDClosed && (
                     <TableMenuContainer
                       children={
                         <TableMenuSourcing
-                          disableEdit={isClosed}
                           productDevelopment={p?.productDevelopmentDataDto}
                           sourcedProduction={s}
                         />
@@ -84,7 +83,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                               productDevelopment={p?.productDevelopmentDataDto}
                               production={production}
                               filters={filters}
-                              disableEdit={isClosed}
+                              disableEdit={isPDClosed}
                             />
                           }
                         />

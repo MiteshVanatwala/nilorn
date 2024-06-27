@@ -192,7 +192,7 @@ const ActionBar = ({
             <Menu>
               <MenuButton
                 opacity={
-                  disableEdit && !isAuthorizedToCahangeStatus(currentStatus)
+                  disableEdit || !isAuthorizedToCahangeStatus(currentStatus)
                     ? READ_ONLY_OPACITY
                     : ''
                 }
