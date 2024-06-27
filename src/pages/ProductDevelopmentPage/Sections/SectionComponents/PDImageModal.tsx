@@ -139,7 +139,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                     variant={'secondary'}
                     rightIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
                     onClick={onButtonClick}>
-                    {t('PD.BrowseFile')}
+                    {t('PD.File.BrowseFile')}
                   </Button>
 
                   <Button
@@ -221,7 +221,7 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                 variant={'secondary'}
                 rightIcon={<RemixIcon component="i" icon="FILE_3_LINE" />}
                 onClick={onButtonClick}>
-                {t('PD.BrowseFile')}
+                {t('PD.File.BrowseFile')}
               </Button>
             </GridItem>
           )}
