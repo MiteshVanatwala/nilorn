@@ -16,3 +16,4 @@ export type ProjectDto = {
     productDevelopment?: Array<ProductDevelopmentBriefDto> | null;
     members?: Array<MemberBriefDto> | null;
 };
+

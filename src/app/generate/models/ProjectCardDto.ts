@@ -12,3 +12,4 @@ export type ProjectCardDto = {
     clientName?: string | null;
     members?: Array<MemberDto> | null;
 };
+

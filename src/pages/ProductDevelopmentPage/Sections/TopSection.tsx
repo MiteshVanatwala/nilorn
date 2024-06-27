@@ -25,7 +25,6 @@ import ChangelogPopup from '../../../components/Changelog/ChangelogPopup';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 
 type Props = {
-  name: string;
   no: string;
   scrolledPast: boolean;
   createNew: boolean;
@@ -34,7 +33,6 @@ type Props = {
   hasProductions: boolean;
 };
 const TopSection = ({
-  name,
   no,
   scrolledPast,
   createNew,
@@ -209,7 +207,6 @@ const TopSection = ({
             <ActionBar
               createNew={createNew}
               no={no}
-              name={name}
               disableEdit={disableEdit}
               hasPriceCalculation={hasPriceCalculation}
               hasProductions={hasProductions}

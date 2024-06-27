@@ -12,13 +12,13 @@ import { request as __request } from '../core/request';
 export class CurrencyService {
 
     /**
-     * @param currencyCode 
+     * @param currencyCode
      * @returns CurrencyDto Success
      * @throws ApiError
      */
     public static getApiCurrency(
-currencyCode?: string,
-): CancelablePromise<CurrencyDto> {
+        currencyCode?: string,
+    ): CancelablePromise<CurrencyDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Currency',

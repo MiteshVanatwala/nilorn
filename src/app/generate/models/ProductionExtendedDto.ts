@@ -29,3 +29,4 @@ export type ProductionExtendedDto = {
     sourcingCompanyCode?: string | null;
     lastModified?: string | null;
 };
+
