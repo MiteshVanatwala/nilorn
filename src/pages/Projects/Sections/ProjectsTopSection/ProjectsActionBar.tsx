@@ -11,16 +11,16 @@ import AddProjectModal from '../../../ProductDevelopmentPage/Sections/SectionCom
 type Props = {
   lastModified?: string;
   clientNo?: string;
-  projectCode?: string;
+  projectId?: string;
 };
 
-const ProjectsActionBar = ({ lastModified, clientNo, projectCode }: Props) => {
+const ProjectsActionBar = ({ lastModified, clientNo, projectId }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
   const { mutate: deleteProject } = useDeleteProject();
 
   const onDelete = () => {
-    deleteProject(projectCode ?? '', {
+    deleteProject(projectId ?? '', {
       onSuccess: () => {},
       onError: () => {},
     });
@@ -46,7 +46,7 @@ const ProjectsActionBar = ({ lastModified, clientNo, projectCode }: Props) => {
             {t('Common.Add')}
           </MenuItem>
           <MenuItem
-            isDisabled={!projectCode}
+            isDisabled={!projectId}
             onClick={() => {
               handleModal(
                 <ConfirmModal
@@ -70,7 +70,7 @@ const ProjectsActionBar = ({ lastModified, clientNo, projectCode }: Props) => {
       }
       actionButtons={
         <Button
-          isDisabled={!projectCode}
+          isDisabled={!projectId}
           variant={'primary'}
           rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
           type="submit">

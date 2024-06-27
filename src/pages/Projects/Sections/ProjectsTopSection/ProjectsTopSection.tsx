@@ -64,7 +64,7 @@ const ProjectsTopSection = ({
       <ProjectsActionBar
         lastModified={lastModified?.toISOString()}
         clientNo={selectedClient?.value}
-        projectCode={selectedProject?.value}
+        projectId={selectedProject?.value}
       />
     </HStack>
   );
