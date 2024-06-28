@@ -34,7 +34,13 @@ export function useAuthorizedSee(
 }
 
 export function useAuthorizedEdit(
-  action: 'productDevelopment' | 'addSourcing' | 'uploadFile' | 'removeSourcing'
+  action:
+    | 'productDevelopment'
+    | 'addSourcing'
+    | 'uploadFile'
+    | 'removeSourcing'
+    | 'createVersion'
+    | 'createCopy'
 ) {
   const { data: user } = useCurrentUser();
 
@@ -47,6 +53,10 @@ export function useAuthorizedEdit(
         return ROLES_ALLOWED_TO_ADD_REMOVE_SOURCING.includes(user?.role);
       case 'uploadFile':
         return ROLES_ALLOWED_TO_UPLOAD_FILE.includes(user?.role);
+      case 'createVersion':
+        return ROLES_ALLOWED_TO_CREATE_VERSION.includes(user?.role);
+      case 'createCopy':
+        return ROLES_ALLOWED_TO_CREATE.includes(user?.role);
     }
   }
 
@@ -98,14 +108,4 @@ export function useAuthorizedToChangeStatus() {
     }
     return false;
   };
-}
-
-export function useAuthorizedToCreateVersion() {
-  const { data: user } = useCurrentUser();
-  return user?.role && ROLES_ALLOWED_TO_CREATE_VERSION.includes(user?.role);
-}
-
-export function useAuthorizedToCreateCopy() {
-  const { data: user } = useCurrentUser();
-  return user?.role && ROLES_ALLOWED_TO_CREATE.includes(user?.role);
 }

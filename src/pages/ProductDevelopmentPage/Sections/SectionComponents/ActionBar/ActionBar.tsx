@@ -18,8 +18,7 @@ import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
   useAuthorizedToChangeStatus,
-  useAuthorizedToCreateCopy,
-  useAuthorizedToCreateVersion,
+  useAuthorizedEdit,
 } from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
@@ -42,8 +41,8 @@ const ActionBar = ({
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
   const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
-  const isAllowedToCreateVersion = useAuthorizedToCreateVersion();
-  const isAllowedToCreateCopy = useAuthorizedToCreateCopy();
+  const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
+  const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 
   const {
     getValues,

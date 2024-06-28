@@ -1,6 +1,4 @@
 import { MenuItem, Text } from '@chakra-ui/react';
-import { ROLES_ALLOWED_TO_CREATE } from '../../../../../app/Permissions/Permissions';
-import { useCurrentUser } from '../../../../../app/api/User';
 import { useModal } from '../../../../../app/hooks/useModal';
 import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 import {
