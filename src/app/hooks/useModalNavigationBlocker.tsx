@@ -33,14 +33,21 @@ const useModalNavigationBlocker = (preventClose: boolean = false) => {
     }
   }, [blocker, close, preventClose]);
 
-  const proceedBlocker = () => {
-    if (typeof (blocker as any).proceed === 'function' && isInline) {
-      (blocker as any).proceed();
+  const proceedBlocker = (reset?: boolean) => {
+    if (blocker.reset && reset) {
+      blocker.reset();
+    }
+    if (!!blocker.proceed && isInline) {
+      blocker.proceed();
       setInline(false);
     }
   };
 
-  return { isBlocked, setBlocked, proceedBlocker };
+  const resetBlocker = () => {
+    !!blocker.reset && blocker.reset();
+  };
+
+  return { isBlocked, setBlocked, proceedBlocker, resetBlocker };
 };
 
 export default useModalNavigationBlocker;
