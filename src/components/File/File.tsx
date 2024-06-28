@@ -78,9 +78,10 @@ export const File = ({
             }`}>
             <Link
               onClick={onClick}
-              maxW={'35ch'}
+              maxW={'30ch'}
               target="_blank"
               href={`${file?.webUrl}`}
+              wordBreak={'break-all'}
               noOfLines={1}>
               <>{file.name ?? ''}</>
             </Link>
