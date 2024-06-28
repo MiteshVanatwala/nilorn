@@ -17,12 +17,18 @@ type Props = {
 
 const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
   const { t } = useTranslation();
-  const { control, setValue, getValues } = useFormContext();
+  const {
+    control,
+    setValue,
+    formState: { isDirty },
+  } = useFormContext();
   const fieldName = 'productionCertificates';
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
   });
+
   const certificates = useWatch({
     name: fieldName,
   }) as ProductionCertificateDto[];
@@ -34,10 +40,10 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
     : certificateCodes;
 
   useEffect(() => {
-    if (defaultValues?.length && !getValues(fieldName)) {
+    if (!isDirty && defaultValues?.length) {
       setValue(fieldName, defaultValues);
     }
-  }, [defaultValues, getValues, setValue]);
+  }, [defaultValues, setValue, isDirty]);
 
   const showAddButton =
     unselectedOptions?.length &&
@@ -61,7 +67,6 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
               options={certificateCodes as SelectOption[]}
               unselectedOptions={unselectedOptions as SelectOption[]}
               onDelete={() => remove(index)}
-              defaultValues={defaultValues?.find(d => d.id === field.id)}
               disableEdit={disableEdit}
             />
           );
@@ -73,12 +78,11 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
           variant={'secondarySmall'}
           onClick={() =>
             append({
-              id: undefined,
-              certificateCode: undefined,
-              certificateCategoryCode: undefined,
-              certificateClassCode: undefined,
-              percentage: undefined,
-              certificateWeight: undefined,
+              certificateCode: null,
+              certificateCategoryCode: null,
+              certificateClassCode: null,
+              percentage: null,
+              certificateWeight: null,
             })
           }
           rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
