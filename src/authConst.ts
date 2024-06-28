@@ -9,7 +9,7 @@ const onSigninCallback = (_user: User | void): void => {
   window.history.replaceState(
     {},
     document.title,
-    window.location.pathname.replace('signout-callback-oidc', '')
+    window.location.pathname.replace('signout-oidc', '')
   );
 };
 
