@@ -5,12 +5,12 @@ import {
   useCertificateCategories,
   useCertificateClasses,
 } from '../../../app/api/production';
-import { ProductionCertificateDto } from '../../../app/generate';
 import { SelectOption } from '../../../app/types/types';
 import ControlWrapper from '../../../components/Form/ControlWrapper';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 import SelectBase from '../../../components/Form/SelectBase';
 import RemixIcon from '../../../components/Icon/RemixIcon';
+import { useMemo } from 'react';
 
 type Props = {
   options: SelectOption[];
@@ -18,7 +18,6 @@ type Props = {
   fieldName: string;
   index: number;
   onDelete: () => void;
-  defaultValues?: ProductionCertificateDto;
   disableEdit?: boolean;
 };
 
@@ -32,6 +31,7 @@ const CertificateInputRow = ({
 }: Props) => {
   const { t } = useTranslation();
   const {
+    clearErrors,
     setValue,
     control,
     formState: { errors },
@@ -47,20 +47,30 @@ const CertificateInputRow = ({
   const selectedCategory = useWatch({ name: certificateCategoryName });
   const selectedClass = useWatch({ name: certificateClassName });
 
-  const { data: categories } = useCertificateCategories(
+  const { data: categories, isLoading: categoriesIsLoading } =
+    useCertificateCategories(selectedCertificateCode);
+  const categoryOptions = useMemo(() => {
+    return !!categories ? (categories as SelectOption[]) : undefined;
+  }, [categories]);
+
+  const { data: classes, isLoading: classesIsLoading } = useCertificateClasses(
     selectedCertificateCode
   );
-  const categoryOptions = (categories ?? []) as SelectOption[];
+  const classOptions = useMemo(() => {
+    return !!classes ? (classes as SelectOption[]) : undefined;
+  }, [classes]);
 
-  const { data: classes } = useCertificateClasses(selectedCertificateCode);
-  const classOptions = (classes ?? []) as SelectOption[];
+  const isLoading = useMemo(() => {
+    return categoriesIsLoading || classesIsLoading;
+  }, [categoriesIsLoading, classesIsLoading]);
 
   const onChangeCode = (newValue: SelectOption) => {
+    clearErrors();
     setValue(certificateCodeName, newValue.value);
     setValue(certificateCategoryName, undefined);
     setValue(certificateClassName, undefined);
-    setValue(percentageName, undefined);
-    setValue(certificateWeightName, undefined);
+    setValue(percentageName, null);
+    setValue(certificateWeightName, null);
   };
 
   const onChangeCategory = (newValue: SelectOption) => {
@@ -97,50 +107,49 @@ const CertificateInputRow = ({
         )}
       </GridItem>
       <GridItem>
-        {!!selectedCertificateCode && categories && categoryOptions && (
-          <SelectBase
-            isSearchable
-            name={certificateCategoryName}
-            options={categoryOptions}
-            onChange={onChangeCategory}
-            value={categoryOptions?.find(opt => opt.value === selectedCategory)}
-            readOnly={disableEdit}
-          />
-        )}
+        <SelectBase
+          isSearchable
+          isDisabled={
+            !selectedCertificateCode || !categoryOptions || categoriesIsLoading
+          }
+          name={certificateCategoryName}
+          options={categoryOptions}
+          onChange={onChangeCategory}
+          value={categoryOptions?.find(opt => opt.value === selectedCategory)}
+          readOnly={disableEdit}
+        />
       </GridItem>
       <GridItem>
-        {!!selectedCertificateCode && classes && classOptions && (
-          <SelectBase
-            isSearchable
-            name={certificateClassName}
-            options={classOptions}
-            onChange={onChangeClass}
-            value={classOptions?.find(opt => opt.value === selectedClass)}
-            readOnly={disableEdit}
-          />
-        )}
+        <SelectBase
+          isSearchable
+          isDisabled={
+            !selectedCertificateCode || !classOptions || classesIsLoading
+          }
+          name={certificateClassName}
+          options={classOptions}
+          onChange={onChangeClass}
+          value={classOptions?.find(opt => opt.value === selectedClass)}
+          readOnly={disableEdit}
+        />
       </GridItem>
       <GridItem>
-        {!!selectedCertificateCode && (
-          <FormattedNumberInputField
-            name={percentageName}
-            placeholder={t('Production.PercentPlaceholder')}
-            min={0}
-            minMessage={`${t('Production.Feedback.Error.Percentage')}`}
-            max={100}
-            maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
-            readonly={disableEdit}
-          />
-        )}
+        <FormattedNumberInputField
+          name={percentageName}
+          placeholder={t('Production.PercentPlaceholder')}
+          min={0}
+          minMessage={`${t('Production.Feedback.Error.Percentage')}`}
+          max={100}
+          maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
+          type={'integer'}
+          readonly={disableEdit || isLoading || !selectedCertificateCode}
+        />
       </GridItem>
       <GridItem>
-        {!!selectedCertificateCode && (
-          <FormattedNumberInputField
-            name={certificateWeightName}
-            placeholder={`${t('Common.Placeholder')}`}
-            readonly={disableEdit}
-          />
-        )}
+        <FormattedNumberInputField
+          name={certificateWeightName}
+          placeholder={`${t('Common.Placeholder')}`}
+          readonly={disableEdit || isLoading || !selectedCertificateCode}
+        />
       </GridItem>
       <GridItem>
         {!disableEdit && (
