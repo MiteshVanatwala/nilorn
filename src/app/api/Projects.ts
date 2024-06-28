@@ -31,13 +31,51 @@ export const useCreateProject = () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
         showToast({
           status: 'success',
-          description: t('PD.ProjectCreated'),
+          description: t('ManageData.Feedback.Success.ProjectCreated'),
         });
       },
       onError: async () => {
         showToast({
           status: 'error',
-          title: t('Errors.ProjectCreate'),
+          title: t('ManageData.Feedback.Error.ProjectCreate'),
+        });
+      },
+    }
+  );
+};
+
+export function useGetProjectCard(clientNo: string, projectCode: string) {
+  return useQuery(
+    [QueryKeysEnum.Projects, clientNo, projectCode],
+    () =>
+      ProjectsService.getApiProjects1(clientNo, projectCode).then(res => res),
+    {
+      retry: 1,
+      enabled: !!clientNo && !!projectCode,
+    }
+  );
+}
+
+export const useDeleteProject = () => {
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation(
+    (projectId: string) =>
+      ProjectsService.deleteApiProjects(projectId).then(response => response),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        showToast({
+          status: 'success',
+          description: t('ManageData.Feedback.Success.ProjectDelete'),
+        });
+      },
+      onError: async () => {
+        showToast({
+          status: 'error',
+          title: t('ManageData.Feedback.Error.ProjectDelete'),
         });
       },
     }

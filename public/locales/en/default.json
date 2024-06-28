@@ -80,8 +80,6 @@
     "AddMember": "Add member",
     "AddSourcing": "Add sourcing",
     "RemoveSourcing": "Remove sourcing",
-    "AddProject": "Add new project",
-    "ProjectName": "Project name",
     "Member": "Member",
     "ProductGroup": "Product group",
     "ItemCategory": "Item category",
@@ -92,7 +90,6 @@
     "BackToOverview": "Back to overview",
     "BackToProductions": "Back to productions",
     "BackToCalculations": "Back to calculations",
-    "ProjectCreated": "Project created",
     "ClickPaste": "Paste from clipboard",
     "OrPaste": "Or click to paste from clipboard",
     "UploadImage": "Upload image",
@@ -320,10 +317,24 @@
     }
   },
   "ManageData": {
+    "AddProject": "Add new project",
+    "ProjectName": "Project name",
     "ProjectCode": "Project Code",
     "ProjectDescription": "Project Description",
     "ClientNo": "Client no",
-    "ClientName": "Client name"
+    "ClientName": "Client name",
+    "Feedback": {
+      "Error": {
+        "ProjectDelete": "Project couldn't be deleted",
+        "ProjectName": "Project name is required",
+        "ProjectNameLength": "Max length is 30 characters",
+        "ProjectCreate": "Error while creating project"
+      },
+      "Success": {
+        "ProjectCreated": "Project created",
+        "ProjectDelete": "Project deleted"
+      }
+    }
   },
   "Changelog": {
     "To": "To",
@@ -364,9 +375,6 @@
     "Required": "The field is required",
     "EmptyFilter": "Filter can not be empty",
     "FilterName": "Filter name is required",
-    "ProjectName": "Project name is required",
-    "ProjectNameLength": "Max length is 30 characters",
-    "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique",
     "NotANumber": "Not a number",
     "MustBeAnInteger": "Must be an integer"
