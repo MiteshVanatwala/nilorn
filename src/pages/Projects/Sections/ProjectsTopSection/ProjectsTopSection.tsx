@@ -7,6 +7,7 @@ import { SelectOption } from '../../../../app/types/types';
 import { useGetProjectsOptions } from '../../../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
 import { SPACE } from '../../../../theme/Constants';
+import ControlWrapper from '../../../../components/Form/ControlWrapper';
 
 type Props = {
   selectedProject?: SelectOption;
@@ -41,25 +42,23 @@ const ProjectsTopSection = ({
   return (
     <HStack justify={'space-between'} pb={SPACE.XL}>
       <HStack>
-        <VStack align={'start'}>
-          <FormLabelComponent name={'client'} label={t('Menu.HypClients')} />
+        <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
           <SelectBase
             name={'client'}
             onChange={onChangeClient}
             options={clientOptions}
             value={selectedClient}
           />
-        </VStack>
+        </ControlWrapper>
 
-        <VStack align={'start'}>
-          <FormLabelComponent name={'project'} label={t('Menu.HypProjects')} />
+        <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
           <SelectBase
             name={'project'}
             onChange={onChangeProject}
             options={projectOptions as SelectOption[]}
             value={selectedProject}
           />
-        </VStack>
+        </ControlWrapper>
       </HStack>
       <ProjectsActionBar
         lastModified={lastModified?.toISOString()}
