@@ -68,6 +68,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
                   message: `${t('Errors.ProjectNameLength')}`,
                 },
               })}
+              autoFocus
             />
           </ControlWrapper>
         </ModalBody>
