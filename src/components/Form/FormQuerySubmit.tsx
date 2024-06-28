@@ -24,13 +24,9 @@ export default function FormuQuerySubmit({
 
   useEffect(() => {
     const filters = parseSearchParams(location.search ?? '');
-    form.reset();
-    for (const name in filters) {
-      const value = filters[name];
-      form.setValue(name, value);
-    }
+    form.reset(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.search]);
 
   const formChange = useCallback(() => {
     let filterChangeUrl = onFilterChange(getValues());
