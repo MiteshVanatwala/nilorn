@@ -46,7 +46,7 @@ export const useCreateProject = () => {
 
 export function useGetProjectCard(clientNo: string, projectCode: string) {
   return useQuery(
-    [QueryKeysEnum.Projects, projectCode],
+    [QueryKeysEnum.Projects, clientNo, projectCode],
     () =>
       ProjectsService.getApiProjects1(clientNo, projectCode).then(res => res),
     {
