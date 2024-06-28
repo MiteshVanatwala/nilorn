@@ -9,13 +9,13 @@ import { request as __request } from '../core/request';
 export class SourcingService {
 
     /**
-     * @param id 
+     * @param id
      * @returns number Success
      * @throws ApiError
      */
     public static getApiSourcingQuantities(
-id: string,
-): CancelablePromise<Array<number>> {
+        id: string,
+    ): CancelablePromise<Array<number>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Sourcing/{id}/quantities',

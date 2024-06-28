@@ -26,3 +26,4 @@ export type GetNavigationForProductionQuery = {
     includeCalculations?: boolean;
     id: string;
 };
+

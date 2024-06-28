@@ -12,17 +12,17 @@ import { request as __request } from '../core/request';
 export class ChangelogService {
 
     /**
-     * @param type 
-     * @param id 
-     * @param productDevelopmentNo 
+     * @param type
+     * @param id
+     * @param productDevelopmentNo
      * @returns ChangelogDto Success
      * @throws ApiError
      */
     public static getApiChangelog(
-type?: ChangelogType,
-id?: string,
-productDevelopmentNo?: string,
-): CancelablePromise<Array<ChangelogDto>> {
+        type?: ChangelogType,
+        id?: string,
+        productDevelopmentNo?: string,
+    ): CancelablePromise<Array<ChangelogDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Changelog',

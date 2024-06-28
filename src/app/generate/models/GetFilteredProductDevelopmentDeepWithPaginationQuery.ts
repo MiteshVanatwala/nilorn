@@ -27,3 +27,4 @@ export type GetFilteredProductDevelopmentDeepWithPaginationQuery = {
     pageNumber?: number;
     pageSize?: number;
 };
+

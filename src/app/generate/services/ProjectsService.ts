@@ -25,13 +25,13 @@ export class ProjectsService {
     }
 
     /**
-     * @param requestBody 
+     * @param requestBody
      * @returns string Success
      * @throws ApiError
      */
     public static postApiProjects(
-requestBody?: CreateProjectCommand,
-): CancelablePromise<string> {
+        requestBody?: CreateProjectCommand,
+    ): CancelablePromise<string> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/Projects',
@@ -41,13 +41,13 @@ requestBody?: CreateProjectCommand,
     }
 
     /**
-     * @param clientNo 
+     * @param clientNo
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiProjectsFilterOption(
-clientNo?: string,
-): CancelablePromise<Array<OptionItem>> {
+        clientNo?: string,
+    ): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Projects/Filter/Option',
@@ -58,15 +58,15 @@ clientNo?: string,
     }
 
     /**
-     * @param clientNo 
-     * @param projectCode 
+     * @param clientNo
+     * @param projectCode
      * @returns ProjectCardDto Success
      * @throws ApiError
      */
     public static getApiProjects1(
-clientNo: string,
-projectCode: string,
-): CancelablePromise<ProjectCardDto> {
+        clientNo: string,
+        projectCode: string,
+    ): CancelablePromise<ProjectCardDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Projects/{clientNo}/{projectCode}',
@@ -78,13 +78,13 @@ projectCode: string,
     }
 
     /**
-     * @param projectId 
+     * @param projectId
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiProjects(
-projectId: string,
-): CancelablePromise<any> {
+        projectId: string,
+    ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/Projects/{projectId}',

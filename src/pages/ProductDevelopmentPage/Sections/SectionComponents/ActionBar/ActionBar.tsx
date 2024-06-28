@@ -18,6 +18,7 @@ import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
   useAuthorizedToChangeStatus,
+  useAuthorizedEdit,
 } from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +26,6 @@ import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 
 type Props = {
-  name: string;
   no: string;
   createNew?: boolean;
   disableEdit: boolean;
@@ -35,7 +35,6 @@ type Props = {
 const ActionBar = ({
   createNew,
   no,
-  name,
   disableEdit,
   hasPriceCalculation,
   hasProductions,
@@ -43,6 +42,8 @@ const ActionBar = ({
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
   const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
+  const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
+  const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 
   const {
     getValues,
@@ -130,8 +131,13 @@ const ActionBar = ({
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
 
-            <MenuItemCreate no={no} createType={'copy'} name={name} />
-            <MenuItemCreate no={no} createType={'version'} name={name} />
+            {isAllowedToCreateCopy && (
+              <MenuItemCreate no={no} createType={'copy'} />
+            )}
+
+            {isAllowedToCreateVersion && (
+              <MenuItemCreate no={no} createType={'version'} />
+            )}
 
             {!disableEdit && (
               <MenuItem

@@ -13,3 +13,4 @@ export type PriceDto = {
     valid?: boolean | null;
     included?: boolean | null;
 };
+
