@@ -31,13 +31,13 @@ export const useCreateProject = () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
         showToast({
           status: 'success',
-          description: t('PD.ProjectCreated'),
+          description: t('ManageData.Feedback.Success.ProjectCreated'),
         });
       },
       onError: async () => {
         showToast({
           status: 'error',
-          title: t('Errors.ProjectCreate'),
+          title: t('ManageData.Feedback.Error.ProjectCreate'),
         });
       },
     }
@@ -69,13 +69,13 @@ export const useDeleteProject = () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
         showToast({
           status: 'success',
-          description: t('PD.ProjectDelete'),
+          description: t('ManageData.Feedback.Success.ProjectDelete'),
         });
       },
       onError: async () => {
         showToast({
           status: 'error',
-          title: t('Errors.ProjectDelete'),
+          title: t('ManageData.Feedback.Error.ProjectDelete'),
         });
       },
     }

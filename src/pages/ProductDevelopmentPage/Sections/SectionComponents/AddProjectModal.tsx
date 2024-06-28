@@ -32,9 +32,9 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
 
   async function onSubmit(): Promise<void> {
     if (projectName === '') {
-      setErrorMsgName(`${t('Errors.ProjectName')}`);
+      setErrorMsgName(`${t('ManageData.Feedback.Errors.ProjectName')}`);
     } else if (projectName.length > 30) {
-      setErrorMsgName(`${t('Errors.ProjectNameLength')}`);
+      setErrorMsgName(`${t('ManageData.Feedback.Errors.ProjectNameLength')}`);
     } else {
       setErrorMsgName(undefined);
     }
@@ -60,9 +60,9 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   return (
     <form onSubmit={onFormSubmit}>
       <ModalBody>
-        <ModalHeading title={t('PD.AddProject')} />
+        <ModalHeading title={t('ManageData.AddProject')} />
         <FormLabelComponent
-          label={`${t('PD.ProjectName')} *`}
+          label={`${t('ManageData.ProjectName')} *`}
           name={'projectName'}
         />
         <Input
