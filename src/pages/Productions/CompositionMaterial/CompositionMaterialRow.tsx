@@ -44,7 +44,10 @@ const CompositionMaterialRow = ({
     <>
       <GridItem>
         {options && (
-          <ControlWrapper name={materialName} errors={errors}>
+          <ControlWrapper
+            name={materialName}
+            errors={errors}
+            showErrorIcon={true}>
             <Controller
               name={materialName}
               control={control}
@@ -72,6 +75,7 @@ const CompositionMaterialRow = ({
           minMessage={`${t('Production.Feedback.Error.Percentage')}`}
           max={100}
           maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
+          showErrorIcon={true}
         />
       </GridItem>
       <GridItem alignSelf={'center'}>
