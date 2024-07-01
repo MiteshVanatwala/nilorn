@@ -35,7 +35,7 @@ const ProjectSelect = ({
 
   const clearProjectItem = {
     value: '',
-    label: `${t('PD.ClearProjectLabel')}`,
+    label: `${t('PD.ClearSelection')}`,
   };
 
   const onChange = (option: SelectOption) => {

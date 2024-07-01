@@ -23,7 +23,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
   const project = useWatch({ name: inputName });
   const clientNumberWatch = useWatch({ name: 'foldingTypeCode' });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
-  const selectPlaceholder = t('Filter.Select');
+  const selectPlaceholder = t('PD.ClearSelection');
   const hasValue = options.find(o => o.value === clientNumberWatch);
   const [optionValue, setOptionValue] = useState<string | null>(
     hasValue?.value
@@ -65,7 +65,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
             return (
               <SelectBase
                 onChange={onChange}
-                placeholder={selectPlaceholder}
+                placeholder={t('Filter.Select')}
                 name={inputName}
                 options={optionItems}
                 readOnly={disableEdit}
