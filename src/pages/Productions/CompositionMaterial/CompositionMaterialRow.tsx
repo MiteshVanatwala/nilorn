@@ -63,7 +63,7 @@ const CompositionMaterialRow = ({
           </ControlWrapper>
         )}
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'end'}>
         <FormattedNumberInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
@@ -74,7 +74,7 @@ const CompositionMaterialRow = ({
           maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
         />
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'center'}>
         {!disableEdit && (
           <Tooltip label={t('Common.Remove')}>
             <IconButton
