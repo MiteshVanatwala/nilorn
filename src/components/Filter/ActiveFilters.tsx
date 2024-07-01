@@ -7,6 +7,7 @@ import { useWatch } from 'react-hook-form';
 import { Fragment, useMemo } from 'react';
 import { FilterKey, SelectOption } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
+import { INCLUDE_CLOSED } from '../../app/utils/constant';
 
 const ignoreKeys: FilterKey[] = ['sortKey', 'pageNumber', 'pageSize'];
 
@@ -43,7 +44,15 @@ const ActiveFilters = () => {
       {watchedEntries
         .filter(([key, _]) => !ignoreKeys.includes(key as FilterKey))
         .map(([key, value]) => {
-          if (
+          if (key === INCLUDE_CLOSED) {
+            return (
+              <ActiveFilterItem
+                key={key}
+                label={t('PD.IncludeClosed')}
+                queryItem={key}
+              />
+            );
+          } else if (
             (typeof value === 'string' && value.includes(',')) ||
             value === undefined
           ) {

@@ -35,7 +35,7 @@ export default function FormuQuerySubmit({
       navigate(`${location.pathname}?${filterChangeUrl}`, { replace: true });
     }
     clearErrors('serverError');
-  }, [getValues, navigate, clearErrors]);
+  }, [getValues, navigate, clearErrors, location.pathname]);
 
   useEffect(() => {
     const unregister = watch(() => {

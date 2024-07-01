@@ -3,12 +3,7 @@ import { SelectOption } from '../types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
-import {
-  INCLUDE_CLOSED,
-  PAGE_SIZE,
-  SEARCH_QUERY,
-  SESSION_STORAGE,
-} from './constant';
+import { INCLUDE_CLOSED, PAGE_SIZE, SESSION_STORAGE } from './constant';
 import { allFilters } from '../hooks/useFilterList';
 
 export function getDefaultValueSelect(
@@ -206,8 +201,6 @@ export function useClearAllFilters() {
     unregister();
     reset({
       [PAGE_SIZE]: pageSize,
-      [SEARCH_QUERY]: '',
-      [INCLUDE_CLOSED]: undefined,
     });
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
