@@ -47,7 +47,7 @@ export const GridTh = ({
       colSpan={colSpan ?? 1}
       gap={TABLE_GAP}
       style={style}
-      zIndex={10}
+      zIndex={5}
       {...args}>
       {children}
     </GridItem>
