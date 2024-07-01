@@ -13,7 +13,7 @@ import RemixIcon from '../Icon/RemixIcon';
 const DropdownIndicator = (props: DropdownIndicatorProps) => {
   return (
     <components.DropdownIndicator {...props}>
-      <RemixIcon component='Text' color={COLORS.WHITE} icon='ADD_LINE' />
+      <RemixIcon component="Text" color={COLORS.WHITE} icon="ADD_LINE" />
     </components.DropdownIndicator>
   );
 };
