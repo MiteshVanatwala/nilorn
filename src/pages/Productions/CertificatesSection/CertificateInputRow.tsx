@@ -63,9 +63,8 @@ const CertificateInputRow = ({
   const isLoading = useMemo(() => {
     return categoriesIsLoading || classesIsLoading;
   }, [categoriesIsLoading, classesIsLoading]);
-
   const onChangeCode = (newValue: SelectOption) => {
-    clearErrors();
+    clearErrors(`${fieldName}.${index}`);
     setValue(certificateCodeName, newValue.value);
     setValue(certificateCategoryName, undefined);
     setValue(certificateClassName, undefined);
@@ -85,7 +84,10 @@ const CertificateInputRow = ({
     <>
       <GridItem>
         {options && (
-          <ControlWrapper name={certificateCodeName} errors={errors}>
+          <ControlWrapper
+            name={certificateCodeName}
+            errors={errors}
+            showErrorIcon={true}>
             <Controller
               name={certificateCodeName}
               control={control}
@@ -132,7 +134,7 @@ const CertificateInputRow = ({
           readOnly={disableEdit}
         />
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'end'}>
         <FormattedNumberInputField
           name={percentageName}
           placeholder={t('Production.PercentPlaceholder')}
@@ -142,16 +144,18 @@ const CertificateInputRow = ({
           maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
           type={'integer'}
           readonly={disableEdit || isLoading || !selectedCertificateCode}
+          showErrorIcon={true}
         />
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'end'}>
         <FormattedNumberInputField
           name={certificateWeightName}
           placeholder={`${t('Common.Placeholder')}`}
           readonly={disableEdit || isLoading || !selectedCertificateCode}
+          showErrorIcon={true}
         />
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'center'}>
         {!disableEdit && (
           <Tooltip label={t('Common.Remove')}>
             <IconButton

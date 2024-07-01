@@ -20,6 +20,7 @@ interface Props extends FormInputProps {
   maxMessage?: string;
   required?: boolean;
   validateNumber?: (value: number) => string | true;
+  showErrorIcon?: boolean;
 }
 
 const FormattedNumberInputField = ({
@@ -40,6 +41,7 @@ const FormattedNumberInputField = ({
   maxMessage,
   required = false,
   validateNumber,
+  showErrorIcon = false,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -67,7 +69,7 @@ const FormattedNumberInputField = ({
   }, [defaultValue, name, type]);
 
   useEffect(() => {
-    if (isNaN(watch)) {
+    if (watch === null || isNaN(watch)) {
       setFormattedValue('');
     } else if (!!watch) {
       setFormattedValue(
@@ -162,6 +164,7 @@ const FormattedNumberInputField = ({
       label={label}
       required={required}
       errors={errors}
+      showErrorIcon={showErrorIcon}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
