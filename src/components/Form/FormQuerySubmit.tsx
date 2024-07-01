@@ -34,12 +34,12 @@ export default function FormuQuerySubmit({
 
   const formChange = useCallback(() => {
     let filterChangeUrl = onFilterChange(getValues());
-    const search = location.search;
+    const search = window.location.search;
     if (search !== filterChangeUrl && search !== `?` + filterChangeUrl) {
       navigate(`${location.pathname}?${filterChangeUrl}`, { replace: true });
     }
     clearErrors('serverError');
-  }, [location, getValues, navigate, clearErrors]);
+  }, [getValues, navigate, clearErrors]);
 
   useEffect(() => {
     const unregister = watch(() => {
