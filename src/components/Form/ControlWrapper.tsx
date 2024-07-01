@@ -97,7 +97,7 @@ const ControlWrapper = ({
         <InputGroup as={HStack} isolation={'auto'} zIndex={zIndex}>
           <Box flex={1}>{children}</Box>
           {showErrorIcon && !!errorMsg && (
-            <Tooltip label={errorMsg} variant={'error'}>
+            <Tooltip label={errorMsg} variant={'error'} isOpen={true}>
               <Center height={'100%'} w={'min-content'}>
                 <RemixIcon
                   icon={'ERROR_WARNING_FILL'}
