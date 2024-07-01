@@ -57,7 +57,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
-        <GridTh>{t('')}</GridTh>
+        <GridTh />
         <>
           {data.map((p, i) => (
             <PriceCalculationsTableRow key={i} productDevelopment={p} />

@@ -1,12 +1,14 @@
-import { Box, Grid, GridItem, HStack, Heading, Text } from '@chakra-ui/layout';
+import { Box, Grid, GridItem, HStack, Heading } from '@chakra-ui/layout';
 import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
-import { Image, Link, VStack } from '@chakra-ui/react';
+import { Image, Link, VStack, Text } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink } from 'react-router-dom';
 import { ProductDevelopmentDataDto } from '../../app/generate';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -21,6 +23,14 @@ const ProductDevelopmentModalTopSection = ({
   actionBar,
 }: Props) => {
   const vendorOptions = useFilterOptions('vendors');
+
+  const handleClick = () => {
+    const path = window.location.pathname ?? '/';
+    const search = window.location.search;
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
+    sessionStorage.setItem(storedFilter, search);
+  };
 
   return (
     <Box
@@ -87,6 +97,7 @@ const ProductDevelopmentModalTopSection = ({
                 <Link
                   as={NavLink}
                   state={NAV_LINK}
+                  onClick={handleClick}
                   to={`/productions?vendors=${
                     vendorOptions.find(option => option.label === vendorName)
                       ?.value
@@ -102,6 +113,7 @@ const ProductDevelopmentModalTopSection = ({
                     <Link
                       as={NavLink}
                       state={NAV_LINK}
+                      onClick={handleClick}
                       to={`/product-development/${productDevelopment?.no}`}>
                       #{productDevelopment?.no}
                     </Link>

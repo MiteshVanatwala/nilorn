@@ -25,6 +25,7 @@ const useModalFormHelper = (
     isBlocked,
     proceedBlocker,
     setBlocked: setBlockedRoute,
+    resetBlocker,
   } = useModalNavigationBlocker(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
@@ -116,6 +117,7 @@ const useModalFormHelper = (
   };
 
   const onCancel = () => {
+    resetBlocker();
     setBlockedRoute(false);
     setPendingNavId(undefined);
   };
