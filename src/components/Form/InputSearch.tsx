@@ -26,7 +26,7 @@ const InputSearch = ({ name, label, placeholder, variant }: Props) => {
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setValue(name, encodeURIComponent(searchValue));
+      setValue(name, searchValue);
     }, 400);
     return () => {
       clearTimeout(handler);
