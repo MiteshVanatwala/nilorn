@@ -1,10 +1,13 @@
 import {
+  Box,
+  Center,
   FormControl,
   FormHelperText,
   HStack,
   InputGroup,
   Stack,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import {
@@ -20,6 +23,8 @@ import { useTranslation } from 'react-i18next';
 import FormLabelComponent from './FormLabelComponent';
 import ChangelogPopup from '../Changelog/ChangelogPopup';
 import fontSizes from '../../theme/fontSizes';
+import RemixIcon from '../Icon/RemixIcon';
+import { SIZES } from '../../theme/Constants';
 
 interface Props
   extends Omit<FormInputProps, 'registerOptions' | 'defaultValue'> {
@@ -31,6 +36,7 @@ interface Props
     }>
   >;
   zIndex?: string;
+  showErrorIcon?: boolean;
 }
 
 const ControlWrapper = ({
@@ -47,12 +53,23 @@ const ControlWrapper = ({
   hideValidationStyle,
   changelog,
   maxLength,
+  showErrorIcon = false,
 }: Props) => {
   const error = get(errors, name) as FieldError;
   const { t } = useTranslation();
   const { color } = useValidationStyleInFormContext(
     hideValidationStyle ? '' : name
   );
+
+  const errorMsg = error?.message
+    ? error.message
+    : error?.type === 'required'
+    ? t('Errors.Required')
+    : error?.type === 'maxLength' && maxLength && !hideValidationStyle
+    ? t('PD.Feedback.Error.FieldLength', {
+        length: maxLength,
+      })
+    : null;
 
   return (
     <FormControl
@@ -77,8 +94,19 @@ const ControlWrapper = ({
           {changelog && <ChangelogPopup data={changelog} />}
         </HStack>
         {description && <FormHelperText>{description}</FormHelperText>}
-        <InputGroup isolation={'auto'} zIndex={zIndex} display={'block'}>
-          {children}
+        <InputGroup as={HStack} isolation={'auto'} zIndex={zIndex}>
+          <Box flex={1}>{children}</Box>
+          {showErrorIcon && !!errorMsg && (
+            <Tooltip label={errorMsg} variant={'error'} isOpen={true}>
+              <Center height={'100%'} w={'min-content'}>
+                <RemixIcon
+                  icon={'ERROR_WARNING_FILL'}
+                  component={'i'}
+                  style={{ color: COLORS.ERROR, fontSize: SIZES.ICON.MD }}
+                />
+              </Center>
+            </Tooltip>
+          )}
         </InputGroup>
       </Stack>
       {helperText && (
@@ -86,7 +114,7 @@ const ControlWrapper = ({
           <>{helperText}</>
         </FormHelperText>
       )}
-      {!hideValidationStyle && (
+      {!showErrorIcon && !hideValidationStyle && (
         <Text fontSize={fontSizes.xs} color={COLORS.ERROR}>
           {error?.message
             ? error.message

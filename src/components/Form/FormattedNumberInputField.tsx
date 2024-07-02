@@ -20,6 +20,7 @@ interface Props extends FormInputProps {
   maxMessage?: string;
   required?: boolean;
   validateNumber?: (value: number) => string | true;
+  showErrorIcon?: boolean;
 }
 
 const FormattedNumberInputField = ({
@@ -40,6 +41,7 @@ const FormattedNumberInputField = ({
   maxMessage,
   required = false,
   validateNumber,
+  showErrorIcon = false,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -67,7 +69,7 @@ const FormattedNumberInputField = ({
   }, [defaultValue, name, type]);
 
   useEffect(() => {
-    if (isNaN(watch)) {
+    if (watch === null || isNaN(watch)) {
       setFormattedValue('');
     } else if (!!watch) {
       setFormattedValue(
@@ -133,7 +135,9 @@ const FormattedNumberInputField = ({
       }
 
       if (typeof val === 'string' && val.includes(' ')) {
-        return t('Errors.NotANumber');
+        return type === 'integer'
+          ? t('Errors.MustBeAnInteger')
+          : t('Errors.MustBeADecimalNumber');
       }
 
       let newNumVal = val as number;
@@ -143,7 +147,9 @@ const FormattedNumberInputField = ({
         newNumVal = Number(newStrVal);
       }
       if (isNaN(newNumVal)) {
-        return t('Errors.NotANumber');
+        return type === 'integer'
+          ? t('Errors.MustBeAnInteger')
+          : t('Errors.MustBeADecimalNumber');
       } else if (type === 'integer' && newStrVal.includes('.')) {
         return t('Errors.MustBeAnInteger');
       } else if (min !== undefined && newNumVal < min) {
@@ -162,6 +168,7 @@ const FormattedNumberInputField = ({
       label={label}
       required={required}
       errors={errors}
+      showErrorIcon={showErrorIcon}
       helperText={helperText}
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>

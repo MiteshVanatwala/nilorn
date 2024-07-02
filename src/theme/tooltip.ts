@@ -11,6 +11,11 @@ const baseStyle = defineStyle({
   transitionDuration: '200ms',
 });
 
+const error = defineStyle({
+  background: COLORS.ERROR,
+});
+
 export const tooltip = defineStyleConfig({
   baseStyle,
+  variants: { error },
 });

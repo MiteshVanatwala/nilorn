@@ -44,7 +44,10 @@ const CompositionMaterialRow = ({
     <>
       <GridItem>
         {options && (
-          <ControlWrapper name={materialName} errors={errors}>
+          <ControlWrapper
+            name={materialName}
+            errors={errors}
+            showErrorIcon={true}>
             <Controller
               name={materialName}
               control={control}
@@ -63,7 +66,7 @@ const CompositionMaterialRow = ({
           </ControlWrapper>
         )}
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'end'}>
         <FormattedNumberInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
@@ -72,9 +75,10 @@ const CompositionMaterialRow = ({
           minMessage={`${t('Production.Feedback.Error.Percentage')}`}
           max={100}
           maxMessage={`${t('Production.Feedback.Error.Percentage')}`}
+          showErrorIcon={true}
         />
       </GridItem>
-      <GridItem>
+      <GridItem alignSelf={'center'}>
         {!disableEdit && (
           <Tooltip label={t('Common.Remove')}>
             <IconButton
