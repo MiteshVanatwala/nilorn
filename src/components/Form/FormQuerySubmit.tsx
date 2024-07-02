@@ -26,7 +26,7 @@ export default function FormuQuerySubmit({
     const filters = parseSearchParams(location.search ?? '');
     form.reset(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+  }, []);
 
   const formChange = useCallback(() => {
     let filterChangeUrl = onFilterChange(getValues());
