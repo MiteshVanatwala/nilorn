@@ -1,8 +1,7 @@
-import { HStack, VStack } from '@chakra-ui/react';
-import FormLabelComponent from '../../../../components/Form/FormLabelComponent';
+import { HStack } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
 import ProjectsActionBar from './ProjectsActionBar';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 import { SelectOption } from '../../../../app/types/types';
 import { useGetProjectsOptions } from '../../../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
@@ -10,33 +9,37 @@ import { SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 
 type Props = {
-  selectedProject?: SelectOption;
-  selectedClient?: SelectOption;
-  setSelectedProject: Dispatch<SetStateAction<SelectOption | undefined>>;
-  setSelectedClient: Dispatch<SetStateAction<SelectOption | undefined>>;
+  selectedProjectCode?: string;
+  selectedClientNo?: string;
+  setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
+  setSelectedClientNo: Dispatch<SetStateAction<string | undefined>>;
   lastModified?: Date;
   clientOptions?: SelectOption[];
 };
 
 const ProjectsTopSection = ({
-  selectedProject,
-  selectedClient,
-  setSelectedProject,
-  setSelectedClient,
+  selectedProjectCode,
+  selectedClientNo,
+  setSelectedProjectCode,
+  setSelectedClientNo,
   lastModified,
   clientOptions,
 }: Props) => {
   const { t } = useTranslation();
 
-  const { data: projectOptions } = useGetProjectsOptions(selectedClient?.value);
+  const { data: projectOptionItems } = useGetProjectsOptions(selectedClientNo);
+
+  const projectOptions = useMemo(() => {
+    return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
+  }, [projectOptionItems]);
 
   const onChangeProject = (option: SelectOption) => {
-    setSelectedProject(option);
+    setSelectedProjectCode(option.value);
   };
 
   const onChangeClient = (option: SelectOption) => {
-    setSelectedClient(option);
-    setSelectedProject(undefined);
+    setSelectedClientNo(option.value);
+    setSelectedProjectCode(undefined);
   };
 
   return (
@@ -47,7 +50,7 @@ const ProjectsTopSection = ({
             name={'client'}
             onChange={onChangeClient}
             options={clientOptions}
-            value={selectedClient}
+            value={clientOptions?.find(opt => opt.value === selectedClientNo)}
           />
         </ControlWrapper>
 
@@ -55,15 +58,18 @@ const ProjectsTopSection = ({
           <SelectBase
             name={'project'}
             onChange={onChangeProject}
-            options={projectOptions as SelectOption[]}
-            value={selectedProject}
+            options={projectOptions}
+            value={projectOptions?.find(
+              opt => opt.value === selectedProjectCode
+            )}
           />
         </ControlWrapper>
       </HStack>
       <ProjectsActionBar
         lastModified={lastModified?.toISOString()}
-        clientNo={selectedClient?.value}
-        projectId={selectedProject?.value}
+        clientNo={selectedClientNo}
+        projectId={selectedProjectCode}
+        setSelectedProjectCode={setSelectedProjectCode}
       />
     </HStack>
   );

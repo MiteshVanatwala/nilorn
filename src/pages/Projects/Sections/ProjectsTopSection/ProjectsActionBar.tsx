@@ -7,14 +7,16 @@ import { useTranslation } from 'react-i18next';
 import { useModal } from '../../../../app/hooks/useModal';
 import { useDeleteProject } from '../../../../app/api/Projects';
 import AddProjectModal from '../../../ProductDevelopmentPage/Sections/SectionComponents/AddProjectModal';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   lastModified?: string;
   clientNo?: string;
   projectId?: string;
+  setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
 };
 
-const ProjectsActionBar = ({ lastModified, clientNo, projectId }: Props) => {
+const ProjectsActionBar = ({ lastModified, clientNo, projectId, setSelectedProjectCode}: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
   const { mutate: deleteProject } = useDeleteProject();
@@ -34,7 +36,14 @@ const ProjectsActionBar = ({ lastModified, clientNo, projectId }: Props) => {
         <MenuList>
           <MenuItem
             onClick={() => {
-              handleModal(<AddProjectModal clientNo={clientNo ?? ''} />);
+              handleModal(
+                <AddProjectModal
+                  clientNo={clientNo ?? ''}
+                  setDefaultProject={(val: string) => {
+                    setSelectedProjectCode(val)
+                  }}
+                />
+              );
             }}
             icon={
               <RemixIcon
