@@ -19,6 +19,7 @@ type Props = {
   index: number;
   onDelete: () => void;
   disableEdit?: boolean;
+  focusOnMount?: boolean;
 };
 
 const CertificateInputRow = ({
@@ -28,6 +29,7 @@ const CertificateInputRow = ({
   unselectedOptions,
   onDelete,
   disableEdit = false,
+  focusOnMount = false,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -95,6 +97,7 @@ const CertificateInputRow = ({
               render={() => (
                 <SelectBase
                   isSearchable
+                  autoFocus={focusOnMount}
                   name={certificateCodeName}
                   options={unselectedOptions}
                   onChange={onChangeCode}

@@ -79,6 +79,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   hideSelected?: boolean;
   isSelected?: boolean;
   isDisabled?: boolean;
+  autoFocus?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -102,6 +103,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   hideSelected = false,
   isSelected = false,
   isDisabled,
+  autoFocus = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
@@ -126,6 +128,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   return (
     <Select
       isDisabled={isDisabled}
+      autoFocus={autoFocus}
       hideSelectedOptions={hideSelected}
       selectedOptionStyle={showSelectedCount ? 'check' : undefined}
       controlShouldRenderValue={

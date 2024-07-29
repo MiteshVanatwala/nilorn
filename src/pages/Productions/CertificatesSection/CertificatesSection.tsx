@@ -1,5 +1,5 @@
 import { Button, Grid, VStack } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useCertificateCodes } from '../../../app/api/production';
@@ -24,6 +24,7 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
   } = useFormContext();
   const fieldName = 'productionCertificates';
 
+  const [focusIndex, setFocusIndex] = useState<Number>(-1);
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
@@ -68,6 +69,7 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
               unselectedOptions={unselectedOptions as SelectOption[]}
               onDelete={() => remove(index)}
               disableEdit={disableEdit}
+              focusOnMount={index === focusIndex}
             />
           );
         })}
@@ -76,15 +78,16 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
         <Button
           isDisabled={!certificateCodes}
           variant={'secondarySmall'}
-          onClick={() =>
+          onClick={() => {
             append({
               certificateCode: null,
               certificateCategoryCode: null,
               certificateClassCode: null,
               percentage: null,
               certificateWeight: null,
-            })
-          }
+            });
+            setFocusIndex(fields.length);
+          }}
           rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
           {t('Common.Add')}
         </Button>
