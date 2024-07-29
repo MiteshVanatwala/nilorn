@@ -163,6 +163,8 @@ export const usePriceCalculationDefaultValues = (
       ).then(res => res),
     {
       retry: 0,
+      cacheTime: 250,
+      staleTime: 250,
     }
   );
 };
