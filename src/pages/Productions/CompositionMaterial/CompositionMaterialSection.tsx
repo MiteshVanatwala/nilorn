@@ -50,7 +50,7 @@ const CompositionMaterialSection = ({
 
   let sum = 0;
   registerdCompositionMaterial?.forEach(m => {
-    const qty = Number(m.quantity);
+    const qty = Number(m.quantity?.toString().replace(',', '.'));
     if (!isNaN(qty)) {
       sum = sum + (!qty ? 0 : qty);
     }
