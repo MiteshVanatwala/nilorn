@@ -69,7 +69,9 @@ const PriceCalculationForm = ({
     : 0;
 
   const margin =
-    isNaN(marginValue) || marginValue === null ? null : Number(marginValue);
+    isNaN(marginValue) || marginValue === null || marginValue === ''
+      ? null
+      : Number(marginValue);
   const currencyRate = isNaN(currencyRateValue) ? 0 : Number(currencyRateValue);
   const internalCommission = internalCommisionValue
     ? Number(internalCommisionValue)
@@ -176,7 +178,6 @@ const PriceCalculationForm = ({
             required={createNew}
             max={MAX_MARGIN}
             maxMessage={`${t('PriceCalc.Feedback.Error.MarginTooHigh')}`}
-            changelog={freightIncludedChangelog}
           />
         </GridItem>
         <GridItem colStart={1} colSpan={2}>
