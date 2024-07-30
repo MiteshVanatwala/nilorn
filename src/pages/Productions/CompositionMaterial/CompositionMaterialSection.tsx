@@ -84,7 +84,7 @@ const CompositionMaterialSection = ({
           />
         ))}
       </Grid>
-      <HStack justify={'space-between'} w={'100%'} pr={'4.5rem'}>
+      <HStack justify={showAddButton ? 'space-between' : 'end'} w={'100%'} pr={'4.5rem'}>
         {showAddButton && (
           <Button
             isDisabled={!materialOptions}
