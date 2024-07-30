@@ -14,6 +14,7 @@ type Props = {
   index: number;
   onDelete: () => void;
   disableEdit: boolean;
+  focusOnMount?: boolean;
 };
 
 const CompositionMaterialRow = ({
@@ -23,6 +24,7 @@ const CompositionMaterialRow = ({
   unSelectedOptions,
   onDelete,
   disableEdit,
+  focusOnMount = false,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -57,6 +59,7 @@ const CompositionMaterialRow = ({
               render={() => (
                 <SelectBase
                   isSearchable
+                  autoFocus={focusOnMount}
                   name={materialName}
                   options={unSelectedOptions}
                   onChange={onChangeMaterial}
@@ -72,7 +75,7 @@ const CompositionMaterialRow = ({
         <FormattedNumberInputField
           name={percentName}
           placeholder={t('Production.PercentPlaceholder')}
-          readonly={disableEdit}
+          readonly={disableEdit || !selectedMaterial}
           min={0}
           minMessage={`${t('Production.Feedback.Error.Percentage')}`}
           max={100}

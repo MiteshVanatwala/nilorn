@@ -1,5 +1,5 @@
 import { Button, Grid, HStack, Text, VStack } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useCompositionMaterials } from '../../../app/api/production';
@@ -23,6 +23,8 @@ const CompositionMaterialSection = ({
   const { t } = useTranslation();
   const { control, getValues, setValue } = useFormContext();
   const fieldName = 'compositions';
+
+  const [focusIndex, setFocusIndex] = useState<Number>(-1);
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldName,
@@ -78,6 +80,7 @@ const CompositionMaterialSection = ({
             options={materialOptions as SelectOption[]}
             onDelete={() => remove(index)}
             disableEdit={disableEdit}
+            focusOnMount={index === focusIndex}
           />
         ))}
       </Grid>
@@ -86,12 +89,13 @@ const CompositionMaterialSection = ({
           <Button
             isDisabled={!materialOptions}
             variant={'secondarySmall'}
-            onClick={() =>
+            onClick={() => {
               append({
                 compositionMaterialCode: null,
                 quantity: null,
-              })
-            }
+              });
+              setFocusIndex(fields.length);
+            }}
             rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
             {t('Common.Add')}
           </Button>
