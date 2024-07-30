@@ -26,6 +26,7 @@ const CompositionMaterialRow = ({
 }: Props) => {
   const { t } = useTranslation();
   const {
+    clearErrors,
     setValue,
     control,
     formState: { errors },
@@ -36,6 +37,7 @@ const CompositionMaterialRow = ({
   const selectedMaterial = useWatch({ name: materialName });
 
   const onChangeMaterial = (newValue: SelectOption) => {
+    clearErrors(`${fieldName}.${index}`);
     setValue(materialName, newValue.value);
     setValue(percentName, undefined);
   };
