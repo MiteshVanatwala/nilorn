@@ -2,6 +2,7 @@ import { IconButton, Image, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { images } from '../../assets';
 import { MediaFileDto } from '../../app/generate';
+import { MouseEventHandler } from 'react';
 
 type Props = {
   artwork: MediaFileDto;
@@ -10,6 +11,11 @@ type Props = {
 
 const ArtworkButton = ({ size, artwork }: Props) => {
   const { t } = useTranslation();
+
+  const onClick: MouseEventHandler<HTMLButtonElement> = e => {
+    e.currentTarget.blur();
+    e.stopPropagation();
+  };
 
   return (
     <Tooltip label={`${t('Common.Preview')} ${artwork.name}`}>
@@ -20,9 +26,7 @@ const ArtworkButton = ({ size, artwork }: Props) => {
         as={'a'}
         target="_blank"
         href={`${artwork.webUrl}`}
-        onClick={e => {
-          e.stopPropagation();
-        }}
+        onClick={onClick}
         icon={
           <Image
             src={images.pdf}
