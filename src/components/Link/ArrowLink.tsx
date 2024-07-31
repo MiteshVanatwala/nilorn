@@ -1,5 +1,6 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { handleOnEnter } from '../../app/utils/keyboard';
 import RemixIcon from '../Icon/RemixIcon';
 
 type Props = {
@@ -22,6 +23,8 @@ const ArrowLink = ({ direction, children, to, onClick }: Props) => {
         <RemixIcon component="i" icon="ARROW_RIGHT_LINE" />
       ),
   };
+  const navigate = useNavigate();
+
   if (onClick && !to) {
     return (
       <Button onClick={onClick} {...props}>
@@ -30,7 +33,12 @@ const ArrowLink = ({ direction, children, to, onClick }: Props) => {
     );
   }
   return (
-    <Button as={NavLink} end to={to} {...props}>
+    <Button
+      as={NavLink}
+      onKeyDown={e => handleOnEnter(e, () => to && navigate(to))}
+      end
+      to={to}
+      {...props}>
       {children}
     </Button>
   );
