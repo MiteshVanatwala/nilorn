@@ -24,6 +24,9 @@ import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
+import { Fragment } from 'react';
+
+const COLSED_PD = [Status.DELETED, Status.REJECTED];
 
 type Props = {
   no: string;
@@ -32,6 +35,7 @@ type Props = {
   hasPriceCalculation: boolean;
   hasProductions: boolean;
 };
+
 const ActionBar = ({
   createNew,
   no,
@@ -40,8 +44,9 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
   const showCalculation = useAuthorizedSee('price-calculation');
+  const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
+  const isAuthorizedToOpenDeleted = useAuthorizedToChangeStatus();
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
   const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 
@@ -50,6 +55,7 @@ const ActionBar = ({
     formState: { errors, defaultValues },
     trigger,
     register,
+    clearErrors,
   } = useFormContext();
   const { hasUnsavedChanges } = useUnsavedChanges();
 
@@ -64,11 +70,6 @@ const ActionBar = ({
   const { handleModal } = useModal();
 
   async function submitStatus(newStatus: Status): Promise<void> {
-    const errorKeys = Object.keys(errors);
-    if (errorKeys?.length) {
-      scrollNameIntoView(errorKeys[0]);
-      return;
-    }
     if (currentStatus === newStatus) {
       return;
     }
@@ -80,29 +81,28 @@ const ActionBar = ({
       });
       return;
     }
+
     if (newStatus === Status.NEW) {
       updateStatus(newStatus);
-    } else {
-      if (currentStatus === Status.NEW) {
-        register('productGroupCode', {
-          required: true,
-        });
-        register('itemCategoryCode', {
-          required: true,
-        });
-      }
-      const res = await trigger();
-      if (res) {
-        updateStatus(newStatus);
-        return;
-      }
-      showToast({
-        status: 'error',
-        description: t('PD.Feedback.Error.UpdateStatus'),
-      });
       return;
     }
+
+    if (currentStatus === Status.NEW) {
+      registerFields();
+    }
+    if (COLSED_PD.includes(newStatus)) {
+      updateStatus(newStatus);
+      return;
+    }
+
+    const res = await trigger();
+    if (res) {
+      updateStatus(newStatus);
+      return;
+    }
+    handleFormErrors();
   }
+
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCT_DEVELOPMENT,
     no,
@@ -136,6 +136,29 @@ const ActionBar = ({
       submitStatus(status);
     }
   }
+  const registerFields = () => {
+    register('productGroupCode', { required: true });
+    register('itemCategoryCode', { required: true });
+  };
+
+  const handleFormErrors = () => {
+    const errorKeys = Object.keys(errors);
+    if (errorKeys.length) {
+      scrollNameIntoView(errorKeys[0]);
+    }
+
+    if (COLSED_PD.includes(currentStatus)) {
+      showToast({
+        status: 'error',
+        description: t('PD.Feedback.Error.OnlyNew'),
+      });
+    } else {
+      showToast({
+        status: 'error',
+        description: t('PD.Feedback.Error.UpdateStatus'),
+      });
+    }
+  };
 
   return (
     <ActionBarTemplate
@@ -225,27 +248,35 @@ const ActionBar = ({
                 <RemixIcon component="i" icon="ARROW_DOWN_S_LINE" />
               </MenuButton>
               <MenuList>
-                {statuses.map(s => (
-                  <MenuItem
-                    key={s.value}
-                    value={s.value}
-                    onClick={() => handleChangeStatus(s.value)}
-                    bg={
-                      getValues('status') === s.value
-                        ? COLORS.GRAY[10]
-                        : 'transparent'
-                    }
-                    autoFocus={s.value === 'Design'}
-                    icon={
-                      <Box
-                        w={'6px'}
-                        h={'6px'}
-                        borderRadius={'2px'}
-                        bg={s.color}></Box>
-                    }>
-                    {s.label}
-                  </MenuItem>
-                ))}
+                {statuses.map(s =>
+                  user?.role && isAuthorizedToChangeStatus(s.value) ? (
+                    <MenuItem
+                      key={s.value}
+                      value={s.value}
+                      onClick={() =>
+                        !disableEdit || isAuthorizedToOpenDeleted(currentStatus)
+                          ? submitStatus(s.value)
+                          : ''
+                      }
+                      bg={
+                        getValues('status') === s.value
+                          ? COLORS.GRAY[10]
+                          : 'transparent'
+                      }
+                      autoFocus={s.value === 'Design'}
+                      icon={
+                        <Box
+                          w={'6px'}
+                          h={'6px'}
+                          borderRadius={'2px'}
+                          bg={s.color}></Box>
+                      }>
+                      {s.label}
+                    </MenuItem>
+                  ) : (
+                    <Fragment key={s.value} />
+                  )
+                )}
               </MenuList>
             </Menu>
             {!disableEdit && (
