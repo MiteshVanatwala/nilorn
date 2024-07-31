@@ -88,8 +88,8 @@ const CompositionMaterialSection = ({
             variant={'secondarySmall'}
             onClick={() =>
               append({
-                material: undefined,
-                value: undefined,
+                compositionMaterialCode: null,
+                quantity: null,
               })
             }
             rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}>
