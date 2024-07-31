@@ -1,12 +1,13 @@
 import { MenuItem, Text } from '@chakra-ui/react';
-import { useModal } from '../../../../../app/hooks/useModal';
-import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
+import { useTranslation } from 'react-i18next';
 import {
   useCreateCopyProductDevelopment,
   useCreateVersionProductDevelopment,
 } from '../../../../../app/api/productDevelopment';
+import { useModal } from '../../../../../app/hooks/useModal';
+import { handleOnEnter } from '../../../../../app/utils/keyboard';
+import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 import { SIZES } from '../../../../../theme/Constants';
-import { useTranslation } from 'react-i18next';
 
 type Props = {
   no: string;
@@ -57,6 +58,7 @@ const MenuItemCreate = ({ no, createType }: Props) => {
   return (
     <MenuItem
       onClick={() => handleModal(confirmModal)}
+      onKeyDownCapture={e => handleOnEnter(e, () => handleModal(confirmModal))}
       icon={
         <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-file-copy-line" />
       }>
