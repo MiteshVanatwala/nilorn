@@ -66,7 +66,7 @@ const RemoveFileModal = forwardRef<ModalRef, Props>(({ id, onRemove }, ref) => {
             <Button
               onClick={() => removeLink(true)}
               isLoading={isRemovingLink}
-              variant={'secondary'}
+              variant={'primary'}
               rightIcon={<RemixIcon component="i" icon="LINK_UNLINK_M" />}>
               {t('PD.File.RemoveLink')}
             </Button>
