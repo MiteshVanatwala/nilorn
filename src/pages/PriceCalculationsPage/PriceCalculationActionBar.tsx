@@ -2,6 +2,7 @@ import { Button } from '@chakra-ui/button';
 import { MenuItem, MenuList } from '@chakra-ui/menu';
 import { useTranslation } from 'react-i18next';
 import { MediaFileDto } from '../../app/generate';
+import { handleOnEnter } from '../../app/utils/keyboard';
 import ActionBarTemplate from '../../components/ActionBar/ActionBarTemplate';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import { SIZES } from '../../theme/Constants';
@@ -36,6 +37,9 @@ const PriceCalculationActionBar = ({
           <MenuList>
             <MenuItem
               onClick={() => setShowChanges(!showChanges)}
+              onKeyDownCapture={e =>
+                handleOnEnter(e, () => setShowChanges(!showChanges))
+              }
               icon={
                 <RemixIcon
                   component="Text"
@@ -48,6 +52,7 @@ const PriceCalculationActionBar = ({
             {!disableEdit && handleDelete && (
               <MenuItem
                 onClick={handleDelete}
+                onKeyDownCapture={e => handleOnEnter(e, handleDelete)}
                 icon={
                   <RemixIcon
                     component="Text"
@@ -66,6 +71,9 @@ const PriceCalculationActionBar = ({
           {!disableEdit && (
             <Button
               variant={'primary'}
+              onKeyDownCapture={e =>
+                handleOnEnter(e, () => e.currentTarget.form?.requestSubmit())
+              }
               type="submit"
               rightIcon={
                 !createNew ? (
