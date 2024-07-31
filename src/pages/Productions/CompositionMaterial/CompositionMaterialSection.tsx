@@ -52,9 +52,9 @@ const CompositionMaterialSection = ({
 
   let sum = 0;
   registerdCompositionMaterial?.forEach(m => {
-    const qty = Number(m.quantity?.toString().replace(',', '.'));
+    const qty = Number(m.quantity?.toString()?.replace(',', '.') ?? 0);
     if (!isNaN(qty)) {
-      sum = sum + (!qty ? 0 : qty);
+      sum += qty;
     }
   });
 
@@ -84,7 +84,10 @@ const CompositionMaterialSection = ({
           />
         ))}
       </Grid>
-      <HStack justify={showAddButton ? 'space-between' : 'end'} w={'100%'} pr={'4.5rem'}>
+      <HStack
+        justify={showAddButton ? 'space-between' : 'end'}
+        w={'100%'}
+        pr={'4.5rem'}>
         {showAddButton && (
           <Button
             isDisabled={!materialOptions}
