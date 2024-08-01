@@ -21,7 +21,10 @@ const ActiveFilters = () => {
 
   const hasValues = useMemo(() => {
     return !!watchedEntries.filter(
-      ([key, value]) => !ignoreKeys.includes(key as FilterKey) && !!value
+      ([key, value]) =>
+        !ignoreKeys.includes(key as FilterKey) &&
+        !!value &&
+        !(Array.isArray(value) && value.length === 0)
     )?.length;
   }, [watchedEntries]);
 
