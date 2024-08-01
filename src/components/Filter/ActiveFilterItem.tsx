@@ -11,10 +11,10 @@ type Props = {
   filterLabel?: string;
 };
 const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
-  const { unregister } = useFormContext();
+  const { setValue } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    unregister(queryItem);
+    setValue(queryItem, undefined);
   };
 
   return (
