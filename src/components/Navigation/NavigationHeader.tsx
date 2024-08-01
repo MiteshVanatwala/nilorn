@@ -23,7 +23,7 @@ const NavigationHeader = () => {
   const { t } = useTranslation();
 
   const showProduction = useAuthorizedSee('production');
-  const showCalculation = useAuthorizedSee('calculation');
+  const showCalculation = useAuthorizedSee('price-calculation');
 
   return (
     <Container

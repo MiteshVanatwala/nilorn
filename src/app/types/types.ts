@@ -5,6 +5,12 @@ import {
 } from '../generate';
 import { Location } from 'react-router';
 
+export type UmbrellaView =
+  | 'production'
+  | 'price-calculation'
+  | 'overview'
+  | 'sourcing';
+
 export type FilterKey =
   | keyof GetForFilterProductDevelopmentsWithPaginationQuery;
 

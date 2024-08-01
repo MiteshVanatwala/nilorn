@@ -30,7 +30,7 @@ const SourcingForm = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorizedSee('calculation');
+  const showCalculation = useAuthorizedSee('price-calculation');
   const allowedToRemove = useAuthorizedEdit('removeSourcing');
 
   const { data: connectedProductions } = useProductions(

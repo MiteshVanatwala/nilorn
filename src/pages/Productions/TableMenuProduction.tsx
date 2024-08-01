@@ -35,7 +35,7 @@ const TableMenuProduction = ({
   const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
   const showCalculationLink =
-    useAuthorizedSee('calculation') &&
+    useAuthorizedSee('price-calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
 

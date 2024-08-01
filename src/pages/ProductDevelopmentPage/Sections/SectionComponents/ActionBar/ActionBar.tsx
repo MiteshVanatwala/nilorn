@@ -40,8 +40,8 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorizedSee('calculation');
   const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
+  const showCalculation = useAuthorizedSee('price-calculation');
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
   const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 

@@ -1,5 +1,6 @@
 import { useCurrentUser } from '../api/User';
 import { MemberBriefDto, Role, Status } from '../generate';
+import { UmbrellaView } from '../types/types';
 import {
   ROLES_ALLOWED_SEE_CALCULATION,
   ROLES_ALLOWED_SEE_PRODUCTION,
@@ -14,9 +15,7 @@ import {
   ROLES_ALLOWED_TO_CREATE,
 } from './Permissions';
 
-export function useAuthorizedSee(
-  view: 'production' | 'sourcing' | 'calculation'
-) {
+export function useAuthorizedSee(view: UmbrellaView) {
   const { data: user } = useCurrentUser();
 
   if (user?.role) {
@@ -25,7 +24,7 @@ export function useAuthorizedSee(
         return ROLES_ALLOWED_SEE_PRODUCTION.includes(user?.role);
       case 'sourcing':
         return ROLES_ALLOWED_SEE_SOURCING.includes(user?.role);
-      case 'calculation':
+      case 'price-calculation':
         return ROLES_ALLOWED_SEE_CALCULATION.includes(user?.role);
     }
   }
