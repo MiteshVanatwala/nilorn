@@ -41,7 +41,7 @@ const ActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('calculation');
-  const isAuthorizedToCahangeStatus = useAuthorizedToChangeStatus();
+  const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
   const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 
@@ -108,8 +108,33 @@ const ActionBar = ({
     no,
     undefined
   );
+
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
+  }
+
+  function toggleShowChanges() {
+    setShowChanges(!showChanges);
+  }
+
+  function handleOnDelete() {
+    handleModal(
+      <ConfirmModal
+        title={t('PD.DeleteTitle')}
+        description={t('PD.DeleteComfirm', { no: no })}
+        confirmType="DELETE"
+        onConfirm={() => deleteProductDevelopment()}
+      />
+    );
+  }
+
+  function handleChangeStatus(status: Status) {
+    if (
+      !disableEdit ||
+      (user?.role && isAuthorizedToChangeStatus(currentStatus))
+    ) {
+      submitStatus(status);
+    }
   }
 
   return (
@@ -120,7 +145,7 @@ const ActionBar = ({
         !createNew ? (
           <MenuList>
             <MenuItem
-              onClick={() => setShowChanges(!showChanges)}
+              onClick={toggleShowChanges}
               icon={
                 <RemixIcon
                   component="Text"
@@ -141,16 +166,7 @@ const ActionBar = ({
 
             {!disableEdit && (
               <MenuItem
-                onClick={() =>
-                  handleModal(
-                    <ConfirmModal
-                      title={t('PD.DeleteTitle')}
-                      description={t('PD.DeleteComfirm', { no: no })}
-                      confirmType="DELETE"
-                      onConfirm={() => deleteProductDevelopment()}
-                    />
-                  )
-                }
+                onClick={handleOnDelete}
                 icon={
                   <RemixIcon
                     component="Text"
@@ -198,7 +214,7 @@ const ActionBar = ({
             <Menu>
               <MenuButton
                 opacity={
-                  disableEdit || !isAuthorizedToCahangeStatus(currentStatus)
+                  disableEdit || !isAuthorizedToChangeStatus(currentStatus)
                     ? READ_ONLY_OPACITY
                     : ''
                 }
@@ -213,12 +229,7 @@ const ActionBar = ({
                   <MenuItem
                     key={s.value}
                     value={s.value}
-                    onClick={() =>
-                      !disableEdit ||
-                      (user?.role && isAuthorizedToCahangeStatus(currentStatus))
-                        ? submitStatus(s.value)
-                        : ''
-                    }
+                    onClick={() => handleChangeStatus(s.value)}
                     bg={
                       getValues('status') === s.value
                         ? COLORS.GRAY[10]

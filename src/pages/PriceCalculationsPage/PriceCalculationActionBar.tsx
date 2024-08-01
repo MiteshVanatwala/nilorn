@@ -27,6 +27,10 @@ const PriceCalculationActionBar = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  function toggleShowChanges() {
+    setShowChanges(!showChanges);
+  }
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -35,7 +39,7 @@ const PriceCalculationActionBar = ({
         !createNew ? (
           <MenuList>
             <MenuItem
-              onClick={() => setShowChanges(!showChanges)}
+              onClick={toggleShowChanges}
               icon={
                 <RemixIcon
                   component="Text"

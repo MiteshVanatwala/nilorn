@@ -84,6 +84,10 @@ const ActionBarEditProduction = ({
     removeFromSales();
   }
 
+  function toggleShowChanges() {
+    setShowChanges(!showChanges);
+  }
+
   return (
     <ActionBarTemplate
       artwork={artwork}
@@ -92,9 +96,7 @@ const ActionBarEditProduction = ({
         !createNew ? (
           <MenuList>
             <MenuItem
-              onClick={() => {
-                setShowChanges(!showChanges);
-              }}
+              onClick={toggleShowChanges}
               icon={
                 <RemixIcon
                   component="Text"

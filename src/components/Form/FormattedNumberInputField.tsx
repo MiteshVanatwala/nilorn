@@ -180,6 +180,8 @@ const FormattedNumberInputField = ({
             position={'absolute'}
             top={'0.7rem'}
             left={0}
+            onClick={() => readonly && setFocus(name)}
+            zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
             opacity={readonly ? READ_ONLY_OPACITY : ''}>
             {formattedValue}&nbsp;
@@ -188,7 +190,8 @@ const FormattedNumberInputField = ({
         <Input
           type={'text'}
           inputMode={'numeric'}
-          opacity={showFormattedValue ? '0%' : '100%'}
+          textColor={showFormattedValue ? 'transparent' : 'inherit'}
+          onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
           variant={variant}
           isReadOnly={readonly}
           defaultValue={defaultValue}

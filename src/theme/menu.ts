@@ -14,9 +14,7 @@ const baseStyle = definePartsStyle({
     _hover: {
       bg: COLORS.GRAY[5],
     },
-    _focus: {
-      bg: 'inherit',
-    },
+    _focus: { bg: COLORS.GRAY[5] },
   },
 });
 
