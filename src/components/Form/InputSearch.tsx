@@ -9,15 +9,32 @@ interface Props extends FormInputProps {
   variant?: 'standard' | 'light' | 'outline' | 'filled';
 }
 
+const useSearchValue = (
+  initialValue: string
+): [string, (value: string) => void] => {
+  const [value, setValue] = useState<string>(initialValue);
+
+  const setEncodedValue = (newValue: string) => {
+    setValue(encodeURIComponent(newValue));
+  };
+
+  return [value, setEncodedValue];
+};
+
 const InputSearch = ({ name, label, placeholder, variant }: Props) => {
-  const { setValue, unregister } = useFormContext();
-  const [searchValue, setSearchValue] = useState('');
+  const { setValue, unregister, getValues } = useFormContext();
+  const [searchValue, setSearchValue] = useSearchValue('');
   const watch = useWatch({ name: name });
 
   useEffect(() => {
-    if (!!watch) {
-      setSearchValue(watch);
-    } else {
+    if (getValues(name)) {
+      setSearchValue(getValues(name));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getValues, name]);
+
+  useEffect(() => {
+    if (!watch) {
       setSearchValue('');
       unregister(name);
     }
@@ -42,7 +59,7 @@ const InputSearch = ({ name, label, placeholder, variant }: Props) => {
     <>
       <ControlWrapper name={name} label={label}>
         <Input
-          value={searchValue}
+          value={decodeURIComponent(searchValue)}
           variant={variant}
           placeholder={placeholder}
           onChange={onChange}
