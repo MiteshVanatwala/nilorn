@@ -1,30 +1,29 @@
-import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
+import { COLORS, SIZES, SPACE } from '../../../../../theme/Constants';
+import { Button } from '@chakra-ui/button';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
-import {
-  useAuthorizedEdit,
-  useAuthorizedSee,
-  useAuthorizedToChangeStatus,
-} from '../../../../../app/Permissions/usePremissions';
-import { useCurrentUser } from '../../../../../app/api/User';
+import { useStatusOptions } from '../../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../../app/api/productDevelopment';
 import { ChangelogType, Status } from '../../../../../app/generate';
 import { useToggleChangelog } from '../../../../../app/hooks/useChangelog';
 import { useModal } from '../../../../../app/hooks/useModal';
-import { useStatusOptions } from '../../../../../app/hooks/useStatus';
-import { useToast } from '../../../../../app/hooks/useToast';
-import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
-import { scrollNameIntoView } from '../../../../../app/utils/common';
-import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
-import { handleOnEnter } from '../../../../../app/utils/keyboard';
-import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
-import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
-import { COLORS, SIZES, SPACE } from '../../../../../theme/Constants';
+import { useToast } from '../../../../../app/hooks/useToast';
+import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
+import { useCurrentUser } from '../../../../../app/api/User';
+import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
+import { NavLink } from 'react-router-dom';
+import { scrollNameIntoView } from '../../../../../app/utils/common';
+import {
+  useAuthorizedSee,
+  useAuthorizedToChangeStatus,
+  useAuthorizedEdit,
+} from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
+import { useTranslation } from 'react-i18next';
+import RemixIcon from '../../../../../components/Icon/RemixIcon';
+import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 
 type Props = {
   no: string;
@@ -147,7 +146,6 @@ const ActionBar = ({
           <MenuList>
             <MenuItem
               onClick={toggleShowChanges}
-              onKeyDownCapture={e => handleOnEnter(e, toggleShowChanges)}
               icon={
                 <RemixIcon
                   component="Text"
@@ -169,7 +167,6 @@ const ActionBar = ({
             {!disableEdit && (
               <MenuItem
                 onClick={handleOnDelete}
-                onKeyDownCapture={e => handleOnEnter(e, handleOnDelete)}
                 icon={
                   <RemixIcon
                     component="Text"
@@ -233,9 +230,6 @@ const ActionBar = ({
                     key={s.value}
                     value={s.value}
                     onClick={() => handleChangeStatus(s.value)}
-                    onKeyDownCapture={e =>
-                      handleOnEnter(e, () => handleChangeStatus(s.value))
-                    }
                     bg={
                       getValues('status') === s.value
                         ? COLORS.GRAY[10]

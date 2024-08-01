@@ -18,7 +18,6 @@ import {
   Status,
 } from '../../../app/generate';
 import { NAV_LINK } from '../../../app/hooks/useModalNavigationBlocker';
-import { handleOnEnter } from '../../../app/utils/keyboard';
 import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import RemixIcon from '../../../components/Icon/RemixIcon';
@@ -98,7 +97,6 @@ const ActionBarEditProduction = ({
           <MenuList>
             <MenuItem
               onClick={toggleShowChanges}
-              onKeyDownCapture={e => handleOnEnter(e, toggleShowChanges)}
               icon={
                 <RemixIcon
                   component="Text"
@@ -114,7 +112,6 @@ const ActionBarEditProduction = ({
               !!production?.vendorId && (
                 <MenuItem
                   onClick={removeFromSalesFunc}
-                  onKeyDownCapture={e => handleOnEnter(e, removeFromSalesFunc)}
                   icon={
                     <RemixIcon
                       component="Text"
@@ -143,7 +140,6 @@ const ActionBarEditProduction = ({
             {!disableEdit && status && !isClosed(status) && handleDelete && (
               <MenuItem
                 onClick={handleDelete}
-                onKeyDownCapture={e => handleOnEnter(e, handleDelete)}
                 icon={
                   <RemixIcon
                     component="Text"
@@ -163,9 +159,6 @@ const ActionBarEditProduction = ({
             <>
               <Button
                 type="submit"
-                onKeyDownCapture={e =>
-                  handleOnEnter(e, () => e.currentTarget.form?.requestSubmit())
-                }
                 rightIcon={
                   !createNew ? (
                     <RemixIcon component="i" icon="SAVE_LINE" />
@@ -190,9 +183,6 @@ const ActionBarEditProduction = ({
                     <MenuList>
                       <MenuItem
                         onClick={() => handleSaveAndRelease()}
-                        onKeyDownCapture={e =>
-                          handleOnEnter(e, handleSaveAndRelease)
-                        }
                         icon={
                           <RemixIcon
                             component="Text"
