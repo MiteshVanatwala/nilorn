@@ -173,11 +173,11 @@ const SelectBase = <IsMulti extends boolean = false>({
             backgroundColor: bgColor,
           },
           _focusVisible: {
-            borderColor: !readOnly ? focus : '',
+            borderColor: focus,
             backgroundColor: bgColor,
           },
           _focus: {
-            borderColor: !readOnly ? focus : '',
+            borderColor: focus,
             backgroundColor: bgColor,
           },
         }),

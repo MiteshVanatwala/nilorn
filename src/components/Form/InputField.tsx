@@ -46,6 +46,7 @@ const InputField = ({
       hideValidationStyle={hideValidationStyle}
       changelog={changelog}>
       <Input
+        onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
         opacity={readonly ? READ_ONLY_OPACITY : ''}
         variant={variant}
         isReadOnly={readonly}
