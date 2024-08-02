@@ -32,7 +32,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
 
   return (
     <Table>
-      <Thead position={'sticky'} top={0}>
+      <Thead position={'sticky'} top={0} zIndex={8}>
         {table.getHeaderGroups().map((headerGroup, i) => (
           <THeadRow key={i} headerGroup={headerGroup} />
         ))}

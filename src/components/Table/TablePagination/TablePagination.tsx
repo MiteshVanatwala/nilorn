@@ -67,7 +67,7 @@ const TablePagination = ({
       paddingX={SPACE.SM}
       width={'100%'}
       height={'3.5rem'}
-      zIndex={0}
+      zIndex={8}
       bgColor={COLORS.GRAY[80]}
       justifyContent={'space-between'}>
       {/* LEFT */}
