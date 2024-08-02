@@ -4,7 +4,7 @@ import text from './text';
 export const formLabel = {
   baseStyle: {
     ...text.variants.bodyBold,
-    color: COLORS.GRAY[80],
+    color: COLORS.BLACK,
     letterSpacing: '0.02em',
     marginBottom: SPACE.SM,
   },

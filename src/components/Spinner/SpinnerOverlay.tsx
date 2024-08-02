@@ -21,7 +21,7 @@ const SpinnerOverlay = ({ text, fillContainer = false }: Props) => {
       borderRadius={fillContainer ? undefined : BORDER_RADIUS.LG}>
       <Spinner size="xl" />
       {text && (
-        <Heading as={'h2'} variant={'h4'} color={COLORS.GRAY[90]}>
+        <Heading as={'h2'} variant={'h4'} color={COLORS.BLACK}>
           {text}
         </Heading>
       )}

@@ -2,7 +2,7 @@ import { COLORS, SIZES } from './Constants';
 
 const heading = {
   baseStyle: {
-    color: COLORS.GRAY[80],
+    color: COLORS.BLACK,
     letterSpacing: '0.02em',
   },
   variants: {

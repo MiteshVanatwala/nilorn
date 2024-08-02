@@ -160,15 +160,14 @@ const PDImageModal = ({ imageUrl, no, pdName, status }: Props) => {
                     border={'1px dashed'}
                     px={SPACE.MD}
                     lineHeight={'3rem'}
-                    borderColor={COLORS.GRAY[20]}
+                    borderColor={COLORS.GRAY[30]}
                     _focus={{
                       borderColor: COLORS.GRAY[80],
                       bgColor: COLORS.GRAY[5],
                     }}
                     _hover={{
                       bgColor: COLORS.GRAY[5],
-                    }}
-                    color={COLORS.GRAY[80]}>
+                    }}>
                     {t('PD.OrPaste')}
                   </Text>
                 </HStack>

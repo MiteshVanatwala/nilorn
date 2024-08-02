@@ -15,7 +15,7 @@ const FormLabelComponent = ({
   required,
   inline,
   error,
-  color = COLORS.GRAY[80],
+  color = COLORS.BLACK,
 }: Props) => {
   return (
     <FormLabel

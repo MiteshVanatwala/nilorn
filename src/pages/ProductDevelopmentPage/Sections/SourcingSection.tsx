@@ -111,7 +111,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
                 return (
                   <AccordionItem
                     key={sourcingData.id}
-                    headlineColor={COLORS.GRAY[80]}
+                    headlineColor={COLORS.BLACK}
                     title={sourcing.sourcingCompanyCode}>
                     <SourcingForm
                       no={no}

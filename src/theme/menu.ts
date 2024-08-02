@@ -11,6 +11,7 @@ const baseStyle = definePartsStyle({
   },
   item: {
     bg: COLORS.WHITE,
+    color: COLORS.BLACK,
     _hover: {
       bg: COLORS.GRAY[5],
     },

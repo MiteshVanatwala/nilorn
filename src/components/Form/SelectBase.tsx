@@ -107,16 +107,8 @@ const SelectBase = <IsMulti extends boolean = false>({
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
-  const color = dark
-    ? COLORS.WHITE
-    : invisible
-    ? COLORS.GRAY[80]
-    : COLORS.BLACK;
-  const placeHolderColor = dark
-    ? COLORS.WHITE
-    : invisible
-    ? COLORS.GRAY[80]
-    : COLORS.GRAY[80];
+  const color = dark ? COLORS.WHITE : COLORS.BLACK;
+  const placeHolderColor = dark ? COLORS.WHITE : COLORS.GRAY[80];
   const bgColor = dark
     ? COLORS.GRAY[70]
     : invisible

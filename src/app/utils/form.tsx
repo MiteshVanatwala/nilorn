@@ -11,7 +11,7 @@ export function getValidationStyle(
   icon: JSX.Element;
 } {
   if (isLoading) {
-    return { color: COLORS.GRAY[80], icon: <Spinner /> };
+    return { color: COLORS.BLACK, icon: <Spinner /> };
   }
   switch (state) {
     case FieldState.ERROR:
@@ -39,6 +39,6 @@ export function getValidationStyle(
         ),
       };
     default:
-      return { color: COLORS.GRAY[80], icon: <></> };
+      return { color: COLORS.BLACK, icon: <></> };
   }
 }
