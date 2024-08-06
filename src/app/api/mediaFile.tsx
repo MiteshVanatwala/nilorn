@@ -19,9 +19,17 @@ export const useUploadFile = (
   const { showToast } = useToast();
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
   const { hasUnsavedChanges } = useUnsavedChanges();
+
   async function submitStatus(): Promise<void> {
-    if (currentStatus === Status.DESIGN && !hasUnsavedChanges()) {
-      updateStatus(Status.ARTWORK);
+    if (currentStatus === Status.DESIGN) {
+      if (hasUnsavedChanges()) {
+        showToast({
+          status: 'info',
+          description: t('PD.Feedback.Info.NeedToSave'),
+        });
+        return;
+      }
+      await updateStatus(Status.ARTWORK);
     } else {
       queryClient.invalidateQueries([QueryKeysEnum.Overview]);
     }
