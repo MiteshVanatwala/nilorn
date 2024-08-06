@@ -137,7 +137,7 @@ const FormattedNumberInputField = ({
       if (typeof val === 'string' && val.includes(' ')) {
         return type === 'integer'
           ? t('Errors.MustBeAnInteger')
-          : t('Errors.MustBeADecimalNumber');
+          : t('Errors.MustBeANumber');
       }
 
       let newNumVal = val as number;
@@ -149,7 +149,7 @@ const FormattedNumberInputField = ({
       if (isNaN(newNumVal)) {
         return type === 'integer'
           ? t('Errors.MustBeAnInteger')
-          : t('Errors.MustBeADecimalNumber');
+          : t('Errors.MustBeANumber');
       } else if (type === 'integer' && newStrVal.includes('.')) {
         return t('Errors.MustBeAnInteger');
       } else if (min !== undefined && newNumVal < min) {

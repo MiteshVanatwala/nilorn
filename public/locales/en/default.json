@@ -361,7 +361,7 @@
     "ProjectNameLength": "Max length is 30 characters",
     "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique",
-    "MustBeADecimalNumber": "Must be a decimal number",
+    "MustBeANumber": "Must be a number",
     "MustBeAnInteger": "Must be an integer"
   },
   "NotFound": {
