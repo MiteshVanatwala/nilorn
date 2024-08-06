@@ -224,7 +224,6 @@
         "Create": "Failed to create new product development",
         "Update": "Failed to update product development",
         "UpdateStatus": "Failed to change status on product development",
-        "OnlyNew": "Failed to change status on product development, to open the product development chnage status to New",
         "FileUpdated": "Failed to upload file {{name}}",
         "CreateCopy": "Failed to create copy",
         "CreateVersion": "Failed to create version"
