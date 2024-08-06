@@ -39,7 +39,7 @@ const FilterNumberInputField = ({ name, label, placeholder }: Props) => {
   const showFormattedValue = !!formattedValue && !isActive;
 
   return (
-    <ControlWrapper name={name} label={label}>
+    <ControlWrapper name={name} label={label} hideValidationStyle>
       <Box onFocus={onBoxFocus} position={'relative'}>
         <Input
           color={showFormattedValue ? 'transparent' : undefined}

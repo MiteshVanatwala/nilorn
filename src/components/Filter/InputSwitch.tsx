@@ -25,6 +25,7 @@ const InputSwitch = ({ option }: Props) => {
       return (
         <InputField
           label={optionLabel}
+          hideValidationStyle
           placeholder={`${t('Filter.Enter')} ${optionLabel}`}
           variant="filled"
           name={name}

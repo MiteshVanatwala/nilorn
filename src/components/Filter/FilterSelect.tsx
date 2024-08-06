@@ -39,6 +39,7 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
         <Select
           isMulti
           showSelectedCount
+          hideValidationStyle
           label={label}
           name={name}
           defaultValue={defaultValue}
@@ -49,6 +50,7 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
         <Select
           isMulti
           showSelectedCount
+          hideValidationStyle
           label={label}
           name={name}
           options={options}
