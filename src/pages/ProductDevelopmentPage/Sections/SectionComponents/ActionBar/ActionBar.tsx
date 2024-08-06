@@ -26,8 +26,6 @@ import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 import { Fragment } from 'react';
 
-const COLSED_PD = [Status.DELETED, Status.REJECTED];
-
 type Props = {
   no: string;
   createNew?: boolean;
@@ -55,7 +53,6 @@ const ActionBar = ({
     formState: { errors, defaultValues },
     trigger,
     register,
-    clearErrors,
   } = useFormContext();
   const { hasUnsavedChanges } = useUnsavedChanges();
 
@@ -74,6 +71,10 @@ const ActionBar = ({
       return;
     }
 
+    if (newStatus === Status.DELETED) {
+      deleteProductDevelopment();
+    }
+
     if (hasUnsavedChanges()) {
       showToast({
         status: 'info',
@@ -89,10 +90,6 @@ const ActionBar = ({
 
     if (currentStatus === Status.NEW) {
       registerFields();
-    }
-    if (COLSED_PD.includes(newStatus)) {
-      updateStatus(newStatus);
-      return;
     }
 
     const res = await trigger();
@@ -147,17 +144,10 @@ const ActionBar = ({
       scrollNameIntoView(errorKeys[0]);
     }
 
-    if (COLSED_PD.includes(currentStatus)) {
-      showToast({
-        status: 'error',
-        description: t('PD.Feedback.Error.OnlyNew'),
-      });
-    } else {
-      showToast({
-        status: 'error',
-        description: t('PD.Feedback.Error.UpdateStatus'),
-      });
-    }
+    showToast({
+      status: 'error',
+      description: t('PD.Feedback.Error.UpdateStatus'),
+    });
   };
 
   return (
