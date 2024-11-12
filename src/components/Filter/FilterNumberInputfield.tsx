@@ -1,22 +1,32 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { FormInputProps } from '../../app/types/types';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { STEP } from '../../app/utils/constant';
-import { numToThousandSeparatedsStr } from '../../app/utils/common';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { isNumeric, numToThousandSeparatedsStr } from '../../app/utils/common';
 import { COLORS } from '../../theme/Constants';
 import ControlWrapper from '../Form/ControlWrapper';
 
 interface Props extends FormInputProps {
   placeholder?: string;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
+  type: 'integer' | 'decimal';
 }
 
-const FilterNumberInputField = ({ name, label, placeholder }: Props) => {
+const ALLOWED_KEYS = [
+  'Tab',
+  'Backspace',
+  'ArrowLeft',
+  'ArrowRight',
+  'Delete',
+  'Home',
+  'End',
+];
+
+const FilterNumberInputField = ({ name, label, placeholder, type }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const watch = useWatch({ name });
 
-  const { setFocus, register } = useFormContext();
+  const { setFocus, setValue, register } = useFormContext();
 
   useEffect(() => {
     setFocus(name);
@@ -35,6 +45,30 @@ const FilterNumberInputField = ({ name, label, placeholder }: Props) => {
     setIsActive(true);
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (ALLOWED_KEYS.includes(e.key)) return;
+
+    if (type === 'integer') {
+      if (!isNumeric(e.key)) {
+        e.preventDefault();
+      }
+    } else if (type === 'decimal') {
+      if (!isNumeric(e.key) && e.key !== '.' && e.key !== ',') {
+        e.preventDefault();
+      }
+    }
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+
+    if (type === 'decimal') {
+      value = value.replace(',', '.');
+    }
+
+    setValue(name, value);
+  };
+
   const formattedValue = numToThousandSeparatedsStr(watch, true);
   const showFormattedValue = !!formattedValue && !isActive;
 
@@ -45,11 +79,12 @@ const FilterNumberInputField = ({ name, label, placeholder }: Props) => {
           color={showFormattedValue ? 'transparent' : undefined}
           variant={'filled'}
           placeholder={placeholder}
-          step={STEP}
-          type={'number'}
+          type={'text'}
           cursor={'text'}
           onFocus={onInputFocus}
+          onKeyDown={handleKeyDown}
           {...register(name, { onBlur })}
+          onChange={onChange}
         />
         {showFormattedValue && (
           <Text

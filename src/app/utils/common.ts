@@ -82,3 +82,7 @@ export function numToThousandSeparatedsStr(
   }
   return formattedIntegerPart;
 }
+
+export function isNumeric(value: string) {
+  return /^\d+$/.test(value);
+}

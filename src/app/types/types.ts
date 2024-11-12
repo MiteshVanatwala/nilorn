@@ -35,7 +35,7 @@ export type SelectOption<T = any> = {
 };
 
 export type FilterInput = {
-  type: 'select' | 'text' | 'number';
+  type: 'select' | 'text' | 'integer' | 'decimal';
   name: FilterKey;
 };
 
