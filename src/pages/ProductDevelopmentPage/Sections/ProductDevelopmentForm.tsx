@@ -130,7 +130,7 @@ function ProductDevelopmentForm({
               <VStack spacing={SPACE.MD}>
                 <Accordion
                   variant={'card'}
-                  defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4]}
+                  defaultIndex={createNew ? [0, 1] : [0, 1, 2, 3, 4, 5]}
                   marginBottom={SPACE.XXL}
                   allowMultiple>
                   {!!defaultValues?.versions?.length && (
