@@ -88,18 +88,27 @@ const FormattedNumberInputField = ({
         setIsActive(false);
         return;
       }
-      const newStrVal = targetValue.replace(',', '.');
       let value: number = 0;
       if (type === 'integer') {
-        value = parseInt(newStrVal);
+        value = parseInt(targetValue);
       } else {
-        value = parseFloat(newStrVal);
+        value = parseFloat(targetValue);
       }
       setFormValue(name, value);
       setIsActive(false);
     } else {
       setIsActive(true);
     }
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+
+    if (type === 'decimal') {
+      value = value.replace(',', '.');
+    }
+
+    setFormValue(name, value);
   };
 
   const onBoxFocus = () => {
@@ -160,6 +169,7 @@ const FormattedNumberInputField = ({
       return validateNumber ? validateNumber(newNumVal) : true;
     },
     onBlur,
+    onChange,
   };
 
   return (
