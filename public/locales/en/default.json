@@ -140,7 +140,8 @@
         "Error": {
           "FileDelete": "Failed to delete file",
           "FileRemoveLink": "Failed to remove link to file",
-          "FileDownload": "Failed to download file"
+          "FileDownload": "Failed to download file",
+          "FileUpdated": "Failed to upload file {{name}}"
         },
         "Info": {
           "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
