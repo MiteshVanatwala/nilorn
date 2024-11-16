@@ -184,7 +184,7 @@ const ActionBar = ({
                 icon={
                   <RemixIcon
                     component="Text"
-                    icon="ARROW_LEFT_RIGHT_LINE"
+                    icon="LINE_CHART_LINE"
                     fontSize={SIZES.ICON.MD}
                   />
                 }>
@@ -198,7 +198,7 @@ const ActionBar = ({
                 icon={
                   <RemixIcon
                     component="Text"
-                    icon="LINE_CHART_LINE"
+                    icon="CALCULATOR_LINE"
                     fontSize={SIZES.ICON.MD}
                   />
                 }>
