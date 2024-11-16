@@ -119,7 +119,7 @@ const ActionBarEditProduction = ({
                       fontSize={SIZES.ICON.MD}
                     />
                   }>
-                  {t('Production.Delete')}
+                  {t('Production.Remove')}
                 </MenuItem>
               )}
             {showCalculationLink && (

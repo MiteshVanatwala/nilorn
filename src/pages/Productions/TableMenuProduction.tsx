@@ -94,7 +94,7 @@ const TableMenuProduction = ({
           }>
           {!production?.released
             ? t('Production.Release')
-            : t('Production.Delete')}
+            : t('Production.Remove')}
         </MenuItem>
       )}
 
