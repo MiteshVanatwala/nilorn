@@ -147,10 +147,7 @@ const TopSection = ({
                     registerOptions={{ maxLength: 30 }}
                   />
                 </Heading>
-                <Text px={SPACE.SM}>
-                  {!createNew && '#'}
-                  {no}
-                </Text>
+                <Text px={SPACE.SM}>{no}</Text>
                 <HStack mx={SPACE.XS} spacing={SPACE.XS}>
                   <StatusBadge status={status} />
                   <ChangelogPopup data={statusChangelog} />

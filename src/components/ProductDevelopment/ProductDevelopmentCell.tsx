@@ -61,7 +61,7 @@ const ProductDevelopmentCell = ({
               onClick={e => {
                 handleClick(e, `/product-development/${no}`, no ?? '');
               }}>
-              #{no}
+              {no}
             </Link>
             <Text variant={'bodyBold'}>{name}</Text>
           </VStack>
