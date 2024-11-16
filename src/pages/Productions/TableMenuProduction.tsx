@@ -94,7 +94,7 @@ const TableMenuProduction = ({
           }>
           {!production?.released
             ? t('Production.Release')
-            : t('Production.Remove')}
+            : t('Production.Delete')}
         </MenuItem>
       )}
 
@@ -135,7 +135,7 @@ const TableMenuProduction = ({
               fontSize={SIZES.ICON.MD}
             />
           }>
-          {t('Common.Remove')}
+          {t('Common.Delete')}
         </MenuItem>
       )}
     </>
