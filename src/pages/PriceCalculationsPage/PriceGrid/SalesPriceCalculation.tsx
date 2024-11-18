@@ -35,6 +35,10 @@ const SalesPriceCalculation = ({
   disableEdit = false,
 }: Props) => {
   const changeMargin = (newMargin: number) => {
+    if (newMargin === margin) {
+      return;
+    }
+
     const newSalesPrice = calculateSalesPrice(
       price.cost ?? 0,
       calculation.freightIncluded ?? 0,
@@ -45,6 +49,10 @@ const SalesPriceCalculation = ({
   };
 
   const changeSalesPrice = (newPrice: number) => {
+    if (newPrice === salesPrice) {
+      return;
+    }
+
     const newMargin = calculateMargin(
       newPrice,
       price.cost ?? 0,
