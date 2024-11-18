@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { GridInlineTbody } from '../../components/GridTable/GridTableElements';
-import { PriceDto } from '../../app/generate';
+import { PriceDto, PurchasePriceDto } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import EditCalculationGridRow from './EditCalculationGridRow';
 import EditCalculationGridHeader from './EditCalculationGridHeader';
@@ -28,14 +28,19 @@ const PriceCalculationFormTable = ({ data, showChanges }: Props) => {
         <EditCalculationGridHeader />
         <>
           {data &&
-            data?.map((c, index) => (
-              <EditCalculationGridRow
-                key={index}
-                index={index}
-                calculation={c}
-                showChanges={showChanges}
-              />
-            ))}
+            data
+              ?.sort(
+                (a: PurchasePriceDto, b: PurchasePriceDto) =>
+                  (a.quantity || 0) - (b.quantity || 0)
+              )
+              .map((c, index) => (
+                <EditCalculationGridRow
+                  key={index}
+                  index={index}
+                  calculation={c}
+                  showChanges={showChanges}
+                />
+              ))}
         </>
       </GridInlineTbody>
     </Box>

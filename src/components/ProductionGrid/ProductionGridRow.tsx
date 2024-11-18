@@ -1,5 +1,5 @@
 import { GridItem, HStack, VStack } from '@chakra-ui/react';
-import { ProductionDto } from '../../app/generate';
+import { ProductionDto, PurchasePriceDto } from '../../app/generate';
 import { CSSProperties, Fragment } from 'react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import { GridInlineTbody, GridTd } from '../GridTable/GridTableElements';
@@ -35,16 +35,21 @@ function ProductionGridRow({ production, style = TD_STYLE, tableMenu }: Props) {
         style={production.purchasePrices?.length === 0 ? style : undefined}
         colSpan={2}>
         <GridInlineTbody gridTemplateColumns={'repeat(2, 1fr)'}>
-          {production.purchasePrices?.map(pp => (
-            <Fragment key={pp.id}>
-              <GridTd style={style}>
-                {numToThousandSeparatedsStr(pp.quantity)}
-              </GridTd>
-              <GridTd style={style}>
-                {numToThousandSeparatedsStr(pp.price)}
-              </GridTd>
-            </Fragment>
-          ))}
+          {production.purchasePrices
+            ?.sort(
+              (a: PurchasePriceDto, b: PurchasePriceDto) =>
+                (a.quantity || 0) - (b.quantity || 0)
+            )
+            .map(pp => (
+              <Fragment key={pp.id}>
+                <GridTd style={style}>
+                  {numToThousandSeparatedsStr(pp.quantity)}
+                </GridTd>
+                <GridTd style={style}>
+                  {numToThousandSeparatedsStr(pp.price)}
+                </GridTd>
+              </Fragment>
+            ))}
         </GridInlineTbody>
       </GridItem>
     </>
