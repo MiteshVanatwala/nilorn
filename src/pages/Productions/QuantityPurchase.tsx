@@ -83,6 +83,10 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       required={true}
                       type={'integer'}
                       showErrorIcon={true}
+                      min={0}
+                      minMessage={`${t('Errors.MinToLow', {
+                        min: 0,
+                      })}`}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
@@ -99,6 +103,10 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
                       showErrorIcon={true}
+                      min={0}
+                      minMessage={`${t('Errors.MinToLow', {
+                        min: 0,
+                      })}`}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem

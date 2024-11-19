@@ -127,6 +127,10 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
+              minMessage={`${t('Errors.MinToLow', {
+                min: 0,
+              })}`}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -136,6 +140,10 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
+              minMessage={`${t('Errors.MinToLow', {
+                min: 0,
+              })}`}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -145,6 +153,10 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
+              minMessage={`${t('Errors.MinToLow', {
+                min: 0,
+              })}`}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -154,6 +166,10 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
+              minMessage={`${t('Errors.MinToLow', {
+                min: 0,
+              })}`}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -163,6 +179,10 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
+              minMessage={`${t('Errors.MinToLow', {
+                min: 0,
+              })}`}
             />
           </GridItem>
           <GridItem colSpan={1}>

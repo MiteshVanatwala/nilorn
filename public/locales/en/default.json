@@ -363,7 +363,8 @@
     "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique",
     "MustBeANumber": "Must be a number",
-    "MustBeAnInteger": "Must be an integer"
+    "MustBeAnInteger": "Must be an integer",
+    "MinToLow": "Can be minimum {{min}}"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",
