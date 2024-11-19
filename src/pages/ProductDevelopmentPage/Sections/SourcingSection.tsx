@@ -119,7 +119,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
               variant={'light'}
               index={accordionIndex}
               defaultIndex={sourcings.map((_, index) => index)}
-              onChange={(val: any) => setAccordionIndex(val)}>
+              onChange={(index: any) => setAccordionIndex(index)}>
               {sourcings.map((sourcingData, index) => {
                 const sourcing = sourcingData as SourcingDto;
                 if (!sourcing.sourcingCompanyCode) {
