@@ -81,6 +81,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       readonly={disableEdit}
                       required={true}
                       type={'integer'}
+                      showErrorIcon={true}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
@@ -96,6 +97,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       name={`${fieldName}.${index}.price`}
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
+                      showErrorIcon={true}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
