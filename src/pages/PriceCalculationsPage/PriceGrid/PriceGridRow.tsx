@@ -10,6 +10,7 @@ import {
   PriceDto,
   ProductDevelopmentDataDto,
   ProductionDto,
+  PurchasePriceDto,
   SalesPriceDto,
   SourcedProductionDto,
   UpdateSalesPriceCommand,
@@ -206,32 +207,43 @@ function PriceGridRow({
                 <>
                   {!!calculation ? (
                     <>
-                      {calculation.priceDtos?.map((pc, i) => (
-                        <Fragment
-                          key={
-                            calculation?.productionId + '-purchasePrice-' + i
-                          }>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pc.quantity)}
-                          </GridTd>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pc.purchasePrice)}
-                          </GridTd>
-                        </Fragment>
-                      ))}
+                      {calculation.priceDtos
+                        ?.sort(
+                          (a: PurchasePriceDto, b: PurchasePriceDto) =>
+                            (a.quantity || 0) - (b.quantity || 0)
+                        )
+                        .map((pc, i) => (
+                          <Fragment
+                            key={
+                              calculation?.productionId + '-purchasePrice-' + i
+                            }>
+                            <GridTd>
+                              {numToThousandSeparatedsStr(pc.quantity)}
+                            </GridTd>
+                            <GridTd>
+                              {numToThousandSeparatedsStr(pc.purchasePrice)}
+                            </GridTd>
+                          </Fragment>
+                        ))}
                     </>
                   ) : (
                     <>
-                      {production.purchasePrices?.map((pp, i) => (
-                        <Fragment key={production?.id + '-purchasePrice-' + i}>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pp.quantity)}
-                          </GridTd>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pp.price)}
-                          </GridTd>
-                        </Fragment>
-                      ))}
+                      {production.purchasePrices
+                        ?.sort(
+                          (a: PurchasePriceDto, b: PurchasePriceDto) =>
+                            (a.quantity || 0) - (b.quantity || 0)
+                        )
+                        .map((pp, i) => (
+                          <Fragment
+                            key={production?.id + '-purchasePrice-' + i}>
+                            <GridTd>
+                              {numToThousandSeparatedsStr(pp.quantity)}
+                            </GridTd>
+                            <GridTd>
+                              {numToThousandSeparatedsStr(pp.price)}
+                            </GridTd>
+                          </Fragment>
+                        ))}
                     </>
                   )}
                 </>
