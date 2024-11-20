@@ -9,8 +9,9 @@ import Popup, { PopupTrigger } from '../Popup/Popup';
 type Props = {
   comment?: string | null | undefined;
   icon?: JSX.Element;
+  showIconWithoutComment?: boolean;
 };
-const CommentPopup = ({ comment, icon }: Props) => {
+const CommentPopup = ({ comment, icon, showIconWithoutComment }: Props) => {
   const { t } = useTranslation();
 
   let lines = useMemo(() => {
@@ -25,32 +26,37 @@ const CommentPopup = ({ comment, icon }: Props) => {
       : undefined;
   }, [comment]);
 
+  const triggerIcon = (
+    <IconButton
+      aria-label={t('Common.ReadComment')}
+      variant={'ghost'}
+      padding={SPACE.SM}
+      disabled={!lines}
+      icon={
+        icon ?? (
+          <RemixIcon
+            component="Text"
+            icon="MESSAGE_2_LINE"
+            fontSize={SIZES.ICON.MD}
+          />
+        )
+      }
+    />
+  );
+
   if (!!lines) {
     return (
-      <>
-        <Popup
-          isPortal={false}
-          trigger={PopupTrigger.HOVER}
-          triggerElement={
-            <IconButton
-              aria-label={t('Common.ReadComment')}
-              variant={'ghost'}
-              padding={SPACE.SM}
-              icon={
-                icon ?? (
-                  <RemixIcon
-                    component="Text"
-                    icon="MESSAGE_2_LINE"
-                    fontSize={SIZES.ICON.MD}
-                  />
-                )
-              }
-            />
-          }
-          content={<Box>{lines}</Box>}
-        />
-      </>
+      <Popup
+        isPortal={false}
+        trigger={PopupTrigger.HOVER}
+        triggerElement={triggerIcon}
+        content={<Box>{lines}</Box>}
+      />
     );
+  }
+
+  if (showIconWithoutComment) {
+    return triggerIcon;
   }
 
   return <></>;
