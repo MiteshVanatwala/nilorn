@@ -130,7 +130,7 @@ const TableMenuCalculation = ({
                 icon="DELETE_BIN_6_LINE"
               />
             }>
-            {t('Common.Remove')}
+            {t('Common.Delete')}
           </MenuItem>
         </>
       )}
