@@ -120,7 +120,7 @@ const ProductDevelopmentModalTopSection = ({
                       state={NAV_LINK}
                       onClick={handleClick}
                       to={`/product-development/${productDevelopment?.no}`}>
-                      #{productDevelopment?.no}
+                      {productDevelopment?.no}
                     </Link>
                   )}
                 </Text>
