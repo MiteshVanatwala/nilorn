@@ -4,6 +4,7 @@ import {
   FormLabel,
   Grid,
   GridItem,
+  HStack,
   IconButton,
   VStack,
 } from '@chakra-ui/react';
@@ -47,29 +48,32 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
           {fields.map((item, index) => {
             return (
               <Box key={item.id} position={'relative'}>
-                <FormattedNumberInputField
-                  placeholder={`${t('Common.Placeholder')}`}
-                  name={`${FORM_KEY}.${index}`}
-                  readonly={disableEdit}
-                  required={true}
-                  validateNumber={(value: number) =>
-                    validateUniqueValues(value, index)
-                  }
-                  type={'integer'}
-                  focusOnMount={focusOnAdd}
-                />
-                {!disableEdit && (
-                  <IconButton
-                    position={'absolute'}
-                    zIndex={2}
-                    right={0}
-                    top={4}
-                    variant={'deleteIconBtn'}
-                    aria-label={t('Filter.Remove')}
-                    icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
-                    onClick={() => remove(index)}
+                <HStack w="80%">
+                  <FormattedNumberInputField
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={`${FORM_KEY}.${index}`}
+                    readonly={disableEdit}
+                    required={true}
+                    validateNumber={(value: number) =>
+                      validateUniqueValues(value, index)
+                    }
+                    type={'integer'}
+                    focusOnMount={focusOnAdd}
+                    showErrorIcon={true}
                   />
-                )}
+                  {!disableEdit && (
+                    <IconButton
+                      position={'absolute'}
+                      zIndex={2}
+                      right={0}
+                      top={4}
+                      variant={'deleteIconBtn'}
+                      aria-label={t('Filter.Remove')}
+                      icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
+                      onClick={() => remove(index)}
+                    />
+                  )}
+                </HStack>
               </Box>
             );
           })}
