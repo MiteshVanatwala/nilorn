@@ -1,9 +1,11 @@
 import { Box, Grid, GridItem } from '@chakra-ui/layout';
 import ContentSection from '../../Templates/ContentSection';
 import { COLORS, GRID } from '../../../theme/Constants';
-import ArrowLink from '../../../components/Link/ArrowLink';
 import { useProductDevelopmentNavigation } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@chakra-ui/react';
+import RemixIcon from '../../../components/Icon/RemixIcon';
+import { useNavigate } from 'react-router';
 
 type Props = {
   no: string;
@@ -11,7 +13,7 @@ type Props = {
 const BottomSection = ({ no }: Props) => {
   const { t } = useTranslation();
   const { data } = useProductDevelopmentNavigation(no);
-
+  const navigate = useNavigate();
   return (
     <Box
       position={'sticky'}
@@ -24,22 +26,28 @@ const BottomSection = ({ no }: Props) => {
       <ContentSection>
         <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
           <GridItem>
-            {data?.previous && (
-              <ArrowLink
-                direction={'left'}
-                to={`/product-development/${data?.previous}`}>
-                <>{t('Common.Previous')}</>
-              </ArrowLink>
-            )}
+            <Button
+              color={COLORS.BLACK}
+              variant={'link'}
+              leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
+              isDisabled={!data?.previous}
+              onClick={() => {
+                navigate(`/product-development/${data?.previous}`);
+              }}>
+              {t('Common.Previous')}
+            </Button>
           </GridItem>
           <GridItem>
-            {data?.next && (
-              <ArrowLink
-                direction={'right'}
-                to={`/product-development/${data?.next}`}>
-                <>{t('Common.Next')}</>
-              </ArrowLink>
-            )}
+            <Button
+              color={COLORS.BLACK}
+              variant={'link'}
+              rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
+              isDisabled={!data?.next}
+              onClick={() => {
+                navigate(`/product-development/${data?.next}`);
+              }}>
+              {t('Common.Next')}
+            </Button>
           </GridItem>
         </Grid>
       </ContentSection>

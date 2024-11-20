@@ -3,8 +3,8 @@ import {
   ChangelogType,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../app/generate';
-import { Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
-import { GRID, SPACE } from '../../theme/Constants';
+import { Box, Button, Grid, GridItem, Skeleton } from '@chakra-ui/react';
+import { COLORS, GRID, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
@@ -19,11 +19,12 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
+import RemixIcon from '../../components/Icon/RemixIcon';
+import { useNavigate } from 'react-router';
 
 type Props = {
   calculationId: string;
@@ -39,6 +40,7 @@ const EditPriceCalculationModal = ({
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const outsideRef = useRef(null);
   const form = useForm({ mode: 'onChange' });
   const {
@@ -168,30 +170,28 @@ const EditPriceCalculationModal = ({
         <ContentSection>
           <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
             <GridItem>
-              {priceCalculationNavigation?.previous && (
-                <ArrowLink
-                  direction={'left'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.previous) {
-                      onNavigate(priceCalculationNavigation.previous);
-                    }
-                  }}>
-                  <>{t('Common.Previous')}</>
-                </ArrowLink>
-              )}
+              <Button
+                color={COLORS.BLACK}
+                variant={'link'}
+                leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
+                isDisabled={!priceCalculationNavigation?.previous}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.previous}`);
+                }}>
+                {t('Common.Previous')}
+              </Button>
             </GridItem>
             <GridItem>
-              {priceCalculationNavigation?.next && (
-                <ArrowLink
-                  direction={'right'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.next) {
-                      onNavigate(priceCalculationNavigation.next);
-                    }
-                  }}>
-                  <>{t('Common.Next')}</>
-                </ArrowLink>
-              )}
+              <Button
+                color={COLORS.BLACK}
+                variant={'link'}
+                rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
+                isDisabled={!priceCalculationNavigation?.next}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.next}`);
+                }}>
+                {t('Common.Next')}
+              </Button>
             </GridItem>
           </Grid>
         </ContentSection>
