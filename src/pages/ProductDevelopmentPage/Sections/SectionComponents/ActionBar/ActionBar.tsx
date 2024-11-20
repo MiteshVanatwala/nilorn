@@ -44,7 +44,6 @@ const ActionBar = ({
   const { t } = useTranslation();
   const showCalculation = useAuthorizedSee('price-calculation');
   const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
-  const isAuthorizedToOpenDeleted = useAuthorizedToChangeStatus();
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
   const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
 
@@ -243,11 +242,7 @@ const ActionBar = ({
                     <MenuItem
                       key={s.value}
                       value={s.value}
-                      onClick={() =>
-                        !disableEdit || isAuthorizedToOpenDeleted(currentStatus)
-                          ? submitStatus(s.value)
-                          : ''
-                      }
+                      onClick={() => handleChangeStatus(s.value)}
                       bg={
                         getValues('status') === s.value
                           ? COLORS.GRAY[10]
