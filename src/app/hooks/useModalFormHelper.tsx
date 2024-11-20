@@ -33,12 +33,15 @@ const useModalFormHelper = (
     useUnsavedChanges();
 
   const [activeNavId, setActiveNavId] = useState<string>(initNavId);
+  const [isLeavePageModalOpen, setLeavePageModalOpen] =
+    useState<boolean>(false);
   const [pendingNavId, setPendingNavId] = useState<string | undefined>(
     undefined
   );
 
   const openLeavePageModal = useCallback(() => {
     modalRef.current?.onOpen();
+    setLeavePageModalOpen(true);
   }, []);
 
   useEffect(() => {
@@ -61,7 +64,8 @@ const useModalFormHelper = (
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
       if (hasUnsavedChanges() && e.key === 'Escape') {
-        openLeavePageModal();
+        if (!isLeavePageModalOpen) openLeavePageModal();
+        else setLeavePageModalOpen(false);
         setPendingNavId(undefined);
       }
     };
@@ -106,7 +110,7 @@ const useModalFormHelper = (
 
   const onConfirm = () => {
     setPreventClose(false);
-    modalRef.current?.onClose();
+    setLeavePageModalOpen(false);
     discardChanges();
     if (pendingNavId) {
       setActiveNavId(pendingNavId);
@@ -120,6 +124,7 @@ const useModalFormHelper = (
     resetBlocker();
     setBlockedRoute(false);
     setPendingNavId(undefined);
+    setLeavePageModalOpen(false);
   };
 
   const setDirty = (isDirty: boolean) => {
