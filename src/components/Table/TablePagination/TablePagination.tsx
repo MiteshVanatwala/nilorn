@@ -1,5 +1,5 @@
 import { HStack, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, SPACE } from '../../../theme/Constants';
 import PaginationButton from './PaginationButton';
@@ -32,6 +32,12 @@ const TablePagination = ({
   const rangeLength = totalNumPages < 5 ? totalNumPages : 5;
   let [rangeStart, setRangeStart] = useState(1);
   const rangeEnd = rangeStart + (rangeLength - 1);
+
+  useEffect(() => {
+    setRangeStart(
+      Math.ceil(currentPage / rangeLength) * rangeLength - rangeLength + 1
+    );
+  }, [totalNumPages]);
 
   const moveRangeLower = () => {
     if (rangeStart > 1) {
@@ -84,7 +90,10 @@ const TablePagination = ({
       {totalNumPages > 1 && (
         <HStack height={'100%'} spacing={0} flex={1}>
           <PaginationButton
-            onClick={previousHandler}
+            onClick={() => {
+              previousHandler();
+              if (currentPage === rangeStart) moveRangeLower();
+            }}
             disabled={currentPage === 1}>
             {t('Common.Previous')}
           </PaginationButton>
@@ -102,7 +111,10 @@ const TablePagination = ({
             {'<'}
           </PaginationButton>
 
-          {createRangeArray(rangeStart, rangeEnd).map((num, i) => {
+          {createRangeArray(
+            rangeStart,
+            rangeEnd > totalNumPages ? totalNumPages : rangeEnd
+          ).map((num, i) => {
             return (
               <PaginationButton
                 key={'currentPage-' + i}
@@ -130,7 +142,10 @@ const TablePagination = ({
           </PaginationButton>
 
           <PaginationButton
-            onClick={nextHandler}
+            onClick={() => {
+              nextHandler();
+              if (currentPage === rangeEnd) moveRangeHigher();
+            }}
             disabled={currentPage === totalNumPages}>
             {t('Common.Next')}
           </PaginationButton>
