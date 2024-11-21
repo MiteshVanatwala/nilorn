@@ -112,7 +112,6 @@ const PriceCalculationForm = ({
     calculation?.priceDtos,
   ]);
 
-  // TODO
   useEffect(() => {
     if (margin && margin > MAX_MARGIN) {
       setValue('margin', MAX_MARGIN);

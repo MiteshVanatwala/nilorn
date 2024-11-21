@@ -44,7 +44,7 @@ type Props = {
 };
 
 type ExtendedPriceDto = PriceDto & {
-  isValid?: boolean;
+  isValidInput?: boolean;
 };
 
 function PriceGridRow({
@@ -72,14 +72,11 @@ function PriceGridRow({
     calculation === undefined
   );
 
-  // const [formData, setFormData] = useState<ExtendedPriceDto[]>(
-  //   (calculation?.priceDtos as PriceDto[])?.map(priceDto => ({
-  //     ...priceDto,
-  //     isValid: true,
-  //   })) ?? []
-  // );
-  const [formData, setFormData] = useState<PriceDto[]>(
-    (calculation?.priceDtos as PriceDto[]) ?? []
+  const [formData, setFormData] = useState<ExtendedPriceDto[]>(
+    (calculation?.priceDtos as PriceDto[])?.map(priceDto => ({
+      ...priceDto,
+      isValidInput: true,
+    })) ?? []
   );
 
   useEffect(() => {
@@ -89,14 +86,11 @@ function PriceGridRow({
     ) {
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
-      // setFormData(
-      //   production?.priceCalculations[0]?.priceDtos?.map(priceDto => ({
-      //     ...priceDto,
-      //     isValid: true,
-      //   })) ?? []
-      // );
       setFormData(
-        (production?.priceCalculations[0]?.priceDtos as PriceDto[]) ?? []
+        production?.priceCalculations[0]?.priceDtos?.map(priceDto => ({
+          ...priceDto,
+          isValidInput: true,
+        })) ?? []
       );
     } else {
       setCreateNew(true);
@@ -118,17 +112,17 @@ function PriceGridRow({
   };
 
   const submitForm = () => {
-    // if (formData.every(price => price.isValid)) {
-    const body: UpdateSalesPriceCommand = {
-      salesPrices: formData as SalesPriceDto[],
-    };
-    saveSalesPrices(body, {
-      onSuccess: async () => {
-        setEnableEdit(false);
-        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
-      },
-    });
-    // }
+    if (formData.every(price => price.isValidInput)) {
+      const body: UpdateSalesPriceCommand = {
+        salesPrices: formData as SalesPriceDto[],
+      };
+      saveSalesPrices(body, {
+        onSuccess: async () => {
+          setEnableEdit(false);
+          queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
+        },
+      });
+    }
   };
 
   const onInlineChange = (
@@ -144,7 +138,7 @@ function PriceGridRow({
         ...newData[index],
         margin: newMargin,
         salesPrice: newSalesPrice,
-        // isValid: isValid,
+        isValidInput: isValid,
       };
       setFormData(newData);
     } else {

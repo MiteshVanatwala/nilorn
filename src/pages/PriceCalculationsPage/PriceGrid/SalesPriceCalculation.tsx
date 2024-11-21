@@ -35,7 +35,9 @@ const SalesPriceCalculation = ({
   onCalculationChange,
   disableEdit = false,
 }: Props) => {
-  const changeMargin = (newMargin: number, isValid: boolean) => {
+  const changeMargin = (newMarginValue: number, isValid: boolean) => {
+    const newMargin = newMarginValue > MAX_MARGIN ? MAX_MARGIN : newMarginValue;
+
     if (newMargin === margin) {
       return;
     }
@@ -74,14 +76,7 @@ const SalesPriceCalculation = ({
         <>
           {enableEdit ? (
             <PriceGridInput
-              onChange={(newMargin, isValid) => {
-                let margin = newMargin;
-                if (margin && margin > MAX_MARGIN) {
-                  changeMargin(MAX_MARGIN, isValid);
-                } else {
-                  changeMargin(newMargin, isValid);
-                }
-              }}
+              onChange={changeMargin}
               value={margin}
               max={MAX_MARGIN}
             />
