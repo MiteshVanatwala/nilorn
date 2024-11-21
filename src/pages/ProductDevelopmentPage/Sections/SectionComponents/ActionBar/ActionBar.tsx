@@ -13,7 +13,7 @@ import { useToast } from '../../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../../app/api/User';
 import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 import { Fragment } from 'react';
+import { ROLES_ALLOWED_TO_CREATE } from '../../../../../app/Permissions/Permissions';
 
 type Props = {
   no: string;
@@ -42,6 +43,7 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const showCalculation = useAuthorizedSee('price-calculation');
   const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
   const isAuthorizedToOpenDeleted = useAuthorizedToChangeStatus();
@@ -168,6 +170,20 @@ const ActionBar = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
+
+            {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
+              <MenuItem
+                onClick={() => navigate('/product-development/create')}
+                icon={
+                  <RemixIcon
+                    component="Text"
+                    icon="ADD_LINE"
+                    fontSize={SIZES.ICON.MD}
+                  />
+                }>
+                {t('Common.CreateNew')}
+              </MenuItem>
+            )}
 
             {isAllowedToCreateCopy && (
               <MenuItemCreate no={no} createType={'copy'} />
