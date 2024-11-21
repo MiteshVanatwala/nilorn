@@ -10,6 +10,7 @@ type Props = {
   style?: CSSProperties;
   priceData: PriceDto[];
   onCalculationChange: (
+    isValid: boolean,
     newMargin: number,
     newSalesPrice: number,
     id: string

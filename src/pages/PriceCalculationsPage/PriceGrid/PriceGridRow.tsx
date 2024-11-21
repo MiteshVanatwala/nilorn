@@ -43,6 +43,10 @@ type Props = {
   tableMenu?: JSX.Element;
 };
 
+type ExtendedPriceDto = PriceDto & {
+  isValid?: boolean;
+};
+
 function PriceGridRow({
   production,
   productDevelopment,
@@ -68,6 +72,12 @@ function PriceGridRow({
     calculation === undefined
   );
 
+  // const [formData, setFormData] = useState<ExtendedPriceDto[]>(
+  //   (calculation?.priceDtos as PriceDto[])?.map(priceDto => ({
+  //     ...priceDto,
+  //     isValid: true,
+  //   })) ?? []
+  // );
   const [formData, setFormData] = useState<PriceDto[]>(
     (calculation?.priceDtos as PriceDto[]) ?? []
   );
@@ -79,6 +89,12 @@ function PriceGridRow({
     ) {
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
+      // setFormData(
+      //   production?.priceCalculations[0]?.priceDtos?.map(priceDto => ({
+      //     ...priceDto,
+      //     isValid: true,
+      //   })) ?? []
+      // );
       setFormData(
         (production?.priceCalculations[0]?.priceDtos as PriceDto[]) ?? []
       );
@@ -100,7 +116,9 @@ function PriceGridRow({
     setEnableEdit(false);
     setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
   };
+
   const submitForm = () => {
+    // if (formData.every(price => price.isValid)) {
     const body: UpdateSalesPriceCommand = {
       salesPrices: formData as SalesPriceDto[],
     };
@@ -110,9 +128,11 @@ function PriceGridRow({
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
       },
     });
+    // }
   };
 
   const onInlineChange = (
+    isValid: boolean,
     newMargin: number,
     newSalesPrice: number,
     salesPriceId: string
@@ -124,6 +144,7 @@ function PriceGridRow({
         ...newData[index],
         margin: newMargin,
         salesPrice: newSalesPrice,
+        // isValid: isValid,
       };
       setFormData(newData);
     } else {
