@@ -63,7 +63,7 @@ const ActionBar = ({
 
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
-  const { handleModal } = useModal();
+  const { handleModal, close } = useModal();
 
   async function submitStatus(newStatus: Status): Promise<void> {
     if (currentStatus === newStatus) {
@@ -107,6 +107,7 @@ const ActionBar = ({
 
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
+    close();
   }
 
   function toggleShowChanges() {
