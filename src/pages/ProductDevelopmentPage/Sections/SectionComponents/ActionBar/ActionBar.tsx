@@ -173,7 +173,8 @@ const ActionBar = ({
 
             {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
               <MenuItem
-                onClick={() => navigate('/product-development/create')}
+                as={NavLink}
+                to={`/product-development/create`}
                 icon={
                   <RemixIcon
                     component="Text"
