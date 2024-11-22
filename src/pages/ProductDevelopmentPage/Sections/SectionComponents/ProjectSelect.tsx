@@ -27,14 +27,16 @@ const ProjectSelect = ({
   const {
     setValue,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const inputName = 'projectCode';
   const project = useWatch({ name: inputName });
   const clientNumberWatch = useWatch({ name: 'clientNo' });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
+  const projectCode = getValues(inputName);
 
   const clearProjectItem = {
-    value: '',
+    value: null,
     label: `${t('PD.ClearSelection')}`,
   };
 
@@ -54,11 +56,13 @@ const ProjectSelect = ({
   }, [clientNumberWatch]);
 
   useEffect(() => {
-    if (options) {
+    if (options && projectCode != clearProjectItem.value) {
       setOptionItems([clearProjectItem, ...options]);
+    } else {
+      setOptionItems(options);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options]);
+  }, [options, projectCode]);
 
   return (
     <Box
