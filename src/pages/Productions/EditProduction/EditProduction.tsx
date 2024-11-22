@@ -173,6 +173,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
                   status={productDevelopmentDataDto?.status}
                   createNew={false}
                   productDevelopmentNo={productDevelopmentDataDto?.no}
+                  isDirty={form.formState.isDirty}
                 />
               }
             />

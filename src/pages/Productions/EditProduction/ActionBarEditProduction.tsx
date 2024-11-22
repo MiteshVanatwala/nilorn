@@ -22,6 +22,7 @@ import { isClosed } from '../../../app/utils/status';
 import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import RemixIcon from '../../../components/Icon/RemixIcon';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
+import { useToast } from '../../../app/hooks/useToast';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -33,6 +34,7 @@ type Props = {
   status?: Status;
   productDevelopmentNo?: string | null;
   handleDelete?: () => void;
+  isDirty?: boolean;
 };
 
 const ActionBarEditProduction = ({
@@ -45,9 +47,11 @@ const ActionBarEditProduction = ({
   showChanges,
   productDevelopmentNo,
   handleDelete,
+  isDirty = false,
 }: Props) => {
   const { t } = useTranslation();
   const { getValues, setValue } = useFormContext();
+  const { showToast } = useToast();
   const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
   const showCalculationLink =
@@ -81,7 +85,12 @@ const ActionBarEditProduction = ({
   );
 
   function removeFromSalesFunc() {
-    removeFromSales();
+    if (isDirty) {
+      showToast({
+        status: 'error',
+        description: t('PD.UnsavedProductionChanges'),
+      });
+    } else removeFromSales();
   }
 
   function toggleShowChanges() {
