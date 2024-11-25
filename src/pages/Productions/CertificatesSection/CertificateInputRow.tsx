@@ -157,9 +157,6 @@ const CertificateInputRow = ({
           readonly={disableEdit || isLoading || !selectedCertificateCode}
           showErrorIcon={true}
           min={0}
-          minMessage={`${t('Errors.MinToLow', {
-            min: 0,
-          })}`}
         />
       </GridItem>
       <GridItem alignSelf={'center'}>

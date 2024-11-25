@@ -139,9 +139,6 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
             min={0}
-            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
-              min: 0,
-            })}`}
             changelog={internalCommissionChangelog}
           />
         </GridItem>
@@ -152,9 +149,6 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
             min={0}
-            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
-              min: 0,
-            })}`}
             changelog={indirectCostChangelog}
           />
         </GridItem>
@@ -166,9 +160,6 @@ const PriceCalculationForm = ({
             readonly={disableEdit}
             changelog={freightIncludedChangelog}
             min={0}
-            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
-              min: 0,
-            })}`}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -218,9 +209,6 @@ const PriceCalculationForm = ({
             required={true}
             changelog={currencyRateChangelog}
             min={0}
-            minMessage={`${t('Errors.MinToLow', {
-              min: 0,
-            })}`}
           />
         </GridItem>
         {createNew && (

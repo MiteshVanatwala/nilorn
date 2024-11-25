@@ -61,9 +61,6 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
                     focusOnMount={focusOnAdd}
                     showErrorIcon={true}
                     min={0}
-                    minMessage={`${t('Errors.MinToLow', {
-                      min: 0,
-                    })}`}
                   />
                   {!disableEdit && (
                     <IconButton

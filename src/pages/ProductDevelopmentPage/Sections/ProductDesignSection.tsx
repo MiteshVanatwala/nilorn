@@ -46,9 +46,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 readonly={disableEdit}
                 type={'integer'}
                 min={0}
-                minMessage={`${t('Errors.MinToLow', {
-                  min: 0,
-                })}`}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -59,9 +56,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 readonly={disableEdit}
                 type={'integer'}
                 min={0}
-                minMessage={`${t('Errors.MinToLow', {
-                  min: 0,
-                })}`}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -72,9 +66,6 @@ const ProductDesignSection = ({ disableEdit }: Props) => {
                 readonly={disableEdit}
                 type={'integer'}
                 min={0}
-                minMessage={`${t('Errors.MinToLow', {
-                  min: 0,
-                })}`}
               />
             </GridItem>
           </Grid>

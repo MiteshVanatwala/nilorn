@@ -314,7 +314,6 @@
         "Update": "Failed to update calculation",
         "UpdateRows": "Failed to update margin and sales price",
         "MarginTooHigh": "Margin can be maximum 99.99",
-        "MinToLow": "Can be minimum {{min}}",
         "UpdateIncluded": "Failed to update valid and include"
       }
     }

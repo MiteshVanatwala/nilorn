@@ -162,7 +162,7 @@ const FormattedNumberInputField = ({
       } else if (type === 'integer' && newStrVal.includes('.')) {
         return t('Errors.MustBeAnInteger');
       } else if (min !== undefined && newNumVal < min) {
-        return minMessage;
+        return minMessage ? minMessage : `${t('Errors.MinToLow', { min })}`;
       } else if (max !== undefined && newNumVal > max) {
         return maxMessage;
       }
