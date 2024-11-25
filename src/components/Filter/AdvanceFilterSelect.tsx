@@ -40,11 +40,17 @@ const AdvanceFilterSelect = <T extends object>({
 }: Props<T>) => {
   const { t } = useTranslation();
 
+  const sortedOptions = options.sort((a, b) => {
+    if (a.label < b.label) return -1;
+    if (a.label > b.label) return 1;
+    return 0;
+  });
+
   return (
     <SelectBase
       name={name}
       isMulti={true}
-      options={options}
+      options={sortedOptions}
       value={value}
       isSearchable={true}
       showSelectedCount={true}
