@@ -6,6 +6,7 @@ import {
   GridItem,
   HStack,
   IconButton,
+  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -63,16 +64,18 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
                     min={0}
                   />
                   {!disableEdit && (
-                    <IconButton
-                      position={'absolute'}
-                      zIndex={2}
-                      right={0}
-                      top={4}
-                      variant={'deleteIconBtn'}
-                      aria-label={t('Filter.Remove')}
-                      icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
-                      onClick={() => remove(index)}
-                    />
+                    <Tooltip label={t('Common.Remove')}>
+                      <IconButton
+                        position={'absolute'}
+                        zIndex={2}
+                        right={0}
+                        top={4}
+                        variant={'deleteIconBtn'}
+                        aria-label={t('Filter.Remove')}
+                        icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
+                        onClick={() => remove(index)}
+                      />
+                    </Tooltip>
                   )}
                 </HStack>
               </Box>
