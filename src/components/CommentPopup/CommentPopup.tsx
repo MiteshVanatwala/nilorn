@@ -42,6 +42,7 @@ const CommentPopup = ({
             aria-label={t('Common.ReadComment')}
             variant={'ghost'}
             padding={padding}
+            minW={0}
             icon={
               icon ?? (
                 <RemixIcon
