@@ -98,6 +98,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
           scrolledPast={scrolledPast}
           defaultValues={data}
           createNew={createNew}
+          key={no}
         />
       </Box>
     );
