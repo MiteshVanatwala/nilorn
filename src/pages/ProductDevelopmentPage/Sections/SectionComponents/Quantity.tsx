@@ -26,11 +26,11 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
 
   const { t } = useTranslation();
   const { control, getValues } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { append, remove } = useFieldArray({
     control,
     name: FORM_KEY,
   });
-
+  const fields = getValues(FORM_KEY) as number[];
   const validateUniqueValues = (value: number, index: number) => {
     const values = getValues(FORM_KEY) as number[];
     return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
@@ -47,7 +47,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
-              <Box key={item.id} position={'relative'}>
+              <Box key={item} position={'relative'}>
                 <HStack w="80%">
                   <FormattedNumberInputField
                     placeholder={`${t('Common.Placeholder')}`}
