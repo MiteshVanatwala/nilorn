@@ -3,9 +3,7 @@ import ContentSection from '../../Templates/ContentSection';
 import { COLORS, GRID } from '../../../theme/Constants';
 import { useProductDevelopmentNavigation } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@chakra-ui/react';
-import RemixIcon from '../../../components/Icon/RemixIcon';
-import { useNavigate } from 'react-router';
+import ArrowLink from '../../../components/Link/ArrowLink';
 
 type Props = {
   no: string;
@@ -13,7 +11,6 @@ type Props = {
 const BottomSection = ({ no }: Props) => {
   const { t } = useTranslation();
   const { data } = useProductDevelopmentNavigation(no);
-  const navigate = useNavigate();
   return (
     <Box
       position={'sticky'}
@@ -26,28 +23,20 @@ const BottomSection = ({ no }: Props) => {
       <ContentSection>
         <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
           <GridItem>
-            <Button
-              color={COLORS.BLACK}
-              variant={'link'}
-              leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
-              isDisabled={!data?.previous}
-              onClick={() => {
-                navigate(`/product-development/${data?.previous}`);
-              }}>
-              {t('Common.Previous')}
-            </Button>
+            <ArrowLink
+              direction={'left'}
+              to={`/product-development/${data?.previous}`}
+              isDisabled={!data?.previous}>
+              <>{t('Common.Previous')}</>
+            </ArrowLink>
           </GridItem>
           <GridItem>
-            <Button
-              color={COLORS.BLACK}
-              variant={'link'}
-              rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
-              isDisabled={!data?.next}
-              onClick={() => {
-                navigate(`/product-development/${data?.next}`);
-              }}>
-              {t('Common.Next')}
-            </Button>
+            <ArrowLink
+              direction={'right'}
+              to={`/product-development/${data?.next}`}
+              isDisabled={!data?.next}>
+              <>{t('Common.Next')}</>
+            </ArrowLink>
           </GridItem>
         </Grid>
       </ContentSection>

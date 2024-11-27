@@ -7,9 +7,10 @@ type Props = {
   children: JSX.Element;
   to?: string;
   onClick?: () => void;
+  isDisabled?: boolean;
 };
 
-const ArrowLink = ({ direction, children, to, onClick }: Props) => {
+const ArrowLink = ({ direction, children, to, onClick, isDisabled }: Props) => {
   const props: ButtonProps = {
     pr: 0,
     variant: direction === 'left' ? 'backButton' : 'forwardButton',
@@ -21,6 +22,7 @@ const ArrowLink = ({ direction, children, to, onClick }: Props) => {
       direction === 'left' ? undefined : (
         <RemixIcon component="i" icon="ARROW_RIGHT_LINE" />
       ),
+    isDisabled,
   };
   if (onClick && !to) {
     return (
