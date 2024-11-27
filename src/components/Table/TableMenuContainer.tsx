@@ -20,7 +20,9 @@ const TableMenuContainer = ({ children }: Props) => {
         aria-label={t('Common.More')}
         icon={<RemixIcon component="Text" icon="MORE_LINE" />}
       />
-      <MenuList lineHeight={1.5}>{children}</MenuList>
+      <MenuList lineHeight={1.5} zIndex={3}>
+        {children}
+      </MenuList>
     </Menu>
   );
 };
