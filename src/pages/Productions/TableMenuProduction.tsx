@@ -17,6 +17,7 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -62,6 +63,16 @@ const TableMenuProduction = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
+  const navigateToPriceCalculation = () => {
+    const search = window.location.search;
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem(storedFilter, search);
+
+    navigate(
+      `/price-calculations?productDevelopments=${productDevelopment?.no}`
+    );
+  };
+
   return (
     <>
       <MenuItem
@@ -100,11 +111,7 @@ const TableMenuProduction = ({
 
       {showCalculationLink && (
         <MenuItem
-          onClick={() =>
-            navigate(
-              `/price-calculations?productDevelopments=${productDevelopment?.no}`
-            )
-          }
+          onClick={navigateToPriceCalculation}
           icon={
             <RemixIcon
               component="Text"
