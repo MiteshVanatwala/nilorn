@@ -31,7 +31,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
     control,
     name: FORM_KEY,
   });
-  const fields = getValues(FORM_KEY) as number[];
+  const fields = (getValues(FORM_KEY) as number[]) || [];
   const validateUniqueValues = (value: number, index: number) => {
     const values = getValues(FORM_KEY) as number[];
     return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
