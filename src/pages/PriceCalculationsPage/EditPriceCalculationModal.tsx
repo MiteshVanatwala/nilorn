@@ -155,6 +155,7 @@ const EditPriceCalculationModal = ({
             <Skeleton
               isLoaded={!!priceCalculation && !isLoading && !isRefetching}>
               <PriceCalculationForm
+                key={priceCalculation?.id}
                 calculation={priceCalculation}
                 currency={priceCalculation?.currency ?? undefined}
                 createNew={false}
