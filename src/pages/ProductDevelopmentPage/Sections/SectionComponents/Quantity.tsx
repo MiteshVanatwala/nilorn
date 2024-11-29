@@ -26,8 +26,8 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const FORM_KEY = `${formKey}.quantities`;
 
   const { t } = useTranslation();
-  const { control, getValues } = useFormContext();
-  const { append, remove } = useFieldArray({
+  const { control, getValues, setValue } = useFormContext();
+  const { remove } = useFieldArray({
     control,
     name: FORM_KEY,
   });
@@ -48,7 +48,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
-              <Box key={item} position={'relative'}>
+              <Box key={index} position={'relative'}>
                 <HStack w="80%">
                   <FormattedNumberInputField
                     placeholder={`${t('Common.Placeholder')}`}
@@ -84,7 +84,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
           {!disableEdit && (
             <Button
               variant={'secondarySmall'}
-              onClick={() => append(undefined)}
+              onClick={() => setValue(FORM_KEY, [...fields, undefined])}
               rightIcon={<RemixIcon component={'i'} icon={'ADD_LINE'} />}>
               {t('Common.Add')}
             </Button>
