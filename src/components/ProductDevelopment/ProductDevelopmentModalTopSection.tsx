@@ -105,7 +105,7 @@ const ProductDevelopmentModalTopSection = ({
                     to={`/productions?vendors=${
                       vendorOptions.find(option => option.label === vendorName)
                         ?.value
-                    }`}>
+                    }&productDevelopments=${productDevelopment?.no}`}>
                     {vendorName}
                   </Link>
                 )}
