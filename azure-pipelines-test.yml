@@ -24,7 +24,7 @@ steps:
     displayName: 'npm install and build'
     env:
       REACT_APP_API_URL: $(API_URL)
-      REACT_APP_AUTH_URL: $(AUTH_URL)
+      REACT_APP_AUTH_URL: https://identitytest.nilorn.com
       REACT_APP_REDIRECT_URL: $(APP_URL)
       REACT_APP_IDENTITY_CLIENT_ID: $(AUTH_CLIENT_ID)
   - task: CopyFiles@2
