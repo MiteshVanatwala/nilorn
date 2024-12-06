@@ -101,6 +101,7 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       readonly={disableEdit}
                       showErrorIcon={true}
                       min={0}
+                      defaultValue={0}
                     />
                     <Box position={'absolute'} top={SPACE.XS} right={0}>
                       <ChangelogListItem
