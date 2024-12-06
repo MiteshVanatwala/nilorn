@@ -23,6 +23,7 @@ import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import RemixIcon from '../../../components/Icon/RemixIcon';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { useToast } from '../../../app/hooks/useToast';
+import useFilterOptions from '../../../app/hooks/useFilterOption';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -54,6 +55,7 @@ const ActionBarEditProduction = ({
   const { showToast } = useToast();
   const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
+  const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
     user?.role !== Role.PRODUCT_DEVELOPER &&
     !!production?.released &&
@@ -134,7 +136,11 @@ const ActionBarEditProduction = ({
             {showCalculationLink && (
               <MenuItem
                 as={NavLink}
-                to={`/price-calculations?productDevelopments=${productDevelopmentNo}`}
+                to={`/price-calculations?productDevelopments=${productDevelopmentNo}&vendors=${
+                  vendorOptions.find(
+                    option => option.label === production.vendorName
+                  )?.value
+                }`}
                 state={NAV_LINK}
                 icon={
                   <RemixIcon

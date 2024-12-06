@@ -17,6 +17,7 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
+import useFilterOptions from '../../app/hooks/useFilterOption';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 
 type Props = {
@@ -35,6 +36,7 @@ const TableMenuProduction = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
+  const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
     useAuthorizedSee('price-calculation') &&
     !!production?.released &&
@@ -69,7 +71,12 @@ const TableMenuProduction = ({
     sessionStorage.setItem(storedFilter, search);
 
     navigate(
-      `/price-calculations?productDevelopments=${productDevelopment?.no}`
+      `/price-calculations?productDevelopments=${
+        productDevelopment?.no
+      }&vendors=${
+        vendorOptions.find(option => option.label === production?.vendorName)
+          ?.value
+      }`
     );
   };
 
