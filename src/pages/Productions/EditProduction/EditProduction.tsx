@@ -179,6 +179,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
             />
             <Skeleton isLoaded={!isLoading && !isRefetching}>
               <EditProductionFormContent
+                key={production.id}
                 productDevelopment={productDevelopmentDataDto}
                 createNew={false}
                 production={production}

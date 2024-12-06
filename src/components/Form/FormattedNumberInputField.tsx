@@ -194,7 +194,7 @@ const FormattedNumberInputField = ({
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
             opacity={readonly ? READ_ONLY_OPACITY : ''}>
-            {formattedValue}&nbsp;
+            {formattedValue || 0}&nbsp;
           </Text>
         )}
         <Input

@@ -26,6 +26,7 @@ const useModalFormHelper = (
     proceedBlocker,
     setBlocked: setBlockedRoute,
     resetBlocker,
+    setBlocked,
   } = useModalNavigationBlocker(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
@@ -46,7 +47,10 @@ const useModalFormHelper = (
 
   useEffect(() => {
     if (isBlocked && hasUnsavedChanges()) {
-      openLeavePageModal();
+      if (!isLeavePageModalOpen) {
+        openLeavePageModal();
+        setBlocked(false);
+      }
     } else if (isBlocked) {
       proceedBlocker();
       close();
