@@ -47,6 +47,7 @@ const HeaderLink: FC<Props> = ({
       <LinkComponent
         _hover={{ bg: variant !== 'logo' ? COLORS.GRAY[10] : COLORS.GRAY[0] }}
         variant={variant}
+        as={'button'}
         bg={isActive ? COLORS.GRAY[0] : ''}
         color={isActive ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
