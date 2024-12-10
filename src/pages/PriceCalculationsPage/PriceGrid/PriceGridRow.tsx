@@ -243,22 +243,16 @@ function PriceGridRow({
                     </>
                   ) : (
                     <>
-                      {production.purchasePrices
-                        ?.sort(
-                          (a: PurchasePriceDto, b: PurchasePriceDto) =>
-                            (a.quantity || 0) - (b.quantity || 0)
-                        )
-                        .map((pp, i) => (
-                          <Fragment
-                            key={production?.id + '-purchasePrice-' + i}>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pp.quantity)}
-                            </GridTd>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pp.price)}
-                            </GridTd>
-                          </Fragment>
-                        ))}
+                      {production.purchasePrices?.map((pp, i) => (
+                        <Fragment key={production?.id + '-purchasePrice-' + i}>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.quantity)}
+                          </GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.price)}
+                          </GridTd>
+                        </Fragment>
+                      ))}
                     </>
                   )}
                 </>
