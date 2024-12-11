@@ -23,7 +23,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
 
   const { t } = useTranslation();
 
-  const { getValues, control } = useFormContext();
+  const { getValues, control, setValue } = useFormContext();
 
   const {
     fields: sourcings,
@@ -36,6 +36,17 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
 
   const sourcingCompanies = useFilterOptions('sourcingCompanies');
   const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
+
+  useEffect(() => {
+    for (let index = 0; index < sourcings.length; index++) {
+      setValue(
+        `${SOURCING_KEY}.${index}.quantities`,
+        getValues(`${SOURCING_KEY}.${index}.quantities`).sort(
+          (a: number, b: number) => a - b
+        )
+      );
+    }
+  }, [sourcings]);
 
   useEffect(() => {
     if (sourcingCompanies.length > 0) {
