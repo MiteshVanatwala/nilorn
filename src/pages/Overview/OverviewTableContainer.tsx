@@ -8,6 +8,8 @@ import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { getSortState } from '../../app/utils/FilterHelper';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import { useFormContext } from 'react-hook-form';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
+import { useRefetchCompletion } from '../../app/hooks/useRefetchCompletion';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 function OverviewTableContainer() {
@@ -16,9 +18,13 @@ function OverviewTableContainer() {
   const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
 
-  const { data, isError, isLoading } = useProductDevelopmentsFilter(
-    CHUNK_SIZES[0]
-  );
+  const { data, isError, isLoading, isFetching, isSuccess } =
+    useProductDevelopmentsFilter(CHUNK_SIZES[0]);
+  const { setLastVisitedPD } = useLastVisitedPD();
+
+  useRefetchCompletion(isFetching, isSuccess, () => {
+    setLastVisitedPD('');
+  });
 
   useEffect(() => {
     if (initSort) {
@@ -32,7 +38,7 @@ function OverviewTableContainer() {
 
   return (
     <>
-      {isLoading && <SpinnerOverlay />}
+      {(isLoading || isFetching) && <SpinnerOverlay />}
       <OverviewTable
         data={data?.items ?? []}
         sortState={sortState}

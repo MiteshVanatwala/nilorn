@@ -4,14 +4,22 @@ import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import TablePaginationContainer from '../../components/Table/TablePagination/TablePaginationContainer';
 import Alert from '../../components/Feedback/Alert';
 import PriceCalculationsTable from './PriceCalculationsTable';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
+import { useRefetchCompletion } from '../../app/hooks/useRefetchCompletion';
 
 const CHUNK_SIZES = [25, 75, 100, 300];
 
 function PriceCalculationsTableContainer() {
   const { t } = useTranslation();
 
-  const { data, isError, isLoading, isFetching } =
+  const { data, isError, isLoading, isFetching, isSuccess } =
     useProductDevelopmentDeepFilter(true, CHUNK_SIZES[0], false);
+
+  const { setLastVisitedPD } = useLastVisitedPD();
+
+  useRefetchCompletion(isFetching, isSuccess, () => {
+    setLastVisitedPD('');
+  });
 
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
