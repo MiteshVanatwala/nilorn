@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Skeleton } from '@chakra-ui/react';
+import { Box, HStack, Skeleton } from '@chakra-ui/react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -24,15 +24,15 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import { SelectOption } from '../../../app/types/types';
 import { isClosed } from '../../../app/utils/status';
-import RemixIcon from '../../../components/Icon/RemixIcon';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
-import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
+import { SIZES, SPACE } from '../../../theme/Constants';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import EditProductionFormContent from './EditProductionFormContent';
 import Form from '../../../components/Form/Form';
+import ArrowLink from '../../../components/Link/ArrowLink';
 
 type Props = {
   productionId: string;
@@ -173,11 +173,13 @@ const EditProduction = ({ productionId, filters }: Props) => {
                   status={productDevelopmentDataDto?.status}
                   createNew={false}
                   productDevelopmentNo={productDevelopmentDataDto?.no}
+                  isDirty={form.formState.isDirty}
                 />
               }
             />
             <Skeleton isLoaded={!isLoading && !isRefetching}>
               <EditProductionFormContent
+                key={production.id}
                 productDevelopment={productDevelopmentDataDto}
                 createNew={false}
                 production={production}
@@ -202,26 +204,22 @@ const EditProduction = ({ productionId, filters }: Props) => {
           </Form>
         </FormProvider>
         <HStack justify={'space-between'} py={SPACE.XL}>
-          <Button
-            color={COLORS.BLACK}
-            variant={'link'}
-            leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
-            isDisabled={!productionNavigation?.previous}
+          <ArrowLink
+            direction={'left'}
             onClick={() => {
               onNavigate(productionNavigation?.previous ?? '');
-            }}>
-            {`${t('Common.Previous')} ${t('Production.Vendor')}`}
-          </Button>
-          <Button
-            color={COLORS.BLACK}
-            variant={'link'}
-            rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
-            isDisabled={!productionNavigation?.next}
+            }}
+            isDisabled={!productionNavigation?.previous}>
+            <>{t('Common.Previous')}</>
+          </ArrowLink>
+          <ArrowLink
+            direction={'right'}
             onClick={() => {
               onNavigate(productionNavigation?.next ?? '');
-            }}>
-            {`${t('Common.Next')} ${t('Production.Vendor')}`}
-          </Button>
+            }}
+            isDisabled={!productionNavigation?.next}>
+            <>{t('Common.Next')}</>
+          </ArrowLink>
         </HStack>
       </Box>
     </>

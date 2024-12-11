@@ -17,6 +17,8 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
+import useFilterOptions from '../../app/hooks/useFilterOption';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -34,8 +36,9 @@ const TableMenuProduction = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { handleModal, close } = useContext(ModalContext);
+  const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
-    useAuthorizedSee('calculation') &&
+    useAuthorizedSee('price-calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
 
@@ -61,6 +64,21 @@ const TableMenuProduction = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
+
+  const navigateToPriceCalculation = () => {
+    const search = window.location.search;
+    const storedFilter = getCurrentStoredFilter();
+    sessionStorage.setItem(storedFilter, search);
+
+    navigate(
+      `/price-calculations?productDevelopments=${
+        productDevelopment?.no
+      }&vendors=${
+        vendorOptions.find(option => option.label === production?.vendorName)
+          ?.value
+      }`
+    );
+  };
 
   return (
     <>
@@ -100,11 +118,7 @@ const TableMenuProduction = ({
 
       {showCalculationLink && (
         <MenuItem
-          onClick={() =>
-            navigate(
-              `/price-calculations?productDevelopments=${productDevelopment?.no}`
-            )
-          }
+          onClick={navigateToPriceCalculation}
           icon={
             <RemixIcon
               component="Text"
@@ -135,7 +149,7 @@ const TableMenuProduction = ({
               fontSize={SIZES.ICON.MD}
             />
           }>
-          {t('Common.Remove')}
+          {t('Common.Delete')}
         </MenuItem>
       )}
     </>

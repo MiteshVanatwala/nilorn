@@ -86,6 +86,10 @@ const baseStyle = definePartsStyle({
     },
     _invalid: {
       borderColor: importantValue(COLORS.ERROR),
+      ':focus-visible': {
+        borderColor: importantValue(COLORS.ERROR),
+        boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.ERROR),
+      },
     },
   },
 });

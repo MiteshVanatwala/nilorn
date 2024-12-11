@@ -43,6 +43,10 @@ type Props = {
   tableMenu?: JSX.Element;
 };
 
+type ExtendedPriceDto = PriceDto & {
+  isValidInput?: boolean;
+};
+
 function PriceGridRow({
   production,
   productDevelopment,
@@ -68,8 +72,11 @@ function PriceGridRow({
     calculation === undefined
   );
 
-  const [formData, setFormData] = useState<PriceDto[]>(
-    (calculation?.priceDtos as PriceDto[]) ?? []
+  const [formData, setFormData] = useState<ExtendedPriceDto[]>(
+    (calculation?.priceDtos as PriceDto[])?.map(priceDto => ({
+      ...priceDto,
+      isValidInput: true,
+    })) ?? []
   );
 
   useEffect(() => {
@@ -80,7 +87,10 @@ function PriceGridRow({
       setCalculation(production?.priceCalculations[0]);
       setCreateNew(false);
       setFormData(
-        (production?.priceCalculations[0]?.priceDtos as PriceDto[]) ?? []
+        production?.priceCalculations[0]?.priceDtos?.map(priceDto => ({
+          ...priceDto,
+          isValidInput: true,
+        })) ?? []
       );
     } else {
       setCreateNew(true);
@@ -100,19 +110,23 @@ function PriceGridRow({
     setEnableEdit(false);
     setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
   };
+
   const submitForm = () => {
-    const body: UpdateSalesPriceCommand = {
-      salesPrices: formData as SalesPriceDto[],
-    };
-    saveSalesPrices(body, {
-      onSuccess: async () => {
-        setEnableEdit(false);
-        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
-      },
-    });
+    if (formData.every(price => price.isValidInput)) {
+      const body: UpdateSalesPriceCommand = {
+        salesPrices: formData as SalesPriceDto[],
+      };
+      saveSalesPrices(body, {
+        onSuccess: async () => {
+          setEnableEdit(false);
+          queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
+        },
+      });
+    }
   };
 
   const onInlineChange = (
+    isValid: boolean,
     newMargin: number,
     newSalesPrice: number,
     salesPriceId: string
@@ -124,6 +138,7 @@ function PriceGridRow({
         ...newData[index],
         margin: newMargin,
         salesPrice: newSalesPrice,
+        isValidInput: isValid,
       };
       setFormData(newData);
     } else {
@@ -150,7 +165,7 @@ function PriceGridRow({
                       vendorOptions.find(
                         option => option.label === production.vendorName
                       )?.value
-                    }`}>
+                    }&productDevelopments=${productDevelopment?.no}`}>
                     {production.vendorName}
                   </Link>
                 </VStack>
@@ -228,22 +243,16 @@ function PriceGridRow({
                     </>
                   ) : (
                     <>
-                      {production.purchasePrices
-                        ?.sort(
-                          (a: PurchasePriceDto, b: PurchasePriceDto) =>
-                            (a.quantity || 0) - (b.quantity || 0)
-                        )
-                        .map((pp, i) => (
-                          <Fragment
-                            key={production?.id + '-purchasePrice-' + i}>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pp.quantity)}
-                            </GridTd>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pp.price)}
-                            </GridTd>
-                          </Fragment>
-                        ))}
+                      {production.purchasePrices?.map((pp, i) => (
+                        <Fragment key={production?.id + '-purchasePrice-' + i}>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.quantity)}
+                          </GridTd>
+                          <GridTd>
+                            {numToThousandSeparatedsStr(pp.price)}
+                          </GridTd>
+                        </Fragment>
+                      ))}
                     </>
                   )}
                 </>

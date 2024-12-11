@@ -62,6 +62,8 @@ const useOverviewColumns = () => {
               </Text>
             }
             comment={info.row.original?.versionSpecification ?? ''}
+            padding="0"
+            showIconWithoutComment
           />
         );
       },

@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { SESSION_STORAGE } from '../utils/constant';
 import { useEffect, useState } from 'react';
+import { UmbrellaView } from '../types/types';
 
 export const useBackInfo = () => {
   const { t } = useTranslation();
 
   const [backInfo, setBackInfo] = useState<{
     link: string;
-    view: 'productions' | 'price-calculations' | 'overview';
+    view: UmbrellaView;
     label: string;
     filter: string;
   }>();
@@ -18,18 +19,20 @@ export const useBackInfo = () => {
       if (backLink.indexOf('productions') > -1) {
         setBackInfo({
           link: backLink,
-          view: 'productions',
+          view: 'production',
           label: t('PD.BackToProductions'),
           filter:
-            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_PRODUCTIONS) ?? '',
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_PRODUCTIONS) ??
+            '',
         });
       } else if (backLink.indexOf('price-calculations') > -1) {
         setBackInfo({
           link: backLink,
-          view: 'price-calculations',
+          view: 'price-calculation',
           label: t('PD.BackToCalculations'),
           filter:
-            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_CALCULATION) ?? '',
+            sessionStorage.getItem(SESSION_STORAGE.PREV_FILTER_CALCULATION) ??
+            '',
         });
       } else {
         setBackInfo({

@@ -19,11 +19,11 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
+import ArrowLink from '../../components/Link/ArrowLink';
 
 type Props = {
   calculationId: string;
@@ -155,6 +155,7 @@ const EditPriceCalculationModal = ({
             <Skeleton
               isLoaded={!!priceCalculation && !isLoading && !isRefetching}>
               <PriceCalculationForm
+                key={priceCalculation?.id}
                 calculation={priceCalculation}
                 currency={priceCalculation?.currency ?? undefined}
                 createNew={false}
@@ -168,30 +169,24 @@ const EditPriceCalculationModal = ({
         <ContentSection>
           <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
             <GridItem>
-              {priceCalculationNavigation?.previous && (
-                <ArrowLink
-                  direction={'left'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.previous) {
-                      onNavigate(priceCalculationNavigation.previous);
-                    }
-                  }}>
-                  <>{t('Common.Previous')}</>
-                </ArrowLink>
-              )}
+              <ArrowLink
+                direction={'left'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.previous}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.previous}>
+                <>{t('Common.Previous')}</>
+              </ArrowLink>
             </GridItem>
             <GridItem>
-              {priceCalculationNavigation?.next && (
-                <ArrowLink
-                  direction={'right'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.next) {
-                      onNavigate(priceCalculationNavigation.next);
-                    }
-                  }}>
-                  <>{t('Common.Next')}</>
-                </ArrowLink>
-              )}
+              <ArrowLink
+                direction={'right'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.next}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.next}>
+                <>{t('Common.Next')}</>
+              </ArrowLink>
             </GridItem>
           </Grid>
         </ContentSection>

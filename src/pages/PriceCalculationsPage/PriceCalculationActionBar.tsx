@@ -59,7 +59,7 @@ const PriceCalculationActionBar = ({
                     fontSize={SIZES.ICON.MD}
                   />
                 }>
-                {t('Common.Remove')}
+                {t('Common.Delete')}
               </MenuItem>
             )}
           </MenuList>

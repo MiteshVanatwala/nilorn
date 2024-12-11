@@ -13,7 +13,7 @@ import { useToast } from '../../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../../app/api/User';
 import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
@@ -24,6 +24,8 @@ import MenuItemCreate from './MenuItemCreate';
 import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
+import { Fragment } from 'react';
+import { ROLES_ALLOWED_TO_CREATE } from '../../../../../app/Permissions/Permissions';
 
 type Props = {
   no: string;
@@ -32,6 +34,7 @@ type Props = {
   hasPriceCalculation: boolean;
   hasProductions: boolean;
 };
+
 const ActionBar = ({
   createNew,
   no,
@@ -40,7 +43,8 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorizedSee('calculation');
+  const navigate = useNavigate();
+  const showCalculation = useAuthorizedSee('price-calculation');
   const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
   const isAllowedToCreateCopy = useAuthorizedEdit('createCopy');
@@ -61,16 +65,15 @@ const ActionBar = ({
 
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
-  const { handleModal } = useModal();
+  const { handleModal, close } = useModal();
 
   async function submitStatus(newStatus: Status): Promise<void> {
-    const errorKeys = Object.keys(errors);
-    if (errorKeys?.length) {
-      scrollNameIntoView(errorKeys[0]);
-      return;
-    }
     if (currentStatus === newStatus) {
       return;
+    }
+
+    if (newStatus === Status.DELETED) {
+      deleteProductDevelopment();
     }
 
     if (hasUnsavedChanges()) {
@@ -80,29 +83,24 @@ const ActionBar = ({
       });
       return;
     }
+
     if (newStatus === Status.NEW) {
       updateStatus(newStatus);
-    } else {
-      if (currentStatus === Status.NEW) {
-        register('productGroupCode', {
-          required: true,
-        });
-        register('itemCategoryCode', {
-          required: true,
-        });
-      }
-      const res = await trigger();
-      if (res) {
-        updateStatus(newStatus);
-        return;
-      }
-      showToast({
-        status: 'error',
-        description: t('PD.Feedback.Error.UpdateStatus'),
-      });
       return;
     }
+
+    if (currentStatus === Status.NEW) {
+      registerFields();
+    }
+
+    const res = await trigger();
+    if (res) {
+      updateStatus(newStatus);
+      return;
+    }
+    handleFormErrors();
   }
+
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCT_DEVELOPMENT,
     no,
@@ -111,6 +109,7 @@ const ActionBar = ({
 
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
+    close();
   }
 
   function toggleShowChanges() {
@@ -136,6 +135,22 @@ const ActionBar = ({
       submitStatus(status);
     }
   }
+  const registerFields = () => {
+    register('productGroupCode', { required: true });
+    register('itemCategoryCode', { required: true });
+  };
+
+  const handleFormErrors = () => {
+    const errorKeys = Object.keys(errors);
+    if (errorKeys.length) {
+      scrollNameIntoView(errorKeys[0]);
+    }
+
+    showToast({
+      status: 'error',
+      description: t('PD.Feedback.Error.UpdateStatus'),
+    });
+  };
 
   return (
     <ActionBarTemplate
@@ -155,6 +170,21 @@ const ActionBar = ({
               }>
               {showChanges ? t('PD.HideChanges') : t('PD.ShowChanges')}
             </MenuItem>
+
+            {user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role) && (
+              <MenuItem
+                as={NavLink}
+                to={`/product-development/create`}
+                icon={
+                  <RemixIcon
+                    component="Text"
+                    icon="ADD_LINE"
+                    fontSize={SIZES.ICON.MD}
+                  />
+                }>
+                {t('Common.CreateNew')}
+              </MenuItem>
+            )}
 
             {isAllowedToCreateCopy && (
               <MenuItemCreate no={no} createType={'copy'} />
@@ -184,7 +214,7 @@ const ActionBar = ({
                 icon={
                   <RemixIcon
                     component="Text"
-                    icon="ARROW_LEFT_RIGHT_LINE"
+                    icon="LINE_CHART_LINE"
                     fontSize={SIZES.ICON.MD}
                   />
                 }>
@@ -198,7 +228,7 @@ const ActionBar = ({
                 icon={
                   <RemixIcon
                     component="Text"
-                    icon="LINE_CHART_LINE"
+                    icon="CALCULATOR_LINE"
                     fontSize={SIZES.ICON.MD}
                   />
                 }>
@@ -225,27 +255,31 @@ const ActionBar = ({
                 <RemixIcon component="i" icon="ARROW_DOWN_S_LINE" />
               </MenuButton>
               <MenuList>
-                {statuses.map(s => (
-                  <MenuItem
-                    key={s.value}
-                    value={s.value}
-                    onClick={() => handleChangeStatus(s.value)}
-                    bg={
-                      getValues('status') === s.value
-                        ? COLORS.GRAY[10]
-                        : 'transparent'
-                    }
-                    autoFocus={s.value === 'Design'}
-                    icon={
-                      <Box
-                        w={'6px'}
-                        h={'6px'}
-                        borderRadius={'2px'}
-                        bg={s.color}></Box>
-                    }>
-                    {s.label}
-                  </MenuItem>
-                ))}
+                {statuses.map(s =>
+                  user?.role && isAuthorizedToChangeStatus(s.value) ? (
+                    <MenuItem
+                      key={s.value}
+                      value={s.value}
+                      onClick={() => handleChangeStatus(s.value)}
+                      bg={
+                        getValues('status') === s.value
+                          ? COLORS.GRAY[10]
+                          : 'transparent'
+                      }
+                      autoFocus={s.value === 'Design'}
+                      icon={
+                        <Box
+                          w={'6px'}
+                          h={'6px'}
+                          borderRadius={'2px'}
+                          bg={s.color}></Box>
+                      }>
+                      {s.label}
+                    </MenuItem>
+                  ) : (
+                    <Fragment key={s.value} />
+                  )
+                )}
               </MenuList>
             </Menu>
             {!disableEdit && (

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import FormuQuerySubmit from '../../components/Form/FormQuerySubmit';
 import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryClient } from 'react-query';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 const ProductDevelopmentFilter = lazy(
   () => import('./ProductDevelopmentFilter')
@@ -19,6 +20,7 @@ function Overview() {
 
   return (
     <PaginationProvider>
+      <LeavePageBlocker />
       <FormuQuerySubmit form={form}>
         <Suspense>
           <ProductDevelopmentFilter />

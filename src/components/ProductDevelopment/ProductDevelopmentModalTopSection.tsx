@@ -3,7 +3,7 @@ import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
 import { Image, Link, VStack, Text } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import StatusBadge from '../../components/Status/StatusBadge';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { ProductDevelopmentDataDto } from '../../app/generate';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
@@ -22,6 +22,7 @@ const ProductDevelopmentModalTopSection = ({
   vendorName,
   actionBar,
 }: Props) => {
+  const location = useLocation();
   const vendorOptions = useFilterOptions('vendors');
 
   const handleClick = () => {
@@ -94,16 +95,20 @@ const ProductDevelopmentModalTopSection = ({
                 {productDevelopment?.name}
               </Heading>
               <HStack>
-                <Link
-                  as={NavLink}
-                  state={NAV_LINK}
-                  onClick={handleClick}
-                  to={`/productions?vendors=${
-                    vendorOptions.find(option => option.label === vendorName)
-                      ?.value
-                  }`}>
-                  {vendorName}
-                </Link>
+                {location.pathname.includes('productions') ? (
+                  <Text>{vendorName}</Text>
+                ) : (
+                  <Link
+                    as={NavLink}
+                    state={NAV_LINK}
+                    onClick={handleClick}
+                    to={`/productions?vendors=${
+                      vendorOptions.find(option => option.label === vendorName)
+                        ?.value
+                    }&productDevelopments=${productDevelopment?.no}`}>
+                    {vendorName}
+                  </Link>
+                )}
                 {vendorName && sourcingCompanyCode && <>{' - '}</>}
                 <Text>{sourcingCompanyCode}</Text>
               </HStack>
@@ -115,7 +120,7 @@ const ProductDevelopmentModalTopSection = ({
                       state={NAV_LINK}
                       onClick={handleClick}
                       to={`/product-development/${productDevelopment?.no}`}>
-                      #{productDevelopment?.no}
+                      {productDevelopment?.no}
                     </Link>
                   )}
                 </Text>

@@ -109,6 +109,7 @@
     "DeleteMsg": "Are you sure you want to delete this record?",
     "UnsavedChanges": "Unsaved changes",
     "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
+    "UnsavedProductionChanges": "Production needs to be saved before removing from sales",
     "Copy": {
       "Create": "Create copy",
       "ConfirmModal": {
@@ -140,7 +141,8 @@
         "Error": {
           "FileDelete": "Failed to delete file",
           "FileRemoveLink": "Failed to remove link to file",
-          "FileDownload": "Failed to download file"
+          "FileDownload": "Failed to download file",
+          "FileUpdated": "Failed to upload file {{name}}"
         },
         "Info": {
           "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
@@ -313,7 +315,6 @@
         "Update": "Failed to update calculation",
         "UpdateRows": "Failed to update margin and sales price",
         "MarginTooHigh": "Margin can be maximum 99.99",
-        "MinToLow": "Can be minimum {{min}}",
         "UpdateIncluded": "Failed to update valid and include"
       }
     }
@@ -362,7 +363,8 @@
     "ProjectCreate": "Error while creating project",
     "UniqueValue": "Value must be unique",
     "MustBeANumber": "Must be a number",
-    "MustBeAnInteger": "Must be an integer"
+    "MustBeAnInteger": "Must be an integer",
+    "MinToLow": "Can be minimum {{min}}"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",

@@ -40,12 +40,15 @@ const InputSwitch = ({ option }: Props) => {
           options={options}
         />
       );
-    case 'number':
+
+    case 'integer':
+    case 'decimal':
       return (
         <FilterNumberInputField
           label={optionLabel}
           placeholder={`${t('Filter.Enter')} ${optionLabel}`}
           name={name}
+          type={type}
         />
       );
   }

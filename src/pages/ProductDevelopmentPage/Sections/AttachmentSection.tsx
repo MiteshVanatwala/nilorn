@@ -37,7 +37,7 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
           (attachments?.length ?? 0) + (artwork ? 1 : 0)
         })`}>
         {createNew ? (
-          <Alert status="info" title={`${t('PD.MediaFileInfo')}`} />
+          <Alert status="info" title={`${t('PD.File.MediaFileInfo')}`} />
         ) : (
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
             <FileSection

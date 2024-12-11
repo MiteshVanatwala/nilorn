@@ -30,7 +30,7 @@ const SourcingForm = ({
   onRemove,
 }: Props) => {
   const { t } = useTranslation();
-  const showCalculation = useAuthorizedSee('calculation');
+  const showCalculation = useAuthorizedSee('price-calculation');
   const allowedToRemove = useAuthorizedEdit('removeSourcing');
 
   const { data: connectedProductions } = useProductions(
@@ -125,7 +125,7 @@ const SourcingForm = ({
         {isSaved && (
           <HStack spacing={SPACE.XL}>
             <ArrowLink
-              to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+              to={`/productions?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1`}
               direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
@@ -140,7 +140,7 @@ const SourcingForm = ({
                 cp => cp.priceCalculations && cp.released
               )?.length > 0 && (
                 <ArrowLink
-                  to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1`}
+                  to={`/price-calculations?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1`}
                   direction="right">
                   <>
                     {(connectedProductions &&

@@ -4,7 +4,9 @@ import {
   FormLabel,
   Grid,
   GridItem,
+  HStack,
   IconButton,
+  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -24,12 +26,12 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const FORM_KEY = `${formKey}.quantities`;
 
   const { t } = useTranslation();
-  const { control, getValues } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { control, getValues, setValue } = useFormContext();
+  const { remove } = useFieldArray({
     control,
     name: FORM_KEY,
   });
-
+  const fields = (getValues(FORM_KEY) as number[]) || [];
   const validateUniqueValues = (value: number, index: number) => {
     const values = getValues(FORM_KEY) as number[];
     return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
@@ -46,37 +48,43 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
-              <Box key={item.id} position={'relative'}>
-                <FormattedNumberInputField
-                  placeholder={`${t('Common.Placeholder')}`}
-                  name={`${FORM_KEY}.${index}`}
-                  readonly={disableEdit}
-                  required={true}
-                  validateNumber={(value: number) =>
-                    validateUniqueValues(value, index)
-                  }
-                  type={'integer'}
-                  focusOnMount={focusOnAdd}
-                />
-                {!disableEdit && (
-                  <IconButton
-                    position={'absolute'}
-                    zIndex={2}
-                    right={0}
-                    top={4}
-                    variant={'deleteIconBtn'}
-                    aria-label={t('Filter.Remove')}
-                    icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
-                    onClick={() => remove(index)}
+              <Box key={index} position={'relative'}>
+                <HStack w="80%">
+                  <FormattedNumberInputField
+                    placeholder={`${t('Common.Placeholder')}`}
+                    name={`${FORM_KEY}.${index}`}
+                    readonly={disableEdit}
+                    required={true}
+                    validateNumber={(value: number) =>
+                      validateUniqueValues(value, index)
+                    }
+                    type={'integer'}
+                    focusOnMount={focusOnAdd}
+                    showErrorIcon={true}
+                    min={0}
                   />
-                )}
+                  {!disableEdit && (
+                    <Tooltip label={t('Common.Remove')}>
+                      <IconButton
+                        position={'absolute'}
+                        zIndex={2}
+                        right={0}
+                        top={4}
+                        variant={'deleteIconBtn'}
+                        aria-label={t('Filter.Remove')}
+                        icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
+                        onClick={() => remove(index)}
+                      />
+                    </Tooltip>
+                  )}
+                </HStack>
               </Box>
             );
           })}
           {!disableEdit && (
             <Button
               variant={'secondarySmall'}
-              onClick={() => append(undefined)}
+              onClick={() => setValue(FORM_KEY, [...fields, undefined])}
               rightIcon={<RemixIcon component={'i'} icon={'ADD_LINE'} />}>
               {t('Common.Add')}
             </Button>

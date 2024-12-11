@@ -156,6 +156,7 @@ const CertificateInputRow = ({
           placeholder={`${t('Common.Placeholder')}`}
           readonly={disableEdit || isLoading || !selectedCertificateCode}
           showErrorIcon={true}
+          min={0}
         />
       </GridItem>
       <GridItem alignSelf={'center'}>

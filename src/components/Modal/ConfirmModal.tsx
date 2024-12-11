@@ -15,6 +15,7 @@ type Props = {
   cancelText?: string;
   confirmText?: string;
   onClose?: () => void;
+  isConfirmLoading?: boolean;
 };
 
 const ConfirmModal = ({
@@ -25,6 +26,7 @@ const ConfirmModal = ({
   cancelText,
   confirmText,
   onClose,
+  isConfirmLoading = false,
 }: Props) => {
   const { t } = useTranslation();
   const { close } = useModal();
@@ -42,6 +44,7 @@ const ConfirmModal = ({
           <Button
             variant={confirmType === 'DELETE' ? 'deleteBtn' : 'primary'}
             onClick={onConfirm}
+            isLoading={isConfirmLoading}
             rightIcon={
               confirmType === 'DELETE' ? (
                 <RemixIcon component="i" icon={'DELETE_BIN_LINE'} />
@@ -57,6 +60,7 @@ const ConfirmModal = ({
           </Button>
           <Button
             variant={'secondary'}
+            isDisabled={isConfirmLoading}
             onClick={() => {
               onClose ? onClose() : close();
             }}

@@ -1,5 +1,6 @@
 import { PriceCalculationDto } from '../../../app/generate';
 
+const limitDecimals = (num: number) => Number(num.toFixed(20));
 /**
  * Calculates the sales price based on cost, freight, and margin.
  *
@@ -18,7 +19,7 @@ export function calculateSalesPrice(
   freightIncluded: number = 0,
   margin: number = 0
 ): number {
-  return (cost + freightIncluded) * (100 / (100 - margin));
+  return limitDecimals((cost + freightIncluded) * (100 / (100 - margin)));
 }
 
 /**
@@ -41,7 +42,9 @@ export function calculateMargin(
   if (salePrice === 0) {
     return 0;
   }
-  return ((salePrice - cost - freightIncluded) / salePrice) * 100;
+  return limitDecimals(
+    ((salePrice - cost - freightIncluded) / salePrice) * 100
+  );
 }
 
 /**
@@ -63,10 +66,10 @@ export function calculateCost(
   const currencyRate = calculation.currencyRate ?? 0;
   const indirectCost = calculation.indirectCost ?? 0;
 
-  return (
+  return limitDecimals(
     purchasePrice *
-    (1 + internalCommission / 100) *
-    currencyRate *
-    (1 + indirectCost / 100)
+      (1 + internalCommission / 100) *
+      currencyRate *
+      (1 + indirectCost / 100)
   );
 }

@@ -24,6 +24,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
   const { t } = useTranslation();
 
   const { getValues, control, setValue } = useFormContext();
+  const [accordionIndex, setAccordionIndex] = useState<number[]>([]);
 
   const {
     fields: sourcings,
@@ -74,6 +75,14 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
     setSelected(
       selected.filter(sourcing => sourcing.value !== sourcingCompanyCode)
     );
+    setAccordionIndex(
+      accordionIndex.reduce((finalArr: number[], currentAccordion: number) => {
+        if (currentAccordion < indexToRemove) finalArr.push(currentAccordion);
+        else if (currentAccordion > indexToRemove)
+          finalArr.push(currentAccordion - 1);
+        return finalArr;
+      }, [])
+    );
   }
 
   return (
@@ -102,6 +111,12 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
                 options={sourcingCompanies}
                 onChange={(option, event) => {
                   addSourcing(option);
+                  setAccordionIndex([
+                    ...accordionIndex,
+                    accordionIndex.length
+                      ? accordionIndex[accordionIndex.length - 1] + 1
+                      : sourcings.length,
+                  ]);
                 }}
                 value={selected}
               />
@@ -113,7 +128,9 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
               border={'none'}
               allowMultiple
               variant={'light'}
-              defaultIndex={sourcings.map((_, index) => index)}>
+              index={accordionIndex}
+              defaultIndex={sourcings.map((_, index) => index)}
+              onChange={(index: any) => setAccordionIndex(index)}>
               {sourcings.map((sourcingData, index) => {
                 const sourcing = sourcingData as SourcingDto;
                 if (!sourcing.sourcingCompanyCode) {
