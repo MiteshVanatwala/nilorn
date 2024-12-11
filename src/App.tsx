@@ -10,7 +10,7 @@ import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { OpenAPI } from './app/generate';
 import { SESSION_STORAGE } from './app/utils/constant';
 
-OpenAPI.BASE = process.env.REACT_APP_API_URL ?? 'https://utest.nilorn.com';
+OpenAPI.BASE = process.env.REACT_APP_API_URL ?? 'https://udev.nilorn.com';
 
 function App() {
   const auth = useAuth();
