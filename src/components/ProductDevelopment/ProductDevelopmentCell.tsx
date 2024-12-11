@@ -57,7 +57,7 @@ const ProductDevelopmentCell = ({
             alignItems={'flex-start'}>
             <Link
               variant={'textLink'}
-              as={Text}
+              as={'button'}
               onClick={e => {
                 handleClick(e, `/product-development/${no}`, no ?? '');
               }}>
