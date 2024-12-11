@@ -3,7 +3,7 @@ import { SelectOption } from '../types/types';
 import { useEffect, useState } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
-import { INCLUDE_CLOSED, PAGE_SIZE, SESSION_STORAGE } from './constant';
+import { INCLUDE_CLOSED, PAGE_SIZE, SEARCH_QUERY, SESSION_STORAGE } from './constant';
 import { allFilters } from '../hooks/useFilterList';
 
 export function getDefaultValueSelect(
@@ -147,19 +147,12 @@ export function getCurrentStoredFilter() {
 }
 
 export function parseSearchParams(queryStr: string): Record<string, string> {
-  if (queryStr.startsWith('?')) {
-    queryStr = queryStr.substring(1);
-  }
-
-  if (!queryStr) {
-    return {};
-  }
-  const paramsArray = queryStr.split('&');
+  const searchParams = new URLSearchParams(queryStr);
   const parsedParams: Record<string, string> = {};
 
-  paramsArray.forEach(param => {
-    const [key, value] = param.split('=');
-    parsedParams[key] = decodeURIComponent(value);
+  searchParams.forEach((value, key) => {
+    parsedParams[key] =
+      key === SEARCH_QUERY ? value : decodeURIComponent(value);
   });
 
   return parsedParams;
