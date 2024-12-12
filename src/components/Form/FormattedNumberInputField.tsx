@@ -108,7 +108,7 @@ const FormattedNumberInputField = ({
       value = value.replace(',', '.');
     }
 
-    setFormValue(name, value);
+    setFormValue(name, value, { shouldDirty: true });
   };
 
   const onBoxFocus = () => {
