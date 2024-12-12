@@ -71,7 +71,7 @@ const FormattedNumberInputField = ({
   useEffect(() => {
     if (watch === null || isNaN(watch)) {
       setFormattedValue('');
-    } else if (!!watch) {
+    } else if (!!watch || watch === 0) {
       setFormattedValue(
         numToThousandSeparatedsStr(watch, type === 'decimal') ?? ''
       );
