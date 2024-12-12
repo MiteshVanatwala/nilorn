@@ -68,10 +68,17 @@ const useModalFormHelper = (
 
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (hasUnsavedChanges() && e.key === 'Escape') {
-        if (!isLeavePageModalOpen) openLeavePageModal();
-        else setLeavePageModalOpen(false);
-        setPendingNavId(undefined);
+      if (e.key === 'Escape') {
+        if (hasUnsavedChanges()) {
+          if (!isLeavePageModalOpen) {
+            openLeavePageModal();
+          } else {
+            setLeavePageModalOpen(false);
+          }
+          setPendingNavId(undefined);
+        } else {
+          close();
+        }
       }
     };
 
@@ -108,10 +115,6 @@ const useModalFormHelper = (
       setActiveNavId(productionNavigation);
     }
   };
-
-  useEffect(() => {
-    setPendingNavId(undefined);
-  }, [activeNavId]);
 
   const onConfirm = () => {
     setPreventClose(false);
