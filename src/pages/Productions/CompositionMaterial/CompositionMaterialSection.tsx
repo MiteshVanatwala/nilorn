@@ -21,7 +21,11 @@ const CompositionMaterialSection = ({
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
-  const { control, getValues, setValue } = useFormContext();
+  const {
+    control,
+    setValue,
+    formState: { isDirty },
+  } = useFormContext();
   const fieldName = 'compositions';
 
   const [focusIndex, setFocusIndex] = useState<Number>(-1);
@@ -45,10 +49,10 @@ const CompositionMaterialSection = ({
     : materialOptions;
 
   useEffect(() => {
-    if (defaultValues?.length && !getValues(fieldName)) {
+    if (!isDirty) {
       setValue(fieldName, defaultValues);
     }
-  }, [defaultValues, getValues, setValue]);
+  }, [defaultValues, setValue, isDirty]);
 
   let sum = 0;
   registerdCompositionMaterial?.forEach(m => {
