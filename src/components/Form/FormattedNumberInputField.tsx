@@ -201,6 +201,9 @@ const FormattedNumberInputField = ({
           type={'text'}
           inputMode={'numeric'}
           textColor={showFormattedValue ? 'transparent' : 'inherit'}
+          _placeholder={{
+            color: showFormattedValue ? 'transparent' : 'inherit',
+          }}
           onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
           variant={variant}
           isReadOnly={readonly}
