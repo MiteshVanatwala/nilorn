@@ -56,6 +56,7 @@ const useModalFormHelper = (
       close();
       setBlockedRoute(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     close,
     hasUnsavedChanges,
@@ -116,11 +117,12 @@ const useModalFormHelper = (
     setPreventClose(false);
     setLeavePageModalOpen(false);
     discardChanges();
+    proceedBlocker();
     if (pendingNavId) {
       setActiveNavId(pendingNavId);
+      modalRef.current?.onClose();
     } else {
       close();
-      proceedBlocker();
     }
   };
 
