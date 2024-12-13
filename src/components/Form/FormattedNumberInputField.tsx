@@ -194,16 +194,16 @@ const FormattedNumberInputField = ({
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
             opacity={readonly ? READ_ONLY_OPACITY : ''}>
-            {formattedValue || 0}&nbsp;
+            {formattedValue}&nbsp;
           </Text>
         )}
         <Input
           type={'text'}
           inputMode={'numeric'}
           textColor={showFormattedValue ? 'transparent' : 'inherit'}
-          _placeholder={{
-            color: showFormattedValue ? 'transparent' : 'inherit',
-          }}
+          // _placeholder={{
+          //   color: showFormattedValue ? 'transparent' : 'inherit',
+          // }}
           onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
           variant={variant}
           isReadOnly={readonly}
