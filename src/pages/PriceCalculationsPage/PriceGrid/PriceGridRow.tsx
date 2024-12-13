@@ -165,7 +165,9 @@ function PriceGridRow({
                       vendorOptions.find(
                         option => option.label === production.vendorName
                       )?.value
-                    }&productDevelopments=${productDevelopment?.no}`}>
+                    }&productDevelopments=${productDevelopment?.no}${
+                      filters?.statuses ? `&statuses=${filters?.statuses}` : ''
+                    }`}>
                     {production.vendorName}
                   </Link>
                 </VStack>

@@ -76,7 +76,7 @@ const TableMenuProduction = ({
       }&vendors=${
         vendorOptions.find(option => option.label === production?.vendorName)
           ?.value
-      }`
+      }${filters?.statuses ? `&statuses=${filters?.statuses}` : ''}`
     );
   };
 
