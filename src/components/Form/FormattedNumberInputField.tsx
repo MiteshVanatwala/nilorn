@@ -201,9 +201,6 @@ const FormattedNumberInputField = ({
           type={'text'}
           inputMode={'numeric'}
           textColor={showFormattedValue ? 'transparent' : 'inherit'}
-          // _placeholder={{
-          //   color: showFormattedValue ? 'transparent' : 'inherit',
-          // }}
           onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
           variant={variant}
           isReadOnly={readonly}
@@ -211,6 +208,7 @@ const FormattedNumberInputField = ({
           placeholder={placeholder}
           cursor={readonly ? 'default' : 'text'}
           onFocus={onInputFocus}
+          disabled={readonly}
           {...register(name, regOptions)}
         />
       </Box>
