@@ -44,7 +44,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
   function addMember(
     selectedOption: MultiValue<SelectOption<MemberBriefDto>> | undefined
   ) {
-    if (selectedOption !== undefined) {
+    if (selectedOption !== undefined && selectedOption.length > 0) {
       setSelected(selectedOption);
       append(selectedOption[selectedOption.length - 1].value);
     }
@@ -122,7 +122,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                       ?.filter(
                         item =>
                           !(membersFormVaule as MemberBriefDto[])?.some(
-                            selectedItem => selectedItem.code === item.code
+                            selectedItem => selectedItem?.code === item.code
                           )
                       )
                       .map(
