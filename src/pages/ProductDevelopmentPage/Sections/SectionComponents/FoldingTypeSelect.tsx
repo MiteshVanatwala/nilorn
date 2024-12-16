@@ -69,6 +69,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
                 name={inputName}
                 options={optionItems}
                 readOnly={disableEdit}
+                isSearchable={true}
                 value={
                   optionItems?.find(co => co.value === project) as SelectOption
                 }
