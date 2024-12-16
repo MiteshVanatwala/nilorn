@@ -59,7 +59,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
         errors={errors}
         required={true}
         name={inputName}
-        label={`${t('PD.FormContent.Folding')}`}>
+        label={`${t('PD.FormContent.FoldingType')}`}>
         <Controller
           name={inputName}
           defaultValue={
