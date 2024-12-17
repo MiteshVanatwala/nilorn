@@ -55,7 +55,11 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
 
   return (
     <Box zIndex={8} w={'100%'} minW={SIZES.CONTAINER.XXXS}>
-      <ControlWrapper errors={errors} required={true} name={inputName}>
+      <ControlWrapper
+        errors={errors}
+        required={true}
+        name={inputName}
+        label={`${t('PD.FormContent.FoldingType')}`}>
         <Controller
           name={inputName}
           defaultValue={
