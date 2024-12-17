@@ -27,7 +27,6 @@ import ArrowLink from '../../components/Link/ArrowLink';
 
 type Props = {
   calculationId: string;
-  purchaseCurrency: string;
   filters: ServerFilter;
   disableEdit?: boolean;
 };
@@ -35,7 +34,6 @@ type Props = {
 const EditPriceCalculationModal = ({
   calculationId,
   filters,
-  purchaseCurrency,
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
@@ -85,7 +83,7 @@ const EditPriceCalculationModal = ({
     if (priceCalculation) {
       form.reset({
         id: priceCalculation?.id,
-        purchaseCurrency: purchaseCurrency,
+        purchaseCurrency: priceCalculation.purchaseCurrencyCode,
         currencyRate: priceCalculation?.currencyRate,
         currencyCode: priceCalculation?.currency?.code,
         internalCommission: priceCalculation?.internalCommission,
@@ -97,7 +95,7 @@ const EditPriceCalculationModal = ({
             : null,
       });
     }
-  }, [priceCalculation, form, margins, purchaseCurrency]);
+  }, [priceCalculation, form, margins]);
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
