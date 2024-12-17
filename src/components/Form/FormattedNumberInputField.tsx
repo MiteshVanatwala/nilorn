@@ -66,7 +66,7 @@ const FormattedNumberInputField = ({
         numToThousandSeparatedsStr(defaultValue, type === 'decimal')
       );
     }
-  }, [defaultValue, name, type]);
+  }, []);
 
   useEffect(() => {
     if (watch === null || isNaN(watch)) {
