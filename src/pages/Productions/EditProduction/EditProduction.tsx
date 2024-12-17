@@ -1,5 +1,5 @@
 import { Box, HStack, Skeleton } from '@chakra-ui/react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,8 +14,6 @@ import { useGetVendors } from '../../../app/api/vendors';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
   ChangelogType,
-  ProductionDto,
-  ProductionExtendedDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../../app/generate';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
@@ -77,14 +75,6 @@ const EditProduction = ({ productionId, filters }: Props) => {
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};
 
-  const production = useMemo(() => {
-    const newProduction: Omit<
-      ProductionExtendedDto,
-      'productDevelopmentDataDto' | 'sourcingCompanyCode'
-    > = productionExt || {};
-    return newProduction as ProductionDto;
-  }, [productionExt]);
-
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -98,18 +88,18 @@ const EditProduction = ({ productionId, filters }: Props) => {
 
   useEffect(() => {
     setDisableEdit(
-      production?.released ||
+      productionExt?.released ||
         (productDevelopmentDataDto?.status
           ? isClosed(productDevelopmentDataDto?.status!!)
           : false)
     );
-  }, [productDevelopmentDataDto?.status, production?.released]);
+  }, [productDevelopmentDataDto?.status, productionExt?.released]);
 
   useEffect(() => {
-    if (production) {
-      form.reset({ ...production });
+    if (productionExt) {
+      form.reset({ ...productionExt });
     }
-  }, [production, form]);
+  }, [productionExt, form]);
 
   useEffect(() => {
     if (vendors) {
@@ -132,7 +122,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
   }
 
   function deleteProductionFunc() {
-    deleteProduction({ id: production?.id ?? '' });
+    deleteProduction({ id: productionExt?.id ?? '' });
   }
 
   const openDeleteModal = () => {
@@ -165,11 +155,11 @@ const EditProduction = ({ productionId, filters }: Props) => {
               actionBar={
                 <ActionBarEditProduction
                   handleDelete={openDeleteModal}
-                  production={production}
+                  production={productionExt}
                   artwork={productDevelopmentDataDto?.artwork}
                   showChanges={showChanges}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
-                  disableEdit={production?.released}
+                  disableEdit={productionExt?.released}
                   status={productDevelopmentDataDto?.status}
                   createNew={false}
                   productDevelopmentNo={productDevelopmentDataDto?.no}
@@ -179,10 +169,10 @@ const EditProduction = ({ productionId, filters }: Props) => {
             />
             <Skeleton isLoaded={!isLoading && !isRefetching}>
               <EditProductionFormContent
-                key={production.id}
+                key={productionExt?.id}
                 productDevelopment={productDevelopmentDataDto}
                 createNew={false}
-                production={production}
+                production={productionExt}
                 showChanges={showChanges}
                 disableEdit={disableEdit}
               />
