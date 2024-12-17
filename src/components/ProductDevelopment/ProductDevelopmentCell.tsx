@@ -3,11 +3,10 @@ import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
-import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
-import { useNavigate } from 'react-router-dom';
 import { MouseEvent, useEffect, useRef } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
+import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
 const ProductDevelopmentCell = ({
   no,
@@ -18,8 +17,8 @@ const ProductDevelopmentCell = ({
   projectCode,
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
+  const storeFilterAndNavigate = useStoreFilterAndNavigate();
 
   useEffect(() => {
     if (!!ref?.current && no && no === lastVisitedPD) {
@@ -41,10 +40,9 @@ const ProductDevelopmentCell = ({
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
-    const storedFilter = getCurrentStoredFilter();
+
     sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
-    sessionStorage.setItem(storedFilter, search);
-    navigate(url);
+    storeFilterAndNavigate(url);
   };
 
   return (
