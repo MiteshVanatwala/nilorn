@@ -208,6 +208,7 @@ const FormattedNumberInputField = ({
           placeholder={placeholder}
           cursor={readonly ? 'default' : 'text'}
           onFocus={onInputFocus}
+          autoComplete="off"
           disabled={readonly}
           {...register(name, regOptions)}
         />
