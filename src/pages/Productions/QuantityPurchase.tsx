@@ -9,7 +9,6 @@ import {
   Tooltip,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ChangelogType } from '../../app/generate';
@@ -32,7 +31,6 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
     name: fieldName,
   });
 
-  useEffect(() => {}, [fields]);
   function focusLastField() {
     const last = document.querySelector(
       `[name="purchasePrices.${fields.length - 1}.quantity"]`
