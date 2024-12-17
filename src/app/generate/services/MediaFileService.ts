@@ -12,21 +12,21 @@ import { request as __request } from '../core/request';
 export class MediaFileService {
 
     /**
-     * @param productDevelopmentNo
-     * @param mediaFileType
-     * @param replaceArtwork
-     * @param formData
+     * @param productDevelopmentNo 
+     * @param mediaFileType 
+     * @param replaceArtwork 
+     * @param formData 
      * @returns MediaFileDto Success
      * @throws ApiError
      */
     public static postApiMediaFileUpload(
-        productDevelopmentNo: string,
-        mediaFileType: MediaFileType,
-        replaceArtwork?: boolean,
-        formData?: {
-            file?: Blob;
-        },
-    ): CancelablePromise<MediaFileDto> {
+productDevelopmentNo: string,
+mediaFileType: MediaFileType,
+replaceArtwork?: boolean,
+formData?: {
+file?: Blob;
+},
+): CancelablePromise<MediaFileDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/MediaFile/upload/{mediaFileType}/{productDevelopmentNo}',
@@ -43,15 +43,15 @@ export class MediaFileService {
     }
 
     /**
-     * @param id
-     * @param keepInSharePoint
+     * @param id 
+     * @param keepInSharePoint 
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiMediaFile(
-        id: string,
-        keepInSharePoint?: boolean,
-    ): CancelablePromise<any> {
+id: string,
+keepInSharePoint?: boolean,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/MediaFile/{id}',
@@ -65,13 +65,13 @@ export class MediaFileService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns any Success
      * @throws ApiError
      */
     public static getApiMediaFile(
-        id: string,
-    ): CancelablePromise<any> {
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/MediaFile/{id}',
@@ -82,13 +82,13 @@ export class MediaFileService {
     }
 
     /**
-     * @param productDevelopmentNo
+     * @param productDevelopmentNo 
      * @returns MediaFileDto Success
      * @throws ApiError
      */
     public static getApiMediaFileAttachments(
-        productDevelopmentNo: string,
-    ): CancelablePromise<Array<MediaFileDto>> {
+productDevelopmentNo: string,
+): CancelablePromise<Array<MediaFileDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/MediaFile/attachments/{productDevelopmentNo}',

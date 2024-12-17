@@ -7,4 +7,3 @@ export type CreateProjectCommand = {
     clientNo?: string | null;
     projectCode?: string | null;
 };
-

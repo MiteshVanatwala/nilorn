@@ -7,4 +7,3 @@ export type UpsertSearchProfileCommand = {
     name?: string | null;
     query?: string | null;
 };
-

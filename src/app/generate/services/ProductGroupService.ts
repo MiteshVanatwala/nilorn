@@ -11,13 +11,13 @@ import { request as __request } from '../core/request';
 export class ProductGroupService {
 
     /**
-     * @param itemCategoryCode
+     * @param itemCategoryCode 
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiProductGroupFilter(
-        itemCategoryCode?: string,
-    ): CancelablePromise<Array<OptionItem>> {
+itemCategoryCode?: string,
+): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/ProductGroup/Filter',

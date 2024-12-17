@@ -10,4 +10,3 @@ export type VendorDto = {
     currencyCode?: string | null;
     countryRegionCode?: string | null;
 };
-
