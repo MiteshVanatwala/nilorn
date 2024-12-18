@@ -7,13 +7,11 @@ import { useStatusOptions } from '../../../../../app/hooks/useStatus';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../../app/api/productDevelopment';
 import { ChangelogType, Status } from '../../../../../app/generate';
 import { useToggleChangelog } from '../../../../../app/hooks/useChangelog';
-import { useModal } from '../../../../../app/hooks/useModal';
-import ConfirmModal from '../../../../../components/Modal/ConfirmModal';
 import { useToast } from '../../../../../app/hooks/useToast';
 import ActionBarTemplate from '../../../../../components/ActionBar/ActionBarTemplate';
 import { useCurrentUser } from '../../../../../app/api/User';
 import { useUnsavedChanges } from '../../../../../app/hooks/useUnsavedChanges';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { scrollNameIntoView } from '../../../../../app/utils/common';
 import {
   useAuthorizedSee,
@@ -21,6 +19,7 @@ import {
   useAuthorizedEdit,
 } from '../../../../../app/Permissions/usePremissions';
 import MenuItemCreate from './MenuItemCreate';
+import MenuItemDelete from './MenuItemDelete';
 import { useTranslation } from 'react-i18next';
 import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
@@ -44,7 +43,6 @@ const ActionBar = ({
   hasProductions,
 }: Props) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const showCalculation = useAuthorizedSee('price-calculation');
   const isAuthorizedToChangeStatus = useAuthorizedToChangeStatus();
   const isAllowedToCreateVersion = useAuthorizedEdit('createVersion');
@@ -66,7 +64,6 @@ const ActionBar = ({
 
   const { showToast } = useToast();
   const { data: user } = useCurrentUser();
-  const { handleModal, close } = useModal();
 
   async function submitStatus(newStatus: Status): Promise<void> {
     if (currentStatus === newStatus) {
@@ -110,22 +107,10 @@ const ActionBar = ({
 
   function deleteProductDevelopment() {
     updateStatus(Status.DELETED);
-    close();
   }
 
   function toggleShowChanges() {
     setShowChanges(!showChanges);
-  }
-
-  function handleOnDelete() {
-    handleModal(
-      <ConfirmModal
-        title={t('PD.DeleteTitle')}
-        description={t('PD.DeleteComfirm', { no: no })}
-        confirmType="DELETE"
-        onConfirm={() => deleteProductDevelopment()}
-      />
-    );
   }
 
   function handleChangeStatus(status: Status) {
@@ -195,19 +180,7 @@ const ActionBar = ({
               <MenuItemCreate no={no} createType={'version'} />
             )}
 
-            {!disableEdit && (
-              <MenuItem
-                onClick={handleOnDelete}
-                icon={
-                  <RemixIcon
-                    component="Text"
-                    icon="DELETE_BIN_LINE"
-                    fontSize={SIZES.ICON.MD}
-                  />
-                }>
-                {t('Common.Delete')}
-              </MenuItem>
-            )}
+            {!disableEdit && <MenuItemDelete no={no} />}
             {hasProductions && (
               <MenuItem
                 as={NavLink}
