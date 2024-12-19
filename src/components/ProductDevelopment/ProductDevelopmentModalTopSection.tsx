@@ -9,6 +9,7 @@ import useFilterOptions from '../../app/hooks/useFilterOption';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { isClosed } from '../../app/utils/status';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -105,8 +106,10 @@ const ProductDevelopmentModalTopSection = ({
                     to={`/productions?vendors=${
                       vendorOptions.find(option => option.label === vendorName)
                         ?.value
-                    }&productDevelopments=${productDevelopment?.no}&statuses=${
-                      productDevelopment?.status
+                    }&productDevelopments=${productDevelopment?.no}${
+                      isClosed(productDevelopment?.status!)
+                        ? `&statuses=${productDevelopment?.status}`
+                        : ''
                     }`}>
                     {vendorName}
                   </Link>

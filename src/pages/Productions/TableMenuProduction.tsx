@@ -12,6 +12,7 @@ import {
   ProductDevelopmentDataDto,
   ProductionDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+  Status,
 } from '../../app/generate';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
@@ -76,7 +77,13 @@ const TableMenuProduction = ({
       }&vendors=${
         vendorOptions.find(option => option.label === production?.vendorName)
           ?.value
-      }${filters?.statuses ? `&statuses=${filters?.statuses}` : ''}`
+      }${
+        filters?.statuses?.indexOf(Status.APPROVED) !== -1 ||
+        filters?.statuses?.indexOf(Status.REJECTED) !== -1 ||
+        filters?.statuses?.indexOf(Status.DELETED) !== -1
+          ? `&statuses=${filters?.statuses}`
+          : ''
+      }`
     );
   };
 
