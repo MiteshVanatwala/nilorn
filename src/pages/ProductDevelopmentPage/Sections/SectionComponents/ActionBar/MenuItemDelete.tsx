@@ -1,7 +1,7 @@
 import { MenuItem } from '@chakra-ui/react';
 import { useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import { useUpdateProductDevelopmentWithStatus } from '../../../../../app/api/productDevelopment';
 import { Status } from '../../../../../app/generate';
 import { useUnsavedChangesModal } from '../../../../../app/hooks/useUnsavedChangesModal';
@@ -18,12 +18,15 @@ type Props = {
 const MenuItemDelete = ({ no }: Props) => {
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
-  const navigate = useNavigate();
+  const form = useFormContext();
 
   const { mutate: updateStatus } = useUpdateProductDevelopmentWithStatus(no);
 
   const handleOnDiscardChanges = () => {
-    navigate(0);
+    form.reset();
+    setTimeout(() => {
+      modalRef.current?.onOpen();
+    }, 500);
   };
 
   const {

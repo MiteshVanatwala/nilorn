@@ -1,5 +1,4 @@
 import { MenuItem, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router';
 import {
   useCreateCopyProductDevelopment,
   useCreateVersionProductDevelopment,
@@ -11,6 +10,7 @@ import { useUnsavedChangesModal } from '../../../../../app/hooks/useUnsavedChang
 import IsolatedModal, {
   ModalRef,
 } from '../../../../../components/Modal/IsolatedModal';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   no: string;
@@ -20,12 +20,15 @@ type Props = {
 const MenuItemCreate = ({ no, createType }: Props) => {
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
-  const navigate = useNavigate();
+  const form = useFormContext()
 
   const isVersion = createType === 'version';
 
   const handleOnDiscardChanges = () => {
-    navigate(0);
+    form.reset();
+    setTimeout(() => {
+      modalRef.current?.onOpen();
+    }, 500);
   };
 
   const {
