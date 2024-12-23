@@ -26,6 +26,7 @@ import RemixIcon from '../../../../../components/Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../../../../app/utils/constant';
 import { Fragment } from 'react';
 import { ROLES_ALLOWED_TO_CREATE } from '../../../../../app/Permissions/Permissions';
+import { isClosed } from '../../../../../app/utils/status';
 
 type Props = {
   no: string;
@@ -210,9 +211,9 @@ const ActionBar = ({
             {hasProductions && (
               <MenuItem
                 as={NavLink}
-                to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1&statuses=${getValues(
-                  'status'
-                )}`}
+                to={`/productions?productDevelopments=${no}&pageSize=25&pageNumber=1${
+                  isClosed(currentStatus) ? `&statuses=${currentStatus}` : ''
+                }`}
                 icon={
                   <RemixIcon
                     component="Text"
