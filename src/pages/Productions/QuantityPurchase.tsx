@@ -16,10 +16,17 @@ import ChangelogListItem from '../../components/Changelog/ChangelogListItem';
 import FormattedNumberInputField from '../../components/Form/FormattedNumberInputField';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import { GRID, SPACE } from '../../theme/Constants';
+import { uniqueInArray } from '../../app/utils/common';
 
 type Props = {
   disableEdit?: boolean;
   showChanges: boolean;
+};
+
+type PropsQuantityPurchase = {
+  id?: number;
+  quantity: number;
+  price: number;
 };
 
 const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
@@ -37,6 +44,13 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
     ) as HTMLInputElement;
     last?.focus();
   }
+
+  const validateUniqueValues = (value: number, index: number) => {
+    const values = getValues(fieldName).map(
+      (value: PropsQuantityPurchase) => value.quantity
+    ) as PropsQuantityPurchase[];
+    return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
+  };
 
   return (
     <Grid
@@ -79,6 +93,9 @@ const QuantityPurchase = ({ disableEdit = false, showChanges }: Props) => {
                       placeholder={`${t('Common.Placeholder')}`}
                       readonly={disableEdit}
                       required={true}
+                      validateNumber={(value: number) =>
+                        validateUniqueValues(value, index)
+                      }
                       type={'integer'}
                       showErrorIcon={true}
                       min={0}
