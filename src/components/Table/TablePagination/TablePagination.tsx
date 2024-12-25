@@ -91,8 +91,10 @@ const TablePagination = ({
         <HStack height={'100%'} spacing={0} flex={1}>
           <PaginationButton
             onClick={() => {
-              previousHandler();
-              if (currentPage === rangeStart) moveRangeLower();
+              if (currentPage !== 1) {
+                previousHandler();
+                if (currentPage === rangeStart) moveRangeLower();
+              }
             }}
             disabled={currentPage === 1}>
             {t('Common.Previous')}
@@ -143,8 +145,10 @@ const TablePagination = ({
 
           <PaginationButton
             onClick={() => {
-              nextHandler();
-              if (currentPage === rangeEnd) moveRangeHigher();
+              if (currentPage !== rangeEnd) {
+                nextHandler();
+                if (currentPage === rangeEnd) moveRangeHigher();
+              }
             }}
             disabled={currentPage === totalNumPages}>
             {t('Common.Next')}
