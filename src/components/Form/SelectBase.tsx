@@ -258,6 +258,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           zIndex: 9,
           color: color,
+          maxH: components ? '22rem' : '',
+          overflowY: components ? 'auto' : '',
         }),
       }}
     />
