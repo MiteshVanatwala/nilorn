@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { BORDER_RADIUS, COLORS, SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
+import { INCLUDE_CLOSED } from '../../app/utils/constant';
 
 type Props = {
   label: string;
@@ -15,6 +16,7 @@ const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
 
   const removeFilterItem = (queryItem: string) => {
     setValue(queryItem, undefined);
+    if (queryItem !== INCLUDE_CLOSED) setValue('activeSearchProfileName', '');
   };
 
   return (

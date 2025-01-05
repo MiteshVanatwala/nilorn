@@ -20,10 +20,9 @@ const SearchProfile = () => {
   const {
     formState: { isDirty },
   } = useFormContext();
-  const [activeSearchProfileName, setActiveSearchProfileName] =
-    useState<string>('');
-  const { setValue, reset } = useFormContext();
+  const { setValue, reset, getValues } = useFormContext();
   let { data } = useSearchProfile();
+  const activeSearchProfileName = getValues('activeSearchProfileName');
 
   const onChange = (option: SelectOption) => {
     reset();
@@ -38,13 +37,13 @@ const SearchProfile = () => {
       });
     }
 
-    setActiveSearchProfileName(option.label);
+    setValue('activeSearchProfileName', option.label);
   };
 
   useEffect(() => {
     if (!isDirty) {
       setSelected(undefined);
-      setActiveSearchProfileName('');
+      setValue('activeSearchProfileName', '');
     }
   }, [isDirty]);
 
@@ -53,7 +52,7 @@ const SearchProfile = () => {
       (data?.find(c => c.label === activeSearchProfileName) as SelectOption) ??
         undefined
     );
-  }, [activeSearchProfileName, data]);
+  }, [data, activeSearchProfileName]);
 
   return (
     <GridItem
@@ -93,9 +92,11 @@ const SearchProfile = () => {
           onClick={() =>
             handleModal(
               <SearchProfileModalContent
-                setActiveSearchProfileName={setActiveSearchProfileName}
-                activeSearchProfileName={activeSearchProfileName}
-                isValueSelected={!!(selected || activeSearchProfileName)}
+                setActiveSearchProfileName={(activeProfile: string) =>
+                  setValue('activeSearchProfileName', activeProfile)
+                }
+                activeSearchProfileName={getValues('activeSearchProfileName')}
+                isValueSelected={!!activeSearchProfileName}
               />
             )
           }>

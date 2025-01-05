@@ -9,7 +9,12 @@ import { FilterKey, SelectOption } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
 import { INCLUDE_CLOSED } from '../../app/utils/constant';
 
-const ignoreKeys: FilterKey[] = ['sortKey', 'pageNumber', 'pageSize'];
+const ignoreKeys: FilterKey[] = [
+  'sortKey',
+  'pageNumber',
+  'pageSize',
+  'activeSearchProfileName',
+];
 
 const ActiveFilters = () => {
   const { t } = useTranslation();
