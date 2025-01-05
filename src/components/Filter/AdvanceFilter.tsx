@@ -43,12 +43,10 @@ const AdvanceFilter = ({
     Object.entries(watch ?? {}).forEach(([key]) => {
       filters?.forEach(filterItem => {
         if (filterItem && filterItem.name === key) {
-          if (filterItem !== undefined) {
-            activeAdvancedFilterArr.push({
-              label: t(`PD.FilterLabel.${filterItem.name}`),
-              value: filterItem,
-            });
-          }
+          activeAdvancedFilterArr.push({
+            label: t(`PD.FilterLabel.${filterItem.name}`),
+            value: filterItem,
+          });
         }
       });
     });
