@@ -37,6 +37,12 @@ const FilterSwitch = ({ label, name, defaultChecked = false }: Props) => {
         isChecked={checked}
         id={name}
         onChange={e => setChecked(e.target?.checked)}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            setChecked(!checked);
+          }
+        }}
       />
       <FormLabel variant={'thin'} htmlFor={name} ml={SPACE.XS} mb={0}>
         {label}
