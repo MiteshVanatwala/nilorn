@@ -1,4 +1,4 @@
-import { Button, GridItem, HStack, Link, VStack } from '@chakra-ui/react';
+import { Button, GridItem, HStack, VStack } from '@chakra-ui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -174,12 +174,9 @@ function PriceGridRow({
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <HStack justify={'space-between'} w={'100%'}>
                 <VStack align={'start'} gap={SPACE.XXS}>
-                  <Link
-                    variant={'textLink'}
-                    as={'button'}
-                    onClick={navigateToProduction}>
+                  <Button variant={'textBtn'} onClick={navigateToProduction}>
                     {production.vendorName}
-                  </Link>
+                  </Button>
                 </VStack>
                 <>
                   {production.released && (

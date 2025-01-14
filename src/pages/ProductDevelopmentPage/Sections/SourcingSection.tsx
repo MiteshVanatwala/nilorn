@@ -47,7 +47,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
         )
       );
     }
-  }, [sourcings]);
+  }, [getValues, setValue, sourcings]);
 
   useEffect(() => {
     if (sourcingCompanies.length > 0) {

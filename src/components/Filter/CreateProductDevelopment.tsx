@@ -1,4 +1,4 @@
-import { Box, Button, Link } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';

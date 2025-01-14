@@ -1,4 +1,4 @@
-import { Box, Text, Image, HStack, VStack, Link } from '@chakra-ui/react';
+import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
 import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
@@ -32,11 +32,7 @@ const ProductDevelopmentCell = ({
     }
   }, [lastVisitedPD, no, ref, setLastVisitedPD]);
 
-  const handleClick = (
-    e: MouseEvent<HTMLAnchorElement>,
-    url: string,
-    id: string
-  ) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>, url: string) => {
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
@@ -53,14 +49,13 @@ const ProductDevelopmentCell = ({
             gap={SPACE.XXS}
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
-            <Link
-              variant={'textLink'}
-              as={'button'}
+            <Button
+              variant={'textBtn'}
               onClick={e => {
-                handleClick(e, `/product-development/${no}`, no ?? '');
+                handleClick(e, `/product-development/${no}`);
               }}>
               {no}
-            </Link>
+            </Button>
             <Text variant={'bodyBold'}>{name}</Text>
           </VStack>
           {artwork && <ArtworkButton artwork={artwork} />}

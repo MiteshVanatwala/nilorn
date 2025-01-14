@@ -37,7 +37,8 @@ const TablePagination = ({
     setRangeStart(
       Math.ceil(currentPage / rangeLength) * rangeLength - rangeLength + 1
     );
-  }, [totalNumPages]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
 
   const moveRangeLower = () => {
     if (rangeStart > 1) {
