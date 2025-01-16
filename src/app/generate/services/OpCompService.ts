@@ -12,13 +12,13 @@ import { request as __request } from '../core/request';
 export class OpCompService {
 
     /**
-     * @param isSourcingCompany
+     * @param isSourcingCompany 
      * @returns OpCompDto Success
      * @throws ApiError
      */
     public static getApiOpCompFilter(
-        isSourcingCompany?: boolean,
-    ): CancelablePromise<Array<OpCompDto>> {
+isSourcingCompany?: boolean,
+): CancelablePromise<Array<OpCompDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/OpComp/Filter',
@@ -29,13 +29,13 @@ export class OpCompService {
     }
 
     /**
-     * @param isSourcingCompany
+     * @param isSourcingCompany 
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiOpCompFilterOption(
-        isSourcingCompany?: boolean,
-    ): CancelablePromise<Array<OptionItem>> {
+isSourcingCompany?: boolean,
+): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/OpComp/Filter/Option',

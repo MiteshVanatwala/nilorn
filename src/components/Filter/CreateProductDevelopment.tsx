@@ -1,4 +1,4 @@
-import { Box, Button, Link } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
@@ -12,14 +12,14 @@ const CreateProductDevelopment = () => {
   if (user?.role && ROLES_ALLOWED_TO_CREATE.includes(user.role)) {
     return (
       <Box textAlign={'right'}>
-        <Link as={NavLink} to={'/product-development/create'}>
-          <Button
-            alignSelf={'end'}
-            rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}
-            variant={'primary'}>
-            {t('Common.CreateNew')}
-          </Button>
-        </Link>
+        <Button
+          as={NavLink}
+          to={'/product-development/create'}
+          alignSelf={'end'}
+          rightIcon={<RemixIcon component="i" icon="ADD_LINE" />}
+          variant={'primary'}>
+          {t('Common.CreateNew')}
+        </Button>
       </Box>
     );
   }

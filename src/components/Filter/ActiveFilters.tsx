@@ -55,10 +55,7 @@ const ActiveFilters = () => {
                 queryItem={key}
               />
             );
-          } else if (
-            (typeof value === 'string' && value.includes(',')) ||
-            value === undefined
-          ) {
+          } else if (value === undefined) {
             return <Fragment key={key} />;
           } else if (Array.isArray(value) && value?.length > 0) {
             const label = (value as SelectOption<string>[])

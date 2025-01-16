@@ -19,13 +19,13 @@ import { request as __request } from '../core/request';
 export class PriceCalculationService {
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns PriceCalculationDto Success
      * @throws ApiError
      */
     public static postApiPriceCalculation(
-        requestBody?: CreatePriceCalculationCommand,
-    ): CancelablePromise<PriceCalculationDto> {
+requestBody?: CreatePriceCalculationCommand,
+): CancelablePromise<PriceCalculationDto> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/PriceCalculation',
@@ -35,13 +35,13 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns PriceCalculationDto Success
      * @throws ApiError
      */
     public static patchApiPriceCalculation(
-        requestBody?: UpdatePriceCalculationCommand,
-    ): CancelablePromise<PriceCalculationDto> {
+requestBody?: UpdatePriceCalculationCommand,
+): CancelablePromise<PriceCalculationDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/PriceCalculation',
@@ -51,13 +51,13 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns PriceCalculationExtendedDto Success
      * @throws ApiError
      */
     public static getApiPriceCalculation(
-        id?: string,
-    ): CancelablePromise<PriceCalculationExtendedDto> {
+id?: string,
+): CancelablePromise<PriceCalculationExtendedDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PriceCalculation',
@@ -68,13 +68,13 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param id
+     * @param id 
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiPriceCalculation(
-        id: string,
-    ): CancelablePromise<any> {
+id: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/PriceCalculation/{id}',
@@ -85,13 +85,13 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns PriceDto Success
      * @throws ApiError
      */
     public static patchApiPriceCalculationSalesPrice(
-        requestBody?: UpdateSalesPriceCommand,
-    ): CancelablePromise<Array<PriceDto>> {
+requestBody?: UpdateSalesPriceCommand,
+): CancelablePromise<Array<PriceDto>> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/PriceCalculation/SalesPrice',
@@ -101,15 +101,15 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param id
-     * @param include
+     * @param id 
+     * @param include 
      * @returns PriceDto Success
      * @throws ApiError
      */
     public static patchApiPriceCalculationIncludeSalesPrice(
-        id: string,
-        include: boolean,
-    ): CancelablePromise<PriceDto> {
+id: string,
+include: boolean,
+): CancelablePromise<PriceDto> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/PriceCalculation/IncludeSalesPrice/{id}/{include}',
@@ -121,19 +121,19 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param productDevelopmentNo
-     * @param sourcingCompanycode
-     * @param vendorId
-     * @param purchaseCurrency
+     * @param productDevelopmentNo 
+     * @param sourcingCompanycode 
+     * @param vendorId 
+     * @param purchaseCurrency 
      * @returns DefaultPriceCalculationDto Success
      * @throws ApiError
      */
     public static getApiPriceCalculationDefaultValues(
-        productDevelopmentNo?: string,
-        sourcingCompanycode?: string,
-        vendorId?: string,
-        purchaseCurrency?: string,
-    ): CancelablePromise<DefaultPriceCalculationDto> {
+productDevelopmentNo?: string,
+sourcingCompanycode?: string,
+vendorId?: string,
+purchaseCurrency?: string,
+): CancelablePromise<DefaultPriceCalculationDto> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/PriceCalculation/DefaultValues',
@@ -147,13 +147,13 @@ export class PriceCalculationService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns NavigationItem Success
      * @throws ApiError
      */
     public static postApiPriceCalculationNavigation(
-        requestBody?: GetNavigationForPriceCalculationQuery,
-    ): CancelablePromise<NavigationItem> {
+requestBody?: GetNavigationForPriceCalculationQuery,
+): CancelablePromise<NavigationItem> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/PriceCalculation/Navigation',

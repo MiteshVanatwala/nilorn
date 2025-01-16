@@ -66,12 +66,13 @@ const FormattedNumberInputField = ({
         numToThousandSeparatedsStr(defaultValue, type === 'decimal')
       );
     }
-  }, [defaultValue, name, type]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (watch === null || isNaN(watch)) {
       setFormattedValue('');
-    } else if (!!watch) {
+    } else if (!!watch || watch === 0) {
       setFormattedValue(
         numToThousandSeparatedsStr(watch, type === 'decimal') ?? ''
       );
@@ -108,7 +109,7 @@ const FormattedNumberInputField = ({
       value = value.replace(',', '.');
     }
 
-    setFormValue(name, value);
+    setFormValue(name, value, { shouldDirty: true });
   };
 
   const onBoxFocus = () => {
@@ -193,8 +194,10 @@ const FormattedNumberInputField = ({
             onClick={() => readonly && setFocus(name)}
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
-            opacity={readonly ? READ_ONLY_OPACITY : ''}>
-            {formattedValue || 0}&nbsp;
+            opacity={readonly ? READ_ONLY_OPACITY : ''}
+            variant={readonly ? 'disabled' : ''}
+            color={'inherit'}>
+            {formattedValue}&nbsp;
           </Text>
         )}
         <Input
@@ -208,6 +211,8 @@ const FormattedNumberInputField = ({
           placeholder={placeholder}
           cursor={readonly ? 'default' : 'text'}
           onFocus={onInputFocus}
+          autoComplete="off"
+          disabled={readonly}
           {...register(name, regOptions)}
         />
       </Box>

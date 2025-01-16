@@ -84,7 +84,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
           {!disableEdit && (
             <Button
               variant={'secondarySmall'}
-              onClick={() => setValue(FORM_KEY, [...fields, undefined])}
+              onClick={() => setValue(FORM_KEY, [...fields, ''])}
               rightIcon={<RemixIcon component={'i'} icon={'ADD_LINE'} />}>
               {t('Common.Add')}
             </Button>

@@ -84,6 +84,9 @@ const baseStyle = definePartsStyle({
       borderColor: importantValue(COLORS.GRAY[60]),
       boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
     },
+    _autofill: {
+      transition: 'background-color 0s 600000s, color 0s 600000s',
+    },
     _invalid: {
       borderColor: importantValue(COLORS.ERROR),
       ':focus-visible': {

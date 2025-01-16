@@ -41,7 +41,7 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
     : certificateCodes;
 
   useEffect(() => {
-    if (!isDirty && defaultValues?.length) {
+    if (!isDirty) {
       setValue(fieldName, defaultValues);
     }
   }, [defaultValues, setValue, isDirty]);

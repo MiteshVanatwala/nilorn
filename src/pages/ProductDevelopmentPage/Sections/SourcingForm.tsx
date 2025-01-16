@@ -13,6 +13,7 @@ import ArrowLink from '../../../components/Link/ArrowLink';
 import { GRID, SPACE } from '../../../theme/Constants';
 import ReleasedProductions from './ReleasedProductions';
 import Quantity from './SectionComponents/Quantity';
+import { isClosed } from '../../../app/utils/status';
 
 type Props = {
   no: string;
@@ -125,7 +126,11 @@ const SourcingForm = ({
         {isSaved && (
           <HStack spacing={SPACE.XL}>
             <ArrowLink
-              to={`/productions?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1`}
+              to={`/productions?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1${
+                isClosed(productDevelopmentData.status!)
+                  ? `&statuses=${productDevelopmentData.status}`
+                  : ''
+              }`}
               direction="right">
               <>
                 {(connectedProductions && connectedProductions?.length > 0) ||
@@ -140,7 +145,11 @@ const SourcingForm = ({
                 cp => cp.priceCalculations && cp.released
               )?.length > 0 && (
                 <ArrowLink
-                  to={`/price-calculations?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1`}
+                  to={`/price-calculations?productDevelopments=${no}&sourcingCompanies=${sourcingCompanyCode}&pageSize=25&pageNumber=1${
+                    isClosed(productDevelopmentData.status!)
+                      ? `&statuses=${productDevelopmentData.status}`
+                      : ''
+                  }`}
                   direction="right">
                   <>
                     {(connectedProductions &&

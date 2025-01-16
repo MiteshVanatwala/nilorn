@@ -23,13 +23,13 @@ export class SearchProfilesService {
     }
 
     /**
-     * @param requestBody
+     * @param requestBody 
      * @returns any Success
      * @throws ApiError
      */
     public static postApiSearchProfiles(
-        requestBody?: UpsertSearchProfileCommand,
-    ): CancelablePromise<any> {
+requestBody?: UpsertSearchProfileCommand,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/SearchProfiles',
@@ -39,13 +39,13 @@ export class SearchProfilesService {
     }
 
     /**
-     * @param name
+     * @param name 
      * @returns any Success
      * @throws ApiError
      */
     public static deleteApiSearchProfiles(
-        name: string,
-    ): CancelablePromise<any> {
+name: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/SearchProfiles/{name}',

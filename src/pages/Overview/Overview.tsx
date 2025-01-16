@@ -1,9 +1,10 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { PaginationProvider } from '../../app/context/PaginationProvider';
 import { useForm } from 'react-hook-form';
-import FormuQuerySubmit from '../../components/Form/FormQuerySubmit';
+import FormQuerySubmit from '../../components/Form/FormQuerySubmit';
 import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryClient } from 'react-query';
+import { useQueryParams } from '../../app/hooks/useQueryParams';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 const ProductDevelopmentFilter = lazy(
@@ -11,7 +12,9 @@ const ProductDevelopmentFilter = lazy(
 );
 
 function Overview() {
-  const form = useForm();
+  const params = useQueryParams();
+  const form = useForm({ defaultValues: params });
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -21,14 +24,14 @@ function Overview() {
   return (
     <PaginationProvider>
       <LeavePageBlocker />
-      <FormuQuerySubmit form={form}>
+      <FormQuerySubmit form={form}>
         <Suspense>
           <ProductDevelopmentFilter />
         </Suspense>
         <Suspense>
           <OverviewTableContainer />
         </Suspense>
-      </FormuQuerySubmit>
+      </FormQuerySubmit>
     </PaginationProvider>
   );
 }

@@ -22,13 +22,13 @@ export class CertificateService {
     }
 
     /**
-     * @param certificateCode
+     * @param certificateCode 
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiCertificateClasses(
-        certificateCode: string,
-    ): CancelablePromise<Array<OptionItem>> {
+certificateCode: string,
+): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Certificate/Classes/{certificateCode}',
@@ -39,13 +39,13 @@ export class CertificateService {
     }
 
     /**
-     * @param certificateCode
+     * @param certificateCode 
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiCertificateCategories(
-        certificateCode: string,
-    ): CancelablePromise<Array<OptionItem>> {
+certificateCode: string,
+): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Certificate/Categories/{certificateCode}',

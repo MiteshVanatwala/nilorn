@@ -140,7 +140,7 @@ const ActionBarEditProduction = ({
                   vendorOptions.find(
                     option => option.label === production.vendorName
                   )?.value
-                }`}
+                }${isClosed(status!) ? `&statuses=${status}` : ''}`}
                 state={NAV_LINK}
                 icon={
                   <RemixIcon

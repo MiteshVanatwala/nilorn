@@ -1,7 +1,6 @@
 import { MenuItem } from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import {
   useDeleteProduction,
@@ -12,13 +11,14 @@ import {
   ProductDevelopmentDataDto,
   ProductionDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
+  Status,
 } from '../../app/generate';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
+import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -34,7 +34,7 @@ const TableMenuProduction = ({
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const storeFilterAndNavigate = useStoreFilterAndNavigate();
   const { handleModal, close } = useContext(ModalContext);
   const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
@@ -66,16 +66,18 @@ const TableMenuProduction = ({
   }, [isSuccess]);
 
   const navigateToPriceCalculation = () => {
-    const search = window.location.search;
-    const storedFilter = getCurrentStoredFilter();
-    sessionStorage.setItem(storedFilter, search);
-
-    navigate(
+    storeFilterAndNavigate(
       `/price-calculations?productDevelopments=${
         productDevelopment?.no
       }&vendors=${
         vendorOptions.find(option => option.label === production?.vendorName)
           ?.value
+      }${
+        filters?.statuses?.indexOf(Status.APPROVED) !== -1 ||
+        filters?.statuses?.indexOf(Status.REJECTED) !== -1 ||
+        filters?.statuses?.indexOf(Status.DELETED) !== -1
+          ? `&statuses=${filters?.statuses}`
+          : ''
       }`
     );
   };

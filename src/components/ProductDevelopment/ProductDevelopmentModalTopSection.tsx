@@ -9,6 +9,8 @@ import useFilterOptions from '../../app/hooks/useFilterOption';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
 import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { isClosed } from '../../app/utils/status';
+import text from '../../theme/text';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -105,7 +107,12 @@ const ProductDevelopmentModalTopSection = ({
                     to={`/productions?vendors=${
                       vendorOptions.find(option => option.label === vendorName)
                         ?.value
-                    }&productDevelopments=${productDevelopment?.no}`}>
+                    }&productDevelopments=${productDevelopment?.no}${
+                      isClosed(productDevelopment?.status!)
+                        ? `&statuses=${productDevelopment?.status}`
+                        : ''
+                    }`}
+                    fontWeight={text.variants.bodyRegular.fontWeight}>
                     {vendorName}
                   </Link>
                 )}
@@ -119,7 +126,8 @@ const ProductDevelopmentModalTopSection = ({
                       as={NavLink}
                       state={NAV_LINK}
                       onClick={handleClick}
-                      to={`/product-development/${productDevelopment?.no}`}>
+                      to={`/product-development/${productDevelopment?.no}`}
+                      fontWeight={text.variants.bodyRegular.fontWeight}>
                       {productDevelopment?.no}
                     </Link>
                   )}
