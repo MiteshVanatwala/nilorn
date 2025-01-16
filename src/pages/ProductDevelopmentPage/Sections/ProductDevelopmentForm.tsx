@@ -75,7 +75,6 @@ function ProductDevelopmentForm({
   }
 
   useEffect(() => {
-    console.log(defaultValues);
     form.setValue('status', defaultValues?.status, { shouldDirty: false });
     form.setValue('members', defaultValues?.members, {
       shouldDirty: false,
