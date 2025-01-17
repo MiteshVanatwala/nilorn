@@ -2,6 +2,7 @@ import { defineStyle, defineStyleConfig } from '@chakra-ui/react';
 import { SPACE, COLORS, BORDER_RADIUS, SIZES } from './Constants/';
 import text from './text';
 import fontSizes from './fontSizes';
+import { link } from './link';
 
 const primary = defineStyle({
   colorScheme: 'primary',
@@ -66,14 +67,13 @@ const menuButton = defineStyle({
 });
 
 const textBtn = defineStyle({
-  ...text.variants.bodyBold,
-  color: COLORS.BLACK,
-  padding: '0',
-  borderRadius: 'none',
-  borderBottom: '2px solid transparent',
-  height: '2rem',
+  ...link.baseStyle,
+  ...link.variants.textLink,
+  textAlign: 'left',
+  whiteSpace: 'normal',
+  height: 'auto',
   _hover: {
-    borderColor: COLORS.BLACK,
+    textDecoration: 'underline',
   },
 });
 

@@ -134,8 +134,8 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                       )
                       .sort((a, b) => a.label.localeCompare(b.label)) ?? []
                   }
-                  onChange={option => {
-                    addMember(option);
+                  onChange={(option, event) => {
+                    if (event.action !== 'pop-value') addMember(option);
                   }}
                   value={selected}
                 />

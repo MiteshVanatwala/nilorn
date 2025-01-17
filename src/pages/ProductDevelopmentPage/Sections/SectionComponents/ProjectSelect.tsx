@@ -56,7 +56,7 @@ const ProjectSelect = ({
   }, [clientNumberWatch]);
 
   useEffect(() => {
-    if (options && projectCode != clearProjectItem.value) {
+    if (options && projectCode !== clearProjectItem.value) {
       setOptionItems([clearProjectItem, ...options]);
     } else {
       setOptionItems(options);

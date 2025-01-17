@@ -194,7 +194,9 @@ const FormattedNumberInputField = ({
             onClick={() => readonly && setFocus(name)}
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
-            opacity={readonly ? READ_ONLY_OPACITY : ''}>
+            opacity={readonly ? READ_ONLY_OPACITY : ''}
+            variant={readonly ? 'disabled' : ''}
+            color={'inherit'}>
             {formattedValue}&nbsp;
           </Text>
         )}

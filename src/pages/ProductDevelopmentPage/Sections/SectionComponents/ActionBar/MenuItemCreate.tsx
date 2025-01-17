@@ -6,9 +6,11 @@ import {
 import { SIZES } from '../../../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
+import { useUnsavedChangesModal } from '../../../../../app/hooks/useUnsavedChangesModal';
 import IsolatedModal, {
   ModalRef,
 } from '../../../../../components/Modal/IsolatedModal';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
   no: string;
@@ -18,13 +20,35 @@ type Props = {
 const MenuItemCreate = ({ no, createType }: Props) => {
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
+  const form = useFormContext()
 
   const isVersion = createType === 'version';
+
+  const handleOnDiscardChanges = () => {
+    form.reset();
+    setTimeout(() => {
+      modalRef.current?.onOpen();
+    }, 500);
+  };
+
+  const {
+    hasUnsavedChanges,
+    modal: unsavedChangesModal,
+    onOpen: openUnsavedChangesModal,
+  } = useUnsavedChangesModal(handleOnDiscardChanges);
 
   const { mutate: createVersion, isLoading: isCreateVersionLoading } =
     useCreateVersionProductDevelopment(no);
   const { mutate: createCopy, isLoading: isCreateCopyLoading } =
     useCreateCopyProductDevelopment(no);
+
+  const handleShowConfirmModal = () => {
+    if (hasUnsavedChanges()) {
+      openUnsavedChangesModal();
+    } else {
+      modalRef.current?.onOpen();
+    }
+  };
 
   const onConfirm = isVersion ? createVersion : createCopy;
   const isLoading = isVersion ? isCreateVersionLoading : isCreateCopyLoading;
@@ -42,7 +66,7 @@ const MenuItemCreate = ({ no, createType }: Props) => {
 
   return (
     <MenuItem
-      onClick={() => modalRef.current?.onOpen()}
+      onClick={handleShowConfirmModal}
       icon={
         <Text as={'i'} fontSize={SIZES.ICON.MD} className="ri-file-copy-line" />
       }>
@@ -54,6 +78,7 @@ const MenuItemCreate = ({ no, createType }: Props) => {
         onConfirm={onConfirm}
         isConfirmLoading={isLoading}
       />
+      {unsavedChangesModal}
     </MenuItem>
   );
 };
