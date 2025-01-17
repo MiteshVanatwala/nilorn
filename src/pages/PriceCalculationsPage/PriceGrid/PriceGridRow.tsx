@@ -173,11 +173,9 @@ function PriceGridRow({
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <HStack justify={'space-between'} w={'100%'}>
-                <VStack align={'start'} gap={SPACE.XXS}>
-                  <Button variant={'textBtn'} onClick={navigateToProduction}>
-                    {production.vendorName}
-                  </Button>
-                </VStack>
+                <Button variant={'textBtn'} onClick={navigateToProduction}>
+                  {production.vendorName}
+                </Button>
                 <>
                   {production.released && (
                     <TableMenuCalculation

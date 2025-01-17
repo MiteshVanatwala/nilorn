@@ -69,6 +69,9 @@ const menuButton = defineStyle({
 const textBtn = defineStyle({
   ...link.baseStyle,
   ...link.variants.textLink,
+  textAlign: 'left',
+  whiteSpace: 'normal',
+  height: 'auto',
   _hover: {
     textDecoration: 'underline',
   },
