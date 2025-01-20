@@ -26,5 +26,4 @@ export type GetForFilterProductDevelopmentsWithPaginationQuery = {
   includeCalculations?: boolean;
   pageNumber?: number;
   pageSize?: number;
-  activeSearchProfileName?: string;
 };
