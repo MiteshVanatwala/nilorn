@@ -12,7 +12,6 @@ import {
   ProductDevelopmentDataDto,
   ProductionDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
-  Status,
 } from '../../app/generate';
 import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';

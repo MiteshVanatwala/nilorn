@@ -13,7 +13,6 @@ import {
   PurchasePriceDto,
   SalesPriceDto,
   SourcedProductionDto,
-  Status,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
