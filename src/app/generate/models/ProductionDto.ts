@@ -22,4 +22,3 @@ export type ProductionDto = {
     priceCalculations?: Array<PriceCalculationDto> | null;
     lastModified?: string | null;
 };
-

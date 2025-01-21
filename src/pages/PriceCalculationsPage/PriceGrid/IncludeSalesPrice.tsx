@@ -52,6 +52,12 @@ const IncludeSalesPrice = ({
           isChecked={isIncluded}
           onChange={toggleInclude}
           isReadOnly={disableEdit}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              toggleInclude();
+            }
+          }}
         />
       </Box>
     </Tooltip>

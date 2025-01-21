@@ -1,13 +1,12 @@
-import { Box, Text, Image, HStack, VStack, Link } from '@chakra-ui/react';
+import { Box, Text, Image, HStack, VStack, Button } from '@chakra-ui/react';
 import StatusBadge from '../Status/StatusBadge';
 import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
-import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
-import { useNavigate } from 'react-router-dom';
 import { MouseEvent, useEffect, useRef } from 'react';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
+import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
 const ProductDevelopmentCell = ({
   no,
@@ -18,8 +17,8 @@ const ProductDevelopmentCell = ({
   projectCode,
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
   const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
+  const storeFilterAndNavigate = useStoreFilterAndNavigate();
 
   useEffect(() => {
     if (!!ref?.current && no && no === lastVisitedPD) {
@@ -33,18 +32,13 @@ const ProductDevelopmentCell = ({
     }
   }, [lastVisitedPD, no, ref, setLastVisitedPD]);
 
-  const handleClick = (
-    e: MouseEvent<HTMLAnchorElement>,
-    url: string,
-    id: string
-  ) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>, url: string) => {
     e.stopPropagation();
     const path = window.location.pathname ?? '/';
     const search = window.location.search;
-    const storedFilter = getCurrentStoredFilter();
+
     sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
-    sessionStorage.setItem(storedFilter, search);
-    navigate(url);
+    storeFilterAndNavigate(url);
   };
 
   return (
@@ -55,14 +49,13 @@ const ProductDevelopmentCell = ({
             gap={SPACE.XXS}
             justifyContent={'flex-start'}
             alignItems={'flex-start'}>
-            <Link
-              variant={'textLink'}
-              as={Text}
+            <Button
+              variant={'textBtn'}
               onClick={e => {
-                handleClick(e, `/product-development/${no}`, no ?? '');
+                handleClick(e, `/product-development/${no}`);
               }}>
               {no}
-            </Link>
+            </Button>
             <Text variant={'bodyBold'}>{name}</Text>
           </VStack>
           {artwork && <ArtworkButton artwork={artwork} />}

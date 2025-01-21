@@ -1,10 +1,6 @@
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  getSortValue,
-  onFilterChange,
-  parseSearchParams,
-} from '../../app/utils/FilterHelper';
+import { getSortValue, onFilterChange } from '../../app/utils/FilterHelper';
 import { useCallback, useEffect } from 'react';
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 
@@ -22,11 +18,6 @@ export default function FormuQuerySubmit({
   const { sortState } = usePaginationContext();
   const { watch, getValues, clearErrors } = form;
 
-  useEffect(() => {
-    const filters = parseSearchParams(location.search ?? '');
-    form.reset(filters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const formChange = useCallback(() => {
     let filterChangeUrl = onFilterChange(getValues());
@@ -43,8 +34,7 @@ export default function FormuQuerySubmit({
     });
 
     return () => unregister.unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]);
+  }, [watch, formChange]);
 
   useEffect(() => {
     if (sortState[0]?.id) {

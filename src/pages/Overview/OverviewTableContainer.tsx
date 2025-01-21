@@ -16,7 +16,7 @@ function OverviewTableContainer() {
   const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
 
-  const { data, isError, isLoading } = useProductDevelopmentsFilter(
+  const { data, isError, isLoading, isFetching } = useProductDevelopmentsFilter(
     CHUNK_SIZES[0]
   );
 
@@ -32,7 +32,7 @@ function OverviewTableContainer() {
 
   return (
     <>
-      {isLoading && <SpinnerOverlay />}
+      {(isLoading || isFetching) && <SpinnerOverlay />}
       <OverviewTable
         data={data?.items ?? []}
         sortState={sortState}

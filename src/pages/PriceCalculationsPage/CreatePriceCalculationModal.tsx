@@ -21,6 +21,7 @@ import { useContext, useEffect, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
+import Form from '../../components/Form/Form';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -123,7 +124,7 @@ const CreatePriceCalculationModal = ({
       {leavePageModal}
       <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(submitForm)}>
+          <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
@@ -151,7 +152,7 @@ const CreatePriceCalculationModal = ({
                 productionId={production.id}
               />
             </Skeleton>
-          </form>
+          </Form>
         </FormProvider>
       </Box>
     </>

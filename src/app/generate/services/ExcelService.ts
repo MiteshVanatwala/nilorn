@@ -9,18 +9,18 @@ import { request as __request } from '../core/request';
 export class ExcelService {
 
     /**
-     * @param projectId
+     * @param priceId 
      * @returns any Success
      * @throws ApiError
      */
     public static getApiExcelGetExcel(
-        projectId: string,
-    ): CancelablePromise<any> {
+priceId: string,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/Excel/GetExcel/{projectId}',
+            url: '/api/Excel/GetExcel/{PriceId}',
             path: {
-                'projectId': projectId,
+                'PriceId': priceId,
             },
         });
     }

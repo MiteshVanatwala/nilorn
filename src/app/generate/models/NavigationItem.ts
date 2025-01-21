@@ -7,4 +7,3 @@ export type NavigationItem = {
     previous?: string | null;
     next?: string | null;
 };
-

@@ -176,9 +176,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={2}>
           <InputField
             readonly={true}
-            defaultValue={currency?.code ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
-            placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
           />
         </GridItem>

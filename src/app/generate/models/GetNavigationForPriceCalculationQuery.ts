@@ -26,4 +26,3 @@ export type GetNavigationForPriceCalculationQuery = {
     includeCalculations?: boolean;
     id: string;
 };
-

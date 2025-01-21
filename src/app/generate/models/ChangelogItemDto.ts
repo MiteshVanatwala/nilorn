@@ -12,4 +12,3 @@ export type ChangelogItemDto = {
     username?: string | null;
     dateTime?: string;
 };
-
