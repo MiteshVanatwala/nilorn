@@ -94,9 +94,6 @@ const baseStyle = definePartsStyle({
         boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.ERROR),
       },
     },
-    _disabled: {
-      opacity: 1,
-    },
   },
 });
 
