@@ -3,7 +3,7 @@ import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { FormInputProps, SelectOption } from '../../app/types/types';
 import { GroupSelectOption } from '../../app/utils/FilterHelper';
-import { MultiValue } from 'chakra-react-select';
+import { MultiValue, PropsValue } from 'chakra-react-select';
 import { useTranslation } from 'react-i18next';
 
 interface Props<IsMulti extends boolean = false>
@@ -17,6 +17,13 @@ interface Props<IsMulti extends boolean = false>
   invisible?: boolean;
   components?: any;
   isDisabled?: boolean;
+  value?:
+    | PropsValue<{
+        label: string;
+        value: any;
+      }>
+    | undefined;
+  isControlled?: boolean;
 }
 
 const Select = <IsMulti extends boolean = false>({
@@ -35,6 +42,8 @@ const Select = <IsMulti extends boolean = false>({
   components,
   isDisabled = false,
   changelog,
+  value,
+  isControlled = false,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -57,14 +66,20 @@ const Select = <IsMulti extends boolean = false>({
         name={name}
         rules={registerOptions}
         defaultValue={defaultValue}
-        render={({ field: { onChange, onBlur, name, ref, value } }) => {
+        render={({
+          field: { onChange, onBlur, name, ref, value: controllerValue },
+        }) => {
           return (
             <SelectBase
               isMulti={isMulti}
-              isSelected={(isMulti && value?.length) || (!isMulti && !!value)}
-              isControlled={false}
+              isSelected={
+                (isMulti && controllerValue?.length) ||
+                (!isMulti && !!controllerValue)
+              }
+              isControlled={isControlled}
               readOnly={isDisabled}
               name={name}
+              value={value}
               invisible={invisible}
               passRef={ref}
               showSelectedCount={showSelectedCount}

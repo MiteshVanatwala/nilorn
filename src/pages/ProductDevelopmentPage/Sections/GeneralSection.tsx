@@ -10,10 +10,11 @@ import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 import { Status } from '../../../app/generate';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
+
 type Props = {
   disableEdit: boolean;
   createNew: boolean;
@@ -30,18 +31,38 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
 
   const itemCategories = useFilterOptions('itemCategories');
   const { data: productGroups } = useProductGroup(
-    typeof itemCategoryCode === 'string' ?? false,
+    typeof itemCategoryCode === 'string',
     itemCategoryCode as string
   );
+
   useEffect(() => {
-    if (itemCategoryCodeStartVal !== itemCategoryCode) {
+    if (itemCategoryCodeStartVal !== itemCategoryCode && !productGroupCode) {
       setValue('productGroupCode', null);
       setItemCategoryCodeStartVal(itemCategoryCode);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemCategoryCode]);
+  }, [itemCategoryCode, productGroupCode, itemCategoryCodeStartVal, setValue]);
 
   const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
+
+  const defaultItemCategoryOption = useMemo(
+    () =>
+      itemCategories && itemCategoryCode
+        ? (itemCategories as SelectOption[]).find(
+            o => o.value === itemCategoryCode
+          )
+        : undefined,
+    [itemCategories, itemCategoryCode]
+  );
+
+  const defaultProductGroupOption = useMemo(
+    () =>
+      productGroups && productGroupCode
+        ? (productGroups as SelectOption[]).find(
+            o => o.value === productGroupCode
+          )
+        : undefined,
+    [productGroups, productGroupCode]
+  );
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
@@ -80,19 +101,15 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
           }}>
           {itemCategories?.length ? (
             <Select
+              isControlled
               options={(itemCategories as SelectOption[]) ?? []}
               name="itemCategoryCode"
               label={`${t('PD.FormContent.ItemCategory')}`}
               registerOptions={{
                 required: createNew ? false : status !== Status.NEW,
               }}
-              defaultValue={
-                itemCategories && itemCategoryCode
-                  ? (itemCategories as SelectOption[]).find(
-                      o => o.value === itemCategoryCode
-                    )
-                  : undefined
-              }
+              value={defaultItemCategoryOption}
+              defaultValue={defaultItemCategoryOption}
               isDisabled={disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
@@ -108,37 +125,19 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
             base: 12,
             lg: 2,
           }}>
-          {productGroups?.length && productGroupCode !== null && (
-            <Select
-              options={(productGroups as SelectOption[]) ?? []}
-              name="productGroupCode"
-              label={`${t('PD.FormContent.ProductGroup')}`}
-              registerOptions={{
-                required: createNew ? false : status !== Status.NEW,
-              }}
-              defaultValue={
-                productGroups && productGroupCode
-                  ? (productGroups as SelectOption[]).find(
-                      o => o.value === productGroupCode
-                    )
-                  : undefined
-              }
-              isDisabled={!itemCategoryCode || disableEdit}
-              placeholder={`${t('Filter.Select')}`}
-            />
-          )}
-          {(!productGroups?.length || productGroupCode === null) && (
-            <Select
-              options={(productGroups as SelectOption[]) ?? []}
-              name="productGroupCode"
-              label={`${t('PD.FormContent.ProductGroup')}`}
-              registerOptions={{
-                required: createNew ? false : status !== Status.NEW,
-              }}
-              isDisabled={!itemCategoryCode || disableEdit}
-              placeholder={`${t('Filter.Select')}`}
-            />
-          )}
+          <Select
+            isControlled
+            options={(productGroups as SelectOption[]) ?? []}
+            name="productGroupCode"
+            label={`${t('PD.FormContent.ProductGroup')}`}
+            registerOptions={{
+              required: createNew ? false : status !== Status.NEW,
+            }}
+            value={defaultProductGroupOption}
+            defaultValue={defaultProductGroupOption}
+            isDisabled={!itemCategoryCode || disableEdit}
+            placeholder={`${t('Filter.Select')}`}
+          />
         </GridItem>
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
