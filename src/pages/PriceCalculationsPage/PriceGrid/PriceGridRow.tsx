@@ -167,9 +167,7 @@ function PriceGridRow({
                         option => option.label === production.vendorName
                       )?.value
                     }&productDevelopments=${productDevelopment?.no}${
-                      isClosed(filters?.statuses as Status)
-                        ? `&statuses=${filters?.statuses}`
-                        : ''
+                      isPDClosed ? `&statuses=${filters?.statuses}` : ''
                     }`}>
                     {production.vendorName}
                   </Link>
