@@ -43,7 +43,7 @@ const EditPriceCalculationModal = ({
     deleteModal,
     isOpen: isDeleteModalOpen,
     setOpen: setDeleteModalOpen,
-  } = useDeleteModal(outsideRef, deleteProductionFunc);
+  } = useDeleteModal(outsideRef, handleDeleteCalculation);
 
   const {
     activeNavId: activeCalculationId,
@@ -111,7 +111,7 @@ const EditPriceCalculationModal = ({
     });
   }
 
-  function deleteProductionFunc() {
+  function handleDeleteCalculation() {
     deleteCalculation();
   }
 
@@ -121,9 +121,11 @@ const EditPriceCalculationModal = ({
 
   useEffect(() => {
     if (isSuccessDelete) {
+      setDirty(false);
       close();
       setDeleteModalOpen(false);
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
 
   return (

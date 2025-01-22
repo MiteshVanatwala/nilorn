@@ -45,7 +45,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
     deleteModal,
     isOpen: isDeleteModalOpen,
     setOpen: setDeleteModalOpen,
-  } = useDeleteModal(outsideRef, deleteProductionFunc);
+  } = useDeleteModal(outsideRef, handleDeleteProduction);
 
   const {
     activeNavId: activeProductionId,
@@ -121,7 +121,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
     });
   }
 
-  function deleteProductionFunc() {
+  function handleDeleteProduction() {
     deleteProduction({ id: productionExt?.id ?? '' });
   }
 
@@ -131,9 +131,11 @@ const EditProduction = ({ productionId, filters }: Props) => {
 
   useEffect(() => {
     if (isSuccessDelete) {
+      setDirty(false);
       close();
       setDeleteModalOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
 
   return (
