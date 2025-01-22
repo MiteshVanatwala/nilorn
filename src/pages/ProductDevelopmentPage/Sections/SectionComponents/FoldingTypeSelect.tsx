@@ -57,7 +57,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
     <Box zIndex={8} w={'100%'} minW={SIZES.CONTAINER.XXXS}>
       <ControlWrapper
         errors={errors}
-        required={true}
+        required={false}
         name={inputName}
         label={`${t('PD.FormContent.FoldingType')}`}>
         <Controller
@@ -89,6 +89,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
                     />
                   ),
                 }}
+                isScrollable
               />
             );
           }}

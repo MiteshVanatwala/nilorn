@@ -56,7 +56,7 @@ const ProjectSelect = ({
   }, [clientNumberWatch]);
 
   useEffect(() => {
-    if (options && projectCode != clearProjectItem.value) {
+    if (options && projectCode !== clearProjectItem.value) {
       setOptionItems([clearProjectItem, ...options]);
     } else {
       setOptionItems(options);
@@ -88,6 +88,7 @@ const ProjectSelect = ({
                   optionItems?.find(co => co.value === project) as SelectOption
                 }
                 isSearchable
+                isScrollable
                 components={{
                   MenuList: (props: any) => (
                     <MenuListWithAddBtn

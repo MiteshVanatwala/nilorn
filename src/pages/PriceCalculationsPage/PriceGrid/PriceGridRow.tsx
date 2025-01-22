@@ -1,8 +1,7 @@
-import { Button, GridItem, HStack, Link, VStack } from '@chakra-ui/react';
+import { Button, GridItem, HStack, VStack } from '@chakra-ui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
-import { NavLink } from 'react-router-dom';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import QueryKeysEnum from '../../../app/api/queryKeys';
 import {
@@ -13,7 +12,6 @@ import {
   PurchasePriceDto,
   SalesPriceDto,
   SourcedProductionDto,
-  Status,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
@@ -36,6 +34,7 @@ import BaseValues from './BaseValues';
 import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
+import useStoreFilterAndNavigate from '../../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -60,6 +59,8 @@ function PriceGridRow({
   const queryClient = useQueryClient();
   const isPDClosed =
     productDevelopment?.status && isClosed(productDevelopment?.status);
+  const storeFilterAndNavigate = useStoreFilterAndNavigate();
+
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
     PriceCalculationDto | undefined
@@ -147,6 +148,17 @@ function PriceGridRow({
     }
   };
 
+  const navigateToProduction = () => {
+    storeFilterAndNavigate(
+      `/productions?vendors=${
+        vendorOptions.find(option => option.label === production.vendorName)
+          ?.value
+      }&productDevelopments=${productDevelopment?.no}${
+        isPDClosed ? `&statuses=${filters?.statuses}` : ''
+      }`
+    );
+  };
+
   return (
     <GridItem colSpan={VENDOR_ROW_SPAN}>
       <GridInlineTbody
@@ -158,22 +170,9 @@ function PriceGridRow({
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <HStack justify={'space-between'} w={'100%'}>
-                <VStack align={'start'} gap={SPACE.XXS}>
-                  <Link
-                    variant={'textLink'}
-                    as={NavLink}
-                    to={`/productions?vendors=${
-                      vendorOptions.find(
-                        option => option.label === production.vendorName
-                      )?.value
-                    }&productDevelopments=${productDevelopment?.no}${
-                      isClosed(filters?.statuses as Status)
-                        ? `&statuses=${filters?.statuses}`
-                        : ''
-                    }`}>
-                    {production.vendorName}
-                  </Link>
-                </VStack>
+                <Button variant={'textBtn'} onClick={navigateToProduction}>
+                  {production.vendorName}
+                </Button>
                 <>
                   {production.released && (
                     <TableMenuCalculation

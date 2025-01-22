@@ -15,7 +15,7 @@ import SourcingSection from './SourcingSection';
 import BottomSection from './BottomSection';
 import { useCurrentUser } from '../../../app/api/User';
 import { useEffect, useState } from 'react';
-import { ProductDevelopmentDto } from '../../../app/generate';
+import { ProductDevelopmentDto, SourcingDto } from '../../../app/generate';
 import { isClosed } from '../../../app/utils/status';
 import { scrollNameIntoView } from '../../../app/utils/common';
 import {
@@ -87,6 +87,19 @@ function ProductDevelopmentForm({
       setDisableEdit(true);
     } else {
       setDisableEdit(false);
+    }
+    let sourcing: SourcingDto[] = [];
+    if (defaultValues?.sourcings) {
+      for (let index = 0; index < defaultValues?.sourcings.length; index++) {
+        sourcing.push({
+          ...defaultValues?.sourcings[index],
+          quantities:
+            defaultValues?.sourcings[index].quantities?.sort(
+              (a: number, b: number) => a - b
+            ) || [],
+        });
+      }
+      form.setValue('sourcings', sourcing, {});
     }
   }, [allowedToEdit, defaultValues, form, user?.role]);
 

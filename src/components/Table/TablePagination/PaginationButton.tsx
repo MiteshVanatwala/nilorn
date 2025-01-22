@@ -32,7 +32,8 @@ const PaginationButton = ({
       paddingX={paddingX}
       textAlign={'center'}
       onClick={onClick}
-      pointerEvents={disabled ? 'none' : 'auto'}>
+      pointerEvents={disabled ? 'none' : 'auto'}
+      disabled={disabled}>
       {children}
     </Button>
   );

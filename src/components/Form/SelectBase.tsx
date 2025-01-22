@@ -80,6 +80,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   isSelected?: boolean;
   isDisabled?: boolean;
   autoFocus?: boolean;
+  isScrollable?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -104,6 +105,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   isSelected = false,
   isDisabled,
   autoFocus = false,
+  isScrollable = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
@@ -192,6 +194,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           color: color,
           maxW: '22rem',
           bg: COLORS.GRAY[10],
+          overflowX: 'hidden',
+          whiteSpace: 'normal',
         }),
         placeholder: base => ({
           ...base,
@@ -258,6 +262,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           zIndex: 9,
           color: color,
+          maxH: isScrollable ? '22rem' : '',
+          overflowY: isScrollable ? 'auto' : '',
         }),
       }}
     />
