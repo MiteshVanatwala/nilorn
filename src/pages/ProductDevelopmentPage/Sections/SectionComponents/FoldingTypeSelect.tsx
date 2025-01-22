@@ -89,6 +89,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
                     />
                   ),
                 }}
+                isScrollable
               />
             );
           }}

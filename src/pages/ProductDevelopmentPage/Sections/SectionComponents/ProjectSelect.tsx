@@ -88,6 +88,7 @@ const ProjectSelect = ({
                   optionItems?.find(co => co.value === project) as SelectOption
                 }
                 isSearchable
+                isScrollable
                 components={{
                   MenuList: (props: any) => (
                     <MenuListWithAddBtn
