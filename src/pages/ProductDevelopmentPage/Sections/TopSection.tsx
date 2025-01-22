@@ -52,7 +52,7 @@ const TopSection = ({
 
   const { data: projectOptions } = useGetProjectsOptions(
     clientNo,
-    typeof clientNo === 'string' ?? false
+    typeof clientNo === 'string'
   );
   const statusChangelog = useProductDevelopmentChangelog('Status');
 
