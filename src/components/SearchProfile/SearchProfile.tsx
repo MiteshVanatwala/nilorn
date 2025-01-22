@@ -12,6 +12,7 @@ import { SPACE } from '../../theme/Constants';
 import SelectBase from '../Form/SelectBase';
 import RemixIcon from '../Icon/RemixIcon';
 import SearchProfileModalContent from './SearchProfileModalContent';
+import { ACTIVE_SEARCH_PROFILE_NAME } from '../../app/utils/constant';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -22,7 +23,7 @@ const SearchProfile = () => {
   } = useFormContext();
   const { setValue, reset, getValues } = useFormContext();
   let { data } = useSearchProfile();
-  const activeSearchProfileName = getValues('activeSearchProfileName');
+  const activeSearchProfileName = getValues(ACTIVE_SEARCH_PROFILE_NAME);
 
   const onChange = (option: SelectOption) => {
     reset();
@@ -37,13 +38,13 @@ const SearchProfile = () => {
       });
     }
 
-    setValue('activeSearchProfileName', option.label);
+    setValue(ACTIVE_SEARCH_PROFILE_NAME, option.label);
   };
 
   useEffect(() => {
     if (!isDirty) {
       setSelected(undefined);
-      setValue('activeSearchProfileName', '');
+      setValue(ACTIVE_SEARCH_PROFILE_NAME, '');
     }
   }, [isDirty]);
 
@@ -93,9 +94,9 @@ const SearchProfile = () => {
             handleModal(
               <SearchProfileModalContent
                 setActiveSearchProfileName={(activeProfile: string) =>
-                  setValue('activeSearchProfileName', activeProfile)
+                  setValue(ACTIVE_SEARCH_PROFILE_NAME, activeProfile)
                 }
-                activeSearchProfileName={getValues('activeSearchProfileName')}
+                activeSearchProfileName={getValues(ACTIVE_SEARCH_PROFILE_NAME)}
                 isValueSelected={!!activeSearchProfileName}
               />
             )
