@@ -12,7 +12,6 @@ import {
   PurchasePriceDto,
   SalesPriceDto,
   SourcedProductionDto,
-  Status,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
@@ -155,9 +154,7 @@ function PriceGridRow({
         vendorOptions.find(option => option.label === production.vendorName)
           ?.value
       }&productDevelopments=${productDevelopment?.no}${
-        isClosed(filters?.statuses as Status)
-          ? `&statuses=${filters?.statuses}`
-          : ''
+        isPDClosed ? `&statuses=${filters?.statuses}` : ''
       }`
     );
   };
