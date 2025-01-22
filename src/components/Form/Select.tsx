@@ -1,10 +1,10 @@
+import { MultiValue } from 'chakra-react-select';
 import { Controller, useFormContext } from 'react-hook-form';
-import ControlWrapper from './ControlWrapper';
-import SelectBase from './SelectBase';
+import { useTranslation } from 'react-i18next';
 import { FormInputProps, SelectOption } from '../../app/types/types';
 import { GroupSelectOption } from '../../app/utils/FilterHelper';
-import { MultiValue, PropsValue } from 'chakra-react-select';
-import { useTranslation } from 'react-i18next';
+import ControlWrapper from './ControlWrapper';
+import SelectBase from './SelectBase';
 
 interface Props<IsMulti extends boolean = false>
   extends Omit<FormInputProps, 'defaultValue'> {
@@ -17,12 +17,7 @@ interface Props<IsMulti extends boolean = false>
   invisible?: boolean;
   components?: any;
   isDisabled?: boolean;
-  value?:
-    | PropsValue<{
-        label: string;
-        value: any;
-      }>
-    | undefined;
+  value?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
   isControlled?: boolean;
 }
 
@@ -79,7 +74,7 @@ const Select = <IsMulti extends boolean = false>({
               isControlled={isControlled}
               readOnly={isDisabled}
               name={name}
-              value={value}
+              value={isControlled ? value : undefined}
               invisible={invisible}
               passRef={ref}
               showSelectedCount={showSelectedCount}

@@ -6,7 +6,6 @@ import {
   ActionMeta,
   Select,
   components,
-  PropsValue,
   GroupBase,
   OptionsOrGroups,
   MultiValue,
@@ -60,12 +59,7 @@ type SelectProps<IsMulti extends boolean = false> = {
     actionMeta: ActionMeta<SelectOption>
   ) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
-  value?:
-    | PropsValue<{
-        label: string;
-        value: any;
-      }>
-    | undefined;
+  value?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
   defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
   isSearchable?: boolean;
   passRef?: any;
@@ -138,7 +132,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       onChange={onChange as any}
       onBlur={onBlur}
       components={customComponents}
-      value={isControlled ? value ?? '' : undefined}
+      value={isControlled ? value : undefined}
       defaultValue={defaultValue}
       options={options}
       placeholder={placeholder}
