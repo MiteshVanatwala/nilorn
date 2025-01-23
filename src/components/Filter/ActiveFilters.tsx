@@ -7,9 +7,17 @@ import { useWatch } from 'react-hook-form';
 import { Fragment, useMemo } from 'react';
 import { FilterKey, SelectOption } from '../../app/types/types';
 import { useTranslation } from 'react-i18next';
-import { INCLUDE_CLOSED } from '../../app/utils/constant';
+import {
+  ACTIVE_SEARCH_PROFILE_NAME,
+  INCLUDE_CLOSED,
+} from '../../app/utils/constant';
 
-const ignoreKeys: FilterKey[] = ['sortKey', 'pageNumber', 'pageSize'];
+const ignoreKeys: FilterKey[] = [
+  'sortKey',
+  'pageNumber',
+  'pageSize',
+  ACTIVE_SEARCH_PROFILE_NAME,
+];
 
 const ActiveFilters = () => {
   const { t } = useTranslation();

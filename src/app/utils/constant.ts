@@ -15,4 +15,6 @@ export const INCLUDE_CLOSED = 'includeClosed';
 export const SEARCH_QUERY = 'searchQuery';
 export const PAGE_SIZE = 'pageSize';
 
-export const READ_ONLY_OPACITY = '40%';
+export const READ_ONLY_OPACITY = '70%';
+
+export const ACTIVE_SEARCH_PROFILE_NAME = 'activeSearchProfileName';

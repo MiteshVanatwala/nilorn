@@ -12,6 +12,7 @@ import { SPACE } from '../../theme/Constants';
 import SelectBase from '../Form/SelectBase';
 import RemixIcon from '../Icon/RemixIcon';
 import SearchProfileModalContent from './SearchProfileModalContent';
+import { ACTIVE_SEARCH_PROFILE_NAME } from '../../app/utils/constant';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -20,10 +21,9 @@ const SearchProfile = () => {
   const {
     formState: { isDirty },
   } = useFormContext();
-  const [activeSearchProfileName, setActiveSearchProfileName] =
-    useState<string>('');
-  const { setValue, reset } = useFormContext();
+  const { setValue, reset, getValues } = useFormContext();
   let { data } = useSearchProfile();
+  const activeSearchProfileName = getValues(ACTIVE_SEARCH_PROFILE_NAME);
 
   const onChange = (option: SelectOption) => {
     reset();
@@ -38,13 +38,13 @@ const SearchProfile = () => {
       });
     }
 
-    setActiveSearchProfileName(option.label);
+    setValue(ACTIVE_SEARCH_PROFILE_NAME, option.label);
   };
 
   useEffect(() => {
     if (!isDirty) {
       setSelected(undefined);
-      setActiveSearchProfileName('');
+      setValue(ACTIVE_SEARCH_PROFILE_NAME, '');
     }
   }, [isDirty]);
 
@@ -53,7 +53,7 @@ const SearchProfile = () => {
       (data?.find(c => c.label === activeSearchProfileName) as SelectOption) ??
         undefined
     );
-  }, [activeSearchProfileName, data]);
+  }, [data, activeSearchProfileName]);
 
   return (
     <GridItem
@@ -93,9 +93,11 @@ const SearchProfile = () => {
           onClick={() =>
             handleModal(
               <SearchProfileModalContent
-                setActiveSearchProfileName={setActiveSearchProfileName}
-                activeSearchProfileName={activeSearchProfileName}
-                isValueSelected={!!(selected || activeSearchProfileName)}
+                setActiveSearchProfileName={(activeProfile: string) =>
+                  setValue(ACTIVE_SEARCH_PROFILE_NAME, activeProfile)
+                }
+                activeSearchProfileName={getValues(ACTIVE_SEARCH_PROFILE_NAME)}
+                isValueSelected={!!activeSearchProfileName}
               />
             )
           }>
