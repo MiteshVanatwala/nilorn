@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Select from '../../../components/Form/Select';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import BackLink from './SectionComponents/BackLink';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import StatusBadge from '../../../components/Status/StatusBadge';
 import ProjectSelect from './SectionComponents/ProjectSelect';
 import { useGetProjectsOptions } from '../../../app/api/Projects';
@@ -45,7 +45,8 @@ const TopSection = ({
     createNew ? 'clients' : undefined,
     true
   );
-  const { getValues } = useFormContext();
+
+  const client = useWatch({ name: 'client' });
   const clientNo = useWatch({ name: 'clientNo' });
   const pdName = useWatch({ name: 'name' });
   const status = useWatch({ name: 'status' });
@@ -173,7 +174,7 @@ const TopSection = ({
               base: 1,
               md: scrolledPast ? 3 : 2,
             }}>
-            {createNew || !getValues('client') ? (
+            {createNew || !client ? (
               <Box zIndex={9} w={'100%'}>
                 <Select
                   placeholder={t('PD.Client')}
@@ -184,7 +185,7 @@ const TopSection = ({
               </Box>
             ) : (
               <>
-                <Text p={SPACE.XXS}>{getValues('client')}</Text>
+                <Text p={SPACE.XXS}>{client}</Text>
                 <Input display="none" name="clientNo" />
               </>
             )}
