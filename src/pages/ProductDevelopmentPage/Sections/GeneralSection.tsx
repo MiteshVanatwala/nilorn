@@ -22,7 +22,10 @@ type Props = {
 
 const GeneralSection = ({ createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { isDirty },
+  } = useFormContext();
   const status = useWatch({ name: 'status' });
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
@@ -36,11 +39,24 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
   );
 
   useEffect(() => {
-    if (itemCategoryCodeStartVal !== itemCategoryCode && !productGroupCode) {
+    if(itemCategoryCodeStartVal !== itemCategoryCode && !isDirty){
+      setItemCategoryCodeStartVal(itemCategoryCode)
+    }
+
+  },[isDirty, itemCategoryCode, itemCategoryCodeStartVal])
+
+  useEffect(() => {
+    if (itemCategoryCodeStartVal !== itemCategoryCode && isDirty) {
       setValue('productGroupCode', null);
       setItemCategoryCodeStartVal(itemCategoryCode);
     }
-  }, [itemCategoryCode, productGroupCode, itemCategoryCodeStartVal, setValue]);
+  }, [
+    itemCategoryCode,
+    productGroupCode,
+    itemCategoryCodeStartVal,
+    setValue,
+    isDirty,
+  ]);
 
   const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
 
@@ -50,7 +66,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
         ? (itemCategories as SelectOption[]).find(
             o => o.value === itemCategoryCode
           )
-        : undefined,
+        : null,
     [itemCategories, itemCategoryCode]
   );
 
@@ -60,7 +76,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
         ? (productGroups as SelectOption[]).find(
             o => o.value === productGroupCode
           )
-        : undefined,
+        : null,
     [productGroups, productGroupCode]
   );
 
