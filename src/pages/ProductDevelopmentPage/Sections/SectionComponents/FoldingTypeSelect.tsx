@@ -20,38 +20,41 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
     formState: { errors },
   } = useFormContext();
   const inputName = 'foldingTypeCode';
-  const project = useWatch({ name: inputName });
-  const clientNumberWatch = useWatch({ name: 'foldingTypeCode' });
+  const foldingTypeCode = useWatch({ name: inputName });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
   const selectPlaceholder = t('PD.ClearSelection');
-  const hasValue = options.find(o => o.value === clientNumberWatch);
-  const [optionValue, setOptionValue] = useState<string | null>(
-    hasValue?.value
-  );
 
   const clearSelect = useMemo(
     () => ({
-      value: null,
+      value: '',
       label: selectPlaceholder,
     }),
     [selectPlaceholder]
   );
+
   const onChange = (option: SelectOption) => {
-    setOptionValue(option?.value);
     if (option.value === clearSelect.value) {
-      setValue(inputName, undefined);
+      setValue(inputName, null);
     } else {
       setValue(inputName, option.value, { shouldDirty: true });
     }
   };
 
   useEffect(() => {
-    if (options && optionValue != null) {
+    if (
+      options &&
+      foldingTypeCode !== clearSelect.value &&
+      foldingTypeCode != null
+    ) {
       setOptionItems([clearSelect, ...options]);
     } else {
       setOptionItems([...options]);
     }
-  }, [options, optionValue, clearSelect]);
+  }, [options, foldingTypeCode, clearSelect]);
+
+  const value = useMemo(() => {
+    return (optionItems?.find(co => co.value === foldingTypeCode) as SelectOption) ?? null;
+  }, [optionItems, foldingTypeCode]);
 
   return (
     <Box zIndex={8} w={'100%'} minW={SIZES.CONTAINER.XXXS}>
@@ -62,9 +65,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
         label={`${t('PD.FormContent.FoldingType')}`}>
         <Controller
           name={inputName}
-          defaultValue={
-            optionItems?.find(co => co.value === project) as SelectOption
-          }
+          defaultValue={value}
           render={() => {
             return (
               <SelectBase
@@ -74,9 +75,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
                 options={optionItems}
                 readOnly={disableEdit}
                 isSearchable={true}
-                value={
-                  optionItems?.find(co => co.value === project) as SelectOption
-                }
+                value={value}
                 components={{
                   MenuList: (props: any) => (
                     <MenuList
