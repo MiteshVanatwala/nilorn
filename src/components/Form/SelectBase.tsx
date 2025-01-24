@@ -59,8 +59,12 @@ type SelectProps<IsMulti extends boolean = false> = {
     actionMeta: ActionMeta<SelectOption>
   ) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
-  value?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
-  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  value?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
+  defaultValue?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
   isSearchable?: boolean;
   passRef?: any;
   components?: any;
