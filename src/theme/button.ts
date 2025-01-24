@@ -69,6 +69,7 @@ const menuButton = defineStyle({
 const textBtn = defineStyle({
   ...link.baseStyle,
   ...link.variants.textLink,
+  lineHeight: 1.5,
   textAlign: 'left',
   whiteSpace: 'normal',
   height: 'auto',

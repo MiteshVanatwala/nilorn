@@ -17,7 +17,6 @@ import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
 import { isClosed } from '../../app/utils/status';
 import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
