@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SelectOption } from '../../../../app/types/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import MenuListWithAddBtn from './MenuListWithAddBtn';
 import { Box } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
@@ -27,22 +27,20 @@ const ProjectSelect = ({
   const {
     setValue,
     formState: { errors },
-    getValues,
   } = useFormContext();
   const inputName = 'projectCode';
-  const project = useWatch({ name: inputName });
+  const projectCode = useWatch({ name: inputName });
   const clientNumberWatch = useWatch({ name: 'clientNo' });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
-  const projectCode = getValues(inputName);
 
   const clearProjectItem = {
-    value: null,
+    value: '',
     label: `${t('PD.ClearSelection')}`,
   };
 
   const onChange = (option: SelectOption) => {
     if (option.value === clearProjectItem.value) {
-      setValue(inputName, undefined);
+      setValue(inputName, null);
     } else {
       setValue(inputName, option.value, { shouldDirty: true });
     }
@@ -50,19 +48,30 @@ const ProjectSelect = ({
 
   useEffect(() => {
     if (createNew) {
-      setValue(inputName, undefined);
+      setValue(inputName, null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientNumberWatch]);
 
   useEffect(() => {
-    if (options && projectCode !== clearProjectItem.value) {
+    if (
+      options &&
+      projectCode !== clearProjectItem.value &&
+      projectCode !== null
+    ) {
       setOptionItems([clearProjectItem, ...options]);
     } else {
       setOptionItems(options);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, projectCode]);
+
+  const value = useMemo(
+    () =>
+      (optionItems?.find(co => co.value === projectCode) as SelectOption) ??
+      null,
+    [optionItems, projectCode]
+  );
 
   return (
     <Box
@@ -72,9 +81,7 @@ const ProjectSelect = ({
       <ControlWrapper errors={errors} required={true} name={inputName}>
         <Controller
           name={inputName}
-          defaultValue={
-            optionItems?.find(co => co.value === project) as SelectOption
-          }
+          defaultValue={value}
           render={() => {
             return (
               <SelectBase
@@ -84,9 +91,7 @@ const ProjectSelect = ({
                 invisible={!createNew}
                 options={optionItems}
                 readOnly={!clientNo || disableEdit}
-                value={
-                  optionItems?.find(co => co.value === project) as SelectOption
-                }
+                value={value}
                 isSearchable
                 isScrollable
                 components={{
