@@ -60,7 +60,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
 
   const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
 
-  const defaultItemCategoryOption = useMemo(
+  const selectedItemCategoryOption = useMemo(
     () =>
       itemCategories && itemCategoryCode
         ? (itemCategories as SelectOption[]).find(
@@ -70,7 +70,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
     [itemCategories, itemCategoryCode]
   );
 
-  const defaultProductGroupOption = useMemo(
+  const selectedProductGroupOption = useMemo(
     () =>
       productGroups && productGroupCode
         ? (productGroups as SelectOption[]).find(
@@ -124,8 +124,8 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               registerOptions={{
                 required: createNew ? false : status !== Status.NEW,
               }}
-              value={defaultItemCategoryOption}
-              defaultValue={defaultItemCategoryOption}
+              value={selectedItemCategoryOption}
+              defaultValue={selectedItemCategoryOption}
               isDisabled={disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
@@ -149,8 +149,8 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
             registerOptions={{
               required: createNew ? false : status !== Status.NEW,
             }}
-            value={defaultProductGroupOption}
-            defaultValue={defaultProductGroupOption}
+            value={selectedProductGroupOption}
+            defaultValue={selectedProductGroupOption}
             isDisabled={!itemCategoryCode || disableEdit}
             placeholder={`${t('Filter.Select')}`}
           />

@@ -30,7 +30,7 @@ const ProjectSelect = ({
   } = useFormContext();
   const inputName = 'projectCode';
   const projectCode = useWatch({ name: inputName });
-  const clientNumberWatch = useWatch({ name: 'clientNo' });
+  const clientNumber = useWatch({ name: 'clientNo' });
   const [optionItems, setOptionItems] = useState<SelectOption[]>([]);
 
   const clearProjectItem = {
@@ -51,7 +51,7 @@ const ProjectSelect = ({
       setValue(inputName, null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientNumberWatch]);
+  }, [clientNumber]);
 
   useEffect(() => {
     if (
@@ -66,7 +66,7 @@ const ProjectSelect = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, projectCode]);
 
-  const value = useMemo(
+  const selectedProjectCodeOption = useMemo(
     () =>
       (optionItems?.find(co => co.value === projectCode) as SelectOption) ??
       null,
@@ -81,7 +81,7 @@ const ProjectSelect = ({
       <ControlWrapper errors={errors} required={true} name={inputName}>
         <Controller
           name={inputName}
-          defaultValue={value}
+          defaultValue={selectedProjectCodeOption}
           render={() => {
             return (
               <SelectBase
@@ -91,7 +91,7 @@ const ProjectSelect = ({
                 invisible={!createNew}
                 options={optionItems}
                 readOnly={!clientNo || disableEdit}
-                value={value}
+                value={selectedProjectCodeOption}
                 isSearchable
                 isScrollable
                 components={{

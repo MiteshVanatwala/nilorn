@@ -52,7 +52,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
     }
   }, [options, foldingTypeCode, clearSelect]);
 
-  const value = useMemo(() => {
+  const selectedFoldingTypeOption = useMemo(() => {
     return (optionItems?.find(co => co.value === foldingTypeCode) as SelectOption) ?? null;
   }, [optionItems, foldingTypeCode]);
 
@@ -65,7 +65,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
         label={`${t('PD.FormContent.FoldingType')}`}>
         <Controller
           name={inputName}
-          defaultValue={value}
+          defaultValue={selectedFoldingTypeOption}
           render={() => {
             return (
               <SelectBase
@@ -75,7 +75,7 @@ const FoldingTypeSelect = ({ options, disableEdit }: Props) => {
                 options={optionItems}
                 readOnly={disableEdit}
                 isSearchable={true}
-                value={value}
+                value={selectedFoldingTypeOption}
                 components={{
                   MenuList: (props: any) => (
                     <MenuList
