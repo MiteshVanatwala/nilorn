@@ -36,6 +36,7 @@ type Props = {
   productDevelopmentNo?: string | null;
   handleDelete?: () => void;
   isDirty?: boolean;
+  submitForm: () => void;
 };
 
 const ActionBarEditProduction = ({
@@ -49,9 +50,10 @@ const ActionBarEditProduction = ({
   productDevelopmentNo,
   handleDelete,
   isDirty = false,
+  submitForm,
 }: Props) => {
   const { t } = useTranslation();
-  const { getValues, setValue } = useFormContext();
+  const { setValue } = useFormContext();
   const { showToast } = useToast();
   const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
@@ -61,18 +63,12 @@ const ActionBarEditProduction = ({
     !!production?.released &&
     !!productDevelopmentNo;
 
-  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction();
-  const { mutate: createProduction, isSuccess: isSuccessCreate } =
-    useCreateProduction();
+  const { isSuccess: isSuccessPatch } = usePatchProduction();
+  const { isSuccess: isSuccessCreate } = useCreateProduction();
 
   function handleSaveAndRelease() {
     setValue('released', true);
-    if (createNew) {
-      createProduction(getValues());
-    } else {
-      updateProduction(getValues());
-    }
+    submitForm();
   }
 
   useEffect(() => {
@@ -173,12 +169,13 @@ const ActionBarEditProduction = ({
           {status && !isClosed(status) && (
             <>
               <Button
-                type="submit"
+                type="button"
                 rightIcon={
                   !createNew ? (
                     <RemixIcon component="i" icon="SAVE_LINE" />
                   ) : undefined
-                }>
+                }
+                onClick={submitForm}>
                 {createNew
                   ? t('Production.CreateProduction')
                   : t('Common.Save')}

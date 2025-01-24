@@ -166,6 +166,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
                   createNew={false}
                   productDevelopmentNo={productDevelopmentDataDto?.no}
                   isDirty={form.formState.isDirty}
+                  submitForm={form.handleSubmit(submitForm)}
                 />
               }
             />
