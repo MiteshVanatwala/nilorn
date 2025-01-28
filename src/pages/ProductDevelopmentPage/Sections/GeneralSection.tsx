@@ -22,7 +22,10 @@ type Props = {
 
 const GeneralSection = ({ createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { isDirty },
+  } = useFormContext();
   const status = useWatch({ name: 'status' });
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
@@ -36,31 +39,44 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
   );
 
   useEffect(() => {
-    if (itemCategoryCodeStartVal !== itemCategoryCode && !productGroupCode) {
+    if(itemCategoryCodeStartVal !== itemCategoryCode && !isDirty){
+      setItemCategoryCodeStartVal(itemCategoryCode)
+    }
+
+  },[isDirty, itemCategoryCode, itemCategoryCodeStartVal])
+
+  useEffect(() => {
+    if (itemCategoryCodeStartVal !== itemCategoryCode && isDirty) {
       setValue('productGroupCode', null);
       setItemCategoryCodeStartVal(itemCategoryCode);
     }
-  }, [itemCategoryCode, productGroupCode, itemCategoryCodeStartVal, setValue]);
+  }, [
+    itemCategoryCode,
+    productGroupCode,
+    itemCategoryCodeStartVal,
+    setValue,
+    isDirty,
+  ]);
 
   const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
 
-  const defaultItemCategoryOption = useMemo(
+  const selectedItemCategoryOption = useMemo(
     () =>
       itemCategories && itemCategoryCode
         ? (itemCategories as SelectOption[]).find(
             o => o.value === itemCategoryCode
           )
-        : undefined,
+        : null,
     [itemCategories, itemCategoryCode]
   );
 
-  const defaultProductGroupOption = useMemo(
+  const selectedProductGroupOption = useMemo(
     () =>
       productGroups && productGroupCode
         ? (productGroups as SelectOption[]).find(
             o => o.value === productGroupCode
           )
-        : undefined,
+        : null,
     [productGroups, productGroupCode]
   );
 
@@ -108,8 +124,8 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               registerOptions={{
                 required: createNew ? false : status !== Status.NEW,
               }}
-              value={defaultItemCategoryOption}
-              defaultValue={defaultItemCategoryOption}
+              value={selectedItemCategoryOption}
+              defaultValue={selectedItemCategoryOption}
               isDisabled={disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
@@ -133,8 +149,8 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
             registerOptions={{
               required: createNew ? false : status !== Status.NEW,
             }}
-            value={defaultProductGroupOption}
-            defaultValue={defaultProductGroupOption}
+            value={selectedProductGroupOption}
+            defaultValue={selectedProductGroupOption}
             isDisabled={!itemCategoryCode || disableEdit}
             placeholder={`${t('Filter.Select')}`}
           />

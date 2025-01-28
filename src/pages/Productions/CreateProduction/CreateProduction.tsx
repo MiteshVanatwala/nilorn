@@ -141,6 +141,7 @@ const CreateProduction = ({
                   status={productDevelopment?.status}
                   createNew={true}
                   productDevelopmentNo={productDevelopment?.no}
+                  submitForm={form.handleSubmit(submitForm)}
                 />
               }
             />

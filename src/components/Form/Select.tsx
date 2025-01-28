@@ -10,14 +10,18 @@ interface Props<IsMulti extends boolean = false>
   extends Omit<FormInputProps, 'defaultValue'> {
   options: SelectOption[] | GroupSelectOption[];
   placeholder?: string;
-  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  defaultValue?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
   isMulti?: IsMulti;
   searchable?: boolean;
   showSelectedCount?: boolean;
   invisible?: boolean;
   components?: any;
   isDisabled?: boolean;
-  value?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  value?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
   isControlled?: boolean;
 }
 
