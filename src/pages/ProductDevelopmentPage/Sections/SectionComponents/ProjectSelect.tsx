@@ -56,6 +56,7 @@ const ProjectSelect = ({
   useEffect(() => {
     if (
       options &&
+      projectCode !== undefined &&
       projectCode !== clearProjectItem.value &&
       projectCode !== null
     ) {
