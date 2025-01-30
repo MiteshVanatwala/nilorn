@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type MediaFileDto = {
-    name?: string | null;
-    id?: string;
-    webUrl?: string | null;
+export type ClientRequirementDto = {
+    sourcingCompanyCode?: string | null;
+    requirement?: string | null;
 };

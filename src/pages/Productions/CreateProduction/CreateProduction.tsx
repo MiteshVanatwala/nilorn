@@ -86,12 +86,24 @@ const CreateProduction = ({
   }, [data]);
 
   function submitForm(form: FieldValues) {
-    createProduction(form, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
+    createProduction(
+      {
+        ...form,
+        purchasePrices: form.purchasePrices.map(
+          (q: PurchasePriceDto) =>
+            ({
+              ...q,
+              price: q.price || 0,
+            } as PurchasePriceDto)
+        ),
       },
-    });
+      {
+        onSuccess: () => {
+          setDirty(false);
+          close();
+        },
+      }
+    );
   }
 
   useEffect(() => {
@@ -129,6 +141,7 @@ const CreateProduction = ({
                   status={productDevelopment?.status}
                   createNew={true}
                   productDevelopmentNo={productDevelopment?.no}
+                  submitForm={form.handleSubmit(submitForm)}
                 />
               }
             />

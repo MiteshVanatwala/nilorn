@@ -1,9 +1,9 @@
 import { Box, Grid, GridItem } from '@chakra-ui/layout';
 import ContentSection from '../../Templates/ContentSection';
 import { COLORS, GRID } from '../../../theme/Constants';
-import ArrowLink from '../../../components/Link/ArrowLink';
 import { useProductDevelopmentNavigation } from '../../../app/api/productDevelopment';
 import { useTranslation } from 'react-i18next';
+import ArrowLink from '../../../components/Link/ArrowLink';
 
 type Props = {
   no: string;
@@ -11,7 +11,6 @@ type Props = {
 const BottomSection = ({ no }: Props) => {
   const { t } = useTranslation();
   const { data } = useProductDevelopmentNavigation(no);
-
   return (
     <Box
       position={'sticky'}
@@ -24,22 +23,20 @@ const BottomSection = ({ no }: Props) => {
       <ContentSection>
         <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
           <GridItem>
-            {data?.previous && (
-              <ArrowLink
-                direction={'left'}
-                to={`/product-development/${data?.previous}`}>
-                <>{t('Common.Previous')}</>
-              </ArrowLink>
-            )}
+            <ArrowLink
+              direction={'left'}
+              to={`/product-development/${data?.previous}`}
+              isDisabled={!data?.previous}>
+              <>{t('Common.Previous')}</>
+            </ArrowLink>
           </GridItem>
           <GridItem>
-            {data?.next && (
-              <ArrowLink
-                direction={'right'}
-                to={`/product-development/${data?.next}`}>
-                <>{t('Common.Next')}</>
-              </ArrowLink>
-            )}
+            <ArrowLink
+              direction={'right'}
+              to={`/product-development/${data?.next}`}
+              isDisabled={!data?.next}>
+              <>{t('Common.Next')}</>
+            </ArrowLink>
           </GridItem>
         </Grid>
       </ContentSection>

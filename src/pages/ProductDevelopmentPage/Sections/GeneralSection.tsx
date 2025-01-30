@@ -10,10 +10,11 @@ import { useProductGroup } from '../../../app/api/FilterInfo';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { SelectOption } from '../../../app/types/types';
 import SelectSkeleton from '../../../components/Form/SelectSkeleton';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProductDevelopmentChangelog } from '../../../app/hooks/useChangelog';
 import { Status } from '../../../app/generate';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
+
 type Props = {
   disableEdit: boolean;
   createNew: boolean;
@@ -21,7 +22,10 @@ type Props = {
 
 const GeneralSection = ({ createNew, disableEdit }: Props) => {
   const { t } = useTranslation();
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { isDirty },
+  } = useFormContext();
   const status = useWatch({ name: 'status' });
   const itemCategoryCode = useWatch({ name: 'itemCategoryCode' });
   const productGroupCode = useWatch({ name: 'productGroupCode' });
@@ -30,18 +34,51 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
 
   const itemCategories = useFilterOptions('itemCategories');
   const { data: productGroups } = useProductGroup(
-    typeof itemCategoryCode === 'string' ?? false,
+    typeof itemCategoryCode === 'string',
     itemCategoryCode as string
   );
+
   useEffect(() => {
-    if (itemCategoryCodeStartVal !== itemCategoryCode) {
+    if(itemCategoryCodeStartVal !== itemCategoryCode && !isDirty){
+      setItemCategoryCodeStartVal(itemCategoryCode)
+    }
+
+  },[isDirty, itemCategoryCode, itemCategoryCodeStartVal])
+
+  useEffect(() => {
+    if (itemCategoryCodeStartVal !== itemCategoryCode && isDirty) {
       setValue('productGroupCode', null);
       setItemCategoryCodeStartVal(itemCategoryCode);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [itemCategoryCode]);
+  }, [
+    itemCategoryCode,
+    productGroupCode,
+    itemCategoryCodeStartVal,
+    setValue,
+    isDirty,
+  ]);
 
   const itemNoChangelog = useProductDevelopmentChangelog('ItemNo');
+
+  const selectedItemCategoryOption = useMemo(
+    () =>
+      itemCategories && itemCategoryCode
+        ? (itemCategories as SelectOption[]).find(
+            o => o.value === itemCategoryCode
+          )
+        : null,
+    [itemCategories, itemCategoryCode]
+  );
+
+  const selectedProductGroupOption = useMemo(
+    () =>
+      productGroups && productGroupCode
+        ? (productGroups as SelectOption[]).find(
+            o => o.value === productGroupCode
+          )
+        : null,
+    [productGroups, productGroupCode]
+  );
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
@@ -80,19 +117,15 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
           }}>
           {itemCategories?.length ? (
             <Select
+              isControlled
               options={(itemCategories as SelectOption[]) ?? []}
               name="itemCategoryCode"
               label={`${t('PD.FormContent.ItemCategory')}`}
               registerOptions={{
                 required: createNew ? false : status !== Status.NEW,
               }}
-              defaultValue={
-                itemCategories && itemCategoryCode
-                  ? (itemCategories as SelectOption[]).find(
-                      o => o.value === itemCategoryCode
-                    )
-                  : undefined
-              }
+              value={selectedItemCategoryOption}
+              defaultValue={selectedItemCategoryOption}
               isDisabled={disableEdit}
               placeholder={`${t('Filter.Select')}`}
             />
@@ -108,37 +141,19 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
             base: 12,
             lg: 2,
           }}>
-          {productGroups?.length && productGroupCode !== null && (
-            <Select
-              options={(productGroups as SelectOption[]) ?? []}
-              name="productGroupCode"
-              label={`${t('PD.FormContent.ProductGroup')}`}
-              registerOptions={{
-                required: createNew ? false : status !== Status.NEW,
-              }}
-              defaultValue={
-                productGroups && productGroupCode
-                  ? (productGroups as SelectOption[]).find(
-                      o => o.value === productGroupCode
-                    )
-                  : undefined
-              }
-              isDisabled={!itemCategoryCode || disableEdit}
-              placeholder={`${t('Filter.Select')}`}
-            />
-          )}
-          {(!productGroups?.length || productGroupCode === null) && (
-            <Select
-              options={(productGroups as SelectOption[]) ?? []}
-              name="productGroupCode"
-              label={`${t('PD.FormContent.ProductGroup')}`}
-              registerOptions={{
-                required: createNew ? false : status !== Status.NEW,
-              }}
-              isDisabled={!itemCategoryCode || disableEdit}
-              placeholder={`${t('Filter.Select')}`}
-            />
-          )}
+          <Select
+            isControlled
+            options={(productGroups as SelectOption[]) ?? []}
+            name="productGroupCode"
+            label={`${t('PD.FormContent.ProductGroup')}`}
+            registerOptions={{
+              required: createNew ? false : status !== Status.NEW,
+            }}
+            value={selectedProductGroupOption}
+            defaultValue={selectedProductGroupOption}
+            isDisabled={!itemCategoryCode || disableEdit}
+            placeholder={`${t('Filter.Select')}`}
+          />
         </GridItem>
         <GridItem colSpan={12}>
           <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
@@ -167,6 +182,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
                 placeholder={`${t('Common.Placeholder')}`}
                 name={'freightIncluded'}
                 readonly={disableEdit}
+                min={0}
               />
             </GridItem>
             <GridItem colSpan={2}>
@@ -176,6 +192,7 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
                 name={'sampleQuantity'}
                 readonly={disableEdit}
                 type={'integer'}
+                min={0}
               />
             </GridItem>
           </Grid>

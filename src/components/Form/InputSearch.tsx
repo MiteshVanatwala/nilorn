@@ -1,6 +1,6 @@
 import { useFormContext, useWatch } from 'react-hook-form';
 import { FormInputProps } from '../../app/types/types';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import ControlWrapper from './ControlWrapper';
 import { Input } from '@chakra-ui/react';
 
@@ -14,32 +14,29 @@ const useSearchValue = (
 ): [string, (value: string) => void] => {
   const [value, setValue] = useState<string>(initialValue);
 
-  const setEncodedValue = (newValue: string) => {
-    setValue(encodeURIComponent(newValue));
-  };
+  const setEncodedValue = useCallback(
+    (newValue: string) => {
+      setValue(encodeURIComponent(newValue));
+    },
+    [setValue]
+  );
 
   return [value, setEncodedValue];
 };
 
 const InputSearch = ({ name, label, placeholder, variant }: Props) => {
-  const { setValue, unregister, getValues } = useFormContext();
-  const [searchValue, setSearchValue] = useSearchValue('');
+  const { setValue, unregister } = useFormContext();
   const watch = useWatch({ name: name });
+  const [searchValue, setSearchValue] = useSearchValue(watch ?? '');
 
   useEffect(() => {
-    if (getValues(name)) {
-      setSearchValue(getValues(name));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getValues, name]);
-
-  useEffect(() => {
-    if (!watch) {
-      setSearchValue('');
+    if (!!watch) {
+      setSearchValue(decodeURIComponent(watch));
+    } else {
       unregister(name);
+      setSearchValue('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch]);
+  }, [watch, name, setSearchValue, unregister]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -48,24 +45,21 @@ const InputSearch = ({ name, label, placeholder, variant }: Props) => {
     return () => {
       clearTimeout(handler);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue]);
+  }, [searchValue, setValue, name]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
   return (
-    <>
-      <ControlWrapper name={name} label={label}>
-        <Input
-          value={decodeURIComponent(searchValue)}
-          variant={variant}
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-      </ControlWrapper>
-    </>
+    <ControlWrapper name={name} label={label}>
+      <Input
+        value={decodeURIComponent(searchValue)}
+        variant={variant}
+        placeholder={placeholder}
+        onChange={onChange}
+      />
+    </ControlWrapper>
   );
 };
 

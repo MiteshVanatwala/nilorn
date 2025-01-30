@@ -28,7 +28,7 @@ export function getValidationStyle(
       };
     case FieldState.VALID:
       return {
-        color: COLORS.GREEN.PRIMARY,
+        color: COLORS.BLACK,
         icon: (
           <RemixIcon
             component="Text"

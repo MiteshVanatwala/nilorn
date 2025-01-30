@@ -8,4 +8,3 @@ export type OpCompDto = {
     isSourcingCompany?: boolean;
     currencyCode?: string | null;
 };
-

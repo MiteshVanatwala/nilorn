@@ -4,7 +4,7 @@ import { BORDER_RADIUS, SPACE } from '../../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  onChange: (value: number) => void;
+  onChange: (value: number, isValid: boolean) => void;
   value: number | undefined;
   min?: number;
   max?: number;
@@ -13,7 +13,6 @@ type Props = {
 const PriceGridInput = ({ value, onChange, min, max }: Props) => {
   const { t } = useTranslation();
   const [isValidNumber, setIsValidNumber] = useState(true);
-  const [isInRange, setIsInRange] = useState(true);
   const [currentValue, setCurrentValue] = useState('');
 
   const isNumInRange = useCallback(
@@ -31,77 +30,51 @@ const PriceGridInput = ({ value, onChange, min, max }: Props) => {
 
   useEffect(() => {
     if (value !== undefined) {
-      setCurrentValue(value.toString());
-      setIsInRange(isNumInRange(value));
-      setIsValidNumber(convertToNumber(value.toString()) !== null);
+      if (currentValue === 'NaN' || currentValue === '') {
+        if (!isNaN(value)) {
+          setCurrentValue(value.toString());
+          setIsValidNumber(isNumInRange(value));
+        }
+      } else if (isNaN(Number(currentValue)) && !isNaN(value)) {
+        setCurrentValue(value.toString());
+        setIsValidNumber(isNumInRange(value));
+      } else if (isNaN(Number(currentValue))) {
+      } else {
+        setIsValidNumber(!isNaN(value) && isNumInRange(value));
+        setCurrentValue(value.toString());
+      }
     } else {
       setCurrentValue('');
       setIsValidNumber(false);
     }
-  }, [value, isNumInRange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   const convertToNumber = (value: string) => {
-    const dotNotatedValue = value.replace(',', '.');
     if (
-      !dotNotatedValue?.length ||
-      dotNotatedValue.includes(' ') ||
-      dotNotatedValue.includes('e') ||
-      isNaN(Number(dotNotatedValue))
+      !value?.length ||
+      value.includes(' ') ||
+      value.includes('e') ||
+      isNaN(Number(value))
     ) {
       return null;
     }
-    return parseFloat(dotNotatedValue);
+    return parseFloat(value);
   };
 
-  const getNumInRange = useCallback(
-    (num: number) => {
-      if (min !== undefined && num < min) {
-        return Math.max(num, min);
-      }
-      if (max !== undefined && num > max) {
-        return Math.min(num, max);
-      }
-      return num;
-    },
-    [min, max]
-  );
-
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const targetValue = e.target.value;
+    let targetValue = e.target.value;
+    targetValue = targetValue.replace(',', '.');
+
     setCurrentValue(targetValue);
     const numValue = convertToNumber(targetValue);
 
-    if (numValue === null) {
+    if (numValue === null || isNaN(numValue) || targetValue === '') {
       setIsValidNumber(false);
-    } else if (!isNumInRange(numValue)) {
-      setIsInRange(false);
+      onChange(NaN, false);
     } else {
-      setIsValidNumber(true);
-      setIsInRange(true);
-      const lastChar = targetValue[targetValue.length - 1];
-      if (lastChar !== ',' && lastChar !== '.') {
-        onChange(numValue);
-      }
-    }
-  };
-
-  const onBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    const targetValue = e.target.value;
-    if (!isValidNumber) {
-      onChange(0);
-      setCurrentValue('0');
-      setIsValidNumber(true);
-    } else if (!isInRange) {
-      const numInRange = getNumInRange(Number(targetValue));
-      onChange(numInRange);
-      setCurrentValue(numInRange.toString());
-      setIsInRange(true);
-    } else {
-      const numValue = convertToNumber(targetValue);
-      if (numValue !== null) {
-        setCurrentValue(numValue.toString());
-        onChange(numValue);
-      }
+      setIsValidNumber(isNumInRange(numValue));
+      onChange(numValue, isNumInRange(numValue));
     }
   };
 
@@ -110,10 +83,9 @@ const PriceGridInput = ({ value, onChange, min, max }: Props) => {
       type="text"
       inputMode={'numeric'}
       onChange={onInputChange}
-      onBlur={onBlur}
       value={currentValue}
       variant={'outline'}
-      isInvalid={!isValidNumber || !isInRange}
+      isInvalid={!isValidNumber}
       my={SPACE.XXS}
       borderRadius={BORDER_RADIUS.XS}
       placeholder={t('Common.Placeholder')}

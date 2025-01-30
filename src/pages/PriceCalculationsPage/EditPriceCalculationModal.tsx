@@ -19,15 +19,14 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import ArrowLink from '../../components/Link/ArrowLink';
 import ContentSection from '../Templates/ContentSection';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
+import ArrowLink from '../../components/Link/ArrowLink';
 
 type Props = {
   calculationId: string;
-  purchaseCurrency: string;
   filters: ServerFilter;
   disableEdit?: boolean;
 };
@@ -35,7 +34,6 @@ type Props = {
 const EditPriceCalculationModal = ({
   calculationId,
   filters,
-  purchaseCurrency,
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
@@ -45,7 +43,7 @@ const EditPriceCalculationModal = ({
     deleteModal,
     isOpen: isDeleteModalOpen,
     setOpen: setDeleteModalOpen,
-  } = useDeleteModal(outsideRef, deleteProductionFunc);
+  } = useDeleteModal(outsideRef, handleDeleteCalculation);
 
   const {
     activeNavId: activeCalculationId,
@@ -85,7 +83,7 @@ const EditPriceCalculationModal = ({
     if (priceCalculation) {
       form.reset({
         id: priceCalculation?.id,
-        purchaseCurrency: purchaseCurrency,
+        purchaseCurrency: priceCalculation.purchaseCurrencyCode,
         currencyRate: priceCalculation?.currencyRate,
         currencyCode: priceCalculation?.currency?.code,
         internalCommission: priceCalculation?.internalCommission,
@@ -97,7 +95,7 @@ const EditPriceCalculationModal = ({
             : null,
       });
     }
-  }, [priceCalculation, form, margins, purchaseCurrency]);
+  }, [priceCalculation, form, margins]);
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
@@ -113,7 +111,7 @@ const EditPriceCalculationModal = ({
     });
   }
 
-  function deleteProductionFunc() {
+  function handleDeleteCalculation() {
     deleteCalculation();
   }
 
@@ -123,9 +121,11 @@ const EditPriceCalculationModal = ({
 
   useEffect(() => {
     if (isSuccessDelete) {
+      setDirty(false);
       close();
       setDeleteModalOpen(false);
     }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
 
   return (
@@ -155,6 +155,7 @@ const EditPriceCalculationModal = ({
             <Skeleton
               isLoaded={!!priceCalculation && !isLoading && !isRefetching}>
               <PriceCalculationForm
+                key={priceCalculation?.id}
                 calculation={priceCalculation}
                 currency={priceCalculation?.currency ?? undefined}
                 createNew={false}
@@ -168,30 +169,24 @@ const EditPriceCalculationModal = ({
         <ContentSection>
           <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
             <GridItem>
-              {priceCalculationNavigation?.previous && (
-                <ArrowLink
-                  direction={'left'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.previous) {
-                      onNavigate(priceCalculationNavigation.previous);
-                    }
-                  }}>
-                  <>{t('Common.Previous')}</>
-                </ArrowLink>
-              )}
+              <ArrowLink
+                direction={'left'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.previous}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.previous}>
+                <>{t('Common.Previous')}</>
+              </ArrowLink>
             </GridItem>
             <GridItem>
-              {priceCalculationNavigation?.next && (
-                <ArrowLink
-                  direction={'right'}
-                  onClick={() => {
-                    if (priceCalculationNavigation?.next) {
-                      onNavigate(priceCalculationNavigation.next);
-                    }
-                  }}>
-                  <>{t('Common.Next')}</>
-                </ArrowLink>
-              )}
+              <ArrowLink
+                direction={'right'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.next}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.next}>
+                <>{t('Common.Next')}</>
+              </ArrowLink>
             </GridItem>
           </Grid>
         </ContentSection>

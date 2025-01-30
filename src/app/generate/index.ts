@@ -12,6 +12,7 @@ export type { ChangelogItemDto } from './models/ChangelogItemDto';
 export { ChangelogType } from './models/ChangelogType';
 export { ChangeType } from './models/ChangeType';
 export type { ClientDto } from './models/ClientDto';
+export type { ClientRequirementDto } from './models/ClientRequirementDto';
 export type { CompositionDto } from './models/CompositionDto';
 export type { CreatePriceCalculationCommand } from './models/CreatePriceCalculationCommand';
 export type { CreateProductDevelopmentCommand } from './models/CreateProductDevelopmentCommand';

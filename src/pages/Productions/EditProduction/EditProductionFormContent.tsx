@@ -9,6 +9,7 @@ import QuantityPurchase from '../QuantityPurchase';
 import {
   ProductDevelopmentDataDto,
   ProductionDto,
+  ProductionExtendedDto,
   SourcedProductionDto,
   VendorDto,
 } from '../../../app/generate';
@@ -26,7 +27,7 @@ type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   sourcedProduction?: SourcedProductionDto;
   createNew?: boolean;
-  production?: ProductionDto;
+  production?: ProductionDto | ProductionExtendedDto;
   disableEdit?: boolean;
   showChanges: boolean;
 };
@@ -127,6 +128,7 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -136,6 +138,7 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -145,6 +148,7 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -154,6 +158,7 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>
@@ -163,6 +168,7 @@ const EditProductionFormContent = ({
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
+              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>

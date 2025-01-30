@@ -38,6 +38,9 @@ const text = {
       fontSize: SIZES.FONT.XS,
       fontWeight: '400',
     },
+    disabled: {
+      color: 'inherit',
+    },
   },
 };
 

@@ -9,4 +9,3 @@ export type ChangelogDto = {
     propertyName?: string | null;
     changes?: Array<ChangelogItemDto> | null;
 };
-

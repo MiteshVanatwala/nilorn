@@ -1,7 +1,6 @@
 import { MenuItem } from '@chakra-ui/react';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import {
   useDeleteProduction,
@@ -17,6 +16,9 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { SIZES } from '../../theme/Constants';
 import EditProduction from './EditProduction/EditProduction';
+import useFilterOptions from '../../app/hooks/useFilterOption';
+import { isClosed } from '../../app/utils/status';
+import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -32,12 +34,15 @@ const TableMenuProduction = ({
   disableEdit = false,
 }: Props) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const storeFilterAndNavigate = useStoreFilterAndNavigate();
   const { handleModal, close } = useContext(ModalContext);
+  const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
     useAuthorizedSee('price-calculation') &&
     !!production?.released &&
     !!productDevelopment?.no;
+  const isPDClosed =
+    productDevelopment?.status && isClosed(productDevelopment?.status);
 
   const { mutate: deleteProduction, isSuccess } = useDeleteProduction();
   const { mutate: releaseForSales } = useReleaseForSales(
@@ -61,6 +66,17 @@ const TableMenuProduction = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
+
+  const navigateToPriceCalculation = () => {
+    storeFilterAndNavigate(
+      `/price-calculations?productDevelopments=${
+        productDevelopment?.no
+      }&vendors=${
+        vendorOptions.find(option => option.label === production?.vendorName)
+          ?.value
+      }${isPDClosed ? `&statuses=${filters?.statuses}` : ''}`
+    );
+  };
 
   return (
     <>
@@ -100,11 +116,7 @@ const TableMenuProduction = ({
 
       {showCalculationLink && (
         <MenuItem
-          onClick={() =>
-            navigate(
-              `/price-calculations?productDevelopments=${productDevelopment?.no}`
-            )
-          }
+          onClick={navigateToPriceCalculation}
           icon={
             <RemixIcon
               component="Text"

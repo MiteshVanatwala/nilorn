@@ -13,6 +13,8 @@ export function useProduction(id: string) {
     () => ProductionsService.getApiProductions(id),
     {
       retry: 0,
+      cacheTime: 10,
+      staleTime: 10,
     }
   );
 }

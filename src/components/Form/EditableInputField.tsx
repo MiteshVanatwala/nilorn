@@ -20,6 +20,7 @@ interface Props extends FormInputProps {
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
   defaultValue?: string | number;
+  value?: string | number;
   variant?: 'standard' | 'light' | 'outline' | 'filled';
   scrolledPast?: boolean;
   isDisabled?: boolean;
@@ -41,6 +42,7 @@ const EditableInputField = ({
   isDisabled = false,
   fontWeight,
   letterSpacing,
+  value,
 }: Props) => {
   const {
     register,
@@ -59,6 +61,7 @@ const EditableInputField = ({
       hideValidationStyle={hideValidationStyle}>
       <Editable
         defaultValue={defaultValue?.toString()}
+        value={value?.toString()}
         isDisabled={isDisabled}
         placeholder={placeholder + (registerOptions?.required ? ' *' : '')}>
         <EditablePreview

@@ -67,19 +67,17 @@ const PriceCalculationForm = ({
   const freightIncluded = freightIncludedValue
     ? Number(freightIncludedValue)
     : 0;
-
-  const margin =
-    isNaN(marginValue) || marginValue === null || marginValue === ''
-      ? null
-      : Number(marginValue);
-  const currencyRate = isNaN(currencyRateValue) ? 0 : Number(currencyRateValue);
+  const margin = marginValue ? Number(marginValue) : null;
+  const currencyRate = currencyRateValue ? Number(currencyRateValue) : 0;
   const internalCommission = internalCommisionValue
     ? Number(internalCommisionValue)
     : 0;
+
   const indirectCost = indirectCostValue ? Number(indirectCostValue) : 0;
 
   useEffect(() => {
     let updatedItems: PriceDto[] = [];
+
     calculationItems?.forEach(item => {
       const initItemMargin =
         calculation?.priceDtos?.find(
@@ -141,9 +139,6 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
             min={0}
-            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
-              min: 0,
-            })}`}
             changelog={internalCommissionChangelog}
           />
         </GridItem>
@@ -154,9 +149,6 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
             min={0}
-            minMessage={`${t('PriceCalc.Feedback.Error.MinToLow', {
-              min: 0,
-            })}`}
             changelog={indirectCostChangelog}
           />
         </GridItem>
@@ -167,6 +159,7 @@ const PriceCalculationForm = ({
             placeholder={`${t('Common.Placeholder')}`}
             readonly={disableEdit}
             changelog={freightIncludedChangelog}
+            min={0}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -183,9 +176,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={2}>
           <InputField
             readonly={true}
-            defaultValue={currency?.code ?? ''}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
-            placeholder={`${t('Common.Placeholder')}`}
             name={'purchaseCurrency'}
           />
         </GridItem>
@@ -215,6 +206,7 @@ const PriceCalculationForm = ({
             readonly={disableEdit}
             required={true}
             changelog={currencyRateChangelog}
+            min={0}
           />
         </GridItem>
         {createNew && (

@@ -12,7 +12,8 @@ export type UmbrellaView =
   | 'sourcing';
 
 export type FilterKey =
-  | keyof GetForFilterProductDevelopmentsWithPaginationQuery;
+  | keyof GetForFilterProductDevelopmentsWithPaginationQuery
+  | 'activeSearchProfileName';
 
 export interface FormInputProps {
   name: string;

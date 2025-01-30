@@ -26,6 +26,7 @@ const useModalFormHelper = (
     proceedBlocker,
     setBlocked: setBlockedRoute,
     resetBlocker,
+    setBlocked,
   } = useModalNavigationBlocker(true);
 
   const { close, setPreventClose } = useContext(ModalContext);
@@ -46,12 +47,16 @@ const useModalFormHelper = (
 
   useEffect(() => {
     if (isBlocked && hasUnsavedChanges()) {
-      openLeavePageModal();
+      if (!isLeavePageModalOpen) {
+        openLeavePageModal();
+        setBlocked(false);
+      }
     } else if (isBlocked) {
       proceedBlocker();
       close();
       setBlockedRoute(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     close,
     hasUnsavedChanges,
@@ -63,10 +68,17 @@ const useModalFormHelper = (
 
   useEffect(() => {
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (hasUnsavedChanges() && e.key === 'Escape') {
-        if (!isLeavePageModalOpen) openLeavePageModal();
-        else setLeavePageModalOpen(false);
-        setPendingNavId(undefined);
+      if (e.key === 'Escape') {
+        if (hasUnsavedChanges()) {
+          if (!isLeavePageModalOpen) {
+            openLeavePageModal();
+          } else {
+            setLeavePageModalOpen(false);
+          }
+          setPendingNavId(undefined);
+        } else {
+          close();
+        }
       }
     };
 
@@ -104,19 +116,16 @@ const useModalFormHelper = (
     }
   };
 
-  useEffect(() => {
-    setPendingNavId(undefined);
-  }, [activeNavId]);
-
   const onConfirm = () => {
     setPreventClose(false);
     setLeavePageModalOpen(false);
     discardChanges();
+    proceedBlocker();
     if (pendingNavId) {
       setActiveNavId(pendingNavId);
+      modalRef.current?.onClose();
     } else {
       close();
-      proceedBlocker();
     }
   };
 

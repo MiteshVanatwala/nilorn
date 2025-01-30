@@ -1,5 +1,5 @@
-import { Box, Button, HStack, Skeleton } from '@chakra-ui/react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Box, HStack, Skeleton } from '@chakra-ui/react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,8 +14,6 @@ import { useGetVendors } from '../../../app/api/vendors';
 import { ModalContext } from '../../../app/context/ModalContext';
 import {
   ChangelogType,
-  ProductionDto,
-  ProductionExtendedDto,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../../app/generate';
 import { useToggleChangelog } from '../../../app/hooks/useChangelog';
@@ -24,15 +22,15 @@ import { mapVendorsToOptions } from '../../../app/hooks/useFilterOption';
 import useModalFormHelper from '../../../app/hooks/useModalFormHelper';
 import { SelectOption } from '../../../app/types/types';
 import { isClosed } from '../../../app/utils/status';
-import RemixIcon from '../../../components/Icon/RemixIcon';
 import ProductDevelopmentModalTopSection from '../../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import SpinnerOverlay from '../../../components/Spinner/SpinnerOverlay';
-import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
+import { SIZES, SPACE } from '../../../theme/Constants';
 import CertificateSection from '../CertificatesSection/CertificatesSection';
 import CompositionMaterialSection from '../CompositionMaterial/CompositionMaterialSection';
 import ActionBarEditProduction from './ActionBarEditProduction';
 import EditProductionFormContent from './EditProductionFormContent';
 import Form from '../../../components/Form/Form';
+import ArrowLink from '../../../components/Link/ArrowLink';
 
 type Props = {
   productionId: string;
@@ -47,7 +45,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
     deleteModal,
     isOpen: isDeleteModalOpen,
     setOpen: setDeleteModalOpen,
-  } = useDeleteModal(outsideRef, deleteProductionFunc);
+  } = useDeleteModal(outsideRef, handleDeleteProduction);
 
   const {
     activeNavId: activeProductionId,
@@ -77,14 +75,6 @@ const EditProduction = ({ productionId, filters }: Props) => {
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     productionExt || {};
 
-  const production = useMemo(() => {
-    const newProduction: Omit<
-      ProductionExtendedDto,
-      'productDevelopmentDataDto' | 'sourcingCompanyCode'
-    > = productionExt || {};
-    return newProduction as ProductionDto;
-  }, [productionExt]);
-
   const [disableEdit, setDisableEdit] = useState<boolean>(false);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRODUCTION,
@@ -98,18 +88,18 @@ const EditProduction = ({ productionId, filters }: Props) => {
 
   useEffect(() => {
     setDisableEdit(
-      production?.released ||
+      productionExt?.released ||
         (productDevelopmentDataDto?.status
           ? isClosed(productDevelopmentDataDto?.status!!)
           : false)
     );
-  }, [productDevelopmentDataDto?.status, production?.released]);
+  }, [productDevelopmentDataDto?.status, productionExt?.released]);
 
   useEffect(() => {
-    if (production) {
-      form.reset({ ...production });
+    if (productionExt) {
+      form.reset({ ...productionExt });
     }
-  }, [production, form]);
+  }, [productionExt, form]);
 
   useEffect(() => {
     if (vendors) {
@@ -131,8 +121,8 @@ const EditProduction = ({ productionId, filters }: Props) => {
     });
   }
 
-  function deleteProductionFunc() {
-    deleteProduction({ id: production?.id ?? '' });
+  function handleDeleteProduction() {
+    deleteProduction({ id: productionExt?.id ?? '' });
   }
 
   const openDeleteModal = () => {
@@ -141,9 +131,11 @@ const EditProduction = ({ productionId, filters }: Props) => {
 
   useEffect(() => {
     if (isSuccessDelete) {
+      setDirty(false);
       close();
       setDeleteModalOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
 
   return (
@@ -165,22 +157,25 @@ const EditProduction = ({ productionId, filters }: Props) => {
               actionBar={
                 <ActionBarEditProduction
                   handleDelete={openDeleteModal}
-                  production={production}
+                  production={productionExt}
                   artwork={productDevelopmentDataDto?.artwork}
                   showChanges={showChanges}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
-                  disableEdit={production?.released}
+                  disableEdit={productionExt?.released}
                   status={productDevelopmentDataDto?.status}
                   createNew={false}
                   productDevelopmentNo={productDevelopmentDataDto?.no}
+                  isDirty={form.formState.isDirty}
+                  submitForm={form.handleSubmit(submitForm)}
                 />
               }
             />
             <Skeleton isLoaded={!isLoading && !isRefetching}>
               <EditProductionFormContent
+                key={productionExt?.id}
                 productDevelopment={productDevelopmentDataDto}
                 createNew={false}
-                production={production}
+                production={productionExt}
                 showChanges={showChanges}
                 disableEdit={disableEdit}
               />
@@ -202,26 +197,22 @@ const EditProduction = ({ productionId, filters }: Props) => {
           </Form>
         </FormProvider>
         <HStack justify={'space-between'} py={SPACE.XL}>
-          <Button
-            color={COLORS.BLACK}
-            variant={'link'}
-            leftIcon={<RemixIcon component="i" icon="ARROW_LEFT_LINE" />}
-            isDisabled={!productionNavigation?.previous}
+          <ArrowLink
+            direction={'left'}
             onClick={() => {
               onNavigate(productionNavigation?.previous ?? '');
-            }}>
-            {t('Common.Previous')}
-          </Button>
-          <Button
-            color={COLORS.BLACK}
-            variant={'link'}
-            rightIcon={<RemixIcon component="i" icon="ARROW_RIGHT_LINE" />}
-            isDisabled={!productionNavigation?.next}
+            }}
+            isDisabled={!productionNavigation?.previous}>
+            <>{t('Common.Previous')}</>
+          </ArrowLink>
+          <ArrowLink
+            direction={'right'}
             onClick={() => {
               onNavigate(productionNavigation?.next ?? '');
-            }}>
-            {t('Common.Next')}
-          </Button>
+            }}
+            isDisabled={!productionNavigation?.next}>
+            <>{t('Common.Next')}</>
+          </ArrowLink>
         </HStack>
       </Box>
     </>

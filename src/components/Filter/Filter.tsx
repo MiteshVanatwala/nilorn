@@ -4,6 +4,7 @@ import InputSearch from '../Form/InputSearch';
 import { useTranslation } from 'react-i18next';
 import InputSwitch from './InputSwitch';
 import { FilterInput } from '../../app/types/types';
+import { SEARCH_QUERY } from '../../app/utils/constant';
 
 type Props = {
   hasSearch?: boolean;
@@ -36,7 +37,7 @@ const Filter = ({ hasSearch, filterInputs, wideFilter }: Props) => {
           <InputSearch
             label={t('Filter.Search')}
             placeholder={t(`Filter.SearchPlaceholder`)}
-            name="searchQuery"
+            name={SEARCH_QUERY}
             variant="filled"
           />
         </GridItem>

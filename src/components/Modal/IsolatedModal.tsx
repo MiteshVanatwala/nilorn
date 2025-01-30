@@ -16,6 +16,7 @@ type Props = {
   confirmType?: 'PRIMARY' | 'DELETE';
   cancelText?: string;
   confirmText?: string;
+  isConfirmLoading?: boolean;
 };
 
 const IsolatedModal = forwardRef<ModalRef, Props>(
@@ -28,6 +29,7 @@ const IsolatedModal = forwardRef<ModalRef, Props>(
       confirmType = 'PRIMARY',
       cancelText,
       confirmText,
+      isConfirmLoading,
     },
     ref
   ) => {
@@ -39,7 +41,11 @@ const IsolatedModal = forwardRef<ModalRef, Props>(
     }));
 
     return (
-      <Modal isOpen={isOpen} close={onClose} onOverlayClick={onCancel}>
+      <Modal
+        isOpen={isOpen}
+        close={onClose}
+        onOverlayClick={onCancel}
+        className="exit-confirmation-modal">
         <ConfirmModal
           title={title}
           description={description}
@@ -53,6 +59,7 @@ const IsolatedModal = forwardRef<ModalRef, Props>(
           confirmType={confirmType}
           cancelText={cancelText}
           confirmText={confirmText}
+          isConfirmLoading={isConfirmLoading}
         />
       </Modal>
     );

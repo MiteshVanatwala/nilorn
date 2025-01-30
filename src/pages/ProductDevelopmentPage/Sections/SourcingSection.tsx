@@ -104,7 +104,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
                     ...accordionIndex,
                     accordionIndex.length
                       ? accordionIndex[accordionIndex.length - 1] + 1
-                      : 0,
+                      : sourcings.length,
                   ]);
                 }}
                 value={selected}

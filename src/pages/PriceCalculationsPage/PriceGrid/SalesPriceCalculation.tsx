@@ -17,6 +17,7 @@ type Props = {
   salesPrice: number;
   margin: number;
   onCalculationChange: (
+    isValid: boolean,
     newMargin: number,
     newSalesPrice: number,
     salesPriceId: string
@@ -34,7 +35,15 @@ const SalesPriceCalculation = ({
   onCalculationChange,
   disableEdit = false,
 }: Props) => {
-  const changeMargin = (newMargin: number) => {
+  const changeMargin = (newMarginValue: number, isValid: boolean) => {
+    let isInputValid = isValid;
+    let newMargin = newMarginValue;
+
+    if (newMarginValue > MAX_MARGIN) {
+      newMargin = MAX_MARGIN;
+      isInputValid = true;
+    }
+
     if (newMargin === margin) {
       return;
     }
@@ -45,10 +54,15 @@ const SalesPriceCalculation = ({
       newMargin
     );
 
-    onCalculationChange(newMargin, newSalesPrice ?? 0, salesPriceId);
+    onCalculationChange(
+      isInputValid,
+      newMargin,
+      newSalesPrice ?? 0,
+      salesPriceId
+    );
   };
 
-  const changeSalesPrice = (newPrice: number) => {
+  const changeSalesPrice = (newPrice: number, isValid: boolean) => {
     if (newPrice === salesPrice) {
       return;
     }
@@ -59,7 +73,7 @@ const SalesPriceCalculation = ({
       calculation.freightIncluded ?? 0
     );
 
-    onCalculationChange(newMargin ?? 0, newPrice, salesPriceId);
+    onCalculationChange(isValid, newMargin ?? 0, newPrice, salesPriceId);
   };
 
   return (
@@ -72,11 +86,7 @@ const SalesPriceCalculation = ({
       <GridTd>
         <>
           {enableEdit ? (
-            <PriceGridInput
-              onChange={changeMargin}
-              value={margin}
-              max={MAX_MARGIN}
-            />
+            <PriceGridInput onChange={changeMargin} value={margin} max={100} />
           ) : (
             <>
               {numToThousandSeparatedsStr(
