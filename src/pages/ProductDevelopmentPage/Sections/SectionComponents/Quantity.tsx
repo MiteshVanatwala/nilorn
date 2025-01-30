@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { uniqueInArray } from '../../../../app/utils/common';
+import { generateUniqueKey, uniqueInArray } from '../../../../app/utils/common';
 import FormattedNumberInputField from '../../../../components/Form/FormattedNumberInputField';
 import RemixIcon from '../../../../components/Icon/RemixIcon';
 import { GRID, SPACE } from '../../../../theme/Constants';
@@ -25,8 +25,8 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const FORM_KEY = `${formKey}.quantities`;
 
   const { t } = useTranslation();
-  const { control, getValues } = useFormContext();
-  const { append, remove } = useFieldArray({
+  const { control, getValues, setValue } = useFormContext();
+  const { append } = useFieldArray({
     control,
     name: FORM_KEY,
   });
@@ -34,6 +34,12 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const validateUniqueValues = (value: number, index: number) => {
     const values = getValues(FORM_KEY) as number[];
     return uniqueInArray(value, index, values) || t('Errors.UniqueValue');
+  };
+
+  const remove = (index: number) => {
+    const values = getValues(FORM_KEY) as number[];
+    values.splice(index, 1);
+    setValue(FORM_KEY, values);
   };
 
   return (
@@ -47,7 +53,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
-              <Box key={item} position={'relative'}>
+              <Box key={generateUniqueKey(`${index}`)} position={'relative'}>
                 <HStack w="80%">
                   <FormattedNumberInputField
                     placeholder={`${t('Common.Placeholder')}`}
