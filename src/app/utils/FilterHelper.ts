@@ -198,14 +198,14 @@ export function useClearAllFilters() {
     const allFilters = getValues();
     const pageSize = getValues(PAGE_SIZE);
     const activeAdvancedFilterArr: {
-      [key: string]: undefined;
+      [key: string]: null;
     } = {};
     Object.entries(allFilters ?? {}).forEach(([key]) => {
-      activeAdvancedFilterArr[key] = undefined;
+      activeAdvancedFilterArr[key] = null;
     });
     reset({
-      [PAGE_SIZE]: pageSize,
       ...activeAdvancedFilterArr,
+      [PAGE_SIZE]: pageSize,
     });
     const storedFilter = getCurrentStoredFilter();
     sessionStorage.setItem(storedFilter, '');
