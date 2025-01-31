@@ -220,6 +220,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           px: SPACE.XS,
           py: SPACE.XXS,
           wordWrap: 'break-word',
+          minWidth: 'fit-content',
+          wordBreak: 'break-word',
           '&:hover': {
             backgroundColor: COLORS.GRAY[20],
           },
