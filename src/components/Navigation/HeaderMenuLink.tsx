@@ -7,13 +7,8 @@ interface ButtonProps {
 
 const HeaderMenuButton = ({ children, onClick: onClickFunc }: ButtonProps) => {
   return (
-    <MenuItem as={'div'} p={'0'}>
-      <LinkComponent
-        onClick={onClickFunc}
-        as={'button'}
-        variant="headerMenuButton">
-        {children}
-      </LinkComponent>
+    <MenuItem as={'div'} p={'0'} onClick={onClickFunc}>
+      <LinkComponent variant="headerMenuButton">{children}</LinkComponent>
     </MenuItem>
   );
 };
