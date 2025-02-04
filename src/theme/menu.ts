@@ -12,6 +12,18 @@ const baseStyle = definePartsStyle({
     bg: COLORS.WHITE,
   },
   item: {
+    bg: COLORS.WHITE,
+    color: COLORS.BLACK,
+    _hover: {
+      bg: COLORS.GRAY[5],
+    },
+    _focus: { bg: COLORS.GRAY[5] },
+  },
+});
+
+const headerMenu = definePartsStyle({
+  ...baseStyle,
+  item: {
     ...text.variants.bodyBlack,
     backgroundColor: COLORS.GRAY[5],
     px: SPACE.LG,
@@ -31,6 +43,7 @@ const baseStyle = definePartsStyle({
 });
 
 export const menu = defineMultiStyleConfig({
+  variants: { headerMenu },
   defaultProps: {},
   baseStyle,
 });
