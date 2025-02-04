@@ -11,6 +11,7 @@ import FormattedNumberInputField from '../../../components/Form/FormattedNumberI
 import SelectBase from '../../../components/Form/SelectBase';
 import RemixIcon from '../../../components/Icon/RemixIcon';
 import { useMemo } from 'react';
+import { useSelectedOption } from '../../../app/hooks/useSelectedOption';
 
 type Props = {
   options: SelectOption[];
@@ -65,6 +66,7 @@ const CertificateInputRow = ({
   const isLoading = useMemo(() => {
     return categoriesIsLoading || classesIsLoading;
   }, [categoriesIsLoading, classesIsLoading]);
+
   const onChangeCode = (newValue: SelectOption) => {
     clearErrors(`${fieldName}.${index}`);
     setValue(certificateCodeName, newValue.value);
@@ -82,6 +84,16 @@ const CertificateInputRow = ({
     setValue(certificateClassName, newValue.value);
   };
 
+  const selectedCodeOption = useSelectedOption(
+    options,
+    selectedCertificateCode
+  );
+  const selectedCategoryOption = useSelectedOption(
+    categoryOptions,
+    selectedCategory
+  );
+  const selectedClassOption = useSelectedOption(classOptions, selectedClass);
+
   return (
     <>
       <GridItem>
@@ -97,13 +109,12 @@ const CertificateInputRow = ({
               render={() => (
                 <SelectBase
                   isSearchable
+                  isControlled
                   autoFocus={focusOnMount}
                   name={certificateCodeName}
                   options={unselectedOptions}
                   onChange={onChangeCode}
-                  value={options.find(
-                    opt => opt.value === selectedCertificateCode
-                  )}
+                  value={selectedCodeOption}
                   readOnly={disableEdit}
                 />
               )}
@@ -114,13 +125,14 @@ const CertificateInputRow = ({
       <GridItem>
         <SelectBase
           isSearchable
+          isControlled
           isDisabled={
             !selectedCertificateCode || !categoryOptions || categoriesIsLoading
           }
           name={certificateCategoryName}
           options={categoryOptions}
           onChange={onChangeCategory}
-          value={categoryOptions?.find(opt => opt.value === selectedCategory)}
+          value={selectedCategoryOption}
           readOnly={disableEdit}
         />
       </GridItem>
@@ -133,7 +145,7 @@ const CertificateInputRow = ({
           name={certificateClassName}
           options={classOptions}
           onChange={onChangeClass}
-          value={classOptions?.find(opt => opt.value === selectedClass)}
+          value={selectedClassOption}
           readOnly={disableEdit}
         />
       </GridItem>
