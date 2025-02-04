@@ -154,7 +154,9 @@ function PriceGridRow({
         vendorOptions.find(option => option.label === production.vendorName)
           ?.value
       }&productDevelopments=${productDevelopment?.no}${
-        isPDClosed ? `&statuses=${filters?.statuses}` : ''
+        isPDClosed
+          ? `&statuses=${filters?.statuses || productDevelopment?.status}`
+          : ''
       }`
     );
   };

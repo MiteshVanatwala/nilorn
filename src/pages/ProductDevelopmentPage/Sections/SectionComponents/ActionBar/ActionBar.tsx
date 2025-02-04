@@ -200,9 +200,9 @@ const ActionBar = ({
             {showCalculation && hasPriceCalculation && (
               <MenuItem
                 as={NavLink}
-                to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1&statuses=${getValues(
-                  'status'
-                )}`}
+                to={`/price-calculations?productDevelopments=${no}&pageSize=25&pageNumber=1${
+                  isClosed(currentStatus) ? `&statuses=${currentStatus}` : ''
+                }`}
                 icon={
                   <RemixIcon
                     component="Text"
