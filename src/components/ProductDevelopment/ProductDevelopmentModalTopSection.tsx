@@ -7,10 +7,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { ProductDevelopmentDataDto } from '../../app/generate';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
-import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
-import { SESSION_STORAGE } from '../../app/utils/constant';
 import { isClosed } from '../../app/utils/status';
 import text from '../../theme/text';
+import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -27,12 +26,11 @@ const ProductDevelopmentModalTopSection = ({
   const location = useLocation();
   const vendorOptions = useFilterOptions('vendors');
 
+  const { storeFilter, storeBackLink } = useStoreFilterAndNavigate();
+
   const handleClick = () => {
-    const path = window.location.pathname ?? '/';
-    const search = window.location.search;
-    const storedFilter = getCurrentStoredFilter();
-    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
-    sessionStorage.setItem(storedFilter, search);
+    storeBackLink();
+    storeFilter();
   };
 
   return (

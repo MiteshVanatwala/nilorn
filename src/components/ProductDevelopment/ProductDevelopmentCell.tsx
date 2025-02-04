@@ -4,7 +4,6 @@ import { ProductDevelopmentDataDto, Status } from '../../app/generate';
 import { SPACE } from '../../theme/Constants';
 import ArtworkButton from '../Button/ArtworkButton';
 import { MouseEvent, useEffect, useRef } from 'react';
-import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
 
@@ -18,7 +17,7 @@ const ProductDevelopmentCell = ({
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
   const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
-  const storeFilterAndNavigate = useStoreFilterAndNavigate();
+  const { storeFilterAndNavigate, storeBackLink } = useStoreFilterAndNavigate();
 
   useEffect(() => {
     if (!!ref?.current && no && no === lastVisitedPD) {
@@ -34,10 +33,7 @@ const ProductDevelopmentCell = ({
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>, url: string) => {
     e.stopPropagation();
-    const path = window.location.pathname ?? '/';
-    const search = window.location.search;
-
-    sessionStorage.setItem(SESSION_STORAGE.BACK_LINK, path + search);
+    storeBackLink();
     storeFilterAndNavigate(url);
   };
 

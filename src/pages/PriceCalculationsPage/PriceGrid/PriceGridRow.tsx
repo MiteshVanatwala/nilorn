@@ -59,7 +59,7 @@ function PriceGridRow({
   const queryClient = useQueryClient();
   const isPDClosed =
     productDevelopment?.status && isClosed(productDevelopment?.status);
-  const storeFilterAndNavigate = useStoreFilterAndNavigate();
+  const { storeFilterAndNavigate } = useStoreFilterAndNavigate();
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
