@@ -40,7 +40,9 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const remove = (index: number) => {
     const values = getValues(FORM_KEY) as number[];
     values.splice(index, 1);
-    setValue(FORM_KEY, values);
+    setValue(FORM_KEY, values, {
+      shouldDirty: true,
+    });
   };
 
   return (
