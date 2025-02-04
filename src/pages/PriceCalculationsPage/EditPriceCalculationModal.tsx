@@ -14,7 +14,7 @@ import {
   usePriceCalculation,
   usePriceCalculationNavigation,
 } from '../../app/api/calculation';
-import { useContext, useEffect, useMemo, useRef } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import { useTranslation } from 'react-i18next';
@@ -24,21 +24,19 @@ import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import ArrowLink from '../../components/Link/ArrowLink';
+import { isClosed } from '../../app/utils/status';
 
 type Props = {
   calculationId: string;
   filters: ServerFilter;
-  disableEdit?: boolean;
 };
 
-const EditPriceCalculationModal = ({
-  calculationId,
-  filters,
-  disableEdit = false,
-}: Props) => {
+const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm({ mode: 'onChange' });
+  const [disableEdit, setDisableEdit] = useState<boolean>(false);
+
   const {
     deleteModal,
     isOpen: isDeleteModalOpen,
@@ -62,6 +60,9 @@ const EditPriceCalculationModal = ({
     isLoading,
     isRefetching,
   } = usePriceCalculation(activeCalculationId);
+
+  const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
+    priceCalculation || {};
 
   const { mutate: updateCalculation } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
@@ -125,8 +126,16 @@ const EditPriceCalculationModal = ({
       close();
       setDeleteModalOpen(false);
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
+
+  useEffect(() => {
+    setDisableEdit(
+      productDevelopmentDataDto?.status
+        ? isClosed(productDevelopmentDataDto?.status)
+        : false
+    );
+  }, [productDevelopmentDataDto?.status]);
 
   return (
     <>
@@ -137,13 +146,13 @@ const EditPriceCalculationModal = ({
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
-              productDevelopment={priceCalculation?.productDevelopmentDataDto}
-              sourcingCompanyCode={priceCalculation?.sourcingCompanyCode}
-              vendorName={priceCalculation?.vendorName}
+              productDevelopment={productDevelopmentDataDto}
+              sourcingCompanyCode={sourcingCompanyCode}
+              vendorName={vendorName}
               actionBar={
                 <PriceCalculationActionBar
                   handleDelete={openDeleteModal}
-                  artwork={priceCalculation?.productDevelopmentDataDto?.artwork}
+                  artwork={productDevelopmentDataDto?.artwork}
                   createNew={false}
                   lastModified={priceCalculation?.lastModified ?? ''}
                   showChanges={showChanges}
