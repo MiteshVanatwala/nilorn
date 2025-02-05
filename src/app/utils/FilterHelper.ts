@@ -5,6 +5,7 @@ import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
 import {
   INCLUDE_CLOSED,
+  PAGE_NUMBER,
   PAGE_SIZE,
   SEARCH_QUERY,
   SESSION_STORAGE,
@@ -198,13 +199,30 @@ export function useClearAllFilters() {
     const allFilters = getValues();
     const pageSize = getValues(PAGE_SIZE);
     const activeAdvancedFilterArr: {
-      [key: string]: null;
+      [key: string]: undefined;
     } = {};
     Object.entries(allFilters ?? {}).forEach(([key]) => {
-      activeAdvancedFilterArr[key] = null;
+      activeAdvancedFilterArr[key] = undefined;
     });
+
+    const activeAdvancedFilterArrWithString: {
+      [key: string]: null;
+    } = {};
+    [
+      'finishedHeights',
+      'finishedLengths',
+      'finishedWidths',
+      'productDevelopments',
+      'indirectCosts',
+    ].forEach(element => {
+      if (allFilters.hasOwnProperty(element))
+        activeAdvancedFilterArrWithString[element] = null;
+    });
+
     reset({
       ...activeAdvancedFilterArr,
+      ...activeAdvancedFilterArrWithString,
+      [PAGE_NUMBER]: 1,
       [PAGE_SIZE]: pageSize,
     });
     const storedFilter = getCurrentStoredFilter();

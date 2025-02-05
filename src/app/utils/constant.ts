@@ -14,6 +14,7 @@ export const ARTWORK_FILE_TYPE = 'application/pdf';
 export const INCLUDE_CLOSED = 'includeClosed';
 export const SEARCH_QUERY = 'searchQuery';
 export const PAGE_SIZE = 'pageSize';
+export const PAGE_NUMBER = 'pageNumber';
 
 export const READ_ONLY_OPACITY = '70%';
 
