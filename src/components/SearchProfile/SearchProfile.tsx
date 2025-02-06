@@ -17,7 +17,7 @@ import { ACTIVE_SEARCH_PROFILE_NAME } from '../../app/utils/constant';
 const SearchProfile = () => {
   const { handleModal } = useModal();
   const { t } = useTranslation();
-  const [selected, setSelected] = useState<SelectOption<string> | undefined>();
+  const [selected, setSelected] = useState<SelectOption<string> | null>();
   const {
     formState: { isDirty },
   } = useFormContext();
@@ -51,7 +51,7 @@ const SearchProfile = () => {
   useEffect(() => {
     setSelected(
       (data?.find(c => c.label === activeSearchProfileName) as SelectOption) ??
-        undefined
+        null
     );
   }, [data, activeSearchProfileName]);
 
