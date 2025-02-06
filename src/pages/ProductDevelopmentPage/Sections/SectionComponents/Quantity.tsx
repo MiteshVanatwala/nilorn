@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { generateUniqueKey, uniqueInArray } from '../../../../app/utils/common';
+import { uniqueInArray } from '../../../../app/utils/common';
 import FormattedNumberInputField from '../../../../components/Form/FormattedNumberInputField';
 import RemixIcon from '../../../../components/Icon/RemixIcon';
 import { GRID, SPACE } from '../../../../theme/Constants';
@@ -40,7 +40,9 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
   const remove = (index: number) => {
     const values = getValues(FORM_KEY) as number[];
     values.splice(index, 1);
-    setValue(FORM_KEY, values);
+    setValue(FORM_KEY, values, {
+      shouldDirty: true,
+    });
   };
 
   return (
@@ -54,7 +56,7 @@ const Quantity = ({ formKey, disableEdit, focusOnAdd = false }: Props) => {
         <VStack gap={SPACE.XXS} alignItems={'baseline'}>
           {fields.map((item, index) => {
             return (
-              <Box key={generateUniqueKey(`${index}`)} position={'relative'}>
+              <Box key={`${item}_${index}`} position={'relative'}>
                 <HStack w="80%">
                   <FormattedNumberInputField
                     placeholder={`${t('Common.Placeholder')}`}
