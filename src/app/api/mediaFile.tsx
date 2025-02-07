@@ -62,12 +62,25 @@ export const useUploadFile = (
         }
       },
       onError: async (_, { file }) => {
-        showToast({
-          status: 'error',
-          description: t('PD.File.Feedback.Error.FileUpdated', {
-            name: file?.name,
-          }),
-        });
+        if (
+          (_ as any).body?.indexOf(
+            'File location has not been entered on Project or Client.'
+          ) > 0
+        ) {
+          showToast({
+            status: 'error',
+            description: t('File cannot be uploaded. File location has not been entered on Project or client.', {
+              name: file?.name,
+            }),
+          });
+        } else {
+          showToast({
+            status: 'error',
+            description: t('PD.File.Feedback.Error.FileUpdated', {
+              name: file?.name,
+            }),
+          });
+        }
       },
       retry: 0,
     }
