@@ -34,9 +34,9 @@ const TablePagination = ({
   const rangeEnd = rangeStart + (rangeLength - 1);
 
   useEffect(() => {
-    setRangeStart(
-      Math.ceil(currentPage / rangeLength) * rangeLength - rangeLength + 1
-    );
+    if (currentPage > rangeEnd) {
+      setRangeStart(currentPage);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, totalNumPages]);
 
@@ -146,7 +146,7 @@ const TablePagination = ({
 
           <PaginationButton
             onClick={() => {
-              if (currentPage !== rangeEnd) {
+              if (currentPage !== totalNumPages) {
                 nextHandler();
                 if (currentPage === rangeEnd) moveRangeHigher();
               }
