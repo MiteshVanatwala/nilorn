@@ -51,49 +51,58 @@ const PriceCalculationsTable = ({ data }: Props) => {
     const selectedIds = Object.entries(selectedPrices)
       .filter(([_, isSelected]) => isSelected)
       .map(([id]) => id);
-
+  
     const excelExportOptions = selectedIds.map(id => ({
-      priceCalculationId: id,
-      valid: true,
-      included: true,
-      no: true,
-      name: true,
-      itemNo: true,
-      description: true,
-      version: true,
-      quantity: true,
-      certificate: true,
-      salesPrice: true,
-      salesCurrency: true,
-      purchaseCurrency: true,
-      purchasePrice: true,
-      moq: true
+      PriceCalculationId: id,
+      Valid: true,
+      Included: true,
+      No: true,
+      Name: true,
+      ThumbnailData: true,
+      ItemNo: true,
+      Description: true,
+      Version: true,
+      Quantity: true,
+      Certificate: true,
+      SalesPrice: true,
+      SalesCurrency: true,
+      PurchaseCurrency: true,
+      PurchasePrice: true,
+      MOQ: true
     }));
 
+    console.log('Data to send to endpoint:', JSON.stringify(excelExportOptions, null, 2)); /*SHOULD IT BE , null, 2 ?????*/ 
+
     try {
-      const response = await fetch('/api/pricecalculations/GetExcel', {
+      const response = await fetch('/api/GetExcel', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(excelExportOptions)
+        body: JSON.stringify(excelExportOptions),
+        // Add this for development only
+        ...(process.env.NODE_ENV === 'development' && {
+          rejectUnauthorized: false
+        })
       });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'price-calculations.xlsx';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        console.error('Export failed');
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'price-calculations.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+  
     } catch (error) {
-      console.error('Export error:', error);
+      console.error('Export failed:', error);
+      // Add proper error handling here
     }
   };
 
@@ -107,10 +116,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
       >
         {t('Export Selected')}
       </Button>
-      
-      <GridTable
-        gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
-          
+
+      <GridTable gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
         <GridTh colSpan={PD_COL_SPAN}>
           {t('Production.ProductDevelopments')}
         </GridTh>
@@ -127,16 +134,16 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
         <GridTh />
-        
+
         <Fragment>
-        {data.map((p, i) => (
-          <PriceCalculationsTableRow 
-            key={i} 
-            productDevelopment={p}
-            selectedPrices={selectedPrices}
-            setSelectedPrices={setSelectedPrices}
-          />
-        ))}
+          {data.map((p, i) => (
+            <PriceCalculationsTableRow
+              key={i}
+              productDevelopment={p}
+              selectedPrices={selectedPrices}
+              setSelectedPrices={setSelectedPrices}
+            />
+          ))}
         </Fragment>
       </GridTable>
     </>

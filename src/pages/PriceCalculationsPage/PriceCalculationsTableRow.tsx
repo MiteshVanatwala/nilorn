@@ -5,7 +5,7 @@ import {
   GridTd,
 } from '../../components/GridTable/GridTableElements';
 import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
-import { GridItem, Checkbox } from '@chakra-ui/react';
+import { GridItem, Checkbox, Box } from '@chakra-ui/react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import PriceGridRow from './PriceGrid/PriceGridRow';
 import {
@@ -30,49 +30,58 @@ const PriceCalculationsTableRow = ({
   selectedPrices,
   setSelectedPrices
 }: Props) => {
-  const handleCheckboxChange = (productionId: string) => {
+  const handleCheckboxChange = (priceCalculationId: string) => {
+    console.log('Checkbox clicked for priceCalculationId:', priceCalculationId);
+    
     setSelectedPrices((prev: SelectedPrices) => {
-      const isChecked = !prev[productionId];
+      const isChecked = !prev[priceCalculationId];
 
-      // Log only when the checkbox is checked
       if (isChecked) {
-        console.log(`Checkbox checked for productionId: ${productionId}`);
+        console.log(`Checkbox checked for priceCalculationId: ${priceCalculationId}`);
       }
 
       return {
         ...prev,
-        [productionId]: isChecked
+        [priceCalculationId]: isChecked
       };
     });
   };
 
   const renderCheckboxes = (): ReactElement[] => {
     const checkboxes: ReactElement[] = [];
-    
+
     p.sourcedProductions?.forEach(s => {
       s.productions?.forEach(production => {
-        if (production.id) {
+        const priceCalculation = production.priceCalculations?.[0];
+
+        console.log('Production:', production);
+        console.log('First priceCalculation:', priceCalculation);
+        console.log('Extracted ID:', priceCalculation?.id);
+
+        if (priceCalculation?.id) {
           checkboxes.push(
             <Checkbox
-              key={production.id}
-              isChecked={selectedPrices[production.id] || false}
-              onChange={() => handleCheckboxChange(production.id || "")}
+              key={priceCalculation.id}
+              isChecked={selectedPrices[priceCalculation.id] || false}
+              onChange={() => handleCheckboxChange(priceCalculation.id || "")}
             />
           );
         }
       });
     });
 
-    return checkboxes.length > 0 ? checkboxes : [<span key="no-checkboxes">No checkboxes available</span>];
+    return checkboxes.length > 0
+      ? checkboxes
+      : [<span key="no-checkboxes"></span>];
   };
 
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
       <GridTd colSpan={PD_COL_SPAN}>
-        <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
-      </GridTd>
-      <GridTd colSpan={1}>
-        <Fragment>{renderCheckboxes()}</Fragment>
+        <Box display="flex" flexDirection="column" alignItems="flex-start">
+          <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
+          <Box mt={2}>{renderCheckboxes()}</Box>
+        </Box>
       </GridTd>
       <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
       <GridItem colSpan={VENDOR_ROW_SPAN + SOURCING_COL_SPAN}>
