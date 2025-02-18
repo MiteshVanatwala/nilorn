@@ -12,7 +12,7 @@ export function useDownloadFile() {
   const downloadFile = async (
     url: string,
     fileName: string,
-    method: 'GET' | 'POST' = 'GET',
+    method: 'GET' | 'POST' | 'PUT' = 'GET',
     body: any = {}
   ) => {
     const isPost = method === 'POST';
