@@ -15,7 +15,7 @@ import {
   GRID_LAYOUT_SOURCING_DESKTOP,
   PD_COL_SPAN,
   SOURCING_COL_SPAN,
-  VENDOR_ROW_SPAN
+  VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
 import { SelectedPrices } from './PriceCalculationsTable';
 
@@ -25,62 +25,16 @@ type Props = {
   setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
 };
 
-const PriceCalculationsTableRow = ({ 
+const PriceCalculationsTableRow = ({
   productDevelopment: p,
   selectedPrices,
-  setSelectedPrices
+  setSelectedPrices,
 }: Props) => {
-  const handleCheckboxChange = (priceCalculationId: string) => {
-    console.log('Checkbox clicked for priceCalculationId:', priceCalculationId);
-    
-    setSelectedPrices((prev: SelectedPrices) => {
-      const isChecked = !prev[priceCalculationId];
-
-      if (isChecked) {
-        console.log(`Checkbox checked for priceCalculationId: ${priceCalculationId}`);
-      }
-
-      return {
-        ...prev,
-        [priceCalculationId]: isChecked
-      };
-    });
-  };
-
-  const renderCheckboxes = (): ReactElement[] => {
-    const checkboxes: ReactElement[] = [];
-
-    p.sourcedProductions?.forEach(s => {
-      s.productions?.forEach(production => {
-        const priceCalculation = production.priceCalculations?.[0];
-
-        console.log('Production:', production);
-        console.log('First priceCalculation:', priceCalculation);
-        console.log('Extracted ID:', priceCalculation?.id);
-
-        if (priceCalculation?.id) {
-          checkboxes.push(
-            <Checkbox
-              key={priceCalculation.id}
-              isChecked={selectedPrices[priceCalculation.id] || false}
-              onChange={() => handleCheckboxChange(priceCalculation.id || "")}
-            />
-          );
-        }
-      });
-    });
-
-    return checkboxes.length > 0
-      ? checkboxes
-      : [<span key="no-checkboxes"></span>];
-  };
-
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
       <GridTd colSpan={PD_COL_SPAN}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
-          <Box mt={2}>{renderCheckboxes()}</Box>
         </Box>
       </GridTd>
       <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
@@ -113,6 +67,8 @@ const PriceCalculationsTableRow = ({
                           production={production}
                           sourcedProduction={s}
                           productDevelopment={p.productDevelopmentDataDto}
+                          selectedPrices={selectedPrices}
+                          setSelectedPrices={setSelectedPrices}
                         />
                       </Fragment>
                     ))
