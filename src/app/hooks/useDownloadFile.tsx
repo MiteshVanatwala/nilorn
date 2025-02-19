@@ -15,7 +15,7 @@ export function useDownloadFile() {
     method: 'GET' | 'POST' | 'PUT' = 'GET',
     body: any = {}
   ) => {
-    const isPost = method === 'POST';
+    const isPost = method === 'POST' || 'PUT';
     const header: HeadersInit = {
       ...OpenAPI.HEADERS,
     };
