@@ -123,36 +123,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
     try {
       downloadFile(
-        `${process.env.REACT_APP_API_URL}/api/GetExcel`,
+        `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
         'price-calculations.xlsx',
         'PUT',
         excelExportOptions
       );
-      // const response = await fetch('/api/GetExcel', {
-      //   method: 'PUT',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(excelExportOptions),
-      //   // Add this for development only
-      //   ...(process.env.NODE_ENV === 'development' && {
-      //     rejectUnauthorized: false,
-      //   }),
-      // });
-
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-
-      // const blob = await response.blob();
-      // const url = window.URL.createObjectURL(blob);
-      // const a = document.createElement('a');
-      // a.href = url;
-      // a.download = 'price-calculations.xlsx';
-      // document.body.appendChild(a);
-      // a.click();
-      // window.URL.revokeObjectURL(url);
-      // document.body.removeChild(a);
     } catch (error) {
       console.error('Export failed:', error);
       // Add proper error handling here
@@ -171,28 +146,27 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   return (
     <>
-      <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-        <GridItem>
-          {selectedCheckboxes > 0 && (
+      {selectedCheckboxes > 0 && (
+        <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
+          <GridItem>
             <Text variant={'bodyBold'}>
               {t('Filter.NumSelected', { num: selectedCheckboxes })}
             </Text>
-          )}
-        </GridItem>
+          </GridItem>
 
-        <GridItem textAlign={'right'}>
-          <Button
-            variant={'secondary'}
-            onClick={handleExportClick}
-            mb={4}
-            isDisabled={
-              !Object.values(selectedPrices).some(Boolean) || isLoading
-            }>
-            {t('PriceCalc.ExportSelected')}
-          </Button>
-          {/* <PriceCalculationPageMenu /> */}
-        </GridItem>
-      </Grid>
+          <GridItem textAlign={'right'}>
+            <Button
+              variant={'secondary'}
+              onClick={handleExportClick}
+              mb={4}
+              isDisabled={
+                !Object.values(selectedPrices).some(Boolean) || isLoading
+              }>
+              {t('PriceCalc.ExportSelected')}
+            </Button>
+          </GridItem>
+        </Grid>
+      )}
 
       <GridTable
         gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
