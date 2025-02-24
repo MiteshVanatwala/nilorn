@@ -7,10 +7,10 @@ import {
   GridTable,
 } from '../../components/GridTable/GridTableElements';
 import PriceCalculationsTableRow from './PriceCalculationsTableRow';
-import { Box, Button, Checkbox, Grid, GridItem, Text } from '@chakra-ui/react';
+import { Checkbox, Grid, GridItem, Text } from '@chakra-ui/react';
 import PriceCalculationPageMenu from './PriceCalculationPageMenu';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
-import { GRID, SPACE } from '../../theme/Constants';
+import { SPACE } from '../../theme/Constants';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -116,11 +116,6 @@ const PriceCalculationsTable = ({ data }: Props) => {
       MOQ: true,
     }));
 
-    console.log(
-      'Data to send to endpoint:',
-      JSON.stringify(excelExportOptions, null, 2)
-    ); /*SHOULD IT BE , null, 2 ?????*/
-
     try {
       downloadFile(
         `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
@@ -130,7 +125,6 @@ const PriceCalculationsTable = ({ data }: Props) => {
       );
     } catch (error) {
       console.error('Export failed:', error);
-      // Add proper error handling here
     }
   };
 
@@ -155,15 +149,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
           </GridItem>
 
           <GridItem textAlign={'right'}>
-            <Button
-              variant={'secondary'}
-              onClick={handleExportClick}
-              mb={4}
-              isDisabled={
+            <PriceCalculationPageMenu
+              disabled={
                 !Object.values(selectedPrices).some(Boolean) || isLoading
-              }>
-              {t('PriceCalc.ExportSelected')}
-            </Button>
+              }
+              handleExportClick={handleExportClick}
+            />
           </GridItem>
         </Grid>
       )}
