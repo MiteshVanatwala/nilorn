@@ -142,7 +142,9 @@
           "FileDelete": "Failed to delete file",
           "FileRemoveLink": "Failed to remove link to file",
           "FileDownload": "Failed to download file",
-          "FileUpdated": "Failed to upload file {{name}}"
+          "FileUpdated": "Failed to upload file {{name}}",
+          "FileLocationMissingBackendMessage": "File location has not been entered on Project or Client.",
+          "FileLocationMissing": "File cannot be uploaded. File location has not been entered on Project or client."
         },
         "Info": {
           "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",

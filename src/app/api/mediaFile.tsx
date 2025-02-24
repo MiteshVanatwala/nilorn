@@ -64,12 +64,12 @@ export const useUploadFile = (
       onError: async (_, { file }) => {
         if (
           (_ as any).body?.indexOf(
-            'File location has not been entered on Project or Client.'
+            t('PD.File.Feedback.Error.FileLocationMissingBackendMessage')
           ) > 0
         ) {
           showToast({
             status: 'error',
-            description: t('File cannot be uploaded. File location has not been entered on Project or client.', {
+            description: t('PD.File.Feedback.Error.FileLocationMissing', {
               name: file?.name,
             }),
           });
