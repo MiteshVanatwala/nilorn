@@ -114,6 +114,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       PurchaseCurrency: true,
       PurchasePrice: true,
       MOQ: true,
+      Vendor:true,
     }));
 
     try {
