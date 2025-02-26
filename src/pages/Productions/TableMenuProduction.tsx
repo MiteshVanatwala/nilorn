@@ -74,7 +74,11 @@ const TableMenuProduction = ({
       }&vendors=${
         vendorOptions.find(option => option.label === production?.vendorName)
           ?.value
-      }${isPDClosed ? `&statuses=${filters?.statuses}` : ''}`
+      }${
+        isPDClosed
+          ? `&statuses=${filters?.statuses || productDevelopment?.status}`
+          : ''
+      }`
     );
   };
 

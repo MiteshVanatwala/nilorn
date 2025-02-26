@@ -68,8 +68,8 @@ const ActionBarEditProduction = ({
   const { isSuccess: isSuccessPatch } = usePatchProduction();
   const { isSuccess: isSuccessCreate } = useCreateProduction();
 
-  function handleSaveAndRelease() {
-    setValue('released', true);
+  function handleSave(isRelease: boolean = false) {
+    setValue('released', isRelease);
     submitForm();
   }
 
@@ -178,7 +178,7 @@ const ActionBarEditProduction = ({
                     <RemixIcon component="i" icon="SAVE_LINE" />
                   ) : undefined
                 }
-                onClick={submitForm}>
+                onClick={() => handleSave()}>
                 {createNew
                   ? t('Production.CreateProduction')
                   : t('Common.Save')}
@@ -197,7 +197,7 @@ const ActionBarEditProduction = ({
                     />
                     <MenuList>
                       <MenuItem
-                        onClick={() => handleSaveAndRelease()}
+                        onClick={() => handleSave(true)}
                         icon={
                           <RemixIcon
                             component="Text"
