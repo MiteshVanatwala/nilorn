@@ -295,6 +295,7 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "ExportSelected": "Excel export",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",

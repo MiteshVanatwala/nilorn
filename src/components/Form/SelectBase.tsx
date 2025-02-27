@@ -6,7 +6,6 @@ import {
   ActionMeta,
   Select,
   components,
-  PropsValue,
   GroupBase,
   OptionsOrGroups,
   MultiValue,
@@ -60,13 +59,12 @@ type SelectProps<IsMulti extends boolean = false> = {
     actionMeta: ActionMeta<SelectOption>
   ) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
-  value?:
-    | PropsValue<{
-        label: string;
-        value: any;
-      }>
-    | undefined;
-  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  value?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
+  defaultValue?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
   isSearchable?: boolean;
   passRef?: any;
   components?: any;
@@ -80,6 +78,7 @@ type SelectProps<IsMulti extends boolean = false> = {
   isSelected?: boolean;
   isDisabled?: boolean;
   autoFocus?: boolean;
+  isScrollable?: boolean;
 };
 
 const SelectBase = <IsMulti extends boolean = false>({
@@ -104,6 +103,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   isSelected = false,
   isDisabled,
   autoFocus = false,
+  isScrollable = false,
 }: SelectProps<IsMulti>) => {
   const customComponents = { ...customSelectComponents, ...components };
 
@@ -136,7 +136,7 @@ const SelectBase = <IsMulti extends boolean = false>({
       onChange={onChange as any}
       onBlur={onBlur}
       components={customComponents}
-      value={isControlled ? value ?? '' : undefined}
+      value={isControlled ? value : undefined}
       defaultValue={defaultValue}
       options={options}
       placeholder={placeholder}
@@ -192,6 +192,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           color: color,
           maxW: '22rem',
           bg: COLORS.GRAY[10],
+          overflowX: 'hidden',
+          whiteSpace: 'normal',
         }),
         placeholder: base => ({
           ...base,
@@ -218,6 +220,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           px: SPACE.XS,
           py: SPACE.XXS,
           wordWrap: 'break-word',
+          minWidth: 'fit-content',
+          wordBreak: 'break-word',
           '&:hover': {
             backgroundColor: COLORS.GRAY[20],
           },
@@ -258,8 +262,8 @@ const SelectBase = <IsMulti extends boolean = false>({
           ...base,
           zIndex: 9,
           color: color,
-          maxH: components ? '22rem' : '',
-          overflowY: components ? 'auto' : '',
+          maxH: isScrollable ? '22rem' : '',
+          overflowY: isScrollable ? 'auto' : '',
         }),
       }}
     />

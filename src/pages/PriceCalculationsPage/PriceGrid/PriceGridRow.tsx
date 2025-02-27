@@ -1,4 +1,4 @@
-import { Button, GridItem, HStack, VStack } from '@chakra-ui/react';
+import { Button, Checkbox, GridItem, HStack, VStack } from '@chakra-ui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
@@ -12,7 +12,6 @@ import {
   PurchasePriceDto,
   SalesPriceDto,
   SourcedProductionDto,
-  Status,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
@@ -29,6 +28,7 @@ import {
   GRID_LAYOUT_PRICE,
   GRID_LAYOUT_PRICE_DESKTOP,
   PRICE_ROW_SPAN,
+  SelectedPrices,
   VENDOR_ROW_SPAN,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
@@ -42,6 +42,8 @@ type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   production: ProductionDto;
   tableMenu?: JSX.Element;
+  selectedPrices: SelectedPrices;
+  setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
 };
 
 type ExtendedPriceDto = PriceDto & {
@@ -52,6 +54,8 @@ function PriceGridRow({
   production,
   productDevelopment,
   sourcedProduction,
+  selectedPrices,
+  setSelectedPrices,
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
@@ -60,7 +64,7 @@ function PriceGridRow({
   const queryClient = useQueryClient();
   const isPDClosed =
     productDevelopment?.status && isClosed(productDevelopment?.status);
-  const storeFilterAndNavigate = useStoreFilterAndNavigate();
+  const { storeFilterAndNavigate } = useStoreFilterAndNavigate();
 
   // In phase one, only one calc!
   const [calculation, setCalculation] = useState<
@@ -155,8 +159,8 @@ function PriceGridRow({
         vendorOptions.find(option => option.label === production.vendorName)
           ?.value
       }&productDevelopments=${productDevelopment?.no}${
-        isClosed(filters?.statuses as Status)
-          ? `&statuses=${filters?.statuses}`
+        isPDClosed
+          ? `&statuses=${filters?.statuses || productDevelopment?.status}`
           : ''
       }`
     );
@@ -173,11 +177,9 @@ function PriceGridRow({
           <>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <HStack justify={'space-between'} w={'100%'}>
-                <VStack align={'start'} gap={SPACE.XXS}>
-                  <Button variant={'textBtn'} onClick={navigateToProduction}>
-                    {production.vendorName}
-                  </Button>
-                </VStack>
+                <Button variant={'textBtn'} onClick={navigateToProduction}>
+                  {production.vendorName}
+                </Button>
                 <>
                   {production.released && (
                     <TableMenuCalculation
@@ -219,6 +221,22 @@ function PriceGridRow({
         </GridTd>
         <GridTd>
           <CommentPopup comment={production.comment} />
+        </GridTd>
+        <GridTd justifyContent={'center'}>
+          {!!calculation ? (
+            <Checkbox
+              key={calculation.id}
+              isChecked={selectedPrices[`${calculation.id}`] || false}
+              onChange={() =>
+                setSelectedPrices({
+                  ...selectedPrices,
+                  [`${calculation.id}`]: !selectedPrices[`${calculation.id}`],
+                })
+              }
+            />
+          ) : (
+            <></>
+          )}
         </GridTd>
         {(calculation && calculation?.priceDtos?.length) ||
         production.released ? (

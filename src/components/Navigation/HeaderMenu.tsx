@@ -10,7 +10,7 @@ interface Props {
 
 const HeaderMenu = ({ title, children }: Props) => {
   return (
-    <Menu gutter={6}>
+    <Menu gutter={6} variant={'headerMenu'}>
       <MenuButton
         as={Button}
         variant="menuButton"

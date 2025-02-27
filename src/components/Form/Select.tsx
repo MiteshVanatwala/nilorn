@@ -1,22 +1,28 @@
+import { MultiValue } from 'chakra-react-select';
 import { Controller, useFormContext } from 'react-hook-form';
-import ControlWrapper from './ControlWrapper';
-import SelectBase from './SelectBase';
+import { useTranslation } from 'react-i18next';
 import { FormInputProps, SelectOption } from '../../app/types/types';
 import { GroupSelectOption } from '../../app/utils/FilterHelper';
-import { MultiValue } from 'chakra-react-select';
-import { useTranslation } from 'react-i18next';
+import ControlWrapper from './ControlWrapper';
+import SelectBase from './SelectBase';
 
 interface Props<IsMulti extends boolean = false>
   extends Omit<FormInputProps, 'defaultValue'> {
   options: SelectOption[] | GroupSelectOption[];
   placeholder?: string;
-  defaultValue?: true extends IsMulti ? MultiValue<SelectOption> : SelectOption;
+  defaultValue?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
   isMulti?: IsMulti;
   searchable?: boolean;
   showSelectedCount?: boolean;
   invisible?: boolean;
   components?: any;
   isDisabled?: boolean;
+  value?: true extends IsMulti
+    ? MultiValue<SelectOption> | null
+    : SelectOption | null;
+  isControlled?: boolean;
 }
 
 const Select = <IsMulti extends boolean = false>({
@@ -35,6 +41,8 @@ const Select = <IsMulti extends boolean = false>({
   components,
   isDisabled = false,
   changelog,
+  value,
+  isControlled = false,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -57,14 +65,20 @@ const Select = <IsMulti extends boolean = false>({
         name={name}
         rules={registerOptions}
         defaultValue={defaultValue}
-        render={({ field: { onChange, onBlur, name, ref, value } }) => {
+        render={({
+          field: { onChange, onBlur, name, ref, value: controllerValue },
+        }) => {
           return (
             <SelectBase
               isMulti={isMulti}
-              isSelected={(isMulti && value?.length) || (!isMulti && !!value)}
-              isControlled={false}
+              isSelected={
+                (isMulti && controllerValue?.length) ||
+                (!isMulti && !!controllerValue)
+              }
+              isControlled={isControlled}
               readOnly={isDisabled}
               name={name}
+              value={isControlled ? value : undefined}
               invisible={invisible}
               passRef={ref}
               showSelectedCount={showSelectedCount}

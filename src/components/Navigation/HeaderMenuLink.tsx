@@ -1,4 +1,4 @@
-import { Link as LinkComponent, MenuItem } from '@chakra-ui/react';
+import { MenuItem } from '@chakra-ui/react';
 
 interface ButtonProps {
   children: JSX.Element;
@@ -7,13 +7,8 @@ interface ButtonProps {
 
 const HeaderMenuButton = ({ children, onClick: onClickFunc }: ButtonProps) => {
   return (
-    <MenuItem as={'div'} p={'0'}>
-      <LinkComponent
-        onClick={onClickFunc}
-        as={'button'}
-        variant="headerMenuButton">
-        {children}
-      </LinkComponent>
+    <MenuItem onClick={onClickFunc}>
+      <>{children}</>
     </MenuItem>
   );
 };

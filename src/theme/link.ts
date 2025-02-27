@@ -37,19 +37,5 @@ export const link = {
         backgroundColor: COLORS.GRAY[70],
       },
     },
-    headerMenuButton: {
-      px: SPACE.LG,
-      py: '1.4rem',
-      w: '100%',
-      textAlign: 'start',
-      backgroundColor: COLORS.GRAY[5],
-      _focus: {
-        backgroundColor: COLORS.GRAY[70],
-      },
-      _hover: {
-        color: COLORS.GRAY[0],
-        backgroundColor: COLORS.GRAY[70],
-      },
-    },
   },
 };

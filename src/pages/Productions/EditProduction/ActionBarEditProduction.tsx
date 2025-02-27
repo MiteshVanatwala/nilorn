@@ -24,6 +24,7 @@ import RemixIcon from '../../../components/Icon/RemixIcon';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { useToast } from '../../../app/hooks/useToast';
 import useFilterOptions from '../../../app/hooks/useFilterOption';
+import useStoreFilterAndNavigate from '../../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
   setShowChanges: (showChanges: boolean) => void;
@@ -36,6 +37,7 @@ type Props = {
   productDevelopmentNo?: string | null;
   handleDelete?: () => void;
   isDirty?: boolean;
+  submitForm: () => void;
 };
 
 const ActionBarEditProduction = ({
@@ -49,30 +51,26 @@ const ActionBarEditProduction = ({
   productDevelopmentNo,
   handleDelete,
   isDirty = false,
+  submitForm,
 }: Props) => {
   const { t } = useTranslation();
-  const { getValues, setValue } = useFormContext();
+  const { setValue } = useFormContext();
   const { showToast } = useToast();
   const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
+  const { storeFilter } = useStoreFilterAndNavigate();
   const vendorOptions = useFilterOptions('vendors');
   const showCalculationLink =
     user?.role !== Role.PRODUCT_DEVELOPER &&
     !!production?.released &&
     !!productDevelopmentNo;
 
-  const { mutate: updateProduction, isSuccess: isSuccessPatch } =
-    usePatchProduction();
-  const { mutate: createProduction, isSuccess: isSuccessCreate } =
-    useCreateProduction();
+  const { isSuccess: isSuccessPatch } = usePatchProduction();
+  const { isSuccess: isSuccessCreate } = useCreateProduction();
 
-  function handleSaveAndRelease() {
-    setValue('released', true);
-    if (createNew) {
-      createProduction(getValues());
-    } else {
-      updateProduction(getValues());
-    }
+  function handleSave(isRelease: boolean = false) {
+    setValue('released', isRelease);
+    submitForm();
   }
 
   useEffect(() => {
@@ -136,12 +134,13 @@ const ActionBarEditProduction = ({
             {showCalculationLink && (
               <MenuItem
                 as={NavLink}
+                state={NAV_LINK}
+                onClick={storeFilter}
                 to={`/price-calculations?productDevelopments=${productDevelopmentNo}&vendors=${
                   vendorOptions.find(
                     option => option.label === production.vendorName
                   )?.value
                 }${isClosed(status!) ? `&statuses=${status}` : ''}`}
-                state={NAV_LINK}
                 icon={
                   <RemixIcon
                     component="Text"
@@ -173,12 +172,13 @@ const ActionBarEditProduction = ({
           {status && !isClosed(status) && (
             <>
               <Button
-                type="submit"
+                type="button"
                 rightIcon={
                   !createNew ? (
                     <RemixIcon component="i" icon="SAVE_LINE" />
                   ) : undefined
-                }>
+                }
+                onClick={() => handleSave()}>
                 {createNew
                   ? t('Production.CreateProduction')
                   : t('Common.Save')}
@@ -197,7 +197,7 @@ const ActionBarEditProduction = ({
                     />
                     <MenuList>
                       <MenuItem
-                        onClick={() => handleSaveAndRelease()}
+                        onClick={() => handleSave(true)}
                         icon={
                           <RemixIcon
                             component="Text"

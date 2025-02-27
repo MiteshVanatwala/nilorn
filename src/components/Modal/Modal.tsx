@@ -15,6 +15,7 @@ type Props = {
   closeOnEsc?: boolean;
   children: JSX.Element;
   onOverlayClick?: () => void;
+  className?: string;
 };
 
 const Modal = ({
@@ -24,6 +25,7 @@ const Modal = ({
   children,
   closeOnEsc = true,
   onOverlayClick,
+  className,
 }: Props) => {
   return (
     <ChakraModal
@@ -35,7 +37,10 @@ const Modal = ({
       isCentered
       returnFocusOnClose={returnFocusOnClose}>
       <ModalOverlay />
-      <ModalContent borderRadius={BORDER_RADIUS.MD} minW={'fit-content'}>
+      <ModalContent
+        borderRadius={BORDER_RADIUS.MD}
+        minW={'fit-content'}
+        className={className}>
         <ModalHeader
           background={COLORS.GRAY[90]}
           padding={SPACE.LG}
