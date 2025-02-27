@@ -71,14 +71,19 @@ const CreateProduction = ({
 
   useEffect(() => {
     const mappedDefaultQuantities: PurchasePriceDto[] =
-      data?.map(
-        q =>
-          ({
-            id: undefined,
-            quantity: q ?? null,
-            price: undefined,
-          } as PurchasePriceDto)
-      ) ?? [];
+      data
+        ?.map(
+          q =>
+            ({
+              id: undefined,
+              quantity: q ?? null,
+              price: undefined,
+            } as PurchasePriceDto)
+        )
+        .sort(
+          (a: PurchasePriceDto, b: PurchasePriceDto) =>
+            (a.quantity || 0) - (b.quantity || 0)
+        ) ?? [];
     if (mappedDefaultQuantities !== undefined) {
       form.setValue('purchasePrices', mappedDefaultQuantities);
     }
