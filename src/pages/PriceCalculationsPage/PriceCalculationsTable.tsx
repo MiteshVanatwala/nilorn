@@ -61,7 +61,6 @@ const PriceCalculationsTable = ({ data }: Props) => {
     let selectedCount = 0;
     for (var key in selectedPrices) {
       if (selectedPrices.hasOwnProperty(key) && selectedPrices[key] === true) {
-        console.log(key + ' -> ' + selectedPrices[key]);
         selectedCount++;
       }
     }
@@ -171,7 +170,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('Production.Comment')}</GridTh>
         <GridTh justifyContent={'center'}>
           <Checkbox
-            checked={selectAll}
+            isChecked={selectAll}
             isIndeterminate={selectAllIndeterminate}
             onChange={selectDeselectAll}
           />
