@@ -62,12 +62,25 @@ export const useUploadFile = (
         }
       },
       onError: async (_, { file }) => {
-        showToast({
-          status: 'error',
-          description: t('PD.File.Feedback.Error.FileUpdated', {
-            name: file?.name,
-          }),
-        });
+        if (
+          (_ as any).body?.indexOf(
+            t('PD.File.Feedback.Error.FileLocationMissingBackendMessage')
+          ) > 0
+        ) {
+          showToast({
+            status: 'error',
+            description: t('PD.File.Feedback.Error.FileLocationMissing', {
+              name: file?.name,
+            }),
+          });
+        } else {
+          showToast({
+            status: 'error',
+            description: t('PD.File.Feedback.Error.FileUpdated', {
+              name: file?.name,
+            }),
+          });
+        }
       },
       retry: 0,
     }
