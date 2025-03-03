@@ -7,6 +7,8 @@ import { numToThousandSeparatedsStr } from '../../app/utils/common';
 import {
   ACTIVE_SEARCH_PROFILE_NAME,
   INCLUDE_CLOSED,
+  PAGE_NUMBER,
+  PAGE_SIZE,
 } from '../../app/utils/constant';
 
 type Props = {
@@ -15,11 +17,27 @@ type Props = {
   filterLabel?: string;
 };
 const ActiveFilterItem: FC<Props> = ({ label, queryItem, filterLabel }) => {
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
 
   const removeFilterItem = (queryItem: string) => {
-    setValue(queryItem, undefined);
-    if (queryItem !== INCLUDE_CLOSED) setValue(ACTIVE_SEARCH_PROFILE_NAME, '');
+    setValue(queryItem, null);
+
+    let resetSearchProfile = true;
+    const allFilters = getValues();
+    Object.entries(allFilters ?? {}).forEach(([key]) => {
+      if (
+        [PAGE_NUMBER, PAGE_SIZE, ACTIVE_SEARCH_PROFILE_NAME].indexOf(key) ===
+          -1 &&
+        allFilters[key] !== null &&
+        allFilters[key] !== undefined &&
+        allFilters[key] !== ''
+      )
+        resetSearchProfile = false;
+    });
+
+    if (resetSearchProfile && queryItem !== INCLUDE_CLOSED) {
+      setValue(ACTIVE_SEARCH_PROFILE_NAME, '');
+    }
   };
 
   return (
