@@ -10,7 +10,8 @@ import PriceCalculationsTableRow from './PriceCalculationsTableRow';
 import { Checkbox, Grid, GridItem, Text } from '@chakra-ui/react';
 import PriceCalculationPageMenu from './PriceCalculationPageMenu';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
-import { SPACE } from '../../theme/Constants';
+import { COLORS, SPACE } from '../../theme/Constants';
+import { TH_STYLE } from '../../theme/Constants/tableGrid';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -140,25 +141,6 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   return (
     <>
-      {selectedCheckboxes > 0 && (
-        <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM}>
-          <GridItem>
-            <Text variant={'bodyBold'}>
-              {t('Filter.NumSelected', { num: selectedCheckboxes })}
-            </Text>
-          </GridItem>
-
-          <GridItem textAlign={'right'}>
-            <PriceCalculationPageMenu
-              disabled={
-                !Object.values(selectedPrices).some(Boolean) || isLoading
-              }
-              handleExportClick={handleExportClick}
-            />
-          </GridItem>
-        </Grid>
-      )}
-
       <GridTable
         gridTemplateColumns={{ base: GRID_LAYOUT, lg: GRID_LAYOUT_DESKTOP }}>
         <GridTh colSpan={PD_COL_SPAN}>
@@ -183,7 +165,35 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
-        <GridTh />
+        <GridTh/>
+
+        {
+          selectedCheckboxes > 0 ? <>
+            <GridTh colSpan={16} style={{
+              ...TH_STYLE,
+              background: COLORS.WHITE,
+              overflow: 'visible',
+              top: 45
+            }}>
+              <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM} w={'100%'}>
+                <GridItem>
+                  <Text variant={'bodyBold'}>
+                    {t('Filter.NumSelected', { num: selectedCheckboxes })}
+                  </Text>
+                </GridItem>
+
+                <GridItem textAlign={'right'}>
+                  <PriceCalculationPageMenu
+                    disabled={
+                      !Object.values(selectedPrices).some(Boolean) || isLoading
+                    }
+                    handleExportClick={handleExportClick}
+                  />
+                </GridItem>
+              </Grid>
+            </GridTh>
+          </> : <></>
+        }
 
         <Fragment>
           {data.map((p, i) => (
