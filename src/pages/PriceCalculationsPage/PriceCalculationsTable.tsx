@@ -114,7 +114,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       PurchaseCurrency: true,
       PurchasePrice: true,
       MOQ: true,
-      Vendor:true,
+      Vendor: true,
     }));
 
     try {
@@ -165,24 +165,31 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <GridTh>{t('PriceCalc.Cost')}</GridTh>
         <GridTh>{t('PriceCalc.Margin')}</GridTh>
         <GridTh>{t('PriceCalc.Sales')}</GridTh>
-        <GridTh/>
+        <GridTh />
 
-        {
-          selectedCheckboxes > 0 ? <>
-            <GridTh colSpan={16} style={{
-              ...TH_STYLE,
-              background: COLORS.WHITE,
-              overflow: 'visible',
-              top: 45
-            }}>
-              <Grid alignItems={'center'} gridAutoFlow={'column'} gap={SPACE.SM} w={'100%'}>
+        {selectedCheckboxes > 0 ? (
+          <>
+            <GridTh
+              colSpan={16}
+              style={{
+                ...TH_STYLE,
+                background: COLORS.WHITE,
+                overflow: 'visible',
+                top: 45,
+              }}>
+              <Grid
+                alignItems={'center'}
+                gridAutoFlow={'column'}
+                gap={SPACE.SM}
+                w={'100%'}
+                templateColumns="auto 1fr">
                 <GridItem>
                   <Text variant={'bodyBold'}>
                     {t('Filter.NumSelected', { num: selectedCheckboxes })}
                   </Text>
                 </GridItem>
 
-                <GridItem textAlign={'right'}>
+                <GridItem>
                   <PriceCalculationPageMenu
                     disabled={
                       !Object.values(selectedPrices).some(Boolean) || isLoading
@@ -192,8 +199,10 @@ const PriceCalculationsTable = ({ data }: Props) => {
                 </GridItem>
               </Grid>
             </GridTh>
-          </> : <></>
-        }
+          </>
+        ) : (
+          <></>
+        )}
 
         <Fragment>
           {data.map((p, i) => (
