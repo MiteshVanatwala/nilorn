@@ -58,7 +58,9 @@ export function onFilterChange(formValues: FieldValues) {
       if (typeof value === 'string' || typeof value === 'number') {
         result[key] = value.toString();
       } else if (Array.isArray(value)) {
-        result[key] = (value as SelectOption[]).map(v => v.value) as string[];
+        result[key] = (value as SelectOption[]).map(v =>
+          encodeURIComponent(v.value)
+        ) as string[];
       } else if (value && typeof value === 'object' && 'value' in value) {
         result[key] = value.value;
       }
