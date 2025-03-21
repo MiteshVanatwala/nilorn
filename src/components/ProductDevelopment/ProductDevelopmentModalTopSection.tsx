@@ -155,6 +155,7 @@ const ProductDevelopmentModalTopSection = ({
           }}>
           <Text>{productDevelopment?.clientName}</Text>
           <Text>{productDevelopment?.projectCode}</Text>
+          <Text>{productDevelopment?.versionSpecification}</Text>
         </GridItem>
         <GridItem
           colSpan={{
