@@ -6,6 +6,7 @@ import ArtworkButton from '../Button/ArtworkButton';
 import { MouseEvent, useEffect, useRef } from 'react';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
+import CommentPopup from '../CommentPopup/CommentPopup';
 
 const ProductDevelopmentCell = ({
   no,
@@ -14,6 +15,7 @@ const ProductDevelopmentCell = ({
   thumbnailData,
   status,
   projectCode,
+  versionSpecification,
 }: ProductDevelopmentDataDto) => {
   const ref = useRef<HTMLDivElement>(null);
   const { lastVisitedPD, setLastVisitedPD } = useLastVisitedPD();
@@ -50,7 +52,12 @@ const ProductDevelopmentCell = ({
               onClick={e => {
                 handleClick(e, `/product-development/${no}`);
               }}>
-              {no}
+              <CommentPopup
+                icon={<Text>{no}</Text>}
+                comment={versionSpecification ?? ''}
+                padding="0"
+                showIconWithoutComment
+              />
             </Button>
             <Text variant={'bodyBold'}>{name}</Text>
           </VStack>
