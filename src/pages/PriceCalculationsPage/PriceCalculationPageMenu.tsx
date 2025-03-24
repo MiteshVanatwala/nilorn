@@ -6,7 +6,7 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { COLORS, SPACE } from '../../theme/Constants';
+import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import RemixIcon from '../../components/Icon/RemixIcon';
 
 type Props = {
@@ -33,8 +33,16 @@ const PriceCalculationPageMenu = ({
         disabled={disabled}
       />
 
-      <MenuList bg={COLORS.GRAY[5]} border="none" minW={'20rem'} zIndex={9}>
-        <MenuItem onClick={handleExportClick}>
+      <MenuList lineHeight={1.5} zIndex={9}>
+        <MenuItem
+          onClick={handleExportClick}
+          icon={
+            <RemixIcon
+              component="Text"
+              icon="DOWNLOAD_LINE"
+              fontSize={SIZES.ICON.MD}
+            />
+          }>
           {t('PriceCalc.ExportSelected')}
         </MenuItem>
       </MenuList>
