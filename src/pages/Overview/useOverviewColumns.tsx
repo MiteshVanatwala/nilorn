@@ -47,26 +47,22 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('no', {
       header: `${t('PD.Number')}`,
-      cell: info => info.getValue(),
-    }),
-    columnHelper.accessor('versions', {
-      header: `${t('PD.Version.Version')}`,
-      enableSorting: false,
       cell: info => {
-        const versions = info.getValue() as number;
+        const versions = info.getValue();
         return (
           <CommentPopup
-            icon={
-              <Text opacity={!versions || versions === 1 ? 0 : 1}>
-                {versions}
-              </Text>
-            }
+            icon={<Text>{versions}</Text>}
             comment={info.row.original?.versionSpecification ?? ''}
             padding="0"
             showIconWithoutComment
           />
         );
       },
+    }),
+    columnHelper.accessor('versions', {
+      header: `${t('PD.Version.Version')}`,
+      enableSorting: false,
+      cell: info => info.getValue() as Number,
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
