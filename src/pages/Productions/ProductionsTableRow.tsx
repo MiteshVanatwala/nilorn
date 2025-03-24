@@ -32,7 +32,12 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
 
   return (
     <Fragment>
-      <GridTd colSpan={2}>
+      <GridTd
+        colSpan={2}
+        style={{
+          ...TD_STYLE,
+          overflow: 'visible',
+        }}>
         <PDCell {...p.productDevelopmentDataDto} />
       </GridTd>
       <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>

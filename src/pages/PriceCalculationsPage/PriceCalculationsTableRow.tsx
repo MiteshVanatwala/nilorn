@@ -32,7 +32,12 @@ const PriceCalculationsTableRow = ({
 }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
-      <GridTd colSpan={PD_COL_SPAN}>
+      <GridTd
+        colSpan={PD_COL_SPAN}
+        style={{
+          ...TD_STYLE,
+          overflow: 'visible',
+        }}>
         <Box display="flex" flexDirection="column" alignItems="flex-start">
           <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
         </Box>
