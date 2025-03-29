@@ -226,11 +226,14 @@ function PriceGridRow({
           {!!calculation ? (
             <Checkbox
               key={calculation.id}
-              isChecked={selectedPrices[`${calculation.id}`] || false}
+              isChecked={selectedPrices[`${calculation.id}`]?.selected || false}
               onChange={() =>
                 setSelectedPrices({
                   ...selectedPrices,
-                  [`${calculation.id}`]: !selectedPrices[`${calculation.id}`],
+                  [`${calculation.id}`]: {
+                    ...selectedPrices[`${calculation.id}`],
+                    selected: !selectedPrices[`${calculation.id}`].selected,
+                  },
                 })
               }
             />

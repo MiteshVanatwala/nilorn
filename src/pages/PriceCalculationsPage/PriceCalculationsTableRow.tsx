@@ -5,7 +5,7 @@ import {
   GridTd,
 } from '../../components/GridTable/GridTableElements';
 import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
-import { GridItem, Checkbox, Box } from '@chakra-ui/react';
+import { GridItem, Box } from '@chakra-ui/react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import PriceGridRow from './PriceGrid/PriceGridRow';
 import {
