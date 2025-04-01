@@ -30,7 +30,7 @@ const PriceCalculationPageMenu = ({
         icon={
           <RemixIcon component="Text" icon="MORE_LINE" color={COLORS.WHITE} />
         }
-        disabled={disabled}
+        isDisabled={disabled}
       />
 
       <MenuList lineHeight={1.5} zIndex={9}>
@@ -42,7 +42,8 @@ const PriceCalculationPageMenu = ({
               icon="DOWNLOAD_LINE"
               fontSize={SIZES.ICON.MD}
             />
-          }>
+          }
+          isDisabled={disabled}>
           {t('PriceCalc.ExportSelected')}
         </MenuItem>
       </MenuList>

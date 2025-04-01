@@ -40,7 +40,10 @@ export const CALCULATION_ROW_SPAN = 9;
 export const PRICE_ROW_SPAN = 4;
 
 export type SelectedPrices = {
-  [key: string]: boolean;
+  [key: string]: {
+    selected: boolean;
+    client: string;
+  };
 };
 
 type Props = {
@@ -51,17 +54,21 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownloadFile();
   const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
+  const [uniqueClients, setUniqueClients] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] =
     useState<boolean>(false);
   const selectedCheckboxes = Object.values(selectedPrices).filter(
-    value => value
+    price => price.selected
   ).length;
 
   useEffect(() => {
     let selectedCount = 0;
     for (var key in selectedPrices) {
-      if (selectedPrices.hasOwnProperty(key) && selectedPrices[key] === true) {
+      if (
+        selectedPrices.hasOwnProperty(key) &&
+        selectedPrices[key]?.selected === true
+      ) {
         selectedCount++;
       }
     }
@@ -74,6 +81,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       setSelectAll(false);
       setSelectAllIndeterminate(false);
     }
+    getUniqueClients();
   }, [selectedPrices]);
 
   useEffect(() => {
@@ -84,7 +92,10 @@ const PriceCalculationsTable = ({ data }: Props) => {
           const priceCalculation = production.priceCalculations?.[0];
 
           if (priceCalculation?.id) {
-            selectedPriceList[`${priceCalculation.id}`] = false;
+            selectedPriceList[`${priceCalculation.id}`] = {
+              selected: false,
+              client: p.productDevelopmentDataDto?.clientName || '',
+            };
           }
         });
       });
@@ -92,9 +103,18 @@ const PriceCalculationsTable = ({ data }: Props) => {
     setSelectedPrices(selectedPriceList);
   }, [data]);
 
+  const getUniqueClients = () => {
+    setUniqueClients(
+      Object.values(selectedPrices)
+        .filter(val => val.selected === true)
+        .map(val => val.client)
+        .filter((x, i, a) => a.indexOf(x) === i)
+    );
+  };
+
   const handleExportClick = async () => {
     const selectedIds = Object.entries(selectedPrices)
-      .filter(([_, isSelected]) => isSelected)
+      .filter(([_, value]) => value.selected === true)
       .map(([id]) => id);
 
     const excelExportOptions = selectedIds.map(id => ({
@@ -133,10 +153,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
     setSelectAll(!selectAll);
     for (var key in selectedPrices) {
       if (selectedPrices.hasOwnProperty(key)) {
-        selectedPrices[key] = !selectAll;
+        selectedPrices[key].selected = !selectAll;
       }
     }
     setSelectAllIndeterminate(false);
+    getUniqueClients();
   };
 
   return (
@@ -192,7 +213,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
                 <GridItem>
                   <PriceCalculationPageMenu
                     disabled={
-                      !Object.values(selectedPrices).some(Boolean) || isLoading
+                      !Object.values(selectedPrices)
+                        .map(val => val.selected)
+                        .some(Boolean) ||
+                      isLoading ||
+                      uniqueClients.length > 1
                     }
                     handleExportClick={handleExportClick}
                   />
