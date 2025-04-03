@@ -30,7 +30,6 @@ const PriceCalculationPageMenu = ({
         icon={
           <RemixIcon component="Text" icon="MORE_LINE" color={COLORS.WHITE} />
         }
-        isDisabled={disabled}
       />
 
       <MenuList lineHeight={1.5} zIndex={9}>
