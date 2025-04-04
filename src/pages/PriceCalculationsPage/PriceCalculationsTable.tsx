@@ -12,6 +12,8 @@ import PriceCalculationPageMenu from './PriceCalculationPageMenu';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
 import { COLORS, SPACE } from '../../theme/Constants';
 import { TH_STYLE } from '../../theme/Constants/tableGrid';
+import { useModal } from '../../app/hooks/useModal';
+import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -43,6 +45,7 @@ export type SelectedPrices = {
   [key: string]: {
     selected: boolean;
     client: string;
+    productDevelopmentNo: string;
   };
 };
 
@@ -52,7 +55,8 @@ type Props = {
 
 const PriceCalculationsTable = ({ data }: Props) => {
   const { t } = useTranslation();
-  const { isLoading, downloadFile } = useDownloadFile();
+  const { handleModal } = useModal();
+  const { isLoading } = useDownloadFile();
   const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
   const [uniqueClients, setUniqueClients] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -95,6 +99,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
             selectedPriceList[`${priceCalculation.id}`] = {
               selected: false,
               client: p.productDevelopmentDataDto?.clientName || '',
+              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
             };
           }
         });
@@ -113,40 +118,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const handleExportClick = async () => {
-    const selectedIds = Object.entries(selectedPrices)
-      .filter(([_, value]) => value.selected === true)
-      .map(([id]) => id);
-
-    const excelExportOptions = selectedIds.map(id => ({
-      PriceCalculationId: id,
-      Valid: true,
-      Included: true,
-      No: true,
-      Name: true,
-      ThumbnailData: true,
-      ItemNo: true,
-      Description: true,
-      Version: true,
-      Quantity: true,
-      Certificate: true,
-      SalesPrice: true,
-      SalesCurrency: true,
-      PurchaseCurrency: true,
-      PurchasePrice: true,
-      MOQ: true,
-      Vendor: true,
-    }));
-
-    try {
-      downloadFile(
-        `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
-        'price-calculations.xlsx',
-        'PUT',
-        excelExportOptions
-      );
-    } catch (error) {
-      console.error('Export failed:', error);
-    }
+    handleModal(
+      <ExcelExportModalContent
+        selectedPrices={selectedPrices}
+      />
+    )
   };
 
   const selectDeselectAll = () => {

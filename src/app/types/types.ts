@@ -69,3 +69,15 @@ export enum StatusColor {
   REJECTED = 'red',
   DELETED = 'red',
 }
+
+export type ExcelExportFieldKey =
+  | "image"
+  | "itemNo"
+  | "description"
+  | "versionSpec"
+  | "certificate"
+  | "moq"
+  | "vendor"
+  | "purchasePrice";
+
+  export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
