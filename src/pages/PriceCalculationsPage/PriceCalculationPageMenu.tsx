@@ -43,7 +43,7 @@ const PriceCalculationPageMenu = ({
             />
           }
           isDisabled={disabled}>
-          {t('PriceCalc.ExportSelected')}
+          {t('ExcelExport.Menu')}
         </MenuItem>
       </MenuList>
     </Menu>

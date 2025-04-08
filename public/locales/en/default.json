@@ -297,7 +297,6 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
-    "ExportSelected": "Excel export",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",
@@ -373,5 +372,20 @@
     "Title": "Oh no! This page does not exist",
     "Description": "We are sorry to inform you that this page does not exist. However, you can visit a lot of our other pages instead! ",
     "GoToHome": "Go to home"
+  },
+  "ExcelExport": {
+    "Menu": "Excel export",
+    "ModalTitle": "Create excel export",
+    "ModalDesc": "Select the information you want to include in the export",
+    "image": "Image",
+    "itemNo": "Item No",
+    "description": "Description",
+    "versionSpec": "Version Specification",
+    "certificate": "Certificate",
+    "moq": "MOQ",
+    "vendor": "Vendor",
+    "purchasePrice": "Purchase Price",
+    "FileName": "File name",
+    "ProductDevelopmentIncluded": "prduct developments are included in the selection"
   }
 }

@@ -233,6 +233,7 @@ function PriceGridRow({
                   [`${calculation.id}`]: {
                     ...selectedPrices[`${calculation.id}`],
                     selected: !selectedPrices[`${calculation.id}`].selected,
+                    productDevelopmentNo: productDevelopment?.no || ''
                   },
                 })
               }
