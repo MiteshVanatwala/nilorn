@@ -144,7 +144,9 @@
           "FileDownload": "Failed to download file",
           "FileUpdated": "Failed to upload file {{name}}",
           "FileLocationMissingBackendMessage": "File location has not been entered on Project or Client.",
-          "FileLocationMissing": "File cannot be uploaded. File location has not been entered on Project or client."
+          "FileLocationMissing": "File cannot be uploaded. File location has not been entered on Project or client.",
+          "EnteredNameInDBIncorrect": "Failed to upload file {{name}}. {{level1}} name entered on {{level2}} is incorrect.",
+          "EnteredNameInDBMissing": "Failed to upload file {{name}}. File location on project or client is incomplete or missing."
         },
         "Info": {
           "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
