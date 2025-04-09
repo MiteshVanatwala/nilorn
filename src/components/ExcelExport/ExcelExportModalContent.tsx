@@ -85,7 +85,7 @@ const ExcelExportModalContent = ({
     try {
       downloadFile(
         `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
-        'price-calculations.xlsx',
+        `${fileName.replace('.xls', '').replace('.xlsx', '').replace('.XLS', '').replace('.XLSX', '')}.xlsx`,
         'PUT',
         excelExportOptions
       ).then(() => {
