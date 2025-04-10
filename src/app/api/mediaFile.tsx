@@ -61,9 +61,34 @@ export const useUploadFile = (
           submitStatus();
         }
       },
-      onError: async (_, { file }) => {
+      onError: async (error: ApiError, { file }) => {
+        if (error.status === 404) {
+          if (error?.body?.detail === 'All') {
+            showToast({
+              status: 'error',
+              description: t('PD.File.Feedback.Error.EnteredNameInDBMissing', {
+                name: file?.name,
+              }),
+            });
+          } else {
+            showToast({
+              status: 'error',
+              description: t(
+                'PD.File.Feedback.Error.EnteredNameInDBIncorrect',
+                {
+                  name: file?.name,
+                  level1: error?.body?.detail.split(';')[0],
+                  level2:
+                    error?.body?.detail.split(';').length > 1
+                      ? error?.body?.detail.split(';')[1]
+                      : '',
+                }
+              ),
+            });
+          }
+        }
         if (
-          (_ as any).body?.indexOf(
+          (error as any).body?.indexOf(
             t('PD.File.Feedback.Error.FileLocationMissingBackendMessage')
           ) > 0
         ) {
