@@ -76,6 +76,7 @@ const ExcelExportModalContent = ({
       Certificate: selections.certificate,
       SalesPrice: true,
       SalesCurrency: true,
+      Sourcing: true,
       PurchaseCurrency: selections.purchasePrice,
       PurchasePrice: selections.purchasePrice,
       MOQ: selections.moq,
