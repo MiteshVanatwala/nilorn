@@ -49,12 +49,13 @@
     "HypProducts": "Product Developments",
     "HypSource": "Sourcings",
     "HypChangelog": "Changelog",
-    "HypClient": "Clients",
+    "HypClients": "Clients",
     "HypProjects": "Projects",
     "HypPrice": "Price Calculations",
     "HypProduction": "Productions",
     "HypUser": "User",
-    "HypLogout": "Log out"
+    "HypLogout": "Log out",
+    "HypManageData": "Manage data"
   },
   "PD": {
     "Image": "Image",
@@ -320,6 +321,26 @@
         "UpdateRows": "Failed to update margin and sales price",
         "MarginTooHigh": "Margin can be maximum 99.99",
         "UpdateIncluded": "Failed to update valid and include"
+      }
+    }
+  },
+  "ManageData": {
+    "AddProject": "Add new project",
+    "ProjectName": "Project name",
+    "ProjectCode": "Project Code",
+    "ProjectDescription": "Project Description",
+    "ClientNo": "Client no",
+    "ClientName": "Client name",
+    "Feedback": {
+      "Error": {
+        "ProjectDelete": "Project couldn't be deleted",
+        "ProjectName": "Project name is required",
+        "ProjectNameLength": "Max length is 30 characters",
+        "ProjectCreate": "Error while creating project"
+      },
+      "Success": {
+        "ProjectCreated": "Project created",
+        "ProjectDelete": "Project deleted"
       }
     }
   },

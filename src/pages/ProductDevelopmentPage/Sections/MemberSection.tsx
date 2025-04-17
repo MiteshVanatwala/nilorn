@@ -14,7 +14,7 @@ import { useMemo, useState } from 'react';
 import { MemberBriefDto } from '../../../app/generate';
 import { useAuthorizedRemoveUser } from '../../../app/Permissions/usePremissions';
 type Props = {
-  no: string;
+  no?: string;
   createNew?: boolean;
   disableEdit: boolean;
 };
@@ -34,7 +34,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
     MultiValue<SelectOption<MemberBriefDto>>
   >(membersFormVaule ?? []);
 
-  const { data: membersOptions } = useMembers(no);
+  const { data: membersOptions } = useMembers(no || '');
 
   const { fields, append, remove } = useFieldArray({
     control,
