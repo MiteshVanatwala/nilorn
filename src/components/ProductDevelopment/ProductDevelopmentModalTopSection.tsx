@@ -154,7 +154,7 @@ const ProductDevelopmentModalTopSection = ({
             lg: 4,
           }}>
           <Text>{productDevelopment?.clientName}</Text>
-          <Text>{productDevelopment?.projectCode}</Text>
+          <Text minH={'22px'}>{productDevelopment?.projectCode}</Text>
           <Text>{productDevelopment?.versionSpecification}</Text>
         </GridItem>
         <GridItem
