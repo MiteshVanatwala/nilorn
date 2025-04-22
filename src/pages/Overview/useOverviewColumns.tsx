@@ -62,7 +62,8 @@ const useOverviewColumns = () => {
     columnHelper.accessor('versions', {
       header: `${t('PD.Version.Version')}`,
       enableSorting: false,
-      cell: info => info.getValue() as Number,
+      cell: info =>
+        (info.getValue() as number) > 1 ? (info.getValue() as Number) : '',
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
