@@ -1,11 +1,11 @@
-import { HStack } from '@chakra-ui/react';
+import { Grid, GridItem, HStack } from '@chakra-ui/react';
 import SelectBase from '../../../../components/Form/SelectBase';
 import ProjectsActionBar from './ProjectsActionBar';
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Dispatch, Fragment, SetStateAction, useMemo } from 'react';
 import { SelectOption } from '../../../../app/types/types';
 import { useGetProjectsOptions } from '../../../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
-import { SPACE } from '../../../../theme/Constants';
+import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 
 type Props = {
@@ -43,35 +43,78 @@ const ProjectsTopSection = ({
   };
 
   return (
-    <HStack justify={'space-between'} pb={SPACE.XL}>
-      <HStack>
-        <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-          <SelectBase
-            name={'client'}
-            onChange={onChangeClient}
-            options={clientOptions}
-            value={clientOptions?.find(opt => opt.value === selectedClientNo)}
-          />
-        </ControlWrapper>
+    <Grid
+      gap={{
+        base: SPACE.XXS,
+        lg: SPACE.SM,
+      }}
+      templateColumns={{
+        base: GRID.TEMPLATE_COLUMNS.base,
+        md: GRID.TEMPLATE_COLUMNS.md,
+        lg: GRID.TEMPLATE_COLUMNS.lg,
+      }}>
+      <GridItem
+        colSpan={{
+          base: 4,
+          lg: 8,
+        }}>
+        <Grid
+          gap={{
+            base: SPACE.XXS,
+            lg: SPACE.SM,
+          }}
+          templateColumns={{
+            base: GRID.TEMPLATE_COLUMNS.base,
+            md: GRID.TEMPLATE_COLUMNS.md,
+            lg: GRID.TEMPLATE_COLUMNS.lg,
+          }}
+          pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
+          <GridItem
+            colSpan={{
+              base: 2,
+              lg: 2,
+            }}>
+            <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
+              <SelectBase
+                name={'client'}
+                onChange={onChangeClient}
+                options={clientOptions}
+                value={clientOptions?.find(
+                  opt => opt.value === selectedClientNo
+                )}
+              />
+            </ControlWrapper>
+          </GridItem>
 
-        <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-          <SelectBase
-            name={'project'}
-            onChange={onChangeProject}
-            options={projectOptions}
-            value={projectOptions?.find(
-              opt => opt.value === selectedProjectCode
-            )}
-          />
-        </ControlWrapper>
-      </HStack>
-      <ProjectsActionBar
-        lastModified={lastModified?.toISOString()}
-        clientNo={selectedClientNo}
-        projectId={selectedProjectCode}
-        setSelectedProjectCode={setSelectedProjectCode}
-      />
-    </HStack>
+          <GridItem
+            colSpan={{
+              base: 2,
+              lg: 2,
+            }}>
+            <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
+              <SelectBase
+                name={'project'}
+                onChange={onChangeProject}
+                options={projectOptions}
+                value={projectOptions?.find(
+                  opt => opt.value === selectedProjectCode
+                )}
+              />
+            </ControlWrapper>
+            <Fragment />
+          </GridItem>
+        </Grid>
+      </GridItem>
+
+      <GridItem colSpan={2}>
+        <ProjectsActionBar
+          lastModified={lastModified?.toISOString()}
+          clientNo={selectedClientNo}
+          projectId={selectedProjectCode}
+          setSelectedProjectCode={setSelectedProjectCode}
+        />
+      </GridItem>
+    </Grid>
   );
 };
 
