@@ -410,5 +410,30 @@
     "purchasePrice": "Purchase Price",
     "FileName": "File name",
     "ProductDevelopmentIncluded": "prduct developments are included in the selection"
+  },
+  "Client": {
+    "AccordionLabels":{
+      "General": "General",
+      "Attachments": "Attachments",
+      "Requirements": "Requirements"
+    },
+    "FormContent": {
+      "ClientNo": "Client No",
+      "ClientName": "Client Name",
+      "KeyAccountManager": "Key Account Manager",
+      "AccountManager": "Account Manager",
+      "TeamsName": "Teams name",
+      "TeamsNamePlaceholder": "Enter teams name",
+      "TeamsNameError": "Teams name is required",
+      "ChannelName": "Channel name",
+      "ChannelNamePlaceholder": "Enter channel name",
+      "ChannelNameError": "Channel name is required",
+      "ArtworkFolderName": "Artwork folder name",
+      "ArtworkFolderNamePlaceholder": "Enter artwork folder name",
+      "ArtworkFolderNameError": "Artwork folder name is required",
+      "AttachmentFolderName": "Attachment folder name",
+      "AttachmentFolderNamePlaceholder": "Enter attachment folder name",
+      "AttachmentFolderNameError": "Attachment folder name is required"
+    }
   }
 }

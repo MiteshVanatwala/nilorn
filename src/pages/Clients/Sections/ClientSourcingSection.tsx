@@ -9,7 +9,7 @@ const ClientSourcingSection = ({ disableEdit = false }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <AccordionItem title={`${t('PD.AccordionLabels.Requirements')}`}>
+    <AccordionItem title={`${t('Client.AccordionLabels.Requirements')}`}>
       <p>ClientSourcingSection</p>
     </AccordionItem>
   );

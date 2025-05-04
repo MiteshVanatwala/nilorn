@@ -8,11 +8,10 @@ type Props = {
   disableEdit?: boolean;
 };
 
-const ClientGeneralSection = ({ disableEdit = false }: Props) => {
+const AttachmentInfoSection = ({ disableEdit = false }: Props) => {
   const { t } = useTranslation();
-
   return (
-    <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
+    <AccordionItem title={`${t('Client.AccordionLabels.Attachments')}`}>
       <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
         <GridItem
           colSpan={{
@@ -20,8 +19,9 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
             lg: 6,
           }}>
           <InputField
-            label={`${t('Client.FormContent.ClientNo')}`}
-            name={'no'}
+            label={`${t('Client.FormContent.TeamsName')}`}
+            placeholder={`${t('Client.FormContent.TeamsNamePlaceholder')}`}
+            name={'teamsName'}
             readonly={disableEdit}
             registerOptions={{ maxLength: 60 }}
           />
@@ -32,8 +32,9 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
             lg: 6,
           }}>
           <InputField
-            label={`${t('Client.FormContent.ClientName')}`}
-            name={'name'}
+            label={`${t('Client.FormContent.ChannelName')}`}
+            placeholder={`${t('Client.FormContent.ChannelNamePlaceholder')}`}
+            name={'channelName'}
             readonly={disableEdit}
             registerOptions={{ maxLength: 60 }}
           />
@@ -44,8 +45,9 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
             lg: 6,
           }}>
           <InputField
-            label={`${t('Client.FormContent.KeyAccountManager')}`}
-            name={'keyAccountManager.name'}
+            label={`${t('Client.FormContent.ArtworkFolderName')}`}
+            placeholder={`${t('Client.FormContent.ArtworkFolderNamePlaceholder')}`}
+            name={'artWorkFolderName'}
             readonly={disableEdit}
             registerOptions={{ maxLength: 60 }}
           />
@@ -56,8 +58,9 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
             lg: 6,
           }}>
           <InputField
-            label={`${t('Client.FormContent.AccountManager')}`}
-            name={'accountManager.name'}
+            label={`${t('Client.FormContent.AttachmentFolderName')}`}
+            placeholder={`${t('Client.FormContent.AttachmentFolderNamePlaceholder')}`}
+            name={'attachmentFolderName'}
             readonly={disableEdit}
             registerOptions={{ maxLength: 60 }}
           />
@@ -67,4 +70,4 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
   );
 };
 
-export default ClientGeneralSection;
+export default AttachmentInfoSection;

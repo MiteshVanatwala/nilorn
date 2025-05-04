@@ -1,6 +1,6 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
@@ -9,32 +9,32 @@ import CardPageTopSection from '../Templates/CardPageTopSection';
 import ClientActionBar from './Sections/TopSection/ClientActionBar';
 import ClientGeneralSection from './Sections/ClientGeneralSection';
 import ClientSourcingSection from './Sections/ClientSourcingSection';
+import AttachmentInfoSection from './Sections/AttachmentInfoSection';
+import { useClient, useClients } from '../../app/api/FilterInfo';
+import { SelectOption } from '../../app/types/types';
 
 const ClientsPage = () => {
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
 
-  const { data: clientOptions } = { data: [] }; // TODO: New endpoint - useClientsFilterOption();
-  const { data: client } = { data: {} as ClientDto }; // TODO: New endpoint - useClient(selectedClientNo);
+  const { data: clients } = useClients();
+  const clientOptions = useMemo(() => {
+      return clients?.map(client => {
+        return { label: client.name, value: client.no };
+      }) as SelectOption[];
+    }, [clients]);
+
+  const { data: client } = useClient(selectedClientNo ?? '');
 
   const form = useForm<ClientDto>();
   const { reset } = form;
 
   useEffect(() => {
-    if (!!client) {
-      reset({ ...client });
+    if (client) {
+      reset({ ...client }); // Assuming you want to reset with the first client
     } else {
-      reset({
-        no: undefined,
-        name: undefined,
-        keyAccountManager: undefined,
-        accountManager: undefined,
-        targetMargin: undefined,
-        // TODO: new fields to DTO
-        // members: null,
-        // clientRequirements: null,
-      });
+      reset();
     }
-  }, [client, reset, selectedClientNo]);
+  }, [client, reset]);
 
   const onSubmit = (fieldValues: FieldValues) => {
     console.log(fieldValues);
@@ -44,26 +44,27 @@ const ClientsPage = () => {
     <ContentPage>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <CardPageTopSection
+        <CardPageTopSection
             selectedClientNo={selectedClientNo}
             setSelectedClientNo={setSelectedClientNo}
             clientOptions={clientOptions}
             actionBar={
               <ClientActionBar
-                clientNo={client.no ?? undefined}
+                clientNo={client?.no ?? undefined}
                 // TODO: Date from loaded data
                 lastModified={new Date()?.toISOString()}
               />
             }
           />
           <Accordion variant={'card'} marginBottom={SPACE.XXL} allowMultiple>
-            <ClientGeneralSection disableEdit={client === undefined} />
+            <ClientGeneralSection disableEdit={true} />
             <MemberSection
               no={''} // Remove when merge with changes from project page
               // disableAdd={client === undefined}
               disableEdit={client === undefined}
             />
             <ClientSourcingSection disableEdit={client === undefined} />
+            <AttachmentInfoSection disableEdit={client === undefined}/>
           </Accordion>
         </form>
       </FormProvider>

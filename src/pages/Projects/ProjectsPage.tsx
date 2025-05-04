@@ -9,6 +9,7 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
 import { useGetProjectCard } from '../../app/api/Projects';
 import { useClients } from '../../app/api/FilterInfo';
+import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 
 function ProjectsPage() {
   const { data: clients } = useClients();
@@ -61,6 +62,7 @@ function ProjectsPage() {
             allowMultiple>
             <ProjectGeneralSection />
             <MemberSection disableEdit={false} />
+            <AttachmentInfoSection disableEdit={false}/>
           </Accordion>
         </form>
       </FormProvider>
