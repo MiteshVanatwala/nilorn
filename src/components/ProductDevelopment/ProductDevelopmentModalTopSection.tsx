@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem, HStack, Heading } from '@chakra-ui/layout';
 import { COLORS, GRID, SIZES, SPACE } from '../../theme/Constants';
-import { Image, Link, VStack, Text } from '@chakra-ui/react';
+import { Image, Link, VStack, Text, Tooltip } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -153,7 +153,24 @@ const ProductDevelopmentModalTopSection = ({
             md: 3,
             lg: 4,
           }}>
-          <Text>{productDevelopment?.clientName}</Text>
+          <Text>
+            {productDevelopment?.clientName}{' '}
+            {productDevelopment?.clientRequirement && (
+              <Tooltip
+                label={
+                  <Box
+                    dangerouslySetInnerHTML={{
+                      __html: productDevelopment?.clientRequirement,
+                    }}
+                  />
+                }
+                placement="right-start">
+                <Text as="span" color="red" cursor="pointer" ml="1">
+                  <i className="ri-information-line"></i>
+                </Text>
+              </Tooltip>
+            )}
+          </Text>
           <Text>{productDevelopment?.projectCode}</Text>
           <Text>{productDevelopment?.versionSpecification}</Text>
         </GridItem>

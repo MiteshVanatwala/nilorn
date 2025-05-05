@@ -8,7 +8,7 @@ import {
 } from '../../../theme/Constants';
 import ContentSection from '../../Templates/ContentSection';
 import ActionBar from './SectionComponents/ActionBar/ActionBar';
-import { VStack, Input } from '@chakra-ui/react';
+import { VStack, Input, Tooltip } from '@chakra-ui/react';
 import TRANSITION from '../../../theme/Constants/transition';
 import EditableInputField from '../../../components/Form/EditableInputField';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +48,7 @@ const TopSection = ({
 
   const client = useWatch({ name: 'client' });
   const clientNo = useWatch({ name: 'clientNo' });
+  const clientRequirement = useWatch({ name: 'clientRequirement' });
   const pdName = useWatch({ name: 'name' });
   const status = useWatch({ name: 'status' });
 
@@ -185,7 +186,24 @@ const TopSection = ({
               </Box>
             ) : (
               <>
-                <Text p={SPACE.XXS}>{client}</Text>
+                <HStack p={SPACE.XXS} alignItems="center">
+                  <Text>{client}</Text>
+                  {clientRequirement && (
+                    <Tooltip
+                      label={
+                        <Box
+                          dangerouslySetInnerHTML={{
+                            __html: clientRequirement,
+                          }}
+                        />
+                      }
+                      placement="right-start">
+                      <Text color="red" cursor="pointer">
+                        <i className="ri-information-line"></i>
+                      </Text>
+                    </Tooltip>
+                  )}
+                </HStack>
                 <Input display="none" name="clientNo" />
               </>
             )}
