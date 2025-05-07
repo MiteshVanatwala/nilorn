@@ -27,7 +27,11 @@ const ClientsPage = () => {
 
   const { data: client } = useClient(selectedClientNo ?? '');
 
-  const form = useForm<ClientDto>();
+  const form = useForm<ClientDto>({
+    defaultValues: {
+      requirement: '',
+    },
+  });
   const { reset } = form;
 
   useEffect(() => {
@@ -71,7 +75,10 @@ const ClientsPage = () => {
               // disableAdd={client === undefined}
               disableEdit={client === undefined}
             />
-            <ClientSourcingSection disableEdit={client === undefined} />
+            <ClientSourcingSection
+              disableEdit={client === undefined}
+              client={client}
+            />
             <AttachmentInfoSection disableEdit={client === undefined} />
           </Accordion>
         </form>
