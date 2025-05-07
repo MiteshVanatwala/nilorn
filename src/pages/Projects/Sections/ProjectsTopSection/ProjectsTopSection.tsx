@@ -1,5 +1,4 @@
-import { Grid, GridItem, HStack } from '@chakra-ui/react';
-import SelectBase from '../../../../components/Form/SelectBase';
+import { Grid, GridItem } from '@chakra-ui/react';
 import ProjectsActionBar from './ProjectsActionBar';
 import { Dispatch, Fragment, SetStateAction, useMemo } from 'react';
 import { SelectOption } from '../../../../app/types/types';
@@ -7,6 +6,9 @@ import { useGetProjectsOptions } from '../../../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
+import Select from '../../../../components/Form/Select';
+import useFilterOptions from '../../../../app/hooks/useFilterOption';
+import { useWatch } from 'react-hook-form';
 
 type Props = {
   selectedProjectCode?: string;
@@ -19,23 +21,22 @@ type Props = {
 
 const ProjectsTopSection = ({
   selectedProjectCode,
-  selectedClientNo,
   setSelectedProjectCode,
   setSelectedClientNo,
   lastModified,
-  clientOptions,
 }: Props) => {
   const { t } = useTranslation();
-
-  const { data: projectOptionItems } = useGetProjectsOptions(selectedClientNo);
+  const clientOptions = useFilterOptions('clients', true);
+  const clientNo = useWatch({ name: 'clientNo' });
+  const projectId = useWatch({ name: 'project' });
+  const { data: projectOptionItems } = useGetProjectsOptions(
+    clientNo,
+    typeof clientNo === 'string'
+  );
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
   }, [projectOptionItems]);
-
-  const onChangeProject = (option: SelectOption) => {
-    setSelectedProjectCode(option.value);
-  };
 
   const onChangeClient = (option: SelectOption) => {
     setSelectedClientNo(option.value);
@@ -75,13 +76,12 @@ const ProjectsTopSection = ({
               lg: 2,
             }}>
             <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-              <SelectBase
-                name={'client'}
+              <Select
                 onChange={onChangeClient}
+                placeholder={t('PD.Client')}
+                name="clientNo"
                 options={clientOptions}
-                value={clientOptions?.find(
-                  opt => opt.value === selectedClientNo
-                )}
+                registerOptions={{ required: true }}
               />
             </ControlWrapper>
           </GridItem>
@@ -92,13 +92,17 @@ const ProjectsTopSection = ({
               lg: 2,
             }}>
             <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-              <SelectBase
-                name={'project'}
-                onChange={onChangeProject}
+              {/* <ProjectSelect
+                options={projectOptions as SelectOption[]}
+                createNew={false}
+                clientNo={clientNo}
+                scrolledPast={true}
+                disableEdit={false}
+              /> */}
+              <Select
+                name="project"
                 options={projectOptions}
-                value={projectOptions?.find(
-                  opt => opt.value === selectedProjectCode
-                )}
+                registerOptions={{ required: true }}
               />
             </ControlWrapper>
             <Fragment />
@@ -109,8 +113,8 @@ const ProjectsTopSection = ({
       <GridItem colSpan={2}>
         <ProjectsActionBar
           lastModified={lastModified?.toISOString()}
-          clientNo={selectedClientNo}
-          projectId={selectedProjectCode}
+          clientNo={clientNo}
+          projectId={projectId}
           setSelectedProjectCode={setSelectedProjectCode}
         />
       </GridItem>

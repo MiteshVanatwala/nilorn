@@ -1,11 +1,14 @@
 import { Grid, GridItem, VStack } from '@chakra-ui/react';
 import SelectBase from '../../components/Form/SelectBase';
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 import { SelectOption } from '../../app/types/types';
 import { useGetProjectsOptions } from '../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
 import ControlWrapper from '../../components/Form/ControlWrapper';
 import { GRID, SPACE } from '../../theme/Constants';
+import Select from '../../components/Form/Select';
+import useFilterOptions from '../../app/hooks/useFilterOption';
+import { useWatch } from 'react-hook-form';
 
 type Props = {
   selectedClientNo?: string;
@@ -21,15 +24,16 @@ const CardPageTopSection = ({
   selectedClientNo,
   setSelectedProjectCode,
   setSelectedClientNo,
-  clientOptions,
+  // clientOptions,
   actionBar,
 }: Props) => {
   const { t } = useTranslation();
-
+  const clientOptions = useFilterOptions('clients', true);
   const { data: projectOptionItems } = useGetProjectsOptions(
     selectedClientNo,
     !!setSelectedProjectCode
   );
+  const clientNo = useWatch({ name: 'clientNo' });
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
@@ -69,13 +73,20 @@ const CardPageTopSection = ({
           md: 2,
         }}>
         <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-          <SelectBase
+          {/* <SelectBase
             name={'client'}
             onChange={onChangeClient}
             options={clientOptions}
             value={clientOptions?.find(
               option => option.value === selectedClientNo
             )}
+          /> */}
+          <Select
+            onChange={onChangeClient}
+            placeholder={t('PD.Client')}
+            name="clientNo"
+            options={clientOptions}
+            registerOptions={{ required: true }}
           />
         </ControlWrapper>
       </GridItem>
@@ -88,7 +99,7 @@ const CardPageTopSection = ({
           <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
             <SelectBase
               name={'project'}
-              isDisabled={!selectedClientNo}
+              isDisabled={!clientNo}
               onChange={onChangeProject}
               options={projectOptions as SelectOption[]}
               value={

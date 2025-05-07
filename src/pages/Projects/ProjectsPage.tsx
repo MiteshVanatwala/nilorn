@@ -10,6 +10,8 @@ import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection
 import { useGetProjectCard } from '../../app/api/Projects';
 import { useClients } from '../../app/api/FilterInfo';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
+import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 
 function ProjectsPage() {
   const { data: clients } = useClients();
@@ -21,6 +23,7 @@ function ProjectsPage() {
 
   const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
+  const { setUnsavedChanges } = useUnsavedChanges();
 
   const { data: projectCard } = useGetProjectCard(
     selectedClientNo ?? '',
@@ -42,8 +45,14 @@ function ProjectsPage() {
     console.log(fieldValues);
   };
 
+  useEffect(() => {
+    setUnsavedChanges(form.formState.isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
+
   return (
     <ContentPage>
+      <LeavePageBlocker />
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <ProjectsTopSection
@@ -62,7 +71,7 @@ function ProjectsPage() {
             allowMultiple>
             <ProjectGeneralSection />
             <MemberSection disableEdit={false} />
-            <AttachmentInfoSection disableEdit={false}/>
+            <AttachmentInfoSection disableEdit={false} />
           </Accordion>
         </form>
       </FormProvider>
