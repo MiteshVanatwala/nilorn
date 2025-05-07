@@ -25,6 +25,11 @@ const TablePaginationContainer = ({ data, chunkSizes }: Props) => {
   useLayoutEffect(() => {
     setTotalPages(data?.totalPages ?? 0);
     setTotalCount(data?.totalCount ?? 0);
+
+  if ((data?.totalPages ?? 0) > 0 && pageNumber > (data?.totalPages ?? 0)) {
+    setValue('pageNumber', 1);
+  }
+
   }, [
     chunkSizes,
     data?.pageNumber,
