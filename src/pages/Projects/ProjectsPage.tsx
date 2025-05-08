@@ -70,7 +70,7 @@ function ProjectsPage() {
             marginBottom={SPACE.XXL}
             allowMultiple>
             <ProjectGeneralSection />
-            <MemberSection disableEdit={false} />
+            <MemberSection disableEdit={false} showAllMembers={true} />
             <AttachmentInfoSection disableEdit={false} />
           </Accordion>
         </form>
