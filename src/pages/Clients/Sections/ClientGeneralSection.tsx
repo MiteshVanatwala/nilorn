@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import { GRID } from '../../../theme/Constants';
@@ -13,56 +13,35 @@ const ClientGeneralSection = ({ disableEdit = false }: Props) => {
 
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
-      <Grid gap={GRID.GAP} templateColumns={GRID.TEMPLATE_COLUMNS}>
-        <GridItem
-          colSpan={{
-            base: 12,
-            lg: 6,
-          }}>
-          <InputField
-            label={`${t('Client.FormContent.ClientNo')}`}
-            name={'no'}
-            readonly={disableEdit}
-            registerOptions={{ maxLength: 60 }}
-          />
-        </GridItem>
-        <GridItem
-          colSpan={{
-            base: 0,
-            lg: 6,
-          }}>
-          <InputField
-            label={`${t('Client.FormContent.ClientName')}`}
-            name={'name'}
-            readonly={disableEdit}
-            registerOptions={{ maxLength: 60 }}
-          />
-        </GridItem>
-        <GridItem
-          colSpan={{
-            base: 12,
-            lg: 6,
-          }}>
-          <InputField
-            label={`${t('Client.FormContent.KeyAccountManager')}`}
-            name={'keyAccountManager.name'}
-            readonly={disableEdit}
-            registerOptions={{ maxLength: 60 }}
-          />
-        </GridItem>
-        <GridItem
-          colSpan={{
-            base: 0,
-            lg: 6,
-          }}>
-          <InputField
-            label={`${t('Client.FormContent.AccountManager')}`}
-            name={'accountManager.name'}
-            readonly={disableEdit}
-            registerOptions={{ maxLength: 60 }}
-          />
-        </GridItem>
-      </Grid>
+      <HStack>
+        <InputField
+          label={`${t('Client.FormContent.ClientNo')}`}
+          name={'no'}
+          readonly={disableEdit}
+          registerOptions={{ maxLength: 60 }}
+        />
+
+        <InputField
+          label={`${t('Client.FormContent.ClientName')}`}
+          name={'name'}
+          readonly={disableEdit}
+          registerOptions={{ maxLength: 60 }}
+        />
+
+        <InputField
+          label={`${t('Client.FormContent.KeyAccountManager')}`}
+          name={'keyAccountManager.name'}
+          readonly={disableEdit}
+          registerOptions={{ maxLength: 60 }}
+        />
+
+        <InputField
+          label={`${t('Client.FormContent.AccountManager')}`}
+          name={'accountManager.name'}
+          readonly={disableEdit}
+          registerOptions={{ maxLength: 60 }}
+        />
+      </HStack>
     </AccordionItem>
   );
 };

@@ -68,7 +68,11 @@ const ClientsPage = () => {
               />
             }
           />
-          <Accordion variant={'card'} marginBottom={SPACE.XXL} allowMultiple>
+          <Accordion 
+          variant={'card'} 
+          defaultIndex={[0, 1, 2, 3, 4]}
+          marginBottom={SPACE.XXL} 
+          allowMultiple>
             <ClientGeneralSection disableEdit={true} />
             <MemberSection
               no={''} // Remove when merge with changes from project page
