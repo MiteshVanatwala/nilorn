@@ -1,18 +1,26 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import ProjectsActionBar from './ProjectsActionBar';
-import { Dispatch, Fragment, SetStateAction, useMemo } from 'react';
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { SelectOption } from '../../../../app/types/types';
-import { useGetProjectsOptions } from '../../../../app/api/Projects';
+import {
+  useGetProjectCard,
+  useGetProjectsOptions,
+} from '../../../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 type Props = {
-  selectedProjectCode?: string;
-  selectedClientNo?: string;
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
   setSelectedClientNo: Dispatch<SetStateAction<string | undefined>>;
   lastModified?: Date;
@@ -20,15 +28,15 @@ type Props = {
 };
 
 const ProjectsTopSection = ({
-  selectedProjectCode,
   setSelectedProjectCode,
   setSelectedClientNo,
-  lastModified,
 }: Props) => {
   const { t } = useTranslation();
+  const { setValue, reset } = useFormContext();
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'clientNo' });
-  const projectId = useWatch({ name: 'project' });
+  const projectId = useWatch({ name: 'code' });
+  const lastModified = useWatch({ name: 'lastModified' });
   const { data: projectOptionItems } = useGetProjectsOptions(
     clientNo,
     typeof clientNo === 'string'
@@ -38,10 +46,50 @@ const ProjectsTopSection = ({
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
   }, [projectOptionItems]);
 
-  const onChangeClient = (option: SelectOption) => {
-    setSelectedClientNo(option.value);
-    setSelectedProjectCode(undefined);
-  };
+  const [optionItems, setOptionItems] =
+    useState<SelectOption[]>(projectOptions);
+
+  const { data: projectCard } = useGetProjectCard(
+    clientNo ?? '',
+    projectId ?? ''
+  );
+
+  useEffect(() => {
+    if (!!clientNo && !!projectId && !!projectCard) {
+      console.log('59');
+      reset({ ...projectCard });
+    } else if (!!projectId && !!projectCard) {
+      console.log('62');
+      reset({
+        clientNo,
+      });
+    }
+  }, [clientNo, projectId, projectCard]);
+
+  useEffect(() => {
+    console.log(projectOptions);
+    setOptionItems(projectOptions);
+    setValue('code', null);
+    setValue('project', null);
+  }, [projectOptions]);
+
+  useEffect(() => {
+    setSelectedClientNo(clientNo);
+    setSelectedProjectCode('');
+  }, [clientNo]);
+
+  useEffect(() => {
+    setSelectedProjectCode(projectId);
+  }, [projectId]);
+
+  useEffect(() => {
+    if (projectId !== undefined && projectId !== '') {
+      setOptionItems(projectOptions);
+    } else {
+      setOptionItems([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return (
     <Grid
@@ -77,7 +125,6 @@ const ProjectsTopSection = ({
             }}>
             <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
               <Select
-                onChange={onChangeClient}
                 placeholder={t('PD.Client')}
                 name="clientNo"
                 options={clientOptions}
@@ -100,8 +147,8 @@ const ProjectsTopSection = ({
                 disableEdit={false}
               /> */}
               <Select
-                name="project"
-                options={projectOptions}
+                name="code"
+                options={optionItems}
                 registerOptions={{ required: true }}
               />
             </ControlWrapper>
@@ -112,7 +159,7 @@ const ProjectsTopSection = ({
 
       <GridItem colSpan={2}>
         <ProjectsActionBar
-          lastModified={lastModified?.toISOString()}
+          lastModified={lastModified}
           clientNo={clientNo}
           projectId={projectId}
           setSelectedProjectCode={setSelectedProjectCode}

@@ -25,6 +25,7 @@ const ProjectGeneralSection = () => {
           name={'code'}
           label={t('ManageData.ProjectCode')}
           placeholder={t('Common.Placeholder')}
+          readonly={true}
         />
         <TextArea
           name={'description'}

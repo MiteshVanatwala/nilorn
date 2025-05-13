@@ -55,6 +55,7 @@ const MemberSection = ({
     if (selectedOption !== undefined && selectedOption.length > 0) {
       setSelected(selectedOption);
       append(selectedOption[selectedOption.length - 1].value);
+      console.log(selectedOption);
     }
   }
 

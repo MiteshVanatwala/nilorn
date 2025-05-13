@@ -7,7 +7,10 @@ import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
-import { useGetProjectCard } from '../../app/api/Projects';
+import {
+  useCreateProjectPage,
+  useGetProjectCard,
+} from '../../app/api/Projects';
 import { useClients } from '../../app/api/FilterInfo';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
@@ -25,24 +28,37 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
 
-  const { data: projectCard } = useGetProjectCard(
-    selectedClientNo ?? '',
-    selectedProjectCode ?? ''
-  );
+  // const { data: projectCard } = useGetProjectCard(
+  //   selectedClientNo ?? '',
+  //   selectedProjectCode ?? ''
+  // );
 
   const form = useForm();
-  const { reset } = form;
+  // const { reset } = form;
+  const { mutate: createProject } = useCreateProjectPage();
 
-  useEffect(() => {
-    if (!!selectedClientNo && !!selectedProjectCode && !!projectCard) {
-      reset({ ...projectCard });
-    } else {
-      reset();
-    }
-  }, [reset, projectCard, selectedClientNo, selectedProjectCode]);
+  // useEffect(() => {
+  //   console.log(projectCard);
+  //   console.log(!!selectedClientNo);
+  //   console.log(!!selectedProjectCode);
+  //   console.log(!!projectCard);
+  //   if (!!selectedClientNo && !!selectedProjectCode && !!projectCard) {
+  //     reset({ ...projectCard });
+  //   } else {
+  //     reset();
+  //   }
+  // }, [projectCard]);
 
   const onSubmit = (fieldValues: FieldValues) => {
-    console.log(fieldValues);
+    createProject(
+      {
+        clientId: fieldValues.id,
+        ...fieldValues,
+      },
+      {
+        onSuccess: () => {},
+      }
+    );
   };
 
   useEffect(() => {
@@ -56,11 +72,8 @@ function ProjectsPage() {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <ProjectsTopSection
-            selectedProjectCode={selectedProjectCode}
-            selectedClientNo={selectedClientNo}
             setSelectedProjectCode={setSelectedProjectCode}
             setSelectedClientNo={setSelectedClientNo}
-            lastModified={new Date()}
             clientOptions={clientOptions}
           />
 

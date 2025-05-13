@@ -7,6 +7,7 @@ import type { ClientRequirementDto } from './ClientRequirementDto';
 import type { MemberBriefDto } from './MemberBriefDto';
 
 export type ClientDto = {
+  id?: string | null;
   no?: string | null;
   name?: string | null;
   teamsName?: string | null;

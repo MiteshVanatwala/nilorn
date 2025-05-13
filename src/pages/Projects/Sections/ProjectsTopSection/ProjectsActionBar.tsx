@@ -8,6 +8,7 @@ import { useModal } from '../../../../app/hooks/useModal';
 import { useDeleteProject } from '../../../../app/api/Projects';
 import AddProjectModal from '../../../ProductDevelopmentPage/Sections/SectionComponents/AddProjectModal';
 import { Dispatch, SetStateAction } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 type Props = {
   lastModified?: string;
@@ -23,12 +24,18 @@ const ProjectsActionBar = ({
   setSelectedProjectCode,
 }: Props) => {
   const { t } = useTranslation();
-  const { handleModal } = useModal();
+  const { handleModal, close } = useModal();
+  const { setValue } = useFormContext();
   const { mutate: deleteProject } = useDeleteProject();
+  const pId = useWatch({ name: 'id' });
 
   const onDelete = () => {
-    deleteProject(projectId ?? '', {
-      onSuccess: () => {},
+    deleteProject(pId ?? '', {
+      onSuccess: () => {
+        setSelectedProjectCode('');
+        setValue('code', '');
+        close();
+      },
       onError: () => {},
     });
   };
@@ -46,6 +53,7 @@ const ProjectsActionBar = ({
                   clientNo={clientNo ?? ''}
                   setDefaultProject={(val: string) => {
                     setSelectedProjectCode(val);
+                    setValue('code', val);
                   }}
                 />
               );
@@ -65,7 +73,9 @@ const ProjectsActionBar = ({
               handleModal(
                 <ConfirmModal
                   title={t('Projects.DeleteModal.Title')}
-                  description={t('Projects.DeleteModal.Description')}
+                  description={t('Projects.DeleteModal.Description', {
+                    code: projectId,
+                  })}
                   confirmType={'PRIMARY'}
                   onConfirm={onDelete}
                 />

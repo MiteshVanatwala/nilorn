@@ -3,6 +3,7 @@ import QueryKeysEnum from './queryKeys';
 import { CreateProjectCommand, ProjectsService } from '../generate';
 import { useToast } from '../hooks/useToast';
 import { useTranslation } from 'react-i18next';
+import { ProjectPageDto } from '../generate/models/ProjectPageDto';
 
 export function useGetProjectsOptions(
   clientNo?: string,
@@ -76,6 +77,32 @@ export const useDeleteProject = () => {
         showToast({
           status: 'error',
           title: t('Errors.ProjectCreate'),
+        });
+      },
+    }
+  );
+};
+
+export const useCreateProjectPage = () => {
+  const queryClient = useQueryClient();
+  const { showToast } = useToast();
+  const { t } = useTranslation();
+
+  return useMutation(
+    (body: ProjectPageDto) =>
+      ProjectsService.patchApiProjects(body).then(response => response),
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        showToast({
+          status: 'success',
+          description: t('ManageData.Feedback.Success.ProjectCreated'),
+        });
+      },
+      onError: async () => {
+        showToast({
+          status: 'error',
+          title: t('ManageData.Feedback.Error.ProjectCreate'),
         });
       },
     }
