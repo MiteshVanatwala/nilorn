@@ -126,7 +126,7 @@ const CreatePriceCalculationModal = ({
         ref={outsideRef}
         mb={SPACE.LG}
         px={SPACE.SM}
-        maxW={SIZES.CONTAINER.MD}>
+        maxW={SIZES.CONTAINER.LG}>
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
