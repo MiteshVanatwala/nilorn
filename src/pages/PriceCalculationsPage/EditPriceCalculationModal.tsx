@@ -145,7 +145,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
         ref={outsideRef}
         mb={SPACE.LG}
         px={SPACE.SM}
-        maxW={SIZES.CONTAINER.MD}>
+        maxW={SIZES.CONTAINER.LG}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>
