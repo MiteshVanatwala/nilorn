@@ -56,39 +56,36 @@ const ProjectsTopSection = ({
 
   useEffect(() => {
     if (!!clientNo && !!projectId && !!projectCard) {
-      console.log('59');
       reset({ ...projectCard });
-    } else if (!!projectId && !!projectCard) {
-      console.log('62');
+    } else if (!projectId) {
       reset({
         clientNo,
+        code: '',
+        description: '',
+        clientName: '',
+        members: [],
+        lastModified: '',
+        teamsName: '',
+        channelName: '',
+        artWorkFolderName: '',
+        attachmentFolderName: '',
       });
     }
   }, [clientNo, projectId, projectCard]);
 
   useEffect(() => {
-    console.log(projectOptions);
     setOptionItems(projectOptions);
-    setValue('code', null);
-    setValue('project', null);
   }, [projectOptions]);
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
     setSelectedProjectCode('');
+    setValue('code', null);
+    setValue('project', null);
   }, [clientNo]);
 
   useEffect(() => {
     setSelectedProjectCode(projectId);
-  }, [projectId]);
-
-  useEffect(() => {
-    if (projectId !== undefined && projectId !== '') {
-      setOptionItems(projectOptions);
-    } else {
-      setOptionItems([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   return (
