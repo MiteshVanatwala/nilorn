@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import type { ClientDto } from '../../../app/generate/models/ClientDto';
-import { useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import { useFormContext } from 'react-hook-form';
@@ -17,15 +16,8 @@ const ClientSourcingSection = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  //WYSIWYG editor
   const { setValue, watch } = useFormContext<ClientDto>();
   const requirement = watch('requirement');
-  // Update content when client changes
-  useEffect(() => {
-    if (client?.requirement) {
-      setValue('requirement', client.requirement);
-    }
-  }, [client, setValue]);
 
   // Quill editor modules configuration
   const modules = {
@@ -39,7 +31,7 @@ const ClientSourcingSection = ({
 
   return (
     <AccordionItem title={`${t('Client.AccordionLabels.Requirements')}`}>
-      <div className="quill-container" style={{ minHeight: '200px' }}>
+      <div className="quill-container" style={{ height: 200 }}>
         <ReactQuill
           theme="snow"
           value={requirement || ''}
@@ -50,6 +42,9 @@ const ClientSourcingSection = ({
               shouldDirty: true,
               shouldTouch: true,
             });
+          }}
+          style={{
+            height: 'calc(100% - 40px)',
           }}
         />
       </div>

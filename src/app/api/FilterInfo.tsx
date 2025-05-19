@@ -26,14 +26,13 @@ export function useClients(
   );
 }
 
-export function useClient(
-  clientNo: string,
-) {
+export function useClient(clientNo: string) {
   return useQuery(
     [QueryKeysEnum.Clients, clientNo],
     () => ClientService.getApiClient1(clientNo).then(res => res),
     {
       retry: 0,
+      enabled: !!clientNo,
     }
   );
 }

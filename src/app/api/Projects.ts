@@ -96,13 +96,13 @@ export const useCreateProjectPage = () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
         showToast({
           status: 'success',
-          description: t('ManageData.Feedback.Success.ProjectCreated'),
+          description: t('Projects.Messages.Success'),
         });
       },
       onError: async () => {
         showToast({
           status: 'error',
-          title: t('ManageData.Feedback.Error.ProjectCreate'),
+          title: t('Projects.Messages.Fail'),
         });
       },
     }

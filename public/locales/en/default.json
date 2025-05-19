@@ -434,12 +434,20 @@
       "AttachmentFolderName": "Attachment folder name",
       "AttachmentFolderNamePlaceholder": "Enter attachment folder name",
       "AttachmentFolderNameError": "Attachment folder name is required"
+    },
+    "Messages": {
+      "Success": "Client saved successfully",
+      "Fail": "Something went wrong while saving client"
     }
   },
   "Projects": {
     "DeleteModal": {
       "Title": "Delete Project",
       "Description": "Are you sure you want to delete project {{code}}?"
+    },
+    "Messages": {
+      "Success": "Project saved successfully",
+      "Fail": "Something went wrong while saving project"
     }
   }
 }

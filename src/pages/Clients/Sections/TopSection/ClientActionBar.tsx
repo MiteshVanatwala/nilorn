@@ -4,13 +4,10 @@ import RemixIcon from '../../../../components/Icon/RemixIcon';
 import { useTranslation } from 'react-i18next';
 import { useWatch } from 'react-hook-form';
 
-type Props = {
-  lastModified?: string;
-};
-
-const ClientActionBar = ({ lastModified }: Props) => {
+const ClientActionBar = () => {
   const { t } = useTranslation();
-  const clientNo = useWatch({ name: 'clientNo' });
+  const clientNo = useWatch({ name: 'no' });
+  const lastModified = useWatch({ name: 'lastModified' });
   return (
     <ActionBarTemplate
       lastModifiedDate={lastModified}

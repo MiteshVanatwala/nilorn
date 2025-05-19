@@ -1,52 +1,50 @@
 import { Grid, GridItem, VStack } from '@chakra-ui/react';
-import SelectBase from '../../components/Form/SelectBase';
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
-import { SelectOption } from '../../app/types/types';
-import { useGetProjectsOptions } from '../../app/api/Projects';
 import { useTranslation } from 'react-i18next';
 import ControlWrapper from '../../components/Form/ControlWrapper';
 import { GRID, SPACE } from '../../theme/Constants';
 import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { useClient } from '../../app/api/FilterInfo';
 
 type Props = {
   selectedClientNo?: string;
   setSelectedClientNo: Dispatch<SetStateAction<string | undefined>>;
   selectedProjectCode?: string;
-  setSelectedProjectCode?: Dispatch<SetStateAction<string | undefined>>;
-  clientOptions?: SelectOption[];
   actionBar: JSX.Element;
 };
 
-const CardPageTopSection = ({
-  selectedProjectCode,
-  selectedClientNo,
-  setSelectedProjectCode,
-  setSelectedClientNo,
-  // clientOptions,
-  actionBar,
-}: Props) => {
+const CardPageTopSection = ({ setSelectedClientNo, actionBar }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions('clients', true);
-  const { data: projectOptionItems } = useGetProjectsOptions(
-    selectedClientNo,
-    !!setSelectedProjectCode
-  );
-  const clientNo = useWatch({ name: 'clientNo' });
+  const { reset } = useFormContext();
+  const clientNo = useWatch({ name: 'no' });
+  const { data: client } = useClient(clientNo ?? '');
 
-  const projectOptions = useMemo(() => {
-    return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
-  }, [projectOptionItems]);
+  useEffect(() => {
+    setSelectedClientNo(clientNo);
+  }, [clientNo]);
 
-  const onChangeProject = (option: SelectOption) => {
-    setSelectedProjectCode && setSelectedProjectCode(option.value);
-  };
-
-  const onChangeClient = (option: SelectOption) => {
-    setSelectedClientNo(option.value);
-    setSelectedProjectCode && setSelectedProjectCode(undefined);
-  };
+  useEffect(() => {
+    if (client) {
+      reset({ ...client });
+    } else {
+      reset({
+        accountManager: {},
+        keyAccountManager: {},
+        no: '',
+        name: '',
+        members: [],
+        lastModified: '',
+        requirement: '',
+        teamsName: '',
+        channelName: '',
+        artWorkFolderName: '',
+        attachmentFolderName: '',
+      });
+    }
+  }, [client]);
 
   return (
     <Grid
@@ -73,45 +71,13 @@ const CardPageTopSection = ({
           md: 2,
         }}>
         <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-          {/* <SelectBase
-            name={'client'}
-            onChange={onChangeClient}
-            options={clientOptions}
-            value={clientOptions?.find(
-              option => option.value === selectedClientNo
-            )}
-          /> */}
           <Select
-            onChange={onChangeClient}
             placeholder={t('PD.Client')}
-            name="clientNo"
+            name="no"
             options={clientOptions}
             registerOptions={{ required: true }}
           />
         </ControlWrapper>
-      </GridItem>
-      <GridItem
-        colSpan={{
-          base: 2,
-          md: 2,
-        }}>
-        {!!setSelectedProjectCode && (
-          <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-            <SelectBase
-              name={'project'}
-              isDisabled={!clientNo}
-              onChange={onChangeProject}
-              options={projectOptions as SelectOption[]}
-              value={
-                !!selectedProjectCode
-                  ? (projectOptions?.find(
-                      option => option.value === selectedProjectCode
-                    ) as SelectOption)
-                  : undefined
-              }
-            />
-          </ControlWrapper>
-        )}
       </GridItem>
       <GridItem colSpan={3} colStart={-4}>
         <VStack
