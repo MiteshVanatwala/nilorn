@@ -54,7 +54,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
 
   const getUniqueClients = Object.values(selectedPrices)
     .filter(val => val.selected === true)
-    .map(val => val.client)
+    .map(val => val.productDevelopmentNo)
     .filter((x, i, a) => a.indexOf(x) === i).length;
 
   async function onSubmit(): Promise<void> {
