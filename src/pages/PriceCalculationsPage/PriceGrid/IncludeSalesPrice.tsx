@@ -49,7 +49,7 @@ const IncludeSalesPrice = ({
       <Box>
         <Switch
           variant={isValid ? 'default' : 'invalid'}
-          isChecked={isIncluded}
+          isChecked={isValid ? (isIncluded ? true : false) : false}
           onChange={toggleInclude}
           isReadOnly={disableEdit}
           onKeyDown={e => {
