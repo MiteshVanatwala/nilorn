@@ -86,7 +86,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
 
     try {
       downloadFile(
-        `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
+        'https://localhost:7288/api/Excel/GetExcel',
         `${fileName.replace(/xlsx/gi, '').replace(/xls/gi, '')}.xlsx`,
         'PUT',
         excelExportOptions

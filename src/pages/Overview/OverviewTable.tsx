@@ -4,6 +4,7 @@ import {
   SortingState,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
 } from '@tanstack/react-table';
 import { THeadRow } from '../../components/Table/THeadRow';
 import { COLORS } from '../../theme/Constants';
@@ -25,6 +26,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     data,
     onSortingChange: setSortState,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting: sortState,
     },
