@@ -105,53 +105,21 @@ const useOverviewColumns = () => {
       id: 'Client',
       header: 'Client',
       enableSorting: true,
-      sortingFn: (rowA, rowB, columnId) => {
-
-        const normalize = (val: any) =>
-          (val === null || val === undefined ? '' : val.toString().replace(/\s+/g, ' ').trim().toLowerCase());
-        const a = normalize(rowA.getValue(columnId));
-        const b = normalize(rowB.getValue(columnId));
-        if (a === b) return 0;
-        if (!a) return 1;
-        if (!b) return -1;
-        return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
-      },
+      sortingFn: projectSort,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('project', {
       id: 'Project',
       header: 'Project',
       enableSorting: true,
-      sortingFn: (rowA, rowB, columnId) => {
-        const normalize = (val: any) =>
-          (val === null || val === undefined ? '' : val.toString().replace(/\s+/g, ' ').trim().toLowerCase());
-        const a = normalize(rowA.getValue(columnId));
-        const b = normalize(rowB.getValue(columnId));
-        if (a === b) return 0;
-        if (!a) return 1;
-        if (!b) return -1;
-        return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
-      },
+      sortingFn: projectSort,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
-    }),
-    columnHelper.accessor('itemCategory', {
-      header: `${t('PD.ItemCategory')}`,
-      cell: info => info.getValue(),
     }),
     columnHelper.accessor('productGroup', {
       id: 'ProductGroup',
       header: 'Product Group',
       enableSorting: true,
-      sortingFn: (rowA, rowB, columnId) => {
-        const normalize = (val: any) =>
-          (val === null || val === undefined ? '' : val.toString().replace(/\s+/g, ' ').trim().toLowerCase());
-        const a = normalize(rowA.getValue(columnId));
-        const b = normalize(rowB.getValue(columnId));
-        if (a === b) return 0;
-        if (!a) return 1;
-        if (!b) return -1;
-        return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
-      },
+      sortingFn: projectSort,
       cell: info => (
         <Tooltip label={info.getValue()}>
           <Text
