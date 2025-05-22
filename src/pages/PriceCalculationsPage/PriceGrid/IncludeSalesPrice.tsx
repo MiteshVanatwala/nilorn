@@ -36,7 +36,7 @@ const IncludeSalesPrice = ({
   }, [isIncluded, isValid, t]);
 
   const toggleInclude = () => {
-    mutate(!isIncluded, {
+    mutate( (!isValid && isIncluded) ? isIncluded : !isIncluded, {
       onSuccess: res => {
         setIncluded(res.included ?? false);
         setVaild(res.valid ?? false);
