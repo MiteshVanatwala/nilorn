@@ -29,7 +29,7 @@ function OverviewTableContainer() {
   if (isError) {
     return <Alert status="info" title={`${t('Common.Error')}`} />;
   }
-
+  
   return (
     <>
       {(isLoading || isFetching) && <SpinnerOverlay />}
