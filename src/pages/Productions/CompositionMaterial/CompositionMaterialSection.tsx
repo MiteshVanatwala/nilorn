@@ -70,7 +70,7 @@ const CompositionMaterialSection = ({
   return (
     <VStack align={'start'} gap={SPACE.SM} width={'min-content'} pt={SPACE.XL}>
       <Grid
-        templateColumns={'20rem 7rem min-content'}
+        templateColumns={'26rem 7rem min-content'}
         columnGap={SPACE.SM}
         rowGap={SPACE.SM}
         w={'100%'}>
