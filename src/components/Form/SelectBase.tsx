@@ -38,6 +38,18 @@ const customSelectComponents = {
 
 type SelectProps<IsMulti extends boolean = false> = {
   name: string;
+  unselectedOptions?:
+    | OptionsOrGroups<
+        {
+          label: string;
+          value: any;
+        },
+        GroupBase<{
+          label: string;
+          value: any;
+        }>
+      >
+    | undefined;
   options:
     | OptionsOrGroups<
         {
@@ -84,6 +96,7 @@ type SelectProps<IsMulti extends boolean = false> = {
 const SelectBase = <IsMulti extends boolean = false>({
   name,
   options,
+  unselectedOptions,
   placeholder,
   onChange,
   onBlur,
@@ -212,28 +225,44 @@ const SelectBase = <IsMulti extends boolean = false>({
         indicatorsContainer: base => ({
           display: invisible ? 'none' : 'relative',
         }),
-        option: (base, { isSelected, isFocused }) => ({
-          ...base,
-          ...text.baseStyle,
-          minHeight: SPACE.XL,
-          backgroundColor: COLORS.GRAY[10],
-          px: SPACE.XS,
-          py: SPACE.XXS,
-          wordWrap: 'break-word',
-          minWidth: 'fit-content',
-          wordBreak: 'break-word',
-          '&:hover': {
-            backgroundColor: COLORS.GRAY[20],
-          },
-          ...(isSelected && {
-            backgroundColor: COLORS.GRAY[20],
-            color: COLORS.BLACK,
-          }),
-          ...(isFocused && {
-            backgroundColor: COLORS.GRAY[20],
-            color: COLORS.BLACK,
-          }),
-        }),
+        option: (base, { data, isSelected, isFocused }) => {
+          const isUsed =
+            unselectedOptions !== undefined
+              ? !unselectedOptions?.filter(
+                  (item: any) => item?.value === data.value
+                ).length
+              : false;
+
+          return {
+            ...base,
+            ...text.baseStyle,
+            minHeight: SPACE.XL,
+            backgroundColor: COLORS.GRAY[10],
+            px: SPACE.XS,
+            py: SPACE.XXS,
+            wordWrap: 'break-word',
+            minWidth: 'fit-content',
+            wordBreak: 'break-word',
+            '&:hover': {
+              backgroundColor: COLORS.GRAY[20],
+            },
+            ...(isUsed && {
+              textDecoration: 'line-through',
+              opacity: '0.5',
+              pointerEvents: 'none',
+            }),
+            ...(isSelected && {
+              backgroundColor: COLORS.GRAY[20],
+              color: COLORS.BLACK,
+              textDecoration: 'none',
+              opacity: 1,
+            }),
+            ...(isFocused && {
+              backgroundColor: COLORS.GRAY[20],
+              color: COLORS.BLACK,
+            }),
+          };
+        },
         groupHeading: base => ({
           ...base,
           bgColor: groupColor,
