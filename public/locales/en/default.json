@@ -1,0 +1,393 @@
+{
+  "Common": {
+    "Title": "Umbrella",
+    "GoHome": "Go home",
+    "Cancel": "Cancel",
+    "Yes": "Yes",
+    "No": "No",
+    "SigningIn": "Signing you in...",
+    "SigningOut": "Signing you out...",
+    "AuthError": "Authentication error",
+    "AuthErrorNoAcesss": "You dont have premissons to access this page.",
+    "ReloadSite": "Reload site",
+    "ErrorTitle": "An error occurred while processing your request",
+    "Page": "Page",
+    "Next": "Next",
+    "Previous": "Previous",
+    "Of": "of",
+    "RowsPerPage": "Rows per page:",
+    "NoOptions": "No options...",
+    "Loading": "Loading",
+    "Error": "Failed to load content",
+    "SendTo": "Send to:",
+    "Save": "Save",
+    "ChangeStatus": "Change status",
+    "MoreOptions": "More options",
+    "More": "More",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Remove": "Remove",
+    "Preview": "Preview",
+    "Add": "Add",
+    "Download": "Download",
+    "LastChanged": "Last changed:",
+    "Placeholder": "Enter value",
+    "NoMatch": "Sorry, we could not find any results",
+    "Success": "Success",
+    "CreateNew": "Create new",
+    "Or": "Or",
+    "GoToHome": "Go to start page",
+    "Confirm": "Confirm",
+    "LastEdited": "Last edited",
+    "ReadComment": "Read comment",
+    "NumberOfHits": "Number of hits:",
+    "Percentage": "Percentage",
+    "Percentage_sign": "%"
+  },
+  "Menu": {
+    "Hyphome": "Start",
+    "HypProducts": "Product Developments",
+    "HypSource": "Sourcings",
+    "HypChangelog": "Changelog",
+    "HypClient": "Clients",
+    "HypProjects": "Projects",
+    "HypPrice": "Price Calculations",
+    "HypProduction": "Productions",
+    "HypUser": "User",
+    "HypLogout": "Log out"
+  },
+  "PD": {
+    "Image": "Image",
+    "Name": "Name",
+    "Number": "Number",
+    "Status": "Status",
+    "Artwork": "Artwork",
+    "Attatchments": "Attatchments",
+    "FailToUpload": "Fail to upload:",
+    "Client": "Client",
+    "SubClient": "Sub Client",
+    "Type": "Product Type",
+    "Project": "Project",
+    "Delete": "Delete",
+    "ShowChanges": "Show changes",
+    "HideChanges": "Hide changes",
+    "IncludeClosed": "Include closed product developments",
+    "SourcingCompany": "Sourcing",
+    "SourcingCompanies": "Sourcings",
+    "OPcomp": "Operations  company",
+    "StockLoaction": "Stock loaction",
+    "AddMember": "Add member",
+    "AddSourcing": "Add sourcing",
+    "RemoveSourcing": "Remove sourcing",
+    "AddProject": "Create new project",
+    "ProjectName": "Project name",
+    "Member": "Member",
+    "ProductGroup": "Product Group",
+    "ItemCategory": "Item Category",
+    "MemberInfo": "Members can only be added after the product development is created.",
+    "CreateNew": "Create product development",
+    "PDNamePlaceholder": "Product Development",
+    "Error": "Something went wrong",
+    "BackToOverview": "Back to overview",
+    "BackToProductions": "Back to productions",
+    "BackToCalculations": "Back to calculations",
+    "ProjectCreated": "Project created",
+    "ClickPaste": "Paste from clipboard",
+    "OrPaste": "Or click to paste from clipboard",
+    "UploadImage": "Upload image",
+    "ClearSelection": "Clear selection",
+    "SaveBeforeUploadImg": "Save before uploading image",
+    "PasteFromClipboard": "Pasted from clipboard",
+    "DeleteTitle": "Are you sure?",
+    "DeleteComfirm": "Are you sure you want to delete product development {{no}}?",
+    "ViewProductions": "View productions",
+    "AddProductions": "Create production",
+    "AddCalculation": "Create calculation",
+    "ViewCalculation": "View calculation",
+    "EditCompareProduction": "View productions",
+    "EditCompareCalculation": "View calculations",
+    "DeleteMsg": "Are you sure you want to delete this record?",
+    "UnsavedChanges": "Unsaved changes",
+    "UnsavedChangesMsg": "This page contains unsaved changes. Do you still want to leave the page?",
+    "UnsavedProductionChanges": "Production needs to be saved before removing from sales",
+    "Copy": {
+      "Create": "Create copy",
+      "ConfirmModal": {
+        "Title": "Create copy",
+        "Description": "Would you like to create a copy of product development {{no}}?"
+      }
+    },
+    "Version": {
+      "Version": "Versions",
+      "Create": "Create version",
+      "ConfirmModal": {
+        "Title": "Create version",
+        "Description": "Would you like to create a new version of product development {{no}}?"
+      }
+    },
+    "File": {
+      "BrowseFile": "Browse files...",
+      "DeleteFile": "Do you want to delete the file, or only remove the link to the file (file will be kept in Teams)?",
+      "MediaFileInfo": "Artwork and attachments can only be uploaded after the product development is created.",
+      "DragDropArtwork": "Drop artwork to upload to product development {{no}}",
+      "Delete": "Delete file",
+      "RemoveLink": "Remove link",
+      "ReplaceArtworkTitle": "Artwork already exists",
+      "ReplaceArtworkDescription": "Do you want to replace it?",
+      "Feedback": {
+        "Success": {
+          "FileUpdated": "File {{name}} uploaded successfully"
+        },
+        "Error": {
+          "FileDelete": "Failed to delete file",
+          "FileRemoveLink": "Failed to remove link to file",
+          "FileDownload": "Failed to download file",
+          "FileUpdated": "Failed to upload file {{name}}",
+          "FileLocationMissingBackendMessage": "File location has not been entered on Project or Client.",
+          "FileLocationMissing": "File cannot be uploaded. File location has not been entered on Project or client.",
+          "EnteredNameInDBIncorrect": "Failed to upload file {{name}}. {{level1}} name entered on {{level2}} is incorrect.",
+          "EnteredNameInDBMissing": "Failed to upload file {{name}}. File location on project or client is incomplete or missing."
+        },
+        "Info": {
+          "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
+          "ArtworkUploadType": "Artwork needs to be of type .pdf"
+        }
+      }
+    },
+    "FormContent": {
+      "FinishedLength": "Finished Length",
+      "Description": "Description",
+      "FinishedLengthMM": "Finished Length (mm)",
+      "FinishedWidth": "Finished Width",
+      "FinishedWidthMM": "Finished Width (mm)",
+      "FinishedHeight": "Finished Height",
+      "FinishedHeightMM": "Finished Height (mm)",
+      "TargetSales": "Target Sales Price",
+      "ProductGroup": "Product Group",
+      "ItemCategory": "Item Category",
+      "ItemNumber": "Item No.",
+      "FreightIncluded": "Freight Included",
+      "SampleQuantity": "Sample Quantity",
+      "Folding": "Folding",
+      "TargetPurchasePrice": "Target Purchase Price",
+      "FoldingType": "Folding Type",
+      "Quantity": "Quantity",
+      "ClientRequirements": "Client Requirements",
+      "VersionSpecification": "Version Specification"
+    },
+    "StatusLabel": {
+      "New": "New",
+      "Design": "Design",
+      "Artwork": "Artwork",
+      "Sourcing": "Sourcing",
+      "Calculation": "Calculation",
+      "Approved": "Approved",
+      "Rejected": "Rejected",
+      "Deleted": "Deleted"
+    },
+    "AccordionLabels": {
+      "Members": "Members",
+      "Vendor": "Vendor",
+      "Sourcing": "Sourcings",
+      "Attachments": "Attachments",
+      "ProductDesign": "Design",
+      "General": "General",
+      "Versions": "Versions"
+    },
+    "FilterLabel": {
+      "searchQuery": "",
+      "clients": "Client",
+      "statuses": "Status",
+      "includeClosed": "",
+      "itemCategories": "Item Category",
+      "productGroups": "Product Group",
+      "foldingTypes": "Folding Type",
+      "projects": "Project",
+      "finishedLengths": "Finished Length",
+      "finishedWidths": "Finished Width",
+      "finishedHeights": "Finished Height",
+      "vendors": "Vendor",
+      "stockLocation": "Stock Location",
+      "opComps": "Operational Company",
+      "members": "Member",
+      "sourcingCompanies": "Sourcing",
+      "productDevelopments_short": "Product Development No.",
+      "productDevelopments": "Product Development Number",
+      "certificates": "Certificate",
+      "indirectCosts": "Indirect Cost"
+    },
+    "Feedback": {
+      "Success": {
+        "Update": "Product development has been saved",
+        "UpdateStatus": "Product development status has been updated to {{status}}",
+        "Created": "Product development {{no}} has been created"
+      },
+      "Error": {
+        "NotFound": "Could not find product development {{no}}",
+        "FileType": "File must be an image",
+        "Changes": "Failed to load changelog for product development {{no}}",
+        "FieldLength": "Max length is {{length}} characters",
+        "Create": "Failed to create new product development",
+        "Update": "Failed to update product development",
+        "UpdateStatus": "Failed to change status on product development",
+        "FileUpdated": "Failed to upload file {{name}}",
+        "CreateCopy": "Failed to create copy",
+        "CreateVersion": "Failed to create version"
+      },
+      "Info": {
+        "NeedToSave": "Product development needs to be saved before changing status"
+      }
+    }
+  },
+  "Production": {
+    "ProductDevelopments": "Product Development",
+    "Release": "Release for sales",
+    "Remove": "Remove from sales",
+    "SaveAndRelease": "Save and release",
+    "Comment": "Comment",
+    "CommentPlaceholder": "Enter comment",
+    "SL": "Sample Lead Time",
+    "BL": "Production Lead Time",
+    "MOQ": "MOQ",
+    "Qty": "Quantity",
+    "PUR": "Purchase Price",
+    "Tool": "Tool Charge",
+    "Currency": "Currency",
+    "Sample": "Sample Charge",
+    "SaveSuccess": "Production has been saved",
+    "CreateProduction": "Create production",
+    "CreateAndRelease": "Create and release",
+    "SaveReleaseSuccess": "Production has been saved and released for sales",
+    "ReleaseSaleSuccess": "Production has been released for sales",
+    "RemoveSaleSuccess": "Production has been removed for sales",
+    "ChooseVendor": "Choose vendor",
+    "CreateSuccess": "Production has been created",
+    "CreateAndReleaseSuccess": "Production has been created and released for sales",
+    "Deleted": "Production has been deleted",
+    "Certificates": "Certificates",
+    "CertificateCode": "Certificate Code",
+    "CertificateCategory": "Certificate Category",
+    "CertificateClass": "Certificate Class",
+    "CertificateWeight": "Certificate Weight",
+    "CompositionMaterial": "Material",
+    "PercentPlaceholder": "0-100",
+    "Vendor": "Vendor",
+    "Feedback": {
+      "Error": {
+        "Percentage": "Percentage should be between 0 and 100"
+      }
+    }
+  },
+  "PriceCalc": {
+    "AddCalculation": "Create calculation",
+    "EditCalculation": "Edit calculation",
+    "CreateCalculation": "Create price calculation",
+    "EditInline": "Edit inline",
+    "BaseValues": "Base values",
+    "Net": "Purchase Price",
+    "PurCurr": "Purchase Currency",
+    "SalesCurr": "Sales Currency",
+    "Margin": "Margin",
+    "Sales": "Sales Price",
+    "Cost": "Cost",
+    "InternalCommission": "Internal Commission",
+    "InternalCommission_short": "Int. comm.",
+    "IndirectCost": "Indirect Cost",
+    "CurrencyRate": "Currency Rate",
+    "FreightIncluded": "Freight Included",
+    "FreightIncluded_short": "Freight Incl.",
+    "PurchaseCurrency": "Purchase Currency",
+    "SalesCurrency": "Sales Currency",
+    "Percentage": " (%)",
+    "Export": {
+      "Included": "Price is to be included in quote (excel export)",
+      "NotIncluded": "Price is not to be included in quote (excel export)",
+      "Invalid": "Purchase price has been updated since price calculation was created. The row will not be included in quote (excel export)."
+    },
+    "Feedback": {
+      "Success": {
+        "Update": "Calculation has been saved",
+        "Create": "Calculation has been created",
+        "Remove": "Calculation has been deleted",
+        "UpdateRows": "Margin and sales price have been saved",
+        "UpdateValid": "Sales price has been validated and included in quote (excel export)",
+        "UpdateIncluded": "Sales price has been included in quote (excel export)",
+        "UpdateNotIncluded": "Sales price has been removed from quote (excel export)"
+      },
+      "Error": {
+        "Create": "Failed to create new calculation",
+        "Update": "Failed to update calculation",
+        "UpdateRows": "Failed to update margin and sales price",
+        "MarginTooHigh": "Margin can be maximum 99.99",
+        "UpdateIncluded": "Failed to update valid and include"
+      }
+    }
+  },
+  "Changelog": {
+    "To": "To",
+    "From": "From",
+    "By": "User",
+    "When": "When"
+  },
+  "Filter": {
+    "AdvanceFilter": "Advanced filters",
+    "Search": "Search",
+    "SearchPlaceholder": "Search by...",
+    "Select": "Select...",
+    "NumSelected": "{{num}} selected",
+    "Client": "Client",
+    "Status": "Status",
+    "Clear": "Clear all",
+    "Enter": "Enter",
+    "Remove": "Remove filter",
+    "SearchProfile": {
+      "Name": "Custom filter name",
+      "Label": "My saved filters",
+      "Heading": "Save current filter",
+      "Save": "Save custom filter",
+      "Update": "Update current filter",
+      "Feedback": {
+        "Success": {
+          "Save": "Filter saved",
+          "Delete": "Filter deleted"
+        },
+        "Error": {
+          "Save": "Error while saving saved filter",
+          "Delete": "Error while deleting saved filter"
+        }
+      }
+    }
+  },
+  "Errors": {
+    "Required": "The field is required",
+    "EmptyFilter": "Filter can not be empty",
+    "FilterName": "Filter name is required",
+    "ProjectName": "Project name is required",
+    "ProjectNameLength": "Max length is 30 characters",
+    "ProjectCreate": "Error while creating project",
+    "UniqueValue": "Value must be unique",
+    "MustBeANumber": "Must be a number",
+    "MustBeAnInteger": "Must be an integer",
+    "MinToLow": "Can be minimum {{min}}"
+  },
+  "NotFound": {
+    "Title": "Oh no! This page does not exist",
+    "Description": "We are sorry to inform you that this page does not exist. However, you can visit a lot of our other pages instead! ",
+    "GoToHome": "Go to home"
+  },
+  "ExcelExport": {
+    "Menu": "Excel export",
+    "ModalTitle": "Create excel export",
+    "ModalDesc": "Select the information you want to include in the export",
+    "image": "Image",
+    "itemNo": "Item No",
+    "description": "Description",
+    "versionSpec": "Version Specification",
+    "certificate": "Certificate",
+    "moq": "MOQ",
+    "vendor": "Vendor",
+    "purchasePrice": "Purchase Price",
+    "FileName": "File name",
+    "ProductDevelopmentIncluded": "product developments are included in the selection"
+  }
+}

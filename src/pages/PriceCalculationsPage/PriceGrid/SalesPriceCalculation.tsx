@@ -1,0 +1,133 @@
+import { GridTd } from '../../../components/GridTable/GridTableElements';
+import { PriceCalculationDto, PriceDto } from '../../../app/generate';
+import {
+  calculateMargin,
+  calculateSalesPrice,
+} from '../../../app/utils/price/PriceHelper';
+import { MAX_MARGIN } from '../../../app/utils/constant';
+import { numToThousandSeparatedsStr, roundUp } from '../../../app/utils/common';
+import PriceGridInput from './PriceGridInput';
+import IncludeSalesPrice from './IncludeSalesPrice';
+
+type Props = {
+  enableEdit: boolean;
+  salesPriceId: string;
+  calculation: PriceCalculationDto;
+  price: PriceDto;
+  salesPrice: number;
+  margin: number;
+  onCalculationChange: (
+    isValid: boolean,
+    newMargin: number,
+    newSalesPrice: number,
+    salesPriceId: string
+  ) => void;
+  disableEdit?: boolean;
+};
+
+const SalesPriceCalculation = ({
+  price,
+  salesPriceId,
+  calculation,
+  enableEdit,
+  margin,
+  salesPrice,
+  onCalculationChange,
+  disableEdit = false,
+}: Props) => {
+  const changeMargin = (newMarginValue: number, isValid: boolean) => {
+    let isInputValid = isValid;
+    let newMargin = newMarginValue;
+
+    if (newMarginValue > MAX_MARGIN) {
+      newMargin = MAX_MARGIN;
+      isInputValid = true;
+    }
+
+    if (newMargin === margin) {
+      return;
+    }
+
+    const newSalesPrice = calculateSalesPrice(
+      price.cost ?? 0,
+      calculation.freightIncluded ?? 0,
+      newMargin
+    );
+
+    onCalculationChange(
+      isInputValid,
+      newMargin,
+      newSalesPrice ?? 0,
+      salesPriceId
+    );
+  };
+
+  const changeSalesPrice = (newPrice: number, isValid: boolean) => {
+    if (newPrice === salesPrice) {
+      return;
+    }
+
+    const newMargin = calculateMargin(
+      newPrice,
+      price.cost ?? 0,
+      calculation.freightIncluded ?? 0
+    );
+
+    onCalculationChange(isValid, newMargin ?? 0, newPrice, salesPriceId);
+  };
+
+  return (
+    <>
+      <GridTd>
+        {numToThousandSeparatedsStr(
+          roundUp(price.cost, calculation?.currency?.costDecimals)
+        )}
+      </GridTd>
+      <GridTd>
+        <>
+          {enableEdit ? (
+            <PriceGridInput onChange={changeMargin} value={margin} max={100} />
+          ) : (
+            <>
+              {numToThousandSeparatedsStr(
+                roundUp(margin, calculation?.currency?.marginDecimals)
+              )}
+            </>
+          )}
+        </>
+      </GridTd>
+      <GridTd>
+        <>
+          {enableEdit ? (
+            <PriceGridInput
+              onChange={changeSalesPrice}
+              value={salesPrice}
+              min={0}
+            />
+          ) : (
+            <>
+              {numToThousandSeparatedsStr(
+                roundUp(salesPrice, calculation?.currency?.salesDecimals)
+              )}
+            </>
+          )}
+        </>
+      </GridTd>
+      <GridTd
+        onClick={e => {
+          e.stopPropagation();
+        }}>
+        {price.salesPriceId && (
+          <IncludeSalesPrice
+            salesPriceId={price.salesPriceId}
+            valid={price.valid ?? false}
+            included={price.included ?? false}
+            disableEdit={disableEdit}
+          />
+        )}
+      </GridTd>
+    </>
+  );
+};
+
+export default SalesPriceCalculation;

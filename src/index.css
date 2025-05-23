@@ -1,0 +1,26 @@
+@import url('https://use.typekit.net/vla4hxb.css');
+@import url('remixicon/fonts/remixicon.css');
+
+::selection {
+  background: var(--chakra-colors-BLUE-100);
+}
+
+html,
+body,
+div#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+.chakra-portal div:has(.number-tooltip) {
+  z-index: 9999;
+}
+
+.chakra-modal__content-container:has(.exit-confirmation-modal) {
+  z-index: 99999;
+}

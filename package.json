@@ -1,0 +1,69 @@
+{
+  "name": "nilorn.umbrella",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-table": "^8.10.3",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.53",
+    "@types/react": "^18.2.22",
+    "@types/react-dom": "^18.2.7",
+    "chakra-react-select": "^4.7.2",
+    "framer-motion": "^10.16.4",
+    "i18next": "^23.11.4",
+    "i18next-http-backend": "^2.2.2",
+    "npm": "^10.1.0",
+    "oidc-client-ts": "^2.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.2",
+    "react-i18next": "^13.2.2",
+    "react-oidc-context": "^2.3.1",
+    "react-query": "^3.39.3",
+    "react-router": "^6.16.0",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "react-textarea-autosize": "^8.5.3",
+    "remixicon": "^3.5.0",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "cross-env HTTPS=true react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "gen:api": "openapi --input https://udev.nilorn.com/swagger/v1/swagger.json --output ./src/app/generate",
+    "gen:theme-typings": "chakra-cli tokens ./src/theme/theme.ts",
+    "postinstall": "npm run gen:theme-typings"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@chakra-ui/cli": "^2.4.1",
+    "cross-env": "^7.0.3",
+    "openapi-typescript-codegen": "^0.25.0"
+  }
+}

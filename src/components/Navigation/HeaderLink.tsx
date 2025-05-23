@@ -1,0 +1,62 @@
+import { Link as LinkComponent } from '@chakra-ui/react';
+import COLORS from '../../theme/Constants/colors';
+import fontSizes from '../../theme/fontSizes';
+import { FC } from 'react';
+import { getCurrentStoredFilter } from '../../app/utils/FilterHelper';
+import { useLocation, useNavigate } from 'react-router-dom';
+import text from '../../theme/text';
+import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
+
+interface Props {
+  title?: string | JSX.Element;
+  path: string;
+  clickedStoredFilter: string;
+  variant?: 'headerLink' | 'logo';
+}
+
+const HeaderLink: FC<Props> = ({
+  path,
+  title,
+  clickedStoredFilter,
+  variant = 'headerLink',
+}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setLastVisitedPD } = useLastVisitedPD();
+
+  const handleClick = (url: string, clickedStoredFilter: string) => {
+    const storedFilter = getCurrentStoredFilter();
+    setLastVisitedPD('');
+
+    sessionStorage.setItem(storedFilter, window.location.search ?? '');
+    const prevFilter =
+      sessionStorage.getItem(clickedStoredFilter) ??
+      '?pageSize=25&pageNumber=1';
+
+    const newUrl = url + prevFilter;
+
+    if (location.pathname !== url) {
+      navigate(newUrl);
+    }
+  };
+
+  const isActive = location.pathname === path;
+
+  return (
+    <>
+      <LinkComponent
+        _hover={{ bg: variant !== 'logo' ? COLORS.GRAY[10] : COLORS.GRAY[0] }}
+        variant={variant}
+        as={'button'}
+        color={isActive ? COLORS.BLUE[200] : ''}
+        fontSize={fontSizes.xs}
+        fontWeight={text.variants.bodyRegular.fontWeight}
+        onClick={e => handleClick(path, clickedStoredFilter)}
+        whiteSpace={'nowrap'}>
+        {title}
+      </LinkComponent>
+    </>
+  );
+};
+
+export default HeaderLink;
