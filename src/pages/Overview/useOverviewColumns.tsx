@@ -17,6 +17,21 @@ interface CustomCellContext
   isLoading?: boolean;
 }
 
+const projectSort = (
+  rowA: any,
+  rowB: any,
+  columnId: string
+) => {
+  const normalize = (val: any) =>
+    (val === null || val === undefined ? '' : val.toString().replace(/\s+/g, ' ').trim().toLowerCase());
+  const a = normalize(rowA.getValue(columnId));
+  const b = normalize(rowB.getValue(columnId));
+  if (a === b) return 0;
+  if (!a) return 1;
+  if (!b) return -1;
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+};
+
 const useOverviewColumns = () => {
   const { t } = useTranslation();
 
@@ -62,7 +77,8 @@ const useOverviewColumns = () => {
     columnHelper.accessor('versions', {
       header: `${t('PD.Version.Version')}`,
       enableSorting: false,
-      cell: info => info.getValue() as Number,
+      cell: info =>
+        (info.getValue() as number) > 1 ? (info.getValue() as Number) : '',
     }),
     columnHelper.accessor('status', {
       header: `${t('PD.Status')}`,
@@ -86,19 +102,24 @@ const useOverviewColumns = () => {
       },
     }),
     columnHelper.accessor('client', {
-      header: `${t('PD.Client')}`,
+      id: 'Client',
+      header: 'Client',
+      enableSorting: true,
+      sortingFn: projectSort,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('project', {
-      header: `${t('PD.Project')}`,
-      cell: info => info.getValue(),
-    }),
-    columnHelper.accessor('itemCategory', {
-      header: `${t('PD.ItemCategory')}`,
-      cell: info => info.getValue(),
+      id: 'Project',
+      header: 'Project',
+      enableSorting: true,
+      sortingFn: projectSort,
+      cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('productGroup', {
-      header: `${t('PD.ProductGroup')}`,
+      id: 'ProductGroup',
+      header: 'Product Group',
+      enableSorting: true,
+      sortingFn: projectSort,
       cell: info => (
         <Tooltip label={info.getValue()}>
           <Text

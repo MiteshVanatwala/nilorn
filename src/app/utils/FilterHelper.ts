@@ -36,18 +36,15 @@ export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(
     () => {
-      // Update debounced value after delay
       const handler = setTimeout(() => {
         setDebouncedValue(value);
       }, delay);
-      // Cancel the timeout if value changes (also on delay change or unmount)
-      // This is how we prevent debounced value from updating if value is changed ...
-      // .. within the delay period. Timeout gets cleared and restarted.
+   
       return () => {
         clearTimeout(handler);
       };
     },
-    [value, delay] // Only re-call effect if value or delay changes
+    [value, delay]
   );
   return debouncedValue;
 }
@@ -136,7 +133,15 @@ export function getSortValue(columnSort: ColumnSort): string {
 }
 
 export function getSortState(sortValue: string): SortingState {
-  const match = sortValue.match(/([a-zA-Z]+)([a-zA-Z\d])$/);
+
+  let patchedSortValue = sortValue;
+  if (sortValue.startsWith('client')) {
+    patchedSortValue = sortValue.replace(/^client/, 'Client');
+  }
+  if (sortValue.startsWith('project')) {
+    patchedSortValue = sortValue.replace(/^project/, 'Project');
+  }
+  const match = patchedSortValue.match(/([a-zA-Z]+)([a-zA-Z\d])$/);
   const [, id, value] = match as [string, string, string];
   const result: { id: string; value: string } = { id, value };
 

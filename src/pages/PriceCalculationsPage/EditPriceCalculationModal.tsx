@@ -4,7 +4,7 @@ import {
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../app/generate';
 import { Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
-import { GRID, SPACE } from '../../theme/Constants';
+import { GRID, SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
@@ -141,7 +141,11 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     <>
       {deleteModal}
       {leavePageModal}
-      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+      <Box
+        ref={outsideRef}
+        mb={SPACE.LG}
+        px={SPACE.SM}
+        maxW={SIZES.CONTAINER.LG}>
         {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>

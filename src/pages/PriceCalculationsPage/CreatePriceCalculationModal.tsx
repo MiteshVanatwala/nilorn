@@ -9,7 +9,7 @@ import {
   SourcedProductionDto,
 } from '../../app/generate';
 import { Box, Skeleton } from '@chakra-ui/react';
-import { SPACE } from '../../theme/Constants';
+import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
@@ -122,7 +122,11 @@ const CreatePriceCalculationModal = ({
   return (
     <>
       {leavePageModal}
-      <Box ref={outsideRef} mb={SPACE.LG} px={SPACE.SM}>
+      <Box
+        ref={outsideRef}
+        mb={SPACE.LG}
+        px={SPACE.SM}
+        maxW={SIZES.CONTAINER.LG}>
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
