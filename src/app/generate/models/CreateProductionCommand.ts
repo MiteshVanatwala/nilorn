@@ -13,8 +13,10 @@ export type CreateProductionCommand = {
     moq?: number | null;
     sampleCharge?: number | null;
     toolCharge?: number | null;
-    sampleLeadTime?: number | null;
-    productionLeadTime?: number | null;
+    sampleLeadTimeMin?: number | null;
+    productionLeadTimeMin?: number | null;
+    sampleLeadTimeMax?: number | null;
+    productionLeadTimeMax?: number | null;
     comment?: string | null;
     sourcingId?: string | null;
     vendorId?: string | null;
