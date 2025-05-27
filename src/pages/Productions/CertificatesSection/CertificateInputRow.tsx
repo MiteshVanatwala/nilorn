@@ -112,10 +112,12 @@ const CertificateInputRow = ({
                   isControlled
                   autoFocus={focusOnMount}
                   name={certificateCodeName}
-                  options={unselectedOptions}
+                  options={options}
+                  unselectedOptions={unselectedOptions}
                   onChange={onChangeCode}
                   value={selectedCodeOption}
                   readOnly={disableEdit}
+                  hideSelected={false}
                 />
               )}
             />

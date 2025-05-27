@@ -1,6 +1,6 @@
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
 import { FocusEventHandler } from 'react';
-import { Text } from '@chakra-ui/react';
+import { Text, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
   ActionMeta,
@@ -38,6 +38,18 @@ const customSelectComponents = {
 
 type SelectProps<IsMulti extends boolean = false> = {
   name: string;
+  unselectedOptions?:
+    | OptionsOrGroups<
+        {
+          label: string;
+          value: any;
+        },
+        GroupBase<{
+          label: string;
+          value: any;
+        }>
+      >
+    | undefined;
   options:
     | OptionsOrGroups<
         {
@@ -84,6 +96,7 @@ type SelectProps<IsMulti extends boolean = false> = {
 const SelectBase = <IsMulti extends boolean = false>({
   name,
   options,
+  unselectedOptions,
   placeholder,
   onChange,
   onBlur,
@@ -118,155 +131,189 @@ const SelectBase = <IsMulti extends boolean = false>({
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
 
   return (
-    <Select
-      isDisabled={isDisabled}
-      autoFocus={autoFocus}
-      hideSelectedOptions={hideSelected}
-      selectedOptionStyle={showSelectedCount ? 'check' : undefined}
-      controlShouldRenderValue={
-        showSelectedCount || hideSelected ? false : true
-      }
-      isMulti={isMulti}
-      isSearchable={isSearchable}
-      isClearable={showSelectedCount || hideSelected ? false : undefined}
-      variant="filled"
-      name={name}
-      ref={passRef}
-      isReadOnly={readOnly}
-      onChange={onChange as any}
-      onBlur={onBlur}
-      components={customComponents}
-      value={isControlled ? value : undefined}
-      defaultValue={defaultValue}
-      options={options}
-      placeholder={placeholder}
-      menuPosition={'fixed'}
-      styles={{ menuPortal: base => ({ ...base, zIndex: 9 }) }}
-      chakraStyles={{
-        control: base => ({
-          ...base,
-          ...text.baseStyle,
-          whiteSpace: 'noWrap',
-          minHight:
-            isMulti && !showSelectedCount
-              ? 'max-content'
-              : invisible
-              ? 'auto'
-              : '3.7rem',
-          w: '100%',
-          pt: '0',
-          backgroundColor: bgColor,
-          borderColor: bgColor,
-          border: '2px solid',
-          opacity: readOnly ? READ_ONLY_OPACITY : '',
-          _hover: {
-            borderColor: !readOnly ? hover : '',
-            cursor: readOnly ? 'default' : 'pointer',
-            backgroundColor: bgColor,
-          },
-          _focusVisible: {
-            borderColor: focus,
-            backgroundColor: bgColor,
-          },
-          _focus: {
-            borderColor: focus,
-            backgroundColor: bgColor,
-          },
-        }),
-        valueContainer: base => ({
-          ...base,
-          padding: invisible ? '0' : base.padding,
-          color: color,
-          pt: '0',
-          minHeight: '3.7rem',
-          mt: '-2px',
-        }),
-        menuList: base => ({
-          ...base,
-          rootProps: { position: 'relative' },
-          right: 0,
-          zIndex: 9,
-          bottom: 'auto',
-          padding: '0',
-          margin: '0',
-          color: color,
-          maxW: '22rem',
-          bg: COLORS.GRAY[10],
-          overflowX: 'hidden',
-          whiteSpace: 'normal',
-        }),
-        placeholder: base => ({
-          ...base,
-          fontWeight: text.variants.bodyRegular.fontWeight,
-          color: isSelected && showSelectedCount ? color : placeHolderColor,
-        }),
-        input: base => ({
-          ...base,
-          color: color,
-        }),
-        clearIndicator: base => ({
-          ...base,
-          fontSize: SIZES.ICON.MD,
-          color: color,
-        }),
-        indicatorsContainer: base => ({
-          display: invisible ? 'none' : 'relative',
-        }),
-        option: (base, { isSelected, isFocused }) => ({
-          ...base,
-          ...text.baseStyle,
-          minHeight: SPACE.XL,
-          backgroundColor: COLORS.GRAY[10],
-          px: SPACE.XS,
-          py: SPACE.XXS,
-          wordWrap: 'break-word',
-          minWidth: 'fit-content',
-          wordBreak: 'break-word',
-          '&:hover': {
-            backgroundColor: COLORS.GRAY[20],
-          },
-          ...(isSelected && {
-            backgroundColor: COLORS.GRAY[20],
-            color: COLORS.BLACK,
-          }),
-          ...(isFocused && {
-            backgroundColor: COLORS.GRAY[20],
-            color: COLORS.BLACK,
-          }),
-        }),
-        groupHeading: base => ({
-          ...base,
-          bgColor: groupColor,
-          color: COLORS.WHITE,
-        }),
-        multiValue: base =>
-          showSelectedCount && isMulti
-            ? { display: 'none' }
-            : {
+    <>
+      <Tooltip
+        label={
+          readOnly
+            ? isMulti
+              ? Array.isArray(value)
+                ? value.map((v: any) => v?.label).join(', ')
+                : ''
+              : (value as any)?.label || ''
+            : ''
+        }
+        placement={'top'}
+        hasArrow>
+        <div>
+          <Select
+            isDisabled={isDisabled}
+            autoFocus={autoFocus}
+            hideSelectedOptions={hideSelected}
+            selectedOptionStyle={showSelectedCount ? 'check' : undefined}
+            controlShouldRenderValue={
+              showSelectedCount || hideSelected ? false : true
+            }
+            isMulti={isMulti}
+            isSearchable={isSearchable}
+            isClearable={showSelectedCount || hideSelected ? false : undefined}
+            variant="filled"
+            name={name}
+            ref={passRef}
+            isReadOnly={readOnly}
+            onChange={onChange as any}
+            onBlur={onBlur}
+            components={customComponents}
+            value={isControlled ? value : undefined}
+            defaultValue={defaultValue}
+            options={options}
+            placeholder={placeholder}
+            menuPosition={'fixed'}
+            styles={{ menuPortal: base => ({ ...base, zIndex: 9 }) }}
+            chakraStyles={{
+              control: base => ({
                 ...base,
-                bgColor: COLORS.GRAY[70],
-                paddingX: SPACE.SM,
-                paddingY: SPACE.XS,
-                position: 'relative',
+                ...text.baseStyle,
+                whiteSpace: 'noWrap',
+                minHight:
+                  isMulti && !showSelectedCount
+                    ? 'max-content'
+                    : invisible
+                    ? 'auto'
+                    : '3.7rem',
+                w: '100%',
+                pt: '0',
+                backgroundColor: bgColor,
+                borderColor: bgColor,
+                border: '2px solid',
+                opacity: readOnly ? READ_ONLY_OPACITY : '',
+                _hover: {
+                  borderColor: !readOnly ? hover : '',
+                  cursor: readOnly ? 'default' : 'pointer',
+                  backgroundColor: bgColor,
+                },
+                _focusVisible: {
+                  borderColor: focus,
+                  backgroundColor: bgColor,
+                },
+                _focus: {
+                  borderColor: focus,
+                  backgroundColor: bgColor,
+                },
+              }),
+              valueContainer: base => ({
+                ...base,
+                padding: invisible ? '0' : base.padding,
+                color: color,
+                pt: '0',
+                minHeight: '3.7rem',
+                mt: '-2px',
+              }),
+              menuList: base => ({
+                ...base,
+                rootProps: { position: 'relative' },
+                right: 0,
+                zIndex: 9,
+                bottom: 'auto',
+                padding: '0',
+                margin: '0',
+                color: color,
+                maxW: '22rem',
+                bg: COLORS.GRAY[10],
+                overflowX: 'hidden',
+                whiteSpace: 'normal',
+              }),
+              placeholder: base => ({
+                ...base,
+                fontWeight: text.variants.bodyRegular.fontWeight,
+                color:
+                  isSelected && showSelectedCount ? color : placeHolderColor,
+              }),
+              input: base => ({
+                ...base,
+                color: color,
+              }),
+              clearIndicator: base => ({
+                ...base,
+                fontSize: SIZES.ICON.MD,
+                color: color,
+              }),
+              indicatorsContainer: base => ({
+                display: invisible ? 'none' : 'relative',
+              }),
+              option: (base, { data, isSelected, isFocused }) => {
+                const isUsed =
+                  unselectedOptions !== undefined
+                    ? !unselectedOptions?.filter(
+                        (item: any) => item?.value === data.value
+                      ).length
+                    : false;
+
+                return {
+                  ...base,
+                  ...text.baseStyle,
+                  minHeight: SPACE.XL,
+                  backgroundColor: COLORS.GRAY[10],
+                  px: SPACE.XS,
+                  py: SPACE.XXS,
+                  wordWrap: 'break-word',
+                  minWidth: 'fit-content',
+                  wordBreak: 'break-word',
+                  '&:hover': {
+                    backgroundColor: COLORS.GRAY[20],
+                  },
+                  ...(isUsed && {
+                    textDecoration: 'line-through',
+                    opacity: '0.5',
+                    pointerEvents: 'none',
+                  }),
+                  ...(isSelected && {
+                    backgroundColor: COLORS.GRAY[20],
+                    color: COLORS.BLACK,
+                    textDecoration: 'none',
+                    opacity: 1,
+                  }),
+                  ...(isFocused && {
+                    backgroundColor: COLORS.GRAY[20],
+                    color: COLORS.BLACK,
+                  }),
+                };
               },
-        multiValueRemove: base => ({
-          ...base,
-          color: COLORS.WHITE,
-          ml: SPACE.XS,
-        }),
-        multiValueLabel: base => ({
-          ...base,
-          color: COLORS.WHITE,
-        }),
-        menu: base => ({
-          ...base,
-          zIndex: 9,
-          color: color,
-          maxH: isScrollable ? '22rem' : '',
-          overflowY: isScrollable ? 'auto' : '',
-        }),
-      }}
-    />
+              groupHeading: base => ({
+                ...base,
+                bgColor: groupColor,
+                color: COLORS.WHITE,
+              }),
+              multiValue: base =>
+                showSelectedCount && isMulti
+                  ? { display: 'none' }
+                  : {
+                      ...base,
+                      bgColor: COLORS.GRAY[70],
+                      paddingX: SPACE.SM,
+                      paddingY: SPACE.XS,
+                      position: 'relative',
+                    },
+              multiValueRemove: base => ({
+                ...base,
+                color: COLORS.WHITE,
+                ml: SPACE.XS,
+              }),
+              multiValueLabel: base => ({
+                ...base,
+                color: COLORS.WHITE,
+              }),
+              menu: base => ({
+                ...base,
+                zIndex: 9,
+                color: color,
+                maxH: isScrollable ? '22rem' : '',
+                overflowY: isScrollable ? 'auto' : '',
+              }),
+            }}
+          />
+        </div>
+      </Tooltip>
+    </>
   );
 };
 export default SelectBase;
