@@ -13,15 +13,22 @@ import { MultiValue } from 'react-select';
 import { useMemo, useState } from 'react';
 import { MemberBriefDto } from '../../../app/generate';
 import { useAuthorizedRemoveUser } from '../../../app/Permissions/usePremissions';
+import { useMembers as useMembersList } from '../../../app/api/FilterInfo';
 type Props = {
-  no: string;
+  no?: string;
   createNew?: boolean;
   disableEdit: boolean;
+  showAllMembers?: boolean;
 };
 
 const FORM_KEY: keyof ProductDevelopmentDto = 'members';
 
-const MemberSection = ({ disableEdit, createNew, no }: Props) => {
+const MemberSection = ({
+  disableEdit,
+  createNew,
+  no,
+  showAllMembers = false,
+}: Props) => {
   const { t } = useTranslation();
 
   const allowedToRemoveMember = useAuthorizedRemoveUser();
@@ -34,7 +41,8 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
     MultiValue<SelectOption<MemberBriefDto>>
   >(membersFormVaule ?? []);
 
-  const { data: membersOptions } = useMembers(no);
+  const { data: membersOptions } = useMembers(no || '');
+  const { data: allMembersOptions } = useMembersList();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -47,6 +55,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
     if (selectedOption !== undefined && selectedOption.length > 0) {
       setSelected(selectedOption);
       append(selectedOption[selectedOption.length - 1].value);
+      console.log(selectedOption);
     }
   }
 
@@ -118,7 +127,7 @@ const MemberSection = ({ disableEdit, createNew, no }: Props) => {
                   placeholder={t('PD.AddMember')}
                   hideSelected={true}
                   options={
-                    membersOptions
+                    (showAllMembers ? allMembersOptions : membersOptions)
                       ?.filter(
                         item =>
                           !(membersFormVaule as MemberBriefDto[])?.some(

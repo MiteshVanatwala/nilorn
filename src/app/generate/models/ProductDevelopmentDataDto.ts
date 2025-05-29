@@ -15,4 +15,5 @@ export type ProductDevelopmentDataDto = {
   clientName?: string | null;
   artwork?: MediaFileDto;
   versionSpecification?: string | null;
+  clientRequirement?: string | null;
 };

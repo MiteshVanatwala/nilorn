@@ -55,15 +55,6 @@ const SourcingForm = ({
           xl: 6,
         }}>
         <VStack gap={GRID.GAP} alignItems={'start'}>
-          <TextArea
-            placeholder={`${t('Common.Placeholder')}`}
-            label={`${t('PD.FormContent.ClientRequirements')}`}
-            name={`${sourcingIndexKey}.clientRequirement`}
-            readonly={disableEdit}
-            registerOptions={{
-              maxLength: 500,
-            }}
-          />
           <InputField
             placeholder={`${t('Common.Placeholder')}`}
             label={`${t('PD.FormContent.TargetPurchasePrice')}`}
