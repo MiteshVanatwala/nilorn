@@ -21,7 +21,7 @@ const SearchProfile = () => {
   const {
     formState: { isDirty },
   } = useFormContext();
-  const { setValue, reset, getValues } = useFormContext();
+  const { setValue, reset, getValues, unregister } = useFormContext();
   let { data } = useSearchProfile();
   const activeSearchProfileName = getValues(ACTIVE_SEARCH_PROFILE_NAME);
 
@@ -30,6 +30,9 @@ const SearchProfile = () => {
     setSelected(option);
     const queryStr = option.value;
     const filters = parseSearchParams(queryStr);
+    unregister('projects');
+    unregister('clients');
+    unregister('statuses');
 
     for (const name in filters) {
       const value = filters[name];
