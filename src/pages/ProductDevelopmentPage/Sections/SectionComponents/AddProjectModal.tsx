@@ -15,6 +15,8 @@ import { SPACE } from '../../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Form from '../../../../components/Form/Form';
+import { ClientDto } from '../../../../app/generate/models/ClientDto';
+import { useClients } from '../../../../app/api/FilterInfo';
 
 type Props = {
   setDefaultProject(val: string): void;
@@ -29,6 +31,11 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const { errors } = methods.formState;
 
   const { mutate: createProject } = useCreateProject();
+  const { data: clients } = useClients(false, false);
+
+  const client: ClientDto[] = clients?.filter(
+    (client: ClientDto) => client.no === clientNo
+  ) as ClientDto[];
 
   const onCancel = () => {
     close();
@@ -36,9 +43,11 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
 
   async function onSubmit(FieldValues: FieldValues) {
     const projectData = {
-      clientNo: clientNo,
+      clientId: client[0]?.id,
       projectCode: FieldValues.projectName,
+      code: FieldValues.projectName,
     };
+
     createProject(projectData, {
       onSuccess: () => {
         close();
