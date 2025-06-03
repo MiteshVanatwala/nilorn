@@ -118,11 +118,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const handleExportClick = async () => {
-    handleModal(
-      <ExcelExportModalContent
-        selectedPrices={selectedPrices}
-      />
-    )
+    handleModal(<ExcelExportModalContent selectedPrices={selectedPrices} />);
   };
 
   const selectDeselectAll = () => {
@@ -152,6 +148,9 @@ const PriceCalculationsTable = ({ data }: Props) => {
             isChecked={selectAll}
             isIndeterminate={selectAllIndeterminate}
             onChange={selectDeselectAll}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === 'Enter') selectDeselectAll();
+            }}
           />
         </GridTh>
         <GridTh>{t('PriceCalc.BaseValues')}</GridTh>
