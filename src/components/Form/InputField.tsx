@@ -48,6 +48,7 @@ const InputField = ({
         onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
         opacity={readonly ? READ_ONLY_OPACITY : ''}
         variant={variant}
+        disabled={readonly}
         isReadOnly={readonly}
         defaultValue={defaultValue}
         placeholder={placeholder}
