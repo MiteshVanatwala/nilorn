@@ -3,12 +3,11 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-#Detta ska vara staggg!!!
 trigger:
   - main
 
 variables:
-  - group: Nilorn.Umbrella.UI-Prod
+  - group: Nilorn.Umbrella.UI-Stage
 
 pool:
   vmImage: ubuntu-latest
