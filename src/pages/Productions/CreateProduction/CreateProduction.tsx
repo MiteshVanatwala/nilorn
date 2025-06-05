@@ -48,8 +48,10 @@ const CreateProduction = ({
           moq: null,
           sampleCharge: null,
           toolCharge: null,
-          sampleLeadTime: null,
-          productionLeadTime: null,
+          sampleLeadTimeMin: null,
+          productionLeadTimeMin: null,
+          sampleLeadTimeMax: null,
+          productionLeadTimeMax: null,
         },
   });
   const { close } = useContext(ModalContext);
@@ -91,6 +93,22 @@ const CreateProduction = ({
   }, [data]);
 
   function submitForm(form: FieldValues) {
+    // Handle cleared sampleLeadTime
+    let sampleLeadTimeMin = null;
+    let sampleLeadTimeMax = null;
+    if (form.sampleLeadTime) {
+      [sampleLeadTimeMin, sampleLeadTimeMax = sampleLeadTimeMin] =
+        form.sampleLeadTime.split('-');
+    }
+
+    // Handle cleared productionLeadTime
+    let productionLeadTimeMin = null;
+    let productionLeadTimeMax = null;
+    if (form.productionLeadTime) {
+      [productionLeadTimeMin, productionLeadTimeMax = productionLeadTimeMin] =
+        form.productionLeadTime.split('-');
+    }
+
     createProduction(
       {
         ...form,
@@ -101,6 +119,10 @@ const CreateProduction = ({
               price: q.price || 0,
             } as PurchasePriceDto)
         ),
+        sampleLeadTimeMin: sampleLeadTimeMin || null,
+        sampleLeadTimeMax: sampleLeadTimeMax || null,
+        productionLeadTimeMin: productionLeadTimeMin || null,
+        productionLeadTimeMax: productionLeadTimeMax || null,
       },
       {
         onSuccess: () => {

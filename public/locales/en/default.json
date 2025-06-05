@@ -390,7 +390,9 @@
     "UniqueValue": "Value must be unique",
     "MustBeANumber": "Must be a number",
     "MustBeAnInteger": "Must be an integer",
-    "MinToLow": "Can be minimum {{min}}"
+    "MinToLow": "Can be minimum {{min}}",
+    "MinValue": "Value must be minimum {{min}}",
+    "FormatMustBeXorXtoX": "Format must be X or X-X"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",

@@ -22,6 +22,7 @@ import { useGetCurrenciesFilterOption } from '../../../app/api/currency';
 import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
+import RangeNumberInputField from '../../../components/Form/RangeNumberInputField';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -122,24 +123,22 @@ const EditProductionFormContent = ({
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <FormattedNumberInputField
-              name={'sampleLeadTime'}
+            <RangeNumberInputField
+              name="sampleLeadTime"
               label={`${t('Production.SL')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
-              type={'integer'}
-              min={0}
             />
           </GridItem>
           <GridItem colSpan={1}>
-            <FormattedNumberInputField
-              name={'productionLeadTime'}
-              label={`${t('Production.BL')}`}
-              placeholder={`${t('Common.Placeholder')}`}
-              readonly={disableEdit}
-              type={'integer'}
-              min={0}
-            />
+            {
+              <RangeNumberInputField
+                name="productionLeadTime"
+                label={`${t('Production.BL')}`}
+                placeholder={`${t('Common.Placeholder')}`}
+                readonly={disableEdit}
+              />
+            }
           </GridItem>
           <GridItem colSpan={1}>
             <FormattedNumberInputField
