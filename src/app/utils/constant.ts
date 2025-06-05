@@ -17,5 +17,6 @@ export const PAGE_SIZE = 'pageSize';
 export const PAGE_NUMBER = 'pageNumber';
 
 export const READ_ONLY_OPACITY = '70%';
+export const READ_ONLY_OPACITY_TEXTBOX = '40%';
 
 export const ACTIVE_SEARCH_PROFILE_NAME = 'activeSearchProfileName';
