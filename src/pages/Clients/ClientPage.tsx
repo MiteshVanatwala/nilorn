@@ -13,9 +13,13 @@ import AttachmentInfoSection from './Sections/AttachmentInfoSection';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useCreateClientPage } from '../../app/api/Clients';
+import { useClient } from '../../app/api/FilterInfo';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 const ClientsPage = () => {
-  const [selectedClientNo, setSelectedClientNo] = useState<string>();
+  const [selectedClientNo, setSelectedClientNo] = useState<string>(
+    sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE) || ''
+  );
   const { setUnsavedChanges } = useUnsavedChanges();
   const form = useForm<ClientDto>({
     defaultValues: {
@@ -23,6 +27,7 @@ const ClientsPage = () => {
     },
   });
   const { mutate: createClient } = useCreateClientPage();
+  const { data: client } = useClient(selectedClientNo ?? '');
 
   const onSubmit = (fieldValues: FieldValues) => {
     createClient(fieldValues, {
@@ -36,6 +41,14 @@ const ClientsPage = () => {
     setUnsavedChanges(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
+
+  useEffect(() => {
+    if (selectedClientNo) {
+      form.reset({ ...client, no: selectedClientNo });
+    } else {
+      form.reset();
+    }
+  }, [selectedClientNo, form, client, form.reset]);
 
   return (
     <ContentPage>
@@ -53,9 +66,16 @@ const ClientsPage = () => {
             marginBottom={SPACE.XXL}
             allowMultiple>
             <ClientGeneralSection disableEdit={true} />
-            <MemberSection no={''} disableEdit={false} showAllMembers />
-            <ClientSourcingSection disableEdit={false} client={{}} />
-            <AttachmentInfoSection disableEdit={false} />
+            <MemberSection
+              no={''}
+              disableEdit={!selectedClientNo}
+              showAllMembers
+            />
+            <ClientSourcingSection
+              disableEdit={!selectedClientNo}
+              client={{}}
+            />
+            <AttachmentInfoSection disableEdit={!selectedClientNo} />
           </Accordion>
         </form>
       </FormProvider>
