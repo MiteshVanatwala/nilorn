@@ -171,7 +171,7 @@ const ProductDevelopmentModalTopSection = ({
               </Tooltip>
             )}
           </Text>
-          <Text>{productDevelopment?.projectCode}</Text>
+          <Text minH={'22px'}>{productDevelopment?.projectCode}</Text>
           <Text>{productDevelopment?.versionSpecification}</Text>
         </GridItem>
         <GridItem
