@@ -43,24 +43,25 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
       </GridTd>
       {/* <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd> */}
       <GridTd>
-        <Box>
-          <Box>{p.productDevelopmentDataDto?.clientName ?? ''}</Box>
-          <Box as="span" mt={SPACE.XXS}>
-            <Tooltip
-              label={
-                <Box
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      p.productDevelopmentDataDto?.clientRequirement ?? '!',
-                  }}
-                />
-              }
-              placement="right-start">
-              <Text color="red">
-                <i className="ri-information-line"></i>
-              </Text>
-            </Tooltip>
-          </Box>
+        <Box as="span" ml={SPACE.XXS}>
+          {p.productDevelopmentDataDto?.clientName ?? ''}
+          <Tooltip
+            label={
+              <Box
+                dangerouslySetInnerHTML={{
+                  __html: p.productDevelopmentDataDto?.clientRequirement ?? '!',
+                }}
+              />
+            }
+            placement="right-start">
+            <Text
+              color="red"
+              ml={SPACE.XXS}
+              display="inline-block"
+              cursor={'pointer'}>
+              <i className="ri-information-line"></i>
+            </Text>
+          </Tooltip>
         </Box>
       </GridTd>
       <GridItem colSpan={7}>
