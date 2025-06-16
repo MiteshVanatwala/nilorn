@@ -7,6 +7,7 @@ export const SESSION_STORAGE = {
   BACK_LINK: 'backLink',
   LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
   IS_DIRTY: 'isDirty',
+  CLIENT_PAGE: 'clientPageSelectedClientNo',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';
