@@ -63,6 +63,7 @@ const MenuItemDelete = ({ no }: Props) => {
         title={t('PD.DeleteTitle')}
         description={t('PD.DeleteComfirm', { no: no })}
         onConfirm={deleteProductDevelopment}
+        confirmType={'DELETE'}
       />
       {unsavedChangesModal}
     </MenuItem>

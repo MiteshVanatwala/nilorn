@@ -7,6 +7,8 @@ export const SESSION_STORAGE = {
   BACK_LINK: 'backLink',
   LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
   IS_DIRTY: 'isDirty',
+  PROJECT_PAGE_CLIENT_NO: 'project_page_client_no',
+  PROJECT_PAGE_PROJECT_NO: 'project_page_project_no',
   CLIENT_PAGE: 'clientPageSelectedClientNo',
 };
 

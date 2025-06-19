@@ -4,7 +4,11 @@ import InputField from '../../../components/Form/InputField';
 import { HStack } from '@chakra-ui/react';
 import TextArea from '../../../components/Form/TextArea';
 
-const ProjectGeneralSection = () => {
+type Props = {
+  disableEdit?: boolean;
+};
+
+const ProjectGeneralSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
@@ -25,12 +29,13 @@ const ProjectGeneralSection = () => {
           name={'code'}
           label={t('ManageData.ProjectCode')}
           placeholder={t('Common.Placeholder')}
-          readonly={true}
+          readonly={disableEdit}
         />
         <TextArea
           name={'description'}
           label={t('ManageData.ProjectDescription')}
           placeholder={t('Common.Placeholder')}
+          readonly={disableEdit}
         />
       </HStack>
     </AccordionItem>

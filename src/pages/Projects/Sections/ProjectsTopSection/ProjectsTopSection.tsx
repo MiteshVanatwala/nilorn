@@ -19,6 +19,7 @@ import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
 import { useFormContext, useWatch } from 'react-hook-form';
+import { SESSION_STORAGE } from '../../../../app/utils/constant';
 
 type Props = {
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
@@ -41,6 +42,7 @@ const ProjectsTopSection = ({
     clientNo,
     typeof clientNo === 'string'
   );
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
@@ -55,9 +57,30 @@ const ProjectsTopSection = ({
   );
 
   useEffect(() => {
+    const storedClientNo = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
+    );
+    const storedProjectCode = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
+    );
+    if (storedClientNo) {
+      setSelectedClientNo(storedClientNo);
+      setValue('clientNo', storedClientNo);
+    }
+    if (storedProjectCode) {
+      setSelectedProjectCode(storedProjectCode);
+      setValue('code', storedProjectCode);
+      setValue('project', storedProjectCode);
+    }
+    setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 100);
+  }, []);
+
+  useEffect(() => {
     if (!!clientNo && !!projectId && !!projectCard) {
       reset({ ...projectCard });
-    } else if (!projectId) {
+    } else if (!projectId && !isInitialLoad) {
       reset({
         clientNo,
         code: '',
@@ -79,14 +102,37 @@ const ProjectsTopSection = ({
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
-    setSelectedProjectCode('');
-    setValue('code', null);
-    setValue('project', null);
-  }, [clientNo]);
+    if (clientNo !== undefined) {
+      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
+      if (!isInitialLoad && projectId !== undefined && projectId !== '') {
+        setSelectedProjectCode('');
+        setValue('code', '');
+        setValue('project', '');
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+      }
+    }
+  }, [clientNo, projectId]);
 
   useEffect(() => {
     setSelectedProjectCode(projectId);
+    if (projectId !== undefined && projectId !== '') {
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+        projectId
+      );
+      setSelectedProjectCode(projectId);
+      setValue('code', projectId);
+      setValue('project', projectId);
+    }
   }, [projectId]);
+
+  const defaultClientOption = clientOptions?.find(
+    (option: any) => option.value === clientNo
+  );
+
+  const defaultProjectOption = projectOptions?.find(
+    (option: any) => option.value === projectId
+  );
 
   return (
     <Grid
@@ -122,6 +168,8 @@ const ProjectsTopSection = ({
             }}>
             <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
               <Select
+                isControlled
+                value={defaultClientOption}
                 placeholder={t('PD.Client')}
                 name="clientNo"
                 options={clientOptions}
@@ -136,17 +184,13 @@ const ProjectsTopSection = ({
               lg: 2,
             }}>
             <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-              {/* <ProjectSelect
-                options={projectOptions as SelectOption[]}
-                createNew={false}
-                clientNo={clientNo}
-                scrolledPast={true}
-                disableEdit={false}
-              /> */}
               <Select
                 name="code"
+                isControlled
+                value={defaultProjectOption}
                 options={optionItems}
                 registerOptions={{ required: true }}
+                isDisabled={!clientNo}
               />
             </ControlWrapper>
             <Fragment />

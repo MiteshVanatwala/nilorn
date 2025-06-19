@@ -328,13 +328,13 @@
   "ManageData": {
     "AddProject": "Add new project",
     "ProjectName": "Project name",
-    "ProjectCode": "Project Code",
-    "ProjectDescription": "Project Description",
-    "ClientNo": "Client no",
-    "ClientName": "Client name",
+    "ProjectCode": "Project",
+    "ProjectDescription": "Description",
+    "ClientNo": "Client No",
+    "ClientName": "Client",
     "Feedback": {
       "Error": {
-        "ProjectDelete": "Project couldn't be deleted",
+        "ProjectDelete": "Failed to delete project. Project is linked to product development(s).",
         "ProjectName": "Project name is required",
         "ProjectNameLength": "Max length is 30 characters",
         "ProjectCreate": "Error while creating project"
