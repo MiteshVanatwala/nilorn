@@ -60,25 +60,39 @@ const RangeNumberInputField = ({
 
     if (!value) return true;
 
+    // Check for negative values at the start (like -5, -10, -0)
+    if (value.startsWith('-')) {
+      return t('Errors.MinValue', { min: 0 });
+    }
+
     const rangeRegex = /^\d+(-\d+)?$/;
 
-    if (!rangeRegex.test(value)) {
-      if (
-        value.startsWith('-') ||
-        value.endsWith('-') ||
-        value.includes('--')
-      ) {
-        return t('Errors.MinValue', { min: 0 }); // Custom for -5, 5-, 5--10
-      }
+    // Check for specific format issues that should show format error
+    if (
+      value.includes('--') || // 5--10
+      value.endsWith('-') || // 5-
+      value.includes('.') || // 10.5
+      value.includes(',') || // 10,5
+      /[a-zA-Z]/.test(value) || // Contains letters (5a, 5-a, abc)
+      !rangeRegex.test(value) // Any other invalid format
+    ) {
       return t('Errors.FormatMustBeXorXtoX');
     }
 
+    // Parse the valid format to check values
     const [minStr, maxStr] = value.split('-');
     const min = parseInt(minStr, 10);
     const max = maxStr ? parseInt(maxStr, 10) : min;
 
-    if (min < 0 || max < 0) return t('Errors.MinValue', { min: 0 });
-    if (maxStr && min > max) return t('Errors.FormatMustBeXorXtoX');
+    // Check for negative values in parsed numbers (shouldn't happen but safety check)
+    if (min < 0 || max < 0) {
+      return t('Errors.MinValue', { min: 0 }); // Updated message key
+    }
+
+    // Check if max is less than min (e.g., 15-5, 10-9)
+    if (maxStr && min > max) {
+      return t('Errors.FormatMustBeXorXtoX');
+    }
 
     return true;
   };
@@ -86,6 +100,7 @@ const RangeNumberInputField = ({
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const { invalid } = getFieldState(name);
+
     if (!invalid && value) {
       const [minStr, maxStr] = value.split('-');
       const min = parseInt(minStr, 10) || 0;

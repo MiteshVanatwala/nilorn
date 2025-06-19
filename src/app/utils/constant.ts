@@ -9,6 +9,7 @@ export const SESSION_STORAGE = {
   IS_DIRTY: 'isDirty',
   PROJECT_PAGE_CLIENT_NO: 'project_page_client_no',
   PROJECT_PAGE_PROJECT_NO: 'project_page_project_no',
+  CLIENT_PAGE: 'clientPageSelectedClientNo',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';

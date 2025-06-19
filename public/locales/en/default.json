@@ -422,7 +422,7 @@
     },
     "FormContent": {
       "ClientNo": "Client No",
-      "ClientName": "Client Name",
+      "ClientName": "Client",
       "KeyAccountManager": "Key Account Manager",
       "AccountManager": "Account Manager",
       "TeamsName": "Teams name",

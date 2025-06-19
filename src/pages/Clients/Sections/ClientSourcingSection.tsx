@@ -37,7 +37,7 @@ const ClientSourcingSection = ({
           value={requirement || ''}
           modules={modules}
           readOnly={disableEdit}
-          onChange={newContent => {
+          onChange={(newContent: any) => {
             setValue('requirement', newContent, {
               shouldDirty: true,
               shouldTouch: true,

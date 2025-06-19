@@ -1,50 +1,38 @@
 import { Grid, GridItem, VStack } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ControlWrapper from '../../components/Form/ControlWrapper';
 import { GRID, SPACE } from '../../theme/Constants';
-import Select from '../../components/Form/Select';
 import useFilterOptions from '../../app/hooks/useFilterOption';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { useClient } from '../../app/api/FilterInfo';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { SESSION_STORAGE } from '../../app/utils/constant';
+import SelectBase from '../../components/Form/SelectBase';
 
 type Props = {
   selectedClientNo?: string;
-  setSelectedClientNo: Dispatch<SetStateAction<string | undefined>>;
+  setSelectedClientNo: Dispatch<SetStateAction<string>>;
   selectedProjectCode?: string;
   actionBar: JSX.Element;
 };
 
-const CardPageTopSection = ({ setSelectedClientNo, actionBar }: Props) => {
+const CardPageTopSection = ({
+  selectedClientNo,
+  setSelectedClientNo,
+  actionBar,
+}: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions('clients', true);
-  const { reset } = useFormContext();
   const clientNo = useWatch({ name: 'no' });
-  const { data: client } = useClient(clientNo ?? '');
+  const { setValue } = useFormContext();
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
+    sessionStorage.setItem(SESSION_STORAGE.CLIENT_PAGE, clientNo);
   }, [clientNo]);
 
-  useEffect(() => {
-    if (client) {
-      reset({ ...client });
-    } else {
-      reset({
-        accountManager: {},
-        keyAccountManager: {},
-        no: '',
-        name: '',
-        members: [],
-        lastModified: '',
-        requirement: '',
-        teamsName: '',
-        channelName: '',
-        artWorkFolderName: '',
-        attachmentFolderName: '',
-      });
-    }
-  }, [client]);
+  const defaultClientOption = clientOptions?.find(
+    (option: any) => option.value === selectedClientNo
+  );
 
   return (
     <Grid
@@ -71,11 +59,20 @@ const CardPageTopSection = ({ setSelectedClientNo, actionBar }: Props) => {
           md: 2,
         }}>
         <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-          <Select
-            placeholder={t('PD.Client')}
-            name="no"
-            options={clientOptions}
-            registerOptions={{ required: true }}
+          <Controller
+            name={'no'}
+            rules={{ required: true }}
+            render={() => (
+              <SelectBase
+                isSearchable
+                isControlled
+                name={'no'}
+                options={clientOptions}
+                onChange={(option: any) => setValue('no', option?.value)}
+                value={defaultClientOption}
+                hideSelected={false}
+              />
+            )}
           />
         </ControlWrapper>
       </GridItem>
