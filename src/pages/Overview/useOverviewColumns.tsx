@@ -105,21 +105,18 @@ const useOverviewColumns = () => {
       id: 'Client',
       header: 'Client',
       enableSorting: true,
-      sortingFn: projectSort,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('project', {
       id: 'Project',
       header: 'Project',
       enableSorting: true,
-      sortingFn: projectSort,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('productGroup', {
       id: 'ProductGroup',
       header: 'Product Group',
       enableSorting: true,
-      sortingFn: projectSort,
       cell: info => (
         <Tooltip label={info.getValue()}>
           <Text
@@ -140,7 +137,7 @@ const useOverviewColumns = () => {
     }),
   ];
 
-  return columns;
+    return columns;
 };
 
 export default useOverviewColumns;
