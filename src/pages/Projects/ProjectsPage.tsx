@@ -1,14 +1,12 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { SelectOption } from '../../app/types/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectGeneralSection from './Sections/ProjectGeneralSection';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
 import { useCreateProjectPage } from '../../app/api/Projects';
-import { useClients } from '../../app/api/FilterInfo';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
@@ -55,9 +53,12 @@ function ProjectsPage() {
             defaultIndex={[0, 1, 2, 3, 4]}
             marginBottom={SPACE.XXL}
             allowMultiple>
-            <ProjectGeneralSection />
-            <MemberSection disableEdit={false} showAllMembers={true} />
-            <AttachmentInfoSection disableEdit={false} />
+            <ProjectGeneralSection disableEdit={!selectedClientNo} />
+            <MemberSection
+              disableEdit={!selectedClientNo}
+              showAllMembers={true}
+            />
+            <AttachmentInfoSection disableEdit={!selectedClientNo} />
           </Accordion>
         </form>
       </FormProvider>

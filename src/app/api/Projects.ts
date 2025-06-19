@@ -76,7 +76,7 @@ export const useDeleteProject = () => {
       onError: async () => {
         showToast({
           status: 'error',
-          title: t('Errors.ProjectCreate'),
+          title: t('ManageData.Feedback.Error.ProjectDelete'),
         });
       },
     }

@@ -65,7 +65,7 @@ const ProjectsActionBar = ({
                 icon="ADD_LINE"
               />
             }>
-            {t('Common.Add')}
+            {t('Common.CreateNew')}
           </MenuItem>
           <MenuItem
             isDisabled={!projectId}
@@ -76,7 +76,7 @@ const ProjectsActionBar = ({
                   description={t('Projects.DeleteModal.Description', {
                     code: projectId,
                   })}
-                  confirmType={'PRIMARY'}
+                  confirmType={'DELETE'}
                   onConfirm={onDelete}
                 />
               );
