@@ -1,5 +1,5 @@
 import { Box, Input, Text } from '@chakra-ui/react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ControlWrapper from './ControlWrapper';
@@ -36,22 +36,27 @@ const RangeNumberInputField = ({
 
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const leadTime = useWatch({ name: name });
 
   useEffect(() => {
-    const minVal = getValues(`${name}Min`);
-    const maxVal = getValues(`${name}Max`);
-
-    if (
-      minVal !== undefined &&
-      maxVal !== undefined &&
-      minVal !== null &&
-      maxVal !== null
-    ) {
-      setInputValue(minVal === maxVal ? `${minVal}` : `${minVal}-${maxVal}`);
+    if (leadTime) {
+      setInputValue(leadTime || '');
     } else {
-      setInputValue('');
+      const minVal = getValues(`${name}Min`);
+      const maxVal = getValues(`${name}Max`);
+
+      if (
+        minVal !== undefined &&
+        maxVal !== undefined &&
+        minVal !== null &&
+        maxVal !== null
+      ) {
+        setInputValue(minVal === maxVal ? `${minVal}` : `${minVal}-${maxVal}`);
+      } else {
+        setInputValue('');
+      }
     }
-  }, [getValues, name]);
+  }, [getValues, name, leadTime]);
 
   const validateInput = (value: string) => {
     if (!value && required) {
