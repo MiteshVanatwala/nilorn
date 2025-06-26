@@ -168,7 +168,7 @@ export function useDownloadFile(id: string, fileName: string) {
             status: 'info',
             description: t('PD.File.Feedback.Info.DownloadLinkMissing'),
           });
-        } else {
+        } else if (res.status !== 200) {
           throw new Error(t('Common.DownloadErrorMsg'));
         }
         return res.blob();
