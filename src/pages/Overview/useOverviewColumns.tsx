@@ -113,6 +113,10 @@ const useOverviewColumns = () => {
       enableSorting: true,
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
+       columnHelper.accessor('itemCategory', {
+      header: `${t('PD.ItemCategory')}`,
+      cell: info => info.getValue(),
+    }),
     columnHelper.accessor('productGroup', {
       id: 'ProductGroup',
       header: 'Product Group',
