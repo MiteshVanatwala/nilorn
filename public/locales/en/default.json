@@ -412,7 +412,7 @@
     "vendor": "Vendor",
     "purchasePrice": "Purchase Price",
     "FileName": "File name",
-    "ProductDevelopmentIncluded": "prduct developments are included in the selection"
+    "ProductDevelopmentIncluded": "product developments are included in the selection"
   },
   "Client": {
     "AccordionLabels":{
@@ -445,7 +445,7 @@
   },
   "Projects": {
     "DeleteModal": {
-      "Title": "Delete Project",
+      "Title": "Are you sure?",
       "Description": "Are you sure you want to delete project {{code}}?"
     },
     "Messages": {

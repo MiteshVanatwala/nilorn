@@ -3,6 +3,7 @@ import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import InputField from '../../../components/Form/InputField';
 import { HStack } from '@chakra-ui/react';
 import TextArea from '../../../components/Form/TextArea';
+import { useWatch } from 'react-hook-form';
 
 type Props = {
   disableEdit?: boolean;
@@ -10,6 +11,7 @@ type Props = {
 
 const ProjectGeneralSection = ({ disableEdit }: Props) => {
   const { t } = useTranslation();
+  const projectId = useWatch({ name: 'code' });
   return (
     <AccordionItem title={`${t('PD.AccordionLabels.General')}`}>
       <HStack>
@@ -29,13 +31,13 @@ const ProjectGeneralSection = ({ disableEdit }: Props) => {
           name={'code'}
           label={t('ManageData.ProjectCode')}
           placeholder={t('Common.Placeholder')}
-          readonly={disableEdit}
+          readonly={disableEdit || !projectId}
         />
         <TextArea
           name={'description'}
           label={t('ManageData.ProjectDescription')}
           placeholder={t('Common.Placeholder')}
-          readonly={disableEdit}
+          readonly={disableEdit || !projectId}
         />
       </HStack>
     </AccordionItem>

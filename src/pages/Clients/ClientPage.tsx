@@ -17,8 +17,11 @@ import { useClient } from '../../app/api/FilterInfo';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 
 const ClientsPage = () => {
+  const saveClientName = sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE);
   const [selectedClientNo, setSelectedClientNo] = useState<string>(
-    sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE) || ''
+    saveClientName != 'undefined' && saveClientName != undefined
+      ? saveClientName
+      : ''
   );
   const { setUnsavedChanges } = useUnsavedChanges();
   const form = useForm<ClientDto>({
@@ -75,7 +78,10 @@ const ClientsPage = () => {
               disableEdit={!selectedClientNo}
               client={{}}
             />
-            <AttachmentInfoSection disableEdit={!selectedClientNo} />
+            <AttachmentInfoSection
+              disableEdit={!selectedClientNo}
+              displayPlaecholder={!!selectedClientNo}
+            />
           </Accordion>
         </form>
       </FormProvider>

@@ -53,12 +53,17 @@ function ProjectsPage() {
             defaultIndex={[0, 1, 2, 3, 4]}
             marginBottom={SPACE.XXL}
             allowMultiple>
-            <ProjectGeneralSection disableEdit={!selectedClientNo} />
+            <ProjectGeneralSection
+              disableEdit={!selectedClientNo || !selectedProjectCode}
+            />
             <MemberSection
-              disableEdit={!selectedClientNo}
+              disableEdit={!selectedClientNo || !selectedProjectCode}
               showAllMembers={true}
             />
-            <AttachmentInfoSection disableEdit={!selectedClientNo} />
+            <AttachmentInfoSection
+              disableEdit={!selectedClientNo || !selectedProjectCode}
+              displayPlaecholder={!!selectedClientNo && !!selectedProjectCode}
+            />
           </Accordion>
         </form>
       </FormProvider>
