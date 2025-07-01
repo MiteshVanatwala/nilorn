@@ -58,6 +58,8 @@ const useOverviewColumns = () => {
     }),
     columnHelper.accessor('name', {
       header: `${t('PD.Name')}`,
+          enableSorting: true,
+      
       cell: info => <NowrapText text={info.getValue() ?? ''} />,
     }),
     columnHelper.accessor('no', {

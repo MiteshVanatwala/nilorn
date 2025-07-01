@@ -26,7 +26,7 @@ const OverviewTable = ({ data, sortState, setSortState }: Props) => {
     data,
     onSortingChange: setSortState,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    manualSorting: true, 
     state: {
       sorting: sortState,
     },
