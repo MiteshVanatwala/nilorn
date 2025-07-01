@@ -7,6 +7,7 @@ import useFilterOptions from '../../app/hooks/useFilterOption';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import SelectBase from '../../components/Form/SelectBase';
+import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 
 type Props = {
   selectedClientNo?: string;
@@ -24,6 +25,7 @@ const CardPageTopSection = ({
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'no' });
   const { setValue } = useFormContext();
+  const { setUnsavedChanges } = useUnsavedChanges();
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
@@ -68,7 +70,11 @@ const CardPageTopSection = ({
                 isControlled
                 name={'no'}
                 options={clientOptions}
-                onChange={(option: any) => setValue('no', option?.value)}
+                onChange={(option: any) => {
+                  setValue('no', option?.value, { shouldDirty: true });
+                  setSelectedClientNo(option?.value);
+                  setUnsavedChanges(true);
+                }}
                 value={defaultClientOption}
                 hideSelected={false}
               />

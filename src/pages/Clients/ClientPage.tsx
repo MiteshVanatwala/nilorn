@@ -15,6 +15,7 @@ import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 
 const ClientsPage = () => {
   const saveClientName = sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE);
@@ -31,6 +32,7 @@ const ClientsPage = () => {
   });
   const { mutate: createClient } = useCreateClientPage();
   const { data: client } = useClient(selectedClientNo ?? '');
+  const hasClientCardAccess = useAuthorizedSee('client-card');
 
   const onSubmit = (fieldValues: FieldValues) => {
     createClient(fieldValues, {
@@ -47,17 +49,28 @@ const ClientsPage = () => {
 
   useEffect(() => {
     if (selectedClientNo) {
-      form.reset({ ...client, no: selectedClientNo });
+      form.reset({ ...client, no: selectedClientNo }, { keepDirty: true });
     } else {
       form.reset();
     }
   }, [selectedClientNo, form, client, form.reset]);
 
+  if (!hasClientCardAccess) return <></>;
+
   return (
     <ContentPage>
       <LeavePageBlocker />
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          onKeyDown={e => {
+            if (
+              e.key === 'Enter' &&
+              (e.target as HTMLElement).tagName === 'INPUT'
+            ) {
+              e.preventDefault();
+            }
+          }}>
           <CardPageTopSection
             selectedClientNo={selectedClientNo}
             setSelectedClientNo={setSelectedClientNo}

@@ -10,6 +10,7 @@ import { useCreateProjectPage } from '../../app/api/Projects';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
+import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 
 function ProjectsPage() {
   const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
@@ -18,6 +19,7 @@ function ProjectsPage() {
 
   const form = useForm();
   const { mutate: createProject } = useCreateProjectPage();
+  const hasProjectCardAccess = useAuthorizedSee('project-card');
 
   const onSubmit = (fieldValues: FieldValues) => {
     createProject(
@@ -37,6 +39,8 @@ function ProjectsPage() {
     setUnsavedChanges(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
+
+  if (!hasProjectCardAccess) return <></>;
 
   return (
     <ContentPage>
