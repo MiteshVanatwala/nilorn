@@ -163,16 +163,19 @@ export function useDownloadFile(id: string, fileName: string) {
             status: 'info',
             description: t('PD.File.Feedback.Error.IncorrectFile'),
           });
+          return undefined;
         } else if (res.status === 410) {
           showToast({
             status: 'info',
             description: t('PD.File.Feedback.Info.DownloadLinkMissing'),
           });
+          return undefined;
         } else if (res.status !== 200) {
           throw new Error(t('Common.DownloadErrorMsg'));
         }
         return res.blob();
       });
+      if (!data) return;
       downloadBlob(data, fileName);
     } catch (err) {
       const error = err as ApiError;
