@@ -49,7 +49,7 @@ const ClientsPage = () => {
 
   useEffect(() => {
     if (selectedClientNo) {
-      form.reset({ ...client, no: selectedClientNo }, { keepDirty: true });
+      form.reset({ ...client, no: selectedClientNo }, { keepDirty: false });
     } else {
       form.reset();
     }

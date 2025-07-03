@@ -6,7 +6,12 @@ import { unstable_useBlocker as useBlocker } from 'react-router-dom';
 import IsolatedModal, { ModalRef } from './IsolatedModal';
 import { useTranslation } from 'react-i18next';
 
-const LeavePageBlocker = () => {
+type Props = {
+  isOpen?: boolean;
+  closeModal?: (accepted?: boolean) => void;
+};
+
+const LeavePageBlocker = ({ isOpen, closeModal }: Props) => {
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
 
@@ -18,6 +23,12 @@ const LeavePageBlocker = () => {
     () => () => hasUnsavedChanges(),
     [hasUnsavedChanges]
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current?.onOpen();
+    }
+  }, [isOpen]);
 
   let blocker = useBlocker(handleBlockerCallback());
 
@@ -37,6 +48,9 @@ const LeavePageBlocker = () => {
       discardChanges();
       blocker.proceed();
       modalRef.current?.onClose();
+    } else if (closeModal) {
+      modalRef.current?.onClose();
+      closeModal(true);
     }
   };
 
@@ -46,6 +60,11 @@ const LeavePageBlocker = () => {
       title={t('PD.UnsavedChanges')}
       description={t('PD.UnsavedChangesMsg')}
       onConfirm={onConfirm}
+      onCancel={() => {
+        if (closeModal) {
+          closeModal(false);
+        }
+      }}
     />
   );
 };
