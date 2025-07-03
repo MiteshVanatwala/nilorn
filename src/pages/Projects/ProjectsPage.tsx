@@ -59,6 +59,7 @@ function ProjectsPage() {
             allowMultiple>
             <ProjectGeneralSection
               disableEdit={!selectedClientNo || !selectedProjectCode}
+              displayPlaecholder={!!selectedClientNo && !!selectedProjectCode}
             />
             <MemberSection
               disableEdit={!selectedClientNo || !selectedProjectCode}

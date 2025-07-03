@@ -7,9 +7,10 @@ import { useWatch } from 'react-hook-form';
 
 type Props = {
   disableEdit?: boolean;
+  displayPlaecholder?: boolean; // Optional prop to control placeholder display
 };
 
-const ProjectGeneralSection = ({ disableEdit }: Props) => {
+const ProjectGeneralSection = ({ disableEdit, displayPlaecholder }: Props) => {
   const { t } = useTranslation();
   const projectId = useWatch({ name: 'code' });
   return (
@@ -18,25 +19,25 @@ const ProjectGeneralSection = ({ disableEdit }: Props) => {
         <InputField
           name={'clientNo'}
           label={t('ManageData.ClientNo')}
-          placeholder={t('Common.Placeholder')}
+          placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={true}
         />
         <InputField
           name={'clientName'}
           label={t('ManageData.ClientName')}
-          placeholder={t('Common.Placeholder')}
+          placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={true}
         />
         <InputField
           name={'code'}
           label={t('ManageData.ProjectCode')}
-          placeholder={t('Common.Placeholder')}
+          placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={disableEdit || !projectId}
         />
         <TextArea
           name={'description'}
           label={t('ManageData.ProjectDescription')}
-          placeholder={t('Common.Placeholder')}
+          placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={disableEdit || !projectId}
         />
       </HStack>
