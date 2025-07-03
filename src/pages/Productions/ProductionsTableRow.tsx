@@ -45,23 +45,26 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
       <GridTd>
         <Box as="span" ml={SPACE.XXS}>
           {p.productDevelopmentDataDto?.clientName ?? ''}
-          <Tooltip
-            label={
-              <Box
-                dangerouslySetInnerHTML={{
-                  __html: p.productDevelopmentDataDto?.clientRequirement ?? '!',
-                }}
-              />
-            }
-            placement="right-start">
-            <Text
-              color="red"
-              ml={SPACE.XXS}
-              display="inline-block"
-              cursor={'pointer'}>
-              <i className="ri-information-line"></i>
-            </Text>
-          </Tooltip>
+          {p.productDevelopmentDataDto?.clientRequirement && (
+            <Tooltip
+              label={
+                <Box
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      p.productDevelopmentDataDto?.clientRequirement ?? '!',
+                  }}
+                />
+              }
+              placement="right-start">
+              <Text
+                color="red"
+                ml={SPACE.XXS}
+                display="inline-block"
+                cursor={'pointer'}>
+                <i className="ri-information-line"></i>
+              </Text>
+            </Tooltip>
+          )}
         </Box>
       </GridTd>
       <GridItem colSpan={7}>

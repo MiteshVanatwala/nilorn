@@ -13,6 +13,8 @@ import {
   ROLES_ALLOWED_TO_CHANGE_STATUS,
   ROLES_ALLOWED_TO_CREATE_VERSION,
   ROLES_ALLOWED_TO_CREATE,
+  ROLES_NOT_ALLOWED_SEE_CLIENT_CARD,
+  ROLES_NOT_ALLOWED_SEE_PROJECT_CARD,
 } from './Permissions';
 
 export function useAuthorizedSee(view: UmbrellaView) {
@@ -26,6 +28,10 @@ export function useAuthorizedSee(view: UmbrellaView) {
         return ROLES_ALLOWED_SEE_SOURCING.includes(user?.role);
       case 'price-calculation':
         return ROLES_ALLOWED_SEE_CALCULATION.includes(user?.role);
+      case 'client-card':
+        return !ROLES_NOT_ALLOWED_SEE_CLIENT_CARD.includes(user?.role);
+      case 'project-card':
+        return !ROLES_NOT_ALLOWED_SEE_PROJECT_CARD.includes(user?.role);
     }
   }
 

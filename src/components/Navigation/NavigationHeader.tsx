@@ -25,6 +25,8 @@ const NavigationHeader = () => {
 
   const showProduction = useAuthorizedSee('production');
   const showCalculation = useAuthorizedSee('price-calculation');
+  const showClientCard = useAuthorizedSee('client-card');
+  const showProjectCard = useAuthorizedSee('project-card');
 
   return (
     <Container
@@ -97,7 +99,7 @@ const NavigationHeader = () => {
           </GridItem>
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
-              <ManageDataMenu />
+              {(showClientCard || showProjectCard) && <ManageDataMenu />}
               <UserMenu />
             </HStack>
           </GridItem>

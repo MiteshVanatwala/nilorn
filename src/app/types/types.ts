@@ -9,7 +9,9 @@ export type UmbrellaView =
   | 'production'
   | 'price-calculation'
   | 'overview'
-  | 'sourcing';
+  | 'sourcing'
+  | 'client-card'
+  | 'project-card';
 
 export type FilterKey =
   | keyof GetForFilterProductDevelopmentsWithPaginationQuery
