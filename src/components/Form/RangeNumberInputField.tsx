@@ -113,6 +113,7 @@ const RangeNumberInputField = ({
 
       setValue(`${name}Min`, min, { shouldValidate: true });
       setValue(`${name}Max`, max, { shouldValidate: true });
+      setValue(`${name}`, value, { shouldValidate: true });
     }
     setIsActive(false);
   };
