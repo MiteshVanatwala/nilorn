@@ -11,6 +11,7 @@ import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 function ProjectsPage() {
   const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
@@ -40,7 +41,7 @@ function ProjectsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
-  if (!hasProjectCardAccess) return <></>;
+  if (!hasProjectCardAccess) return <PermissionDenied />;
 
   return (
     <ContentPage>

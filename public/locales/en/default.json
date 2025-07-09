@@ -399,6 +399,11 @@
     "Description": "We are sorry to inform you that this page does not exist. However, you can visit a lot of our other pages instead! ",
     "GoToHome": "Go to home"
   },
+  "PermissionDenied": {
+    "Title": "Oops! You don't have access to this page",
+    "Description": "This page exists, but it looks like you don’t have permission to view it.",
+    "GoToHome": "Go to home"
+  },
   "ExcelExport": {
     "Menu": "Excel export",
     "ModalTitle": "Create excel export",

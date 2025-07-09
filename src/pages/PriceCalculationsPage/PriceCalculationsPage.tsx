@@ -8,16 +8,20 @@ import { useEffect } from 'react';
 import QueryKeysEnum from '../../app/api/queryKeys';
 import PriceCalculationsFilter from './PriceCalculationsFilter';
 import { useQueryParams } from '../../app/hooks/useQueryParams';
+// import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+// import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 function PriceCalculationsPage() {
   const params = useQueryParams();
   const form = useForm({ defaultValues: params });
-
+  // const showCalculation = useAuthorizedSee('price-calculation');
   const queryClient = useQueryClient();
 
   useEffect(() => {
     queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
   }, [queryClient]);
+
+  // if (!showCalculation) return <PermissionDenied />;
 
   return (
     <ContentPage>

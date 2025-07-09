@@ -16,6 +16,7 @@ import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 const ClientsPage = () => {
   const saveClientName = sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE);
@@ -55,7 +56,7 @@ const ClientsPage = () => {
     }
   }, [selectedClientNo, form, client, form.reset]);
 
-  if (!hasClientCardAccess) return <></>;
+  if (!hasClientCardAccess) return <PermissionDenied />;
 
   return (
     <ContentPage>
