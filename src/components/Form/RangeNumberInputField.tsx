@@ -36,27 +36,25 @@ const RangeNumberInputField = ({
 
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const leadTime = useWatch({ name: name });
+  const minVal = useWatch({ name: `${name}Min` });
+  const maxVal = useWatch({ name: `${name}Max` });
 
   useEffect(() => {
-    if (leadTime) {
-      setInputValue(leadTime || '');
+    if (
+      minVal !== undefined &&
+      maxVal !== undefined &&
+      minVal !== null &&
+      maxVal !== null
+    ) {
+      const val = minVal === maxVal ? `${minVal}` : `${minVal}-${maxVal}`;
+      setInputValue(val);
+      setValue(name, val, {
+        shouldValidate: true,
+      });
     } else {
-      const minVal = getValues(`${name}Min`);
-      const maxVal = getValues(`${name}Max`);
-
-      if (
-        minVal !== undefined &&
-        maxVal !== undefined &&
-        minVal !== null &&
-        maxVal !== null
-      ) {
-        setInputValue(minVal === maxVal ? `${minVal}` : `${minVal}-${maxVal}`);
-      } else {
-        setInputValue('');
-      }
+      setInputValue('');
     }
-  }, [getValues, name, leadTime]);
+  }, [getValues, name, minVal, maxVal]);
 
   const validateInput = (value: string) => {
     if (!value && required) {
