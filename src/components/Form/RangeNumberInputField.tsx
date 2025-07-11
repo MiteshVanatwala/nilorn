@@ -58,7 +58,7 @@ const RangeNumberInputField = ({
     } else {
       setInputValue('');
     }
-  }, [getValues, name, minVal, maxVal]);
+  }, [getValues, name, minVal, maxVal, editted]);
 
   const validateInput = (value: string) => {
     if (!value && required) {
