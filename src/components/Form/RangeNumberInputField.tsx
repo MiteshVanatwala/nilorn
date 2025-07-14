@@ -38,9 +38,13 @@ const RangeNumberInputField = ({
   const [inputValue, setInputValue] = useState('');
   const minVal = useWatch({ name: `${name}Min` });
   const maxVal = useWatch({ name: `${name}Max` });
+  const editted = useWatch({ name: `${name}_editted` });
 
   useEffect(() => {
-    if (
+    if (editted) {
+      setInputValue(editted);
+      return;
+    } else if (
       minVal !== undefined &&
       maxVal !== undefined &&
       minVal !== null &&
@@ -54,7 +58,7 @@ const RangeNumberInputField = ({
     } else {
       setInputValue('');
     }
-  }, [getValues, name, minVal, maxVal]);
+  }, [getValues, name, minVal, maxVal, editted]);
 
   const validateInput = (value: string) => {
     if (!value && required) {
@@ -157,6 +161,9 @@ const RangeNumberInputField = ({
           autoComplete="off"
           onChange={e => {
             setInputValue(e.target.value);
+            setValue(`${name}_editted`, e.target.value, {
+              shouldValidate: true,
+            });
             onChange(e); // Use the extracted onChange
           }}
           onBlur={e => {
