@@ -5,7 +5,7 @@ import {
   GridTd,
 } from '../../components/GridTable/GridTableElements';
 import ProductDevelopmentCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
-import { GridItem, Box } from '@chakra-ui/react';
+import { GridItem, Box, Tooltip, Text } from '@chakra-ui/react';
 import { TD_STYLE } from '../../theme/Constants/tableGrid';
 import PriceGridRow from './PriceGrid/PriceGridRow';
 import {
@@ -18,6 +18,7 @@ import {
   VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
 import { SelectedPrices } from './PriceCalculationsTable';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
@@ -42,7 +43,28 @@ const PriceCalculationsTableRow = ({
           <ProductDevelopmentCell {...p.productDevelopmentDataDto} />
         </Box>
       </GridTd>
-      <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
+      <GridTd>
+        <Box as="span">
+          {p.productDevelopmentDataDto?.clientName ?? ''}
+          <Tooltip
+            label={
+              <Box
+                dangerouslySetInnerHTML={{
+                  __html: p.productDevelopmentDataDto?.clientRequirement ?? '!',
+                }}
+              />
+            }
+            placement="right-start">
+            <Text
+              color="red"
+              ml={SPACE.XXS}
+              display="inline-block"
+              cursor={'pointer'}>
+              <i className="ri-information-line"></i>
+            </Text>
+          </Tooltip>
+        </Box>
+      </GridTd>
       <GridItem colSpan={VENDOR_ROW_SPAN + SOURCING_COL_SPAN}>
         <GridInlineTbody
           gridTemplateColumns={{

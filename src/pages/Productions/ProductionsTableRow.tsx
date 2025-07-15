@@ -5,7 +5,7 @@ import {
   GridTd,
 } from '../../components/GridTable/GridTableElements';
 import PDCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
-import { GridItem } from '@chakra-ui/react';
+import { GridItem, Box, Tooltip, Text } from '@chakra-ui/react';
 import {
   GRID_LAYOUT_PRODUCTION,
   GRID_LAYOUT_PRODUCTION_DESKTOP,
@@ -19,6 +19,7 @@ import TableMenuProduction from './TableMenuProduction';
 import TableMenuSourcing from './TableMenuSourcing';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
 import { isClosed } from '../../app/utils/status';
+import { SPACE } from '../../theme/Constants';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
@@ -40,7 +41,32 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
         }}>
         <PDCell {...p.productDevelopmentDataDto} />
       </GridTd>
-      <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd>
+      {/* <GridTd>{p.productDevelopmentDataDto?.clientName ?? ''}</GridTd> */}
+      <GridTd>
+        <Box as="span" ml={SPACE.XXS}>
+          {p.productDevelopmentDataDto?.clientName ?? ''}
+          {p.productDevelopmentDataDto?.clientRequirement && (
+            <Tooltip
+              label={
+                <Box
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      p.productDevelopmentDataDto?.clientRequirement ?? '!',
+                  }}
+                />
+              }
+              placement="right-start">
+              <Text
+                color="red"
+                ml={SPACE.XXS}
+                display="inline-block"
+                cursor={'pointer'}>
+                <i className="ri-information-line"></i>
+              </Text>
+            </Tooltip>
+          )}
+        </Box>
+      </GridTd>
       <GridItem colSpan={7}>
         <GridInlineTbody
           gridTemplateColumns={{

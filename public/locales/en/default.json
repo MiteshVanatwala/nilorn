@@ -49,12 +49,13 @@
     "HypProducts": "Product Developments",
     "HypSource": "Sourcings",
     "HypChangelog": "Changelog",
-    "HypClient": "Clients",
+    "HypClients": "Client",
     "HypProjects": "Projects",
     "HypPrice": "Price Calculations",
     "HypProduction": "Productions",
     "HypUser": "User",
-    "HypLogout": "Log out"
+    "HypLogout": "Log out",
+    "HypManageData": "Manage data"
   },
   "PD": {
     "Image": "Image",
@@ -62,7 +63,7 @@
     "Number": "Number",
     "Status": "Status",
     "Artwork": "Artwork",
-    "Attatchments": "Attatchments",
+    "Attatchments": "Attachments",
     "FailToUpload": "Fail to upload:",
     "Client": "Client",
     "SubClient": "Sub Client",
@@ -146,7 +147,8 @@
           "FileLocationMissingBackendMessage": "File location has not been entered on Project or Client.",
           "FileLocationMissing": "File cannot be uploaded. File location has not been entered on Project or client.",
           "EnteredNameInDBIncorrect": "Failed to upload file {{name}}. {{level1}} name entered on {{level2}} is incorrect.",
-          "EnteredNameInDBMissing": "Failed to upload file {{name}}. File location on project or client is incomplete or missing."
+          "EnteredNameInDBMissing": "Failed to upload file {{name}}. File location on project or client is incomplete or missing.",
+          "IncorrectFile": "File cannot be found. Select \"remove link\" if you want to remove the file link in Umbrella."
         },
         "Info": {
           "DownloadLinkMissing": "The file no longer exists in SharePoint, choose 'Remove link' to remove the file from Umbrella",
@@ -323,6 +325,26 @@
       }
     }
   },
+  "ManageData": {
+    "AddProject": "Add new project",
+    "ProjectName": "Project name",
+    "ProjectCode": "Project",
+    "ProjectDescription": "Description",
+    "ClientNo": "Client No",
+    "ClientName": "Client",
+    "Feedback": {
+      "Error": {
+        "ProjectDelete": "Failed to delete project. Project is linked to product development(s).",
+        "ProjectName": "Project name is required",
+        "ProjectNameLength": "Max length is 30 characters",
+        "ProjectCreate": "Error while creating project"
+      },
+      "Success": {
+        "ProjectCreated": "Project created",
+        "ProjectDelete": "Project deleted"
+      }
+    }
+  },
   "Changelog": {
     "To": "To",
     "From": "From",
@@ -368,11 +390,18 @@
     "UniqueValue": "Value must be unique",
     "MustBeANumber": "Must be a number",
     "MustBeAnInteger": "Must be an integer",
-    "MinToLow": "Can be minimum {{min}}"
+    "MinToLow": "Can be minimum {{min}}",
+    "MinValue": "Value must be minimum {{min}}",
+    "FormatMustBeXorXtoX": "Format must be X or X-X"
   },
   "NotFound": {
     "Title": "Oh no! This page does not exist",
     "Description": "We are sorry to inform you that this page does not exist. However, you can visit a lot of our other pages instead! ",
+    "GoToHome": "Go to home"
+  },
+  "PermissionDenied": {
+    "Title": "Oops! You don't have access to this page",
+    "Description": "This page exists, but it looks like you don’t have permission to view it.",
     "GoToHome": "Go to home"
   },
   "ExcelExport": {
@@ -389,5 +418,44 @@
     "purchasePrice": "Purchase Price",
     "FileName": "File name",
     "ProductDevelopmentIncluded": "product developments are included in the selection"
+  },
+  "Client": {
+    "AccordionLabels":{
+      "General": "General",
+      "Attachments": "Attachments",
+      "Requirements": "Requirements"
+    },
+    "FormContent": {
+      "ClientNo": "Client No",
+      "ClientName": "Client",
+      "KeyAccountManager": "Key Account Manager",
+      "AccountManager": "Account Manager",
+      "TeamsName": "Teams name",
+      "TeamsNamePlaceholder": "Enter teams name",
+      "TeamsNameError": "Teams name is required",
+      "ChannelName": "Channel name",
+      "ChannelNamePlaceholder": "Enter channel name",
+      "ChannelNameError": "Channel name is required",
+      "ArtworkFolderName": "Artwork folder name",
+      "ArtworkFolderNamePlaceholder": "Enter artwork folder name",
+      "ArtworkFolderNameError": "Artwork folder name is required",
+      "AttachmentFolderName": "Attachment folder name",
+      "AttachmentFolderNamePlaceholder": "Enter attachment folder name",
+      "AttachmentFolderNameError": "Attachment folder name is required"
+    },
+    "Messages": {
+      "Success": "Client saved successfully",
+      "Fail": "Something went wrong while saving client"
+    }
+  },
+  "Projects": {
+    "DeleteModal": {
+      "Title": "Are you sure?",
+      "Description": "Are you sure you want to delete project {{code}}?"
+    },
+    "Messages": {
+      "Success": "Project saved successfully",
+      "Fail": "Something went wrong while saving project"
+    }
   }
 }

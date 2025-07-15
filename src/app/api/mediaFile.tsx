@@ -123,7 +123,12 @@ export function useDeleteMediaFile(id: string) {
       ),
     {
       onError: async (err: ApiError, keepInSharePoint: boolean) => {
-        if (err.status !== 410) {
+        if (err.status === 404) {
+          showToast({
+            status: 'info',
+            description: t('PD.File.Feedback.Error.IncorrectFile'),
+          });
+        } else if (err.status !== 410) {
           showToast({
             status: 'error',
             title: keepInSharePoint
@@ -153,11 +158,24 @@ export function useDownloadFile(id: string, fileName: string) {
         method: 'GET',
         headers: header,
       }).then(res => {
-        if (!res.ok) {
+        if (res.status === 404) {
+          showToast({
+            status: 'info',
+            description: t('PD.File.Feedback.Error.IncorrectFile'),
+          });
+          return undefined;
+        } else if (res.status === 410) {
+          showToast({
+            status: 'info',
+            description: t('PD.File.Feedback.Info.DownloadLinkMissing'),
+          });
+          return undefined;
+        } else if (res.status !== 200) {
           throw new Error(t('Common.DownloadErrorMsg'));
         }
         return res.blob();
       });
+      if (!data) return;
       downloadBlob(data, fileName);
     } catch (err) {
       const error = err as ApiError;
@@ -167,6 +185,11 @@ export function useDownloadFile(id: string, fileName: string) {
         showToast({
           status: 'info',
           description: t('PD.File.Feedback.Info.DownloadLinkMissing'),
+        });
+      } else if (error.status === 404) {
+        showToast({
+          status: 'info',
+          description: t('PD.File.Feedback.Error.IncorrectFile'),
         });
       } else {
         showToast({

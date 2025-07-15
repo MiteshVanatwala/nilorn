@@ -113,12 +113,21 @@ const EditProduction = ({ productionId, filters }: Props) => {
   }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
-    updateProduction(form, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
+    updateProduction(
+      {
+        ...form,
+        sampleLeadTimeMin: form.sampleLeadTimeMin || null,
+        sampleLeadTimeMax: form.sampleLeadTimeMax || null,
+        productionLeadTimeMin: form.productionLeadTimeMin || null,
+        productionLeadTimeMax: form.productionLeadTimeMax || null,
       },
-    });
+      {
+        onSuccess: () => {
+          setDirty(false);
+          close();
+        },
+      }
+    );
   }
 
   function handleDeleteProduction() {

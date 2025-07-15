@@ -15,6 +15,7 @@ import { SPACE } from '../../../../theme/Constants';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Form from '../../../../components/Form/Form';
+import { ClientDto } from '../../../../app/generate';
 import { useClient } from '../../../../app/api/FilterInfo';
 
 type Props = {
@@ -27,7 +28,7 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
   const { t } = useTranslation();
   const { close } = useContext(ModalContext);
   const methods = useForm({ mode: 'onChange' });
-  const { data: client } = useClient(clientNo);
+  const { data: client } = useClient(clientNo) as { data: ClientDto };
   const { errors } = methods.formState;
 
   const { mutate: createProject } = useCreateProject();
@@ -38,11 +39,10 @@ const AddProjectModal = ({ setDefaultProject, clientNo }: Props) => {
 
   async function onSubmit(FieldValues: FieldValues) {
     const projectData = {
-      clientId: client?.id,
+      clientId: client.id,
       projectCode: FieldValues.projectName,
       code: FieldValues.projectName,
     };
-
     createProject(projectData, {
       onSuccess: () => {
         close();

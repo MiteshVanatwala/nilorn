@@ -123,6 +123,10 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
                   onChange={() =>
                     handleCheckboxChange(key as ExcelExportFieldKey)
                   }
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter')
+                      handleCheckboxChange(key as ExcelExportFieldKey);
+                  }}
                 />
               </GridItem>
             </Grid>

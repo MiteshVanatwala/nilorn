@@ -9,7 +9,9 @@ export type UmbrellaView =
   | 'production'
   | 'price-calculation'
   | 'overview'
-  | 'sourcing';
+  | 'sourcing'
+  | 'client-card'
+  | 'project-card';
 
 export type FilterKey =
   | keyof GetForFilterProductDevelopmentsWithPaginationQuery
@@ -31,6 +33,7 @@ export interface FormInputProps {
 }
 
 export type SelectOption<T = any> = {
+  id?: string;
   label: any;
   value: T;
 };
@@ -71,13 +74,13 @@ export enum StatusColor {
 }
 
 export type ExcelExportFieldKey =
-  | "image"
-  | "itemNo"
-  | "description"
-  | "versionSpec"
-  | "certificate"
-  | "moq"
-  | "vendor"
-  | "purchasePrice";
+  | 'image'
+  | 'itemNo'
+  | 'description'
+  | 'versionSpec'
+  | 'certificate'
+  | 'moq'
+  | 'vendor'
+  | 'purchasePrice';
 
-  export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
+export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;

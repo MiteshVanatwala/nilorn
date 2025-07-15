@@ -13,8 +13,10 @@ export type UpdateProductionCommand = {
     moq?: number | null;
     sampleCharge?: number | null;
     toolCharge?: number | null;
-    sampleLeadTime?: number | null;
-    productionLeadTime?: number | null;
+    sampleLeadTimeMin?: number | null;
+    productionLeadTimeMin?: number | null;
+    sampleLeadTimeMax?: number | null;
+    productionLeadTimeMax?: number | null;
     comment?: string | null;
     id?: string;
     purchasePrices?: Array<PurchasePriceDto> | null;

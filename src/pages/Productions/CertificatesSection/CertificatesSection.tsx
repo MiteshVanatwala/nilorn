@@ -54,7 +54,7 @@ const CertificateSection = ({ defaultValues, disableEdit = false }: Props) => {
   return (
     <VStack align={'start'} gap={SPACE.SM} pt={SPACE.XL}>
       <Grid
-        templateColumns={'repeat(3, 1fr) 7rem max-content min-content'}
+        templateColumns={'26rem repeat(2, 1fr) 7rem max-content min-content'}
         columnGap={SPACE.SM}
         rowGap={SPACE.SM}
         w={'100%'}>

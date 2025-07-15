@@ -7,6 +7,9 @@ export const SESSION_STORAGE = {
   BACK_LINK: 'backLink',
   LAST_VISITED_PRODUCT_DEVELOPMENT: 'lastVisitedProductDevelopment',
   IS_DIRTY: 'isDirty',
+  PROJECT_PAGE_CLIENT_NO: 'project_page_client_no',
+  PROJECT_PAGE_PROJECT_NO: 'project_page_project_no',
+  CLIENT_PAGE: 'clientPageSelectedClientNo',
 };
 
 export const ARTWORK_FILE_TYPE = 'application/pdf';
@@ -17,5 +20,6 @@ export const PAGE_SIZE = 'pageSize';
 export const PAGE_NUMBER = 'pageNumber';
 
 export const READ_ONLY_OPACITY = '70%';
+export const READ_ONLY_OPACITY_TEXTBOX = '40%';
 
 export const ACTIVE_SEARCH_PROFILE_NAME = 'activeSearchProfileName';

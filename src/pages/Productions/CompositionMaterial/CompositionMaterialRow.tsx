@@ -61,7 +61,8 @@ const CompositionMaterialRow = ({
                   isSearchable
                   autoFocus={focusOnMount}
                   name={materialName}
-                  options={unSelectedOptions}
+                  options={options}
+                  unselectedOptions={unSelectedOptions}
                   onChange={onChangeMaterial}
                   value={options.find(opt => opt.value === selectedMaterial)}
                   readOnly={disableEdit}

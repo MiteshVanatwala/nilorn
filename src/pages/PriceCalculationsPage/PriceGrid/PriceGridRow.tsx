@@ -166,6 +166,17 @@ function PriceGridRow({
     );
   };
 
+  const toggleSelectedPriceCheckbox = (id: string) => {
+    setSelectedPrices({
+      ...selectedPrices,
+      [`${id}`]: {
+        ...selectedPrices[`${id}`],
+        selected: !selectedPrices[`${id}`].selected,
+        productDevelopmentNo: productDevelopment?.no || '',
+      },
+    });
+  };
+
   return (
     <GridItem colSpan={VENDOR_ROW_SPAN}>
       <GridInlineTbody
@@ -227,16 +238,12 @@ function PriceGridRow({
             <Checkbox
               key={calculation.id}
               isChecked={selectedPrices[`${calculation.id}`]?.selected || false}
-              onChange={() =>
-                setSelectedPrices({
-                  ...selectedPrices,
-                  [`${calculation.id}`]: {
-                    ...selectedPrices[`${calculation.id}`],
-                    selected: !selectedPrices[`${calculation.id}`].selected,
-                    productDevelopmentNo: productDevelopment?.no || ''
-                  },
-                })
-              }
+              onChange={() => toggleSelectedPriceCheckbox(calculation.id || '')}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                  toggleSelectedPriceCheckbox(calculation.id || '');
+                }
+              }}
             />
           ) : (
             <></>

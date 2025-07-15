@@ -4,7 +4,6 @@ import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import { Box } from '@chakra-ui/react';
-import NotFoundPage from '../NotFound/NotFoundPage';
 import { useCurrentUser } from '../../app/api/User';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 import { useQueryClient } from 'react-query';
@@ -12,6 +11,8 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
+import NotFoundPage from '../NotFound/NotFoundPage';
+// import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 type Props = {
   createNew: boolean;
@@ -79,6 +80,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
     isError ||
     (createNew && user?.role && !ROLES_ALLOWED_TO_CREATE.includes(user.role))
   ) {
+    // return <PermissionDenied />;
     return <NotFoundPage />;
   }
 
