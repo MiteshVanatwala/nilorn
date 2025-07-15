@@ -36,13 +36,16 @@ const RangeNumberInputField = ({
 
   const [isActive, setIsActive] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const minVal = useWatch({ name: `${name}Min` });
-  const maxVal = useWatch({ name: `${name}Max` });
-  const editted = useWatch({ name: `${name}_editted` });
+  const minVal = useWatch({ name: `${name}Min`, defaultValue: '' });
+  const maxVal = useWatch({ name: `${name}Max`, defaultValue: '' });
+  const editted = useWatch({ name: `${name}_editted`, defaultValue: null });
 
   useEffect(() => {
-    if (editted) {
+    if (editted !== null) {
       setInputValue(editted);
+      setValue(name, editted, {
+        shouldValidate: true,
+      });
       return;
     } else if (
       minVal !== undefined &&
@@ -106,6 +109,10 @@ const RangeNumberInputField = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    processedValue(value);
+  };
+
+  const processedValue = (value: string) => {
     const { invalid } = getFieldState(name);
 
     if (!invalid && value) {
@@ -160,11 +167,16 @@ const RangeNumberInputField = ({
           value={inputValue}
           autoComplete="off"
           onChange={e => {
+            onChange(e);
+            const value = e.target.value;
+            const [minStr, maxStr] = value.split('-');
+
+            setValue(`${name}Min`, minStr || '');
+            setValue(`${name}Max`, maxStr || '');
             setInputValue(e.target.value);
             setValue(`${name}_editted`, e.target.value, {
               shouldValidate: true,
             });
-            onChange(e); // Use the extracted onChange
           }}
           onBlur={e => {
             handleBlur(e);
