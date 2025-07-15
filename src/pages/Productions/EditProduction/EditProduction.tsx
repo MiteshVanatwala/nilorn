@@ -113,28 +113,13 @@ const EditProduction = ({ productionId, filters }: Props) => {
   }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
-    // Handle cleared sampleLeadTime
-    let sampleLeadTimeMin = null;
-    let sampleLeadTimeMax = null;
-    if (form.sampleLeadTime) {
-      [sampleLeadTimeMin, sampleLeadTimeMax = sampleLeadTimeMin] =
-        form.sampleLeadTime.split('-');
-    }
-
-    // Handle cleared productionLeadTime
-    let productionLeadTimeMin = null;
-    let productionLeadTimeMax = null;
-    if (form.productionLeadTime) {
-      [productionLeadTimeMin, productionLeadTimeMax = productionLeadTimeMin] =
-        form.productionLeadTime.split('-');
-    }
     updateProduction(
       {
         ...form,
-        sampleLeadTimeMin: sampleLeadTimeMin || null,
-        sampleLeadTimeMax: sampleLeadTimeMax || null,
-        productionLeadTimeMin: productionLeadTimeMin || null,
-        productionLeadTimeMax: productionLeadTimeMax || null,
+        sampleLeadTimeMin: form.sampleLeadTimeMin || null,
+        sampleLeadTimeMax: form.sampleLeadTimeMax || null,
+        productionLeadTimeMin: form.productionLeadTimeMin || null,
+        productionLeadTimeMax: form.productionLeadTimeMax || null,
       },
       {
         onSuccess: () => {
