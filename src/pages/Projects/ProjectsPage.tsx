@@ -18,7 +18,7 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
 
-  const form = useForm();
+  const form = useForm({ defaultValues: { code: '' }, mode: 'onChange' });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
 
@@ -47,7 +47,16 @@ function ProjectsPage() {
     <ContentPage>
       <LeavePageBlocker />
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          onKeyDown={e => {
+            if (
+              e.key === 'Enter' &&
+              (e.target as HTMLElement).tagName === 'INPUT'
+            ) {
+              e.preventDefault();
+            }
+          }}>
           <ProjectsTopSection
             setSelectedProjectCode={setSelectedProjectCode}
             setSelectedClientNo={setSelectedClientNo}
