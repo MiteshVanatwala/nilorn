@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import AccordionItem from '../../../components/AccordionItem/AccordionItem';
 import InputField from '../../../components/Form/InputField';
 import { HStack } from '@chakra-ui/react';
-import TextArea from '../../../components/Form/TextArea';
 import { useWatch } from 'react-hook-form';
 
 type Props = {
@@ -33,12 +32,14 @@ const ProjectGeneralSection = ({ disableEdit, displayPlaecholder }: Props) => {
           label={t('ManageData.ProjectCode')}
           placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={disableEdit || !projectId}
+          registerOptions={{ maxLength: 50 }}
         />
-        <TextArea
+        <InputField
           name={'description'}
           label={t('ManageData.ProjectDescription')}
           placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={disableEdit || !projectId}
+          registerOptions={{ maxLength: 50 }}
         />
       </HStack>
     </AccordionItem>

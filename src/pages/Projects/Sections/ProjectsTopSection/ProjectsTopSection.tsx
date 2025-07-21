@@ -36,7 +36,7 @@ const ProjectsTopSection = ({
   const { setValue, reset } = useFormContext();
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'clientNo' });
-  const projectId = useWatch({ name: 'code' });
+  const projectId = useWatch({ name: 'projectCode' });
   const lastModified = useWatch({ name: 'lastModified' });
   const { data: projectOptionItems } = useGetProjectsOptions(
     clientNo,
@@ -69,7 +69,7 @@ const ProjectsTopSection = ({
     }
     if (storedProjectCode) {
       setSelectedProjectCode(storedProjectCode);
-      setValue('code', storedProjectCode);
+      setValue('projectCode', storedProjectCode);
       setValue('project', storedProjectCode);
     }
     setTimeout(() => {
@@ -81,11 +81,10 @@ const ProjectsTopSection = ({
     if (!!clientNo && !!projectId && !!projectCard) {
       reset({ ...projectCard });
     } else if (!projectId && !isInitialLoad) {
-      reset({
+    reset({
         clientNo,
-        code: '',
+        projectCode: '',
         description: '',
-        clientName: '',
         members: [],
         lastModified: '',
         teamsName: '',
@@ -104,9 +103,10 @@ const ProjectsTopSection = ({
     setSelectedClientNo(clientNo);
     if (clientNo !== undefined) {
       sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
+      setValue('clientName', clientOptions?.find(option => option.value === clientNo)?.label ?? '');
       if (!isInitialLoad && projectId !== undefined && projectId !== '') {
         setSelectedProjectCode('');
-        setValue('code', '');
+        setValue('projectCode', '');
         setValue('project', '');
         sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
       }
@@ -121,7 +121,7 @@ const ProjectsTopSection = ({
         projectId
       );
       setSelectedProjectCode(projectId);
-      setValue('code', projectId);
+      setValue('projectCode', projectId);
       setValue('project', projectId);
     }
   }, [projectId]);
@@ -129,10 +129,11 @@ const ProjectsTopSection = ({
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === clientNo
   );
-
-  const defaultProjectOption = projectOptions?.find(
+  
+   const defaultProjectOption = projectOptions?.find(
     (option: any) => option.value === projectId
   );
+
 
   return (
     <Grid
@@ -185,9 +186,9 @@ const ProjectsTopSection = ({
             }}>
             <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
               <Select
-                name="code"
+                name="projectCode"
                 isControlled
-                value={defaultProjectOption}
+                value={defaultProjectOption ? defaultProjectOption : { value: '', label: t('PD.Client') }}
                 options={optionItems}
                 registerOptions={{ required: true }}
                 isDisabled={!clientNo}
