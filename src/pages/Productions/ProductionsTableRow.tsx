@@ -47,6 +47,8 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
           {p.productDevelopmentDataDto?.clientName ?? ''}
           {p.productDevelopmentDataDto?.clientRequirement && (
             <Tooltip
+              variant={'attachmentTooltip'}
+              className="attachment-tooltip"
               label={
                 <Box
                   dangerouslySetInnerHTML={{

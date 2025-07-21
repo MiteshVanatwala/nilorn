@@ -1,31 +1,39 @@
 import { useTranslation } from 'react-i18next';
-import { HeaderMenuButton } from '../Navigation/HeaderMenuLink';
 import HeaderMenu from './HeaderMenu';
-import { useNavigate } from 'react-router';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
+import HeaderLink from './HeaderLink';
+import { SESSION_STORAGE } from '../../app/utils/constant';
+import { VStack } from '@chakra-ui/react';
 
 const ManageDataMenu = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const showClientCard = useAuthorizedSee('client-card');
   const showProjectCard = useAuthorizedSee('project-card');
 
   return (
     <HeaderMenu title={t('Menu.HypManageData')}>
-      {showProjectCard === true ? (
-        <HeaderMenuButton onClick={() => navigate('/projects')}>
-          <>{t('Menu.HypProjects')}</>
-        </HeaderMenuButton>
-      ) : (
-        <></>
-      )}
-      {showClientCard === true ? (
-        <HeaderMenuButton onClick={() => navigate('/clients')}>
-          <>{t('Menu.HypClients')}</>
-        </HeaderMenuButton>
-      ) : (
-        <></>
-      )}
+      <VStack alignItems="flex-start" spacing={0}>
+        {showProjectCard === true ? (
+          <HeaderLink
+            variant="manageDataLink"
+            title={t('Menu.HypProjects')}
+            path="/projects"
+            clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
+          />
+        ) : (
+          <></>
+        )}
+        {showClientCard === true ? (
+          <HeaderLink
+            variant="manageDataLink"
+            title={t('Menu.HypClients')}
+            path="/clients"
+            clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO}
+          />
+        ) : (
+          <></>
+        )}
+      </VStack>
     </HeaderMenu>
   );
 };
