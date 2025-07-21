@@ -38,12 +38,10 @@ const ClientSourcingSection = ({
           modules={modules}
           readOnly={disableEdit}
           onKeyUp={e => {
-            setTimeout(() => {
-              setValue('requirement', requirement, {
-                shouldDirty: true,
-                shouldTouch: false,
-              });
-            }, 10);
+            setValue('requirement', requirement, {
+              shouldDirty: true,
+              shouldTouch: false,
+            });
           }}
           onChange={(newContent: any) => {
             setValue('requirement', newContent, {

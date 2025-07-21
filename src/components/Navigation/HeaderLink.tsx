@@ -11,7 +11,7 @@ interface Props {
   title?: string | JSX.Element;
   path: string;
   clickedStoredFilter: string;
-  variant?: 'headerLink' | 'logo';
+  variant?: 'headerLink' | 'logo' | 'manageDataLink';
 }
 
 const HeaderLink: FC<Props> = ({
