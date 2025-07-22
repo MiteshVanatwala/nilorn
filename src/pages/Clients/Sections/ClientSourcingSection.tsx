@@ -21,12 +21,16 @@ const ClientSourcingSection = ({
 
   // Quill editor modules configuration
   const modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['clean'],
-    ],
-  };
+   toolbar: [
+     [{ font: [] }],
+     [{ size: ['small', false, 'large'] }],
+     ['bold', 'italic', 'underline', 'strike'], // strikethrough
+     [{ color: [] }, { background: [] }], // font color and highlight
+     [{ list: 'ordered' }, { list: 'bullet' }],
+     ['link'], // insert link
+     ['clean'], // remove formatting
+   ],
+ };
   //end WYSIWYG editor
 
   return (
