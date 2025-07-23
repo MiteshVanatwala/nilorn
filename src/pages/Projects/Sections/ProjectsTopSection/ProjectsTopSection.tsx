@@ -20,6 +20,7 @@ import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
 import { set, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
+import LeavePageBlocker from '../../../../components/Modal/LeavePageBlocker';
 
 type Props = {
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
@@ -43,10 +44,12 @@ const ProjectsTopSection = ({
     typeof clientNo === 'string'
   );
 
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
   }, [projectOptionItems]);
-
+  const [showLeavePageBlocker, setShowLeavePageBlocker] = useState(false);
   const [optionItems, setOptionItems] =
     useState<SelectOption[]>(projectOptions);
 
@@ -56,10 +59,31 @@ const ProjectsTopSection = ({
   );
 
   useEffect(() => {
+    const storedClientNo = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
+    );
+    const storedProjectCode = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
+    );
+    if (storedClientNo) {
+      setSelectedClientNo(storedClientNo);
+      setValue('clientNo', storedClientNo);
+    }
+    if (storedProjectCode) {
+      setSelectedProjectCode(storedProjectCode);
+      setValue('projectCode', storedProjectCode);
+      setValue('project', storedProjectCode);
+    }
+    setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 100);
+  }, []);
+
+  useEffect(() => {
     if (!!clientNo && !!projectId && !!projectCard) {
       reset({ ...projectCard });
-    } else if (!projectId) {
-    reset({
+    } else if (!projectId && !isInitialLoad) {
+      reset({
         clientNo,
         projectCode: '',
         description: '',
@@ -78,32 +102,49 @@ const ProjectsTopSection = ({
   }, [projectOptions]);
 
   useEffect(() => {
-    setSelectedClientNo(clientNo);
-    if (!!clientNo) {
-      setValue(
-        'clientName',
-        clientOptions?.find(option => option.value === clientNo)?.label ?? ''
-      );
-      if (!projectId) {
-        setSelectedProjectCode('');
-        setValue('projectCode', '');
-        setValue('project', '');
-        setValue('code', '');
-        setValue('description', '');
-      } else if (!!projectId) {
-        if (
-         clientOptions.length > 0 && optionItems.filter(option => option.value === projectId).length === 0
-        ) {
+    if (
+      clientNo !==
+      sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO)
+    ) {
+      setShowLeavePageBlocker(true);
+    } else {
+      setSelectedClientNo(clientNo);
+      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
+      if (!!clientNo) {
+        setValue(
+          'clientName',
+          clientOptions?.find(option => option.value === clientNo)?.label ?? ''
+        );
+        if (!projectId) {
           setSelectedProjectCode('');
           setValue('projectCode', '');
           setValue('project', '');
           setValue('code', '');
           setValue('description', '');
-        } else {
-          setSelectedProjectCode(projectId);
-          setValue('projectCode', projectId);
-          setValue('project', projectId);
-          setValue('code', projectId);
+          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+        } else if (!!projectId) {
+          if (
+            clientOptions.length > 0 &&
+            optionItems.filter(option => option.value === projectId).length ===
+              0 &&
+            !isInitialLoad
+          ) {
+            setSelectedProjectCode('');
+            setValue('projectCode', '');
+            setValue('project', '');
+            setValue('code', '');
+            setValue('description', '');
+            sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+          } else {
+            setSelectedProjectCode(projectId);
+            setValue('projectCode', projectId);
+            setValue('project', projectId);
+            setValue('code', projectId);
+            sessionStorage.setItem(
+              SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+              projectId
+            );
+          }
         }
       }
     }
@@ -118,82 +159,97 @@ const ProjectsTopSection = ({
   }, [optionItems, projectId]);
 
   return (
-    <Grid
-      gap={{
-        base: SPACE.XXS,
-        lg: SPACE.SM,
-      }}
-      templateColumns={{
-        base: GRID.TEMPLATE_COLUMNS.base,
-        md: GRID.TEMPLATE_COLUMNS.md,
-        lg: GRID.TEMPLATE_COLUMNS.lg,
-      }}>
-      <GridItem
-        colSpan={{
-          base: 4,
-          lg: 8,
+    <>
+      <LeavePageBlocker
+        isOpen={showLeavePageBlocker}
+        closeModal={(accepted?: boolean) => {
+          if (accepted) {
+            sessionStorage.setItem(
+              SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+              clientNo
+            );
+            setValue('clientNo', clientNo);
+          }
+          setShowLeavePageBlocker(false);
+        }}
+      />
+      <Grid
+        gap={{
+          base: SPACE.XXS,
+          lg: SPACE.SM,
+        }}
+        templateColumns={{
+          base: GRID.TEMPLATE_COLUMNS.base,
+          md: GRID.TEMPLATE_COLUMNS.md,
+          lg: GRID.TEMPLATE_COLUMNS.lg,
         }}>
-        <Grid
-          gap={{
-            base: SPACE.XXS,
-            lg: SPACE.SM,
-          }}
-          templateColumns={{
-            base: GRID.TEMPLATE_COLUMNS.base,
-            md: GRID.TEMPLATE_COLUMNS.md,
-            lg: GRID.TEMPLATE_COLUMNS.lg,
-          }}
-          pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
-          <GridItem
-            colSpan={{
-              base: 2,
-              lg: 2,
-            }}>
-            <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-              <Select
-                isControlled
-                value={defaultClientOption}
-                placeholder={t('PD.Client')}
-                name="clientNo"
-                options={clientOptions}
-                registerOptions={{ required: true }}
-              />
-            </ControlWrapper>
-          </GridItem>
+        <GridItem
+          colSpan={{
+            base: 4,
+            lg: 8,
+          }}>
+          <Grid
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}
+            templateColumns={{
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
+            }}
+            pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
+            <GridItem
+              colSpan={{
+                base: 2,
+                lg: 2,
+              }}>
+              <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
+                <Select
+                  isControlled
+                  value={defaultClientOption}
+                  placeholder={t('PD.Client')}
+                  name="clientNo"
+                  options={clientOptions}
+                  registerOptions={{ required: true }}
+                />
+              </ControlWrapper>
+            </GridItem>
 
-          <GridItem
-            colSpan={{
-              base: 2,
-              lg: 2,
-            }}>
-            <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-              <Select
-                name="projectCode"
-                isControlled
-                value={
-                  defaultProjectOption
-                    ? defaultProjectOption
-                    : { value: '', label: t('PD.Client') }
-                }
-                options={optionItems}
-                registerOptions={{ required: true }}
-                isDisabled={!clientNo}
-              />
-            </ControlWrapper>
-            <Fragment />
-          </GridItem>
-        </Grid>
-      </GridItem>
+            <GridItem
+              colSpan={{
+                base: 2,
+                lg: 2,
+              }}>
+              <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
+                <Select
+                  name="projectCode"
+                  isControlled
+                  value={
+                    defaultProjectOption
+                      ? defaultProjectOption
+                      : { value: '', label: t('PD.Client') }
+                  }
+                  options={optionItems}
+                  registerOptions={{ required: true }}
+                  isDisabled={!clientNo}
+                />
+              </ControlWrapper>
+              <Fragment />
+            </GridItem>
+          </Grid>
+        </GridItem>
 
-      <GridItem colSpan={2}>
-        <ProjectsActionBar
-          lastModified={lastModified}
-          clientNo={clientNo}
-          projectId={projectId}
-          setSelectedProjectCode={setSelectedProjectCode}
-        />
-      </GridItem>
-    </Grid>
+        <GridItem colSpan={2}>
+          <ProjectsActionBar
+            lastModified={lastModified}
+            clientNo={clientNo}
+            projectId={projectId}
+            setSelectedProjectCode={setSelectedProjectCode}
+          />
+        </GridItem>
+      </Grid>
+    </>
   );
 };
 
