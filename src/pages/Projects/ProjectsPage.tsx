@@ -18,7 +18,19 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
 
-  const form = useForm({ defaultValues: { code: '' }, mode: 'onChange' });
+  const form = useForm({
+    defaultValues: {
+      code: '',
+      clientNo: '',
+      description: '',
+      clientName: '',
+      teamsName: '',
+      channelName: '',
+      artWorkFolderName: '',
+      attachmentFolderName: '',
+    },
+    mode: 'onChange',
+  });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
 

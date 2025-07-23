@@ -18,7 +18,7 @@ import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { set, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
 
 type Props = {
@@ -42,7 +42,6 @@ const ProjectsTopSection = ({
     clientNo,
     typeof clientNo === 'string'
   );
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
@@ -57,30 +56,9 @@ const ProjectsTopSection = ({
   );
 
   useEffect(() => {
-    const storedClientNo = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
-    );
-    const storedProjectCode = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
-    );
-    if (storedClientNo) {
-      setSelectedClientNo(storedClientNo);
-      setValue('clientNo', storedClientNo);
-    }
-    if (storedProjectCode) {
-      setSelectedProjectCode(storedProjectCode);
-      setValue('projectCode', storedProjectCode);
-      setValue('project', storedProjectCode);
-    }
-    setTimeout(() => {
-      setIsInitialLoad(false);
-    }, 100);
-  }, []);
-
-  useEffect(() => {
     if (!!clientNo && !!projectId && !!projectCard) {
       reset({ ...projectCard });
-    } else if (!projectId && !isInitialLoad) {
+    } else if (!projectId) {
     reset({
         clientNo,
         projectCode: '',
@@ -93,7 +71,7 @@ const ProjectsTopSection = ({
         attachmentFolderName: '',
       });
     }
-  }, [clientNo, projectId, projectCard]);
+  }, [clientNo, projectId, projectCard, reset]);
 
   useEffect(() => {
     setOptionItems(projectOptions);
@@ -101,39 +79,43 @@ const ProjectsTopSection = ({
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
-    if (clientNo !== undefined) {
-      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
-      setValue('clientName', clientOptions?.find(option => option.value === clientNo)?.label ?? '');
-      if (!isInitialLoad && projectId !== undefined && projectId !== '') {
+    if (!!clientNo) {
+      setValue(
+        'clientName',
+        clientOptions?.find(option => option.value === clientNo)?.label ?? ''
+      );
+      if (!projectId) {
         setSelectedProjectCode('');
         setValue('projectCode', '');
         setValue('project', '');
-        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+        setValue('code', '');
+        setValue('description', '');
+      } else if (!!projectId) {
+        if (
+         clientOptions.length > 0 && optionItems.filter(option => option.value === projectId).length === 0
+        ) {
+          setSelectedProjectCode('');
+          setValue('projectCode', '');
+          setValue('project', '');
+          setValue('code', '');
+          setValue('description', '');
+        } else {
+          setSelectedProjectCode(projectId);
+          setValue('projectCode', projectId);
+          setValue('project', projectId);
+          setValue('code', projectId);
+        }
       }
     }
-  }, [clientNo, projectId]);
-
-  useEffect(() => {
-    setSelectedProjectCode(projectId);
-    if (projectId !== undefined && projectId !== '') {
-      sessionStorage.setItem(
-        SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
-        projectId
-      );
-      setSelectedProjectCode(projectId);
-      setValue('projectCode', projectId);
-      setValue('project', projectId);
-    }
-  }, [projectId]);
+  }, [clientNo, clientOptions, projectId, optionItems]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === clientNo
   );
-  
-   const defaultProjectOption = projectOptions?.find(
-    (option: any) => option.value === projectId
-  );
 
+  const defaultProjectOption = useMemo(() => {
+    return optionItems.find((option: any) => option.value === projectId);
+  }, [optionItems, projectId]);
 
   return (
     <Grid
@@ -188,7 +170,11 @@ const ProjectsTopSection = ({
               <Select
                 name="projectCode"
                 isControlled
-                value={defaultProjectOption ? defaultProjectOption : { value: '', label: t('PD.Client') }}
+                value={
+                  defaultProjectOption
+                    ? defaultProjectOption
+                    : { value: '', label: t('PD.Client') }
+                }
                 options={optionItems}
                 registerOptions={{ required: true }}
                 isDisabled={!clientNo}
