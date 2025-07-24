@@ -188,7 +188,7 @@ const TopSection = ({
               <>
                 <HStack p={SPACE.XXS} alignItems="center">
                   <Text>{client}</Text>
-                  {clientRequirement && (
+                  {clientRequirement && clientRequirement !== '<p><br></p>' && (
                     <Tooltip
                       label={
                         <Box
@@ -197,6 +197,8 @@ const TopSection = ({
                           }}
                         />
                       }
+                      variant={'attachmentTooltip'}
+                      className="attachment-tooltip"
                       placement="right-start">
                       <Text color="red" cursor="pointer">
                         <i className="ri-information-line"></i>
