@@ -192,6 +192,7 @@ const TopSection = ({
                     <Tooltip
                       label={
                         <Box
+                          className="ql-editor"
                           dangerouslySetInnerHTML={{
                             __html: clientRequirement,
                           }}
