@@ -157,8 +157,11 @@ const ProductDevelopmentModalTopSection = ({
             {productDevelopment?.clientName}{' '}
             {productDevelopment?.clientRequirement && (
               <Tooltip
+                variant={'attachmentTooltip'}
+                className="attachment-tooltip"
                 label={
                   <Box
+                    className="ql-editor"
                     dangerouslySetInnerHTML={{
                       __html: productDevelopment?.clientRequirement,
                     }}
