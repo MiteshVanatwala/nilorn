@@ -12,8 +12,10 @@ import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import { useParams } from 'react-router';
 
 function ProjectsPage() {
+  const { no } = useParams();
   const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
@@ -47,6 +49,12 @@ function ProjectsPage() {
       }
     );
   };
+
+  useEffect(() => {
+    if (no) {
+      setSelectedProjectCode(no);
+    }
+  }, [no]);
 
   useEffect(() => {
     setUnsavedChanges(form.formState.isDirty);
