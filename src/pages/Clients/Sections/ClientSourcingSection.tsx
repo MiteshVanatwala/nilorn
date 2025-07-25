@@ -21,16 +21,16 @@ const ClientSourcingSection = ({
 
   // Quill editor modules configuration
   const modules = {
-   toolbar: [
-     [{ font: [] }],
-     [{ size: ['small', false, 'large'] }],
-     ['bold', 'italic', 'underline', 'strike'], // strikethrough
-     [{ color: [] }, { background: [] }], // font color and highlight
-     [{ list: 'ordered' }, { list: 'bullet' }],
-     ['link'], // insert link
-     ['clean'], // remove formatting
-   ],
- };
+    toolbar: [
+      [{ font: [] }],
+      [{ size: ['small', false, 'large'] }],
+      ['bold', 'italic', 'underline', 'strike'], // strikethrough
+      [{ color: [] }, { background: [] }], // font color and highlight
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'], // insert link
+      ['clean'], // remove formatting
+    ],
+  };
   //end WYSIWYG editor
 
   return (
@@ -42,19 +42,15 @@ const ClientSourcingSection = ({
           modules={modules}
           readOnly={disableEdit}
           onKeyUp={e => {
-            const cleanContent =
-              requirement === '<p><br></p>' ? '' : requirement;
-            setValue('requirement', cleanContent, {
+            setValue('requirement', requirement, {
               shouldDirty: true,
-              shouldTouch: false,
+              shouldTouch: true,
             });
           }}
           onChange={(newContent: any) => {
-            const cleanContent =
-              requirement === '<p><br></p>' ? '' : requirement;
-            setValue('requirement', cleanContent, {
+            setValue('requirement', newContent, {
               shouldDirty: false,
-              shouldTouch: true,
+              shouldTouch: false,
             });
           }}
           style={{
