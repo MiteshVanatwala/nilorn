@@ -200,8 +200,7 @@ const TopSection = ({
                       }
                       variant={'attachmentTooltip'}
                       className="attachment-tooltip"
-                      placement="right-start"
-                      isOpen>
+                      placement="right-start">
                       <Text color="red" cursor="pointer">
                         <i className="ri-information-line"></i>
                       </Text>
