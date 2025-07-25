@@ -51,6 +51,12 @@ const ClientsPage = () => {
   useEffect(() => {
     if (selectedClientNo) {
       form.reset({ ...client, no: selectedClientNo }, { keepDirty: false });
+      setTimeout(() => {
+        form.setValue('requirement', client?.requirement, {
+          shouldDirty: false,
+          shouldTouch: false,
+        });
+      }, 100);
     } else {
       form.reset();
     }
