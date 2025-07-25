@@ -9,6 +9,7 @@ import ErrorPage from './components/ErrorBoundary/ErrorPage';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
 import { OpenAPI } from './app/generate';
 import { SESSION_STORAGE } from './app/utils/constant';
+import 'quill/dist/quill.snow.css';
 
 OpenAPI.BASE = process.env.REACT_APP_API_URL ?? 'https://udev.nilorn.com';
 

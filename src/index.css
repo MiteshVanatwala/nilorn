@@ -1,5 +1,6 @@
 @import url('https://use.typekit.net/vla4hxb.css');
 @import url('remixicon/fonts/remixicon.css');
+@import '~quill/dist/quill.snow.css';
 
 ::selection {
   background: var(--chakra-colors-BLUE-100);

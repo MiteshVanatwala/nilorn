@@ -192,6 +192,7 @@ const TopSection = ({
                     <Tooltip
                       label={
                         <Box
+                          className="ql-editor"
                           dangerouslySetInnerHTML={{
                             __html: clientRequirement,
                           }}
@@ -199,7 +200,8 @@ const TopSection = ({
                       }
                       variant={'attachmentTooltip'}
                       className="attachment-tooltip"
-                      placement="right-start">
+                      placement="right-start"
+                      isOpen>
                       <Text color="red" cursor="pointer">
                         <i className="ri-information-line"></i>
                       </Text>
