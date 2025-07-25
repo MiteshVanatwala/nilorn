@@ -104,7 +104,8 @@ const ProjectsTopSection = ({
   useEffect(() => {
     if (
       clientNo !==
-      sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO)
+        sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO) &&
+      !isInitialLoad
     ) {
       setShowLeavePageBlocker(true);
     } else {
@@ -115,7 +116,7 @@ const ProjectsTopSection = ({
           'clientName',
           clientOptions?.find(option => option.value === clientNo)?.label ?? ''
         );
-        if (!projectId) {
+        if (!projectId && !isInitialLoad) {
           setSelectedProjectCode('');
           setValue('projectCode', '');
           setValue('project', '');
@@ -169,6 +170,11 @@ const ProjectsTopSection = ({
               clientNo
             );
             setValue('clientNo', clientNo);
+          }else{
+           setValue(
+             'clientNo',
+             sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO)
+           );
           }
           setShowLeavePageBlocker(false);
         }}

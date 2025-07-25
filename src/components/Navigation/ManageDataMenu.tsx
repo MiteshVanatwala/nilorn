@@ -13,7 +13,10 @@ const ManageDataMenu = () => {
   return (
     <HeaderMenu title={t('Menu.HypManageData')}>
       {showProjectCard === true ? (
-        <HeaderMenuButton onClick={() => navigate('/projects')}>
+        <HeaderMenuButton
+          onClick={() => {            
+            navigate('/projects/');
+          }}>
           <>{t('Menu.HypProjects')}</>
         </HeaderMenuButton>
       ) : (
