@@ -17,7 +17,7 @@ const ManageDataMenu = () => {
           <HeaderLink
             variant="manageDataLink"
             title={t('Menu.HypProjects')}
-            path="/projects"
+            path="/projects/"
             clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
           />
         ) : (
