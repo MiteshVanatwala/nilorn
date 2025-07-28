@@ -155,24 +155,25 @@ const ProductDevelopmentModalTopSection = ({
           }}>
           <Text>
             {productDevelopment?.clientName}{' '}
-            {productDevelopment?.clientRequirement && (
-              <Tooltip
-                variant={'attachmentTooltip'}
-                className="attachment-tooltip"
-                label={
-                  <Box
-                    className="ql-editor"
-                    dangerouslySetInnerHTML={{
-                      __html: productDevelopment?.clientRequirement,
-                    }}
-                  />
-                }
-                placement="right-start">
-                <Text as="span" color="red" cursor="pointer" ml="1">
-                  <i className="ri-information-line"></i>
-                </Text>
-              </Tooltip>
-            )}
+            {productDevelopment?.clientRequirement &&
+              productDevelopment?.clientRequirement !== '<p><br></p>' && (
+                <Tooltip
+                  variant={'attachmentTooltip'}
+                  className="attachment-tooltip"
+                  label={
+                    <Box
+                      className="ql-editor"
+                      dangerouslySetInnerHTML={{
+                        __html: productDevelopment?.clientRequirement,
+                      }}
+                    />
+                  }
+                  placement="right-start">
+                  <Text as="span" color="red" cursor="pointer" ml="1">
+                    <i className="ri-information-line"></i>
+                  </Text>
+                </Tooltip>
+              )}
           </Text>
           <Text minH={'22px'}>{productDevelopment?.projectCode}</Text>
           <Text>{productDevelopment?.versionSpecification}</Text>
