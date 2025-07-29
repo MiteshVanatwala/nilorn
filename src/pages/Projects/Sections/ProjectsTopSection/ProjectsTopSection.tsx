@@ -18,9 +18,10 @@ import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
 import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
-import { set, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, set, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
 import LeavePageBlocker from '../../../../components/Modal/LeavePageBlocker';
+import SelectBase from '../../../../components/Form/SelectBase';
 
 type Props = {
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
@@ -37,7 +38,7 @@ const ProjectsTopSection = ({
   const { setValue, reset } = useFormContext();
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'clientNo' });
-  const projectId = useWatch({ name: 'projectCode' });
+  const projectCode = useWatch({ name: 'projectCode' });
   const lastModified = useWatch({ name: 'lastModified' });
   const { data: projectOptionItems } = useGetProjectsOptions(
     clientNo,
@@ -45,6 +46,8 @@ const ProjectsTopSection = ({
   );
 
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [nextClientNo, setNextClientNo] = useState('');
+  const [nextProjectCode, setNextProjectCode] = useState('');
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
@@ -55,8 +58,26 @@ const ProjectsTopSection = ({
 
   const { data: projectCard } = useGetProjectCard(
     clientNo ?? '',
-    projectId ?? ''
+    projectCode ?? ''
   );
+  
+  useEffect(() => {
+    if (!!clientNo && !!projectCode){
+      reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: projectCode});
+    }else{
+      reset({
+        clientNo: clientNo,
+        projectCode: projectCode,
+        code: projectCode,
+        members: [],
+        description: '',
+        teamsName: '',
+        channelName: '',
+        artWorkFolderName: '',
+        attachmentFolderName: '',
+      });
+    }
+  }, [clientNo, projectCode, projectCard, reset]);
 
   useEffect(() => {
     const storedClientNo = sessionStorage.getItem(
@@ -65,99 +86,31 @@ const ProjectsTopSection = ({
     const storedProjectCode = sessionStorage.getItem(
       SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
     );
-    if (storedClientNo) {
+    if (!!storedClientNo) {
       setSelectedClientNo(storedClientNo);
-      setValue('clientNo', storedClientNo);
+      setValue('clientNo', storedClientNo, { shouldDirty: false });
     }
-    if (storedProjectCode) {
+    if (!!storedProjectCode) {
       setSelectedProjectCode(storedProjectCode);
       setValue('projectCode', storedProjectCode);
-      setValue('project', storedProjectCode);
+      setValue('code', storedProjectCode);
     }
     setTimeout(() => {
       setIsInitialLoad(false);
-    }, 100);
+    }, 1000);
   }, []);
-
-  useEffect(() => {
-    if (!!clientNo && !!projectId && !!projectCard) {
-      reset({ ...projectCard });
-    } else if (!projectId && !isInitialLoad) {
-      reset({
-        clientNo,
-        projectCode: '',
-        description: '',
-        members: [],
-        lastModified: '',
-        teamsName: '',
-        channelName: '',
-        artWorkFolderName: '',
-        attachmentFolderName: '',
-      });
-    }
-  }, [clientNo, projectId, projectCard, reset]);
 
   useEffect(() => {
     setOptionItems(projectOptions);
   }, [projectOptions]);
-
-  useEffect(() => {
-    if (
-      clientNo !==
-        sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO) &&
-      !isInitialLoad
-    ) {
-      setShowLeavePageBlocker(true);
-    } else {
-      setSelectedClientNo(clientNo);
-      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
-      if (!!clientNo) {
-        setValue(
-          'clientName',
-          clientOptions?.find(option => option.value === clientNo)?.label ?? ''
-        );
-        if (!projectId && !isInitialLoad) {
-          setSelectedProjectCode('');
-          setValue('projectCode', '');
-          setValue('project', '');
-          setValue('code', '');
-          setValue('description', '');
-          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
-        } else if (!!projectId) {
-          if (
-            clientOptions.length > 0 &&
-            optionItems.filter(option => option.value === projectId).length ===
-              0 &&
-            !isInitialLoad
-          ) {
-            setSelectedProjectCode('');
-            setValue('projectCode', '');
-            setValue('project', '');
-            setValue('code', '');
-            setValue('description', '');
-            sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
-          } else {
-            setSelectedProjectCode(projectId);
-            setValue('projectCode', projectId);
-            setValue('project', projectId);
-            setValue('code', projectId);
-            sessionStorage.setItem(
-              SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
-              projectId
-            );
-          }
-        }
-      }
-    }
-  }, [clientNo, clientOptions, projectId, optionItems]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === clientNo
   );
 
   const defaultProjectOption = useMemo(() => {
-    return optionItems.find((option: any) => option.value === projectId);
-  }, [optionItems, projectId]);
+    return optionItems.find((option: any) => option.value === projectCode);
+  }, [optionItems, projectCode]);
 
   return (
     <>
@@ -165,16 +118,13 @@ const ProjectsTopSection = ({
         isOpen={showLeavePageBlocker}
         closeModal={(accepted?: boolean) => {
           if (accepted) {
-            sessionStorage.setItem(
-              SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
-              clientNo
-            );
-            setValue('clientNo', clientNo);
-          }else{
-           setValue(
-             'clientNo',
-             sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO)
-           );
+           setValue('clientNo', nextClientNo ? nextClientNo : clientNo, { shouldDirty: false }); 
+           setValue('projectCode', nextProjectCode, { shouldDirty: false });
+           setValue('code', '', { shouldDirty: false });
+           setSelectedClientNo(nextClientNo ? nextClientNo : clientNo);
+           setSelectedProjectCode(nextProjectCode);
+           sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, nextClientNo ? nextClientNo : clientNo);
+           sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, nextProjectCode);
           }
           setShowLeavePageBlocker(false);
         }}
@@ -211,14 +161,31 @@ const ProjectsTopSection = ({
                 lg: 2,
               }}>
               <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-                <Select
-                  isControlled
-                  value={defaultClientOption}
-                  placeholder={t('PD.Client')}
-                  name="clientNo"
-                  options={clientOptions}
-                  registerOptions={{ required: true }}
-                />
+                <Controller name="clientNo" render={() => (
+                  <SelectBase
+                    isSearchable
+                    isControlled
+                    name={'clientNo'}
+                    options={clientOptions}
+                    onChange={(option: any) => {
+                      if (
+                        sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) ===
+                        'false'
+                      ) {
+                        reset({clientNo: option?.value, projectCode: '', code: '',
+                          clientName: clientOptions?.find(t => t.value === option?.value)?.label ?? ''
+                        });
+                        setSelectedClientNo(option?.value);
+                        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, option?.value);                        
+                      } else {
+                        setNextClientNo(option?.value);
+                        setShowLeavePageBlocker(true);
+                      }
+                    }}
+                    value={defaultClientOption}
+                    hideSelected={false}
+                  />
+                )} />
               </ControlWrapper>
             </GridItem>
 
@@ -228,18 +195,33 @@ const ProjectsTopSection = ({
                 lg: 2,
               }}>
               <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-                <Select
-                  name="projectCode"
-                  isControlled
-                  value={
-                    defaultProjectOption
+                <Controller name="projectCode" render={() => (
+                  <SelectBase
+                    isSearchable
+                    isControlled
+                    name={'projectCode'}
+                    options={optionItems}
+                    onChange={(option: any) => {
+                      if (
+                        sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) ===
+                        'false'
+                      ) {
+                        setValue('code', option?.value, { shouldDirty: true });
+                        setValue('projectCode', option?.value, { shouldDirty: true });
+                        setSelectedProjectCode(option?.value);
+                        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, option?.value);
+                      } else {
+                        setNextProjectCode(option?.value);
+                        setShowLeavePageBlocker(true);
+                      }
+                    }}
+                    value={defaultProjectOption
                       ? defaultProjectOption
-                      : { value: '', label: t('PD.Client') }
-                  }
-                  options={optionItems}
-                  registerOptions={{ required: true }}
-                  isDisabled={!clientNo}
-                />
+                      : { value: '', label: t('PD.Client') }}
+                    hideSelected={false}
+                    isDisabled={!clientNo}
+                  />
+                )} />
               </ControlWrapper>
               <Fragment />
             </GridItem>
@@ -250,7 +232,7 @@ const ProjectsTopSection = ({
           <ProjectsActionBar
             lastModified={lastModified}
             clientNo={clientNo}
-            projectId={projectId}
+            projectId={projectCode}
             setSelectedProjectCode={setSelectedProjectCode}
           />
         </GridItem>
