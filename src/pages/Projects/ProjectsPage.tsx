@@ -22,10 +22,12 @@ function ProjectsPage() {
 
   const form = useForm({
     defaultValues: {
-      code: '',
       clientNo: '',
+      code: '',
+      project: '',
+      projectCode: '',
+      members: [],
       description: '',
-      clientName: '',
       teamsName: '',
       channelName: '',
       artWorkFolderName: '',
@@ -57,7 +59,15 @@ function ProjectsPage() {
   }, [no]);
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
+    if (
+      form.formState.isDirty &&
+      form.formState?.dirtyFields?.clientNo &&
+      Object.keys(form.formState.dirtyFields).length === 1
+    ) {
+      setUnsavedChanges(false);
+    } else {
+      setUnsavedChanges(form.formState.isDirty);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
@@ -81,7 +91,6 @@ function ProjectsPage() {
             setSelectedProjectCode={setSelectedProjectCode}
             setSelectedClientNo={setSelectedClientNo}
           />
-
           <Accordion
             variant={'card'}
             defaultIndex={[0, 1, 2, 3, 4]}
