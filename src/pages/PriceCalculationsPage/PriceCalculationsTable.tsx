@@ -14,6 +14,7 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { TH_STYLE } from '../../theme/Constants/tableGrid';
 import { useModal } from '../../app/hooks/useModal';
 import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
+import { set } from 'react-hook-form';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -49,6 +50,14 @@ export type SelectedPrices = {
   };
 };
 
+export type SelectedProduction = {
+  [key: string]: {
+    selected: boolean;
+    client: string;
+    productDevelopmentNo: string;
+  };
+};
+
 type Props = {
   data: ProductDevelopmentDeepDto[];
 };
@@ -58,12 +67,15 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const { handleModal } = useModal();
   const { isLoading } = useDownloadFile();
   const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
+  const [selectedProduction, setSelectedProduction] = useState<SelectedProduction>({});
   const [uniqueClients, setUniqueClients] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] =
     useState<boolean>(false);
   const selectedCheckboxes = Object.values(selectedPrices).filter(
     price => price.selected
+  ).length + Object.values(selectedProduction).filter(
+    production => production.selected
   ).length;
 
   useEffect(() => {
@@ -90,11 +102,16 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   useEffect(() => {
     let selectedPriceList: SelectedPrices = {};
+    let selectedProductionList: SelectedProduction = {};
     data?.forEach(p => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           const priceCalculation = production.priceCalculations?.[0];
-
+          selectedProductionList[`${production.id}`] = {
+            selected: false,
+            client: p.productDevelopmentDataDto?.clientName || '',
+            productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+          };
           if (priceCalculation?.id) {
             selectedPriceList[`${priceCalculation.id}`] = {
               selected: false,
@@ -105,6 +122,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
         });
       });
     });
+    setSelectedProduction(selectedProductionList);
     setSelectedPrices(selectedPriceList);
   }, [data]);
 
@@ -194,6 +212,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
                       isLoading ||
                       uniqueClients.length > 1
                     }
+                    enableEditCalculation={
+                      Object.values(selectedProduction).filter(
+                        production => production.selected
+                      ).length > 0
+                    }
                     handleExportClick={handleExportClick}
                   />
                 </GridItem>
@@ -211,6 +234,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
               productDevelopment={p}
               selectedPrices={selectedPrices}
               setSelectedPrices={setSelectedPrices}
+              selectedProduction={selectedProduction}
+              setSelectedProduction={setSelectedProduction}
             />
           ))}
         </Fragment>

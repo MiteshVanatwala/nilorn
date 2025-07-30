@@ -29,6 +29,7 @@ import {
   GRID_LAYOUT_PRICE_DESKTOP,
   PRICE_ROW_SPAN,
   SelectedPrices,
+  SelectedProduction,
   VENDOR_ROW_SPAN,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
@@ -44,6 +45,8 @@ type Props = {
   tableMenu?: JSX.Element;
   selectedPrices: SelectedPrices;
   setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
+  selectedProduction: SelectedProduction;
+  setSelectedProduction: React.Dispatch<React.SetStateAction<SelectedProduction>>;
 };
 
 type ExtendedPriceDto = PriceDto & {
@@ -56,6 +59,8 @@ function PriceGridRow({
   sourcedProduction,
   selectedPrices,
   setSelectedPrices,
+  selectedProduction,
+  setSelectedProduction
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
@@ -177,6 +182,18 @@ function PriceGridRow({
     });
   };
 
+  const toggleSelectedProductionCheckbox = (id: string) => {
+    setSelectedProduction({
+      ...selectedProduction,
+      [`${id}`]: {
+        ...selectedProduction[`${id}`],
+        selected: !selectedProduction[`${id}`].selected,
+        client: productDevelopment?.clientName || '',
+        productDevelopmentNo: productDevelopment?.no || '',
+      },
+    });
+  };
+
   return (
     <GridItem colSpan={VENDOR_ROW_SPAN}>
       <GridInlineTbody
@@ -237,11 +254,30 @@ function PriceGridRow({
           {!!calculation ? (
             <Checkbox
               key={calculation.id}
-              isChecked={selectedPrices[`${calculation.id}`]?.selected || false}
-              onChange={() => toggleSelectedPriceCheckbox(calculation.id || '')}
+              isChecked={
+                selectedPrices[`${calculation?.id}`]?.selected || false
+              }
+              onChange={() =>
+                toggleSelectedPriceCheckbox(calculation?.id || '')
+              }
               onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === 'Enter') {
-                  toggleSelectedPriceCheckbox(calculation.id || '');
+                  toggleSelectedPriceCheckbox(calculation?.id || '');
+                }
+              }}
+            />
+          ) : !!production && !calculation ? (
+            <Checkbox
+              key={production.id}
+              isChecked={
+                selectedProduction[`${production?.id}`]?.selected || false
+              }
+              onChange={() =>
+                toggleSelectedProductionCheckbox(production?.id || '')
+              }
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                  toggleSelectedProductionCheckbox(production?.id || '');
                 }
               }}
             />

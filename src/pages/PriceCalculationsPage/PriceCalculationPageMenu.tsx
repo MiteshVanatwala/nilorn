@@ -12,11 +12,13 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 type Props = {
   disabled: boolean;
   handleExportClick: () => void;
+  enableEditCalculation: boolean;
 };
 
 const PriceCalculationPageMenu = ({
   disabled = false,
   handleExportClick,
+  enableEditCalculation = false,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -33,6 +35,29 @@ const PriceCalculationPageMenu = ({
       />
 
       <MenuList lineHeight={1.5} zIndex={9}>
+        <MenuItem
+          onClick={() => console.log('Add Calculation')}
+          icon={
+            <RemixIcon
+              component="Text"
+              fontSize={SIZES.ICON.MD}
+              icon={'ADD_LINE'}
+            />
+          }>
+          {t('PriceCalc.AddCalculation')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => console.log('Edit Calculation')}
+          icon={
+            <RemixIcon
+              component="Text"
+              fontSize={SIZES.ICON.MD}
+              icon={'EDIT_LINE'}
+            />
+          }
+          isDisabled={enableEditCalculation}>
+          {t('PriceCalc.EditCalculation')}
+        </MenuItem>
         <MenuItem
           onClick={handleExportClick}
           icon={
