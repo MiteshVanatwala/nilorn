@@ -16,9 +16,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
-import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
-import { Controller, set, useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
 import LeavePageBlocker from '../../../../components/Modal/LeavePageBlocker';
 import SelectBase from '../../../../components/Form/SelectBase';
@@ -39,6 +38,7 @@ const ProjectsTopSection = ({
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'clientNo' });
   const projectCode = useWatch({ name: 'projectCode' });
+  const code = useWatch({ name: 'code' });
   const lastModified = useWatch({ name: 'lastModified' });
   const { data: projectOptionItems } = useGetProjectsOptions(
     clientNo,
@@ -95,10 +95,20 @@ const ProjectsTopSection = ({
       setValue('projectCode', storedProjectCode);
       setValue('code', storedProjectCode);
     }
-    setTimeout(() => {
+     setTimeout(() => {
       setIsInitialLoad(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    if(!!code) {
+      setValue('projectCode', code, {
+        shouldDirty: true,
+      });
+      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, code);
+      setSelectedProjectCode(code);
+    }
+  }, [code]);
 
   useEffect(() => {
     setOptionItems(projectOptions);
@@ -176,6 +186,10 @@ const ProjectsTopSection = ({
                           clientName: clientOptions?.find(t => t.value === option?.value)?.label ?? ''
                         });
                         setSelectedClientNo(option?.value);
+                        if(!isInitialLoad) {
+                          setSelectedProjectCode("");
+                          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+                        }
                         sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, option?.value);                        
                       } else {
                         setNextClientNo(option?.value);
