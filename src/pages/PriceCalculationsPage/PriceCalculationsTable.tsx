@@ -15,6 +15,7 @@ import { TH_STYLE } from '../../theme/Constants/tableGrid';
 import { useModal } from '../../app/hooks/useModal';
 import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
 import { set } from 'react-hook-form';
+import { use } from 'i18next';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -101,6 +102,27 @@ const PriceCalculationsTable = ({ data }: Props) => {
   }, [selectedPrices]);
 
   useEffect(() => {
+    let selectedCount = 0;
+    for (var key in selectedProduction) {
+      if (
+        selectedProduction.hasOwnProperty(key) &&
+        selectedProduction[key]?.selected === true
+      ) {
+        selectedCount++;
+      }
+    }
+    if (selectedCount > 0) {
+      setSelectAll(Object.keys(selectedProduction).length === selectedCount);
+      setSelectAllIndeterminate(
+        Object.keys(selectedProduction).length !== selectedCount
+      );
+    } else {
+      setSelectAll(false);
+      setSelectAllIndeterminate(false);
+    }
+  }, [selectedProduction]);
+
+  useEffect(() => {
     let selectedPriceList: SelectedPrices = {};
     let selectedProductionList: SelectedProduction = {};
     data?.forEach(p => {
@@ -144,6 +166,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
     for (var key in selectedPrices) {
       if (selectedPrices.hasOwnProperty(key)) {
         selectedPrices[key].selected = !selectAll;
+      }
+    }
+    for (var keyProd in selectedProduction) {
+      if (selectedProduction.hasOwnProperty(keyProd)) {
+        selectedProduction[keyProd].selected = !selectAll;
       }
     }
     setSelectAllIndeterminate(false);
