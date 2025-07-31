@@ -63,7 +63,11 @@ const ProjectsTopSection = ({
   
   useEffect(() => {
     if (!!clientNo && !!projectCode){
-      reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: projectCode});
+      if(code!== projectCode) {
+        reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: code});
+      }else{
+        reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: projectCode});
+      }
     }else{
       reset({
         clientNo: clientNo,
@@ -101,18 +105,28 @@ const ProjectsTopSection = ({
   }, []);
 
   useEffect(() => {
-    if(!!code) {
-      setValue('projectCode', code, {
-        shouldDirty: true,
-      });
-      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, code);
-      setSelectedProjectCode(code);
-    }
-  }, [code]);
+     setValue(
+        'clientName',
+        clientOptions?.find(t => t.value === clientNo)?.label ?? '',
+        { shouldDirty: false }
+      );
+  },[clientNo, clientOptions]) 
 
   useEffect(() => {
     setOptionItems(projectOptions);
   }, [projectOptions]);
+
+  useEffect(() => {
+    if(!!code) {
+      if(projectOptions.filter((option: any) => option.value === code).length > 0) {
+        setValue('projectCode', code, {
+          shouldDirty: true,
+        });
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, code);
+        setSelectedProjectCode(code);
+      }
+    }
+  }, [code, projectOptions]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === clientNo
@@ -130,7 +144,7 @@ const ProjectsTopSection = ({
           if (accepted) {
            setValue('clientNo', nextClientNo ? nextClientNo : clientNo, { shouldDirty: false }); 
            setValue('projectCode', nextProjectCode, { shouldDirty: false });
-           setValue('code', '', { shouldDirty: false });
+           setValue('code', nextProjectCode, { shouldDirty: false });
            setSelectedClientNo(nextClientNo ? nextClientNo : clientNo);
            setSelectedProjectCode(nextProjectCode);
            sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, nextClientNo ? nextClientNo : clientNo);
