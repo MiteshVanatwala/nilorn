@@ -16,6 +16,8 @@ import { useModal } from '../../app/hooks/useModal';
 import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
 import { set } from 'react-hook-form';
 import { use } from 'i18next';
+import CreatePriceCalculationModal from './CreatePriceCalculationModal';
+import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -68,16 +70,16 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const { handleModal } = useModal();
   const { isLoading } = useDownloadFile();
   const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
-  const [selectedProduction, setSelectedProduction] = useState<SelectedProduction>({});
+  const [selectedProduction, setSelectedProduction] =
+    useState<SelectedProduction>({});
   const [uniqueClients, setUniqueClients] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] =
     useState<boolean>(false);
-  const selectedCheckboxes = Object.values(selectedPrices).filter(
-    price => price.selected
-  ).length + Object.values(selectedProduction).filter(
-    production => production.selected
-  ).length;
+  const selectedCheckboxes =
+    Object.values(selectedPrices).filter(price => price.selected).length +
+    Object.values(selectedProduction).filter(production => production.selected)
+      .length;
 
   useEffect(() => {
     let selectedCount = 0;
@@ -159,6 +161,57 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   const handleExportClick = async () => {
     handleModal(<ExcelExportModalContent selectedPrices={selectedPrices} />);
+  };
+
+  const handleAddPriceCalculation = () => {
+    // Get all selected production IDs
+    const selectedProductionIds = Object.entries(selectedProduction)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+
+    if (selectedProductionIds.length > 0) {
+      // Arrays to store multiple selected items
+      let selectedProductionsData: any = [];
+      let calculationsData: any = [];
+      let productDevelopmentsData: any = [];
+      let sourcedProductionsData: any = [];
+
+      // Search through the data structure to find all matching productions and related data
+      for (const pd of data) {
+        for (const sp of pd.sourcedProductions || []) {
+          const productions = sp.productions?.filter(
+            p => p.id && selectedProductionIds.includes(p.id)
+          );
+
+          if (productions && productions.length > 0) {
+            productions.forEach(production => {
+              selectedProductionsData.push(production);
+              calculationsData.push(production.priceCalculations ?? undefined);
+              productDevelopmentsData.push(pd.productDevelopmentDataDto);
+              sourcedProductionsData.push(sp);
+            });
+          }
+        }
+      }
+
+      // Open modal with arrays of all required data
+      if (selectedProductionsData.length > 0) {
+        handleModal(
+          <BulkCreatePriceCalculationModal
+            productDevelopment={productDevelopmentsData}
+            sourcedProduction={sourcedProductionsData}
+            production={selectedProductionsData}
+            calculation={calculationsData}
+            filters={{}}
+          />
+        );
+      }
+    }
+  };
+
+  const handleEditPriceCalculation = () => {
+    // Logic to handle editing a price calculation
+    console.log('Edit Price Calculation');
   };
 
   const selectDeselectAll = () => {
@@ -245,6 +298,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
                       ).length > 0
                     }
                     handleExportClick={handleExportClick}
+                    handleAddPriceCalculation={handleAddPriceCalculation}
+                    handleEditPriceCalculation={handleEditPriceCalculation}
                   />
                 </GridItem>
               </Grid>

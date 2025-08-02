@@ -12,6 +12,8 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 type Props = {
   disabled: boolean;
   handleExportClick: () => void;
+  handleAddPriceCalculation?: () => void;
+  handleEditPriceCalculation?: () => void;
   enableEditCalculation: boolean;
 };
 
@@ -19,6 +21,8 @@ const PriceCalculationPageMenu = ({
   disabled = false,
   handleExportClick,
   enableEditCalculation = false,
+  handleAddPriceCalculation = () => {},
+  handleEditPriceCalculation = () => {},
 }: Props) => {
   const { t } = useTranslation();
 
@@ -36,7 +40,7 @@ const PriceCalculationPageMenu = ({
 
       <MenuList lineHeight={1.5} zIndex={9}>
         <MenuItem
-          onClick={() => console.log('Add Calculation')}
+          onClick={handleAddPriceCalculation}
           icon={
             <RemixIcon
               component="Text"
@@ -47,7 +51,7 @@ const PriceCalculationPageMenu = ({
           {t('PriceCalc.AddCalculation')}
         </MenuItem>
         <MenuItem
-          onClick={() => console.log('Edit Calculation')}
+          onClick={handleEditPriceCalculation}
           icon={
             <RemixIcon
               component="Text"

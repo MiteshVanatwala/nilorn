@@ -29,9 +29,14 @@ import { isClosed } from '../../app/utils/status';
 type Props = {
   calculationId: string;
   filters: ServerFilter;
+  isBulkEdit?: boolean;
 };
 
-const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
+const EditPriceCalculationModal = ({
+  calculationId,
+  filters,
+  isBulkEdit = false,
+}: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm({ mode: 'onChange' });
@@ -153,6 +158,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
               vendorName={vendorName}
+              isBulkEdit={isBulkEdit}
               actionBar={
                 <PriceCalculationActionBar
                   handleDelete={openDeleteModal}
@@ -162,6 +168,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
                   showChanges={showChanges}
                   disableEdit={disableEdit}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
+                  isBulkEdit={isBulkEdit}
                 />
               }
             />
@@ -175,34 +182,40 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
                 disableEdit={disableEdit}
                 showChanges={showChanges}
                 productionId={priceCalculation?.productionId}
+                isBulkEdit={isBulkEdit}
               />
             </Skeleton>
           </Form>
         </FormProvider>
-        <ContentSection>
-          <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
-            <GridItem>
-              <ArrowLink
-                direction={'left'}
-                onClick={() => {
-                  onNavigate(`${priceCalculationNavigation?.previous}`);
-                }}
-                isDisabled={!priceCalculationNavigation?.previous}>
-                <>{t('Common.Previous')}</>
-              </ArrowLink>
-            </GridItem>
-            <GridItem>
-              <ArrowLink
-                direction={'right'}
-                onClick={() => {
-                  onNavigate(`${priceCalculationNavigation?.next}`);
-                }}
-                isDisabled={!priceCalculationNavigation?.next}>
-                <>{t('Common.Next')}</>
-              </ArrowLink>
-            </GridItem>
-          </Grid>
-        </ContentSection>
+        {!isBulkEdit && (
+          <ContentSection>
+            <Grid
+              justifyContent={'space-between'}
+              display={'flex'}
+              py={GRID.GAP}>
+              <GridItem>
+                <ArrowLink
+                  direction={'left'}
+                  onClick={() => {
+                    onNavigate(`${priceCalculationNavigation?.previous}`);
+                  }}
+                  isDisabled={!priceCalculationNavigation?.previous}>
+                  <>{t('Common.Previous')}</>
+                </ArrowLink>
+              </GridItem>
+              <GridItem>
+                <ArrowLink
+                  direction={'right'}
+                  onClick={() => {
+                    onNavigate(`${priceCalculationNavigation?.next}`);
+                  }}
+                  isDisabled={!priceCalculationNavigation?.next}>
+                  <>{t('Common.Next')}</>
+                </ArrowLink>
+              </GridItem>
+            </Grid>
+          </ContentSection>
+        )}
       </Box>
     </>
   );

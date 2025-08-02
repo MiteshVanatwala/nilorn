@@ -46,7 +46,9 @@ type Props = {
   selectedPrices: SelectedPrices;
   setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
   selectedProduction: SelectedProduction;
-  setSelectedProduction: React.Dispatch<React.SetStateAction<SelectedProduction>>;
+  setSelectedProduction: React.Dispatch<
+    React.SetStateAction<SelectedProduction>
+  >;
 };
 
 type ExtendedPriceDto = PriceDto & {
@@ -60,7 +62,7 @@ function PriceGridRow({
   selectedPrices,
   setSelectedPrices,
   selectedProduction,
-  setSelectedProduction
+  setSelectedProduction,
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();

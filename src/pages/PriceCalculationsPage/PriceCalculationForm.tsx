@@ -24,6 +24,7 @@ type Props = {
   showChanges: boolean;
   currency?: CurrencyDto;
   productionId?: string;
+  isBulkEdit?: boolean;
 };
 
 const PriceCalculationForm = ({
@@ -33,6 +34,7 @@ const PriceCalculationForm = ({
   showChanges,
   currency,
   productionId,
+  isBulkEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
@@ -220,10 +222,12 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
-      <PriceCalculationFormTable
-        data={calculationItems ?? []}
-        showChanges={showChanges}
-      />
+      {!isBulkEdit && (
+        <PriceCalculationFormTable
+          data={calculationItems ?? []}
+          showChanges={showChanges}
+        />
+      )}
     </>
   );
 };
