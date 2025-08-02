@@ -106,7 +106,7 @@ const CreatePriceCalculationModal = ({
   ]);
 
   function submitForm(form: FieldValues) {
-    createCalculation(form, {
+    createCalculation([form], {
       onSuccess: () => {
         setDirty(false);
         close();

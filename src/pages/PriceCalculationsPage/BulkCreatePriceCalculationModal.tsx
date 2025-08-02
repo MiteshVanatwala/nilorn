@@ -81,13 +81,26 @@ const BulkCreatePriceCalculationModal = ({
   }, [form, production]);
 
   function submitForm(form: FieldValues) {
-    console.log(form);
-    // createCalculation(form, {
-    //   onSuccess: () => {
-    //     setDirty(false);
-    //     close();
-    //   },
-    // });
+    const calculationData = production.map(p => ({
+      currencyCode: form.currencyCode || null,
+      currencyRate: form.currencyRate || 0,
+      freightIncluded: form.freightIncluded || false,
+      indirectCost: form.indirectCost || 0,
+      internalCommission: form.internalCommission || 0,
+      margin: form.margin || 0,
+      productionId: p.id,
+      purchaseCurrency:
+        form.purchaseCurrency === t('PriceCalc.VariesBetweenEntries')
+          ? p.currencyCode
+          : form.purchaseCurrency,
+    }));
+
+    createCalculation(calculationData, {
+      onSuccess: () => {
+        setDirty(false);
+        close();
+      },
+    });
   }
 
   useEffect(() => {

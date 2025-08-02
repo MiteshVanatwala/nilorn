@@ -61,7 +61,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: CreatePriceCalculationCommand) =>
+    (body: CreatePriceCalculationCommand[]) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),
