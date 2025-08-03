@@ -14,10 +14,8 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { TH_STYLE } from '../../theme/Constants/tableGrid';
 import { useModal } from '../../app/hooks/useModal';
 import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
-import { set } from 'react-hook-form';
-import { use } from 'i18next';
-import CreatePriceCalculationModal from './CreatePriceCalculationModal';
 import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
+import EditPriceCalculationModal from './EditPriceCalculationModal';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -210,8 +208,18 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const handleEditPriceCalculation = () => {
-    // Logic to handle editing a price calculation
-    console.log('Edit Price Calculation');
+    // Check if only one price calculation is selected
+    const selectedPriceIds = Object.entries(selectedPrices)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+    if (selectedPriceIds.length === 1) {
+      handleModal(
+        <EditPriceCalculationModal
+          calculationId={selectedPriceIds[0]}
+          filters={{}}
+        />
+      );
+    }
   };
 
   const selectDeselectAll = () => {
