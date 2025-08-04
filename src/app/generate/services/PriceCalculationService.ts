@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreatePriceCalculationCommand } from '../models/CreatePriceCalculationCommand';
+import type { priceCalculationCreateDtos } from '../models/CreatePriceCalculationCommand';
 import type { DefaultPriceCalculationDto } from '../models/DefaultPriceCalculationDto';
 import type { GetNavigationForPriceCalculationQuery } from '../models/GetNavigationForPriceCalculationQuery';
 import type { NavigationItem } from '../models/NavigationItem';
@@ -23,7 +23,7 @@ export class PriceCalculationService {
    * @throws ApiError
    */
   public static postApiPriceCalculation(
-    requestBody?: CreatePriceCalculationCommand[]
+    requestBody?: priceCalculationCreateDtos
   ): CancelablePromise<PriceCalculationDto> {
     return __request(OpenAPI, {
       method: 'POST',

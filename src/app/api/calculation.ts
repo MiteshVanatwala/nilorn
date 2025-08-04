@@ -10,6 +10,7 @@ import {
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
+import { priceCalculationCreateDtos } from '../generate/models/CreatePriceCalculationCommand';
 
 export const usePriceCalculation = (id: string) => {
   return useQuery(
@@ -61,7 +62,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: CreatePriceCalculationCommand[]) =>
+    (body: priceCalculationCreateDtos) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),
