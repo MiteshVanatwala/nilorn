@@ -25,18 +25,14 @@ import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
+import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
   calculationId: string;
   filters: ServerFilter;
-  isBulkEdit?: boolean;
 };
 
-const EditPriceCalculationModal = ({
-  calculationId,
-  filters,
-  isBulkEdit = false,
-}: Props) => {
+const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm({ mode: 'onChange' });
@@ -109,7 +105,11 @@ const EditPriceCalculationModal = ({
   }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
-    updateCalculation(form, {
+    const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
+      priceCalculationUpdateDtos: [form],
+    };
+
+    updateCalculation(priceCalculationUpdateDto, {
       onSuccess: () => {
         setDirty(false);
         close();
@@ -158,7 +158,7 @@ const EditPriceCalculationModal = ({
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
               vendorName={vendorName}
-              isBulkEdit={isBulkEdit}
+              createNew={false}
               actionBar={
                 <PriceCalculationActionBar
                   handleDelete={openDeleteModal}
@@ -168,7 +168,6 @@ const EditPriceCalculationModal = ({
                   showChanges={showChanges}
                   disableEdit={disableEdit}
                   setShowChanges={(s: boolean) => setShowChanges(s)}
-                  isBulkEdit={isBulkEdit}
                 />
               }
             />
@@ -182,40 +181,34 @@ const EditPriceCalculationModal = ({
                 disableEdit={disableEdit}
                 showChanges={showChanges}
                 productionId={priceCalculation?.productionId}
-                isBulkEdit={isBulkEdit}
               />
             </Skeleton>
           </Form>
         </FormProvider>
-        {!isBulkEdit && (
-          <ContentSection>
-            <Grid
-              justifyContent={'space-between'}
-              display={'flex'}
-              py={GRID.GAP}>
-              <GridItem>
-                <ArrowLink
-                  direction={'left'}
-                  onClick={() => {
-                    onNavigate(`${priceCalculationNavigation?.previous}`);
-                  }}
-                  isDisabled={!priceCalculationNavigation?.previous}>
-                  <>{t('Common.Previous')}</>
-                </ArrowLink>
-              </GridItem>
-              <GridItem>
-                <ArrowLink
-                  direction={'right'}
-                  onClick={() => {
-                    onNavigate(`${priceCalculationNavigation?.next}`);
-                  }}
-                  isDisabled={!priceCalculationNavigation?.next}>
-                  <>{t('Common.Next')}</>
-                </ArrowLink>
-              </GridItem>
-            </Grid>
-          </ContentSection>
-        )}
+        <ContentSection>
+          <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
+            <GridItem>
+              <ArrowLink
+                direction={'left'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.previous}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.previous}>
+                <>{t('Common.Previous')}</>
+              </ArrowLink>
+            </GridItem>
+            <GridItem>
+              <ArrowLink
+                direction={'right'}
+                onClick={() => {
+                  onNavigate(`${priceCalculationNavigation?.next}`);
+                }}
+                isDisabled={!priceCalculationNavigation?.next}>
+                <>{t('Common.Next')}</>
+              </ArrowLink>
+            </GridItem>
+          </Grid>
+        </ContentSection>
       </Box>
     </>
   );

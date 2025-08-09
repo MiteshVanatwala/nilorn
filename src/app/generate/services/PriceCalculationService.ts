@@ -2,7 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { priceCalculationCreateDtos } from '../models/CreatePriceCalculationCommand';
+import type {
+  priceCalculationCreateDtos,
+  PriceCalculationUpdateDtos,
+} from '../models/CreatePriceCalculationCommand';
 import type { DefaultPriceCalculationDto } from '../models/DefaultPriceCalculationDto';
 import type { GetNavigationForPriceCalculationQuery } from '../models/GetNavigationForPriceCalculationQuery';
 import type { NavigationItem } from '../models/NavigationItem';
@@ -39,7 +42,7 @@ export class PriceCalculationService {
    * @throws ApiError
    */
   public static patchApiPriceCalculation(
-    requestBody?: UpdatePriceCalculationCommand
+    requestBody?: PriceCalculationUpdateDtos
   ): CancelablePromise<PriceCalculationDto> {
     return __request(OpenAPI, {
       method: 'PATCH',

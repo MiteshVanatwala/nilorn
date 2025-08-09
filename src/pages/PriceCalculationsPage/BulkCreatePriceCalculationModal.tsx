@@ -22,20 +22,11 @@ import { useTranslation } from 'react-i18next';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentDataDto[];
-  sourcedProduction: SourcedProductionDto[];
-  lastModified?: string;
-  artwork?: MediaFileDto;
   production: ProductionDto[];
   calculation: PriceCalculationDto[] | undefined[];
-  filters?: ServerFilter;
 };
 
 const BulkCreatePriceCalculationModal = ({
-  productDevelopment,
-  sourcedProduction,
-  lastModified,
-  artwork,
   production,
   calculation,
 }: Props) => {
@@ -123,11 +114,12 @@ const BulkCreatePriceCalculationModal = ({
               vendorName={null}
               isBulkEdit={true}
               totalPriceCalculations={calculation.length}
+              createNew={true}
               actionBar={
                 <PriceCalculationActionBar
-                  artwork={artwork}
+                  artwork={undefined}
                   createNew={true}
-                  lastModified={lastModified}
+                  lastModified={undefined}
                   showChanges={false}
                   setShowChanges={() => {}}
                   isBulkEdit={true}

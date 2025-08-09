@@ -14,10 +14,11 @@ import { COLORS, SPACE } from '../../theme/Constants';
 import { TH_STYLE } from '../../theme/Constants/tableGrid';
 import { useModal } from '../../app/hooks/useModal';
 import ExcelExportModalContent from '../../components/ExcelExport/ExcelExportModalContent';
-import { set } from 'react-hook-form';
-import { use } from 'i18next';
 import CreatePriceCalculationModal from './CreatePriceCalculationModal';
 import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
+import EditPriceCalculationModal from './EditPriceCalculationModal';
+import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
+import { useFormStateFilters } from '../../app/utils/FilterHelper';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -69,6 +70,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
   const { isLoading } = useDownloadFile();
+  const filters = useFormStateFilters();
   const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
   const [selectedProduction, setSelectedProduction] =
     useState<SelectedProduction>({});
@@ -164,21 +166,25 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const handleAddPriceCalculation = () => {
-    // Get all selected production IDs
+    // Get all selected production and price IDs
     const selectedProductionIds = Object.entries(selectedProduction)
       .filter(([_, value]) => value.selected)
       .map(([key]) => key);
 
-    if (selectedProductionIds.length > 0) {
-      // Arrays to store multiple selected items
-      let selectedProductionsData: any = [];
-      let calculationsData: any = [];
-      let productDevelopmentsData: any = [];
-      let sourcedProductionsData: any = [];
+    const selectedPriceIds = Object.entries(selectedPrices)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+    // Arrays to store multiple selected items
+    let selectedProductionsData: any = [];
+    let calculationsData: any = [];
+    let productDevelopmentsData: any = [];
+    let sourcedProductionsData: any = [];
 
-      // Search through the data structure to find all matching productions and related data
+    if (selectedProductionIds.length > 0 || selectedPriceIds.length > 0) {
+      // Search through the data structure to find all matching productions and prices
       for (const pd of data) {
         for (const sp of pd.sourcedProductions || []) {
+          // Handle selected productions
           const productions = sp.productions?.filter(
             p => p.id && selectedProductionIds.includes(p.id)
           );
@@ -191,18 +197,44 @@ const PriceCalculationsTable = ({ data }: Props) => {
               sourcedProductionsData.push(sp);
             });
           }
+
+          // Handle selected prices
+          sp.productions?.forEach(production => {
+            const matchingPriceCalculations =
+              production.priceCalculations?.filter(
+                calc => calc.id && selectedPriceIds.includes(calc.id)
+              );
+
+            if (
+              matchingPriceCalculations &&
+              matchingPriceCalculations.length > 0
+            ) {
+              selectedProductionsData.push(production);
+              calculationsData.push(matchingPriceCalculations);
+              productDevelopmentsData.push(pd.productDevelopmentDataDto);
+              sourcedProductionsData.push(sp);
+            }
+          });
         }
       }
 
-      // Open modal with arrays of all required data
-      if (selectedProductionsData.length > 0) {
+      if (selectedProductionsData.length > 1) {
         handleModal(
           <BulkCreatePriceCalculationModal
-            productDevelopment={productDevelopmentsData}
-            sourcedProduction={sourcedProductionsData}
             production={selectedProductionsData}
             calculation={calculationsData}
-            filters={{}}
+          />
+        );
+      } else if (selectedProductionsData.length === 1) {
+        handleModal(
+          <CreatePriceCalculationModal
+            productDevelopment={productDevelopmentsData[0]}
+            production={selectedProductionsData[0]}
+            calculation={calculationsData[0]}
+            sourcedProduction={sourcedProductionsData[0]}
+            artwork={selectedProductionsData[0].artwork}
+            lastModified={selectedProductionsData[0].lastModified}
+            filters={selectedProductionsData[0]?.filters}
           />
         );
       }
@@ -210,8 +242,58 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const handleEditPriceCalculation = () => {
-    // Logic to handle editing a price calculation
-    console.log('Edit Price Calculation');
+    // Get selected price calculation IDs
+    const selectedPriceIds = Object.entries(selectedPrices)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+
+    // Arrays to store the calculation data
+    const calculationsData: any[] = [];
+    const productionsData: any[] = [];
+    const productDevelopmentsData: any[] = [];
+
+    // Collect data for selected prices and productions
+    for (const pd of data) {
+      for (const sp of pd.sourcedProductions || []) {
+        sp.productions?.forEach((production: any) => {
+          // Check selected productions
+          if (selectedProduction[production?.id]?.selected) {
+            const calculation = production.priceCalculations?.[0];
+            if (calculation) {
+              calculationsData.push(calculation);
+              productionsData.push(production);
+              productDevelopmentsData.push(pd.productDevelopmentDataDto);
+            }
+          }
+
+          // Check selected price calculations
+          production.priceCalculations?.forEach((calc: any) => {
+            if (calc.id && selectedPriceIds.includes(calc.id)) {
+              calculationsData.push(calc);
+              productionsData.push(production);
+              productDevelopmentsData.push(pd.productDevelopmentDataDto);
+            }
+          });
+        });
+      }
+    }
+
+    if (calculationsData.length > 1) {
+      handleModal(
+        <BulkEditPriceCalculationModal
+          calculations={calculationsData}
+          productions={productionsData}
+          productDevelopments={productDevelopmentsData}
+        />
+      );
+    } else if (calculationsData.length === 1) {
+      handleModal(
+        <EditPriceCalculationModal
+          calculationId={calculationsData[0].id}
+          filters={filters}
+        />
+      );
+    }
   };
 
   const selectDeselectAll = () => {

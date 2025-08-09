@@ -138,6 +138,7 @@ const CreatePriceCalculationModal = ({
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
               vendorName={production?.vendorName}
+              createNew={true}
               actionBar={
                 <PriceCalculationActionBar
                   artwork={artwork}

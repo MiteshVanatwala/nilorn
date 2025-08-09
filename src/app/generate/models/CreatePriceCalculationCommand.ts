@@ -16,3 +16,7 @@ export type CreatePriceCalculationCommand = {
 export type priceCalculationCreateDtos = {
   priceCalculationCreateDtos: CreatePriceCalculationCommand[];
 };
+
+export type PriceCalculationUpdateDtos = {
+  priceCalculationUpdateDtos: CreatePriceCalculationCommand[];
+};
