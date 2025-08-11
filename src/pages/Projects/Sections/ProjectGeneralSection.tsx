@@ -32,7 +32,7 @@ const ProjectGeneralSection = ({ disableEdit, displayPlaecholder }: Props) => {
           label={t('ManageData.ProjectCode')}
           placeholder={displayPlaecholder ? t('Common.Placeholder') : ''}
           readonly={disableEdit || !projectId}
-          registerOptions={{ maxLength: 50 }}
+          registerOptions={{ maxLength: 30 }}
         />
         <InputField
           name={'description'}
