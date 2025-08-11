@@ -201,7 +201,7 @@ const EditProductionFormContent = ({
           </GridItem>
            <GridItem colSpan={1}>
             <FormattedNumberInputField
-              name={'surCharge'}
+              name={'surcharge'}
               label={`${t('Production.Surcharge')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
