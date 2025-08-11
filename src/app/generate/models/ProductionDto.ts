@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { ChargeBasis } from './ChargeBasis';
 import type { PriceCalculationDto } from './PriceCalculationDto';
 import type { PurchasePriceDto } from './PurchasePriceDto';
 
@@ -12,10 +13,10 @@ export type ProductionDto = {
     moq?: number | null;
     sampleCharge?: number | null;
     toolCharge?: number | null;
-    sampleLeadTimeMin?: number | null;
-    productionLeadTimeMin?: number | null;
     sampleLeadTimeMax?: number | null;
     productionLeadTimeMax?: number | null;
+    sampleLeadTimeMin?: number | null;
+    productionLeadTimeMin?: number | null;
     comment?: string | null;
     id?: string;
     vendorId?: string | null;
@@ -23,4 +24,9 @@ export type ProductionDto = {
     purchasePrices?: Array<PurchasePriceDto> | null;
     priceCalculations?: Array<PriceCalculationDto> | null;
     lastModified?: string | null;
+    surcharge?: number | null;
+    dieSet?: number | null;
+    sampleChargeBasis?: ChargeBasis;
+    surchageBasis?: ChargeBasis;
 };
+

@@ -23,6 +23,7 @@ import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 import RangeNumberInputField from '../../../components/Form/RangeNumberInputField';
+import { useChargeBasisOptions } from '../../../app/hooks/useChargeBasis';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -45,6 +46,7 @@ const EditProductionFormContent = ({
 
   const { data: vendors } = useGetVendors(!createNew);
   const { data: currencies } = useGetCurrenciesFilterOption();
+  const { allChargeBasis } = useChargeBasisOptions();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
   const newSelctedVendor = useWatch({ name: 'vendorId' });
@@ -162,8 +164,8 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <FormattedNumberInputField
-              name={'sampleCharge'}
-              label={`${t('Production.Sample')}`}
+              name={'dieSet'}
+              label={`${t('Production.DieSet')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
@@ -195,6 +197,61 @@ const EditProductionFormContent = ({
               options={(currencies as SelectOption[]) ?? []}
               name={'currencyCode'}
               changelog={currencyCodeChangelog}
+            />
+          </GridItem>
+           <GridItem colSpan={1}>
+            <FormattedNumberInputField
+              name={'surcharge'}
+              label={`${t('Production.Surcharge')}`}
+              placeholder={`${t('Common.Placeholder')}`}
+              readonly={disableEdit}
+              type={'integer'}
+              min={0}
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Select
+              isDisabled={disableEdit}
+              label={`${t('Production.SurchargeBasis')}`}
+              defaultValue={
+                (allChargeBasis?.find(
+                  co =>
+                    co.value ===
+                    ('surchageBasis' in (production ?? {})
+                      ? (production as ProductionDto).surchageBasis
+                      : undefined)
+                ) as SelectOption)
+              }
+              options={(allChargeBasis as SelectOption[]) ?? []}
+              name={'surchageBasis'}
+            />
+          </GridItem>
+          <GridItem colSpan={1}></GridItem>
+           <GridItem colSpan={1}>
+            <FormattedNumberInputField
+              name={'sampleCharge'}
+              label={`${t('Production.Sample')}`}
+              placeholder={`${t('Common.Placeholder')}`}
+              readonly={disableEdit}
+              type={'integer'}
+              min={0}
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Select
+              isDisabled={disableEdit}
+              label={`${t('Production.SampleChargeBasis')}`}
+              defaultValue={
+                (allChargeBasis?.find(
+                  co =>
+                    co.value ===
+                    ('sampleChargeBasis' in (production ?? {})
+                      ? (production as ProductionDto).sampleChargeBasis
+                      : undefined)
+                ) as SelectOption)
+              }
+              options={(allChargeBasis as SelectOption[]) ?? []}
+              name={'sampleChargeBasis'}
             />
           </GridItem>
           {!createNew && (

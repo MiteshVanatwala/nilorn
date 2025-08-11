@@ -6,11 +6,11 @@ export { ApiError } from './core/ApiError';
 export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
-
 export type { ChangelogDto } from './models/ChangelogDto';
 export type { ChangelogItemDto } from './models/ChangelogItemDto';
 export { ChangelogType } from './models/ChangelogType';
 export { ChangeType } from './models/ChangeType';
+export { ChargeBasis } from './models/ChargeBasis';
 export type { ClientDto } from './models/ClientDto';
 export type { ClientRequirementDto } from './models/ClientRequirementDto';
 export type { CompositionDto } from './models/CompositionDto';
