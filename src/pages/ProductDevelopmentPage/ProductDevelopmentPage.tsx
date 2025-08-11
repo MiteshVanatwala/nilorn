@@ -11,7 +11,6 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
-import NotFoundPage from '../NotFound/NotFoundPage';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 type Props = {
