@@ -23,4 +23,8 @@ export type ProductionDto = {
     purchasePrices?: Array<PurchasePriceDto> | null;
     priceCalculations?: Array<PriceCalculationDto> | null;
     lastModified?: string | null;
+    surcharge?: number | null;
+    dieSet?: number | null;
+    sampleChargeBasis?: string | null;
+    surChargeBasis?: string | null;
 };

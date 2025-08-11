@@ -162,8 +162,8 @@ const EditProductionFormContent = ({
           </GridItem>
           <GridItem colSpan={1}>
             <FormattedNumberInputField
-              name={'sampleCharge'}
-              label={`${t('Production.Sample')}`}
+              name={'dieSet'}
+              label={`${t('Production.DieSet')}`}
               placeholder={`${t('Common.Placeholder')}`}
               readonly={disableEdit}
               type={'integer'}
@@ -194,6 +194,81 @@ const EditProductionFormContent = ({
               }
               options={(currencies as SelectOption[]) ?? []}
               name={'currencyCode'}
+              changelog={currencyCodeChangelog}
+            />
+          </GridItem>
+           <GridItem colSpan={1}>
+            <FormattedNumberInputField
+              name={'surCharge'}
+              label={`${t('Production.Surcharge')}`}
+              placeholder={`${t('Common.Placeholder')}`}
+              readonly={disableEdit}
+              type={'integer'}
+              min={0}
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Select
+              isDisabled={disableEdit}
+              key={
+                (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
+                currencies?.length +
+                currencies?.find(
+                  co => co.value === selectedVendor?.currencyCode
+                )
+              }
+              label={`${t('Production.SurchargeBasis')}`}
+              defaultValue={
+                createNew
+                  ? selectedVendor
+                    ? (currencies?.find(
+                        co => co.value === selectedVendor?.currencyCode
+                      ) as SelectOption)
+                    : undefined
+                  : (currencies?.find(
+                      co => co.value === production?.currencyCode
+                    ) as SelectOption)
+              }
+              options={(currencies as SelectOption[]) ?? []}
+              name={'surchargeBasis'}
+              changelog={currencyCodeChangelog}
+            />
+          </GridItem>
+          <GridItem colSpan={1}></GridItem>
+           <GridItem colSpan={1}>
+            <FormattedNumberInputField
+              name={'sampleCharge'}
+              label={`${t('Production.Sample')}`}
+              placeholder={`${t('Common.Placeholder')}`}
+              readonly={disableEdit}
+              type={'integer'}
+              min={0}
+            />
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Select
+              isDisabled={disableEdit}
+              key={
+                (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
+                currencies?.length +
+                currencies?.find(
+                  co => co.value === selectedVendor?.currencyCode
+                )
+              }
+              label={`${t('Production.SampleChargeBasis')}`}
+              defaultValue={
+                createNew
+                  ? selectedVendor
+                    ? (currencies?.find(
+                        co => co.value === selectedVendor?.currencyCode
+                      ) as SelectOption)
+                    : undefined
+                  : (currencies?.find(
+                      co => co.value === production?.currencyCode
+                    ) as SelectOption)
+              }
+              options={(currencies as SelectOption[]) ?? []}
+              name={'sampleChargeBasis'}
               changelog={currencyCodeChangelog}
             />
           </GridItem>
