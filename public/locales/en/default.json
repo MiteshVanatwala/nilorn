@@ -283,6 +283,9 @@
       "Error": {
         "Percentage": "Percentage should be between 0 and 100"
       }
+    },
+    "ChargeBasisLabel": {
+      "PerOption": "Per Option"
     }
   },
   "PriceCalc": {

@@ -23,6 +23,7 @@ import { isClosed } from '../../../app/utils/status';
 import { useProductionsChangelog } from '../../../app/hooks/useChangelog';
 import FormattedNumberInputField from '../../../components/Form/FormattedNumberInputField';
 import RangeNumberInputField from '../../../components/Form/RangeNumberInputField';
+import { useChargeBasisOptions } from '../../../app/hooks/useChargeBasis';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -45,6 +46,7 @@ const EditProductionFormContent = ({
 
   const { data: vendors } = useGetVendors(!createNew);
   const { data: currencies } = useGetCurrenciesFilterOption();
+  const { allChargeBasis } = useChargeBasisOptions();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
   const newSelctedVendor = useWatch({ name: 'vendorId' });
@@ -210,28 +212,18 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <Select
               isDisabled={disableEdit}
-              key={
-                (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
-                currencies?.length +
-                currencies?.find(
-                  co => co.value === selectedVendor?.currencyCode
-                )
-              }
               label={`${t('Production.SurchargeBasis')}`}
               defaultValue={
-                createNew
-                  ? selectedVendor
-                    ? (currencies?.find(
-                        co => co.value === selectedVendor?.currencyCode
-                      ) as SelectOption)
-                    : undefined
-                  : (currencies?.find(
-                      co => co.value === production?.currencyCode
-                    ) as SelectOption)
+                (allChargeBasis?.find(
+                  co =>
+                    co.value ===
+                    ('surchageBasis' in (production ?? {})
+                      ? (production as ProductionDto).surchageBasis
+                      : undefined)
+                ) as SelectOption)
               }
-              options={(currencies as SelectOption[]) ?? []}
-              name={'surchargeBasis'}
-              changelog={currencyCodeChangelog}
+              options={(allChargeBasis as SelectOption[]) ?? []}
+              name={'surchageBasis'}
             />
           </GridItem>
           <GridItem colSpan={1}></GridItem>
@@ -248,28 +240,18 @@ const EditProductionFormContent = ({
           <GridItem colSpan={1}>
             <Select
               isDisabled={disableEdit}
-              key={
-                (selectedVendor?.id !== undefined ? selectedVendor?.id : '') +
-                currencies?.length +
-                currencies?.find(
-                  co => co.value === selectedVendor?.currencyCode
-                )
-              }
               label={`${t('Production.SampleChargeBasis')}`}
               defaultValue={
-                createNew
-                  ? selectedVendor
-                    ? (currencies?.find(
-                        co => co.value === selectedVendor?.currencyCode
-                      ) as SelectOption)
-                    : undefined
-                  : (currencies?.find(
-                      co => co.value === production?.currencyCode
-                    ) as SelectOption)
+                (allChargeBasis?.find(
+                  co =>
+                    co.value ===
+                    ('sampleChargeBasis' in (production ?? {})
+                      ? (production as ProductionDto).sampleChargeBasis
+                      : undefined)
+                ) as SelectOption)
               }
-              options={(currencies as SelectOption[]) ?? []}
+              options={(allChargeBasis as SelectOption[]) ?? []}
               name={'sampleChargeBasis'}
-              changelog={currencyCodeChangelog}
             />
           </GridItem>
           {!createNew && (
