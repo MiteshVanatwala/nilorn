@@ -22,6 +22,7 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
+import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -106,7 +107,11 @@ const CreatePriceCalculationModal = ({
   ]);
 
   function submitForm(form: FieldValues) {
-    createCalculation(form, {
+    const priceCalculationCreateDto: priceCalculationCreateDtos = {
+      priceCalculationCreateDtos: [form],
+    };
+
+    createCalculation(priceCalculationCreateDto, {
       onSuccess: () => {
         setDirty(false);
         close();
@@ -133,6 +138,7 @@ const CreatePriceCalculationModal = ({
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
               vendorName={production?.vendorName}
+              createNew={true}
               actionBar={
                 <PriceCalculationActionBar
                   artwork={artwork}

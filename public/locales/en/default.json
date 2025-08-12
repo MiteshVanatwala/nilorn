@@ -309,6 +309,7 @@
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "VariesBetweenEntries": "Varies between entries",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",
@@ -331,7 +332,9 @@
         "MarginTooHigh": "Margin can be maximum 99.99",
         "UpdateIncluded": "Failed to update valid and include"
       }
-    }
+    },
+    "selectedRowsArray": " price calculations will be created",
+    "selectedRowsArrayUpdate": " price calculations will be updated"
   },
   "ManageData": {
     "AddProject": "Add new project",

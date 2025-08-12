@@ -14,6 +14,7 @@ type Props = {
   setShowChanges: (showChanges: boolean) => void;
   showChanges: boolean;
   handleDelete?: () => void;
+  isBulkEdit?: boolean;
 };
 
 const PriceCalculationActionBar = ({
@@ -24,6 +25,7 @@ const PriceCalculationActionBar = ({
   setShowChanges,
   showChanges,
   handleDelete,
+  isBulkEdit = false,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -35,6 +37,7 @@ const PriceCalculationActionBar = ({
     <ActionBarTemplate
       artwork={artwork}
       lastModifiedDate={lastModified}
+      isBulkEdit={isBulkEdit}
       moreMenuList={
         !createNew ? (
           <MenuList>

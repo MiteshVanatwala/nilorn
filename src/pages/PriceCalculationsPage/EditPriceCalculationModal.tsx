@@ -25,6 +25,7 @@ import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
+import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
   calculationId: string;
@@ -104,7 +105,11 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
-    updateCalculation(form, {
+    const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
+      priceCalculationUpdateDtos: [form],
+    };
+
+    updateCalculation(priceCalculationUpdateDto, {
       onSuccess: () => {
         setDirty(false);
         close();
@@ -153,6 +158,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
               vendorName={vendorName}
+              createNew={false}
               actionBar={
                 <PriceCalculationActionBar
                   handleDelete={openDeleteModal}
