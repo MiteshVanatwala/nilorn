@@ -60,15 +60,25 @@ const ProjectsTopSection = ({
     clientNo ?? '',
     projectCode ?? ''
   );
-  
+
   useEffect(() => {
-    if (!!clientNo && !!projectCode){
-      if(code!== projectCode) {
-        reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: code});
-      }else{
-        reset({...projectCard, projectCode: projectCode, clientNo: clientNo, code: projectCode});
+    if (!!clientNo && !!projectCode) {
+      if (code !== projectCode) {
+        reset({
+          ...projectCard,
+          projectCode: projectCode,
+          clientNo: clientNo,
+          code: code,
+        });
+      } else {
+        reset({
+          ...projectCard,
+          projectCode: projectCode,
+          clientNo: clientNo,
+          code: projectCode,
+        });
       }
-    }else{
+    } else {
       reset({
         clientNo: clientNo,
         projectCode: projectCode,
@@ -99,26 +109,28 @@ const ProjectsTopSection = ({
       setValue('projectCode', storedProjectCode);
       setValue('code', storedProjectCode);
     }
-     setTimeout(() => {
+    setTimeout(() => {
       setIsInitialLoad(false);
     }, 1000);
   }, []);
 
   useEffect(() => {
-     setValue(
-        'clientName',
-        clientOptions?.find(t => t.value === clientNo)?.label ?? '',
-        { shouldDirty: false }
-      );
-  },[clientNo, clientOptions]) 
+    setValue(
+      'clientName',
+      clientOptions?.find(t => t.value === clientNo)?.label ?? '',
+      { shouldDirty: false }
+    );
+  }, [clientNo, clientOptions]);
 
   useEffect(() => {
     setOptionItems(projectOptions);
   }, [projectOptions]);
 
   useEffect(() => {
-    if(!!code) {
-      if(projectOptions.filter((option: any) => option.value === code).length > 0) {
+    if (!!code) {
+      if (
+        projectOptions.filter((option: any) => option.value === code).length > 0
+      ) {
         setValue('projectCode', code, {
           shouldDirty: true,
         });
@@ -136,22 +148,82 @@ const ProjectsTopSection = ({
     return optionItems.find((option: any) => option.value === projectCode);
   }, [optionItems, projectCode]);
 
+  const handleLeavePageBlocker = (accepted?: boolean) => {
+    if (accepted) {
+      if (nextClientNo === clientNo) {
+        setValue('projectCode', nextProjectCode, { shouldDirty: false });
+        setValue('code', nextProjectCode, { shouldDirty: false });
+        setSelectedProjectCode(nextProjectCode);
+        sessionStorage.setItem(
+          SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+          nextProjectCode
+        );
+      } else {
+        setValue('projectCode', '', { shouldDirty: false });
+        setValue('code', '', { shouldDirty: false });
+        setSelectedProjectCode('');
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+      }
+      setValue('clientNo', nextClientNo ? nextClientNo : clientNo, {
+        shouldDirty: false,
+      });
+      setSelectedClientNo(nextClientNo ? nextClientNo : clientNo);
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+        nextClientNo ? nextClientNo : clientNo
+      );
+    }
+    setShowLeavePageBlocker(false);
+  };
+
+  const handleClientChange = (option: any) => {
+    if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
+      reset({
+        clientNo: option?.value,
+        projectCode: '',
+        code: '',
+        clientName:
+          clientOptions?.find(t => t.value === option?.value)?.label ?? '',
+      });
+      setSelectedClientNo(option?.value);
+      if (!isInitialLoad) {
+        setSelectedProjectCode('');
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+      }
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+        option?.value
+      );
+    } else {
+      setNextClientNo(option?.value);
+      setShowLeavePageBlocker(true);
+    }
+  }
+
+  const handleProjectChange = (option: any) => {
+    if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
+      setValue('code', option?.value, {
+        shouldDirty: true,
+      });
+      setValue('projectCode', option?.value, {
+        shouldDirty: true,
+      });
+      setSelectedProjectCode(option?.value);
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+        option?.value
+      );
+    } else {
+      setNextProjectCode(option?.value);
+      setShowLeavePageBlocker(true);
+    }
+  }
+
   return (
     <>
       <LeavePageBlocker
         isOpen={showLeavePageBlocker}
-        closeModal={(accepted?: boolean) => {
-          if (accepted) {
-           setValue('clientNo', nextClientNo ? nextClientNo : clientNo, { shouldDirty: false }); 
-           setValue('projectCode', nextProjectCode, { shouldDirty: false });
-           setValue('code', nextProjectCode, { shouldDirty: false });
-           setSelectedClientNo(nextClientNo ? nextClientNo : clientNo);
-           setSelectedProjectCode(nextProjectCode);
-           sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, nextClientNo ? nextClientNo : clientNo);
-           sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, nextProjectCode);
-          }
-          setShowLeavePageBlocker(false);
-        }}
+        closeModal={handleLeavePageBlocker}
       />
       <Grid
         gap={{
@@ -185,35 +257,20 @@ const ProjectsTopSection = ({
                 lg: 2,
               }}>
               <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-                <Controller name="clientNo" render={() => (
-                  <SelectBase
-                    isSearchable
-                    isControlled
-                    name={'clientNo'}
-                    options={clientOptions}
-                    onChange={(option: any) => {
-                      if (
-                        sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) ===
-                        'false'
-                      ) {
-                        reset({clientNo: option?.value, projectCode: '', code: '',
-                          clientName: clientOptions?.find(t => t.value === option?.value)?.label ?? ''
-                        });
-                        setSelectedClientNo(option?.value);
-                        if(!isInitialLoad) {
-                          setSelectedProjectCode("");
-                          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
-                        }
-                        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, option?.value);                        
-                      } else {
-                        setNextClientNo(option?.value);
-                        setShowLeavePageBlocker(true);
-                      }
-                    }}
-                    value={defaultClientOption}
-                    hideSelected={false}
-                  />
-                )} />
+                <Controller
+                  name="clientNo"
+                  render={() => (
+                    <SelectBase
+                      isSearchable
+                      isControlled
+                      name={'clientNo'}
+                      options={clientOptions}
+                      onChange={handleClientChange}
+                      value={defaultClientOption}
+                      hideSelected={false}
+                    />
+                  )}
+                />
               </ControlWrapper>
             </GridItem>
 
@@ -223,33 +280,25 @@ const ProjectsTopSection = ({
                 lg: 2,
               }}>
               <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-                <Controller name="projectCode" render={() => (
-                  <SelectBase
-                    isSearchable
-                    isControlled
-                    name={'projectCode'}
-                    options={optionItems}
-                    onChange={(option: any) => {
-                      if (
-                        sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) ===
-                        'false'
-                      ) {
-                        setValue('code', option?.value, { shouldDirty: true });
-                        setValue('projectCode', option?.value, { shouldDirty: true });
-                        setSelectedProjectCode(option?.value);
-                        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, option?.value);
-                      } else {
-                        setNextProjectCode(option?.value);
-                        setShowLeavePageBlocker(true);
+                <Controller
+                  name="projectCode"
+                  render={() => (
+                    <SelectBase
+                      isSearchable
+                      isControlled
+                      name={'projectCode'}
+                      options={optionItems}
+                      onChange={handleProjectChange}
+                      value={
+                        defaultProjectOption
+                          ? defaultProjectOption
+                          : { value: '', label: t('PD.Client') }
                       }
-                    }}
-                    value={defaultProjectOption
-                      ? defaultProjectOption
-                      : { value: '', label: t('PD.Client') }}
-                    hideSelected={false}
-                    isDisabled={!clientNo}
-                  />
-                )} />
+                      hideSelected={false}
+                      isDisabled={!clientNo}
+                    />
+                  )}
+                />
               </ControlWrapper>
               <Fragment />
             </GridItem>
@@ -257,12 +306,14 @@ const ProjectsTopSection = ({
         </GridItem>
 
         <GridItem colSpan={2}>
-          <ProjectsActionBar
-            lastModified={lastModified}
-            clientNo={clientNo}
-            projectId={projectCode}
-            setSelectedProjectCode={setSelectedProjectCode}
-          />
+          {clientNo && (
+            <ProjectsActionBar
+              lastModified={lastModified}
+              clientNo={clientNo}
+              projectId={projectCode}
+              setSelectedProjectCode={setSelectedProjectCode}
+            />
+          )}
         </GridItem>
       </Grid>
     </>
