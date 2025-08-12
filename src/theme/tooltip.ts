@@ -18,7 +18,7 @@ const error = defineStyle({
 const attachmentTooltip = defineStyle({
   padding: '0.1rem',
   '&.attachment-tooltip': {
-    width: '20vw',
+    width: 'auto',
     maxWidth: '50vw',
     ol: {
       listStyle: 'decimal',
