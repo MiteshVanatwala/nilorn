@@ -38,6 +38,7 @@ const ClientsPage = () => {
   const onSubmit = (fieldValues: FieldValues) => {
     createClient(fieldValues, {
       onSuccess: () => {
+        form.reset(fieldValues);
         setUnsavedChanges(false);
       },
     });
