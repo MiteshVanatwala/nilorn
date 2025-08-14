@@ -52,6 +52,8 @@ const CreateProduction = ({
           productionLeadTimeMin: null,
           sampleLeadTimeMax: null,
           productionLeadTimeMax: null,
+          dieSet: null,
+          surcharge: null
         },
   });
   const { close } = useContext(ModalContext);
