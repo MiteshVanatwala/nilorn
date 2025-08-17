@@ -26,6 +26,7 @@ const ClientsPage = () => {
       : ''
   );
   const { setUnsavedChanges } = useUnsavedChanges();
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const form = useForm<ClientDto>({
     defaultValues: {
       requirement: '',
@@ -45,23 +46,32 @@ const ClientsPage = () => {
   };
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
+    if (!isInitialLoad) {
+      setUnsavedChanges(form.formState.isDirty);
+    }
+  }, [form.formState.isDirty, isInitialLoad, setUnsavedChanges]);
 
   useEffect(() => {
     if (selectedClientNo) {
-      form.reset({ ...client, no: selectedClientNo }, { keepDirty: false });
+      // First, reset the form with basic data
+      form.reset({ ...client, no: selectedClientNo });
+
+      // Then handle the requirement field separately
+      if (client?.requirement !== undefined) {
+        form.setValue('requirement', client.requirement);
+      }
+
+      // After setting all values, mark the form as pristine
+      form.clearErrors();
       setTimeout(() => {
-        form.setValue('requirement', client?.requirement, {
-          shouldDirty: false,
-          shouldTouch: false,
-        });
-      }, 100);
+        setIsInitialLoad(false);
+        form.formState.isDirty && form.reset(form.getValues());
+      }, 200);
     } else {
       form.reset();
+      setIsInitialLoad(false);
     }
-  }, [selectedClientNo, form, client, form.reset]);
+  }, [selectedClientNo, form, client]);
 
   if (!hasClientCardAccess) return <PermissionDenied />;
 
