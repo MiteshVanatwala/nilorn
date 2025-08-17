@@ -44,7 +44,7 @@ const LeavePageBlocker = ({ isOpen, closeModal }: Props) => {
   }, [location]);
 
   const onConfirm = () => {
-    if (!!blocker.proceed) {
+    if (!!blocker.proceed && !isOpen) {
       discardChanges();
       blocker.proceed();
       modalRef.current?.onClose();
