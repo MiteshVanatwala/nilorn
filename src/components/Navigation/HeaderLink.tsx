@@ -12,6 +12,7 @@ interface Props {
   path: string;
   clickedStoredFilter: string;
   variant?: 'headerLink' | 'logo' | 'manageDataLink';
+  onClick?: () => void;
 }
 
 const HeaderLink: FC<Props> = ({
@@ -19,6 +20,7 @@ const HeaderLink: FC<Props> = ({
   title,
   clickedStoredFilter,
   variant = 'headerLink',
+  onClick,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -51,7 +53,10 @@ const HeaderLink: FC<Props> = ({
         color={isActive ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
         fontWeight={text.variants.bodyRegular.fontWeight}
-        onClick={e => handleClick(path, clickedStoredFilter)}
+        onClick={e => {
+          handleClick(path, clickedStoredFilter);
+          onClick?.();
+        }}
         whiteSpace={'nowrap'}>
         {title}
       </LinkComponent>
