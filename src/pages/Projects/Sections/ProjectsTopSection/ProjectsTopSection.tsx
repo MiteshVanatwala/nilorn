@@ -197,8 +197,12 @@ const ProjectsTopSection = ({
     } else {
       setNextClientNo(option?.value);
       setShowLeavePageBlocker(true);
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+        option?.value
+      );
     }
-  }
+  };
 
   const handleProjectChange = (option: any) => {
     if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
@@ -217,7 +221,7 @@ const ProjectsTopSection = ({
       setNextProjectCode(option?.value);
       setShowLeavePageBlocker(true);
     }
-  }
+  };
 
   return (
     <>

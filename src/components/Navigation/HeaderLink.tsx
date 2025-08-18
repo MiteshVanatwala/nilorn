@@ -42,7 +42,12 @@ const HeaderLink: FC<Props> = ({
     }
   };
 
-  const isActive = location.pathname === path;
+  const cleanPath = path.replace(/^\/+|\/+$/g, '');
+  const cleanPathname = location.pathname.replace(/^\/+|\/+$/g, '');
+  const isActive =
+    cleanPath !== ''
+      ? cleanPathname.includes(cleanPath)
+      : cleanPathname === cleanPath;
 
   return (
     <>
