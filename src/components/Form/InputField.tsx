@@ -32,7 +32,21 @@ const InputField = ({
   const {
     register,
     formState: { errors },
+    trigger,
   } = useFormContext();
+
+  // Extend registerOptions to include onChange validation
+  const extendedRegisterOptions = {
+    ...registerOptions,
+    onChange: async (e: any) => {
+      // Call original onChange if it exists
+      if (registerOptions?.onChange) {
+        registerOptions.onChange(e);
+      }
+      // Trigger validation immediately
+      await trigger(name);
+    },
+  };
 
   return (
     <ControlWrapper
@@ -48,6 +62,7 @@ const InputField = ({
         onFocusCapture={e => readonly && e.target.setSelectionRange(0, 0)}
         opacity={readonly ? READ_ONLY_OPACITY : ''}
         variant={variant}
+        {...register(name, extendedRegisterOptions)}
         disabled={readonly}
         isReadOnly={readonly}
         defaultValue={defaultValue}

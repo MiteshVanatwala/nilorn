@@ -5,10 +5,9 @@ import ControlWrapper from '../../components/Form/ControlWrapper';
 import { GRID, SPACE } from '../../theme/Constants';
 import useFilterOptions from '../../app/hooks/useFilterOption';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import SelectBase from '../../components/Form/SelectBase';
-import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
-import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 
 type Props = {
   selectedClientNo?: string;
@@ -38,16 +37,20 @@ const CardPageTopSection = ({
     (option: any) => option.value === selectedClientNo
   );
 
+  const handleConfirmClientChange = (accepted?: boolean) => {
+    if (accepted && nextClientNo) {
+      setValue('no', nextClientNo, { shouldDirty: true });
+      setSelectedClientNo(nextClientNo);
+    }
+    setShowLeavePageBlocker(false);
+    setNextClientNo('');
+  };
+
   return (
     <>
       <LeavePageBlocker
         isOpen={showLeavePageBlocker}
-        closeModal={(accepted?: boolean) => {
-          if (accepted) {
-            setValue('no', nextClientNo);
-          }
-          setShowLeavePageBlocker(false);
-        }}
+        closeModal={handleConfirmClientChange}
       />
       <Grid
         templateColumns={{
