@@ -65,14 +65,16 @@ const buildDir = path.join(__dirname, '../build');
 
 function addDateToFiles(dir) {
     const files = fs.readdirSync(dir);
+    const fileMap = new Map(); // Store old name to new name mapping
     
+    // First pass: rename all JS and CSS files and store the mappings
     files.forEach(file => {
         const filePath = path.join(dir, file);
         const stat = fs.statSync(filePath);
         
         if (stat.isDirectory()) {
             addDateToFiles(filePath); // Recurse into subdirectories
-        } else if (file.endsWith('.js') || file.endsWith('.css')) {
+        } else if ((file.endsWith('.js') || file.endsWith('.css')) && !file.endsWith('.map')) {
             // Don't rename files that already have a hash
             if (!file.includes('.')) return;
             
@@ -81,12 +83,55 @@ function addDateToFiles(dir) {
             if (!basename.includes(date)) {
                 const newName = `${basename}.${date}${ext}`;
                 fs.renameSync(filePath, path.join(dir, newName));
+                fileMap.set(file, newName);
                 
                 // Update references in index.html if needed
                 indexContent = indexContent.replace(
-                    new RegExp(file, 'g'),
+                    new RegExp(file.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
                     newName
                 );
+            }
+        }
+    });
+    
+    // Second pass: handle map files and update their contents
+    files.forEach(file => {
+        if (file.endsWith('.map')) {
+            const filePath = path.join(dir, file);
+            const mapContent = fs.readFileSync(filePath, 'utf8');
+            let updatedMapContent = mapContent;
+            
+            // Get the corresponding JS/CSS file name
+            const sourceFile = file.replace('.map', '');
+            if (fileMap.has(sourceFile)) {
+                const newSourceFile = fileMap.get(sourceFile);
+                const newMapName = newSourceFile + '.map';
+                
+                // Update the sourceMappingURL in the source file if it exists
+                const sourceFilePath = path.join(dir, fileMap.get(sourceFile));
+                if (fs.existsSync(sourceFilePath)) {
+                    let sourceContent = fs.readFileSync(sourceFilePath, 'utf8');
+                    sourceContent = sourceContent.replace(
+                        new RegExp(`sourceMappingURL=${file}`),
+                        `sourceMappingURL=${newMapName}`
+                    );
+                    fs.writeFileSync(sourceFilePath, sourceContent);
+                }
+                
+                // Update the "file" field in the map file
+                try {
+                    const mapJson = JSON.parse(updatedMapContent);
+                    if (mapJson.file) {
+                        mapJson.file = newSourceFile;
+                        updatedMapContent = JSON.stringify(mapJson);
+                    }
+                } catch (e) {
+                    console.warn('Warning: Could not parse source map JSON:', e);
+                }
+                
+                // Write updated map content and rename the map file
+                fs.writeFileSync(filePath, updatedMapContent);
+                fs.renameSync(filePath, path.join(dir, newMapName));
             }
         }
     });
