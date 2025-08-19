@@ -13,5 +13,11 @@ i18n
     interpolation: {
       escapeValue: false,
     },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      queryStringParams: {
+        v: new Date().getTime().toString(), // Add timestamp as query parameter
+      },
+    },
   });
 export default i18n;
