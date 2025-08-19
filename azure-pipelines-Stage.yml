@@ -20,7 +20,7 @@ steps:
 
   - script: |
       npm install
-      npm run build
+      npm run build:dated
     displayName: 'npm install and build'
     env:
       REACT_APP_API_URL: $(API_URL)
