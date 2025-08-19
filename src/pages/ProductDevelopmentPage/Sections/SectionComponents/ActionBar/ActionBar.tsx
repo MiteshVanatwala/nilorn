@@ -263,7 +263,7 @@ const ActionBar = ({
             {!disableEdit && (
               <Button
                 variant={'primary'}
-                // rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
+                rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
                 type="submit">
                 {t('Common.Save')}
               </Button>
