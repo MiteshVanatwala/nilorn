@@ -40,7 +40,7 @@
     "Confirm": "Confirm",
     "LastEdited": "Last edited",
     "ReadComment": "Read comment",
-    "NumberOfHits": "Number of hits - ",
+    "NumberOfHits": "Number of hits:",
     "Percentage": "Percentage",
     "Percentage_sign": "%"
   },
@@ -159,11 +159,11 @@
     "FormContent": {
       "FinishedLength": "Finished Length",
       "Description": "Description",
-      "FinishedLengthMM": "Finished Length (mm)",
+      "FinishedLengthMM": "Finished Length - (mm)",
       "FinishedWidth": "Finished Width",
-      "FinishedWidthMM": "Finished Width (mm)",
+      "FinishedWidthMM": "Finished Width - (mm)",
       "FinishedHeight": "Finished Height",
-      "FinishedHeightMM": "Finished Height (mm)",
+      "FinishedHeightMM": "Finished Height - (mm)",
       "TargetSales": "Target Sales Price",
       "ProductGroup": "Product Group",
       "ItemCategory": "Item Category",
