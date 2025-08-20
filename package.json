@@ -38,6 +38,7 @@
   "scripts": {
     "start": "cross-env HTTPS=true react-scripts start",
     "build": "react-scripts build",
+    "build:dated": "node scripts/build-with-date.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gen:api": "openapi --input https://udev.nilorn.com/swagger/v1/swagger.json --output ./src/app/generate",
