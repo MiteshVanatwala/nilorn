@@ -25,8 +25,8 @@ const NavigationHeader = () => {
 
   const showProduction = useAuthorizedSee('production');
   const showCalculation = useAuthorizedSee('price-calculation');
-  const showClientCard = false; // useAuthorizedSee('client-card');
-  const showProjectCard = false; // useAuthorizedSee('project-card');
+  const showClientCard = useAuthorizedSee('client-card');
+  const showProjectCard = useAuthorizedSee('project-card');
 
   return (
     <Container

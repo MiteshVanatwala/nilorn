@@ -18,7 +18,21 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
 
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      clientNo: '',
+      code: '',
+      project: '',
+      projectCode: '',
+      members: [],
+      description: '',
+      teamsName: '',
+      channelName: '',
+      artWorkFolderName: '',
+      attachmentFolderName: '',
+    },
+    mode: 'onChange',
+  });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
 
@@ -37,7 +51,15 @@ function ProjectsPage() {
   };
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
+    if (
+      form.formState.isDirty &&
+      form.formState?.dirtyFields?.clientNo &&
+      Object.keys(form.formState.dirtyFields).length === 1
+    ) {
+      setUnsavedChanges(false);
+    } else {
+      setUnsavedChanges(form.formState.isDirty);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
@@ -47,12 +69,20 @@ function ProjectsPage() {
     <ContentPage>
       <LeavePageBlocker />
       <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          onKeyDown={e => {
+            if (
+              e.key === 'Enter' &&
+              (e.target as HTMLElement).tagName === 'INPUT'
+            ) {
+              e.preventDefault();
+            }
+          }}>
           <ProjectsTopSection
             setSelectedProjectCode={setSelectedProjectCode}
             setSelectedClientNo={setSelectedClientNo}
           />
-
           <Accordion
             variant={'card'}
             defaultIndex={[0, 1, 2, 3, 4]}

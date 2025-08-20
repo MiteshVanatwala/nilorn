@@ -43,15 +43,23 @@ const router = createBrowserRouter([
             path: 'price-calculations',
             element: <PriceCalculationsPage />,
           },
-          { path: '*', element: <NotFoundPage /> },
           {
             path: 'projects',
+            element: <ProjectsPage />,
+          },
+          {
+            path: 'projects/:no',
             element: <ProjectsPage />,
           },
           {
             path: 'clients',
             element: <ClientsPage />,
           },
+          {
+            path: 'clients/:no',
+            element: <ClientsPage />,
+          },
+          { path: '*', element: <NotFoundPage /> },
         ],
       },
     ],

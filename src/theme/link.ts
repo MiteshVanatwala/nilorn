@@ -37,5 +37,12 @@ export const link = {
         backgroundColor: COLORS.GRAY[70],
       },
     },
+    manageDataLink: {
+      p: SPACE.MD,
+      fontSize: fontSizes.xs,
+      w: '100%',
+      h: '5rem',
+      textAlign: 'left',
+    },
   },
 };
