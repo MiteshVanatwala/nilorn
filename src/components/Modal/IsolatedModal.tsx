@@ -43,7 +43,10 @@ const IsolatedModal = forwardRef<ModalRef, Props>(
     return (
       <Modal
         isOpen={isOpen}
-        close={onClose}
+        close={() => {
+          onCancel?.();
+          onClose();
+        }}
         onOverlayClick={onCancel}
         className="exit-confirmation-modal">
         <ConfirmModal
