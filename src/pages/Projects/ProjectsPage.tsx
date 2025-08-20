@@ -17,6 +17,7 @@ function ProjectsPage() {
   const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
   const [selectedClientNo, setSelectedClientNo] = useState<string>();
   const { setUnsavedChanges } = useUnsavedChanges();
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const form = useForm({
     defaultValues: {
@@ -51,17 +52,38 @@ function ProjectsPage() {
   };
 
   useEffect(() => {
-    if (
-      form.formState.isDirty &&
-      form.formState?.dirtyFields?.clientNo &&
-      Object.keys(form.formState.dirtyFields).length === 1
-    ) {
-      setUnsavedChanges(false);
-    } else {
-      setUnsavedChanges(form.formState.isDirty);
+    if (!isInitialLoad) {
+      if (
+        form.formState.isDirty &&
+        form.formState?.dirtyFields?.clientNo &&
+        Object.keys(form.formState.dirtyFields).length === 1
+      ) {
+        setUnsavedChanges(false);
+      } else if (
+        form.formState.isDirty &&
+        form.formState?.dirtyFields?.clientNo &&
+        !form.formState?.dirtyFields?.projectCode &&
+        !form.formState?.dirtyFields?.code &&
+        Object.keys(form.formState.dirtyFields).length === 1
+      ) {
+        setUnsavedChanges(false);
+      } else {
+        setUnsavedChanges(form.formState.isDirty);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
+  }, [form.formState.isDirty, form.formState.dirtyFields, isInitialLoad]);
+
+  useEffect(() => {
+    if (selectedClientNo) {
+      setTimeout(() => {
+        setIsInitialLoad(false);
+        form.formState.isDirty && form.reset(form.getValues());
+      }, 200);
+    } else {
+      setIsInitialLoad(false);
+    }
+  }, [selectedClientNo, selectedProjectCode, form]);
 
   if (!hasProjectCardAccess) return <PermissionDenied />;
 
