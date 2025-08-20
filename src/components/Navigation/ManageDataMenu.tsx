@@ -12,28 +12,28 @@ const ManageDataMenu = () => {
 
   return (
     <HeaderMenu title={t('Menu.HypManageData')}>
-      <VStack alignItems="flex-start" spacing={0}>
-        {showProjectCard === true ? (
-          <HeaderLink
-            variant="manageDataLink"
-            title={t('Menu.HypProjects')}
-            path="/projects/"
-            clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
-          />
-        ) : (
-          <></>
-        )}
-        {showClientCard === true ? (
-          <HeaderLink
-            variant="manageDataLink"
-            title={t('Menu.HypClients')}
-            path="/clients/"
-            clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
-          />
-        ) : (
-          <></>
-        )}
-      </VStack>
+      {({ onClose }: { onClose: () => void }) => (
+        <VStack alignItems="flex-start" spacing={0}>
+          {showProjectCard === true ? (
+            <HeaderLink
+              variant="manageDataLink"
+              title={t('Menu.HypProjects')}
+              path="/projects/"
+              clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
+              onClick={onClose}
+            />
+          ) : null}
+          {showClientCard === true ? (
+            <HeaderLink
+              variant="manageDataLink"
+              title={t('Menu.HypClients')}
+              path="/clients/"
+              clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO}
+              onClick={onClose}
+            />
+          ) : null}
+        </VStack>
+      )}
     </HeaderMenu>
   );
 };
