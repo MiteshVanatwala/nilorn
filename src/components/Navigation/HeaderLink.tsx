@@ -31,11 +31,13 @@ const HeaderLink: FC<Props> = ({
     setLastVisitedPD('');
 
     sessionStorage.setItem(storedFilter, window.location.search ?? '');
-    const prevFilter =
-      sessionStorage.getItem(clickedStoredFilter) ??
-      '?pageSize=25&pageNumber=1';
+    const isClientOrProjectPage =
+      url.includes('/clients') || url.includes('/projects');
+    const prevFilter = sessionStorage.getItem(clickedStoredFilter);
 
-    const newUrl = url + prevFilter;
+    const newUrl = isClientOrProjectPage
+      ? url + (prevFilter ?? '')
+      : url + (prevFilter ?? '?pageSize=25&pageNumber=1');
 
     if (location.pathname !== url) {
       navigate(newUrl);

@@ -53,6 +53,17 @@ function ProjectsPage() {
 
   useEffect(() => {
     if (!isInitialLoad) {
+      const formValues = form.getValues();
+      const hasRequiredFields = selectedClientNo && selectedProjectCode;
+      const hasFormValues = Object.values(formValues).some(value =>
+        Array.isArray(value) ? value.length > 0 : Boolean(value)
+      );
+
+      if (!hasRequiredFields && !hasFormValues) {
+        setUnsavedChanges(false);
+        return;
+      }
+
       if (
         form.formState.isDirty &&
         form.formState?.dirtyFields?.clientNo &&
@@ -72,7 +83,13 @@ function ProjectsPage() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty, form.formState.dirtyFields, isInitialLoad]);
+  }, [
+    form.formState.isDirty,
+    form.formState.dirtyFields,
+    isInitialLoad,
+    selectedClientNo,
+    selectedProjectCode,
+  ]);
 
   useEffect(() => {
     if (selectedClientNo) {
