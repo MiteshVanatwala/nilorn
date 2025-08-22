@@ -1,6 +1,7 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import ProjectGeneralSection from './Sections/ProjectGeneralSection';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
@@ -14,16 +15,35 @@ import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 function ProjectsPage() {
-  const [selectedProjectCode, setSelectedProjectCode] = useState<string>();
-  const [selectedClientNo, setSelectedClientNo] = useState<string>();
+  const navigate = useNavigate();
+  const params = useParams<{ projectNo?: string; clientNo?: string }>();
+  const [selectedProjectCode, setSelectedProjectCode] = useState<
+    string | undefined
+  >(params.projectNo);
+  const [selectedClientNo, setSelectedClientNo] = useState<string | undefined>(
+    params.clientNo
+  );
   const { setUnsavedChanges } = useUnsavedChanges();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+  useEffect(() => {
+    if (!isInitialLoad) {
+      let newPath = '/projects';
+      if (selectedClientNo) {
+        newPath += `/${selectedClientNo}`;
+        if (selectedProjectCode) {
+          newPath += `/${selectedProjectCode}`;
+        }
+      }
+      navigate(newPath, { replace: true });
+    }
+  }, [selectedClientNo, selectedProjectCode, isInitialLoad, navigate]);
+
   const form = useForm({
     defaultValues: {
-      clientNo: '',
-      code: '',
-      project: '',
+      clientNo: selectedClientNo,
+      code: selectedProjectCode,
+      project: selectedProjectCode,
       projectCode: '',
       members: [],
       description: '',
@@ -95,7 +115,15 @@ function ProjectsPage() {
     if (selectedClientNo) {
       setTimeout(() => {
         setIsInitialLoad(false);
-        form.formState.isDirty && form.reset(form.getValues());
+        if (form.formState.isDirty) {
+          const currentValues = form.getValues();
+          form.reset({
+            ...currentValues,
+            clientNo: selectedClientNo,
+            code: selectedProjectCode,
+            project: selectedProjectCode,
+          });
+        }
       }, 200);
     } else {
       setIsInitialLoad(false);

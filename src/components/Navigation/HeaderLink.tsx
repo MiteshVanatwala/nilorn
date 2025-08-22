@@ -10,7 +10,7 @@ import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 interface Props {
   title?: string | JSX.Element;
   path: string;
-  clickedStoredFilter: string;
+  clickedStoredFilter: string[];
   variant?: 'headerLink' | 'logo' | 'manageDataLink';
   onClick?: () => void;
 }
@@ -26,18 +26,35 @@ const HeaderLink: FC<Props> = ({
   const location = useLocation();
   const { setLastVisitedPD } = useLastVisitedPD();
 
-  const handleClick = (url: string, clickedStoredFilter: string) => {
+  const handleClick = (url: string, clickedStoredFilters: string[]) => {
     const storedFilter = getCurrentStoredFilter();
     setLastVisitedPD('');
 
     sessionStorage.setItem(storedFilter, window.location.search ?? '');
     const isClientOrProjectPage =
       url.includes('/clients') || url.includes('/projects');
-    const prevFilter = sessionStorage.getItem(clickedStoredFilter);
 
-    const newUrl = isClientOrProjectPage
-      ? url + (prevFilter ?? '')
-      : url + (prevFilter ?? '?pageSize=25&pageNumber=1');
+    let combinedFilter = '';
+    let newUrl = '';
+    if (isClientOrProjectPage) {
+      const filters = clickedStoredFilters
+        .map(key => sessionStorage.getItem(key))
+        .filter(
+          (value): value is string =>
+            value !== null && value !== undefined && value !== ''
+        );
+      combinedFilter = filters.join('/');
+
+      newUrl = url + (combinedFilter || '');
+    } else {
+      const prevFilter =
+        clickedStoredFilter.length > 0
+          ? (sessionStorage.getItem(clickedStoredFilter[0]) ??
+            '?pageSize=25&pageNumber=1')
+          : '?pageSize=25&pageNumber=1';
+
+      newUrl = url + prevFilter;
+    }
 
     if (location.pathname !== url) {
       navigate(newUrl);

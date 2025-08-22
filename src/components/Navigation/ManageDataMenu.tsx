@@ -19,7 +19,10 @@ const ManageDataMenu = () => {
               variant="manageDataLink"
               title={t('Menu.HypProjects')}
               path="/projects/"
-              clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO}
+              clickedStoredFilter={[
+                SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+                SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+              ]}
               onClick={onClose}
             />
           ) : null}
@@ -28,7 +31,7 @@ const ManageDataMenu = () => {
               variant="manageDataLink"
               title={t('Menu.HypClients')}
               path="/clients/"
-              clickedStoredFilter={SESSION_STORAGE.CLIENT_PAGE}
+              clickedStoredFilter={[SESSION_STORAGE.CLIENT_PAGE]}
               onClick={onClose}
             />
           ) : null}
