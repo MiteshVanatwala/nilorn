@@ -28,7 +28,7 @@ const ManageDataMenu = () => {
               variant="manageDataLink"
               title={t('Menu.HypClients')}
               path="/clients/"
-              clickedStoredFilter={SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO}
+              clickedStoredFilter={SESSION_STORAGE.CLIENT_PAGE}
               onClick={onClose}
             />
           ) : null}
