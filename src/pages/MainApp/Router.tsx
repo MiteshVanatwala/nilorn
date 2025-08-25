@@ -48,7 +48,11 @@ const router = createBrowserRouter([
             element: <ProjectsPage />,
           },
           {
-            path: 'projects/:no',
+            path: 'projects/:clientNo',
+            element: <ProjectsPage />,
+          },
+          {
+            path: 'projects/:clientNo/:projectNo',
             element: <ProjectsPage />,
           },
           {
@@ -56,7 +60,7 @@ const router = createBrowserRouter([
             element: <ClientsPage />,
           },
           {
-            path: 'clients/:no',
+            path: 'clients/:clientNo',
             element: <ClientsPage />,
           },
           { path: '*', element: <NotFoundPage /> },

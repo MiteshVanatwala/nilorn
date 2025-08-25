@@ -94,21 +94,21 @@ const ProjectsTopSection = ({
   }, [clientNo, projectCode, projectCard, reset]);
 
   useEffect(() => {
-    const storedClientNo = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
-    );
-    const storedProjectCode = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
-    );
-    if (!!storedClientNo) {
-      setSelectedClientNo(storedClientNo);
-      setValue('clientNo', storedClientNo, { shouldDirty: false });
-    }
-    if (!!storedProjectCode) {
-      setSelectedProjectCode(storedProjectCode);
-      setValue('projectCode', storedProjectCode);
-      setValue('code', storedProjectCode);
-    }
+    // const storedClientNo = sessionStorage.getItem(
+    //   SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
+    // );
+    // const storedProjectCode = sessionStorage.getItem(
+    //   SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
+    // );
+    // if (!!storedClientNo) {
+    //   setSelectedClientNo(storedClientNo);
+    //   setValue('clientNo', storedClientNo, { shouldDirty: false });
+    // }
+    // if (!!storedProjectCode) {
+    //   setSelectedProjectCode(storedProjectCode);
+    //   setValue('projectCode', storedProjectCode);
+    //   setValue('code', storedProjectCode);
+    // }
     setTimeout(() => {
       setIsInitialLoad(false);
     }, 1000);

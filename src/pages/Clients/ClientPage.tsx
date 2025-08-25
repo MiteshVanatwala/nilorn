@@ -1,6 +1,7 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
@@ -14,19 +15,21 @@ import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
-import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 const ClientsPage = () => {
-  const saveClientName = sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE);
+  const { clientNo } = useParams();
+  const navigate = useNavigate();
   const [selectedClientNo, setSelectedClientNo] = useState<string>(
-    saveClientName != 'undefined' && saveClientName != undefined
-      ? saveClientName
-      : ''
+    clientNo || ''
   );
   const { setUnsavedChanges } = useUnsavedChanges();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    setSelectedClientNo(clientNo || '');
+  }, [clientNo]);
   const form = useForm<ClientDto>({
     defaultValues: {
       requirement: '',
@@ -91,7 +94,20 @@ const ClientsPage = () => {
           }}>
           <CardPageTopSection
             selectedClientNo={selectedClientNo}
-            setSelectedClientNo={setSelectedClientNo}
+            setSelectedClientNo={(
+              clientNo: string | ((prev: string) => string)
+            ) => {
+              const newValue =
+                typeof clientNo === 'function'
+                  ? clientNo(selectedClientNo)
+                  : clientNo;
+              setSelectedClientNo(newValue);
+              if (newValue) {
+                navigate(`/clients/${newValue}`);
+              } else {
+                navigate('/clients');
+              }
+            }}
             actionBar={<ClientActionBar />}
           />
           <Accordion
