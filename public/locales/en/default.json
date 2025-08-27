@@ -334,7 +334,11 @@
       }
     },
     "selectedRowsArray": " price calculations will be created",
-    "selectedRowsArrayUpdate": " price calculations will be updated"
+    "selectedRowsArrayUpdate": " price calculations will be updated",
+    "CurrencyVariationDetected": "Currency variation detected",
+    "CurrencyVariationDetectedDesc": "The selected entries have different purchase or sales currencies. Changing the sales currency or currency rate may lead to incorrect calculations. Do you want to continue?",
+    "UdpatePriceCalculationConfirmationTitle": "Are you sure?",
+    "UdpatePriceCalculationConfirmationDesc": "You are about to update {{X}} price calculations. Do you want to continue?"
   },
   "ManageData": {
     "AddProject": "Add new project",

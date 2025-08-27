@@ -79,6 +79,7 @@ const ProjectsActionBar = ({
                     })}
                     confirmType={'DELETE'}
                     onConfirm={onDelete}
+                    onClose={() => close()}
                   />
                 );
               }}
