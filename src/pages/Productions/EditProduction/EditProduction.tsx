@@ -163,6 +163,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
               vendorName={vendorName}
+              createNew={false}
               actionBar={
                 <ActionBarEditProduction
                   handleDelete={openDeleteModal}

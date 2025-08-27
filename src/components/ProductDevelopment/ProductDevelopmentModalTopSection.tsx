@@ -19,6 +19,7 @@ type Props = {
   actionBar: JSX.Element;
   isBulkEdit?: boolean;
   totalPriceCalculations?: number;
+  createNew?: boolean;
 };
 const ProductDevelopmentModalTopSection = ({
   productDevelopment,
@@ -27,6 +28,7 @@ const ProductDevelopmentModalTopSection = ({
   actionBar,
   isBulkEdit = false,
   totalPriceCalculations = 0,
+  createNew = false,
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -145,7 +147,12 @@ const ProductDevelopmentModalTopSection = ({
           )}
           {totalPriceCalculations > 1 && (
             <Text mb={1} fontWeight={'bold'}>
-              {totalPriceCalculations} {t('PriceCalc.selectedRowsArray')}
+              {totalPriceCalculations}{' '}
+              {t(
+                createNew
+                  ? 'PriceCalc.selectedRowsArray'
+                  : 'PriceCalc.selectedRowsArrayUpdate'
+              )}
             </Text>
           )}
         </GridItem>

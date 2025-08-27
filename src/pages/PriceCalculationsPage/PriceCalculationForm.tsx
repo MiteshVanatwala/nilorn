@@ -25,6 +25,12 @@ type Props = {
   currency?: CurrencyDto;
   productionId?: string;
   isBulkEdit?: boolean;
+  purchaseCurrencyPlaceholder?: string;
+  currencyRatePlaceholder?: string;
+  internalCommissionPlaceholder?: string;
+  indirectCostPlaceholder?: string;
+  freightIncludedPlaceholder?: string;
+  marginPlaceholder?: string;
 };
 
 const PriceCalculationForm = ({
@@ -35,10 +41,17 @@ const PriceCalculationForm = ({
   currency,
   productionId,
   isBulkEdit = false,
+  purchaseCurrencyPlaceholder,
+  currencyRatePlaceholder,
+  internalCommissionPlaceholder,
+  indirectCostPlaceholder,
+  freightIncludedPlaceholder,
+  marginPlaceholder,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   let { data: currencies } = useGetCurrenciesFilterOption();
+
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
@@ -120,6 +133,13 @@ const PriceCalculationForm = ({
     }
   }, [margin, setValue]);
 
+  useEffect(() => {
+    if (currency?.code) {
+      console.log(currency?.code);
+      setValue('currencyCode', currency.code);
+    }
+  }, [currency?.code, setValue]);
+
   return (
     <>
       <Grid
@@ -138,7 +158,9 @@ const PriceCalculationForm = ({
             label={`${
               t('PriceCalc.InternalCommission') + t('PriceCalc.Percentage')
             }`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={
+              internalCommissionPlaceholder || t('Common.Placeholder')
+            }
             readonly={disableEdit}
             min={0}
             changelog={internalCommissionChangelog}
@@ -148,7 +170,7 @@ const PriceCalculationForm = ({
           <FormattedNumberInputField
             name={'indirectCost'}
             label={`${t('PriceCalc.IndirectCost') + t('PriceCalc.Percentage')}`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={indirectCostPlaceholder || t('Common.Placeholder')}
             readonly={disableEdit}
             min={0}
             changelog={indirectCostChangelog}
@@ -158,7 +180,7 @@ const PriceCalculationForm = ({
           <FormattedNumberInputField
             name={'freightIncluded'}
             label={`${t('PriceCalc.FreightIncluded')}`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={freightIncludedPlaceholder || t('Common.Placeholder')}
             readonly={disableEdit}
             changelog={freightIncludedChangelog}
             min={0}
@@ -168,7 +190,7 @@ const PriceCalculationForm = ({
           <FormattedNumberInputField
             name={'margin'}
             label={`${t('PriceCalc.Margin') + t('PriceCalc.Percentage')}`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={marginPlaceholder || t('Common.Placeholder')}
             readonly={disableEdit}
             required={createNew}
             max={MAX_MARGIN}
@@ -180,6 +202,7 @@ const PriceCalculationForm = ({
             readonly={true}
             label={`${t('PriceCalc.PurchaseCurrency')}`}
             name={'purchaseCurrency'}
+            placeholder={purchaseCurrencyPlaceholder || t('Common.Placeholder')}
           />
         </GridItem>
         <GridItem colSpan={2}>
@@ -191,20 +214,16 @@ const PriceCalculationForm = ({
             name={'currencyCode'}
             changelog={currencyCodeChangelog}
             options={currencies as SelectOption[]}
-            defaultValue={
-              currency?.code
-                ? (currencies as SelectOption[])?.find(
-                    o => o.value === currency?.code
-                  )
-                : undefined
-            }
+            defaultValue={{ label: currency?.code, value: currency?.code }}
+            value={{ label: currency?.code, value: currency?.code }}
+            isControlled={isBulkEdit}
           />
         </GridItem>
         <GridItem colSpan={2}>
           <FormattedNumberInputField
             name={'currencyRate'}
             label={`${t('PriceCalc.CurrencyRate')}`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={currencyRatePlaceholder || t('Common.Placeholder')}
             readonly={disableEdit}
             required={true}
             changelog={currencyRateChangelog}

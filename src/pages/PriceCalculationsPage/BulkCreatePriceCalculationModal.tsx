@@ -19,22 +19,14 @@ import { ModalContext } from '../../app/context/ModalContext';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
 import { useTranslation } from 'react-i18next';
+import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentDataDto[];
-  sourcedProduction: SourcedProductionDto[];
-  lastModified?: string;
-  artwork?: MediaFileDto;
   production: ProductionDto[];
   calculation: PriceCalculationDto[] | undefined[];
-  filters?: ServerFilter;
 };
 
 const BulkCreatePriceCalculationModal = ({
-  productDevelopment,
-  sourcedProduction,
-  lastModified,
-  artwork,
   production,
   calculation,
 }: Props) => {
@@ -81,21 +73,19 @@ const BulkCreatePriceCalculationModal = ({
   }, [form, production]);
 
   function submitForm(form: FieldValues) {
-    const calculationData = production.map(p => ({
-      currencyCode: form.currencyCode || null,
-      currencyRate: form.currencyRate || 0,
-      freightIncluded: form.freightIncluded || false,
-      indirectCost: form.indirectCost || 0,
-      internalCommission: form.internalCommission || 0,
-      margin: form.margin || 0,
-      productionId: p.id,
-      purchaseCurrency:
-        form.purchaseCurrency === t('PriceCalc.VariesBetweenEntries')
-          ? p.currencyCode
-          : form.purchaseCurrency,
-    }));
+    const priceCalculationCreateDto: priceCalculationCreateDtos = {
+      priceCalculationCreateDtos: production.map(p => ({
+        productionId: p.id,
+        currencyRate: form.currencyRate || 0,
+        currencyCode: form.currencyCode || null,
+        internalCommission: form.internalCommission || null,
+        indirectCost: form.indirectCost || null,
+        freightIncluded: form.freightIncluded || null,
+        margin: form.margin || 0,
+      })),
+    };
 
-    createCalculation(calculationData, {
+    createCalculation(priceCalculationCreateDto, {
       onSuccess: () => {
         setDirty(false);
         close();
@@ -124,11 +114,12 @@ const BulkCreatePriceCalculationModal = ({
               vendorName={null}
               isBulkEdit={true}
               totalPriceCalculations={calculation.length}
+              createNew={true}
               actionBar={
                 <PriceCalculationActionBar
-                  artwork={artwork}
+                  artwork={undefined}
                   createNew={true}
-                  lastModified={lastModified}
+                  lastModified={undefined}
                   showChanges={false}
                   setShowChanges={() => {}}
                   isBulkEdit={true}

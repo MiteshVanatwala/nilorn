@@ -325,7 +325,8 @@
         "UpdateIncluded": "Failed to update valid and include"
       }
     },
-    "selectedRowsArray": " price calculations will be created"
+    "selectedRowsArray": " price calculations will be created",
+    "selectedRowsArrayUpdate": " price calculations will be updated"
   },
   "ManageData": {
     "AddProject": "Add new project",

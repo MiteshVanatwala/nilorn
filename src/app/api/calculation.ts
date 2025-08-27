@@ -10,6 +10,10 @@ import {
   UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
+import {
+  priceCalculationCreateDtos,
+  PriceCalculationUpdateDtos,
+} from '../generate/models/CreatePriceCalculationCommand';
 
 export const usePriceCalculation = (id: string) => {
   return useQuery(
@@ -31,7 +35,7 @@ export const usePatchCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: UpdatePriceCalculationCommand) =>
+    (body: PriceCalculationUpdateDtos) =>
       PriceCalculationService.patchApiPriceCalculation(body).then(
         response => response
       ),
@@ -61,7 +65,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: CreatePriceCalculationCommand[]) =>
+    (body: priceCalculationCreateDtos) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),
