@@ -192,14 +192,14 @@ const ProjectsTopSection = ({
       }
       sessionStorage.setItem(
         SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
-        option?.value
+        option?.value || ''
       );
     } else {
       setNextClientNo(option?.value);
       setShowLeavePageBlocker(true);
       sessionStorage.setItem(
         SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
-        option?.value
+        option?.value || ''
       );
     }
   };
@@ -215,7 +215,7 @@ const ProjectsTopSection = ({
       setSelectedProjectCode(option?.value);
       sessionStorage.setItem(
         SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
-        option?.value
+        option?.value || ''
       );
     } else {
       setNextProjectCode(option?.value);
@@ -296,7 +296,7 @@ const ProjectsTopSection = ({
                       value={
                         defaultProjectOption
                           ? defaultProjectOption
-                          : { value: '', label: t('PD.Client') }
+                          : { value: '', label: t('Filter.Select') }
                       }
                       hideSelected={false}
                       isDisabled={!clientNo}

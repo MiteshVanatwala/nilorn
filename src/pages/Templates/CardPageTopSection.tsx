@@ -30,7 +30,7 @@ const CardPageTopSection = ({
 
   useEffect(() => {
     setSelectedClientNo(clientNo);
-    sessionStorage.setItem(SESSION_STORAGE.CLIENT_PAGE, clientNo);
+    sessionStorage.setItem(SESSION_STORAGE.CLIENT_PAGE, clientNo || '');
   }, [clientNo]);
 
   const defaultClientOption = clientOptions?.find(

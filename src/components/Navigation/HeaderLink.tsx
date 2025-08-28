@@ -41,7 +41,10 @@ const HeaderLink: FC<Props> = ({
         .map(key => sessionStorage.getItem(key))
         .filter(
           (value): value is string =>
-            value !== null && value !== undefined && value !== ''
+            value !== null &&
+            value !== undefined &&
+            value !== 'undefined' &&
+            value !== ''
         );
       combinedFilter = filters.join('/');
 
