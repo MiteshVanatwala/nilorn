@@ -135,7 +135,6 @@ const PriceCalculationForm = ({
 
   useEffect(() => {
     if (currency?.code) {
-      console.log(currency?.code);
       setValue('currencyCode', currency.code);
     }
   }, [currency?.code, setValue]);
