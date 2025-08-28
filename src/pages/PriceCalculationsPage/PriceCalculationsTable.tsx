@@ -132,19 +132,22 @@ const PriceCalculationsTable = ({ data }: Props) => {
     data?.forEach(p => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
-          const priceCalculation = production.priceCalculations?.[0];
+          const priceCalculations = production.priceCalculations || [];
           selectedProductionList[`${production.id}`] = {
             selected: false,
             client: p.productDevelopmentDataDto?.clientName || '',
             productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
           };
-          if (priceCalculation?.id) {
-            selectedPriceList[`${priceCalculation.id}`] = {
-              selected: false,
-              client: p.productDevelopmentDataDto?.clientName || '',
-              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-            };
-          }
+          // Add all price calculations to the selected list
+          priceCalculations.forEach(priceCalculation => {
+            if (priceCalculation?.id) {
+              selectedPriceList[`${priceCalculation.id}`] = {
+                selected: false,
+                client: p.productDevelopmentDataDto?.clientName || '',
+                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+              };
+            }
+          });
         });
       });
     });
