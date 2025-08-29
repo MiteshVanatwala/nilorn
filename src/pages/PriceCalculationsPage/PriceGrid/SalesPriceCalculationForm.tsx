@@ -29,18 +29,19 @@ const SalesPriceCalculationForm = ({
     <>
       {calculation.priceDtos?.map((f, i) => {
         const price = f as PriceDto;
+        const priceItem = priceData?.[i];
         if (!!f.salesPriceId) {
           return (
             <SalesPriceCalculation
               key={
-                calculation?.productionId + '-salesPrice-' + i + price.margin
+                calculation?.productionId + '-salesPrice-' + i + (price?.margin || 0)
               }
               salesPriceId={`${f.salesPriceId}`}
               enableEdit={enableEdit}
               calculation={calculation}
               price={price}
-              margin={priceData[i].margin ?? 0}
-              salesPrice={priceData[i].salesPrice ?? 0}
+              margin={priceItem?.margin ?? price?.margin ?? 0}
+              salesPrice={priceItem?.salesPrice ?? price?.salesPrice ?? 0}
               onCalculationChange={onCalculationChange}
               disableEdit={disableEdit}
             />
@@ -48,7 +49,7 @@ const SalesPriceCalculationForm = ({
         }
         return (
           <GridTd
-            key={calculation?.productionId + '-salesPrice-' + i + price.margin}
+            key={calculation?.productionId + '-salesPrice-' + i + (price?.margin || 0)}
             colSpan={PRICE_ROW_SPAN}></GridTd>
         );
       })}

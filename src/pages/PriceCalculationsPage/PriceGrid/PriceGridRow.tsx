@@ -1,11 +1,10 @@
 import { Button, Checkbox, GridItem, HStack, VStack } from '@chakra-ui/react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
 import QueryKeysEnum from '../../../app/api/queryKeys';
 import {
-  PriceCalculationDto,
   PriceDto,
   ProductDevelopmentDataDto,
   ProductionDto,
@@ -24,6 +23,7 @@ import {
 } from '../../../components/GridTable/GridTableElements';
 import RemixIcon from '../../../components/Icon/RemixIcon';
 import { SPACE } from '../../../theme/Constants';
+import { TD_STYLE } from '../../../theme/Constants/tableGrid';
 import {
   GRID_LAYOUT_PRICE,
   GRID_LAYOUT_PRICE_DESKTOP,
@@ -73,66 +73,58 @@ function PriceGridRow({
     productDevelopment?.status && isClosed(productDevelopment?.status);
   const { storeFilterAndNavigate } = useStoreFilterAndNavigate();
 
-  // In phase one, only one calc!
-  const [calculation, setCalculation] = useState<
-    PriceCalculationDto | undefined
-  >(
-    production?.priceCalculations?.length
-      ? production?.priceCalculations[0]
-      : undefined
-  );
+  // Support multiple calculations - wrapped in useMemo to avoid dependency issues
+  const calculations = useMemo(() => production?.priceCalculations || [], [production?.priceCalculations]);
+  const hasCalculations = calculations.length > 0;
 
-  const [createNew, setCreateNew] = useState<boolean>(
-    calculation === undefined
-  );
+  const showCreateNew = !hasCalculations;
 
-  const [formData, setFormData] = useState<ExtendedPriceDto[]>(
-    (calculation?.priceDtos as PriceDto[])?.map(priceDto => ({
-      ...priceDto,
-      isValidInput: true,
-    })) ?? []
-  );
+  const [formDataMap, setFormDataMap] = useState<{[calcId: string]: ExtendedPriceDto[]}>({});
 
   useEffect(() => {
-    if (
-      production?.priceCalculations &&
-      production?.priceCalculations?.length > 0
-    ) {
-      setCalculation(production?.priceCalculations[0]);
-      setCreateNew(false);
-      setFormData(
-        production?.priceCalculations[0]?.priceDtos?.map(priceDto => ({
+    const newFormDataMap: {[calcId: string]: ExtendedPriceDto[]} = {};
+    calculations.forEach(calc => {
+      if (calc.id) {
+        newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
+          ...priceDto,
+          isValidInput: true,
+        })) ?? [];
+      }
+    });
+    setFormDataMap(newFormDataMap);
+  }, [calculations]);
+
+  const [enableEditMap, setEnableEditMap] = useState<{[calcId: string]: boolean}>({});
+  
+  const openRowForInlineEdit = (calcId: string) => {
+    if (!isPDClosed) {
+      setEnableEditMap(prev => ({ ...prev, [calcId]: true }));
+    }
+  };
+
+  const closeRowForInlineEdit = (calcId: string) => {
+    setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
+    const calc = calculations.find(c => c.id === calcId);
+    if (calc && calc.id) {
+      setFormDataMap(prev => ({
+        ...prev,
+        [calc.id!]: calc.priceDtos?.map(priceDto => ({
           ...priceDto,
           isValidInput: true,
         })) ?? []
-      );
-    } else {
-      setCreateNew(true);
-      setCalculation(undefined);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [production?.priceCalculations]);
-
-  const [enableEdit, setEnableEdit] = useState<boolean>(false);
-  const openRowForInlineEdit = () => {
-    if (!isPDClosed) {
-      setEnableEdit(true);
+      }));
     }
   };
 
-  const closeRowForInlineEdit = () => {
-    setEnableEdit(false);
-    setFormData((calculation?.priceDtos as PriceDto[]) ?? []);
-  };
-
-  const submitForm = () => {
+  const submitForm = (calcId: string) => {
+    const formData = formDataMap[calcId] || [];
     if (formData.every(price => price.isValidInput)) {
       const body: UpdateSalesPriceCommand = {
         salesPrices: formData as SalesPriceDto[],
       };
       saveSalesPrices(body, {
         onSuccess: async () => {
-          setEnableEdit(false);
+          setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
           queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         },
       });
@@ -140,24 +132,28 @@ function PriceGridRow({
   };
 
   const onInlineChange = (
+    calcId: string,
     isValid: boolean,
     newMargin: number,
     newSalesPrice: number,
     salesPriceId: string
   ) => {
-    const newData = [...formData];
-    const index = newData.findIndex(item => item.salesPriceId === salesPriceId);
-    if (index !== -1) {
-      newData[index] = {
-        ...newData[index],
-        margin: newMargin,
-        salesPrice: newSalesPrice,
-        isValidInput: isValid,
-      };
-      setFormData(newData);
-    } else {
-      console.error(`Object with given ${salesPriceId} not found.`);
-    }
+    setFormDataMap(prev => {
+      const formData = [...(prev[calcId] || [])];
+      const index = formData.findIndex(item => item.salesPriceId === salesPriceId);
+      if (index !== -1) {
+        formData[index] = {
+          ...formData[index],
+          margin: newMargin,
+          salesPrice: newSalesPrice,
+          isValidInput: isValid,
+        };
+        return { ...prev, [calcId]: formData };
+      } else {
+        console.error(`Object with given ${salesPriceId} not found.`);
+        return prev;
+      }
+    });
   };
 
   const navigateToProduction = () => {
@@ -196,79 +192,41 @@ function PriceGridRow({
     });
   };
 
-  return (
-    <GridItem colSpan={VENDOR_ROW_SPAN}>
-      <GridInlineTbody
-        gridTemplateColumns={{
-          base: GRID_LAYOUT_PRICE,
-          lg: GRID_LAYOUT_PRICE_DESKTOP,
-        }}>
-        <GridTd>
-          <>
+  // Show create new row if no calculations exist
+  if (showCreateNew) {
+    return (
+      <GridItem colSpan={VENDOR_ROW_SPAN}>
+        <GridInlineTbody
+          gridTemplateColumns={{
+            base: GRID_LAYOUT_PRICE,
+            lg: GRID_LAYOUT_PRICE_DESKTOP,
+          }}>
+          <GridTd>
             <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
               <HStack justify={'space-between'} w={'100%'}>
                 <Button variant={'textBtn'} onClick={navigateToProduction}>
                   {production.vendorName}
                 </Button>
-                <>
-                  {production.released && (
-                    <TableMenuCalculation
-                      sourcedProduction={sourcedProduction}
-                      productDevelopment={productDevelopment}
-                      onEditInline={openRowForInlineEdit}
-                      lastModified={production?.lastModified ?? undefined}
-                      artwork={productDevelopment?.artwork}
-                      production={production}
-                      calculation={calculation}
-                      createNew={
-                        (production?.priceCalculations &&
-                          production?.priceCalculations?.length <= 0) ??
-                        true
-                      }
-                      filters={filters}
-                    />
-                  )}
-                </>
+                {production.released && (
+                  <TableMenuCalculation
+                    sourcedProduction={sourcedProduction}
+                    productDevelopment={productDevelopment}
+                    onEditInline={() => {}}
+                    lastModified={production?.lastModified ?? undefined}
+                    artwork={productDevelopment?.artwork}
+                    production={production}
+                    calculation={undefined}
+                    createNew={true}
+                    filters={filters}
+                  />
+                )}
               </HStack>
-              {enableEdit && (
-                <>
-                  <Button
-                    onClick={submitForm}
-                    variant={'primarySmall'}
-                    rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
-                    {t('Common.Save')}
-                  </Button>
-                  <Button
-                    onClick={closeRowForInlineEdit}
-                    variant={'secondarySmall'}
-                    rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
-                    {t('Common.Cancel')}
-                  </Button>
-                </>
-              )}
             </VStack>
-          </>
-        </GridTd>
-        <GridTd>
-          <CommentPopup comment={production.comment} />
-        </GridTd>
-        <GridTd justifyContent={'center'}>
-          {!!calculation ? (
-            <Checkbox
-              key={calculation.id}
-              isChecked={
-                selectedPrices[`${calculation?.id}`]?.selected || false
-              }
-              onChange={() =>
-                toggleSelectedPriceCheckbox(calculation?.id || '')
-              }
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (e.key === 'Enter') {
-                  toggleSelectedPriceCheckbox(calculation?.id || '');
-                }
-              }}
-            />
-          ) : !!production && !calculation ? (
+          </GridTd>
+          <GridTd>
+            <CommentPopup comment={production.comment} />
+          </GridTd>
+          <GridTd justifyContent={'center'}>
             <Checkbox
               key={production.id}
               isChecked={
@@ -283,81 +241,184 @@ function PriceGridRow({
                 }
               }}
             />
+          </GridTd>
+          {production.released ? (
+            <>
+              <GridTd gridColumn={'BaseValues'}></GridTd>
+              <GridItem colSpan={2}>
+                <GridInlineTbody gridTemplateColumns={`repeat(2, 1fr)`}>
+                  {production.purchasePrices?.map((pp, i) => (
+                    <Fragment key={production?.id + '-purchasePrice-' + i}>
+                      <GridTd>
+                        {numToThousandSeparatedsStr(pp.quantity)}
+                      </GridTd>
+                      <GridTd>
+                        {numToThousandSeparatedsStr(pp.price)}
+                      </GridTd>
+                    </Fragment>
+                  ))}
+                </GridInlineTbody>
+              </GridItem>
+              <GridTd>{production.currencyCode}</GridTd>
+              <GridTd></GridTd>
+              <GridItem colSpan={PRICE_ROW_SPAN}>
+                <GridTd colSpan={PRICE_ROW_SPAN}></GridTd>
+              </GridItem>
+            </>
           ) : (
-            <></>
+            <GridTd colSpan={9}></GridTd>
           )}
-        </GridTd>
-        {(calculation && calculation?.priceDtos?.length) ||
-        production.released ? (
-          <>
-            <GridTd gridColumn={'BaseValues'}>
-              <BaseValues calculation={calculation} />
-            </GridTd>
-            <GridItem colSpan={2}>
-              <GridInlineTbody gridTemplateColumns={`repeat(2, 1fr)`}>
-                <>
-                  {!!calculation ? (
-                    <>
-                      {calculation.priceDtos
-                        ?.sort(
-                          (a: PurchasePriceDto, b: PurchasePriceDto) =>
-                            (a.quantity || 0) - (b.quantity || 0)
-                        )
-                        .map((pc, i) => (
-                          <Fragment
-                            key={
-                              calculation?.productionId + '-purchasePrice-' + i
-                            }>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pc.quantity)}
-                            </GridTd>
-                            <GridTd>
-                              {numToThousandSeparatedsStr(pc.purchasePrice)}
-                            </GridTd>
-                          </Fragment>
-                        ))}
-                    </>
-                  ) : (
-                    <>
-                      {production.purchasePrices?.map((pp, i) => (
-                        <Fragment key={production?.id + '-purchasePrice-' + i}>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pp.quantity)}
-                          </GridTd>
-                          <GridTd>
-                            {numToThousandSeparatedsStr(pp.price)}
-                          </GridTd>
-                        </Fragment>
-                      ))}
-                    </>
-                  )}
-                </>
-              </GridInlineTbody>
-            </GridItem>
-            <GridTd>{production.currencyCode}</GridTd>
-            <GridTd>{calculation?.currency?.code}</GridTd>
-            <GridItem
-              colSpan={PRICE_ROW_SPAN}
-              onClick={createNew ? undefined : openRowForInlineEdit}>
-              <GridInlineTbody
-                gridTemplateColumns={`repeat(${PRICE_ROW_SPAN}, 1fr)`}>
-                {!!calculation ? (
-                  <SalesPriceCalculationForm
-                    priceData={formData}
-                    onCalculationChange={onInlineChange}
-                    enableEdit={enableEdit}
-                    calculation={calculation}
-                    disableEdit={isPDClosed}
-                  />
-                ) : (
-                  <GridTd colSpan={PRICE_ROW_SPAN}></GridTd>
-                )}
-              </GridInlineTbody>
-            </GridItem>
-          </>
-        ) : (
-          <>{production.released ? <></> : <GridTd colSpan={9}></GridTd>}</>
-        )}
+        </GridInlineTbody>
+      </GridItem>
+    );
+  }
+
+  const validCalculations = calculations.filter(calc => calc.id);
+
+  // Create flattened array of all grid elements
+  const gridElements = [
+    // Vendor column - spans all rows
+    <GridTd key="vendor" style={{ ...TD_STYLE, gridRow: `1 / span ${validCalculations.length}` }}>
+      <VStack alignItems={'start'} spacing={SPACE.XXS} pb={SPACE.XXS}>
+        <HStack justify={'space-between'} w={'100%'}>
+          <Button variant={'textBtn'} onClick={navigateToProduction}>
+            {production.vendorName}
+          </Button>
+          {production.released && (
+            <TableMenuCalculation
+              sourcedProduction={sourcedProduction}
+              productDevelopment={productDevelopment}
+              onEditInline={() => {}}
+              lastModified={production?.lastModified ?? undefined}
+              artwork={productDevelopment?.artwork}
+              production={production}
+              calculation={undefined}
+              createNew={true}
+              filters={filters}
+            />
+          )}
+        </HStack>
+      </VStack>
+    </GridTd>,
+
+    // Comment column - spans all rows  
+    <GridTd key="comment" style={{ ...TD_STYLE, gridRow: `1 / span ${validCalculations.length}` }}>
+      <CommentPopup comment={production.comment} />
+    </GridTd>,
+
+    // All calculation elements flattened
+    ...validCalculations.flatMap((calculation) => {
+      const calcId = calculation.id!;
+      const enableEdit = enableEditMap[calcId] || false;
+      const formData = formDataMap[calcId] || [];
+      
+      return [
+        // Checkbox column
+        <GridTd key={`${calcId}-checkbox`} justifyContent={'center'}>
+          <VStack alignItems={'center'} spacing={SPACE.XXS}>
+            <Checkbox
+              key={calculation.id}
+              isChecked={
+                selectedPrices[`${calculation?.id}`]?.selected || false
+              }
+              onChange={() =>
+                toggleSelectedPriceCheckbox(calculation?.id || '')
+              }
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                  toggleSelectedPriceCheckbox(calculation?.id || '');
+                }
+              }}
+            />
+            {enableEdit && (
+              <>
+                <Button
+                  onClick={() => submitForm(calcId)}
+                  variant={'primarySmall'}
+                  rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}>
+                  {t('Common.Save')}
+                </Button>
+                <Button
+                  onClick={() => closeRowForInlineEdit(calcId)}
+                  variant={'secondarySmall'}
+                  rightIcon={<RemixIcon component="i" icon="CLOSE_LINE" />}>
+                  {t('Common.Cancel')}
+                </Button>
+              </>
+            )}
+          </VStack>
+        </GridTd>,
+
+        // Base Values column
+        <GridTd key={`${calcId}-base`} gridColumn={'BaseValues'}>
+          <BaseValues 
+            calculation={calculation} 
+            production={production}
+            productDevelopment={productDevelopment}
+            sourcedProduction={sourcedProduction}
+            onEditInline={() => openRowForInlineEdit(calcId)}
+            filters={filters}
+          />
+        </GridTd>,
+
+        // Qty/Net columns
+        <GridItem key={`${calcId}-qtynet`} colSpan={2}>
+          <GridInlineTbody gridTemplateColumns={`repeat(2, 1fr)`}>
+            {calculation.priceDtos
+              ?.sort(
+                (a: PurchasePriceDto, b: PurchasePriceDto) =>
+                  (a.quantity || 0) - (b.quantity || 0)
+              )
+              .map((pc: any, i: number) => (
+                <Fragment
+                  key={calculation?.productionId + '-purchasePrice-' + i}>
+                  <GridTd>
+                    {numToThousandSeparatedsStr(pc.quantity)}
+                  </GridTd>
+                  <GridTd>
+                    {numToThousandSeparatedsStr(pc.purchasePrice)}
+                  </GridTd>
+                </Fragment>
+              ))}
+          </GridInlineTbody>
+        </GridItem>,
+
+        // Purchase Currency
+        <GridTd key={`${calcId}-purchase-currency`}>{production.currencyCode}</GridTd>,
+        
+        // Sales Currency
+        <GridTd key={`${calcId}-sales-currency`}>{calculation?.currency?.code}</GridTd>,
+
+        // Sales Price columns
+        <GridItem
+          key={`${calcId}-prices`}
+          colSpan={PRICE_ROW_SPAN}
+          onClick={!enableEdit ? () => openRowForInlineEdit(calcId) : undefined}>
+          <GridInlineTbody
+            gridTemplateColumns={`repeat(${PRICE_ROW_SPAN}, 1fr)`}>
+            <SalesPriceCalculationForm
+              priceData={formData}
+              onCalculationChange={(isValid, newMargin, newSalesPrice, id) => 
+                onInlineChange(calcId, isValid, newMargin, newSalesPrice, id)
+              }
+              enableEdit={enableEdit}
+              calculation={calculation}
+              disableEdit={isPDClosed}
+            />
+          </GridInlineTbody>
+        </GridItem>
+      ];
+    })
+  ];
+
+  return (
+    <GridItem colSpan={VENDOR_ROW_SPAN}>
+      <GridInlineTbody
+        gridTemplateColumns={{
+          base: GRID_LAYOUT_PRICE,
+          lg: GRID_LAYOUT_PRICE_DESKTOP,
+        }}>
+        {gridElements}
       </GridInlineTbody>
     </GridItem>
   );
