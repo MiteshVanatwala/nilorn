@@ -34,6 +34,10 @@ const BulkEditPriceCalculationModal = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [formValuesForModal, setFormValuesForModal] =
     useState<FieldValues | null>(null);
+  const [originalValues, setOriginalValues] = useState<{
+    currencyCode: string | null;
+    currencyRate: number | null;
+  }>({ currencyCode: null, currencyRate: null });
 
   const {
     deleteModal,
@@ -44,7 +48,7 @@ const BulkEditPriceCalculationModal = ({
   const { setDirty, leavePageModal } = useModalFormHelper(
     outsideRef,
     calculations[0]?.id || '',
-    true
+    false
   );
   const { close } = useContext(ModalContext);
 
@@ -140,6 +144,12 @@ const BulkEditPriceCalculationModal = ({
   useEffect(() => {
     const commonValues = getCommonValues();
     if (commonValues) {
+      // Store original values for comparison
+      setOriginalValues({
+        currencyCode: commonValues.currencyCode,
+        currencyRate: commonValues.currencyRate,
+      });
+
       form.reset({
         purchaseCurrency: commonValues.purchaseCurrency,
         currencyRate: commonValues.currencyRate,
@@ -170,7 +180,25 @@ const BulkEditPriceCalculationModal = ({
       prod => prod.currencyCode !== formValues.currencyCode
     );
 
-    return hasDifferentPurchaseCurrencies || hasDifferentSalesCurrency;
+    // Check if sales currency has been changed from original value
+    // Only check if original value was not null (meaning there was a common value)
+    const hasSalesCurrencyChanged =
+      originalValues.currencyCode !== null &&
+      formValues.currencyCode !== null &&
+      formValues.currencyCode !== originalValues.currencyCode;
+
+    // Check if currency rate has been changed from original value
+    // Only check if original value was not null (meaning there was a common value)
+    const hasCurrencyRateChanged =
+      originalValues.currencyRate !== null &&
+      formValues.currencyRate !== null &&
+      formValues.currencyRate !== originalValues.currencyRate;
+
+    return (
+      // hasDifferentPurchaseCurrencies ||
+      // hasDifferentSalesCurrency ||
+      hasSalesCurrencyChanged || hasCurrencyRateChanged
+    );
   };
 
   function handleFormSubmit(formValues: FieldValues) {
@@ -225,7 +253,7 @@ const BulkEditPriceCalculationModal = ({
   return (
     <>
       {deleteModal}
-      {leavePageModal}
+      {!showModal && !showConfirmationModal && leavePageModal}
 
       {showModal && (
         <IsolatedControlledModal
