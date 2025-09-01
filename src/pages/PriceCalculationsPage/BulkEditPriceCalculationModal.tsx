@@ -169,36 +169,43 @@ const BulkEditPriceCalculationModal = ({
   }, [form.formState.isDirty, setDirty]);
 
   const checkCurrencyVariation = (formValues: FieldValues) => {
-    // Check if purchase currencies are different
     const hasDifferentPurchaseCurrencies = productions.some(
       (prod, index) =>
         index > 0 && prod.currencyCode !== productions[0].currencyCode
     );
 
-    // Check if sales currency is different from purchase currency
-    const hasDifferentSalesCurrency = productions.some(
+    const hasDifferentSalesCurrencies = calculations.some(
+      (calc, index) =>
+        index > 0 && calc.currency?.code !== calculations[0].currency?.code
+    );
+
+    const hasMixedCurrencies = productions.some(
       prod => prod.currencyCode !== formValues.currencyCode
     );
 
-    // Check if sales currency has been changed from original value
-    // Only check if original value was not null (meaning there was a common value)
     const hasSalesCurrencyChanged =
-      originalValues.currencyCode !== null &&
       formValues.currencyCode !== null &&
-      formValues.currencyCode !== originalValues.currencyCode;
+      ((originalValues.currencyCode !== null &&
+        formValues.currencyCode !== originalValues.currencyCode) ||
+        (originalValues.currencyCode === null &&
+          formValues.currencyCode !== null));
 
-    // Check if currency rate has been changed from original value
-    // Only check if original value was not null (meaning there was a common value)
     const hasCurrencyRateChanged =
-      originalValues.currencyRate !== null &&
       formValues.currencyRate !== null &&
-      formValues.currencyRate !== originalValues.currencyRate;
+      ((originalValues.currencyRate !== null &&
+        formValues.currencyRate !== originalValues.currencyRate) ||
+        (originalValues.currencyRate === null &&
+          formValues.currencyRate !== null));
 
-    return (
-      // hasDifferentPurchaseCurrencies ||
-      // hasDifferentSalesCurrency ||
-      hasSalesCurrencyChanged || hasCurrencyRateChanged
-    );
+    const hasVariedCurrencies =
+      hasDifferentPurchaseCurrencies ||
+      hasDifferentSalesCurrencies ||
+      hasMixedCurrencies;
+
+    const hasUserModifiedCurrency =
+      hasSalesCurrencyChanged || hasCurrencyRateChanged;
+
+    return hasUserModifiedCurrency && hasVariedCurrencies;
   };
 
   function handleFormSubmit(formValues: FieldValues) {
