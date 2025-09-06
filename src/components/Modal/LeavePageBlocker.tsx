@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useModal } from '../../app/hooks/useModal';
@@ -19,38 +19,94 @@ const LeavePageBlocker = ({ isOpen, closeModal }: Props) => {
   const { close } = useModal();
   const { discardChanges, hasUnsavedChanges } = useUnsavedChanges();
 
-  const handleBlockerCallback = useCallback(
-    () => () => hasUnsavedChanges(),
-    [hasUnsavedChanges]
+  // Only use router blocker if this is NOT a controlled modal
+  const shouldUseRouterBlocker = !closeModal;
+
+  const [userConfirmedLeave, setUserConfirmedLeave] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
+
+  const handleBlockerCallback = useCallback(() => {
+    if (isConfirming || userConfirmedLeave) return false;
+    return hasUnsavedChanges();
+  }, [hasUnsavedChanges, userConfirmedLeave, isConfirming]);
+
+  // Only create blocker if not controlled by parent
+  let blocker = useBlocker(
+    shouldUseRouterBlocker ? handleBlockerCallback : () => false
   );
 
   useEffect(() => {
-    if (isOpen) {
+    // Handle controlled modal (when isOpen prop is provided)
+    if (!shouldUseRouterBlocker) {
+      if (isOpen) {
+        modalRef.current?.onOpen();
+      } else {
+        modalRef.current?.onClose();
+      }
+      return;
+    }
+
+    // Handle automatic router blocker modal
+    if (
+      blocker &&
+      blocker.state === 'blocked' &&
+      !modalShown &&
+      !isConfirming &&
+      !userConfirmedLeave
+    ) {
+      setModalShown(true);
       modalRef.current?.onOpen();
     }
-  }, [isOpen]);
-
-  let blocker = useBlocker(handleBlockerCallback());
-
-  useEffect(() => {
-    if (blocker && blocker.state === 'blocked') {
-      modalRef.current?.onOpen();
-    }
-  }, [blocker, blocker?.state]);
+  }, [
+    shouldUseRouterBlocker,
+    isOpen,
+    blocker,
+    blocker?.state,
+    modalShown,
+    isConfirming,
+    userConfirmedLeave,
+  ]);
 
   useEffect(() => {
     close();
+    // Only reset states for router blocker mode
+    if (shouldUseRouterBlocker) {
+      setUserConfirmedLeave(false);
+      setIsConfirming(false);
+      setModalShown(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
+  }, [location, shouldUseRouterBlocker]);
 
   const onConfirm = () => {
-    if (!!blocker.proceed && !isOpen) {
+    if (shouldUseRouterBlocker && !!blocker.proceed) {
+      setIsConfirming(true);
+      setUserConfirmedLeave(true);
+      setModalShown(false);
       discardChanges();
-      blocker.proceed();
+
+      // Close modal immediately
       modalRef.current?.onClose();
+
+      // Proceed with navigation immediately
+      blocker.proceed?.();
     } else if (closeModal) {
+      // Custom modal mode
       modalRef.current?.onClose();
       closeModal(true);
+    }
+  };
+
+  const onCancel = () => {
+    if (closeModal) {
+      closeModal(false);
+    }
+    // Only reset states for router blocker mode
+    if (shouldUseRouterBlocker) {
+      setIsConfirming(false);
+      setUserConfirmedLeave(false);
+      setModalShown(false);
     }
   };
 
@@ -60,11 +116,7 @@ const LeavePageBlocker = ({ isOpen, closeModal }: Props) => {
       title={t('PD.UnsavedChanges')}
       description={t('PD.UnsavedChangesMsg')}
       onConfirm={onConfirm}
-      onCancel={() => {
-        if (closeModal) {
-          closeModal(false);
-        }
-      }}
+      onCancel={onCancel}
     />
   );
 };
