@@ -1,6 +1,6 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
@@ -16,6 +16,7 @@ import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 
 const ClientsPage = () => {
   const { clientNo } = useParams();
@@ -81,6 +82,7 @@ const ClientsPage = () => {
 
   return (
     <ContentPage>
+      {form.formState.isDirty ? <LeavePageBlocker /> : <Fragment />}
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -94,6 +96,7 @@ const ClientsPage = () => {
           }}>
           <CardPageTopSection
             selectedClientNo={selectedClientNo}
+            manageDirtyState={false}
             setSelectedClientNo={(
               clientNo: string | ((prev: string) => string)
             ) => {

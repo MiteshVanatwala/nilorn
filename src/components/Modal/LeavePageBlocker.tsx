@@ -14,99 +14,103 @@ type Props = {
 const LeavePageBlocker = ({ isOpen, closeModal }: Props) => {
   const { t } = useTranslation();
   const modalRef = useRef<ModalRef>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const location = useLocation();
   const { close } = useModal();
   const { discardChanges, hasUnsavedChanges } = useUnsavedChanges();
 
-  // Only use router blocker if this is NOT a controlled modal
-  const shouldUseRouterBlocker = !closeModal;
-
-  const [userConfirmedLeave, setUserConfirmedLeave] = useState(false);
-  const [isConfirming, setIsConfirming] = useState(false);
-  const [modalShown, setModalShown] = useState(false);
+  // Determine which mode we're in
+  const isCustomModalMode = closeModal !== undefined;
+  const isRouterBlockerMode = !isCustomModalMode;
 
   const handleBlockerCallback = useCallback(() => {
-    if (isConfirming || userConfirmedLeave) return false;
-    return hasUnsavedChanges();
-  }, [hasUnsavedChanges, userConfirmedLeave, isConfirming]);
+    // Only block in router mode and when not processing
+    if (!isRouterBlockerMode || isProcessing) return false;
+    const shouldBlock = hasUnsavedChanges();
+    return shouldBlock;
+  }, [hasUnsavedChanges, isProcessing, isRouterBlockerMode, closeModal]);
 
-  // Only create blocker if not controlled by parent
+  useEffect(() => {
+    if (isCustomModalMode) {
+      // Custom modal mode - controlled by parent
+      if (isOpen) {
+        setIsModalOpen(true);
+        modalRef.current?.onOpen();
+      } else if (isOpen === false) {
+        setIsModalOpen(false);
+        modalRef.current?.onClose();
+      }
+    }
+  }, [isOpen, isCustomModalMode]);
+
+  // Only create blocker in router mode
   let blocker = useBlocker(
-    shouldUseRouterBlocker ? handleBlockerCallback : () => false
+    isRouterBlockerMode ? handleBlockerCallback : () => false
   );
 
   useEffect(() => {
-    // Handle controlled modal (when isOpen prop is provided)
-    if (!shouldUseRouterBlocker) {
-      if (isOpen) {
-        modalRef.current?.onOpen();
-      } else {
-        modalRef.current?.onClose();
-      }
-      return;
-    }
-
-    // Handle automatic router blocker modal
     if (
+      isRouterBlockerMode &&
       blocker &&
       blocker.state === 'blocked' &&
-      !modalShown &&
-      !isConfirming &&
-      !userConfirmedLeave
+      !isModalOpen &&
+      !isProcessing
     ) {
-      setModalShown(true);
+      setIsModalOpen(true);
       modalRef.current?.onOpen();
     }
   }, [
-    shouldUseRouterBlocker,
-    isOpen,
     blocker,
     blocker?.state,
-    modalShown,
-    isConfirming,
-    userConfirmedLeave,
+    isModalOpen,
+    isProcessing,
+    isRouterBlockerMode,
+    hasUnsavedChanges,
   ]);
 
   useEffect(() => {
     close();
-    // Only reset states for router blocker mode
-    if (shouldUseRouterBlocker) {
-      setUserConfirmedLeave(false);
-      setIsConfirming(false);
-      setModalShown(false);
+    // Only reset states in router blocker mode
+    if (isRouterBlockerMode) {
+      setIsModalOpen(false);
+      setIsProcessing(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location, shouldUseRouterBlocker]);
+  }, [location, isRouterBlockerMode]);
 
   const onConfirm = () => {
-    if (shouldUseRouterBlocker && !!blocker.proceed) {
-      setIsConfirming(true);
-      setUserConfirmedLeave(true);
-      setModalShown(false);
+    if (isRouterBlockerMode && !!blocker.proceed) {
+      // Router blocker mode
+      setIsProcessing(true);
+      setIsModalOpen(false);
       discardChanges();
-
-      // Close modal immediately
       modalRef.current?.onClose();
 
-      // Proceed with navigation immediately
-      blocker.proceed?.();
-    } else if (closeModal) {
+      // Use setTimeout to ensure state updates before proceeding
+      setTimeout(() => {
+        blocker.proceed?.();
+      }, 0);
+    } else if (isCustomModalMode && closeModal) {
       // Custom modal mode
+      setIsModalOpen(false);
       modalRef.current?.onClose();
       closeModal(true);
     }
   };
 
   const onCancel = () => {
-    if (closeModal) {
-      closeModal(false);
+    setIsModalOpen(false);
+    modalRef.current?.onClose();
+
+    if (isRouterBlockerMode && blocker && blocker.reset) {
+      // Reset the blocker to allow it to work properly on next navigation attempt
+      blocker.reset();
     }
-    // Only reset states for router blocker mode
-    if (shouldUseRouterBlocker) {
-      setIsConfirming(false);
-      setUserConfirmedLeave(false);
-      setModalShown(false);
+
+    if (isCustomModalMode && closeModal) {
+      closeModal(false);
     }
   };
 
