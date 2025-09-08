@@ -45,7 +45,7 @@ const CreatePriceCalculationModal = ({
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation } = useCreateCalculation();
+  const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
   const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
@@ -111,18 +111,21 @@ const CreatePriceCalculationModal = ({
       priceCalculationCreateDtos: [form],
     };
 
-    createCalculation(priceCalculationCreateDto, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
-      },
-    });
+    createCalculation(priceCalculationCreateDto);
   }
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
+
+  useEffect(() => {
+    if (isCreateSuccess) {
+      setDirty(false);
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isCreateSuccess]);
 
   return (
     <>
