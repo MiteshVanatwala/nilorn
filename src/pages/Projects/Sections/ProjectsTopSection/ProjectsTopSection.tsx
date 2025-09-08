@@ -21,6 +21,7 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
 import LeavePageBlocker from '../../../../components/Modal/LeavePageBlocker';
 import SelectBase from '../../../../components/Form/SelectBase';
+import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
@@ -48,6 +49,7 @@ const ProjectsTopSection = ({
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [nextClientNo, setNextClientNo] = useState('');
   const [nextProjectCode, setNextProjectCode] = useState('');
+  const { setUnsavedChanges } = useUnsavedChanges();
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
@@ -64,32 +66,56 @@ const ProjectsTopSection = ({
   useEffect(() => {
     if (!!clientNo && !!projectCode) {
       if (code !== projectCode) {
-        reset({
-          ...projectCard,
-          projectCode: projectCode,
-          clientNo: clientNo,
-          code: code,
-        });
+        reset(
+          {
+            ...projectCard,
+            projectCode: projectCode,
+            clientNo: clientNo,
+            code: code,
+          },
+          {
+            keepDirty: false,
+            keepTouched: false,
+            keepIsValid: true,
+            keepErrors: true,
+          }
+        );
       } else {
-        reset({
-          ...projectCard,
-          projectCode: projectCode,
-          clientNo: clientNo,
-          code: projectCode,
-        });
+        reset(
+          {
+            ...projectCard,
+            projectCode: projectCode,
+            clientNo: clientNo,
+            code: projectCode,
+          },
+          {
+            keepDirty: false,
+            keepTouched: false,
+            keepIsValid: true,
+            keepErrors: true,
+          }
+        );
       }
     } else {
-      reset({
-        clientNo: clientNo,
-        projectCode: projectCode,
-        code: projectCode,
-        members: [],
-        description: '',
-        teamsName: '',
-        channelName: '',
-        artWorkFolderName: '',
-        attachmentFolderName: '',
-      });
+      reset(
+        {
+          clientNo: clientNo,
+          projectCode: projectCode,
+          code: projectCode,
+          members: [],
+          description: '',
+          teamsName: '',
+          channelName: '',
+          artWorkFolderName: '',
+          attachmentFolderName: '',
+        },
+        {
+          keepDirty: false,
+          keepTouched: false,
+          keepIsValid: true,
+          keepErrors: true,
+        }
+      );
     }
   }, [clientNo, projectCode, projectCard, reset]);
 
@@ -132,7 +158,7 @@ const ProjectsTopSection = ({
         projectOptions.filter((option: any) => option.value === code).length > 0
       ) {
         setValue('projectCode', code, {
-          shouldDirty: true,
+          shouldDirty: false,
         });
         sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, code);
         setSelectedProjectCode(code);
@@ -150,7 +176,10 @@ const ProjectsTopSection = ({
 
   const handleLeavePageBlocker = (accepted?: boolean) => {
     if (accepted) {
-      if (nextClientNo === clientNo) {
+      sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
+
+      // If nextProjectCode is set, it means user is changing project
+      if (nextProjectCode) {
         setValue('projectCode', nextProjectCode, { shouldDirty: false });
         setValue('code', nextProjectCode, { shouldDirty: false });
         setSelectedProjectCode(nextProjectCode);
@@ -158,33 +187,52 @@ const ProjectsTopSection = ({
           SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
           nextProjectCode
         );
-      } else {
-        setValue('projectCode', '', { shouldDirty: false });
-        setValue('code', '', { shouldDirty: false });
-        setSelectedProjectCode('');
-        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
       }
-      setValue('clientNo', nextClientNo ? nextClientNo : clientNo, {
-        shouldDirty: false,
-      });
-      setSelectedClientNo(nextClientNo ? nextClientNo : clientNo);
-      sessionStorage.setItem(
-        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
-        nextClientNo ? nextClientNo : clientNo
-      );
+
+      // Handle client change if nextClientNo is set
+      if (nextClientNo) {
+        setValue('clientNo', nextClientNo, { shouldDirty: false });
+        setSelectedClientNo(nextClientNo);
+        sessionStorage.setItem(
+          SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+          nextClientNo
+        );
+
+        // If changing client, clear project
+        if (nextClientNo !== clientNo) {
+          setValue('projectCode', '', { shouldDirty: false });
+          setValue('code', '', { shouldDirty: false });
+          setSelectedProjectCode('');
+          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+        }
+      }
+
+      setUnsavedChanges(false);
     }
+
+    // Reset next values
+    setNextClientNo('');
+    setNextProjectCode('');
     setShowLeavePageBlocker(false);
   };
 
   const handleClientChange = (option: any) => {
     if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
-      reset({
-        clientNo: option?.value,
-        projectCode: '',
-        code: '',
-        clientName:
-          clientOptions?.find(t => t.value === option?.value)?.label ?? '',
-      });
+      reset(
+        {
+          clientNo: option?.value,
+          projectCode: '',
+          code: '',
+          clientName:
+            clientOptions?.find(t => t.value === option?.value)?.label ?? '',
+        },
+        {
+          keepDirty: false,
+          keepTouched: false,
+          keepIsValid: true,
+          keepErrors: true,
+        }
+      );
       setSelectedClientNo(option?.value);
       if (!isInitialLoad) {
         setSelectedProjectCode('');
@@ -194,9 +242,10 @@ const ProjectsTopSection = ({
         SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
         option?.value || ''
       );
+      setUnsavedChanges(false);
     } else {
       setNextClientNo(option?.value);
-      setShowLeavePageBlocker(true);
+      // setShowLeavePageBlocker(true);
       sessionStorage.setItem(
         SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
         option?.value || ''
@@ -207,10 +256,10 @@ const ProjectsTopSection = ({
   const handleProjectChange = (option: any) => {
     if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
       setValue('code', option?.value, {
-        shouldDirty: true,
+        shouldDirty: false,
       });
       setValue('projectCode', option?.value, {
-        shouldDirty: true,
+        shouldDirty: false,
       });
       setSelectedProjectCode(option?.value);
       sessionStorage.setItem(
@@ -218,7 +267,9 @@ const ProjectsTopSection = ({
         option?.value || ''
       );
     } else {
+      // Don't manually set IS_DIRTY to false here - let the LeavePageBlocker handle it
       setNextProjectCode(option?.value);
+      setNextClientNo(''); // Reset nextClientNo since we're only changing project
       setShowLeavePageBlocker(true);
     }
   };

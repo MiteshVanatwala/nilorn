@@ -9,10 +9,10 @@ import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
 import { useCreateProjectPage } from '../../app/api/Projects';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
-import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import { SESSION_STORAGE } from '../../app/utils/constant';
 
 function ProjectsPage() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string | undefined>(
     params.clientNo
   );
-  const { setUnsavedChanges } = useUnsavedChanges();
+  const { setUnsavedChanges, hasUnsavedChanges } = useUnsavedChanges();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function ProjectsPage() {
       artWorkFolderName: '',
       attachmentFolderName: '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
   });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
@@ -102,6 +102,11 @@ function ProjectsPage() {
         setUnsavedChanges(form.formState.isDirty);
       }
     }
+
+    if (isInitialLoad) {
+      sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
+      setUnsavedChanges(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     form.formState.isDirty,
@@ -117,13 +122,24 @@ function ProjectsPage() {
         setIsInitialLoad(false);
         if (form.formState.isDirty) {
           const currentValues = form.getValues();
-          form.reset({
-            ...currentValues,
-            clientNo: selectedClientNo,
-            code: selectedProjectCode,
-            project: selectedProjectCode,
-          });
+          form.reset(
+            {
+              ...currentValues,
+              clientNo: selectedClientNo,
+              code: selectedProjectCode,
+              project: selectedProjectCode,
+            },
+            {
+              keepDirty: false,
+              keepTouched: false,
+              keepIsValid: true,
+              keepErrors: true,
+            }
+          );
         }
+        // setTimeout(() => {
+        //   sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
+        // }, 500);
       }, 200);
     } else {
       setIsInitialLoad(false);
@@ -134,7 +150,6 @@ function ProjectsPage() {
 
   return (
     <ContentPage>
-      <LeavePageBlocker />
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

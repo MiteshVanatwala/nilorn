@@ -24,7 +24,7 @@ const CardPageTopSection = ({
   const { t } = useTranslation();
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'no' });
-  const { setValue } = useFormContext();
+  const { setValue, formState } = useFormContext();
   const [showLeavePageBlocker, setShowLeavePageBlocker] = useState(false);
   const [nextClientNo, setNextClientNo] = useState('');
 
@@ -32,6 +32,13 @@ const CardPageTopSection = ({
     setSelectedClientNo(clientNo);
     sessionStorage.setItem(SESSION_STORAGE.CLIENT_PAGE, clientNo || '');
   }, [clientNo]);
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      SESSION_STORAGE.IS_DIRTY,
+      formState.isDirty ? 'true' : 'false'
+    );
+  }, [formState.isDirty]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === selectedClientNo
@@ -86,11 +93,8 @@ const CardPageTopSection = ({
                   name={'no'}
                   options={clientOptions}
                   onChange={(option: any) => {
-                    if (
-                      sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) ===
-                      'false'
-                    ) {
-                      setValue('no', option?.value, { shouldDirty: true });
+                    if (!formState.isDirty) {
+                      setValue('no', option?.value, { shouldDirty: false });
                       setSelectedClientNo(option?.value);
                     } else {
                       setNextClientNo(option?.value);

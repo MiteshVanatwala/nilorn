@@ -11,7 +11,6 @@ import ClientActionBar from './Sections/TopSection/ClientActionBar';
 import ClientGeneralSection from './Sections/ClientGeneralSection';
 import ClientSourcingSection from './Sections/ClientSourcingSection';
 import AttachmentInfoSection from './Sections/AttachmentInfoSection';
-import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
@@ -61,7 +60,9 @@ const ClientsPage = () => {
 
       // Then handle the requirement field separately
       if (client?.requirement !== undefined) {
-        form.setValue('requirement', client.requirement);
+        form.setValue('requirement', client.requirement, {
+          shouldDirty: false,
+        });
       }
 
       // After setting all values, mark the form as pristine
@@ -69,7 +70,7 @@ const ClientsPage = () => {
       setTimeout(() => {
         setIsInitialLoad(false);
         form.formState.isDirty && form.reset(form.getValues());
-      }, 200);
+      }, 0);
     } else {
       form.reset();
       setIsInitialLoad(false);
@@ -80,7 +81,6 @@ const ClientsPage = () => {
 
   return (
     <ContentPage>
-      <LeavePageBlocker />
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
