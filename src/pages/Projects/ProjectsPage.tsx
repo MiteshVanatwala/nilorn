@@ -1,6 +1,6 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProjectGeneralSection from './Sections/ProjectGeneralSection';
 import { SPACE } from '../../theme/Constants';
@@ -13,6 +13,7 @@ import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
 import { SESSION_STORAGE } from '../../app/utils/constant';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 
 function ProjectsPage() {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ function ProjectsPage() {
 
   return (
     <ContentPage>
+      {form.formState.isDirty ? <LeavePageBlocker /> : <Fragment />}
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

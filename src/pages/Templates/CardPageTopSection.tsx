@@ -14,12 +14,14 @@ type Props = {
   setSelectedClientNo: Dispatch<SetStateAction<string>>;
   selectedProjectCode?: string;
   actionBar: JSX.Element;
+  manageDirtyState?: boolean; // New prop to control if this component should manage global dirty state
 };
 
 const CardPageTopSection = ({
   selectedClientNo,
   setSelectedClientNo,
   actionBar,
+  manageDirtyState = true, // Default to true for backward compatibility
 }: Props) => {
   const { t } = useTranslation();
   const clientOptions = useFilterOptions('clients', true);
@@ -34,11 +36,14 @@ const CardPageTopSection = ({
   }, [clientNo]);
 
   useEffect(() => {
-    sessionStorage.setItem(
-      SESSION_STORAGE.IS_DIRTY,
-      formState.isDirty ? 'true' : 'false'
-    );
-  }, [formState.isDirty]);
+    // Only manage global dirty state if explicitly enabled
+    if (manageDirtyState) {
+      sessionStorage.setItem(
+        SESSION_STORAGE.IS_DIRTY,
+        formState.isDirty ? 'true' : 'false'
+      );
+    }
+  }, [formState.isDirty, manageDirtyState]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === selectedClientNo
