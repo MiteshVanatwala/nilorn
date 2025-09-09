@@ -245,7 +245,7 @@ const ProjectsTopSection = ({
       setUnsavedChanges(false);
     } else {
       setNextClientNo(option?.value);
-      // setShowLeavePageBlocker(true);
+      setShowLeavePageBlocker(true);
       sessionStorage.setItem(
         SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
         option?.value || ''
