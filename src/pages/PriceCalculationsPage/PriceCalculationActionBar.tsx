@@ -36,7 +36,7 @@ const PriceCalculationActionBar = ({
   return (
     <ActionBarTemplate
       artwork={artwork}
-      lastModifiedDate={lastModified}
+      lastModifiedDate={!createNew ? lastModified : null}
       isBulkEdit={isBulkEdit}
       moreMenuList={
         !createNew ? (
