@@ -80,21 +80,29 @@ function PriceGridRow({
   const showCreateNew = !hasCalculations;
 
   const [formDataMap, setFormDataMap] = useState<{[calcId: string]: ExtendedPriceDto[]}>({});
+  const [enableEditMap, setEnableEditMap] = useState<{[calcId: string]: boolean}>({});
 
   useEffect(() => {
-    const newFormDataMap: {[calcId: string]: ExtendedPriceDto[]} = {};
-    calculations.forEach(calc => {
-      if (calc.id) {
-        newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
-          ...priceDto,
-          isValidInput: true,
-        })) ?? [];
-      }
+    setFormDataMap(prevFormDataMap => {
+      const newFormDataMap: {[calcId: string]: ExtendedPriceDto[]} = {};
+      calculations.forEach(calc => {
+        if (calc.id) {
+          // Only update form data if this calculation is NOT currently in edit mode
+          // This preserves unsaved changes in calculations that are being edited
+          if (!enableEditMap[calc.id]) {
+            newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
+              ...priceDto,
+              isValidInput: true,
+            })) ?? [];
+          } else {
+            // Preserve existing form data for calculations in edit mode
+            newFormDataMap[calc.id] = prevFormDataMap[calc.id] || [];
+          }
+        }
+      });
+      return newFormDataMap;
     });
-    setFormDataMap(newFormDataMap);
-  }, [calculations]);
-
-  const [enableEditMap, setEnableEditMap] = useState<{[calcId: string]: boolean}>({});
+  }, [calculations, enableEditMap]);
   
   const openRowForInlineEdit = (calcId: string) => {
     if (!isPDClosed) {

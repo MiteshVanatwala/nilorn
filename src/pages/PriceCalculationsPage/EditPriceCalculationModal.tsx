@@ -65,7 +65,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     priceCalculation || {};
 
-  const { mutate: updateCalculation } = usePatchCalculation();
+  const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
     useDeleteCalculation(calculationId);
 
@@ -109,12 +109,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
       priceCalculationUpdateDtos: [form],
     };
 
-    updateCalculation(priceCalculationUpdateDto, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
-      },
-    });
+    updateCalculation(priceCalculationUpdateDto);
   }
 
   function handleDeleteCalculation() {
@@ -133,6 +128,14 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isSuccessDelete, setDeleteModalOpen]);
+
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      setDirty(false);
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isUpdateSuccess]);
 
   useEffect(() => {
     setDisableEdit(
