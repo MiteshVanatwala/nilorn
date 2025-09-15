@@ -132,6 +132,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   useEffect(() => {
     if (isUpdateSuccess) {
       setDirty(false);
+      // Optimistically close modal and refresh data simultaneously for faster UI updates
       close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
