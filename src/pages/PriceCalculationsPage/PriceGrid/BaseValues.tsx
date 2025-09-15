@@ -37,7 +37,7 @@ const BaseValues = ({
             {calculation!.internalCommission &&
               calculation.internalCommission !== 0 && (
                 <ListItem>
-                  {t('PriceCalc.InternalCommission_short')}
+                  {t('PriceCalc.InternalCommission_short')}{' '}
                   {numToThousandSeparatedsStr(calculation.internalCommission)}
                 </ListItem>
               )}
