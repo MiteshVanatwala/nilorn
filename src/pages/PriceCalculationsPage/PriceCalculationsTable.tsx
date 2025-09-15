@@ -221,14 +221,14 @@ const PriceCalculationsTable = ({ data }: Props) => {
         }
       }
 
-      if (selectedProductionsData.length > 1) {
+      if (calculationsData[0].length > 1) {
         handleModal(
           <BulkCreatePriceCalculationModal
             production={selectedProductionsData}
             calculation={calculationsData}
           />
         );
-      } else if (selectedProductionsData.length === 1) {
+      } else if (calculationsData[0].length === 1) {
         handleModal(
           <CreatePriceCalculationModal
             productDevelopment={productDevelopmentsData[0]}
