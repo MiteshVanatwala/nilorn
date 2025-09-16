@@ -177,11 +177,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
     const selectedPriceIds = Object.entries(selectedPrices)
       .filter(([_, value]) => value.selected)
       .map(([key]) => key);
-    // Arrays to store multiple selected items
-    let selectedProductionsData: any = [];
-    let calculationsData: any = [];
-    let productDevelopmentsData: any = [];
-    let sourcedProductionsData: any = [];
+
+    // Arrays to store the calculation data (matching handleEditPriceCalculation pattern)
+    const calculationsData: any[] = [];
+    const productionsData: any[] = [];
+    const productDevelopmentsData: any[] = [];
+    const sourcedProductionsData: any[] = [];
 
     if (selectedProductionIds.length > 0 || selectedPriceIds.length > 0) {
       // Search through the data structure to find all matching productions and prices
@@ -194,7 +195,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
           if (productions && productions.length > 0) {
             productions.forEach(production => {
-              selectedProductionsData.push(production);
+              productionsData.push(production);
               calculationsData.push(production.priceCalculations ?? undefined);
               productDevelopmentsData.push(pd.productDevelopmentDataDto);
               sourcedProductionsData.push(sp);
@@ -212,32 +213,35 @@ const PriceCalculationsTable = ({ data }: Props) => {
               matchingPriceCalculations &&
               matchingPriceCalculations.length > 0
             ) {
-              selectedProductionsData.push(production);
-              calculationsData.push(matchingPriceCalculations);
-              productDevelopmentsData.push(pd.productDevelopmentDataDto);
-              sourcedProductionsData.push(sp);
+              // Push each matching price calculation individually to maintain flat structure
+              matchingPriceCalculations.forEach(calc => {
+                productionsData.push(production);
+                calculationsData.push(calc);
+                productDevelopmentsData.push(pd.productDevelopmentDataDto);
+                sourcedProductionsData.push(sp);
+              });
             }
           });
         }
       }
 
-      if (calculationsData[0].length > 1) {
+      if (productionsData.length > 1) {
         handleModal(
           <BulkCreatePriceCalculationModal
-            production={selectedProductionsData}
+            production={productionsData}
             calculation={calculationsData}
           />
         );
-      } else if (calculationsData[0].length === 1) {
+      } else if (productionsData.length === 1) {
         handleModal(
           <CreatePriceCalculationModal
             productDevelopment={productDevelopmentsData[0]}
-            production={selectedProductionsData[0]}
+            production={productionsData[0]}
             calculation={calculationsData[0]}
             sourcedProduction={sourcedProductionsData[0]}
-            artwork={selectedProductionsData[0].artwork}
-            lastModified={selectedProductionsData[0].lastModified}
-            filters={selectedProductionsData[0]?.filters}
+            artwork={productionsData[0].artwork}
+            lastModified={productionsData[0].lastModified}
+            filters={productionsData[0]?.filters}
           />
         );
       }
@@ -261,7 +265,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
         sp.productions?.forEach((production: any) => {
           // Check selected productions
           if (selectedProduction[production?.id]?.selected) {
-            const calculation = production.priceCalculations?.[0];
+            const calculation = production.priceCalculations;
             if (calculation) {
               calculationsData.push(calculation);
               productionsData.push(production);
