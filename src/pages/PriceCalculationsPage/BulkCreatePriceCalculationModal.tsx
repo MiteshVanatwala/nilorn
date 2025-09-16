@@ -34,7 +34,8 @@ const BulkCreatePriceCalculationModal = ({
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
+  const { mutate: createCalculation, isSuccess: isCreateSuccess } =
+    useCreateCalculation();
   const { close } = useContext(ModalContext);
 
   const form = useForm({
