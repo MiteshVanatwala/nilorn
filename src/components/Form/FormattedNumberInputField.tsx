@@ -5,10 +5,7 @@ import { RegisterOptions, useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
 import { useTranslation } from 'react-i18next';
-import {
-  READ_ONLY_OPACITY,
-  READ_ONLY_OPACITY_TEXTBOX,
-} from '../../app/utils/constant';
+import { READ_ONLY_OPACITY } from '../../app/utils/constant';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -197,7 +194,7 @@ const FormattedNumberInputField = ({
             onClick={() => readonly && setFocus(name)}
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
-            opacity={readonly ? READ_ONLY_OPACITY_TEXTBOX : ''}
+            opacity={readonly ? READ_ONLY_OPACITY : ''}
             variant={readonly ? 'disabled' : ''}
             color={'inherit'}>
             {formattedValue}&nbsp;
