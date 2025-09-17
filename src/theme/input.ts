@@ -84,17 +84,17 @@ const baseStyle = definePartsStyle({
       borderColor: importantValue(COLORS.GRAY[60]),
       boxShadow: importantValue('0px 1px 0px 0px ' + COLORS.GRAY[60]),
     },
-    _placeholder: {
-      color: COLORS.GRAY[70],
-    },
-    _readOnly: {
+    _disabled: {
+      opacity: 0.7,
       color: COLORS.GRAY[70],
       _placeholder: {
         color: COLORS.GRAY[70],
       },
     },
-    _disabled: {
-      opacity: 0.7,
+    _placeholder: {
+      color: `${COLORS.GRAY[30]} !important`,
+    },
+    _readOnly: {
       color: COLORS.GRAY[70],
       _placeholder: {
         color: COLORS.GRAY[70],
