@@ -1,5 +1,5 @@
 import { Button, Checkbox, GridItem, HStack, VStack } from '@chakra-ui/react';
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
@@ -81,26 +81,64 @@ function PriceGridRow({
 
   const [formDataMap, setFormDataMap] = useState<{[calcId: string]: ExtendedPriceDto[]}>({});
   const [enableEditMap, setEnableEditMap] = useState<{[calcId: string]: boolean}>({});
+  
+  // Use ref to track current edit states to avoid stale closure issues
+  const enableEditMapRef = useRef(enableEditMap);
+  useEffect(() => {
+    enableEditMapRef.current = enableEditMap;
+  }, [enableEditMap]);
+  
+  // Poll for modal events periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Check for calculations updated via modal
+      const lastUpdatedCalculationId = queryClient.getQueryData(['lastUpdatedCalculation']) as string;
+      if (lastUpdatedCalculationId && enableEditMapRef.current[lastUpdatedCalculationId]) {
+        setEnableEditMap(prev => ({ ...prev, [lastUpdatedCalculationId]: false }));
+        queryClient.setQueryData(['lastUpdatedCalculation'], null);
+      }
+
+      // Check for modals being closed
+      const lastClosedModalCalculationId = queryClient.getQueryData(['lastClosedCalculationModal']) as string;
+      if (lastClosedModalCalculationId) {
+        console.log('Detected modal closed for calculation:', lastClosedModalCalculationId);
+        if (enableEditMapRef.current[lastClosedModalCalculationId]) {
+          console.log('Closing inline edit for calculation:', lastClosedModalCalculationId);
+          setEnableEditMap(prev => ({ ...prev, [lastClosedModalCalculationId]: false }));
+        }
+        queryClient.setQueryData(['lastClosedCalculationModal'], null);
+      }
+    }, 100); // Poll every 100ms
+
+    return () => clearInterval(interval);
+  }, [queryClient]);
 
   useEffect(() => {
-    setFormDataMap(() => {
+    setFormDataMap(prevFormDataMap => {
       const newFormDataMap: {[calcId: string]: ExtendedPriceDto[]} = {};
       calculations.forEach(calc => {
         if (calc.id) {
           // Always update form data from server - this ensures modal changes are reflected
-          // and resets any inline edits to server values (previous behavior)
-          newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
-            ...priceDto,
-            isValidInput: true,
-          })) ?? [];
+          // but preserve inline edits if the calculation is currently being edited
+          const isCurrentlyEditing = enableEditMapRef.current[calc.id];
+          if (isCurrentlyEditing && prevFormDataMap[calc.id]) {
+            // Keep existing form data if currently editing to preserve user input
+            newFormDataMap[calc.id] = prevFormDataMap[calc.id];
+          } else {
+            // Reset to server values for non-edited calculations
+            newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
+              ...priceDto,
+              isValidInput: true,
+            })) ?? [];
+          }
         }
       });
       return newFormDataMap;
     });
     
-    // Reset edit mode for all calculations when data updates
-    // This ensures modal changes close any inline editing and show fresh data
-    setEnableEditMap({});
+    // Don't reset edit mode - preserve inline editing states when data updates
+    // This solves the issue where other calculations' inline edit gets closed
+    // when one calculation is saved or modal is saved
   }, [calculations]);
   
   const openRowForInlineEdit = (calcId: string) => {
@@ -131,7 +169,14 @@ function PriceGridRow({
       };
       saveSalesPrices(body, {
         onSuccess: async () => {
+          // Only close edit mode for the specific calculation that was saved
           setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
+          // Clear form data for the saved calculation to force refresh from server
+          setFormDataMap(prev => {
+            const newMap = { ...prev };
+            delete newMap[calcId];
+            return newMap;
+          });
           queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         },
       });
