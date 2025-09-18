@@ -41,6 +41,21 @@ const text = {
     disabled: {
       color: 'inherit',
     },
+    _placeholder: {
+      color: COLORS.GRAY[70],
+    },
+    _readOnly: {
+      color: COLORS.GRAY[70],
+      _placeholder: {
+        color: COLORS.GRAY[70],
+      },
+    },
+    _disabled: {
+      color: COLORS.GRAY[70],
+      _placeholder: {
+        color: COLORS.GRAY[70],
+      },
+    },
   },
 };
 

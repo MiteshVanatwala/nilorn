@@ -71,7 +71,6 @@ const InputField = ({
         min={min}
         type={type}
         cursor={readonly ? 'default' : 'text'}
-        {...register(name, registerOptions)}
       />
     </ControlWrapper>
   );
