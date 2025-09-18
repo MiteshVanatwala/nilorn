@@ -4,10 +4,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
-  CreatePriceCalculationCommand,
   GetFilteredProductDevelopmentDeepWithPaginationQuery,
   PriceCalculationService,
-  UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
 import {
@@ -40,7 +38,15 @@ export const usePatchCalculation = () => {
         response => response
       ),
     {
-      onSuccess: async () => {
+      onSuccess: async (_, variables) => {
+        // Store information about which calculation was just updated
+        // This helps the grid components know to close inline edit for this specific calculation
+        const calculationForm = variables.priceCalculationUpdateDtos?.[0] as any;
+        const calculationId = calculationForm?.id;
+        if (calculationId) {
+          queryClient.setQueryData(['lastUpdatedCalculation'], calculationId);
+        }
+        
         queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
@@ -49,7 +55,7 @@ export const usePatchCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Update'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Update'),
@@ -78,7 +84,7 @@ export const useCreateCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Create'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Create'),
@@ -91,6 +97,7 @@ export const useCreateCalculation = () => {
 export const usePatchCalculationSalesPrice = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (body: UpdateSalesPriceCommand) =>
@@ -99,12 +106,13 @@ export const usePatchCalculationSalesPrice = () => {
       ),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         showToast({
           status: 'success',
           description: t('PriceCalc.Feedback.Success.UpdateRows'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.UpdateRows'),

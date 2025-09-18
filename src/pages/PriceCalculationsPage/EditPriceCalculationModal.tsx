@@ -26,6 +26,7 @@ import Form from '../../components/Form/Form';
 import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import { useQueryClient } from 'react-query';
 
 type Props = {
   calculationId: string;
@@ -51,6 +52,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     leavePageModal,
   } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
   const { close } = useContext(ModalContext);
+  const queryClient = useQueryClient();
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
@@ -132,7 +134,8 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   useEffect(() => {
     if (isUpdateSuccess) {
       setDirty(false);
-      // Optimistically close modal and refresh data simultaneously for faster UI updates
+      // Close modal and refresh data - this ensures consistent behavior
+      // whether changes were made or not
       close();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,6 +148,21 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
         : false
     );
   }, [productDevelopmentDataDto?.status]);
+
+  // Track when this modal is unmounted (closed) to close inline edit
+  useEffect(() => {
+    return () => {
+      // Component is unmounting (modal is closing)
+      // Set flag to close inline edit for this calculation
+      console.log('Modal unmounting for calculation:', activeCalculationId);
+      queryClient.setQueryData(['lastClosedCalculationModal'], activeCalculationId);
+      
+      // Also trigger a tiny timeout to ensure the data is available for polling
+      setTimeout(() => {
+        queryClient.invalidateQueries(['lastClosedCalculationModal']);
+      }, 50);
+    };
+  }, [queryClient, activeCalculationId]);
 
   return (
     <>
