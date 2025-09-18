@@ -213,7 +213,7 @@ const FormattedNumberInputField = ({
           onFocus={onInputFocus}
           autoComplete="off"
           disabled={readonly}
-          opacity={0}
+          opacity={showFormattedValue ? 0 : 1}
           {...register(name, regOptions)}
           style={{
             color: showFormattedValue ? 'transparent' : 'inherit'
