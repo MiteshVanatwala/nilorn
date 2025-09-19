@@ -47,7 +47,8 @@ export const usePatchCalculation = () => {
           queryClient.setQueryData(['lastUpdatedCalculation'], calculationId);
         }
         
-        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
+        // Only invalidate specific queries, don't remove all cached data
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation, calculationId]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({

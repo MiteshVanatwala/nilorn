@@ -51,8 +51,15 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     setDirty,
     leavePageModal,
   } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
-  const { close } = useContext(ModalContext);
+  const modalContext = useContext(ModalContext);
   const queryClient = useQueryClient();
+  
+  // Override the close function to also close inline edit
+  const close = () => {
+    // Set flag to close inline edit for this calculation
+    queryClient.setQueryData(['lastClosedCalculationModal'], activeCalculationId);
+    modalContext.close();
+  };
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
@@ -149,20 +156,6 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     );
   }, [productDevelopmentDataDto?.status]);
 
-  // Track when this modal is unmounted (closed) to close inline edit
-  useEffect(() => {
-    return () => {
-      // Component is unmounting (modal is closing)
-      // Set flag to close inline edit for this calculation
-      console.log('Modal unmounting for calculation:', activeCalculationId);
-      queryClient.setQueryData(['lastClosedCalculationModal'], activeCalculationId);
-      
-      // Also trigger a tiny timeout to ensure the data is available for polling
-      setTimeout(() => {
-        queryClient.invalidateQueries(['lastClosedCalculationModal']);
-      }, 50);
-    };
-  }, [queryClient, activeCalculationId]);
 
   return (
     <>
