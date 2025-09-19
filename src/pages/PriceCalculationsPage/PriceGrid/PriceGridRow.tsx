@@ -101,9 +101,7 @@ function PriceGridRow({
       // Check for modals being closed
       const lastClosedModalCalculationId = queryClient.getQueryData(['lastClosedCalculationModal']) as string;
       if (lastClosedModalCalculationId) {
-        console.log('Detected modal closed for calculation:', lastClosedModalCalculationId);
         if (enableEditMapRef.current[lastClosedModalCalculationId]) {
-          console.log('Closing inline edit for calculation:', lastClosedModalCalculationId);
           setEnableEditMap(prev => ({ ...prev, [lastClosedModalCalculationId]: false }));
         }
         queryClient.setQueryData(['lastClosedCalculationModal'], null);
@@ -114,22 +112,33 @@ function PriceGridRow({
   }, [queryClient]);
 
   useEffect(() => {
+    // Check if a specific calculation was just updated via modal
+    const lastUpdatedCalculationId = queryClient.getQueryData(['lastUpdatedCalculation']) as string;
+    
     setFormDataMap(prevFormDataMap => {
       const newFormDataMap: {[calcId: string]: ExtendedPriceDto[]} = {};
       calculations.forEach(calc => {
         if (calc.id) {
-          // Always update form data from server - this ensures modal changes are reflected
-          // but preserve inline edits if the calculation is currently being edited
-          const isCurrentlyEditing = enableEditMapRef.current[calc.id];
-          if (isCurrentlyEditing && prevFormDataMap[calc.id]) {
-            // Keep existing form data if currently editing to preserve user input
-            newFormDataMap[calc.id] = prevFormDataMap[calc.id];
-          } else {
-            // Reset to server values for non-edited calculations
+          // If this calculation was just updated via modal, reset to server values
+          if (calc.id === lastUpdatedCalculationId) {
             newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
               ...priceDto,
               isValidInput: true,
             })) ?? [];
+          }
+          // Otherwise, preserve inline edits if the calculation is currently being edited
+          else {
+            const isCurrentlyEditing = enableEditMapRef.current[calc.id];
+            if (isCurrentlyEditing && prevFormDataMap[calc.id]) {
+              // Keep existing form data if currently editing to preserve user input
+              newFormDataMap[calc.id] = prevFormDataMap[calc.id];
+            } else {
+              // Reset to server values for non-edited calculations
+              newFormDataMap[calc.id] = calc.priceDtos?.map(priceDto => ({
+                ...priceDto,
+                isValidInput: true,
+              })) ?? [];
+            }
           }
         }
       });
@@ -139,7 +148,7 @@ function PriceGridRow({
     // Don't reset edit mode - preserve inline editing states when data updates
     // This solves the issue where other calculations' inline edit gets closed
     // when one calculation is saved or modal is saved
-  }, [calculations]);
+  }, [calculations, queryClient]);
   
   const openRowForInlineEdit = (calcId: string) => {
     if (!isPDClosed) {
@@ -171,14 +180,26 @@ function PriceGridRow({
         onSuccess: async () => {
           // Only close edit mode for the specific calculation that was saved
           setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
-          // Clear form data for the saved calculation to force refresh from server
-          setFormDataMap(prev => {
-            const newMap = { ...prev };
-            delete newMap[calcId];
-            return newMap;
-          });
-          queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
+          
+          // Don't invalidate immediately - let the UI show the saved values first
+          // The data will be refreshed when needed (e.g., when modal is opened)
+          setTimeout(() => {
+            queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
+          }, 100);
         },
+        onError: () => {
+          // On error, reset form data to server values
+          const calc = calculations.find(c => c.id === calcId);
+          if (calc && calc.id) {
+            setFormDataMap(prev => ({
+              ...prev,
+              [calc.id!]: calc.priceDtos?.map(priceDto => ({
+                ...priceDto,
+                isValidInput: true,
+              })) ?? []
+            }));
+          }
+        }
       });
     }
   };
