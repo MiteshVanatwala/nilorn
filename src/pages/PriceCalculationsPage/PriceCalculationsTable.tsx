@@ -84,47 +84,40 @@ const PriceCalculationsTable = ({ data }: Props) => {
       .length;
 
   useEffect(() => {
-    let selectedCount = 0;
+    // Count selected prices
+    let selectedPricesCount = 0;
     for (var key in selectedPrices) {
       if (
         selectedPrices.hasOwnProperty(key) &&
         selectedPrices[key]?.selected === true
       ) {
-        selectedCount++;
+        selectedPricesCount++;
       }
     }
-    if (selectedCount > 0) {
-      setSelectAll(Object.keys(selectedPrices).length === selectedCount);
-      setSelectAllIndeterminate(
-        Object.keys(selectedPrices).length !== selectedCount
-      );
-    } else {
-      setSelectAll(false);
-      setSelectAllIndeterminate(false);
-    }
-    getUniqueClients();
-  }, [selectedPrices]);
 
-  useEffect(() => {
-    let selectedCount = 0;
+    // Count selected productions
+    let selectedProductionCount = 0;
     for (var key in selectedProduction) {
       if (
         selectedProduction.hasOwnProperty(key) &&
         selectedProduction[key]?.selected === true
       ) {
-        selectedCount++;
+        selectedProductionCount++;
       }
     }
-    if (selectedCount > 0) {
-      setSelectAll(Object.keys(selectedProduction).length === selectedCount);
-      setSelectAllIndeterminate(
-        Object.keys(selectedProduction).length !== selectedCount
-      );
+
+    const totalSelectedCount = selectedPricesCount + selectedProductionCount;
+    const totalItemsCount = Object.keys(selectedPrices).length + Object.keys(selectedProduction).length;
+
+    if (totalSelectedCount > 0) {
+      setSelectAll(totalItemsCount === totalSelectedCount);
+      setSelectAllIndeterminate(totalItemsCount !== totalSelectedCount);
     } else {
       setSelectAll(false);
       setSelectAllIndeterminate(false);
     }
-  }, [selectedProduction]);
+    getUniqueClients();
+  }, [selectedPrices, selectedProduction]);
 
   useEffect(() => {
     let selectedPriceList: SelectedPrices = {};
@@ -133,21 +126,26 @@ const PriceCalculationsTable = ({ data }: Props) => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           const priceCalculations = production.priceCalculations || [];
-          selectedProductionList[`${production.id}`] = {
-            selected: false,
-            client: p.productDevelopmentDataDto?.clientName || '',
-            productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-          };
-          // Add all price calculations to the selected list
-          priceCalculations.forEach(priceCalculation => {
-            if (priceCalculation?.id) {
-              selectedPriceList[`${priceCalculation.id}`] = {
-                selected: false,
-                client: p.productDevelopmentDataDto?.clientName || '',
-                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-              };
-            }
-          });
+          
+          // If production has price calculations, only add the price calculations to the list
+          if (priceCalculations.length > 0) {
+            priceCalculations.forEach(priceCalculation => {
+              if (priceCalculation?.id) {
+                selectedPriceList[`${priceCalculation.id}`] = {
+                  selected: false,
+                  client: p.productDevelopmentDataDto?.clientName || '',
+                  productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+                };
+              }
+            });
+          } else {
+            // If production has no price calculations, add the production to the list
+            selectedProductionList[`${production.id}`] = {
+              selected: false,
+              client: p.productDevelopmentDataDto?.clientName || '',
+              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+            };
+          }
         });
       });
     });
