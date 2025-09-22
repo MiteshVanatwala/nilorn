@@ -240,7 +240,7 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
-      {!isBulkEdit && (
+      {!isBulkEdit && !createNew && (
         <PriceCalculationFormTable
           data={calculationItems ?? []}
           showChanges={showChanges}
