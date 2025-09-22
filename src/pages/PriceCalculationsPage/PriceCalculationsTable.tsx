@@ -237,7 +237,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
             production={productionsData[0]}
             calculation={calculationsData[0]}
             sourcedProduction={sourcedProductionsData[0]}
-            artwork={productionsData[0].artwork}
+            artwork={productDevelopmentsData[0]?.artwork}
             lastModified={productionsData[0].lastModified}
             filters={productionsData[0]?.filters}
           />
@@ -374,6 +374,9 @@ const PriceCalculationsTable = ({ data }: Props) => {
                   <PriceCalculationPageMenu
                     disabled={
                       !Object.values(selectedPrices)
+                        .map(val => val.selected)
+                        .some(Boolean) ||
+                      Object.values(selectedProduction)
                         .map(val => val.selected)
                         .some(Boolean) ||
                       isLoading ||
