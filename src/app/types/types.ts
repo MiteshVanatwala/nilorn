@@ -81,6 +81,8 @@ export type ExcelExportFieldKey =
   | 'certificate'
   | 'moq'
   | 'vendor'
-  | 'purchasePrice';
+  | 'purchasePrice'
+  | 'finishedLength'
+  | 'finishedWidth';
 
 export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
