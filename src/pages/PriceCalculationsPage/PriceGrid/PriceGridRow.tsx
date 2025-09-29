@@ -1,5 +1,5 @@
 import { Button, Checkbox, GridItem, HStack, VStack } from '@chakra-ui/react';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
@@ -88,6 +88,21 @@ function PriceGridRow({
     enableEditMapRef.current = enableEditMap;
   }, [enableEditMap]);
   
+  const closeRowForInlineEdit = useCallback((calcId: string) => {
+    setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
+    // Always reset to server data when closing inline edit
+    const calc = calculations.find(c => c.id === calcId);
+    if (calc && calc.id) {
+      setFormDataMap(prev => ({
+        ...prev,
+        [calc.id!]: calc.priceDtos?.map(priceDto => ({
+          ...priceDto,
+          isValidInput: true,
+        })) ?? []
+      }));
+    }
+  }, [calculations]);
+
   // Poll for modal events periodically
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,18 +113,16 @@ function PriceGridRow({
         queryClient.setQueryData(['lastUpdatedCalculation'], null);
       }
 
-      // Check for modals being closed
-      const lastClosedModalCalculationId = queryClient.getQueryData(['lastClosedCalculationModal']) as string;
-      if (lastClosedModalCalculationId) {
-        if (enableEditMapRef.current[lastClosedModalCalculationId]) {
-          setEnableEditMap(prev => ({ ...prev, [lastClosedModalCalculationId]: false }));
-        }
-        queryClient.setQueryData(['lastClosedCalculationModal'], null);
+      // Check for forced inline edit closure (when modal closes without changes)
+      const forceCloseInlineEdit = queryClient.getQueryData(['forceCloseInlineEdit']) as string;
+      if (forceCloseInlineEdit && enableEditMapRef.current[forceCloseInlineEdit]) {
+        closeRowForInlineEdit(forceCloseInlineEdit);
+        queryClient.setQueryData(['forceCloseInlineEdit'], null);
       }
     }, 100); // Poll every 100ms
 
     return () => clearInterval(interval);
-  }, [queryClient]);
+  }, [queryClient, closeRowForInlineEdit]);
 
   useEffect(() => {
     // Check if a specific calculation was just updated via modal
@@ -153,20 +166,6 @@ function PriceGridRow({
   const openRowForInlineEdit = (calcId: string) => {
     if (!isPDClosed) {
       setEnableEditMap(prev => ({ ...prev, [calcId]: true }));
-    }
-  };
-
-  const closeRowForInlineEdit = (calcId: string) => {
-    setEnableEditMap(prev => ({ ...prev, [calcId]: false }));
-    const calc = calculations.find(c => c.id === calcId);
-    if (calc && calc.id) {
-      setFormDataMap(prev => ({
-        ...prev,
-        [calc.id!]: calc.priceDtos?.map(priceDto => ({
-          ...priceDto,
-          isValidInput: true,
-        })) ?? []
-      }));
     }
   };
 
