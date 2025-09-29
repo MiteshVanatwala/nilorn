@@ -56,8 +56,8 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   
   // Override the close function to also close inline edit
   const close = () => {
-    // Set flag to close inline edit for this calculation
-    queryClient.setQueryData(['lastClosedCalculationModal'], activeCalculationId);
+    // Set flag to force close inline edit - even if no changes were made
+    queryClient.setQueryData(['forceCloseInlineEdit'], activeCalculationId);
     modalContext.close();
   };
 
