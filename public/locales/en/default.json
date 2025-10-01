@@ -42,7 +42,8 @@
     "ReadComment": "Read comment",
     "NumberOfHits": "Number of hits:",
     "Percentage": "Percentage",
-    "Percentage_sign": "%"
+    "Percentage_sign": "%",
+    "Select": "Select..."
   },
   "Menu": {
     "Hyphome": "Start",
@@ -312,6 +313,7 @@
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
     "VariesBetweenEntries": "Varies between entries",
+    "UnchangedFieldsInstruction": "Unchanged fields will keep their current values - only fields you edit will be updated with the new value",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",

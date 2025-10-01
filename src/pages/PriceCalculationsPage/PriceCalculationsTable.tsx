@@ -19,6 +19,7 @@ import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
 import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
+import { getUniqueProductDevelopmentNumbers } from '../../app/utils/common';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -223,14 +224,33 @@ const PriceCalculationsTable = ({ data }: Props) => {
         }
       }
 
-      if (productionsData.length > 1) {
+      const uniqueProductDevelopmentNumbers = getUniqueProductDevelopmentNumbers(productDevelopmentsData);
+      
+      if (uniqueProductDevelopmentNumbers.length > 1) {
+        const filteredCalculationsData = calculationsData.filter((calc, index) => {
+          if (!calc || !productionsData[index]) return false;
+          
+          const currentProductionId = productionsData[index].id;
+          const firstOccurrenceIndex = productionsData.findIndex(p => p.id === currentProductionId);
+          
+          return index === firstOccurrenceIndex;
+        });
+        
+        // Filter productionsData to match the filtered calculationsData
+        const filteredProductionsData = productionsData.filter((prod, index) => {
+          const currentProductionId = prod.id;
+          const firstOccurrenceIndex = productionsData.findIndex(p => p.id === currentProductionId);
+          
+          return index === firstOccurrenceIndex;
+        });
+        
         handleModal(
           <BulkCreatePriceCalculationModal
-            production={productionsData}
-            calculation={calculationsData}
+            production={filteredProductionsData}
+            calculation={filteredCalculationsData}
           />
         );
-      } else if (productionsData.length === 1) {
+      } else if (uniqueProductDevelopmentNumbers.length === 1) {
         handleModal(
           <CreatePriceCalculationModal
             productDevelopment={productDevelopmentsData[0]}
