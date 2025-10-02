@@ -133,8 +133,8 @@ function ProjectsPage() {
             {
               keepDirty: false,
               keepTouched: false,
-              keepIsValid: true,
-              keepErrors: true,
+              keepIsValid: false,
+              keepErrors: false,
             }
           );
         }
