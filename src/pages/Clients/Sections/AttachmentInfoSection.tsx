@@ -52,7 +52,7 @@ const AttachmentInfoSection = ({
           registerOptions={{ maxLength: 150 }}
         />
 
-        <InputField
+        {/* <InputField
           label={`${t('Client.FormContent.AttachmentFolderName')}`}
           placeholder={
             displayPlaecholder
@@ -62,7 +62,7 @@ const AttachmentInfoSection = ({
           name={'attachmentFolderName'}
           readonly={disableEdit}
           registerOptions={{ maxLength: 150 }}
-        />
+        /> */}
       </HStack>
     </AccordionItem>
   );

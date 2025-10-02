@@ -47,7 +47,7 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
               disableEdit={disableEdit || isClosed}
               heading={t('PD.Artwork')}
             />
-            {isFetched && !isRefetching && !isLoading && (
+            {false && isFetched && !isRefetching && !isLoading && (
               <FileSection
                 no={no}
                 type={MediaFileType.ATTACHMENT}
