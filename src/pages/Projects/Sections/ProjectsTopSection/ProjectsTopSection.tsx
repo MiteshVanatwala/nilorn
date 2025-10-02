@@ -76,8 +76,8 @@ const ProjectsTopSection = ({
           {
             keepDirty: false,
             keepTouched: false,
-            keepIsValid: true,
-            keepErrors: true,
+            keepIsValid: false,
+            keepErrors: false,
           }
         );
       } else {
@@ -91,8 +91,8 @@ const ProjectsTopSection = ({
           {
             keepDirty: false,
             keepTouched: false,
-            keepIsValid: true,
-            keepErrors: true,
+            keepIsValid: false,
+            keepErrors: false,
           }
         );
       }
@@ -112,8 +112,8 @@ const ProjectsTopSection = ({
         {
           keepDirty: false,
           keepTouched: false,
-          keepIsValid: true,
-          keepErrors: true,
+          keepIsValid: false,
+          keepErrors: false,
         }
       );
     }
@@ -229,8 +229,8 @@ const ProjectsTopSection = ({
         {
           keepDirty: false,
           keepTouched: false,
-          keepIsValid: true,
-          keepErrors: true,
+          keepIsValid: false,
+          keepErrors: false,
         }
       );
       setSelectedClientNo(option?.value);
