@@ -129,7 +129,7 @@
     "File": {
       "BrowseFile": "Browse files...",
       "DeleteFile": "Do you want to delete the file, or only remove the link to the file (file will be kept in Teams)?",
-      "MediaFileInfo": "Artwork and attachments can only be uploaded after the product development is created.",
+      "MediaFileInfo": "Artwork can only be uploaded after the product development is created.",
       "DragDropArtwork": "Drop artwork to upload to product development {{no}}",
       "Delete": "Delete file",
       "RemoveLink": "Remove link",
