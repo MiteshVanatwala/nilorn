@@ -20,6 +20,7 @@ import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
 import { getUniqueProductDevelopmentNumbers } from '../../app/utils/common';
+import { useBulkPriceCalculations, useBulkProductions } from '../../app/api/calculation';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -46,6 +47,102 @@ export const ROW_SPAN = 14;
 export const VENDOR_ROW_SPAN = 12;
 export const CALCULATION_ROW_SPAN = 9;
 export const PRICE_ROW_SPAN = 4;
+
+// Component to handle bulk edit with fresh data from API
+const BulkEditWithFreshData = ({ 
+  selectedPriceIds, 
+  productionsData, 
+  productDevelopmentsData 
+}: { 
+  selectedPriceIds: string[]; 
+  productionsData: any[]; 
+  productDevelopmentsData: any[]; 
+}) => {
+  const { data: freshCalculations, isLoading, error } = useBulkPriceCalculations(selectedPriceIds);
+    return (
+      <BulkEditPriceCalculationModal
+        calculations={freshCalculations ?? []}
+        productions={productionsData}
+        productDevelopments={productDevelopmentsData}
+      />
+    );
+  
+  return null;
+};
+
+// Component to handle bulk create with fresh data from API
+const BulkCreateWithFreshData = ({ 
+  selectedProductionIds,
+  selectedPriceIds,
+  productionsData, 
+  productDevelopmentsData,
+  sourcedProductionsData
+}: { 
+  selectedProductionIds: string[];
+  selectedPriceIds: string[];
+  productionsData: any[]; 
+  productDevelopmentsData: any[];
+  sourcedProductionsData: any[];
+}) => {
+  const { data: freshCalculations, isLoading: calculationsLoading } = useBulkPriceCalculations(selectedPriceIds);
+  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductions(selectedProductionIds);
+  
+  // if (calculationsLoading || productionsLoading) {
+  //   return null; // or a loading component
+  // }
+
+  // Use fresh data if available, otherwise fall back to passed data
+  const finalCalculationsData = freshCalculations ? 
+    freshCalculations.flat() : 
+    productionsData.map(prod => prod.priceCalculations).filter(Boolean);
+  
+  const finalProductionsData = freshProductions ? 
+    freshProductions.flat() : 
+    productionsData;
+
+  const uniqueProductDevelopmentNumbers = getUniqueProductDevelopmentNumbers(productDevelopmentsData);
+  
+  if (uniqueProductDevelopmentNumbers.length > 1) {
+    const filteredCalculationsData = finalCalculationsData.filter((calc, index) => {
+      if (!calc || !finalProductionsData[index]) return false;
+      
+      const currentProductionId = finalProductionsData[index].id;
+      const firstOccurrenceIndex = finalProductionsData.findIndex(p => p.id === currentProductionId);
+      
+      return index === firstOccurrenceIndex;
+    });
+    
+    // Filter productionsData to match the filtered calculationsData
+    const filteredProductionsData = finalProductionsData.filter((prod, index) => {
+      const currentProductionId = prod.id;
+      const firstOccurrenceIndex = finalProductionsData.findIndex(p => p.id === currentProductionId);
+      
+      return index === firstOccurrenceIndex;
+    });
+    
+    return (
+      <BulkCreatePriceCalculationModal
+        isLoading={calculationsLoading || productionsLoading}
+        production={filteredProductionsData}
+        calculation={filteredCalculationsData}
+      />
+    );
+  } else if (uniqueProductDevelopmentNumbers.length === 1) {
+    return (
+      <CreatePriceCalculationModal
+        productDevelopment={productDevelopmentsData[0]}
+        production={finalProductionsData[0]}
+        calculation={finalCalculationsData[0]}
+        sourcedProduction={sourcedProductionsData[0]}
+        artwork={productDevelopmentsData[0]?.artwork}
+        lastModified={finalProductionsData[0].lastModified}
+        filters={finalProductionsData[0]?.filters}
+      />
+    );
+  }
+  
+  return null;
+};
 
 export type SelectedPrices = {
   [key: string]: {
@@ -224,45 +321,16 @@ const PriceCalculationsTable = ({ data }: Props) => {
         }
       }
 
-      const uniqueProductDevelopmentNumbers = getUniqueProductDevelopmentNumbers(productDevelopmentsData);
-      
-      if (uniqueProductDevelopmentNumbers.length > 1) {
-        const filteredCalculationsData = calculationsData.filter((calc, index) => {
-          if (!calc || !productionsData[index]) return false;
-          
-          const currentProductionId = productionsData[index].id;
-          const firstOccurrenceIndex = productionsData.findIndex(p => p.id === currentProductionId);
-          
-          return index === firstOccurrenceIndex;
-        });
-        
-        // Filter productionsData to match the filtered calculationsData
-        const filteredProductionsData = productionsData.filter((prod, index) => {
-          const currentProductionId = prod.id;
-          const firstOccurrenceIndex = productionsData.findIndex(p => p.id === currentProductionId);
-          
-          return index === firstOccurrenceIndex;
-        });
-        
-        handleModal(
-          <BulkCreatePriceCalculationModal
-            production={filteredProductionsData}
-            calculation={filteredCalculationsData}
-          />
-        );
-      } else if (uniqueProductDevelopmentNumbers.length === 1) {
-        handleModal(
-          <CreatePriceCalculationModal
-            productDevelopment={productDevelopmentsData[0]}
-            production={productionsData[0]}
-            calculation={calculationsData[0]}
-            sourcedProduction={sourcedProductionsData[0]}
-            artwork={productDevelopmentsData[0]?.artwork}
-            lastModified={productionsData[0].lastModified}
-            filters={productionsData[0]?.filters}
-          />
-        );
-      }
+      // Use the bulk fetch component to get fresh data from backend
+      handleModal(
+        <BulkCreateWithFreshData
+          selectedProductionIds={selectedProductionIds}
+          selectedPriceIds={selectedPriceIds}
+          productionsData={productionsData}
+          productDevelopmentsData={productDevelopmentsData}
+          sourcedProductionsData={sourcedProductionsData}
+        />
+      );
     }
   };
 
@@ -304,11 +372,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
     }
 
     if (calculationsData.length > 1) {
+      // Use the bulk fetch hook to get fresh data from backend
       handleModal(
-        <BulkEditPriceCalculationModal
-          calculations={calculationsData}
-          productions={productionsData}
-          productDevelopments={productDevelopmentsData}
+        <BulkEditWithFreshData
+          selectedPriceIds={selectedPriceIds}
+          productionsData={productionsData}
+          productDevelopmentsData={productDevelopmentsData}
         />
       );
     } else if (calculationsData.length === 1) {

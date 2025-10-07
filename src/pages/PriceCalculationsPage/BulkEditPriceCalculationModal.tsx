@@ -357,54 +357,52 @@ const BulkEditPriceCalculationModal = ({
                 />
               }
             />
-            <Skeleton isLoaded={true}>
-              {calculations.length > 0 && (
-                <PriceCalculationForm
-                  key="bulk-edit"
-                  calculation={{
-                    ...calculations[0],
-                    purchaseCurrencyCode: form.watch('purchaseCurrency'),
-                    currencyRate: form.watch('currencyRate'),
-                    currency: { code: form.watch('currencyCode') },
-                    internalCommission: form.watch('internalCommission'),
-                    indirectCost: form.watch('indirectCost'),
-                    freightIncluded: form.watch('freightIncluded'),
-                    priceDtos: calculations[0].priceDtos?.map((price: any) => ({
-                      ...price,
-                      margin: form.watch('margin') ?? price.margin,
-                    })),
-                  }}
-                  currency={{ code: form.watch('currencyCode') }}
-                  createNew={false}
-                  disableEdit={false}
-                  showChanges={false}
-                  productionId={calculations[0]?.productionId}
-                  isBulkEdit={true}
-                  purchaseCurrencyPlaceholder={
-                    getCommonValues()?.purchaseCurrencyPlaceholder
-                  }
-                  currencyCodePlaceholder={
-                    getCommonValues()?.currencyCode === t('PriceCalc.VariesBetweenEntries') 
-                      ? getCommonValues()?.currencyCode 
-                      : undefined
-                  }
-                  currencyRatePlaceholder={
-                    getCommonValues()?.currencyRatePlaceholder
-                  }
-                  internalCommissionPlaceholder={
-                    getCommonValues()?.internalCommissionPlaceholder
-                  }
-                  indirectCostPlaceholder={
-                    getCommonValues()?.indirectCostPlaceholder
-                  }
-                  freightIncludedPlaceholder={
-                    getCommonValues()?.freightIncludedPlaceholder
-                  }
-                  marginPlaceholder={
-                    getCommonValues()?.marginPlaceholder
-                  }
-                />
-              )}
+            <Skeleton isLoaded={calculations.length > 0}>
+              <PriceCalculationForm
+                key="bulk-edit"
+                calculation={{
+                  ...calculations[0],
+                  purchaseCurrencyCode: form.watch('purchaseCurrency'),
+                  currencyRate: form.watch('currencyRate'),
+                  currency: { code: form.watch('currencyCode') },
+                  internalCommission: form.watch('internalCommission'),
+                  indirectCost: form.watch('indirectCost'),
+                  freightIncluded: form.watch('freightIncluded'),
+                  priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
+                    ...price,
+                    margin: form.watch('margin') ?? price.margin,
+                  })),
+                }}
+                currency={{ code: form.watch('currencyCode') }}
+                createNew={false}
+                disableEdit={false}
+                showChanges={false}
+                productionId={calculations[0]?.productionId}
+                isBulkEdit={true}
+                purchaseCurrencyPlaceholder={
+                  getCommonValues()?.purchaseCurrencyPlaceholder
+                }
+                currencyCodePlaceholder={
+                  getCommonValues()?.currencyCode === t('PriceCalc.VariesBetweenEntries') 
+                    ? getCommonValues()?.currencyCode 
+                    : undefined
+                }
+                currencyRatePlaceholder={
+                  getCommonValues()?.currencyRatePlaceholder
+                }
+                internalCommissionPlaceholder={
+                  getCommonValues()?.internalCommissionPlaceholder
+                }
+                indirectCostPlaceholder={
+                  getCommonValues()?.indirectCostPlaceholder
+                }
+                freightIncludedPlaceholder={
+                  getCommonValues()?.freightIncludedPlaceholder
+                }
+                marginPlaceholder={
+                  getCommonValues()?.marginPlaceholder
+                }
+              />
             </Skeleton>
           </Form>
         </FormProvider>

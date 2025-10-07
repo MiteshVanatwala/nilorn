@@ -6,6 +6,7 @@ import {
   ApiError,
   GetFilteredProductDevelopmentDeepWithPaginationQuery,
   PriceCalculationService,
+  ProductionsService,
   UpdateSalesPriceCommand,
 } from '../generate';
 import {
@@ -235,6 +236,48 @@ export const useIncludeSalesPrice = (id: string, isValid: boolean) => {
           description: t('PriceCalc.Error.UpdateIncluded'),
         });
       },
+    }
+  );
+};
+
+export const useBulkPriceCalculations = (ids: string[]) => {
+  return useQuery(
+    [QueryKeysEnum.PriceCalculation, 'bulk', ...ids],
+    async () => {
+      // Fetch all price calculations in parallel
+      const promises = ids.map(id => 
+        PriceCalculationService.getApiPriceCalculation(id).then(res => res)
+      );
+      return Promise.all(promises);
+    },
+    {
+      enabled: ids.length > 0,
+      retry: 0,
+      cacheTime: 0,
+      staleTime: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+export const useBulkProductions = (ids: string[]) => {
+  return useQuery(
+    [QueryKeysEnum.Productions, 'bulk', ...ids],
+    async () => {
+      // Fetch all productions in parallel
+      const promises = ids.map(id => 
+        ProductionsService.getApiProductions(id).then(res => res)
+      );
+      return Promise.all(promises);
+    },
+    {
+      enabled: ids.length > 0,
+      retry: 0,
+      cacheTime: 0,
+      staleTime: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
     }
   );
 };
