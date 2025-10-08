@@ -8,7 +8,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -22,11 +22,13 @@ import { useTranslation } from 'react-i18next';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
+  isLoading: boolean;
   production: ProductionDto[];
   calculation: PriceCalculationDto[] | undefined[];
 };
 
 const BulkCreatePriceCalculationModal = ({
+  isLoading,
   production,
   calculation,
 }: Props) => {
@@ -130,13 +132,15 @@ const BulkCreatePriceCalculationModal = ({
                 />
               }
             />
-            <PriceCalculationForm
-              calculation={undefined}
-              currency={undefined}
-              createNew={true}
-              showChanges={false}
-              productionId={undefined}
-            />
+            <Skeleton isLoaded={!isLoading}>
+              <PriceCalculationForm
+                calculation={undefined}
+                currency={undefined}
+                createNew={true}
+                showChanges={false}
+                productionId={undefined}
+              />
+            </Skeleton>
           </Form>
         </FormProvider>
       </Box>

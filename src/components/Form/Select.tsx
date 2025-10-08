@@ -78,7 +78,7 @@ const Select = <IsMulti extends boolean = false>({
               isControlled={isControlled}
               readOnly={isDisabled}
               name={name}
-              value={isControlled ? value : undefined}
+              value={isControlled ? (value || undefined) : undefined}
               invisible={invisible}
               passRef={ref}
               showSelectedCount={showSelectedCount}

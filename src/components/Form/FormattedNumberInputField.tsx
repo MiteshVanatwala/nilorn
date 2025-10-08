@@ -70,7 +70,7 @@ const FormattedNumberInputField = ({
   }, []);
 
   useEffect(() => {
-    if (watch === null || isNaN(watch)) {
+    if (watch === null || watch === undefined || isNaN(watch)) {
       setFormattedValue('');
     } else if (!!watch || watch === 0) {
       setFormattedValue(
@@ -84,7 +84,7 @@ const FormattedNumberInputField = ({
     if (!invalid) {
       const targetValue = e.target.value;
       if (!targetValue?.length) {
-        setFormValue(name, undefined);
+        setFormValue(name, null);
         setFormattedValue('');
         setIsActive(false);
         return;
@@ -125,9 +125,9 @@ const FormattedNumberInputField = ({
 
   const regOptions: RegisterOptions = {
     required: required,
-    validate: (val: string | number | undefined) => {
+    validate: (val: string | number | null | undefined) => {
       if (required) {
-        if (typeof val === 'undefined') {
+        if (val === null || val === undefined) {
           return t('Errors.Required');
         }
         if (typeof val === 'string' && !val?.length) {
@@ -136,7 +136,7 @@ const FormattedNumberInputField = ({
       }
 
       if (!required) {
-        if (typeof val === 'undefined') {
+        if (val === null || val === undefined) {
           return true;
         }
         if (typeof val === 'string' && !val?.length) {
