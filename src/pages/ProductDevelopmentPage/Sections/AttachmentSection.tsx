@@ -34,7 +34,8 @@ const AttachmentSection = ({ no, disableEdit, isClosed, createNew }: Props) => {
     <>
       <AccordionItem
         title={`${t('PD.AccordionLabels.Attachments')} (${
-          (attachments?.length ?? 0) + (artwork ? 1 : 0)
+          // (attachments?.length ?? 0) + (artwork ? 1 : 0)
+          artwork ? 1 : 0
         })`}>
         {createNew ? (
           <Alert status="info" title={`${t('PD.File.MediaFileInfo')}`} />
