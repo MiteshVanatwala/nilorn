@@ -1,5 +1,5 @@
 import { COLORS, SIZES, SPACE } from '../../theme/Constants';
-import { FocusEventHandler } from 'react';
+import { FocusEventHandler, useState, useRef } from 'react';
 import { Text, Tooltip } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -118,6 +118,10 @@ const SelectBase = <IsMulti extends boolean = false>({
   autoFocus = false,
   isScrollable = false,
 }: SelectProps<IsMulti>) => {
+  const [inputValue, setInputValue] = useState('');
+  const [isInputCleared, setIsInputCleared] = useState(false);
+  const selectRef = useRef<any>(null);
+  
   const customComponents = { ...customSelectComponents, ...components };
 
   const color = dark ? COLORS.WHITE : COLORS.BLACK;
@@ -129,6 +133,69 @@ const SelectBase = <IsMulti extends boolean = false>({
     : COLORS.GRAY[10];
   const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[60];
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
+
+  // Handle input change to track when input is cleared
+  const handleInputChange = (inputValue: string) => {
+    setInputValue(inputValue);
+    
+    // Track when input is cleared
+    if (inputValue === '') {
+      setIsInputCleared(true);
+      console.log('Input cleared, setting isInputCleared to true');
+    } else {
+      setIsInputCleared(false);
+      console.log('Input has value, setting isInputCleared to false');
+    }
+    
+    return inputValue;
+  };
+
+  // Handle change to prevent unwanted selections when input was cleared
+  const handleChange = (newValue: any, actionMeta: any) => {
+    // If input was cleared and we're trying to select something, prevent the selection
+    if (isInputCleared && actionMeta.action === 'select-option') {
+      console.log('Preventing unwanted selection after input was cleared');
+      return; // Don't change the value
+    }
+    
+    // Otherwise, proceed with normal change
+    if (onChange) {
+      onChange(newValue, actionMeta);
+    }
+  };
+
+  // Handle key down events to prevent Tab selection when input is empty
+  const handleKeyDown = (e: any) => {
+    // If user presses Tab and input is empty, prevent selection and maintain current value
+    if (e.key === 'Tab' && e.target.value === '') {
+      console.log('Tab pressed with empty input, preventing selection');
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Ensure the current value is maintained by explicitly setting it
+      if (value && onChange) {
+        onChange(value as any, { action: 'select-option', option: value as any });
+      }
+      
+      // Force the select to close without selecting anything
+      if (selectRef.current) {
+        selectRef.current.blur();
+      }
+      
+      return false;
+    }
+  };
+
+  // Handle blur to reset the cleared state
+  const handleBlur = (e: any) => {
+    setIsInputCleared(false);
+    setInputValue('');
+    
+    // Call the original onBlur if it exists
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
 
   return (
     <>
@@ -158,10 +225,22 @@ const SelectBase = <IsMulti extends boolean = false>({
             isClearable={showSelectedCount || hideSelected ? false : undefined}
             variant="filled"
             name={name}
-            ref={passRef}
+            ref={(ref) => {
+              selectRef.current = ref;
+              if (passRef) {
+                if (typeof passRef === 'function') {
+                  passRef(ref);
+                } else {
+                  passRef.current = ref;
+                }
+              }
+            }}
             isReadOnly={readOnly}
-            onChange={onChange as any}
-            onBlur={onBlur}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            onInputChange={handleInputChange}
+            inputValue={inputValue}
             components={customComponents}
             value={isControlled ? value : undefined}
             defaultValue={defaultValue}
