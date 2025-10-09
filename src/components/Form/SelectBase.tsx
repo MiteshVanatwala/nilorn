@@ -141,10 +141,8 @@ const SelectBase = <IsMulti extends boolean = false>({
     // Track when input is cleared
     if (inputValue === '') {
       setIsInputCleared(true);
-      console.log('Input cleared, setting isInputCleared to true');
     } else {
       setIsInputCleared(false);
-      console.log('Input has value, setting isInputCleared to false');
     }
     
     return inputValue;
@@ -152,13 +150,14 @@ const SelectBase = <IsMulti extends boolean = false>({
 
   // Handle change to prevent unwanted selections when input was cleared
   const handleChange = (newValue: any, actionMeta: any) => {
-    // If input was cleared and we're trying to select something, prevent the selection
-    if (isInputCleared && actionMeta.action === 'select-option') {
-      console.log('Preventing unwanted selection after input was cleared');
-      return; // Don't change the value
+    // Only prevent selection if input was cleared AND we're not in a normal selection flow
+    // Allow selection if user is actively selecting an option (not just tabbing through)
+    if (isInputCleared && actionMeta.action === 'select-option' && actionMeta.option) {
+      // Reset the cleared state when a valid selection is made
+      setIsInputCleared(false);
     }
     
-    // Otherwise, proceed with normal change
+    // Proceed with normal change
     if (onChange) {
       onChange(newValue, actionMeta);
     }
@@ -168,7 +167,6 @@ const SelectBase = <IsMulti extends boolean = false>({
   const handleKeyDown = (e: any) => {
     // If user presses Tab and input is empty, prevent selection and maintain current value
     if (e.key === 'Tab' && e.target.value === '') {
-      console.log('Tab pressed with empty input, preventing selection');
       e.preventDefault();
       e.stopPropagation();
       
@@ -188,6 +186,7 @@ const SelectBase = <IsMulti extends boolean = false>({
 
   // Handle blur to reset the cleared state
   const handleBlur = (e: any) => {
+    // Reset states when component loses focus
     setIsInputCleared(false);
     setInputValue('');
     
