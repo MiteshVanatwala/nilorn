@@ -1,3 +1,4 @@
+import React from 'react';
 import Modal from './Modal';
 import ConfirmModal from './ConfirmModal';
 
@@ -37,10 +38,10 @@ const IsolatedControlledModal = ({
         description={description}
         onConfirm={onConfirm}
         onClose={() => {
+          // Only call onCancel when user explicitly cancels
           if (onCancel) {
             onCancel();
           }
-          onClose();
         }}
         confirmType={confirmType}
         cancelText={cancelText}

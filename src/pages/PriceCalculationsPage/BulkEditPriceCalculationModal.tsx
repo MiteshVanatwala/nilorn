@@ -48,7 +48,7 @@ const BulkEditPriceCalculationModal = ({
   const { setDirty, leavePageModal } = useModalFormHelper(
     outsideRef,
     calculations[0]?.id || '',
-    false
+    showConfirmationModal // Prevent outside clicks when confirmation modal is open
   );
   const { close } = useContext(ModalContext);
 
