@@ -85,40 +85,49 @@ const BulkCreateWithFreshData = ({
   sourcedProductionsData: any[];
 }) => {
   const { data: freshCalculations, isLoading: calculationsLoading } = useBulkPriceCalculations(selectedPriceIds);
-  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductions(selectedProductionIds);
+  
+  // Get all production IDs from productionsData (both selected productions and productions with selected prices)
+  // Remove duplicates to avoid multiple API calls for the same production
+  const allProductionIds = [...new Set(productionsData.map(prod => prod.id).filter(Boolean))];
+  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductions(allProductionIds);
   
   // if (calculationsLoading || productionsLoading) {
   //   return null; // or a loading component
   // }
 
   // Use fresh data if available, otherwise fall back to passed data
-  const finalCalculationsData = freshCalculations ? 
-    freshCalculations.flat() : 
-    productionsData.map(prod => prod.priceCalculations).filter(Boolean);
-  
+  // We need to maintain the original order and structure of productionsData
   const finalProductionsData = freshProductions ? 
-    freshProductions.flat() : 
+    productionsData.map(prod => {
+      const freshProd = freshProductions.flat().find(fp => fp.id === prod.id);
+      return freshProd || prod;
+    }) : 
     productionsData;
+
+  // For calculations, we need to maintain the same count as productions
+  // Each production should have one calculation entry (either existing or undefined for new ones)
+  const finalCalculationsData = finalProductionsData.map(prod => 
+    prod.priceCalculations?.[0] || undefined
+  );
 
   const uniqueProductDevelopmentNumbers = getUniqueProductDevelopmentNumbers(productDevelopmentsData);
   
   if (uniqueProductDevelopmentNumbers.length > 1) {
-    const filteredCalculationsData = finalCalculationsData.filter((calc, index) => {
-      if (!calc || !finalProductionsData[index]) return false;
-      
-      const currentProductionId = finalProductionsData[index].id;
-      const firstOccurrenceIndex = finalProductionsData.findIndex(p => p.id === currentProductionId);
-      
-      return index === firstOccurrenceIndex;
+    // Filter to remove duplicates based on production ID
+    const seenProductionIds = new Set();
+    const filteredProductionsData = finalProductionsData.filter(prod => {
+      if (seenProductionIds.has(prod.id)) {
+        return false;
+      }
+      seenProductionIds.add(prod.id);
+      return true;
     });
     
-    // Filter productionsData to match the filtered calculationsData
-    const filteredProductionsData = finalProductionsData.filter((prod, index) => {
-      const currentProductionId = prod.id;
-      const firstOccurrenceIndex = finalProductionsData.findIndex(p => p.id === currentProductionId);
-      
-      return index === firstOccurrenceIndex;
-    });
+    // Create calculations array that matches the filtered productions
+    // Each production gets one calculation entry (existing or undefined for new ones)
+    const filteredCalculationsData = filteredProductionsData.map(prod => 
+      prod.priceCalculations?.[0] || undefined
+    );
     
     return (
       <BulkCreatePriceCalculationModal
@@ -266,13 +275,13 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   const handleAddPriceCalculation = () => {
     // Get all selected production and price IDs
-    const selectedProductionIds = Object.entries(selectedProduction)
+    const selectedProductionIds = [...new Set(Object.entries(selectedProduction)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
-    const selectedPriceIds = Object.entries(selectedPrices)
+    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
     // Arrays to store the calculation data (matching handleEditPriceCalculation pattern)
     const calculationsData: any[] = [];
@@ -336,9 +345,9 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   const handleEditPriceCalculation = () => {
     // Get selected price calculation IDs
-    const selectedPriceIds = Object.entries(selectedPrices)
+    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
     // Arrays to store the calculation data
     const calculationsData: any[] = [];
