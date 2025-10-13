@@ -58,7 +58,7 @@ const BulkEditWithFreshData = ({
   productionsData: any[]; 
   productDevelopmentsData: any[]; 
 }) => {
-  const { data: freshCalculations, isLoading, error } = useBulkPriceCalculations(selectedPriceIds);
+  const { data: freshCalculations } = useBulkPriceCalculations(selectedPriceIds);
     return (
       <BulkEditPriceCalculationModal
         calculations={freshCalculations ?? []}
@@ -66,8 +66,6 @@ const BulkEditWithFreshData = ({
         productDevelopments={productDevelopmentsData}
       />
     );
-  
-  return null;
 };
 
 // Component to handle bulk create with fresh data from API
@@ -84,7 +82,7 @@ const BulkCreateWithFreshData = ({
   productDevelopmentsData: any[];
   sourcedProductionsData: any[];
 }) => {
-  const { data: freshCalculations, isLoading: calculationsLoading } = useBulkPriceCalculations(selectedPriceIds);
+  const { isLoading: calculationsLoading } = useBulkPriceCalculations(selectedPriceIds);
   
   // Get all production IDs from productionsData (both selected productions and productions with selected prices)
   // Remove duplicates to avoid multiple API calls for the same production
