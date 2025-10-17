@@ -142,4 +142,20 @@ released: boolean,
         });
     }
 
+    /**
+     * @param requestBody 
+     * @returns ProductionExtendedDto[] Success
+     * @throws ApiError
+     */
+    public static postApiProductionsBatch(
+        requestBody?: { ids: string[] }
+    ): CancelablePromise<ProductionExtendedDto[]> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/Productions/batch',
+            body: requestBody,
+            mediaType: 'application/json',
+        });
+    }
+
 }
