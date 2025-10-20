@@ -281,3 +281,49 @@ export const useBulkProductions = (ids: string[]) => {
     }
   );
 };
+
+export const useBulkPriceCalculationsBatch = (ids: string[]) => {
+  // Create a stable query key by sorting the IDs
+  const stableIds = [...ids].sort();
+  const queryKey = [QueryKeysEnum.PriceCalculation, 'batch', stableIds.join(',')];
+  
+  return useQuery(
+    queryKey,
+    async () => {
+      // Use the new batch API instead of individual calls
+      return PriceCalculationService.postApiPriceCalculationBatch({ ids: stableIds });
+    },
+    {
+      enabled: stableIds.length > 0,
+      retry: 0,
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 2 * 60 * 1000, // 2 minutes
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false, // Prevent refetch on mount if data exists
+    }
+  );
+};
+
+export const useBulkProductionsBatch = (ids: string[]) => {
+  // Create a stable query key by sorting the IDs
+  const stableIds = [...ids].sort();
+  const queryKey = [QueryKeysEnum.Productions, 'batch', stableIds.join(',')];
+  
+  return useQuery(
+    queryKey,
+    async () => {
+      // Use the new batch API instead of individual calls
+      return ProductionsService.postApiProductionsBatch({ ids: stableIds });
+    },
+    {
+      enabled: stableIds.length > 0,
+      retry: 0,
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 2 * 60 * 1000, // 2 minutes
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false, // Prevent refetch on mount if data exists
+    }
+  );
+};

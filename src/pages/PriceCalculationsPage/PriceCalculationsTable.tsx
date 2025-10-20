@@ -1,6 +1,6 @@
 // PriceCalculationsTable.tsx
 import { useTranslation } from 'react-i18next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useMemo } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import {
   GridTh,
@@ -20,7 +20,7 @@ import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
 import { getUniqueProductDevelopmentNumbers } from '../../app/utils/common';
-import { useBulkPriceCalculations, useBulkProductions } from '../../app/api/calculation';
+import { useBulkPriceCalculationsBatch, useBulkProductionsBatch } from '../../app/api/calculation';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -58,14 +58,15 @@ const BulkEditWithFreshData = ({
   productionsData: any[]; 
   productDevelopmentsData: any[]; 
 }) => {
-  const { data: freshCalculations } = useBulkPriceCalculations(selectedPriceIds);
-    return (
-      <BulkEditPriceCalculationModal
-        calculations={freshCalculations ?? []}
-        productions={productionsData}
-        productDevelopments={productDevelopmentsData}
-      />
-    );
+  const { data: freshCalculations } = useBulkPriceCalculationsBatch(selectedPriceIds);
+  
+  return (
+    <BulkEditPriceCalculationModal
+      calculations={freshCalculations ?? []}
+      productions={productionsData}
+      productDevelopments={productDevelopmentsData}
+    />
+  );
 };
 
 // Component to handle bulk create with fresh data from API
@@ -82,12 +83,15 @@ const BulkCreateWithFreshData = ({
   productDevelopmentsData: any[];
   sourcedProductionsData: any[];
 }) => {
-  const { isLoading: calculationsLoading } = useBulkPriceCalculations(selectedPriceIds);
+  const { isLoading: calculationsLoading } = useBulkPriceCalculationsBatch(selectedPriceIds);
   
   // Get all production IDs from productionsData (both selected productions and productions with selected prices)
   // Remove duplicates to avoid multiple API calls for the same production
-  const allProductionIds = [...new Set(productionsData.map(prod => prod.id).filter(Boolean))];
-  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductions(allProductionIds);
+  const allProductionIds = useMemo(() => 
+    [...new Set(productionsData.map(prod => prod.id).filter(Boolean))], 
+    [productionsData]
+  );
+  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductionsBatch(allProductionIds);
   
   // if (calculationsLoading || productionsLoading) {
   //   return null; // or a loading component
@@ -97,7 +101,7 @@ const BulkCreateWithFreshData = ({
   // We need to maintain the original order and structure of productionsData
   const finalProductionsData = freshProductions ? 
     productionsData.map(prod => {
-      const freshProd = freshProductions.flat().find(fp => fp.id === prod.id);
+      const freshProd = freshProductions.find(fp => fp.id === prod.id);
       return freshProd || prod;
     }) : 
     productionsData;
