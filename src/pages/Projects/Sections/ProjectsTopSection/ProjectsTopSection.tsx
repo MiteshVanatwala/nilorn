@@ -120,21 +120,25 @@ const ProjectsTopSection = ({
   }, [clientNo, projectCode, projectCard, reset]);
 
   useEffect(() => {
-    // const storedClientNo = sessionStorage.getItem(
-    //   SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
-    // );
-    // const storedProjectCode = sessionStorage.getItem(
-    //   SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
-    // );
-    // if (!!storedClientNo) {
-    //   setSelectedClientNo(storedClientNo);
-    //   setValue('clientNo', storedClientNo, { shouldDirty: false });
-    // }
-    // if (!!storedProjectCode) {
-    //   setSelectedProjectCode(storedProjectCode);
-    //   setValue('projectCode', storedProjectCode);
-    //   setValue('code', storedProjectCode);
-    // }
+    // Initialize from session storage if available, but prioritize URL parameters
+    const storedClientNo = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
+    );
+    const storedProjectCode = sessionStorage.getItem(
+      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
+    );
+    
+    // Only use session storage if form values are not already set from URL
+    if (!!storedClientNo && !clientNo) {
+      setSelectedClientNo(storedClientNo);
+      setValue('clientNo', storedClientNo, { shouldDirty: false });
+    }
+    if (!!storedProjectCode && !projectCode) {
+      setSelectedProjectCode(storedProjectCode);
+      setValue('projectCode', storedProjectCode, { shouldDirty: false });
+      setValue('code', storedProjectCode, { shouldDirty: false });
+    }
+    
     setTimeout(() => {
       setIsInitialLoad(false);
     }, 1000);
@@ -147,6 +151,19 @@ const ProjectsTopSection = ({
       { shouldDirty: false }
     );
   }, [clientNo, clientOptions]);
+
+  // Sync session storage with URL parameters
+  useEffect(() => {
+    if (clientNo) {
+      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
+    }
+  }, [clientNo]);
+
+  useEffect(() => {
+    if (projectCode) {
+      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, projectCode);
+    }
+  }, [projectCode]);
 
   useEffect(() => {
     setOptionItems(projectOptions);

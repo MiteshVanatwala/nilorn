@@ -42,10 +42,10 @@ function ProjectsPage() {
 
   const form = useForm({
     defaultValues: {
-      clientNo: selectedClientNo,
-      code: selectedProjectCode,
-      project: selectedProjectCode,
-      projectCode: '',
+      clientNo: params.clientNo || selectedClientNo,
+      code: params.projectNo || selectedProjectCode,
+      project: params.projectNo || selectedProjectCode,
+      projectCode: params.projectNo || '',
       members: [],
       description: '',
       teamsName: '',
@@ -57,6 +57,17 @@ function ProjectsPage() {
   });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
+
+  // Initialize form values from URL parameters on initial load
+  useEffect(() => {
+    if (params.clientNo && !selectedClientNo) {
+      form.setValue('clientNo', params.clientNo, { shouldDirty: false });
+    }
+    if (params.projectNo && !selectedProjectCode) {
+      form.setValue('projectCode', params.projectNo, { shouldDirty: false });
+      form.setValue('code', params.projectNo, { shouldDirty: false });
+    }
+  }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode]);
 
   const onSubmit = (fieldValues: FieldValues) => {
     createProject(
