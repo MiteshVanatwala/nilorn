@@ -70,7 +70,7 @@ export enum StatusColor {
   CALCULATION = 'yellow',
   APPROVED = 'green',
   REJECTED = 'red',
-  DELETED = 'red',
+  DELETED = 'red', 
 }
 
 export type ExcelExportFieldKey =
@@ -81,8 +81,8 @@ export type ExcelExportFieldKey =
   | 'certificate'
   | 'moq'
   | 'vendor'
-  | 'purchasePrice'
-  | 'finishedLength'
-  | 'finishedWidth';
+  | 'finishedLenght'
+  | 'finishedWidht'
+  | 'purchasePrice';
 
 export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
