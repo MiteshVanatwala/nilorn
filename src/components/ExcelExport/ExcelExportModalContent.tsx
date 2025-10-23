@@ -43,6 +43,8 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     moq: true,
     vendor: false,
     purchasePrice: false,
+    finishedLenght: false,
+    finishedWidht: false,
   });
   const [fileName, setFileName] = useState<string>('UmbrellaExport');
 
