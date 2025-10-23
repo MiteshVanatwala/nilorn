@@ -82,5 +82,20 @@ export type ExcelExportFieldKey =
   | 'moq'
   | 'vendor'
   | 'purchasePrice';
-
 export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
+
+export type ProductionExcelExportFieldKey =
+  | 'client'
+  | 'description'
+  | 'versionSpec'
+  | 'itemCategory'
+  | 'productGroup'
+  | 'foldingType'
+  | 'finishedLength'
+  | 'finishedWidth'
+  | 'sourcing'
+  | 'vendor'
+  | 'certificate'
+  | 'dieSet';
+
+export type ProductionExcelExportFieldKeyList = Record<ProductionExcelExportFieldKey, boolean>;
