@@ -64,10 +64,18 @@ function ProjectsPage() {
       form.setValue('clientNo', params.clientNo, { shouldDirty: false });
     }
     if (params.projectNo && !selectedProjectCode) {
-      form.setValue('projectCode', params.projectNo, { shouldDirty: false });
-      form.setValue('code', params.projectNo, { shouldDirty: false });
+      // Check if the project still exists in session storage
+      const storedProject = sessionStorage.getItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO);
+      if (storedProject === '' || storedProject !== params.projectNo) {
+        // Project was deleted or doesn't match, clear the URL
+        setSelectedProjectCode(undefined);
+        navigate('/projects' + (params.clientNo ? `/${params.clientNo}` : ''), { replace: true });
+      } else {
+        form.setValue('projectCode', params.projectNo, { shouldDirty: false });
+        form.setValue('code', params.projectNo, { shouldDirty: false });
+      }
     }
-  }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode]);
+  }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode, navigate]);
 
   const onSubmit = (fieldValues: FieldValues) => {
     createProject(

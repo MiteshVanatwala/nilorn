@@ -9,6 +9,7 @@ import { useDeleteProject } from '../../../../app/api/Projects';
 import AddProjectModal from '../../../ProductDevelopmentPage/Sections/SectionComponents/AddProjectModal';
 import { Dispatch, SetStateAction } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
+import { SESSION_STORAGE } from '../../../../app/utils/constant';
 
 type Props = {
   lastModified?: string;
@@ -34,6 +35,7 @@ const ProjectsActionBar = ({
       onSuccess: () => {
         setSelectedProjectCode('');
         setValue('code', '');
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
         close();
       },
       onError: () => {},
@@ -79,6 +81,7 @@ const ProjectsActionBar = ({
                     })}
                     confirmType={'DELETE'}
                     onConfirm={onDelete}
+                    onClose={() => close()}
                   />
                 );
               }}
