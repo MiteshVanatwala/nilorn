@@ -82,6 +82,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
       PurchasePrice: selections.purchasePrice,
       MOQ: selections.moq,
       Vendor: selections.vendor,
+      IsProduction: false
     }));
 
     try {

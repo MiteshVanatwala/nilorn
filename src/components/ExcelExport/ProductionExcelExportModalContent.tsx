@@ -18,8 +18,6 @@ import { SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import ModalHeading from '../Modal/ModalHeading';
 import {
-  ExcelExportFieldKey,
-  ExcelExportFieldKeyList,
   ProductionExcelExportFieldKey,
   ProductionExcelExportFieldKeyList,
 } from '../../app/types/types';
@@ -80,11 +78,12 @@ const ProductionExcelExportModalContent = ({ selectedProductions }: Props) => {
       DieSet: selections.dieSet,
       Certificate: selections.certificate,
       Vendor: selections.vendor,
+      IsProduction: true
     }));
 
     try {
       downloadFile(
-        `${process.env.REACT_APP_API_URL}/api/Excel/GetProductionExcel`,
+        `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
         `${fileName.replace(/xlsx/gi, '').replace(/xls/gi, '')}.xlsx`,
         'PUT',
         excelExportOptions
