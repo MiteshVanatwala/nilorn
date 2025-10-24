@@ -18,35 +18,37 @@ import { SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import ModalHeading from '../Modal/ModalHeading';
 import {
-  ExcelExportFieldKey,
-  ExcelExportFieldKeyList,
+  ProductionExcelExportFieldKey,
+  ProductionExcelExportFieldKeyList,
 } from '../../app/types/types';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
-import { SelectedPrices } from '../../pages/PriceCalculationsPage/PriceCalculationsTable';
+import { SelectedProductions } from '../../pages/Productions/ProductionsTable';
 
 type Props = {
-  selectedPrices: SelectedPrices;
+  selectedProductions: SelectedProductions;
 };
 
-const ExcelExportModalContent = ({ selectedPrices }: Props) => {
+const ProductionExcelExportModalContent = ({ selectedProductions }: Props) => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownloadFile();
   const { close } = useContext(ModalContext);
-  const [selections, setSelections] = useState<ExcelExportFieldKeyList>({
-    image: true,
-    itemNo: true,
+  const [selections, setSelections] = useState<ProductionExcelExportFieldKeyList>({
+    client: true,
     description: true,
     versionSpec: true,
-    finishedLength: false,
-    finishedWidth: false,
+    itemCategory: true,
+    productGroup: true,
+    foldingType: true,
+    finishedLength: true,
+    finishedWidth: true,
+    vendor: true,
+    dieSet: true,
     certificate: true,
-    moq: true,
-    vendor: false,
-    purchasePrice: false
+    sourcing: false,
   });
-  const [fileName, setFileName] = useState<string>('UmbrellaExport');
+  const [fileName, setFileName] = useState<string>('ProductionExport');
 
-  const handleCheckboxChange = (field: ExcelExportFieldKey) => {
+  const handleCheckboxChange = (field: ProductionExcelExportFieldKey) => {
     setSelections(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
@@ -54,39 +56,29 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     close();
   };
 
-  const getUniqueClients = Object.values(selectedPrices)
-    .filter(val => val.selected === true)
-    .map(val => val.productDevelopmentNo)
-    .filter((x, i, a) => a.indexOf(x) === i).length;
+  const getUniqueClients = Object.values(selectedProductions)
+    .filter(val => val.selected === true).length;
 
   async function onSubmit(): Promise<void> {
-    const selectedIds = Object.entries(selectedPrices)
+    const selectedIds = Object.entries(selectedProductions)
       .filter(([_, value]) => value.selected === true)
       .map(([id]) => id);
 
     const excelExportOptions = selectedIds.map(id => ({
-      PriceCalculationId: id,
-      Valid: true,
-      Included: true,
-      No: true,
-      Name: true,
-      NameOfFile: fileName,
-      ThumbnailData: selections.image,
-      ItemNo: selections.itemNo,
+      ProductionId: id,
+      Client: selections.client,
       Description: selections.description,
       Version: selections.versionSpec,
-      Quantity: true,
-      Certificate: selections.certificate,
-      SalesPrice: true,
-      SalesCurrency: true,
-      Sourcing: true,
-      PurchaseCurrency: selections.purchasePrice,
-      PurchasePrice: selections.purchasePrice,
-      MOQ: selections.moq,
-      Vendor: selections.vendor,
+      ItemCategory: selections.itemCategory,
+      ProductGroup: selections.productGroup,
+      FoldingType: selections.foldingType,
       FinishedLength: selections.finishedLength,
       FinishedWidth: selections.finishedWidth,
-      IsProduction: false
+      Sourcing: selections.sourcing,
+      DieSet: selections.dieSet,
+      Certificate: selections.certificate,
+      Vendor: selections.vendor,
+      IsProduction: true
     }));
 
     try {
@@ -115,7 +107,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
           title={t('ExcelExport.ModalTitle')}
         />
         <Text pb={10} fontWeight={'bold'}>
-          {t('ExcelExport.ModalDesc')}
+          {t('ExcelExport.ProductionModalDesc')}
         </Text>
         <Stack spacing={2}>
           {Object.entries(selections).map(([key, value]) => (
@@ -126,14 +118,11 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
                   key={key}
                   isChecked={value}
                   onChange={() =>
-                    handleCheckboxChange(key as ExcelExportFieldKey)
+                    handleCheckboxChange(key as ProductionExcelExportFieldKey)
                   }
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleCheckboxChange(key as ExcelExportFieldKey);
-                    }
+                    if (e.key === 'Enter')
+                      handleCheckboxChange(key as ProductionExcelExportFieldKey);
                   }}
                 />
               </GridItem>
@@ -178,4 +167,6 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     </form>
   );
 };
-export default ExcelExportModalContent;
+export default ProductionExcelExportModalContent;
+
+

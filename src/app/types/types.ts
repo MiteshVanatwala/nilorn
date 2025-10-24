@@ -83,8 +83,21 @@ export type ExcelExportFieldKey =
   | 'vendor'
   | 'finishedLenght'
   | 'finishedWidht'
-  | 'purchasePrice'
-  | 'finishedLength'
-  | 'finishedWidth';
-
+  | 'purchasePrice';
 export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
+
+export type ProductionExcelExportFieldKey =
+  | 'client'
+  | 'description'
+  | 'versionSpec'
+  | 'itemCategory'
+  | 'productGroup'
+  | 'foldingType'
+  | 'finishedLength'
+  | 'finishedWidth'
+  | 'sourcing'
+  | 'vendor'
+  | 'certificate'
+  | 'dieSet';
+
+export type ProductionExcelExportFieldKeyList = Record<ProductionExcelExportFieldKey, boolean>;
