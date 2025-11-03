@@ -78,12 +78,29 @@ const ProductionExcelExportModalContent = ({ selectedProductions }: Props) => {
       DieSet: selections.dieSet,
       Certificate: selections.certificate,
       Vendor: selections.vendor,
+
+      ProductDevelopmentNo: true,
+      ProductDevelopmentName: true,
+      SampleLeadTimeMin: true,
+      SampleLeadTimeMax: true,
+      ProductionLeadTimeMin: true,
+      ProductionLeadTimeMax: true,
+      Moq: true,
+      ToolCharge: true,
+      Surcharge: true,
+      SampleCharge: true,
+      Comment: true,
+      MaterialComposition: true,
+      MaterialCompositionPercentage: true,
+      Quantity: true,
+      PurchasePrice: true,
+      CurrencyCode: true,
       IsProduction: true
     }));
 
     try {
       downloadFile(
-        `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
+         `${process.env.REACT_APP_API_URL}/api/Excel/GetExcel`,
         `${fileName.replace(/xlsx/gi, '').replace(/xls/gi, '')}.xlsx`,
         'PUT',
         excelExportOptions
