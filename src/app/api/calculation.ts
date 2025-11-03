@@ -296,11 +296,11 @@ export const useBulkPriceCalculationsBatch = (ids: string[]) => {
     {
       enabled: stableIds.length > 0,
       retry: 0,
-      cacheTime: 5 * 60 * 1000, // 5 minutes
-      staleTime: 2 * 60 * 1000, // 2 minutes
+      cacheTime: 0, // Immediately remove from cache when unused
+      staleTime: 0, // Data is immediately considered stale
       keepPreviousData: true,
       refetchOnWindowFocus: false,
-      refetchOnMount: false, // Prevent refetch on mount if data exists
+      refetchOnMount: true, // Always refetch on mount for fresh data
     }
   );
 };

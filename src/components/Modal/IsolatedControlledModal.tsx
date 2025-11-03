@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from './Modal';
 import ConfirmModal from './ConfirmModal';
 
@@ -27,10 +27,40 @@ const IsolatedControlledModal = ({
   confirmText,
   isConfirmLoading,
 }: Props) => {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        
+        if (onCancel) {
+          onCancel();
+        } else {
+          onClose();
+        }
+      }
+    };
+
+    // Use capture phase to intercept before Chakra Modal handles it
+    window.addEventListener('keydown', handleEscKey, true);
+    
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [isOpen, onCancel, onClose]);
+
+  const handleClose = () => {
+    // This is called by Chakra Modal's onClose, but Esc should be handled by the event listener above
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      close={onClose}
+      close={handleClose}
       onOverlayClick={onCancel}
       className="exit-confirmation-modal">
       <ConfirmModal

@@ -187,18 +187,6 @@ const BulkEditPriceCalculationModal = ({
   }, [form.formState.isDirty, setDirty]);
 
   const checkCurrencyVariation = (formValues: FieldValues) => {
-    // Check if selected entries have different purchase currencies
-    const hasDifferentPurchaseCurrencies = productions.some(
-      (prod, index) =>
-        index > 0 && prod.currencyCode !== productions[0].currencyCode
-    );
-
-    // Check if selected entries have different sales currencies
-    const hasDifferentSalesCurrencies = calculations.some(
-      (calc, index) =>
-        index > 0 && calc.currency?.code !== calculations[0].currency?.code
-    );
-
     // Check if user has modified sales currency
     const hasSalesCurrencyChanged =
       formValues.currencyCode !== null &&
@@ -209,17 +197,36 @@ const BulkEditPriceCalculationModal = ({
       formValues.currencyRate !== null &&
       formValues.currencyRate !== originalValues.currencyRate;
 
-    // Only show warning if:
-    // 1. User has modified sales currency OR currency rate, AND
-    // 2. Selected entries have different purchase currencies OR different sales currencies
-    const hasVariedCurrencies =
-      hasDifferentPurchaseCurrencies || hasDifferentSalesCurrencies;
-
+    // Only show warning if user has modified currency/rate
     const hasUserModifiedCurrency =
       hasSalesCurrencyChanged || hasCurrencyRateChanged;
 
-    // return hasUserModifiedCurrency && hasVariedCurrencies;
-    return hasSalesCurrencyChanged || hasCurrencyRateChanged;
+    if (!hasUserModifiedCurrency) {
+      return false;
+    }
+
+    // Check if selected entries have different purchase currencies
+    let hasDifferentPurchaseCurrencies = false;
+    if (productions.length > 0) {
+      const firstPurchaseCurrency = productions[0].currencyCode;
+      hasDifferentPurchaseCurrencies = productions.some(
+        prod => prod.currencyCode !== firstPurchaseCurrency
+      );
+    }
+
+    // Check if selected entries have different sales currencies
+    let hasDifferentSalesCurrencies = false;
+    if (calculations.length > 0) {
+      const firstSalesCurrency = calculations[0]?.currency?.code;
+      hasDifferentSalesCurrencies = calculations.some(
+        calc => calc.currency?.code !== firstSalesCurrency
+      );
+    }
+
+    // Only show warning if:
+    // 1. User has modified sales currency OR currency rate, AND
+    // 2. Selected entries have different purchase currencies OR different sales currencies
+    return hasDifferentPurchaseCurrencies || hasDifferentSalesCurrencies;
   };
 
   function handleFormSubmit(formValues: FieldValues) {
