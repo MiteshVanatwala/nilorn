@@ -1,13 +1,13 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProjectGeneralSection from './Sections/ProjectGeneralSection';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
-import { useCreateProjectPage } from '../../app/api/Projects';
+import { useCreateProjectPage, useGetProjectCard } from '../../app/api/Projects';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
@@ -24,8 +24,9 @@ function ProjectsPage() {
   const [selectedClientNo, setSelectedClientNo] = useState<string | undefined>(
     params.clientNo
   );
-  const { setUnsavedChanges, hasUnsavedChanges } = useUnsavedChanges();
+  const { setUnsavedChanges } = useUnsavedChanges();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const memberSectionRef = useRef<{ replaceMembers: (members: any[]) => void }>(null);
 
   useEffect(() => {
     if (!isInitialLoad) {
@@ -46,7 +47,7 @@ function ProjectsPage() {
       code: params.projectNo || selectedProjectCode,
       project: params.projectNo || selectedProjectCode,
       projectCode: params.projectNo || '',
-      members: [],
+      members: [] as any[],
       description: '',
       teamsName: '',
       channelName: '',
@@ -57,6 +58,13 @@ function ProjectsPage() {
   });
   const { mutate: createProject } = useCreateProjectPage();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
+
+  // Fetch project data when both client and project are selected
+  const { data: projectData } = useGetProjectCard(
+    selectedClientNo || '', 
+    selectedProjectCode || ''
+  );
+
 
   // Initialize form values from URL parameters on initial load
   useEffect(() => {
@@ -76,6 +84,17 @@ function ProjectsPage() {
       }
     }
   }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode, navigate]);
+
+  // Populate form with project data when it's fetched
+  useEffect(() => {
+    if (projectData && selectedClientNo && selectedProjectCode) {
+      // Call the MemberSection's replace function if available
+      if (memberSectionRef.current) {
+        memberSectionRef.current.replaceMembers(projectData.members || []);
+      }
+      form.setValue('description', projectData.description || '', { shouldDirty: false });
+    }
+  }, [projectData, selectedClientNo, selectedProjectCode, form]);
 
   const onSubmit = (fieldValues: FieldValues) => {
     createProject(
@@ -148,6 +167,13 @@ function ProjectsPage() {
               clientNo: selectedClientNo,
               code: selectedProjectCode,
               project: selectedProjectCode,
+              // Preserve members and other data that might have been populated
+              members: currentValues.members || [],
+              description: currentValues.description || '',
+              teamsName: currentValues.teamsName || '',
+              channelName: currentValues.channelName || '',
+              artWorkFolderName: currentValues.artWorkFolderName || '',
+              attachmentFolderName: currentValues.attachmentFolderName || '',
             },
             {
               keepDirty: false,
@@ -196,6 +222,7 @@ function ProjectsPage() {
               displayPlaecholder={!!selectedClientNo && !!selectedProjectCode}
             />
             <MemberSection
+              ref={memberSectionRef}
               disableEdit={!selectedClientNo || !selectedProjectCode}
               showAllMembers={true}
             />

@@ -35,6 +35,7 @@ const ProjectsActionBar = ({
       onSuccess: () => {
         setSelectedProjectCode('');
         setValue('code', '');
+        setValue('projectCode', '');
         sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
         close();
       },
