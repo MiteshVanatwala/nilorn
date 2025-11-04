@@ -45,12 +45,48 @@ const BulkEditPriceCalculationModal = ({
     setOpen: setDeleteModalOpen,
   } = useDeleteModal(outsideRef, handleDeleteCalculation);
 
-  const { setDirty, leavePageModal } = useModalFormHelper(
+  const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(
     outsideRef,
     calculations[0]?.id || '',
-    showConfirmationModal // Prevent outside clicks when confirmation modal is open
+    showConfirmationModal || showModal || isDeleteModalOpen // Prevent outside clicks when any child modal is open
   );
-  const { close } = useContext(ModalContext);
+  const { close, setPreventClose } = useContext(ModalContext);
+
+  // Prevent this modal from closing when child modals are open
+  useEffect(() => {
+    setPreventClose(showModal || showConfirmationModal || isDeleteModalOpen);
+  }, [showModal, showConfirmationModal, isDeleteModalOpen, setPreventClose]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        // If any child modal is open, let them handle Esc instead
+        if (showModal || showConfirmationModal || isDeleteModalOpen) {
+          return; // Don't handle Esc, let child modals handle it
+        }
+
+        // No child modals open, handle Esc for this modal
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [showModal, showConfirmationModal, isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close]);
 
   const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
@@ -187,18 +223,6 @@ const BulkEditPriceCalculationModal = ({
   }, [form.formState.isDirty, setDirty]);
 
   const checkCurrencyVariation = (formValues: FieldValues) => {
-    // Check if selected entries have different purchase currencies
-    const hasDifferentPurchaseCurrencies = productions.some(
-      (prod, index) =>
-        index > 0 && prod.currencyCode !== productions[0].currencyCode
-    );
-
-    // Check if selected entries have different sales currencies
-    const hasDifferentSalesCurrencies = calculations.some(
-      (calc, index) =>
-        index > 0 && calc.currency?.code !== calculations[0].currency?.code
-    );
-
     // Check if user has modified sales currency
     const hasSalesCurrencyChanged =
       formValues.currencyCode !== null &&
@@ -209,17 +233,36 @@ const BulkEditPriceCalculationModal = ({
       formValues.currencyRate !== null &&
       formValues.currencyRate !== originalValues.currencyRate;
 
-    // Only show warning if:
-    // 1. User has modified sales currency OR currency rate, AND
-    // 2. Selected entries have different purchase currencies OR different sales currencies
-    const hasVariedCurrencies =
-      hasDifferentPurchaseCurrencies || hasDifferentSalesCurrencies;
-
+    // Only show warning if user has modified currency/rate
     const hasUserModifiedCurrency =
       hasSalesCurrencyChanged || hasCurrencyRateChanged;
 
-    // return hasUserModifiedCurrency && hasVariedCurrencies;
-    return hasSalesCurrencyChanged || hasCurrencyRateChanged;
+    if (!hasUserModifiedCurrency) {
+      return false;
+    }
+
+    // Check if selected entries have different purchase currencies
+    let hasDifferentPurchaseCurrencies = false;
+    if (productions.length > 0) {
+      const firstPurchaseCurrency = productions[0].currencyCode;
+      hasDifferentPurchaseCurrencies = productions.some(
+        prod => prod.currencyCode !== firstPurchaseCurrency
+      );
+    }
+
+    // Check if selected entries have different sales currencies
+    let hasDifferentSalesCurrencies = false;
+    if (calculations.length > 0) {
+      const firstSalesCurrency = calculations[0]?.currency?.code;
+      hasDifferentSalesCurrencies = calculations.some(
+        calc => calc.currency?.code !== firstSalesCurrency
+      );
+    }
+
+    // Only show warning if:
+    // 1. User has modified sales currency OR currency rate, AND
+    // 2. Selected entries have different purchase currencies OR different sales currencies
+    return hasDifferentPurchaseCurrencies || hasDifferentSalesCurrencies;
   };
 
   function handleFormSubmit(formValues: FieldValues) {

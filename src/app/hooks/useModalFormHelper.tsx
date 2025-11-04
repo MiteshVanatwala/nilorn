@@ -66,27 +66,8 @@ const useModalFormHelper = (
     setBlockedRoute,
   ]);
 
-  useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (hasUnsavedChanges()) {
-          if (!isLeavePageModalOpen) {
-            openLeavePageModal();
-          } else {
-            setLeavePageModalOpen(false);
-          }
-          setPendingNavId(undefined);
-        } else {
-          close();
-        }
-      }
-    };
-
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  });
+  // Removed global Esc key handler to prevent conflicts with nested modals
+  // Modal components and ModalContext now handle Esc key appropriately
 
   useOutsideClick({
     ref: outsideRef,
@@ -156,6 +137,8 @@ const useModalFormHelper = (
     leavePageModal,
     onNavigate,
     setDirty,
+    openLeavePageModal,
+    hasUnsavedChanges,
   };
 };
 

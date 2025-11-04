@@ -19,7 +19,6 @@ import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
 import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
-import { getUniqueProductDevelopmentNumbers } from '../../app/utils/common';
 import { useBulkPriceCalculationsBatch, useBulkProductionsBatch } from '../../app/api/calculation';
 
 const GRID_LAYOUT =
@@ -112,25 +111,25 @@ const BulkCreateWithFreshData = ({
     prod.priceCalculations?.[0] || undefined
   );
 
-  const uniqueProductDevelopmentNumbers = getUniqueProductDevelopmentNumbers(productDevelopmentsData);
+  // Filter to remove duplicates based on production ID
+  const seenProductionIds = new Set();
+  const filteredProductionsData = finalProductionsData.filter(prod => {
+    if (seenProductionIds.has(prod.id)) {
+      return false;
+    }
+    seenProductionIds.add(prod.id);
+    return true;
+  });
   
-  if (uniqueProductDevelopmentNumbers.length > 1) {
-    // Filter to remove duplicates based on production ID
-    const seenProductionIds = new Set();
-    const filteredProductionsData = finalProductionsData.filter(prod => {
-      if (seenProductionIds.has(prod.id)) {
-        return false;
-      }
-      seenProductionIds.add(prod.id);
-      return true;
-    });
-    
-    // Create calculations array that matches the filtered productions
-    // Each production gets one calculation entry (existing or undefined for new ones)
-    const filteredCalculationsData = filteredProductionsData.map(prod => 
-      prod.priceCalculations?.[0] || undefined
-    );
-    
+  // Create calculations array that matches the filtered productions
+  // Each production gets one calculation entry (existing or undefined for new ones)
+  const filteredCalculationsData = filteredProductionsData.map(prod => 
+    prod.priceCalculations?.[0] || undefined
+  );
+  
+  // Decision logic: Show bulk modal if multiple productions, single modal if only one production
+  // This ensures one price calculation per production is created correctly
+  if (filteredProductionsData.length > 1) {
     return (
       <BulkCreatePriceCalculationModal
         isLoading={calculationsLoading || productionsLoading}
@@ -138,16 +137,16 @@ const BulkCreateWithFreshData = ({
         calculation={filteredCalculationsData}
       />
     );
-  } else if (uniqueProductDevelopmentNumbers.length === 1) {
+  } else if (filteredProductionsData.length === 1) {
     return (
       <CreatePriceCalculationModal
         productDevelopment={productDevelopmentsData[0]}
-        production={finalProductionsData[0]}
-        calculation={finalCalculationsData[0]}
+        production={filteredProductionsData[0]}
+        calculation={filteredCalculationsData[0]}
         sourcedProduction={sourcedProductionsData[0]}
         artwork={productDevelopmentsData[0]?.artwork}
-        lastModified={finalProductionsData[0].lastModified}
-        filters={finalProductionsData[0]?.filters}
+        lastModified={filteredProductionsData[0].lastModified}
+        filters={filteredProductionsData[0]?.filters}
       />
     );
   }

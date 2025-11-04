@@ -208,7 +208,7 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <Select
-            registerOptions={{ required: !currencyCodePlaceholder }}
+            registerOptions={{ required: !currencyCodePlaceholder && !isBulkEdit }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
             placeholder={currencyCodePlaceholder || t('Common.Select')}
