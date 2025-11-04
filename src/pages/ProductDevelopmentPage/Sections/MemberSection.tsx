@@ -10,7 +10,7 @@ import { ProductDevelopmentDto } from '../../../app/generate';
 import { useMembers } from '../../../app/api/productDevelopment';
 import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { MemberBriefDto } from '../../../app/generate';
 import { useAuthorizedRemoveUser } from '../../../app/Permissions/usePremissions';
 import { useMembers as useMembersList } from '../../../app/api/FilterInfo';
@@ -23,12 +23,15 @@ type Props = {
 
 const FORM_KEY: keyof ProductDevelopmentDto = 'members';
 
-const MemberSection = ({
+const MemberSection = forwardRef<
+  { replaceMembers: (members: any[]) => void },
+  Props
+>(({
   disableEdit,
   createNew,
   no,
   showAllMembers = false,
-}: Props) => {
+}, ref) => {
   const { t } = useTranslation();
 
   const allowedToRemoveMember = useAuthorizedRemoveUser();
@@ -44,10 +47,17 @@ const MemberSection = ({
   const { data: membersOptions } = useMembers(no || '');
   const { data: allMembersOptions } = useMembersList();
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: FORM_KEY,
   });
+
+  // Expose replace function via ref
+  useImperativeHandle(ref, () => ({
+    replaceMembers: (members: any[]) => {
+      replace(members);
+    }
+  }), [replace]);
 
   function addMember(
     selectedOption: MultiValue<SelectOption<MemberBriefDto>> | undefined
@@ -177,6 +187,6 @@ const MemberSection = ({
       </Flex>
     </AccordionItem>
   );
-};
+});
 
 export default MemberSection;
