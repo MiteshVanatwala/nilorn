@@ -45,12 +45,48 @@ const BulkEditPriceCalculationModal = ({
     setOpen: setDeleteModalOpen,
   } = useDeleteModal(outsideRef, handleDeleteCalculation);
 
-  const { setDirty, leavePageModal } = useModalFormHelper(
+  const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(
     outsideRef,
     calculations[0]?.id || '',
-    showConfirmationModal // Prevent outside clicks when confirmation modal is open
+    showConfirmationModal || showModal || isDeleteModalOpen // Prevent outside clicks when any child modal is open
   );
-  const { close } = useContext(ModalContext);
+  const { close, setPreventClose } = useContext(ModalContext);
+
+  // Prevent this modal from closing when child modals are open
+  useEffect(() => {
+    setPreventClose(showModal || showConfirmationModal || isDeleteModalOpen);
+  }, [showModal, showConfirmationModal, isDeleteModalOpen, setPreventClose]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        // If any child modal is open, let them handle Esc instead
+        if (showModal || showConfirmationModal || isDeleteModalOpen) {
+          return; // Don't handle Esc, let child modals handle it
+        }
+
+        // No child modals open, handle Esc for this modal
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [showModal, showConfirmationModal, isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close]);
 
   const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =

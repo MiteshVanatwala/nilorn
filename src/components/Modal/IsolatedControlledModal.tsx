@@ -61,6 +61,7 @@ const IsolatedControlledModal = ({
     <Modal
       isOpen={isOpen}
       close={handleClose}
+      closeOnEsc={false} // Disable Chakra's Esc handling, we handle it ourselves
       onOverlayClick={onCancel}
       className="exit-confirmation-modal">
       <ConfirmModal
