@@ -50,7 +50,37 @@ const BulkEditPriceCalculationModal = ({
     calculations[0]?.id || '',
     showConfirmationModal || showModal || isDeleteModalOpen // Prevent outside clicks when any child modal is open
   );
-  const { close, setPreventClose } = useContext(ModalContext);
+  const { close, setPreventClose, setCustomCloseHandler } = useContext(ModalContext);
+
+  // Set up the custom close handler
+  useEffect(() => {
+    const handleCustomClose = () => {
+      // If any child modal is open, let them handle the close
+      if (showModal || showConfirmationModal || isDeleteModalOpen) {
+        return;
+      }
+
+      // Check if there are unsaved changes
+      if (hasUnsavedChanges()) {
+        // Show unsaved changes modal
+        openLeavePageModal();
+      } else {
+        // No unsaved changes, close modal directly
+        close();
+      }
+    };
+
+    if (setCustomCloseHandler) {
+      setCustomCloseHandler(() => handleCustomClose);
+    }
+    
+    // Cleanup: remove custom close handler when component unmounts
+    return () => {
+      if (setCustomCloseHandler) {
+        setCustomCloseHandler(null);
+      }
+    };
+  }, [showModal, showConfirmationModal, isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close, setCustomCloseHandler]);
 
   // Prevent this modal from closing when child modals are open
   useEffect(() => {
