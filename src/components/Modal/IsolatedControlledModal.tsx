@@ -53,8 +53,13 @@ const IsolatedControlledModal = ({
   }, [isOpen, onCancel, onClose]);
 
   const handleClose = () => {
-    // This is called by Chakra Modal's onClose, but Esc should be handled by the event listener above
-    onClose();
+    // This is called by Chakra Modal's onClose for the header close button
+    // Use the same logic as the Esc key handler
+    if (onCancel) {
+      onCancel();
+    } else {
+      onClose();
+    }
   };
 
   return (
