@@ -7,7 +7,7 @@ import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
-import { useCreateProjectPage, useGetProjectCard } from '../../app/api/Projects';
+import { useCreateProjectPage, useGetProjectCard, useGetProjectsOptions } from '../../app/api/Projects';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
@@ -65,6 +65,12 @@ function ProjectsPage() {
     selectedProjectCode || ''
   );
 
+  // Fetch available projects for the selected client to validate project existence
+  const { data: projectOptions } = useGetProjectsOptions(
+    selectedClientNo,
+    !!selectedClientNo
+  );
+
 
   // Initialize form values from URL parameters on initial load
   useEffect(() => {
@@ -84,6 +90,35 @@ function ProjectsPage() {
       }
     }
   }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode, navigate]);
+
+  // Validate if project exists in the available project list
+  useEffect(() => {
+    if (projectOptions && selectedClientNo && params.projectNo) {
+      const projectExists = projectOptions.some((option: any) => option.value === params.projectNo);
+      
+      if (!projectExists) {
+        // Project doesn't exist in the list, remove it from URL and form
+        setSelectedProjectCode(undefined);
+        form.setValue('projectCode', '', { shouldDirty: false });
+        form.setValue('code', '', { shouldDirty: false });
+        form.setValue('project', '', { shouldDirty: false });
+        
+        // Update session storage
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+        
+        // Navigate to URL without the project parameter
+        navigate('/projects' + (selectedClientNo ? `/${selectedClientNo}` : ''), { replace: true });
+      } else {
+        // Project exists, set it as selected if not already set
+        if (selectedProjectCode !== params.projectNo) {
+          setSelectedProjectCode(params.projectNo);
+        }
+        form.setValue('projectCode', params.projectNo, { shouldDirty: false });
+        form.setValue('code', params.projectNo, { shouldDirty: false });
+        form.setValue('project', params.projectNo, { shouldDirty: false });
+      }
+    }
+  }, [projectOptions, selectedClientNo, params.projectNo, selectedProjectCode, form, navigate]);
 
   // Populate form with project data when it's fetched
   useEffect(() => {
