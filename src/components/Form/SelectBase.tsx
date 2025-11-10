@@ -120,6 +120,8 @@ const SelectBase = <IsMulti extends boolean = false>({
 }: SelectProps<IsMulti>) => {
   const [inputValue, setInputValue] = useState('');
   const [isInputCleared, setIsInputCleared] = useState(false);
+  const [tabPressed, setTabPressed] = useState(false);
+  const [previousInputValue, setPreviousInputValue] = useState('');
   const selectRef = useRef<any>(null);
   
   const customComponents = { ...customSelectComponents, ...components };
@@ -136,51 +138,78 @@ const SelectBase = <IsMulti extends boolean = false>({
 
   // Handle input change to track when input is cleared
   const handleInputChange = (inputValue: string) => {
-    setInputValue(inputValue);
-    
-    // Track when input is cleared
-    if (inputValue === '') {
+    // Track when input is actually cleared (had content before, now empty)
+    if (previousInputValue.length > 0 && inputValue === '') {
       setIsInputCleared(true);
-    } else {
+    } else if (inputValue.length > 0) {
       setIsInputCleared(false);
     }
+    
+    setPreviousInputValue(inputValue);
+    setInputValue(inputValue);
     
     return inputValue;
   };
 
-  // Handle change to prevent unwanted selections when input was cleared
+  // Handle change to prevent unwanted selections when Tab was pressed or input was cleared
   const handleChange = (newValue: any, actionMeta: any) => {
-    // Only prevent selection if input was cleared AND we're not in a normal selection flow
-    // Allow selection if user is actively selecting an option (not just tabbing through)
-    if (isInputCleared && actionMeta.action === 'select-option' && actionMeta.option) {
-      // Reset the cleared state when a valid selection is made
+    // Block selection if:
+    // 1. Tab was just pressed, OR
+    // 2. Input was just cleared manually and this is a select-option action
+    if ((tabPressed || isInputCleared) && actionMeta.action === 'select-option' && actionMeta.option) {
+      // Reset the states but don't proceed with the unwanted selection
+      setTabPressed(false);
       setIsInputCleared(false);
+      return;
     }
     
-    // Proceed with normal change
+    // Reset states for any change action
+    setIsInputCleared(false);
+    setTabPressed(false);
+    
+    // Proceed with all changes (including programmatic setValue calls)
     if (onChange) {
       onChange(newValue, actionMeta);
     }
   };
 
-  // Handle key down events to prevent Tab selection when input is empty
+  // Handle key down events to prevent Tab selection
   const handleKeyDown = (e: any) => {
-    // If user presses Tab and input is empty, prevent selection and maintain current value
-    if (e.key === 'Tab' && e.target.value === '') {
-      e.preventDefault();
-      e.stopPropagation();
+    // If user presses Tab, reset input value and move to next element
+    // Tab should be a navigation key, not a commit key
+    if (e.key === 'Tab') {
+      // Set flag that Tab was pressed
+      setTabPressed(true);
       
-      // Ensure the current value is maintained by explicitly setting it
-      if (value && onChange) {
-        onChange(value as any, { action: 'select-option', option: value as any });
+      // Check if the dropdown menu is open or there's any input value or input was cleared
+      const menuIsOpen = selectRef.current?.state?.menuIsOpen;
+      
+      if (menuIsOpen || inputValue || isInputCleared) {
+        // Prevent Tab from selecting highlighted option
+        e.preventDefault();
+        
+        // Reset the input value to clear any search text
+        setInputValue('');
+        setIsInputCleared(true);
+        
+        // Close the dropdown without selecting anything
+        if (selectRef.current) {
+          selectRef.current.blur();
+        }
+        
+        // Manually move focus to next element after a short delay
+        setTimeout(() => {
+          const nextElement = e.target.form?.elements[Array.from(e.target.form.elements).indexOf(e.target) + 1];
+          if (nextElement) {
+            nextElement.focus();
+          }
+          // Reset tab pressed flag after focus moves
+          setTabPressed(false);
+        }, 10); // Slightly longer delay to ensure selection is blocked
+      } else {
+        // Reset tab pressed flag immediately if no dropdown/input
+        setTabPressed(false);
       }
-      
-      // Force the select to close without selecting anything
-      if (selectRef.current) {
-        selectRef.current.blur();
-      }
-      
-      return false;
     }
   };
 
@@ -189,6 +218,8 @@ const SelectBase = <IsMulti extends boolean = false>({
     // Reset states when component loses focus
     setIsInputCleared(false);
     setInputValue('');
+    setTabPressed(false);
+    setPreviousInputValue('');
     
     // Call the original onBlur if it exists
     if (onBlur) {
