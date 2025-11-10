@@ -141,6 +141,19 @@ const SelectBase = <IsMulti extends boolean = false>({
     // Track when input is actually cleared (had content before, now empty)
     if (previousInputValue.length > 0 && inputValue === '') {
       setIsInputCleared(true);
+      // When input is cleared, focus on the currently selected value
+      if (selectRef.current && value) {
+        selectRef.current.setState({
+          focusedOption: value,
+          inputValue: ''
+        });
+      } else if (selectRef.current) {
+        // If no value is selected, clear the focused option
+        selectRef.current.setState({
+          focusedOption: null,
+          inputValue: ''
+        });
+      }
     } else if (inputValue.length > 0) {
       setIsInputCleared(false);
     }
@@ -188,12 +201,16 @@ const SelectBase = <IsMulti extends boolean = false>({
         // Prevent Tab from selecting highlighted option
         e.preventDefault();
         
-        // Reset the input value to clear any search text
+        // Reset the input value and clear internal react-select state
         setInputValue('');
         setIsInputCleared(true);
         
-        // Close the dropdown without selecting anything
+        // Close the dropdown and reset internal focused option
         if (selectRef.current) {
+          selectRef.current.setState({
+            focusedOption: null,
+            inputValue: ''
+          });
           selectRef.current.blur();
         }
         
