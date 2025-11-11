@@ -2,12 +2,14 @@ import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
 import { Fragment, useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 import ProjectGeneralSection from './Sections/ProjectGeneralSection';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import ProjectsTopSection from './Sections/ProjectsTopSection/ProjectsTopSection';
 import { useCreateProjectPage, useGetProjectCard, useGetProjectsOptions } from '../../app/api/Projects';
+import QueryKeysEnum from '../../app/api/queryKeys';
 import AttachmentInfoSection from '../Clients/Sections/AttachmentInfoSection';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
@@ -37,7 +39,12 @@ function ProjectsPage() {
           newPath += `/${selectedProjectCode}`;
         }
       }
-      navigate(newPath, { replace: true });
+      
+      // Only navigate if the path is different from current location
+      const currentPath = window.location.pathname;
+      if (currentPath !== newPath) {
+        navigate(newPath, { replace: true });
+      }
     }
   }, [selectedClientNo, selectedProjectCode, isInitialLoad, navigate]);
 
@@ -57,6 +64,7 @@ function ProjectsPage() {
     mode: 'onBlur',
   });
   const { mutate: createProject } = useCreateProjectPage();
+  const queryClient = useQueryClient();
   const hasProjectCardAccess = useAuthorizedSee('project-card');
 
   // Fetch project data when both client and project are selected
@@ -71,7 +79,6 @@ function ProjectsPage() {
     !!selectedClientNo
   );
 
-
   // Initialize form values from URL parameters on initial load
   useEffect(() => {
     if (params.clientNo && !selectedClientNo) {
@@ -83,42 +90,16 @@ function ProjectsPage() {
       if (storedProject === '' || storedProject !== params.projectNo) {
         // Project was deleted or doesn't match, clear the URL
         setSelectedProjectCode(undefined);
-        navigate('/projects' + (params.clientNo ? `/${params.clientNo}` : ''), { replace: true });
+        // navigate('/projects' + (params.clientNo ? `/${params.clientNo}` : ''), { replace: true });
       } else {
-        form.setValue('projectCode', params.projectNo, { shouldDirty: false });
-        form.setValue('code', params.projectNo, { shouldDirty: false });
-      }
-    }
-  }, [params.clientNo, params.projectNo, form, selectedClientNo, selectedProjectCode, navigate]);
-
-  // Validate if project exists in the available project list
-  useEffect(() => {
-    if (projectOptions && selectedClientNo && params.projectNo) {
-      const projectExists = projectOptions.some((option: any) => option.value === params.projectNo);
-      
-      if (!projectExists) {
-        // Project doesn't exist in the list, remove it from URL and form
-        setSelectedProjectCode(undefined);
-        form.setValue('projectCode', '', { shouldDirty: false });
-        form.setValue('code', '', { shouldDirty: false });
-        form.setValue('project', '', { shouldDirty: false });
-        
-        // Update session storage
-        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
-        
-        // Navigate to URL without the project parameter
-        navigate('/projects' + (selectedClientNo ? `/${selectedClientNo}` : ''), { replace: true });
-      } else {
-        // Project exists, set it as selected if not already set
-        if (selectedProjectCode !== params.projectNo) {
-          setSelectedProjectCode(params.projectNo);
+        // Only update form values if they're different
+        if (form.getValues('projectCode') !== params.projectNo) {
+          form.setValue('projectCode', params.projectNo, { shouldDirty: false });
+          form.setValue('code', params.projectNo, { shouldDirty: false });
         }
-        form.setValue('projectCode', params.projectNo, { shouldDirty: false });
-        form.setValue('code', params.projectNo, { shouldDirty: false });
-        form.setValue('project', params.projectNo, { shouldDirty: false });
       }
     }
-  }, [projectOptions, selectedClientNo, params.projectNo, selectedProjectCode, form, navigate]);
+  }, [params.clientNo, params.projectNo]);
 
   // Populate form with project data when it's fetched
   useEffect(() => {
@@ -138,8 +119,36 @@ function ProjectsPage() {
         ...fieldValues,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           setUnsavedChanges(false);
+          
+          // If a new project was created, navigate to it
+          if ((fieldValues.code || fieldValues.projectCode) && fieldValues.clientNo) {
+            const projectCode = fieldValues.code || fieldValues.projectCode;
+            const clientNo = fieldValues.clientNo;
+            
+            try {
+              // Wait a moment for the backend to process
+              await new Promise(resolve => setTimeout(resolve, 500));
+              
+              // Fetch fresh project list to confirm the project exists
+              await queryClient.invalidateQueries([QueryKeysEnum.Projects, clientNo]);
+              const freshProjectOptions = await queryClient.fetchQuery([QueryKeysEnum.Projects, clientNo]) as any[];
+              
+              if (Array.isArray(freshProjectOptions)) {
+                const projectExists = freshProjectOptions.some((option: any) => option.value === projectCode);
+                
+                if (projectExists) {
+                  // Project confirmed to exist, update state and navigate
+                  setSelectedProjectCode(projectCode);
+                  setSelectedClientNo(clientNo);
+                  sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, projectCode);
+                }
+              }
+            } catch (error) {
+              console.error('Failed to navigate to new project:', error);
+            }
+          }
         },
       }
     );
