@@ -79,47 +79,6 @@ function ProjectsPage() {
     !!selectedClientNo
   );
 
-  const validateProjectExistence = async () => {
-    if (selectedClientNo && params.projectNo) {
-      try {
-        // Always fetch fresh project list before validation
-        await queryClient.invalidateQueries([QueryKeysEnum.Projects, selectedClientNo]);
-        const freshProjectOptions = await queryClient.fetchQuery([QueryKeysEnum.Projects, selectedClientNo]) as any[];
-        
-        if (Array.isArray(freshProjectOptions)) {
-          const projectExists = freshProjectOptions.some((option: any) => option.value === params.projectNo);
-          
-          if (!projectExists) {
-            // Project doesn't exist in the latest list, remove it from URL and form
-            setSelectedProjectCode(undefined);
-            form.setValue('projectCode', '', { shouldDirty: false });
-            form.setValue('code', '', { shouldDirty: false });
-            form.setValue('project', '', { shouldDirty: false });
-            
-            // Update session storage
-            sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
-            
-            // Navigate to URL without the project parameter
-            navigate('/projects' + (selectedClientNo ? `/${selectedClientNo}` : ''), { replace: true });
-          } else {
-            // Project exists in fresh data, set it as selected if not already set
-            if (selectedProjectCode !== params.projectNo) {
-              setSelectedProjectCode(params.projectNo);
-            }
-            // Only update form values if they're different to prevent loops
-            if (form.getValues('projectCode') !== params.projectNo) {
-              form.setValue('projectCode', params.projectNo, { shouldDirty: false });
-              form.setValue('code', params.projectNo, { shouldDirty: false });
-              form.setValue('project', params.projectNo, { shouldDirty: false });
-            }
-          }
-        }
-      } catch (error) {
-        console.error('Failed to validate project existence:', error);
-      }
-    }
-  };
-
   // Initialize form values from URL parameters on initial load
   useEffect(() => {
     if (params.clientNo && !selectedClientNo) {
@@ -131,7 +90,6 @@ function ProjectsPage() {
       if (storedProject === '' || storedProject !== params.projectNo) {
         // Project was deleted or doesn't match, clear the URL
         setSelectedProjectCode(undefined);
-        validateProjectExistence();
         // navigate('/projects' + (params.clientNo ? `/${params.clientNo}` : ''), { replace: true });
       } else {
         // Only update form values if they're different
@@ -142,11 +100,6 @@ function ProjectsPage() {
       }
     }
   }, [params.clientNo, params.projectNo]);
-
-  // Validate if project exists in the available project list
-  useEffect(() => {
-    validateProjectExistence();
-  }, [selectedClientNo, params.projectNo, projectOptions, queryClient, form, navigate, setSelectedProjectCode]);
 
   // Populate form with project data when it's fetched
   useEffect(() => {
