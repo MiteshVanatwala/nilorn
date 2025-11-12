@@ -266,6 +266,29 @@ const BulkEditPriceCalculationModal = ({
       return false;
     }
 
+    // Special case: If user is only changing the sales currency (not currency rate),
+    // and all records have the same purchase currency AND same sales currency, don't show popup
+    if (hasSalesCurrencySelected) {
+      // Check if all purchase currencies are the same
+      let allSamePurchaseCurrency = true;
+      if (productions.length > 0) {
+        const firstPurchaseCurrency = productions[0]?.currencyCode;
+        allSamePurchaseCurrency = productions.every(prod => prod.currencyCode === firstPurchaseCurrency);
+      }
+
+      // Check if all existing sales currencies are the same
+      let allSameSalesCurrency = true;
+      if (calculations.length > 0) {
+        const firstSalesCurrency = calculations[0]?.currency?.code;
+        allSameSalesCurrency = calculations.every(calc => calc.currency?.code === firstSalesCurrency);
+      }
+
+      // If all records have the same purchase and sales currencies, don't show popup
+      if (allSamePurchaseCurrency && allSameSalesCurrency) {
+        return false;
+      }
+    }
+
     // Check if selected entries have different purchase currencies
     let hasDifferentPurchaseCurrencies = false;
     if (productions.length > 0) {
