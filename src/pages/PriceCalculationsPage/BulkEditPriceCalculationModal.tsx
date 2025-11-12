@@ -253,13 +253,15 @@ const BulkEditPriceCalculationModal = ({
   }, [form.formState.isDirty, setDirty]);
 
   const checkCurrencyVariation = (formValues: FieldValues) => {
-    // Check if user has modified sales currency (filled in the field)
-    const hasSalesCurrencySelected = formValues.currencyCode !== null;
+    // Check if user has actually modified sales currency (not just pre-filled)
+    const hasSalesCurrencySelected = formValues.currencyCode !== null && 
+      formValues.currencyCode !== originalValues.currencyCode;
 
     // Check if user has modified currency rate (filled in the field)
-    const hasCurrencyRateSelected = formValues.currencyRate !== null;
+    const hasCurrencyRateSelected = formValues.currencyRate !== null && 
+      formValues.currencyRate !== originalValues.currencyRate;
 
-    // Only show warning if user has selected/modified currency or rate
+    // Only show warning if user has actually modified currency or rate from original values
     const hasUserModifiedCurrency = hasSalesCurrencySelected || hasCurrencyRateSelected;
 
     if (!hasUserModifiedCurrency) {
