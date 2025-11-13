@@ -253,38 +253,42 @@ const BulkEditPriceCalculationModal = ({
   }, [form.formState.isDirty, setDirty]);
 
   const checkCurrencyVariation = (formValues: FieldValues) => {
-    // Check if user has actually modified sales currency (not just pre-filled)
+    // Check if all existing sales currencies are the same first
+    let allSameSalesCurrency = true;
+    let firstSalesCurrency: string | null = null;
+    if (calculations.length > 0) {
+      firstSalesCurrency = calculations[0]?.currency?.code || null;
+      allSameSalesCurrency = calculations.every(calc => calc.currency?.code === firstSalesCurrency);
+    }
+
+    // Determine what the initial/pre-filled currency value should be
+    const initialCurrencyCode = allSameSalesCurrency ? firstSalesCurrency : null;
+
+    // Check if user has actually modified sales currency from its initial state
     const hasSalesCurrencySelected = formValues.currencyCode !== null && 
-      formValues.currencyCode !== originalValues.currencyCode;
+      formValues.currencyCode !== initialCurrencyCode;
 
     // Check if user has modified currency rate (filled in the field)
     const hasCurrencyRateSelected = formValues.currencyRate !== null && 
       formValues.currencyRate !== originalValues.currencyRate;
 
-    // Only show warning if user has actually modified currency or rate from original values
+    // Only show warning if user has actually modified currency or rate from initial values
     const hasUserModifiedCurrency = hasSalesCurrencySelected || hasCurrencyRateSelected;
 
     if (!hasUserModifiedCurrency) {
       return false;
     }
 
+    // Check if all purchase currencies are the same
+    let allSamePurchaseCurrency = true;
+    if (productions.length > 0) {
+      const firstPurchaseCurrency = productions[0]?.currencyCode;
+      allSamePurchaseCurrency = productions.every(prod => prod.currencyCode === firstPurchaseCurrency);
+    }
+
     // Special case: If user is only changing the sales currency (not currency rate),
     // and all records have the same purchase currency AND same sales currency, don't show popup
-    if (hasSalesCurrencySelected) {
-      // Check if all purchase currencies are the same
-      let allSamePurchaseCurrency = true;
-      if (productions.length > 0) {
-        const firstPurchaseCurrency = productions[0]?.currencyCode;
-        allSamePurchaseCurrency = productions.every(prod => prod.currencyCode === firstPurchaseCurrency);
-      }
-
-      // Check if all existing sales currencies are the same
-      let allSameSalesCurrency = true;
-      if (calculations.length > 0) {
-        const firstSalesCurrency = calculations[0]?.currency?.code;
-        allSameSalesCurrency = calculations.every(calc => calc.currency?.code === firstSalesCurrency);
-      }
-
+    if (hasSalesCurrencySelected && !hasCurrencyRateSelected) {
       // If all records have the same purchase and sales currencies, don't show popup
       if (allSamePurchaseCurrency && allSameSalesCurrency) {
         return false;
@@ -300,21 +304,7 @@ const BulkEditPriceCalculationModal = ({
     }
 
     // Check if selected entries have different sales currencies
-    let hasDifferentSalesCurrencies = false;
-    if (calculations.length > 0) {
-      // If user is selecting a sales currency, check if new currency differs from any existing ones
-      if (hasSalesCurrencySelected) {
-        hasDifferentSalesCurrencies = calculations.some(
-          calc => calc.currency?.code !== formValues.currencyCode
-        );
-      } else {
-        // If user is not selecting sales currency, check if existing currencies differ
-        const firstSalesCurrency = calculations[0]?.currency?.code;
-        hasDifferentSalesCurrencies = calculations.some(
-          calc => calc.currency?.code !== firstSalesCurrency
-        );
-      }
-    }
+    let hasDifferentSalesCurrencies = !allSameSalesCurrency;
 
     // Show warning if:
     // 1. User has selected/modified currency or rate, AND
