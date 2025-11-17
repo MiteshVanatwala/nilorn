@@ -42,7 +42,6 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
     if(itemCategoryCodeStartVal !== itemCategoryCode && !isDirty){
       setItemCategoryCodeStartVal(itemCategoryCode)
     }
-
   },[isDirty, itemCategoryCode, itemCategoryCodeStartVal])
 
   useEffect(() => {
@@ -52,7 +51,6 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
     }
   }, [
     itemCategoryCode,
-    productGroupCode,
     itemCategoryCodeStartVal,
     setValue,
     isDirty,
@@ -150,10 +148,9 @@ const GeneralSection = ({ createNew, disableEdit }: Props) => {
               required: createNew ? false : status !== Status.NEW,
             }}
             value={selectedProductGroupOption}
-            defaultValue={selectedProductGroupOption}
             isDisabled={!itemCategoryCode || disableEdit}
             placeholder={`${t('Filter.Select')}`}
-            key={`productGroup-${itemCategoryCode}`}
+            key={`productGroup-${itemCategoryCode}-${productGroupCode}`}
           />
         </GridItem>
         <GridItem colSpan={12}>
