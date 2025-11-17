@@ -227,10 +227,11 @@ function ProjectsPage() {
             }
           );
         }
-        // setTimeout(() => {
-        //   sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
-        // }, 500);
-      }, 200);
+        // Force clean state after initial load
+        setTimeout(() => {
+          setUnsavedChanges(false);
+        }, 100);
+      }, 1200);
     } else {
       setIsInitialLoad(false);
     }
