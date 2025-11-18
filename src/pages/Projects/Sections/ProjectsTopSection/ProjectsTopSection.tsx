@@ -188,7 +188,7 @@ const ProjectsTopSection = ({
   );
 
   const defaultProjectOption = useMemo(() => {
-    return optionItems.find((option: any) => option.value === projectCode);
+    return projectCode !== "" && optionItems.find((option: any) => option.value === projectCode);
   }, [optionItems, projectCode]);
 
   const handleLeavePageBlocker = (accepted?: boolean) => {
