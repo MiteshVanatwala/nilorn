@@ -11,6 +11,7 @@ import RemixIcon from '../../components/Icon/RemixIcon';
 
 type Props = {
   disabled: boolean;
+  disableCreate?: boolean;
   handleExportClick: () => void;
   handleAddPriceCalculation?: () => void;
   handleEditPriceCalculation?: () => void;
@@ -19,6 +20,7 @@ type Props = {
 
 const PriceCalculationPageMenu = ({
   disabled = false,
+  disableCreate = false,
   handleExportClick,
   enableEditCalculation = false,
   handleAddPriceCalculation = () => {},
@@ -41,6 +43,7 @@ const PriceCalculationPageMenu = ({
       <MenuList lineHeight={1.5} zIndex={9}>
         <MenuItem
           onClick={handleAddPriceCalculation}
+          isDisabled={disableCreate}
           icon={
             <RemixIcon
               component="Text"

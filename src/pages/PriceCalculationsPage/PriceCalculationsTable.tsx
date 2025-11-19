@@ -20,6 +20,7 @@ import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
 import { useBulkPriceCalculationsBatch, useBulkProductionsBatch } from '../../app/api/calculation';
+import { isClosed } from '../../app/utils/status';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -416,6 +417,49 @@ const PriceCalculationsTable = ({ data }: Props) => {
     getUniqueClients();
   };
 
+  const hasClosedPD = useMemo(() => {
+    for (const pd of data) {
+      if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
+        for (const sp of pd.sourcedProductions || []) {
+          for (const production of sp.productions || []) {
+            if (production.id && selectedProduction[production.id]?.selected) {
+              return true;
+            }
+            for (const calc of production.priceCalculations || []) {
+              if (calc.id && selectedPrices[calc.id]?.selected) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }, [data, selectedProduction, selectedPrices]);
+
+  const hasClosedPDInSelectedPrices = useMemo(() => {
+    const selectedPriceIds = Object.entries(selectedPrices)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+    
+    if (selectedPriceIds.length <= 1) return false;
+    
+    for (const pd of data) {
+      if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
+        for (const sp of pd.sourcedProductions || []) {
+          for (const production of sp.productions || []) {
+            for (const calc of production.priceCalculations || []) {
+              if (calc.id && selectedPriceIds.includes(calc.id)) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }, [data, selectedPrices]);
+
   return (
     <>
       <GridTable
@@ -481,10 +525,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
                       isLoading ||
                       uniqueClients.length > 1
                     }
+                    disableCreate={hasClosedPD}
                     enableEditCalculation={
                       Object.values(selectedProduction).filter(
                         production => production.selected
-                      ).length > 0
+                      ).length > 0 || hasClosedPDInSelectedPrices
                     }
                     handleExportClick={handleExportClick}
                     handleAddPriceCalculation={handleAddPriceCalculation}
