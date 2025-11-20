@@ -402,19 +402,39 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const selectDeselectAll = () => {
-    setSelectAll(!selectAll);
-    for (var key in selectedPrices) {
-      if (selectedPrices.hasOwnProperty(key)) {
-        selectedPrices[key].selected = !selectAll;
+    const newSelectAllState = !selectAll;
+    setSelectAll(newSelectAllState);
+    
+    // Update selectedPrices state properly
+    setSelectedPrices(prev => {
+      const newState = { ...prev };
+      for (var key in newState) {
+        if (newState.hasOwnProperty(key)) {
+          newState[key] = {
+            ...newState[key],
+            selected: newSelectAllState,
+          };
+        }
       }
-    }
-    for (var keyProd in selectedProduction) {
-      if (selectedProduction.hasOwnProperty(keyProd)) {
-        selectedProduction[keyProd].selected = !selectAll;
+      return newState;
+    });
+    
+    // Update selectedProduction state properly
+    setSelectedProduction(prev => {
+      const newState = { ...prev };
+      for (var keyProd in newState) {
+        if (newState.hasOwnProperty(keyProd)) {
+          newState[keyProd] = {
+            ...newState[keyProd],
+            selected: newSelectAllState,
+          };
+        }
       }
-    }
+      return newState;
+    });
+    
     setSelectAllIndeterminate(false);
-    getUniqueClients();
+    // getUniqueClients(); // This will be called automatically by the useEffect
   };
 
   const hasClosedPD = useMemo(() => {
