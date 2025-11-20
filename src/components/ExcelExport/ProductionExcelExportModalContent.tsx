@@ -22,13 +22,13 @@ import {
   ProductionExcelExportFieldKeyList,
 } from '../../app/types/types';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
-import { SelectedProductions } from '../../pages/Productions/ProductionsTable';
+import { SelectedPriceCalculations } from '../../pages/Productions/ProductionsTable';
 
 type Props = {
-  selectedProductions: SelectedProductions;
+  selectedPriceCalculations: SelectedPriceCalculations;
 };
 
-const ProductionExcelExportModalContent = ({ selectedProductions }: Props) => {
+const ProductionExcelExportModalContent = ({ selectedPriceCalculations }: Props) => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownloadFile();
   const { close } = useContext(ModalContext);
@@ -56,16 +56,17 @@ const ProductionExcelExportModalContent = ({ selectedProductions }: Props) => {
     close();
   };
 
-  const getUniqueClients = Object.values(selectedProductions)
+  const getUniqueClients = Object.values(selectedPriceCalculations)
     .filter(val => val.selected === true).length;
 
   async function onSubmit(): Promise<void> {
-    const selectedIds = Object.entries(selectedProductions)
+    const selectedIds = Object.entries(selectedPriceCalculations)
       .filter(([_, value]) => value.selected === true)
-      .map(([id]) => id);
+      .map(([id, value]) => ({ priceCalculationId: id, productionId: value.productionId }));
 
-    const excelExportOptions = selectedIds.map(id => ({
-      ProductionId: id,
+    const excelExportOptions = selectedIds.map(item => ({
+      PriceCalculationId: item.priceCalculationId,
+      ProductionId: item.productionId,
       Client: selections.client,
       Description: selections.description,
       Version: selections.versionSpec,

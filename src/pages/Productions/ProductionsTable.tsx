@@ -20,20 +20,22 @@ const GRID_LAYOUT_DESKTOP =
 export const GRID_LAYOUT_SOURCING_DESKTOP =
   'repeat(1, 1fr) [Checkbox] minmax(50px, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 export const GRID_LAYOUT_PRODUCTION_DESKTOP =
-  '[Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
+  '[Checkbox] minmax(50px, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Checkbox] minmax(50px, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 export const GRID_LAYOUT_SOURCING =
   'repeat(1, minmax(100px, 1fr)) [Checkbox] minmax(50px, 1fr) [Vendor] minmax(230px, 1fr) repeat(5, minmax(100px, 1fr))';
 export const GRID_LAYOUT_PRODUCTION =
-  '[Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
+  '[Checkbox] [Vendor] minmax(230px, 1fr) repeat(5, 1fr)';
 
-export type SelectedProductions = {
+export type SelectedPriceCalculations = {
   [key: string]: {
     selected: boolean;
     client: string;
     productDevelopmentNo: string;
+    productionId: string;
+    vendorName: string;
   };
 };
 
@@ -45,64 +47,93 @@ const ProductionsTable = ({ productions }: Props) => {
   const { t } = useTranslation();
   const { handleModal } = useModal();
   const { isLoading } = useDownloadFile();
-  const [selectedProductions, setSelectedProductions] = useState<SelectedProductions>({});
+  const [selectedPriceCalculations, setSelectedPriceCalculations] = useState<SelectedPriceCalculations>({});
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] = useState<boolean>(false);
-  const selectedCheckboxes = Object.values(selectedProductions).filter(
-    production => production.selected
+  const selectedCheckboxes = Object.values(selectedPriceCalculations).filter(
+    priceCalculation => priceCalculation.selected
   ).length;
 
   useEffect(() => {
     let selectedCount = 0;
-    for (var key in selectedProductions) {
+    for (var key in selectedPriceCalculations) {
       if (
-        selectedProductions.hasOwnProperty(key) &&
-        selectedProductions[key]?.selected === true
+        selectedPriceCalculations.hasOwnProperty(key) &&
+        selectedPriceCalculations[key]?.selected === true
       ) {
         selectedCount++;
       }
     }
     if (selectedCount > 0) {
-      setSelectAll(Object.keys(selectedProductions).length === selectedCount);
+      setSelectAll(Object.keys(selectedPriceCalculations).length === selectedCount);
       setSelectAllIndeterminate(
-        Object.keys(selectedProductions).length !== selectedCount
+        Object.keys(selectedPriceCalculations).length !== selectedCount
       );
     } else {
       setSelectAll(false);
       setSelectAllIndeterminate(false);
     }
-  }, [selectedProductions]);
+  }, [selectedPriceCalculations]);
 
   useEffect(() => {
-    let selectedProductionList: SelectedProductions = {};
+    let selectedPriceCalculationList: SelectedPriceCalculations = {};
     productions?.forEach(p => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           if (production?.id) {
-            selectedProductionList[`${production.id}`] = {
-              selected: false,
-              client: p.productDevelopmentDataDto?.clientName || '',
-              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-            };
+            // For now, use production ID as key until price calculations are available
+            if (production.priceCalculations && production.priceCalculations.length > 0) {
+              // If price calculations exist, use them
+              production.priceCalculations.forEach(priceCalculation => {
+                if (priceCalculation?.id) {
+                  selectedPriceCalculationList[`${priceCalculation.id}`] = {
+                    selected: false,
+                    client: p.productDevelopmentDataDto?.clientName || '',
+                    productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+                    productionId: production.id || '',
+                    vendorName: production.vendorName || '',
+                  };
+                }
+              });
+            } else {
+              // If no price calculations, create a temporary entry using production ID
+              selectedPriceCalculationList[`${production.id}`] = {
+                selected: false,
+                client: p.productDevelopmentDataDto?.clientName || '',
+                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+                productionId: production.id || '',
+                vendorName: production.vendorName || '',
+              };
+            }
           }
         });
       });
     });
-    setSelectedProductions(selectedProductionList);
+    setSelectedPriceCalculations(selectedPriceCalculationList);
   }, [productions]);
 
 
   const handleExportClick = async () => {
-    handleModal(<ProductionExcelExportModalContent selectedProductions={selectedProductions} />);
+    handleModal(<ProductionExcelExportModalContent selectedPriceCalculations={selectedPriceCalculations} />);
   };
 
   const selectDeselectAll = () => {
-    setSelectAll(!selectAll);
-    for (var key in selectedProductions) {
-      if (selectedProductions.hasOwnProperty(key)) {
-        selectedProductions[key].selected = !selectAll;
+    const newSelectAllState = !selectAll;
+    setSelectAll(newSelectAllState);
+    
+    setSelectedPriceCalculations(prev => {
+      const newState = { ...prev };
+      for (var key in newState) {
+        if (newState.hasOwnProperty(key)) {
+          newState[key] = {
+            ...newState[key],
+            selected: newSelectAllState,
+          };
+        }
       }
-    }
+      return newState;
+    });
+    
     setSelectAllIndeterminate(false);
   };
 
@@ -149,7 +180,7 @@ const ProductionsTable = ({ productions }: Props) => {
                 <GridItem>
                   <ProductionPageMenu
                     disabled={
-                      !Object.values(selectedProductions)
+                      !Object.values(selectedPriceCalculations)
                         .map(val => val.selected)
                         .some(Boolean) ||
                       isLoading
@@ -169,8 +200,8 @@ const ProductionsTable = ({ productions }: Props) => {
             <ProductionsTableRow
               key={`ProductionsTableRow_${p.productDevelopmentDataDto?.no}_${i}`}
               productDevelopment={p}
-              selectedProductions={selectedProductions}
-              setSelectedProductions={setSelectedProductions}
+              selectedPriceCalculations={selectedPriceCalculations}
+              setSelectedPriceCalculations={setSelectedPriceCalculations}
             />
           ))}
         </Fragment>

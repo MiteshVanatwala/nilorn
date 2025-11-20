@@ -11,7 +11,7 @@ import {
   GRID_LAYOUT_PRODUCTION_DESKTOP,
   GRID_LAYOUT_SOURCING,
   GRID_LAYOUT_SOURCING_DESKTOP,
-  SelectedProductions,
+  SelectedPriceCalculations,
 } from './ProductionsTable';
 import { TD_STYLE, TD_STYLE_RELEASED } from '../../theme/Constants/tableGrid';
 import TableMenuContainer from '../../components/Table/TableMenuContainer';
@@ -24,22 +24,22 @@ import { SPACE } from '../../theme/Constants';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
-  selectedProductions: SelectedProductions;
-  setSelectedProductions: React.Dispatch<React.SetStateAction<SelectedProductions>>;
+  selectedPriceCalculations: SelectedPriceCalculations;
+  setSelectedPriceCalculations: React.Dispatch<React.SetStateAction<SelectedPriceCalculations>>;
 };
 
-const ProductionsTableRow = ({ productDevelopment: p, selectedProductions, setSelectedProductions }: Props) => {
+const ProductionsTableRow = ({ productDevelopment: p, selectedPriceCalculations, setSelectedPriceCalculations }: Props) => {
   const filters = useFormStateFilters();
   const isPDClosed =
     p.productDevelopmentDataDto?.status &&
     isClosed(p.productDevelopmentDataDto?.status);
 
-  const toggleSelectedProductionCheckbox = (productionId: string) => {
-    setSelectedProductions(prev => ({
+  const toggleSelectedPriceCalculationCheckbox = (priceCalculationId: string) => {
+    setSelectedPriceCalculations(prev => ({
       ...prev,
-      [productionId]: {
-        ...prev[productionId],
-        selected: !prev[productionId]?.selected,
+      [priceCalculationId]: {
+        ...prev[priceCalculationId],
+        selected: !prev[priceCalculationId]?.selected,
       },
     }));
   };
@@ -105,32 +105,10 @@ const ProductionsTableRow = ({ productDevelopment: p, selectedProductions, setSe
                   )}
                 </>
               </GridTd>
-              <GridTd justifyContent={'center'} style={TD_STYLE}>
-                {s.productions && s.productions.length > 0 ? (
-                  <Checkbox
-                    isChecked={s.productions.some(prod => selectedProductions[`${prod.id}`]?.selected)}
-                    isIndeterminate={
-                      s.productions.some(prod => selectedProductions[`${prod.id}`]?.selected) &&
-                      !s.productions.every(prod => selectedProductions[`${prod.id}`]?.selected)
-                    }
-                    onChange={() => {
-                      const allSelected = s.productions?.every(prod => selectedProductions[`${prod.id}`]?.selected);
-                      s.productions?.forEach(production => {
-                        toggleSelectedProductionCheckbox(production.id || '');
-                      });
-                    }}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                      if (e.key === 'Enter') {
-                        s.productions?.forEach(production => {
-                          toggleSelectedProductionCheckbox(production.id || '');
-                        });
-                      }
-                    }}
-                  />
-                ) : null}
-              </GridTd>
+              {/* <GridTd justifyContent={'center'} style={TD_STYLE}>
+              </GridTd> */}
               <GridItem
-                colSpan={6}
+                colSpan={7}
                 style={s.productions?.length === 0 ? TD_STYLE : undefined}>
                 <GridInlineTbody
                   gridTemplateColumns={{
@@ -144,6 +122,8 @@ const ProductionsTableRow = ({ productDevelopment: p, selectedProductions, setSe
                       style={
                         production?.released ? TD_STYLE_RELEASED : TD_STYLE
                       }
+                      selectedPriceCalculations={selectedPriceCalculations}
+                      toggleSelectedPriceCalculationCheckbox={toggleSelectedPriceCalculationCheckbox}
                       tableMenu={
                         <TableMenuContainer
                           children={
