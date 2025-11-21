@@ -50,6 +50,8 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     onNavigate,
     setDirty,
     leavePageModal,
+    openLeavePageModal,
+    hasUnsavedChanges,
   } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
   const modalContext = useContext(ModalContext);
   const queryClient = useQueryClient();
@@ -60,6 +62,73 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     queryClient.setQueryData(['forceCloseInlineEdit'], activeCalculationId);
     modalContext.close();
   };
+
+  // Set up the custom close handler
+  useEffect(() => {
+    const handleCustomClose = () => {
+      // If delete modal is open, let it handle the close
+      if (isDeleteModalOpen) {
+        return;
+      }
+
+      // Check if there are unsaved changes
+      if (hasUnsavedChanges()) {
+        // Show unsaved changes modal
+        openLeavePageModal();
+      } else {
+        // No unsaved changes, close modal directly
+        close();
+      }
+    };
+
+    if (modalContext.setCustomCloseHandler) {
+      modalContext.setCustomCloseHandler(() => handleCustomClose);
+    }
+    
+    // Cleanup: remove custom close handler when component unmounts
+    return () => {
+      if (modalContext.setCustomCloseHandler) {
+        modalContext.setCustomCloseHandler(null);
+      }
+    };
+  }, [isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close, modalContext.setCustomCloseHandler]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        // If delete modal is open, let it handle Esc instead
+        if (isDeleteModalOpen) {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close]);
+
+  // Prevent modal from closing when form is dirty or delete modal is open
+  useEffect(() => {
+    if (modalContext.setPreventClose) {
+      modalContext.setPreventClose(isDeleteModalOpen || hasUnsavedChanges());
+    }
+  }, [isDeleteModalOpen, hasUnsavedChanges, modalContext.setPreventClose]);
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
