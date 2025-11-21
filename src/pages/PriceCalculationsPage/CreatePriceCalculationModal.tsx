@@ -46,7 +46,7 @@ const CreatePriceCalculationModal = ({
   const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
   const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
-  const { close, setCustomCloseHandler } = useContext(ModalContext);
+  const { close, setCustomCloseHandler, setPreventClose } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
     undefined,
@@ -109,6 +109,36 @@ const CreatePriceCalculationModal = ({
       }
     };
   }, [hasUnsavedChanges, openLeavePageModal, close, setCustomCloseHandler]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [hasUnsavedChanges, openLeavePageModal, close]);
+
+  // Prevent modal from closing when form is dirty
+  useEffect(() => {
+    setPreventClose(hasUnsavedChanges());
+  }, [hasUnsavedChanges, setPreventClose]);
 
   useEffect(() => {
     if (isLoadedDefaultValues) {
