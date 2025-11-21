@@ -34,11 +34,11 @@ const BulkCreatePriceCalculationModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
-  const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
+  const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
   const { mutate: createCalculation, isSuccess: isCreateSuccess } =
     useCreateCalculation();
-  const { close } = useContext(ModalContext);
+  const { close, setCustomCloseHandler } = useContext(ModalContext);
 
   const form = useForm({
     mode: 'onChange',
@@ -57,6 +57,31 @@ const BulkCreatePriceCalculationModal = ({
       margin: null,
     },
   });
+
+  // Set up the custom close handler
+  useEffect(() => {
+    const handleCustomClose = () => {
+      // Check if there are unsaved changes
+      if (hasUnsavedChanges()) {
+        // Show unsaved changes modal
+        openLeavePageModal();
+      } else {
+        // No unsaved changes, close modal directly
+        close();
+      }
+    };
+
+    if (setCustomCloseHandler) {
+      setCustomCloseHandler(() => handleCustomClose);
+    }
+    
+    // Cleanup: remove custom close handler when component unmounts
+    return () => {
+      if (setCustomCloseHandler) {
+        setCustomCloseHandler(null);
+      }
+    };
+  }, [hasUnsavedChanges, openLeavePageModal, close, setCustomCloseHandler]);
 
   useEffect(() => {
     form.reset({
