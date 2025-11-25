@@ -26,9 +26,10 @@ import { SelectedPriceCalculations } from '../../pages/Productions/ProductionsTa
 
 type Props = {
   selectedPriceCalculations: SelectedPriceCalculations;
+  isProduction?: boolean;
 };
 
-const ProductionExcelExportModalContent = ({ selectedPriceCalculations }: Props) => {
+const ProductionExcelExportModalContent = ({ selectedPriceCalculations, isProduction = false }: Props) => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownloadFile();
   const { close } = useContext(ModalContext);
@@ -46,7 +47,7 @@ const ProductionExcelExportModalContent = ({ selectedPriceCalculations }: Props)
     certificate: true,
     sourcing: false,
   });
-  const [fileName, setFileName] = useState<string>('ProductionExport');
+  const [fileName, setFileName] = useState<string>('UmbrellaExport');
 
   const handleCheckboxChange = (field: ProductionExcelExportFieldKey) => {
     setSelections(prev => ({ ...prev, [field]: !prev[field] }));
@@ -58,6 +59,16 @@ const ProductionExcelExportModalContent = ({ selectedPriceCalculations }: Props)
 
   const getUniqueClients = Object.values(selectedPriceCalculations)
     .filter(val => val.selected === true).length;
+  
+  const getUniqueProductDevelopments = (() => {
+    const set = new Set<string>();
+    Object.values(selectedPriceCalculations)
+      .filter(val => val.selected === true)
+      .forEach(val => {
+        if (val.productDevelopmentNo) set.add(val.productDevelopmentNo);
+      });
+    return set.size;
+  })();
 
   async function onSubmit(): Promise<void> {
     const selectedIds = Object.entries(selectedPriceCalculations)
@@ -160,7 +171,7 @@ const ProductionExcelExportModalContent = ({ selectedPriceCalculations }: Props)
           />
         </Box>
         <Text mt={2} fontSize="sm">
-          {getUniqueClients} {t('ExcelExport.ProductDevelopmentIncluded')}
+          {isProduction ? getUniqueProductDevelopments :getUniqueClients} {t('ExcelExport.ProductDevelopmentIncluded')}
         </Text>
       </ModalBody>
       <ModalFooter justifyContent={'center'}>

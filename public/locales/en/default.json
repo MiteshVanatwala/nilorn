@@ -428,7 +428,7 @@
     "ModalTitle": "Create excel export",
     "ModalDesc": "Select the information you want to include in the export",
     "ProductionModalTitle": "Create production excel export",
-    "ProductionModalDesc": "Select the information you want to include in the production export",
+    "ProductionModalDesc": "Select the information you want to include in the export",
     "image": "Image",
     "itemNo": "Item No",
     "description": "Description",
@@ -443,7 +443,7 @@
     "foldingType": "Folding Type",
     "finishedLength": "Finished Length",
     "finishedWidth": "Finished Width",
-    "sourcing": "Sourcing Company",
+    "sourcing": "Sourcing",
     "dieSet": "Die Set",
     "FileName": "File name",
     "ProductDevelopmentIncluded": "product developments are included in the selection"

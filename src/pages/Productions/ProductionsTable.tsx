@@ -114,7 +114,7 @@ const ProductionsTable = ({ productions }: Props) => {
 
 
   const handleExportClick = async () => {
-    handleModal(<ProductionExcelExportModalContent selectedPriceCalculations={selectedPriceCalculations} />);
+    handleModal(<ProductionExcelExportModalContent selectedPriceCalculations={selectedPriceCalculations} isProduction />);
   };
 
   const selectDeselectAll = () => {
