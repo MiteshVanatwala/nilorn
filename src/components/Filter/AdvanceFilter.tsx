@@ -27,12 +27,14 @@ type Props = {
   filters: FilterInput[];
   wideFilter?: boolean;
   hideIncludeClosed?: boolean;
+  filterByUser?: boolean;
 };
 
 const AdvanceFilter = ({
   filters,
   wideFilter,
   hideIncludeClosed = false,
+  filterByUser = false,
 }: Props) => {
   const { t } = useTranslation();
   const { unregister, getValues, setValue } = useFormContext();
@@ -160,7 +162,7 @@ const AdvanceFilter = ({
                   icon={<RemixIcon component="i" icon="CLOSE_LINE" />}
                   onClick={() => handleRemove(so.value.name)}
                 />
-                <InputSwitch option={so.value} />
+                <InputSwitch option={so.value} filterByUser={filterByUser} />
               </GridItem>
             ))}
           </Grid>
