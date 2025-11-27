@@ -10,9 +10,10 @@ type Props = {
   hasSearch?: boolean;
   filterInputs: FilterInput[];
   wideFilter?: boolean;
+  filterByUser?: boolean;
 };
 
-const Filter = ({ hasSearch, filterInputs, wideFilter }: Props) => {
+const Filter = ({ hasSearch, filterInputs, wideFilter, filterByUser }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -49,7 +50,7 @@ const Filter = ({ hasSearch, filterInputs, wideFilter }: Props) => {
             base: 1,
             md: 2,
           }}>
-          <InputSwitch option={input} />
+          <InputSwitch option={input} filterByUser={filterByUser} />
         </GridItem>
       ))}
     </Grid>

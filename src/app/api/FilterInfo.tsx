@@ -26,6 +26,23 @@ export function useClients(
   );
 }
 
+export function useClientFilterOptions(
+  enable: boolean = true,
+  filterByAccess: boolean = false,
+  filterByUser: boolean = false
+) {
+  return useQuery(
+    [QueryKeysEnum.ClientOptions, filterByAccess, filterByUser],
+    () => ClientService.getApiClientFilterOption(filterByAccess, filterByUser).then(res => res),
+    {
+      cacheTime: 60 * 1000 * 5,
+      staleTime: 60 * 1000 * 5,
+      enabled: enable,
+      retry: 0,
+    }
+  );
+}
+
 export function useClient(clientNo: string) {
   return useQuery(
     [QueryKeysEnum.Clients, clientNo],
