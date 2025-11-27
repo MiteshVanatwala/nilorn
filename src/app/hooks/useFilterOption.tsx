@@ -41,7 +41,7 @@ const mapMembersToOptions = (members?: MemberBriefDto[]) => {
   );
 };
 
-const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, filterByUser?: boolean) => {
+const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductDevelopment?: boolean, filterByUser?: boolean) => {
   const { data: clients } = useClientFilterOptions(
     name === 'clients',
     filterByAccess,

@@ -20,7 +20,7 @@ const InputSwitch = ({ option, filterByUser }: Props) => {
   const { name, type } = option || {};
   const optionLabel = t(`PD.FilterLabel.${name}`);
 
-  const options = useFilterOptions(name, undefined, filterByUser);
+  const options = useFilterOptions(name, undefined, undefined, filterByUser);
 
   switch (type) {
     case 'text':
