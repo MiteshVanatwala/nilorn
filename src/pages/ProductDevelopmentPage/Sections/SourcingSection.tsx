@@ -35,7 +35,7 @@ const SourcingSection = ({ no, disableEdit }: Props) => {
     name: SOURCING_KEY,
   });
 
-  const sourcingCompanies = useFilterOptions('sourcingCompanies');
+  const sourcingCompanies = useFilterOptions('sourcingCompanies', false, true);
   const [selected, setSelected] = useState<MultiValue<SelectOption>>([]);
 
   useEffect(() => {

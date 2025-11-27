@@ -40,7 +40,7 @@ const mapMembersToOptions = (members?: MemberBriefDto[]) => {
   );
 };
 
-const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean) => {
+const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductDevelopment?: boolean) => {
   const { data: clients } = useClients(
     name === 'clients' ?? false,
     filterByAccess
@@ -52,7 +52,7 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean) => {
   const { data: vendors } = useVendors(name === 'vendors');
   const { data: sourcingCompanies } = useOpCompOption(
     name === 'sourcingCompanies' ?? false,
-    true
+    isProductDevelopment ?? false
   );
   const { data: opComp } = useOpCompOption(name === 'opComps' ?? false);
   const { data: members } = useMembers(name === 'members' ?? false);
