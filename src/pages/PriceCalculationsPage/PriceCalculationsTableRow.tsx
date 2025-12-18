@@ -14,6 +14,7 @@ import {
   GRID_LAYOUT_SOURCING,
   GRID_LAYOUT_SOURCING_DESKTOP,
   PD_COL_SPAN,
+  SelectedProduction,
   SOURCING_COL_SPAN,
   VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
@@ -24,12 +25,16 @@ type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
   selectedPrices: SelectedPrices;
   setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
+  selectedProduction: SelectedProduction;
+  setSelectedProduction: React.Dispatch<React.SetStateAction<SelectedProduction>>;
 };
 
 const PriceCalculationsTableRow = ({
   productDevelopment: p,
   selectedPrices,
   setSelectedPrices,
+  selectedProduction,
+  setSelectedProduction
 }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
@@ -96,6 +101,8 @@ const PriceCalculationsTableRow = ({
                           productDevelopment={p.productDevelopmentDataDto}
                           selectedPrices={selectedPrices}
                           setSelectedPrices={setSelectedPrices}
+                          selectedProduction={selectedProduction}
+                          setSelectedProduction={setSelectedProduction}
                         />
                       </Fragment>
                     ))

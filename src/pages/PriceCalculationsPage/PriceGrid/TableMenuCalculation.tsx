@@ -118,6 +118,7 @@ const TableMenuCalculation = ({
                   description={t('PD.DeleteMsg')}
                   confirmType={'DELETE'}
                   onConfirm={() => deleteCalculation()}
+                  onClose={() => close()}
                 />
               )
             }

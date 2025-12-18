@@ -10,19 +10,27 @@ import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
 import { isClosed } from '../../app/utils/status';
 import text from '../../theme/text';
 import useStoreFilterAndNavigate from '../../app/hooks/useStoreFilterAndNavigate';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   sourcingCompanyCode?: string | null;
   vendorName?: string | null;
   actionBar: JSX.Element;
+  isBulkEdit?: boolean;
+  totalPriceCalculations?: number;
+  createNew?: boolean;
 };
 const ProductDevelopmentModalTopSection = ({
   productDevelopment,
   sourcingCompanyCode,
   vendorName,
   actionBar,
+  isBulkEdit = false,
+  totalPriceCalculations = 0,
+  createNew = false,
 }: Props) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const vendorOptions = useFilterOptions('vendors');
 
@@ -60,80 +68,93 @@ const ProductDevelopmentModalTopSection = ({
             md: 6,
             lg: 5,
           }}>
-          <HStack
-            flexDir={{
-              base: 'column',
-              md: 'row',
-            }}
-            gap={{
-              base: SPACE.XXS,
-              md: SPACE.MD,
-            }}
-            alignItems={'top'}>
-            {productDevelopment?.thumbnailData && (
-              <Image
-                width={'40'}
-                height={'40'}
-                objectFit={'cover'}
-                src={`data:image/jpeg;base64,${productDevelopment?.thumbnailData}`}
-              />
-            )}
-
-            <VStack
-              transition={TRANSITION.EASEOUT}
+          {!isBulkEdit && (
+            <HStack
+              flexDir={{
+                base: 'column',
+                md: 'row',
+              }}
               gap={{
                 base: SPACE.XXS,
-                md: SPACE.XS,
+                md: SPACE.MD,
               }}
-              flexDir={'column'}
-              py={{
-                base: '0',
-                lg: SPACE.MD,
-              }}
-              alignItems={'flex-start'}>
-              <Heading fontSize={SIZES.FONT.SM}>
-                {productDevelopment?.name}
-              </Heading>
-              <HStack>
-                {location.pathname.includes('productions') ? (
-                  <Text>{vendorName}</Text>
-                ) : (
-                  <Link
-                    as={NavLink}
-                    state={NAV_LINK}
-                    onClick={handleClick}
-                    to={`/productions?vendors=${
-                      vendorOptions.find(option => option.label === vendorName)
-                        ?.value
-                    }&productDevelopments=${productDevelopment?.no}${
-                      isClosed(productDevelopment?.status!)
-                        ? `&statuses=${productDevelopment?.status}`
-                        : ''
-                    }`}
-                    fontWeight={text.variants.bodyRegular.fontWeight}>
-                    {vendorName}
-                  </Link>
-                )}
-                {vendorName && sourcingCompanyCode && <>{' - '}</>}
-                <Text>{sourcingCompanyCode}</Text>
-              </HStack>
-              <HStack gap={SPACE.SM}>
-                <Text>
-                  {productDevelopment?.no && (
+              alignItems={'top'}>
+              {productDevelopment?.thumbnailData && (
+                <Image
+                  width={'40'}
+                  height={'40'}
+                  objectFit={'cover'}
+                  src={`data:image/jpeg;base64,${productDevelopment?.thumbnailData}`}
+                />
+              )}
+
+              <VStack
+                transition={TRANSITION.EASEOUT}
+                gap={{
+                  base: SPACE.XXS,
+                  md: SPACE.XS,
+                }}
+                flexDir={'column'}
+                py={{
+                  base: '0',
+                  lg: SPACE.MD,
+                }}
+                alignItems={'flex-start'}>
+                <Heading fontSize={SIZES.FONT.SM}>
+                  {productDevelopment?.name}
+                </Heading>
+                <HStack>
+                  {location.pathname.includes('productions') ? (
+                    <Text>{vendorName}</Text>
+                  ) : (
                     <Link
                       as={NavLink}
                       state={NAV_LINK}
                       onClick={handleClick}
-                      to={`/product-development/${productDevelopment?.no}`}
+                      to={`/productions?vendors=${
+                        vendorOptions.find(
+                          option => option.label === vendorName
+                        )?.value
+                      }&productDevelopments=${productDevelopment?.no}${
+                        isClosed(productDevelopment?.status!)
+                          ? `&statuses=${productDevelopment?.status}`
+                          : ''
+                      }`}
                       fontWeight={text.variants.bodyRegular.fontWeight}>
-                      {productDevelopment?.no}
+                      {vendorName}
                     </Link>
                   )}
-                </Text>
-                <StatusBadge status={productDevelopment?.status} />
-              </HStack>
-            </VStack>
-          </HStack>
+                  {vendorName && sourcingCompanyCode && <>{' - '}</>}
+                  <Text>{sourcingCompanyCode}</Text>
+                </HStack>
+                <HStack gap={SPACE.SM}>
+                  <Text>
+                    {productDevelopment?.no && (
+                      <Link
+                        as={NavLink}
+                        state={NAV_LINK}
+                        onClick={handleClick}
+                        to={`/product-development/${productDevelopment?.no}`}
+                        fontWeight={text.variants.bodyRegular.fontWeight}>
+                        {productDevelopment?.no}
+                      </Link>
+                    )}
+                  </Text>
+                  <StatusBadge status={productDevelopment?.status} />
+                </HStack>
+              </VStack>
+            </HStack>
+          )}
+          {totalPriceCalculations > 1 && (
+            <Text mb={1} fontWeight={'bold'}>
+              {totalPriceCalculations}{' '}
+              {t(
+                createNew
+                  ? 'PriceCalc.selectedRowsArray'
+                  : 'PriceCalc.selectedRowsArrayUpdate'
+              )}
+            </Text>
+          )}
         </GridItem>
         <GridItem
           py={{
@@ -153,26 +174,30 @@ const ProductDevelopmentModalTopSection = ({
             md: 3,
             lg: 4,
           }}>
-          <Text>
-            {productDevelopment?.clientName}{' '}
-            {productDevelopment?.clientRequirement && (
-              <Tooltip
-                label={
-                  <Box
-                    dangerouslySetInnerHTML={{
-                      __html: productDevelopment?.clientRequirement,
-                    }}
-                  />
-                }
-                placement="right-start">
-                <Text as="span" color="red" cursor="pointer" ml="1">
-                  <i className="ri-information-line"></i>
-                </Text>
-              </Tooltip>
-            )}
-          </Text>
-          <Text minH={'22px'}>{productDevelopment?.projectCode}</Text>
-          <Text>{productDevelopment?.versionSpecification}</Text>
+          {!isBulkEdit && (
+            <>
+              <Text>
+                {productDevelopment?.clientName}{' '}
+                {productDevelopment?.clientRequirement && (
+                  <Tooltip
+                    label={
+                      <Box
+                        dangerouslySetInnerHTML={{
+                          __html: productDevelopment?.clientRequirement,
+                        }}
+                      />
+                    }
+                    placement="right-start">
+                    <Text as="span" color="red" cursor="pointer" ml="1">
+                      <i className="ri-information-line"></i>
+                    </Text>
+                  </Tooltip>
+                )}
+              </Text>
+              <Text minH={'22px'}>{productDevelopment?.projectCode}</Text>
+              <Text>{productDevelopment?.versionSpecification}</Text>
+            </>
+          )}
         </GridItem>
         <GridItem
           colSpan={{

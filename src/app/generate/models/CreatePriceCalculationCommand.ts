@@ -4,11 +4,19 @@
 /* eslint-disable */
 
 export type CreatePriceCalculationCommand = {
-    productionId?: string;
-    currencyRate?: number;
-    currencyCode?: string | null;
-    internalCommission?: number | null;
-    indirectCost?: number | null;
-    freightIncluded?: number | null;
-    margin?: number;
+  productionId?: string;
+  currencyRate?: number;
+  currencyCode?: string | null;
+  internalCommission?: number | null;
+  indirectCost?: number | null;
+  freightIncluded?: number | null;
+  margin?: number;
+};
+
+export type priceCalculationCreateDtos = {
+  priceCalculationCreateDtos: CreatePriceCalculationCommand[];
+};
+
+export type PriceCalculationUpdateDtos = {
+  priceCalculationUpdateDtos: CreatePriceCalculationCommand[];
 };

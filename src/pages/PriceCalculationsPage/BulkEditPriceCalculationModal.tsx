@@ -1,0 +1,395 @@
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { Box, Skeleton } from '@chakra-ui/react';
+import { SIZES, SPACE } from '../../theme/Constants';
+import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
+import PriceCalculationForm from './PriceCalculationForm';
+import PriceCalculationActionBar from './PriceCalculationActionBar';
+import {
+  useDeleteCalculation,
+  usePatchCalculation,
+} from '../../app/api/calculation';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { ModalContext } from '../../app/context/ModalContext';
+import { useTranslation } from 'react-i18next';
+import useModalFormHelper from '../../app/hooks/useModalFormHelper';
+import useDeleteModal from '../../app/hooks/useDeleteModal';
+import Form from '../../components/Form/Form';
+import IsolatedControlledModal from '../../components/Modal/IsolatedControlledModal';
+import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+
+type Props = {
+  calculations: any[];
+  productions: any[];
+  productDevelopments: any[];
+};
+
+const BulkEditPriceCalculationModal = ({
+  calculations,
+  productions,
+}: Props) => {
+  const { t } = useTranslation();
+  const outsideRef = useRef(null);
+  const form = useForm({ mode: 'onChange' });
+  const [showModal, setShowModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [formValuesForModal, setFormValuesForModal] =
+    useState<FieldValues | null>(null);
+  const [originalValues, setOriginalValues] = useState<{
+    currencyCode: string | null;
+    currencyRate: number | null;
+  }>({ currencyCode: null, currencyRate: null });
+
+  const {
+    deleteModal,
+    isOpen: isDeleteModalOpen,
+    setOpen: setDeleteModalOpen,
+  } = useDeleteModal(outsideRef, handleDeleteCalculation);
+
+  const { setDirty, leavePageModal } = useModalFormHelper(
+    outsideRef,
+    calculations[0]?.id || '',
+    false
+  );
+  const { close } = useContext(ModalContext);
+
+  const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
+  const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
+    useDeleteCalculation(calculations[0]?.id || '');
+
+  const getCommonValues = () => {
+    if (!calculations.length) return null;
+
+    const commonValues: any = {
+      purchaseCurrency: null,
+      purchaseCurrencyPlaceholder: null,
+      currencyRate: null,
+      currencyRatePlaceholder: null,
+      currencyCode: null,
+      internalCommission: null,
+      internalCommissionPlaceholder: null,
+      indirectCost: null,
+      indirectCostPlaceholder: null,
+      freightIncluded: null,
+      freightIncludedPlaceholder: null,
+      margin: null,
+      marginPlaceholder: null,
+    };
+
+    if (productions.length > 0) {
+      const firstCurrencyCode = productions[0].currencyCode;
+      commonValues.purchaseCurrency = productions.every(
+        prod => prod.currencyCode === firstCurrencyCode
+      )
+        ? firstCurrencyCode
+        : null;
+    }
+
+    calculations.forEach((calc, index) => {
+      if (index === 0) {
+        commonValues.currencyRate = calc.currencyRate;
+        commonValues.internalCommission = calc.internalCommission;
+        commonValues.indirectCost = calc.indirectCost;
+        commonValues.freightIncluded = calc.freightIncluded;
+        commonValues.currencyCode = calc.currency?.code;
+
+        const priceMargins = calc.priceDtos?.map((p: any) => p.margin) || [];
+        commonValues.margin = priceMargins.every(
+          (m: number) => m === priceMargins[0]
+        )
+          ? priceMargins[0]
+          : null;
+      } else {
+        if (commonValues.currencyRate !== calc.currencyRate) {
+          commonValues.currencyRate = null;
+          commonValues.currencyRatePlaceholder = t(
+            'PriceCalc.VariesBetweenEntries'
+          );
+        }
+        if (commonValues.currencyCode !== calc.currency?.code)
+          commonValues.currencyCode = null;
+        if (commonValues.internalCommission !== calc.internalCommission) {
+          commonValues.internalCommission = null;
+          commonValues.internalCommissionPlaceholder = t(
+            'PriceCalc.VariesBetweenEntries'
+          );
+        }
+        if (commonValues.indirectCost !== calc.indirectCost) {
+          commonValues.indirectCost = null;
+          commonValues.indirectCostPlaceholder = t(
+            'PriceCalc.VariesBetweenEntries'
+          );
+        }
+        if (commonValues.freightIncluded !== calc.freightIncluded) {
+          commonValues.freightIncluded = null;
+          commonValues.freightIncludedPlaceholder = t(
+            'PriceCalc.VariesBetweenEntries'
+          );
+        }
+
+        const priceMargins = calc.priceDtos?.map((p: any) => p.margin) || [];
+        if (commonValues.margin !== null) {
+          if (!priceMargins.every((m: number) => m === commonValues.margin)) {
+            commonValues.margin = null;
+            commonValues.marginPlaceholder = t(
+              'PriceCalc.VariesBetweenEntries'
+            );
+          }
+        }
+      }
+    });
+
+    return commonValues;
+  };
+
+  useEffect(() => {
+    const commonValues = getCommonValues();
+    if (commonValues) {
+      // Store original values for comparison
+      setOriginalValues({
+        currencyCode: commonValues.currencyCode,
+        currencyRate: commonValues.currencyRate,
+      });
+
+      form.reset({
+        purchaseCurrency: commonValues.purchaseCurrency,
+        currencyRate: commonValues.currencyRate,
+        currencyCode: commonValues.currencyCode,
+        internalCommission: commonValues.internalCommission,
+        indirectCost: commonValues.indirectCost,
+        freightIncluded: commonValues.freightIncluded,
+        margin: commonValues.margin,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculations]);
+
+  useEffect(() => {
+    setDirty(form.formState.isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty, setDirty]);
+
+  const checkCurrencyVariation = (formValues: FieldValues) => {
+    const hasDifferentPurchaseCurrencies = productions.some(
+      (prod, index) =>
+        index > 0 && prod.currencyCode !== productions[0].currencyCode
+    );
+
+    const hasDifferentSalesCurrencies = calculations.some(
+      (calc, index) =>
+        index > 0 && calc.currency?.code !== calculations[0].currency?.code
+    );
+
+    const hasMixedCurrencies = productions.some(
+      prod => prod.currencyCode !== formValues.currencyCode
+    );
+
+    const hasSalesCurrencyChanged =
+      formValues.currencyCode !== null &&
+      ((originalValues.currencyCode !== null &&
+        formValues.currencyCode !== originalValues.currencyCode) ||
+        (originalValues.currencyCode === null &&
+          formValues.currencyCode !== null));
+
+    const hasCurrencyRateChanged =
+      formValues.currencyRate !== null &&
+      ((originalValues.currencyRate !== null &&
+        formValues.currencyRate !== originalValues.currencyRate) ||
+        (originalValues.currencyRate === null &&
+          formValues.currencyRate !== null));
+
+    const hasVariedCurrencies =
+      hasDifferentPurchaseCurrencies ||
+      hasDifferentSalesCurrencies ||
+      hasMixedCurrencies;
+
+    const hasUserModifiedCurrency =
+      hasSalesCurrencyChanged || hasCurrencyRateChanged;
+
+    return hasUserModifiedCurrency && hasVariedCurrencies;
+  };
+
+  function handleFormSubmit(formValues: FieldValues) {
+    const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
+      priceCalculationUpdateDtos: calculations.map(p => ({
+        id: p.id,
+        currencyRate: formValues.currencyRate || 0,
+        currencyCode: formValues.currencyCode || null,
+        internalCommission: formValues.internalCommission || null,
+        indirectCost: formValues.indirectCost || null,
+        freightIncluded: formValues.freightIncluded || null,
+        margin: formValues.margin || 0,
+      })),
+    };
+
+    updateCalculation(priceCalculationUpdateDto);
+  }
+
+  function submitForm(formValues: FieldValues) {
+    const hasCurrencyVariation = checkCurrencyVariation(formValues);
+    setFormValuesForModal(formValues);
+
+    if (hasCurrencyVariation) {
+      setShowModal(true);
+    } else {
+      setShowConfirmationModal(true);
+    }
+  }
+
+  function handleDeleteCalculation() {
+    deleteCalculation();
+  }
+
+  const openDeleteModal = () => {
+    setDeleteModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      setDirty(false);
+      close();
+      setDeleteModalOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isSuccessDelete, setDeleteModalOpen]);
+
+  useEffect(() => {
+    if (isUpdateSuccess) {
+      setDirty(false);
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isUpdateSuccess]);
+
+  return (
+    <>
+      {deleteModal}
+      {!showModal && !showConfirmationModal && leavePageModal}
+
+      {showModal && (
+        <IsolatedControlledModal
+          key="currencyModal"
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title={t('PriceCalc.CurrencyVariationDetected')}
+          description={t('PriceCalc.CurrencyVariationDetectedDesc')}
+          onConfirm={() => {
+            setShowModal(false);
+            setShowConfirmationModal(true);
+          }}
+          onCancel={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
+
+      {showConfirmationModal && (
+        <IsolatedControlledModal
+          key="confirmationModal"
+          isOpen={showConfirmationModal}
+          onClose={() => setShowConfirmationModal(false)}
+          title={t('PriceCalc.UdpatePriceCalculationConfirmationTitle')}
+          description={t('PriceCalc.UdpatePriceCalculationConfirmationDesc', {
+            X: calculations.length,
+          })}
+          onConfirm={() => {
+            if (formValuesForModal) {
+              handleFormSubmit(formValuesForModal);
+            }
+            setShowConfirmationModal(false);
+          }}
+          onCancel={() => {
+            setShowConfirmationModal(false);
+          }}
+        />
+      )}
+      <Box
+        ref={outsideRef}
+        mb={SPACE.LG}
+        px={SPACE.SM}
+        maxW={SIZES.CONTAINER.LG}>
+        <FormProvider {...form}>
+          <Form onSubmit={form.handleSubmit(submitForm)}>
+            <ProductDevelopmentModalTopSection
+              productDevelopment={undefined}
+              sourcingCompanyCode={undefined}
+              vendorName={undefined}
+              isBulkEdit={true}
+              totalPriceCalculations={calculations.length}
+              createNew={false}
+              actionBar={
+                <PriceCalculationActionBar
+                  handleDelete={openDeleteModal}
+                  artwork={undefined}
+                  createNew={false}
+                  lastModified={undefined}
+                  showChanges={false}
+                  disableEdit={false}
+                  setShowChanges={() => {}}
+                  isBulkEdit={true}
+                />
+              }
+            />
+            <Skeleton isLoaded={true}>
+              {calculations.length > 0 && (
+                <PriceCalculationForm
+                  key="bulk-edit"
+                  calculation={{
+                    ...calculations[0],
+                    purchaseCurrencyCode: form.watch('purchaseCurrency'),
+                    currencyRate: form.watch('currencyRate'),
+                    currency: { code: form.watch('currencyCode') },
+                    internalCommission: form.watch('internalCommission'),
+                    indirectCost: form.watch('indirectCost'),
+                    freightIncluded: form.watch('freightIncluded'),
+                    priceDtos: calculations[0].priceDtos?.map((price: any) => ({
+                      ...price,
+                      margin: form.watch('margin') ?? price.margin,
+                    })),
+                  }}
+                  currency={{ code: form.watch('currencyCode') }}
+                  createNew={false}
+                  disableEdit={false}
+                  showChanges={false}
+                  productionId={calculations[0]?.productionId}
+                  isBulkEdit={true}
+                  purchaseCurrencyPlaceholder={
+                    form.getValues('purchaseCurrency') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                  currencyRatePlaceholder={
+                    form.getValues('currencyRate') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                  internalCommissionPlaceholder={
+                    form.getValues('internalCommission') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                  indirectCostPlaceholder={
+                    form.getValues('indirectCost') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                  freightIncludedPlaceholder={
+                    form.getValues('freightIncluded') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                  marginPlaceholder={
+                    form.getValues('margin') === null
+                      ? t('PriceCalc.VariesBetweenEntries')
+                      : undefined
+                  }
+                />
+              )}
+            </Skeleton>
+          </Form>
+        </FormProvider>
+      </Box>
+    </>
+  );
+};
+
+export default BulkEditPriceCalculationModal;

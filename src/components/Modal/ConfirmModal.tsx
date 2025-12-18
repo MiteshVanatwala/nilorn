@@ -55,14 +55,18 @@ const ConfirmModal = ({
             {confirmType === 'DELETE'
               ? t('Common.Delete')
               : confirmText
-              ? confirmText
-              : t('Common.Confirm')}
+                ? confirmText
+                : t('Common.Confirm')}
           </Button>
           <Button
             variant={'secondary'}
             isDisabled={isConfirmLoading}
             onClick={() => {
-              onClose ? onClose() : close();
+              if (onClose) {
+                onClose();
+              } else {
+                close();
+              }
             }}
             rightIcon={
               cancelText ? undefined : (

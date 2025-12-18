@@ -293,14 +293,17 @@
     "Sales": "Sales Price",
     "Cost": "Cost",
     "InternalCommission": "Internal Commission",
-    "InternalCommission_short": "Int. comm.",
+    "InternalCommission_short": "IntComm",
     "IndirectCost": "Indirect Cost",
+    "IndirectCost_short": "IndCost",
     "CurrencyRate": "Currency Rate",
+    "CurrencyRate_short": "CurrRate",
     "FreightIncluded": "Freight Included",
-    "FreightIncluded_short": "Freight Incl.",
+    "FreightIncluded_short": "FreightInc",
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "VariesBetweenEntries": "Varies between entries",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",
@@ -323,7 +326,13 @@
         "MarginTooHigh": "Margin can be maximum 99.99",
         "UpdateIncluded": "Failed to update valid and include"
       }
-    }
+    },
+    "selectedRowsArray": " price calculations will be created",
+    "selectedRowsArrayUpdate": " price calculations will be updated",
+    "CurrencyVariationDetected": "Currency variation detected",
+    "CurrencyVariationDetectedDesc": "The selected entries have different purchase or sales currencies. Changing the sales currency or currency rate may lead to incorrect calculations. Do you want to continue?",
+    "UdpatePriceCalculationConfirmationTitle": "Are you sure?",
+    "UdpatePriceCalculationConfirmationDesc": "You are about to update {{X}} price calculations. Do you want to continue?"
   },
   "ManageData": {
     "AddProject": "Add new project",

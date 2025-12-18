@@ -22,6 +22,7 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
+import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -44,7 +45,7 @@ const CreatePriceCalculationModal = ({
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation } = useCreateCalculation();
+  const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
   const { close } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
@@ -106,18 +107,25 @@ const CreatePriceCalculationModal = ({
   ]);
 
   function submitForm(form: FieldValues) {
-    createCalculation(form, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
-      },
-    });
+    const priceCalculationCreateDto: priceCalculationCreateDtos = {
+      priceCalculationCreateDtos: [form],
+    };
+
+    createCalculation(priceCalculationCreateDto);
   }
 
   useEffect(() => {
     setDirty(form.formState.isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
+
+  useEffect(() => {
+    if (isCreateSuccess) {
+      setDirty(false);
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isCreateSuccess]);
 
   return (
     <>
@@ -133,6 +141,7 @@ const CreatePriceCalculationModal = ({
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
               vendorName={production?.vendorName}
+              createNew={true}
               actionBar={
                 <PriceCalculationActionBar
                   artwork={artwork}

@@ -4,12 +4,14 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
-  CreatePriceCalculationCommand,
   GetFilteredProductDevelopmentDeepWithPaginationQuery,
   PriceCalculationService,
-  UpdatePriceCalculationCommand,
   UpdateSalesPriceCommand,
 } from '../generate';
+import {
+  priceCalculationCreateDtos,
+  PriceCalculationUpdateDtos,
+} from '../generate/models/CreatePriceCalculationCommand';
 
 export const usePriceCalculation = (id: string) => {
   return useQuery(
@@ -31,13 +33,22 @@ export const usePatchCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: UpdatePriceCalculationCommand) =>
+    (body: PriceCalculationUpdateDtos) =>
       PriceCalculationService.patchApiPriceCalculation(body).then(
         response => response
       ),
     {
-      onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
+      onSuccess: async (_, variables) => {
+        // Store information about which calculation was just updated
+        // This helps the grid components know to close inline edit for this specific calculation
+        const calculationForm = variables.priceCalculationUpdateDtos?.[0] as any;
+        const calculationId = calculationForm?.id;
+        if (calculationId) {
+          queryClient.setQueryData(['lastUpdatedCalculation'], calculationId);
+        }
+        
+        // Only invalidate specific queries, don't remove all cached data
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation, calculationId]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
@@ -45,7 +56,7 @@ export const usePatchCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Update'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Update'),
@@ -61,7 +72,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: CreatePriceCalculationCommand) =>
+    (body: priceCalculationCreateDtos) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),
@@ -74,7 +85,7 @@ export const useCreateCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Create'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Create'),
@@ -87,6 +98,7 @@ export const useCreateCalculation = () => {
 export const usePatchCalculationSalesPrice = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (body: UpdateSalesPriceCommand) =>
@@ -95,12 +107,13 @@ export const usePatchCalculationSalesPrice = () => {
       ),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         showToast({
           status: 'success',
           description: t('PriceCalc.Feedback.Success.UpdateRows'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.UpdateRows'),
