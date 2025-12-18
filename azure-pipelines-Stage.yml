@@ -5,6 +5,7 @@
 
 trigger:
   - main
+  - stage/*
 
 variables:
   - group: Nilorn.Umbrella.UI-Stage
