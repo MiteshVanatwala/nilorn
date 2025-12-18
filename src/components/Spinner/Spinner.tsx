@@ -2,7 +2,7 @@ import { Spinner as ChakraSpinner } from '@chakra-ui/react';
 import COLORS from '../../theme/Constants/colors';
 
 type Props = {
-  size?: 'lg' | 'xl';
+  size?: 'md' | 'lg' | 'xl';
 };
 const Spinner = ({ size = 'lg' }: Props) => {
   return (

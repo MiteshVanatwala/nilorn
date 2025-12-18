@@ -319,6 +319,7 @@
       "NotIncluded": "Price is not to be included in quote (excel export)",
       "Invalid": "Purchase price has been updated since price calculation was created. The row will not be included in quote (excel export)."
     },
+    "ExportToExcel": "Export to excel",
     "Feedback": {
       "Success": {
         "Update": "Calculation has been saved",
