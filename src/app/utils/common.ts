@@ -90,3 +90,16 @@ export function isNumeric(value: string) {
 export const generateUniqueKey = (pre: string) => {
   return `${pre}_${new Date().getTime()}`;
 };
+
+/**
+ * Get unique product development numbers from an array of product development data
+ * @param productDevelopmentsData Array of product development data objects
+ * @returns Array of unique product development numbers
+ */
+export function getUniqueProductDevelopmentNumbers(
+  productDevelopmentsData: Array<{ no?: string | null }>
+): string[] {
+  return productDevelopmentsData
+    .map(pd => pd?.no)
+    .filter((no, index, array) => no && array.indexOf(no) === index) as string[];
+}

@@ -72,7 +72,7 @@ const RangeNumberInputField = ({
 
     // Check for negative values at the start (like -5, -10, -0)
     if (value.startsWith('-')) {
-      return t('Errors.MinValue', { min: 0 });
+      return t('Errors.MinToLow', { min: 0 });
     }
 
     const rangeRegex = /^\d+(-\d+)?$/;
@@ -96,7 +96,7 @@ const RangeNumberInputField = ({
 
     // Check for negative values in parsed numbers (shouldn't happen but safety check)
     if (min < 0 || max < 0) {
-      return t('Errors.MinValue', { min: 0 }); // Updated message key
+      return t('Errors.MinToLow', { min: 0 }); // Updated message key
     }
 
     // Check if max is less than min (e.g., 15-5, 10-9)

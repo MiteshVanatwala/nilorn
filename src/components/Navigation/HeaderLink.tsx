@@ -10,8 +10,9 @@ import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 interface Props {
   title?: string | JSX.Element;
   path: string;
-  clickedStoredFilter: string;
-  variant?: 'headerLink' | 'logo';
+  clickedStoredFilter: string[];
+  variant?: 'headerLink' | 'logo' | 'manageDataLink';
+  onClick?: () => void;
 }
 
 const HeaderLink: FC<Props> = ({
@@ -19,28 +20,56 @@ const HeaderLink: FC<Props> = ({
   title,
   clickedStoredFilter,
   variant = 'headerLink',
+  onClick,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setLastVisitedPD } = useLastVisitedPD();
 
-  const handleClick = (url: string, clickedStoredFilter: string) => {
+  const handleClick = (url: string, clickedStoredFilters: string[]) => {
     const storedFilter = getCurrentStoredFilter();
     setLastVisitedPD('');
 
     sessionStorage.setItem(storedFilter, window.location.search ?? '');
-    const prevFilter =
-      sessionStorage.getItem(clickedStoredFilter) ??
-      '?pageSize=25&pageNumber=1';
+    const isClientOrProjectPage =
+      url.includes('/clients') || url.includes('/projects');
 
-    const newUrl = url + prevFilter;
+    let combinedFilter = '';
+    let newUrl = '';
+    if (isClientOrProjectPage) {
+      const filters = clickedStoredFilters
+        .map(key => sessionStorage.getItem(key))
+        .filter(
+          (value): value is string =>
+            value !== null &&
+            value !== undefined &&
+            value !== 'undefined' &&
+            value !== ''
+        );
+      combinedFilter = filters.join('/');
+
+      newUrl = url + (combinedFilter || '');
+    } else {
+      const prevFilter =
+        clickedStoredFilter.length > 0
+          ? (sessionStorage.getItem(clickedStoredFilter[0]) ??
+            '?pageSize=25&pageNumber=1')
+          : '?pageSize=25&pageNumber=1';
+
+      newUrl = url + prevFilter;
+    }
 
     if (location.pathname !== url) {
       navigate(newUrl);
     }
   };
 
-  const isActive = location.pathname === path;
+  const cleanPath = path.replace(/^\/+|\/+$/g, '');
+  const cleanPathname = location.pathname.replace(/^\/+|\/+$/g, '');
+  const isActive =
+    cleanPath !== ''
+      ? cleanPathname.includes(cleanPath)
+      : cleanPathname === cleanPath;
 
   return (
     <>
@@ -51,7 +80,10 @@ const HeaderLink: FC<Props> = ({
         color={isActive ? COLORS.BLUE[200] : ''}
         fontSize={fontSizes.xs}
         fontWeight={text.variants.bodyRegular.fontWeight}
-        onClick={e => handleClick(path, clickedStoredFilter)}
+        onClick={e => {
+          handleClick(path, clickedStoredFilter);
+          onClick?.();
+        }}
         whiteSpace={'nowrap'}>
         {title}
       </LinkComponent>

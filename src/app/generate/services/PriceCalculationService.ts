@@ -161,4 +161,20 @@ export class PriceCalculationService {
       mediaType: 'application/json',
     });
   }
+
+  /**
+   * @param requestBody
+   * @returns PriceCalculationExtendedDto[] Success
+   * @throws ApiError
+   */
+  public static postApiPriceCalculationBatch(
+    requestBody?: { ids: string[] }
+  ): CancelablePromise<PriceCalculationExtendedDto[]> {
+    return __request(OpenAPI, {
+      method: 'POST',
+      url: '/api/PriceCalculation/batch',
+      body: requestBody,
+      mediaType: 'application/json',
+    });
+  }
 }

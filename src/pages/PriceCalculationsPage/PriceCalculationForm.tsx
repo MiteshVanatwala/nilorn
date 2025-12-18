@@ -26,6 +26,7 @@ type Props = {
   productionId?: string;
   isBulkEdit?: boolean;
   purchaseCurrencyPlaceholder?: string;
+  currencyCodePlaceholder?: string;
   currencyRatePlaceholder?: string;
   internalCommissionPlaceholder?: string;
   indirectCostPlaceholder?: string;
@@ -42,6 +43,7 @@ const PriceCalculationForm = ({
   productionId,
   isBulkEdit = false,
   purchaseCurrencyPlaceholder,
+  currencyCodePlaceholder,
   currencyRatePlaceholder,
   internalCommissionPlaceholder,
   indirectCostPlaceholder,
@@ -206,15 +208,15 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <Select
-            registerOptions={{ required: true }}
+            registerOptions={{ required: !currencyCodePlaceholder && !isBulkEdit }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
-            placeholder={`${t('Common.Placeholder')}`}
+            placeholder={currencyCodePlaceholder || t('Common.Select')}
             name={'currencyCode'}
             changelog={currencyCodeChangelog}
             options={currencies as SelectOption[]}
-            defaultValue={{ label: currency?.code, value: currency?.code }}
-            value={{ label: currency?.code, value: currency?.code }}
+            defaultValue={currency?.code ? { label: currency?.code, value: currency?.code } : undefined}
+            value={isBulkEdit ? (currency?.code ? { label: currency?.code, value: currency?.code } : null) : undefined}
             isControlled={isBulkEdit}
           />
         </GridItem>
@@ -224,7 +226,7 @@ const PriceCalculationForm = ({
             label={`${t('PriceCalc.CurrencyRate')}`}
             placeholder={currencyRatePlaceholder || t('Common.Placeholder')}
             readonly={disableEdit}
-            required={true}
+            required={!isBulkEdit || !currencyRatePlaceholder}
             changelog={currencyRateChangelog}
             min={0}
           />
@@ -240,7 +242,7 @@ const PriceCalculationForm = ({
           </GridItem>
         )}
       </Grid>
-      {!isBulkEdit && (
+      {!isBulkEdit && !createNew && (
         <PriceCalculationFormTable
           data={calculationItems ?? []}
           showChanges={showChanges}

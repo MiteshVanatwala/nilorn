@@ -188,15 +188,18 @@ const TopSection = ({
               <>
                 <HStack p={SPACE.XXS} alignItems="center">
                   <Text>{client}</Text>
-                  {clientRequirement && (
+                  {clientRequirement && clientRequirement !== '<p><br></p>' && (
                     <Tooltip
                       label={
                         <Box
+                          className="ql-editor"
                           dangerouslySetInnerHTML={{
                             __html: clientRequirement,
                           }}
                         />
                       }
+                      variant={'attachmentTooltip'}
+                      className="attachment-tooltip"
                       placement="right-start">
                       <Text color="red" cursor="pointer">
                         <i className="ri-information-line"></i>

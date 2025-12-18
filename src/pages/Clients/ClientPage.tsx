@@ -1,6 +1,7 @@
 import ContentPage from '../Templates/ContentPage';
 import { Accordion } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { SPACE } from '../../theme/Constants';
 import MemberSection from '../ProductDevelopmentPage/Sections/MemberSection';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
@@ -10,22 +11,25 @@ import ClientActionBar from './Sections/TopSection/ClientActionBar';
 import ClientGeneralSection from './Sections/ClientGeneralSection';
 import ClientSourcingSection from './Sections/ClientSourcingSection';
 import AttachmentInfoSection from './Sections/AttachmentInfoSection';
-import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import { useUnsavedChanges } from '../../app/hooks/useUnsavedChanges';
 import { useCreateClientPage } from '../../app/api/Clients';
 import { useClient } from '../../app/api/FilterInfo';
-import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 
 const ClientsPage = () => {
-  const saveClientName = sessionStorage.getItem(SESSION_STORAGE.CLIENT_PAGE);
+  const { clientNo } = useParams();
+  const navigate = useNavigate();
   const [selectedClientNo, setSelectedClientNo] = useState<string>(
-    saveClientName != 'undefined' && saveClientName != undefined
-      ? saveClientName
-      : ''
+    clientNo || ''
   );
   const { setUnsavedChanges } = useUnsavedChanges();
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    setSelectedClientNo(clientNo || '');
+  }, [clientNo]);
   const form = useForm<ClientDto>({
     defaultValues: {
       requirement: '',
@@ -38,29 +42,47 @@ const ClientsPage = () => {
   const onSubmit = (fieldValues: FieldValues) => {
     createClient(fieldValues, {
       onSuccess: () => {
+        form.reset(fieldValues);
         setUnsavedChanges(false);
       },
     });
   };
 
   useEffect(() => {
-    setUnsavedChanges(form.formState.isDirty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
+    if (!isInitialLoad) {
+      setUnsavedChanges(form.formState.isDirty);
+    }
+  }, [form.formState.isDirty, isInitialLoad, setUnsavedChanges]);
 
   useEffect(() => {
     if (selectedClientNo) {
-      form.reset({ ...client, no: selectedClientNo }, { keepDirty: false });
+      // First, reset the form with basic data
+      form.reset({ ...client, no: selectedClientNo });
+
+      // Then handle the requirement field separately
+      if (client?.requirement !== undefined) {
+        form.setValue('requirement', client.requirement, {
+          shouldDirty: false,
+        });
+      }
+
+      // After setting all values, mark the form as pristine
+      form.clearErrors();
+      setTimeout(() => {
+        setIsInitialLoad(false);
+        form.formState.isDirty && form.reset(form.getValues());
+      }, 0);
     } else {
       form.reset();
+      setIsInitialLoad(false);
     }
-  }, [selectedClientNo, form, client, form.reset]);
+  }, [selectedClientNo, form, client]);
 
   if (!hasClientCardAccess) return <PermissionDenied />;
 
   return (
     <ContentPage>
-      <LeavePageBlocker />
+      {form.formState.isDirty ? <LeavePageBlocker /> : <Fragment />}
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -74,7 +96,21 @@ const ClientsPage = () => {
           }}>
           <CardPageTopSection
             selectedClientNo={selectedClientNo}
-            setSelectedClientNo={setSelectedClientNo}
+            manageDirtyState={false}
+            setSelectedClientNo={(
+              clientNo: string | ((prev: string) => string)
+            ) => {
+              const newValue =
+                typeof clientNo === 'function'
+                  ? clientNo(selectedClientNo)
+                  : clientNo;
+              setSelectedClientNo(newValue);
+              if (newValue) {
+                navigate(`/clients/${newValue}`);
+              } else {
+                navigate('/clients');
+              }
+            }}
             actionBar={<ClientActionBar />}
           />
           <Accordion

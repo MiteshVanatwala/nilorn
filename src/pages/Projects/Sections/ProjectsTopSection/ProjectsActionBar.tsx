@@ -67,40 +67,46 @@ const ProjectsActionBar = ({
             }>
             {t('Common.CreateNew')}
           </MenuItem>
-          <MenuItem
-            isDisabled={!projectId}
-            onClick={() => {
-              handleModal(
-                <ConfirmModal
-                  title={t('Projects.DeleteModal.Title')}
-                  description={t('Projects.DeleteModal.Description', {
-                    code: projectId,
-                  })}
-                  confirmType={'DELETE'}
-                  onConfirm={onDelete}
-                  onClose={() => close()}
+          {projectId && (
+            <MenuItem
+              isDisabled={!projectId}
+              onClick={() => {
+                handleModal(
+                  <ConfirmModal
+                    title={t('Projects.DeleteModal.Title')}
+                    description={t('Projects.DeleteModal.Description', {
+                      code: projectId,
+                    })}
+                    confirmType={'DELETE'}
+                    onConfirm={onDelete}
+                    onClose={() => close()}
+                  />
+                );
+              }}
+              icon={
+                <RemixIcon
+                  component="Text"
+                  fontSize={SIZES.ICON.MD}
+                  icon={'DELETE_BIN_LINE'}
                 />
-              );
-            }}
-            icon={
-              <RemixIcon
-                component="Text"
-                fontSize={SIZES.ICON.MD}
-                icon={'DELETE_BIN_LINE'}
-              />
-            }>
-            {t('Common.Delete')}
-          </MenuItem>
+              }>
+              {t('Common.Delete')}
+            </MenuItem>
+          )}
         </MenuList>
       }
       actionButtons={
-        <Button
-          isDisabled={!projectId}
-          variant={'primary'}
-          rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
-          type="submit">
-          {t('Common.Save')}
-        </Button>
+        projectId ? (
+          <Button
+            isDisabled={!projectId}
+            variant={'primary'}
+            rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
+            type="submit">
+            {t('Common.Save')}
+          </Button>
+        ) : (
+          <></>
+        )
       }
     />
   );

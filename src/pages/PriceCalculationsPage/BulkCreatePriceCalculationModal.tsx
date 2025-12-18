@@ -8,7 +8,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -22,21 +22,23 @@ import { useTranslation } from 'react-i18next';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
+  isLoading: boolean;
   production: ProductionDto[];
   calculation: PriceCalculationDto[] | undefined[];
 };
 
 const BulkCreatePriceCalculationModal = ({
+  isLoading,
   production,
   calculation,
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
-  const { setDirty, leavePageModal } = useModalFormHelper(outsideRef);
+  const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
   const { mutate: createCalculation, isSuccess: isCreateSuccess } =
     useCreateCalculation();
-  const { close } = useContext(ModalContext);
+  const { close, setCustomCloseHandler, setPreventClose } = useContext(ModalContext);
 
   const form = useForm({
     mode: 'onChange',
@@ -55,6 +57,61 @@ const BulkCreatePriceCalculationModal = ({
       margin: null,
     },
   });
+
+  // Set up the custom close handler
+  useEffect(() => {
+    const handleCustomClose = () => {
+      // Check if there are unsaved changes
+      if (hasUnsavedChanges()) {
+        // Show unsaved changes modal
+        openLeavePageModal();
+      } else {
+        // No unsaved changes, close modal directly
+        close();
+      }
+    };
+
+    if (setCustomCloseHandler) {
+      setCustomCloseHandler(() => handleCustomClose);
+    }
+    
+    // Cleanup: remove custom close handler when component unmounts
+    return () => {
+      if (setCustomCloseHandler) {
+        setCustomCloseHandler(null);
+      }
+    };
+  }, [hasUnsavedChanges, openLeavePageModal, close, setCustomCloseHandler]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [hasUnsavedChanges, openLeavePageModal, close]);
+
+  // Prevent modal from closing when form is dirty
+  useEffect(() => {
+    setPreventClose(hasUnsavedChanges());
+  }, [hasUnsavedChanges, setPreventClose]);
 
   useEffect(() => {
     form.reset({
@@ -117,7 +174,7 @@ const BulkCreatePriceCalculationModal = ({
               sourcingCompanyCode={null}
               vendorName={null}
               isBulkEdit={true}
-              totalPriceCalculations={calculation.length}
+              totalPriceCalculations={production.length}
               createNew={true}
               actionBar={
                 <PriceCalculationActionBar
@@ -130,13 +187,15 @@ const BulkCreatePriceCalculationModal = ({
                 />
               }
             />
-            <PriceCalculationForm
-              calculation={undefined}
-              currency={undefined}
-              createNew={true}
-              showChanges={false}
-              productionId={undefined}
-            />
+            <Skeleton isLoaded={!isLoading}>
+              <PriceCalculationForm
+                calculation={undefined}
+                currency={undefined}
+                createNew={true}
+                showChanges={false}
+                productionId={undefined}
+              />
+            </Skeleton>
           </Form>
         </FormProvider>
       </Box>

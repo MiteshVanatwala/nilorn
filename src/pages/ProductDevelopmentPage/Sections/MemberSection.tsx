@@ -10,7 +10,7 @@ import { ProductDevelopmentDto } from '../../../app/generate';
 import { useMembers } from '../../../app/api/productDevelopment';
 import { SelectOption } from '../../../app/types/types';
 import { MultiValue } from 'react-select';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { MemberBriefDto } from '../../../app/generate';
 import { useAuthorizedRemoveUser } from '../../../app/Permissions/usePremissions';
 import { useMembers as useMembersList } from '../../../app/api/FilterInfo';
@@ -55,7 +55,6 @@ const MemberSection = ({
     if (selectedOption !== undefined && selectedOption.length > 0) {
       setSelected(selectedOption);
       append(selectedOption[selectedOption.length - 1].value);
-      console.log(selectedOption);
     }
   }
 
@@ -95,6 +94,15 @@ const MemberSection = ({
     }
     return grids;
   }, [remove, selected, fields, disableEdit, allowedToRemoveMember]);
+
+  useEffect(() => {
+    const selectedOptions =
+      (fields as unknown as MemberBriefDto[]).map((m: MemberBriefDto) => ({
+        label: m.name,
+        value: m,
+      })) ?? [];
+    setSelected(selectedOptions);
+  }, [fields]);
 
   return (
     <AccordionItem title={t('PD.AccordionLabels.Members')}>

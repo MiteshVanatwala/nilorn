@@ -15,7 +15,28 @@ const error = defineStyle({
   background: COLORS.ERROR,
 });
 
+const attachmentTooltip = defineStyle({
+  padding: '0.1rem',
+  '&.attachment-tooltip': {
+    width: 'auto',
+    maxWidth: '50vw',
+    ol: {
+      listStyle: 'decimal',
+      paddingLeft: '3em',
+      margin: 0,
+    },
+    ul: {
+      listStyle: 'disc',
+      paddingLeft: '3em',
+      margin: 0,
+    },
+    li: {
+      display: 'list-item',
+    },
+  },
+});
+
 export const tooltip = defineStyleConfig({
   baseStyle,
-  variants: { error },
+  variants: { error, attachmentTooltip },
 });

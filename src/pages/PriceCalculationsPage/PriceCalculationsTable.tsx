@@ -1,6 +1,6 @@
 // PriceCalculationsTable.tsx
 import { useTranslation } from 'react-i18next';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useMemo } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import {
   GridTh,
@@ -19,6 +19,8 @@ import BulkCreatePriceCalculationModal from './BulkCreatePriceCalculationModal';
 import EditPriceCalculationModal from './EditPriceCalculationModal';
 import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
+import { useBulkPriceCalculationsBatch, useBulkProductionsBatch } from '../../app/api/calculation';
+import { isClosed } from '../../app/utils/status';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -45,6 +47,113 @@ export const ROW_SPAN = 14;
 export const VENDOR_ROW_SPAN = 12;
 export const CALCULATION_ROW_SPAN = 9;
 export const PRICE_ROW_SPAN = 4;
+
+// Component to handle bulk edit with fresh data from API
+const BulkEditWithFreshData = ({ 
+  selectedPriceIds, 
+  productionsData, 
+  productDevelopmentsData 
+}: { 
+  selectedPriceIds: string[]; 
+  productionsData: any[]; 
+  productDevelopmentsData: any[]; 
+}) => {
+  const { data: freshCalculations } = useBulkPriceCalculationsBatch(selectedPriceIds);
+  
+  return (
+    <BulkEditPriceCalculationModal
+      calculations={freshCalculations ?? []}
+      productions={productionsData}
+      productDevelopments={productDevelopmentsData}
+    />
+  );
+};
+
+// Component to handle bulk create with fresh data from API
+const BulkCreateWithFreshData = ({ 
+  selectedProductionIds,
+  selectedPriceIds,
+  productionsData, 
+  productDevelopmentsData,
+  sourcedProductionsData
+}: { 
+  selectedProductionIds: string[];
+  selectedPriceIds: string[];
+  productionsData: any[]; 
+  productDevelopmentsData: any[];
+  sourcedProductionsData: any[];
+}) => {
+  const { isLoading: calculationsLoading } = useBulkPriceCalculationsBatch(selectedPriceIds);
+  
+  // Get all production IDs from productionsData (both selected productions and productions with selected prices)
+  // Remove duplicates to avoid multiple API calls for the same production
+  const allProductionIds = useMemo(() => 
+    [...new Set(productionsData.map(prod => prod.id).filter(Boolean))], 
+    [productionsData]
+  );
+  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductionsBatch(allProductionIds);
+  
+  // if (calculationsLoading || productionsLoading) {
+  //   return null; // or a loading component
+  // }
+
+  // Use fresh data if available, otherwise fall back to passed data
+  // We need to maintain the original order and structure of productionsData
+  const finalProductionsData = freshProductions ? 
+    productionsData.map(prod => {
+      const freshProd = freshProductions.find(fp => fp.id === prod.id);
+      return freshProd || prod;
+    }) : 
+    productionsData;
+
+  // For calculations, we need to maintain the same count as productions
+  // Each production should have one calculation entry (either existing or undefined for new ones)
+  const finalCalculationsData = finalProductionsData.map(prod => 
+    prod.priceCalculations?.[0] || undefined
+  );
+
+  // Filter to remove duplicates based on production ID
+  const seenProductionIds = new Set();
+  const filteredProductionsData = finalProductionsData.filter(prod => {
+    if (seenProductionIds.has(prod.id)) {
+      return false;
+    }
+    seenProductionIds.add(prod.id);
+    return true;
+  });
+  
+  // Create calculations array that matches the filtered productions
+  // Each production gets one calculation entry (existing or undefined for new ones)
+  const filteredCalculationsData = filteredProductionsData.map(prod => 
+    prod.priceCalculations?.[0] || undefined
+  );
+  
+  // Decision logic: Show bulk modal if multiple productions, single modal if only one production
+  // This ensures one price calculation per production is created correctly
+  if (filteredProductionsData.length > 1) {
+    return (
+      <BulkCreatePriceCalculationModal
+        isLoading={calculationsLoading || productionsLoading}
+        production={filteredProductionsData}
+        calculation={filteredCalculationsData}
+      />
+    );
+  } else if (filteredProductionsData.length === 1) {
+    return (
+      <CreatePriceCalculationModal
+        productDevelopment={productDevelopmentsData[0]}
+        production={filteredProductionsData[0]}
+        calculation={filteredCalculationsData[0]}
+        sourcedProduction={sourcedProductionsData[0]}
+        artwork={productDevelopmentsData[0]?.artwork}
+        lastModified={filteredProductionsData[0].lastModified}
+        filters={filteredProductionsData[0]?.filters}
+      />
+    );
+  }
+  
+  return null;
+};
 
 export type SelectedPrices = {
   [key: string]: {
@@ -84,47 +193,40 @@ const PriceCalculationsTable = ({ data }: Props) => {
       .length;
 
   useEffect(() => {
-    let selectedCount = 0;
+    // Count selected prices
+    let selectedPricesCount = 0;
     for (var key in selectedPrices) {
       if (
         selectedPrices.hasOwnProperty(key) &&
         selectedPrices[key]?.selected === true
       ) {
-        selectedCount++;
+        selectedPricesCount++;
       }
     }
-    if (selectedCount > 0) {
-      setSelectAll(Object.keys(selectedPrices).length === selectedCount);
-      setSelectAllIndeterminate(
-        Object.keys(selectedPrices).length !== selectedCount
-      );
-    } else {
-      setSelectAll(false);
-      setSelectAllIndeterminate(false);
-    }
-    getUniqueClients();
-  }, [selectedPrices]);
 
-  useEffect(() => {
-    let selectedCount = 0;
+    // Count selected productions
+    let selectedProductionCount = 0;
     for (var key in selectedProduction) {
       if (
         selectedProduction.hasOwnProperty(key) &&
         selectedProduction[key]?.selected === true
       ) {
-        selectedCount++;
+        selectedProductionCount++;
       }
     }
-    if (selectedCount > 0) {
-      setSelectAll(Object.keys(selectedProduction).length === selectedCount);
-      setSelectAllIndeterminate(
-        Object.keys(selectedProduction).length !== selectedCount
-      );
+
+    const totalSelectedCount = selectedPricesCount + selectedProductionCount;
+    const totalItemsCount = Object.keys(selectedPrices).length + Object.keys(selectedProduction).length;
+
+    if (totalSelectedCount > 0) {
+      setSelectAll(totalItemsCount === totalSelectedCount);
+      setSelectAllIndeterminate(totalItemsCount !== totalSelectedCount);
     } else {
       setSelectAll(false);
       setSelectAllIndeterminate(false);
     }
-  }, [selectedProduction]);
+    getUniqueClients();
+  }, [selectedPrices, selectedProduction]);
 
   useEffect(() => {
     let selectedPriceList: SelectedPrices = {};
@@ -133,21 +235,26 @@ const PriceCalculationsTable = ({ data }: Props) => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           const priceCalculations = production.priceCalculations || [];
-          selectedProductionList[`${production.id}`] = {
-            selected: false,
-            client: p.productDevelopmentDataDto?.clientName || '',
-            productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-          };
-          // Add all price calculations to the selected list
-          priceCalculations.forEach(priceCalculation => {
-            if (priceCalculation?.id) {
-              selectedPriceList[`${priceCalculation.id}`] = {
-                selected: false,
-                client: p.productDevelopmentDataDto?.clientName || '',
-                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-              };
-            }
-          });
+          
+          // If production has price calculations, only add the price calculations to the list
+          if (priceCalculations.length > 0) {
+            priceCalculations.forEach(priceCalculation => {
+              if (priceCalculation?.id) {
+                selectedPriceList[`${priceCalculation.id}`] = {
+                  selected: false,
+                  client: p.productDevelopmentDataDto?.clientName || '',
+                  productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+                };
+              }
+            });
+          } else {
+            // If production has no price calculations, add the production to the list
+            selectedProductionList[`${production.id}`] = {
+              selected: false,
+              client: p.productDevelopmentDataDto?.clientName || '',
+              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+            };
+          }
         });
       });
     });
@@ -170,13 +277,13 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   const handleAddPriceCalculation = () => {
     // Get all selected production and price IDs
-    const selectedProductionIds = Object.entries(selectedProduction)
+    const selectedProductionIds = [...new Set(Object.entries(selectedProduction)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
-    const selectedPriceIds = Object.entries(selectedPrices)
+    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
     // Arrays to store the calculation data (matching handleEditPriceCalculation pattern)
     const calculationsData: any[] = [];
@@ -225,34 +332,24 @@ const PriceCalculationsTable = ({ data }: Props) => {
         }
       }
 
-      if (productionsData.length > 1) {
-        handleModal(
-          <BulkCreatePriceCalculationModal
-            production={productionsData}
-            calculation={calculationsData}
-          />
-        );
-      } else if (productionsData.length === 1) {
-        handleModal(
-          <CreatePriceCalculationModal
-            productDevelopment={productDevelopmentsData[0]}
-            production={productionsData[0]}
-            calculation={calculationsData[0]}
-            sourcedProduction={sourcedProductionsData[0]}
-            artwork={productionsData[0].artwork}
-            lastModified={productionsData[0].lastModified}
-            filters={productionsData[0]?.filters}
-          />
-        );
-      }
+      // Use the bulk fetch component to get fresh data from backend
+      handleModal(
+        <BulkCreateWithFreshData
+          selectedProductionIds={selectedProductionIds}
+          selectedPriceIds={selectedPriceIds}
+          productionsData={productionsData}
+          productDevelopmentsData={productDevelopmentsData}
+          sourcedProductionsData={sourcedProductionsData}
+        />
+      );
     }
   };
 
   const handleEditPriceCalculation = () => {
     // Get selected price calculation IDs
-    const selectedPriceIds = Object.entries(selectedPrices)
+    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
       .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+      .map(([key]) => key))];
 
     // Arrays to store the calculation data
     const calculationsData: any[] = [];
@@ -286,11 +383,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
     }
 
     if (calculationsData.length > 1) {
+      // Use the bulk fetch hook to get fresh data from backend
       handleModal(
-        <BulkEditPriceCalculationModal
-          calculations={calculationsData}
-          productions={productionsData}
-          productDevelopments={productDevelopmentsData}
+        <BulkEditWithFreshData
+          selectedPriceIds={selectedPriceIds}
+          productionsData={productionsData}
+          productDevelopmentsData={productDevelopmentsData}
         />
       );
     } else if (calculationsData.length === 1) {
@@ -304,20 +402,83 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const selectDeselectAll = () => {
-    setSelectAll(!selectAll);
-    for (var key in selectedPrices) {
-      if (selectedPrices.hasOwnProperty(key)) {
-        selectedPrices[key].selected = !selectAll;
+    const newSelectAllState = !selectAll;
+    setSelectAll(newSelectAllState);
+    
+    // Update selectedPrices state properly
+    setSelectedPrices(prev => {
+      const newState = { ...prev };
+      for (var key in newState) {
+        if (newState.hasOwnProperty(key)) {
+          newState[key] = {
+            ...newState[key],
+            selected: newSelectAllState,
+          };
+        }
       }
-    }
-    for (var keyProd in selectedProduction) {
-      if (selectedProduction.hasOwnProperty(keyProd)) {
-        selectedProduction[keyProd].selected = !selectAll;
+      return newState;
+    });
+    
+    // Update selectedProduction state properly
+    setSelectedProduction(prev => {
+      const newState = { ...prev };
+      for (var keyProd in newState) {
+        if (newState.hasOwnProperty(keyProd)) {
+          newState[keyProd] = {
+            ...newState[keyProd],
+            selected: newSelectAllState,
+          };
+        }
       }
-    }
+      return newState;
+    });
+    
     setSelectAllIndeterminate(false);
-    getUniqueClients();
+    // getUniqueClients(); // This will be called automatically by the useEffect
   };
+
+  const hasClosedPD = useMemo(() => {
+    for (const pd of data) {
+      if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
+        for (const sp of pd.sourcedProductions || []) {
+          for (const production of sp.productions || []) {
+            if (production.id && selectedProduction[production.id]?.selected) {
+              return true;
+            }
+            for (const calc of production.priceCalculations || []) {
+              if (calc.id && selectedPrices[calc.id]?.selected) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }, [data, selectedProduction, selectedPrices]);
+
+  const hasClosedPDInSelectedPrices = useMemo(() => {
+    const selectedPriceIds = Object.entries(selectedPrices)
+      .filter(([_, value]) => value.selected)
+      .map(([key]) => key);
+    
+    if (selectedPriceIds.length <= 1) return false;
+    
+    for (const pd of data) {
+      if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
+        for (const sp of pd.sourcedProductions || []) {
+          for (const production of sp.productions || []) {
+            for (const calc of production.priceCalculations || []) {
+              if (calc.id && selectedPriceIds.includes(calc.id)) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }, [data, selectedPrices]);
 
   return (
     <>
@@ -378,13 +539,17 @@ const PriceCalculationsTable = ({ data }: Props) => {
                       !Object.values(selectedPrices)
                         .map(val => val.selected)
                         .some(Boolean) ||
+                      Object.values(selectedProduction)
+                        .map(val => val.selected)
+                        .some(Boolean) ||
                       isLoading ||
                       uniqueClients.length > 1
                     }
+                    disableCreate={hasClosedPD}
                     enableEditCalculation={
                       Object.values(selectedProduction).filter(
                         production => production.selected
-                      ).length > 0
+                      ).length > 0 || hasClosedPDInSelectedPrices
                     }
                     handleExportClick={handleExportClick}
                     handleAddPriceCalculation={handleAddPriceCalculation}

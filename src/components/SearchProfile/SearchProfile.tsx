@@ -9,10 +9,17 @@ import { useModal } from '../../app/hooks/useModal';
 import { SelectOption } from '../../app/types/types';
 import { parseSearchParams } from '../../app/utils/FilterHelper';
 import { SPACE } from '../../theme/Constants';
+import { allFilters } from '../../app/hooks/useFilterList';
+import {
+  SEARCH_QUERY,
+  INCLUDE_CLOSED,
+  PAGE_NUMBER,
+  PAGE_SIZE,
+  ACTIVE_SEARCH_PROFILE_NAME,
+} from '../../app/utils/constant';
 import SelectBase from '../Form/SelectBase';
 import RemixIcon from '../Icon/RemixIcon';
 import SearchProfileModalContent from './SearchProfileModalContent';
-import { ACTIVE_SEARCH_PROFILE_NAME } from '../../app/utils/constant';
 
 const SearchProfile = () => {
   const { handleModal } = useModal();
@@ -30,9 +37,16 @@ const SearchProfile = () => {
     setSelected(option);
     const queryStr = option.value;
     const filters = parseSearchParams(queryStr);
-    unregister('projects');
-    unregister('clients');
-    unregister('statuses');
+
+    allFilters.forEach(filter => {
+      unregister(filter.name);
+    });
+
+    unregister(SEARCH_QUERY);
+    unregister(INCLUDE_CLOSED);
+    unregister(PAGE_NUMBER);
+    unregister(PAGE_SIZE);
+    unregister('sortBy');
 
     for (const name in filters) {
       const value = filters[name];
