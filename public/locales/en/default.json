@@ -436,6 +436,8 @@
     "moq": "MOQ",
     "vendor": "Vendor",
     "purchasePrice": "Purchase Price",
+    "finishedLength": "Finished Length",
+    "finishedWidth": "Finished Width",
     "FileName": "File name",
     "ProductDevelopmentIncluded": "product developments are included in the selection"
   },
