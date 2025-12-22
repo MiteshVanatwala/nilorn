@@ -32,7 +32,7 @@ const Modal = ({
       closeOnEsc={closeOnEsc}
       onOverlayClick={onOverlayClick}
       isOpen={isOpen}
-      onClose={closeOnEsc ? close : () => {}}
+      onClose={close}
       motionPreset={'scale'}
       isCentered
       returnFocusOnClose={returnFocusOnClose}>

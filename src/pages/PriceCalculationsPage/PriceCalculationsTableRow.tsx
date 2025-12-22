@@ -14,6 +14,7 @@ import {
   GRID_LAYOUT_SOURCING,
   GRID_LAYOUT_SOURCING_DESKTOP,
   PD_COL_SPAN,
+  SelectedProduction,
   SOURCING_COL_SPAN,
   VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
@@ -24,12 +25,16 @@ type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
   selectedPrices: SelectedPrices;
   setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
+  selectedProduction: SelectedProduction;
+  setSelectedProduction: React.Dispatch<React.SetStateAction<SelectedProduction>>;
 };
 
 const PriceCalculationsTableRow = ({
   productDevelopment: p,
   selectedPrices,
   setSelectedPrices,
+  selectedProduction,
+  setSelectedProduction
 }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
@@ -46,23 +51,31 @@ const PriceCalculationsTableRow = ({
       <GridTd>
         <Box as="span">
           {p.productDevelopmentDataDto?.clientName ?? ''}
-          <Tooltip
-            label={
-              <Box
-                dangerouslySetInnerHTML={{
-                  __html: p.productDevelopmentDataDto?.clientRequirement ?? '!',
-                }}
-              />
-            }
-            placement="right-start">
-            <Text
-              color="red"
-              ml={SPACE.XXS}
-              display="inline-block"
-              cursor={'pointer'}>
-              <i className="ri-information-line"></i>
-            </Text>
-          </Tooltip>
+          {p.productDevelopmentDataDto?.clientRequirement &&
+            p.productDevelopmentDataDto?.clientRequirement !==
+              '<p><br></p>' && (
+              <Tooltip
+                variant={'attachmentTooltip'}
+                className="attachment-tooltip"
+                label={
+                  <Box
+                    className="ql-editor"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        p.productDevelopmentDataDto?.clientRequirement ?? '!',
+                    }}
+                  />
+                }
+                placement="right-start">
+                <Text
+                  color="red"
+                  ml={SPACE.XXS}
+                  display="inline-block"
+                  cursor={'pointer'}>
+                  <i className="ri-information-line"></i>
+                </Text>
+              </Tooltip>
+            )}
         </Box>
       </GridTd>
       <GridItem colSpan={VENDOR_ROW_SPAN + SOURCING_COL_SPAN}>
@@ -96,6 +109,8 @@ const PriceCalculationsTableRow = ({
                           productDevelopment={p.productDevelopmentDataDto}
                           selectedPrices={selectedPrices}
                           setSelectedPrices={setSelectedPrices}
+                          selectedProduction={selectedProduction}
+                          setSelectedProduction={setSelectedProduction}
                         />
                       </Fragment>
                     ))

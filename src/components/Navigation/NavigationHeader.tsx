@@ -25,8 +25,8 @@ const NavigationHeader = () => {
 
   const showProduction = useAuthorizedSee('production');
   const showCalculation = useAuthorizedSee('price-calculation');
-  const showClientCard = false; // useAuthorizedSee('client-card');
-  const showProjectCard = false; // useAuthorizedSee('project-card');
+  const showClientCard = useAuthorizedSee('client-card');
+  const showProjectCard = useAuthorizedSee('project-card');
 
   return (
     <Container
@@ -65,7 +65,7 @@ const NavigationHeader = () => {
                     </Center>
                   }
                   path="/"
-                  clickedStoredFilter={SESSION_STORAGE.PREV_FILTER_OVERVIEW}
+                  clickedStoredFilter={[SESSION_STORAGE.PREV_FILTER_OVERVIEW]}
                 />
               </HStack>
               <HeaderDivider />
@@ -73,24 +73,24 @@ const NavigationHeader = () => {
                 <HeaderLink
                   title={t('Common.Title')}
                   path="/"
-                  clickedStoredFilter={SESSION_STORAGE.PREV_FILTER_OVERVIEW}
+                  clickedStoredFilter={[SESSION_STORAGE.PREV_FILTER_OVERVIEW]}
                 />
                 {showProduction && (
                   <HeaderLink
                     title={t('Menu.HypProduction')}
                     path="/productions"
-                    clickedStoredFilter={
-                      SESSION_STORAGE.PREV_FILTER_PRODUCTIONS
-                    }
+                    clickedStoredFilter={[
+                      SESSION_STORAGE.PREV_FILTER_PRODUCTIONS,
+                    ]}
                   />
                 )}
                 {showCalculation && (
                   <HeaderLink
                     title={t('Menu.HypPrice')}
                     path="/price-calculations"
-                    clickedStoredFilter={
-                      SESSION_STORAGE.PREV_FILTER_CALCULATION
-                    }
+                    clickedStoredFilter={[
+                      SESSION_STORAGE.PREV_FILTER_CALCULATION,
+                    ]}
                   />
                 )}
               </HStack>
@@ -99,7 +99,7 @@ const NavigationHeader = () => {
           </GridItem>
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
-              {(showClientCard || showProjectCard) && <ManageDataMenu />}
+              {(showClientCard || showProjectCard) && false && <ManageDataMenu />}
               <UserMenu />
             </HStack>
           </GridItem>

@@ -25,6 +25,8 @@ import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
+import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import { useQueryClient } from 'react-query';
 
 type Props = {
   calculationId: string;
@@ -48,8 +50,85 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     onNavigate,
     setDirty,
     leavePageModal,
+    openLeavePageModal,
+    hasUnsavedChanges,
   } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
-  const { close } = useContext(ModalContext);
+  const modalContext = useContext(ModalContext);
+  const queryClient = useQueryClient();
+  
+  // Override the close function to also close inline edit
+  const close = () => {
+    // Set flag to force close inline edit - even if no changes were made
+    queryClient.setQueryData(['forceCloseInlineEdit'], activeCalculationId);
+    modalContext.close();
+  };
+
+  // Set up the custom close handler
+  useEffect(() => {
+    const handleCustomClose = () => {
+      // If delete modal is open, let it handle the close
+      if (isDeleteModalOpen) {
+        return;
+      }
+
+      // Check if there are unsaved changes
+      if (hasUnsavedChanges()) {
+        // Show unsaved changes modal
+        openLeavePageModal();
+      } else {
+        // No unsaved changes, close modal directly
+        close();
+      }
+    };
+
+    if (modalContext.setCustomCloseHandler) {
+      modalContext.setCustomCloseHandler(() => handleCustomClose);
+    }
+    
+    // Cleanup: remove custom close handler when component unmounts
+    return () => {
+      if (modalContext.setCustomCloseHandler) {
+        modalContext.setCustomCloseHandler(null);
+      }
+    };
+  }, [isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close, modalContext.setCustomCloseHandler]);
+
+  // Handle Esc key for this modal (including unsaved changes logic)
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        // If delete modal is open, let it handle Esc instead
+        if (isDeleteModalOpen) {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Check if there are unsaved changes
+        if (hasUnsavedChanges()) {
+          // Show unsaved changes modal
+          openLeavePageModal();
+        } else {
+          // No unsaved changes, close modal directly
+          close();
+        }
+      }
+    };
+
+    // Use capture phase to handle before other event listeners
+    window.addEventListener('keydown', handleEscKey, true);
+    return () => {
+      window.removeEventListener('keydown', handleEscKey, true);
+    };
+  }, [isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close]);
+
+  // Prevent modal from closing when form is dirty or delete modal is open
+  useEffect(() => {
+    if (modalContext.setPreventClose) {
+      modalContext.setPreventClose(isDeleteModalOpen || hasUnsavedChanges());
+    }
+  }, [isDeleteModalOpen, hasUnsavedChanges, modalContext.setPreventClose]);
 
   const { data: priceCalculationNavigation } = usePriceCalculationNavigation(
     activeCalculationId,
@@ -64,7 +143,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     priceCalculation || {};
 
-  const { mutate: updateCalculation } = usePatchCalculation();
+  const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
     useDeleteCalculation(calculationId);
 
@@ -104,12 +183,11 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   }, [form.formState.isDirty]);
 
   function submitForm(form: FieldValues) {
-    updateCalculation(form, {
-      onSuccess: () => {
-        setDirty(false);
-        close();
-      },
-    });
+    const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
+      priceCalculationUpdateDtos: [form],
+    };
+
+    updateCalculation(priceCalculationUpdateDto);
   }
 
   function handleDeleteCalculation() {
@@ -130,12 +208,23 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   }, [close, isSuccessDelete, setDeleteModalOpen]);
 
   useEffect(() => {
+    if (isUpdateSuccess) {
+      setDirty(false);
+      // Close modal and refresh data - this ensures consistent behavior
+      // whether changes were made or not
+      close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [close, isUpdateSuccess]);
+
+  useEffect(() => {
     setDisableEdit(
       productDevelopmentDataDto?.status
         ? isClosed(productDevelopmentDataDto?.status)
         : false
     );
   }, [productDevelopmentDataDto?.status]);
+
 
   return (
     <>
@@ -153,6 +242,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
               vendorName={vendorName}
+              createNew={false}
               actionBar={
                 <PriceCalculationActionBar
                   handleDelete={openDeleteModal}

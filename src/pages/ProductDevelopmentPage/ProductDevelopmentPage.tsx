@@ -11,8 +11,7 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
-import NotFoundPage from '../NotFound/NotFoundPage';
-// import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import PermissionDenied from '../PermissionDenied/PermissionDenied';
 
 type Props = {
   createNew: boolean;
@@ -80,8 +79,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
     isError ||
     (createNew && user?.role && !ROLES_ALLOWED_TO_CREATE.includes(user.role))
   ) {
-    // return <PermissionDenied />;
-    return <NotFoundPage />;
+    return <PermissionDenied />;
   }
 
   if (isLoading || isUserLoading || isRefetching) {

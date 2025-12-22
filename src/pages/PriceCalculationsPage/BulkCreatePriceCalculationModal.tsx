@@ -13,75 +13,48 @@ import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
 import PriceCalculationActionBar from './PriceCalculationActionBar';
-import {
-  useCreateCalculation,
-  usePriceCalculationDefaultValues,
-} from '../../app/api/calculation';
+import { useCreateCalculation } from '../../app/api/calculation';
 import { useContext, useEffect, useRef } from 'react';
 import { ModalContext } from '../../app/context/ModalContext';
-import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
+import { useTranslation } from 'react-i18next';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 
 type Props = {
-  productDevelopment?: ProductDevelopmentDataDto;
-  sourcedProduction: SourcedProductionDto;
-  lastModified?: string;
-  artwork?: MediaFileDto;
-  production: ProductionDto;
-  calculation: PriceCalculationDto | undefined;
-  filters?: ServerFilter;
+  isLoading: boolean;
+  production: ProductionDto[];
+  calculation: PriceCalculationDto[] | undefined[];
 };
 
-const CreatePriceCalculationModal = ({
-  productDevelopment,
-  sourcedProduction,
-  lastModified,
-  artwork,
+const BulkCreatePriceCalculationModal = ({
+  isLoading,
   production,
   calculation,
 }: Props) => {
+  const { t } = useTranslation();
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
+  const { mutate: createCalculation, isSuccess: isCreateSuccess } =
+    useCreateCalculation();
   const { close, setCustomCloseHandler, setPreventClose } = useContext(ModalContext);
-  const { showChanges, setShowChanges } = useToggleChangelog(
-    ChangelogType.PRICE_CALCULATION,
-    undefined,
-    calculation?.id ?? ''
-  );
-
-  const {
-    data: defaultValues,
-    isLoading: isLoadingDefaultValues,
-    isSuccess: isLoadedDefaultValues,
-  } = usePriceCalculationDefaultValues(
-    productDevelopment?.no ?? '',
-    sourcedProduction.sourcingCompanyCode ?? '',
-    production?.vendorId ?? '',
-    production.currencyCode ?? ''
-  );
-  const margins =
-    calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
-      ? calculation?.priceDtos.map(item => item.margin)
-      : null;
 
   const form = useForm({
     mode: 'onChange',
     defaultValues: {
-      productionId: production?.id,
-      purchaseCurrency: production.currencyCode,
-      currencyRate: calculation?.currencyRate,
-      currencyCode: calculation?.currency?.code,
-      internalCommission: calculation?.internalCommission,
-      indirectCost: calculation?.indirectCost,
-      freightIncluded: calculation?.freightIncluded,
-      margin:
-        margins !== null && margins.every(m => m === margins[0])
-          ? margins[0]
-          : null,
+      productionId: null,
+      purchaseCurrency: production?.every(
+        p => p.currencyCode === production[0]?.currencyCode
+      )
+        ? production[0]?.currencyCode
+        : t('PriceCalc.VariesBetweenEntries'),
+      currencyRate: null,
+      currencyCode: null,
+      internalCommission: null,
+      indirectCost: null,
+      freightIncluded: null,
+      margin: null,
     },
   });
 
@@ -141,29 +114,33 @@ const CreatePriceCalculationModal = ({
   }, [hasUnsavedChanges, setPreventClose]);
 
   useEffect(() => {
-    if (isLoadedDefaultValues) {
-      form.reset({
-        productionId: production.id,
-        purchaseCurrency: production.currencyCode,
-        currencyRate: defaultValues?.currencyRate,
-        currencyCode: defaultValues?.salesCurrency?.code,
-        internalCommission: defaultValues?.internalCommission,
-        indirectCost: defaultValues?.indirectCost,
-        freightIncluded: defaultValues?.freightIncluded,
-        margin: defaultValues?.margin,
-      });
-    }
-  }, [
-    defaultValues,
-    form,
-    isLoadedDefaultValues,
-    production.currencyCode,
-    production.id,
-  ]);
+    form.reset({
+      productionId: null,
+      purchaseCurrency: production?.every(
+        p => p.currencyCode === production[0]?.currencyCode
+      )
+        ? production[0]?.currencyCode
+        : t('PriceCalc.VariesBetweenEntries'),
+      currencyRate: null,
+      currencyCode: null,
+      internalCommission: null,
+      indirectCost: null,
+      freightIncluded: null,
+      margin: null,
+    });
+  }, [form, production]);
 
   function submitForm(form: FieldValues) {
     const priceCalculationCreateDto: priceCalculationCreateDtos = {
-      priceCalculationCreateDtos: [form],
+      priceCalculationCreateDtos: production.map(p => ({
+        productionId: p.id,
+        currencyRate: form.currencyRate || 0,
+        currencyCode: form.currencyCode || null,
+        internalCommission: form.internalCommission || null,
+        indirectCost: form.indirectCost || null,
+        freightIncluded: form.freightIncluded || null,
+        margin: form.margin || 0,
+      })),
     };
 
     createCalculation(priceCalculationCreateDto);
@@ -193,31 +170,30 @@ const CreatePriceCalculationModal = ({
         <FormProvider {...form}>
           <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
-              productDevelopment={productDevelopment}
-              sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-              vendorName={production?.vendorName}
+              productDevelopment={undefined}
+              sourcingCompanyCode={null}
+              vendorName={null}
+              isBulkEdit={true}
+              totalPriceCalculations={production.length}
               createNew={true}
               actionBar={
                 <PriceCalculationActionBar
-                  artwork={artwork}
+                  artwork={undefined}
                   createNew={true}
-                  lastModified={lastModified}
-                  showChanges={showChanges}
-                  setShowChanges={(s: boolean) => setShowChanges(s)}
+                  lastModified={undefined}
+                  showChanges={false}
+                  setShowChanges={() => {}}
+                  isBulkEdit={true}
                 />
               }
             />
-            <Skeleton isLoaded={!isLoadingDefaultValues}>
+            <Skeleton isLoaded={!isLoading}>
               <PriceCalculationForm
-                calculation={calculation}
-                currency={
-                  defaultValues?.salesCurrency ??
-                  calculation?.currency ??
-                  undefined
-                }
+                calculation={undefined}
+                currency={undefined}
                 createNew={true}
-                showChanges={showChanges}
-                productionId={production.id}
+                showChanges={false}
+                productionId={undefined}
               />
             </Skeleton>
           </Form>
@@ -227,4 +203,4 @@ const CreatePriceCalculationModal = ({
   );
 };
 
-export default CreatePriceCalculationModal;
+export default BulkCreatePriceCalculationModal;

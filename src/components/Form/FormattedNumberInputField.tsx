@@ -5,10 +5,7 @@ import { RegisterOptions, useFormContext, useWatch } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { numToThousandSeparatedsStr } from '../../app/utils/common';
 import { useTranslation } from 'react-i18next';
-import {
-  READ_ONLY_OPACITY,
-  READ_ONLY_OPACITY_TEXTBOX,
-} from '../../app/utils/constant';
+import { READ_ONLY_OPACITY } from '../../app/utils/constant';
 
 interface Props extends FormInputProps {
   placeholder?: string;
@@ -73,7 +70,7 @@ const FormattedNumberInputField = ({
   }, []);
 
   useEffect(() => {
-    if (watch === null || isNaN(watch)) {
+    if (watch === null || watch === undefined || isNaN(watch)) {
       setFormattedValue('');
     } else if (!!watch || watch === 0) {
       setFormattedValue(
@@ -87,7 +84,7 @@ const FormattedNumberInputField = ({
     if (!invalid) {
       const targetValue = e.target.value;
       if (!targetValue?.length) {
-        setFormValue(name, undefined);
+        setFormValue(name, null);
         setFormattedValue('');
         setIsActive(false);
         return;
@@ -128,9 +125,9 @@ const FormattedNumberInputField = ({
 
   const regOptions: RegisterOptions = {
     required: required,
-    validate: (val: string | number | undefined) => {
+    validate: (val: string | number | null | undefined) => {
       if (required) {
-        if (typeof val === 'undefined') {
+        if (val === null || val === undefined) {
           return t('Errors.Required');
         }
         if (typeof val === 'string' && !val?.length) {
@@ -139,7 +136,7 @@ const FormattedNumberInputField = ({
       }
 
       if (!required) {
-        if (typeof val === 'undefined') {
+        if (val === null || val === undefined) {
           return true;
         }
         if (typeof val === 'string' && !val?.length) {
@@ -197,7 +194,7 @@ const FormattedNumberInputField = ({
             onClick={() => readonly && setFocus(name)}
             zIndex={readonly ? 1 : 0}
             borderBottom={`1px solid #e2e8f0`}
-            opacity={readonly ? READ_ONLY_OPACITY_TEXTBOX : ''}
+            opacity={readonly ? '0.45' : ''}
             variant={readonly ? 'disabled' : ''}
             color={'inherit'}>
             {formattedValue}&nbsp;
@@ -216,8 +213,11 @@ const FormattedNumberInputField = ({
           onFocus={onInputFocus}
           autoComplete="off"
           disabled={readonly}
-          opacity={readonly ? READ_ONLY_OPACITY : ''}
+          opacity={showFormattedValue ? 0 : 1}
           {...register(name, regOptions)}
+          style={{
+            color: showFormattedValue ? 'transparent' : 'inherit'
+          }}
         />
       </Box>
     </ControlWrapper>

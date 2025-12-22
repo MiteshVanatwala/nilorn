@@ -20,18 +20,8 @@ const useDeleteModal = (
     modalRef.current?.onClose();
   }, []);
 
-  useEffect(() => {
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setOpen(false);
-      }
-    };
-
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  });
+  // Removed global Esc key handler to prevent conflicts with nested modals
+  // The Modal component itself will handle Esc key appropriately
 
   const onCancel = () => {
     setOpen(false);

@@ -25,7 +25,7 @@ const AttachmentInfoSection = ({
           }
           name={'teamsName'}
           readonly={disableEdit}
-          registerOptions={{ maxLength: 60 }}
+          registerOptions={{ maxLength: 150 }}
         />
 
         <InputField
@@ -37,7 +37,7 @@ const AttachmentInfoSection = ({
           }
           name={'channelName'}
           readonly={disableEdit}
-          registerOptions={{ maxLength: 60 }}
+          registerOptions={{ maxLength: 150 }}
         />
 
         <InputField
@@ -49,10 +49,10 @@ const AttachmentInfoSection = ({
           }
           name={'artWorkFolderName'}
           readonly={disableEdit}
-          registerOptions={{ maxLength: 60 }}
+          registerOptions={{ maxLength: 150 }}
         />
 
-        <InputField
+        {/* <InputField
           label={`${t('Client.FormContent.AttachmentFolderName')}`}
           placeholder={
             displayPlaecholder
@@ -61,8 +61,8 @@ const AttachmentInfoSection = ({
           }
           name={'attachmentFolderName'}
           readonly={disableEdit}
-          registerOptions={{ maxLength: 60 }}
-        />
+          registerOptions={{ maxLength: 150 }}
+        /> */}
       </HStack>
     </AccordionItem>
   );

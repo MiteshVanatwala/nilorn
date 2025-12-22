@@ -37,6 +37,8 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     itemNo: true,
     description: true,
     versionSpec: true,
+    finishedLength: true,
+    finishedWidth: true,
     certificate: true,
     moq: true,
     vendor: false,
@@ -82,6 +84,8 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
       PurchasePrice: selections.purchasePrice,
       MOQ: selections.moq,
       Vendor: selections.vendor,
+      FinishedLength: selections.finishedLength,
+      FinishedWidth: selections.finishedWidth,
     }));
 
     try {
@@ -124,8 +128,11 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
                     handleCheckboxChange(key as ExcelExportFieldKey)
                   }
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === 'Enter')
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      e.stopPropagation();
                       handleCheckboxChange(key as ExcelExportFieldKey);
+                    }
                   }}
                 />
               </GridItem>

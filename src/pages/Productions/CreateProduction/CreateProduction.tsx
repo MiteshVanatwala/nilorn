@@ -52,6 +52,8 @@ const CreateProduction = ({
           productionLeadTimeMin: null,
           sampleLeadTimeMax: null,
           productionLeadTimeMax: null,
+          dieSet: null,
+          surcharge: null
         },
   });
   const { close } = useContext(ModalContext);
@@ -80,7 +82,7 @@ const CreateProduction = ({
               id: undefined,
               quantity: q ?? null,
               price: undefined,
-            } as PurchasePriceDto)
+            }) as PurchasePriceDto
         )
         .sort(
           (a: PurchasePriceDto, b: PurchasePriceDto) =>
@@ -117,7 +119,7 @@ const CreateProduction = ({
             ({
               ...q,
               price: q.price || 0,
-            } as PurchasePriceDto)
+            }) as PurchasePriceDto
         ),
         sampleLeadTimeMin: sampleLeadTimeMin || null,
         sampleLeadTimeMax: sampleLeadTimeMax || null,
@@ -158,6 +160,7 @@ const CreateProduction = ({
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
               vendorName={production?.vendorName}
+              createNew={true}
               actionBar={
                 <ActionBarEditProduction
                   production={production}

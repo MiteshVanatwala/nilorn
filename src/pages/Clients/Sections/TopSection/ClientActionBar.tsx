@@ -12,13 +12,17 @@ const ClientActionBar = () => {
     <ActionBarTemplate
       lastModifiedDate={lastModified}
       actionButtons={
-        <Button
-          isDisabled={!clientNo}
-          variant={'primary'}
-          rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
-          type="submit">
-          {t('Common.Save')}
-        </Button>
+        <>
+          {clientNo && (
+            <Button
+              isDisabled={!clientNo}
+              variant={'primary'}
+              rightIcon={<RemixIcon component="i" icon="SAVE_LINE" />}
+              type="submit">
+              {t('Common.Save')}
+            </Button>
+          )}
+        </>
       }
     />
   );

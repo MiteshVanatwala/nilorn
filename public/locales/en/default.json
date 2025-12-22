@@ -1,6 +1,6 @@
 {
   "Common": {
-    "Title": "Umbrella",
+    "Title": "Overview",
     "GoHome": "Go home",
     "Cancel": "Cancel",
     "Yes": "Yes",
@@ -42,7 +42,8 @@
     "ReadComment": "Read comment",
     "NumberOfHits": "Number of hits:",
     "Percentage": "Percentage",
-    "Percentage_sign": "%"
+    "Percentage_sign": "%",
+    "Select": "Select..."
   },
   "Menu": {
     "Hyphome": "Start",
@@ -50,7 +51,7 @@
     "HypSource": "Sourcings",
     "HypChangelog": "Changelog",
     "HypClients": "Client",
-    "HypProjects": "Projects",
+    "HypProjects": "Project",
     "HypPrice": "Price Calculations",
     "HypProduction": "Productions",
     "HypUser": "User",
@@ -129,7 +130,7 @@
     "File": {
       "BrowseFile": "Browse files...",
       "DeleteFile": "Do you want to delete the file, or only remove the link to the file (file will be kept in Teams)?",
-      "MediaFileInfo": "Artwork and attachments can only be uploaded after the product development is created.",
+      "MediaFileInfo": "Artwork can only be uploaded after the product development is created.",
       "DragDropArtwork": "Drop artwork to upload to product development {{no}}",
       "Delete": "Delete file",
       "RemoveLink": "Remove link",
@@ -255,7 +256,12 @@
     "PUR": "Purchase Price",
     "Tool": "Tool Charge",
     "Currency": "Currency",
+    "DieSet":"Die Set",
     "Sample": "Sample Charge",
+    "Surcharge": "Surcharge",
+    "SurchargeBasis": "Surcharge Basis",
+    "SampleCharge": "Sample Charge",
+    "SampleChargeBasis": "Sample Charge Basis",
     "SaveSuccess": "Production has been saved",
     "CreateProduction": "Create production",
     "CreateAndRelease": "Create and release",
@@ -278,6 +284,9 @@
       "Error": {
         "Percentage": "Percentage should be between 0 and 100"
       }
+    },
+    "ChargeBasisLabel": {
+      "PerOption": "Per Option"
     }
   },
   "PriceCalc": {
@@ -293,19 +302,24 @@
     "Sales": "Sales Price",
     "Cost": "Cost",
     "InternalCommission": "Internal Commission",
-    "InternalCommission_short": "Int. comm.",
+    "InternalCommission_short": "IntComm",
     "IndirectCost": "Indirect Cost",
+    "IndirectCost_short": "IndCost",
     "CurrencyRate": "Currency Rate",
+    "CurrencyRate_short": "CurrRate",
     "FreightIncluded": "Freight Included",
-    "FreightIncluded_short": "Freight Incl.",
+    "FreightIncluded_short": "FreightInc",
     "PurchaseCurrency": "Purchase Currency",
     "SalesCurrency": "Sales Currency",
     "Percentage": " (%)",
+    "VariesBetweenEntries": "Varies between entries",
+    "UnchangedFieldsInstruction": "Unchanged fields will keep their current values - only fields you edit will be updated with the new value",
     "Export": {
       "Included": "Price is to be included in quote (excel export)",
       "NotIncluded": "Price is not to be included in quote (excel export)",
       "Invalid": "Purchase price has been updated since price calculation was created. The row will not be included in quote (excel export)."
     },
+    "ExportToExcel": "Export to excel",
     "Feedback": {
       "Success": {
         "Update": "Calculation has been saved",
@@ -323,7 +337,13 @@
         "MarginTooHigh": "Margin can be maximum 99.99",
         "UpdateIncluded": "Failed to update valid and include"
       }
-    }
+    },
+    "selectedRowsArray": " price calculations will be created",
+    "selectedRowsArrayUpdate": " price calculations will be updated",
+    "CurrencyVariationDetected": "Currency variation detected",
+    "CurrencyVariationDetectedDesc": "The selected entries have different purchase or sales currencies. Changing the sales currency or currency rate may lead to incorrect calculations. Do you want to continue?",
+    "UdpatePriceCalculationConfirmationTitle": "Are you sure?",
+    "UdpatePriceCalculationConfirmationDesc": "You are about to update {{X}} price calculations. Do you want to continue?"
   },
   "ManageData": {
     "AddProject": "Add new project",
@@ -416,6 +436,8 @@
     "moq": "MOQ",
     "vendor": "Vendor",
     "purchasePrice": "Purchase Price",
+    "finishedLength": "Finished Length",
+    "finishedWidth": "Finished Width",
     "FileName": "File name",
     "ProductDevelopmentIncluded": "product developments are included in the selection"
   },
@@ -430,18 +452,18 @@
       "ClientName": "Client",
       "KeyAccountManager": "Key Account Manager",
       "AccountManager": "Account Manager",
-      "TeamsName": "Teams name",
-      "TeamsNamePlaceholder": "Enter teams name",
+      "TeamsName": "Teams Name",
+      "TeamsNamePlaceholder": "Enter value",
       "TeamsNameError": "Teams name is required",
-      "ChannelName": "Channel name",
-      "ChannelNamePlaceholder": "Enter channel name",
-      "ChannelNameError": "Channel name is required",
-      "ArtworkFolderName": "Artwork folder name",
-      "ArtworkFolderNamePlaceholder": "Enter artwork folder name",
-      "ArtworkFolderNameError": "Artwork folder name is required",
-      "AttachmentFolderName": "Attachment folder name",
-      "AttachmentFolderNamePlaceholder": "Enter attachment folder name",
-      "AttachmentFolderNameError": "Attachment folder name is required"
+      "ChannelName": "Channel Name",
+      "ChannelNamePlaceholder": "Enter value",
+      "ChannelNameError": "Channel Name is required",
+      "ArtworkFolderName": "Artwork Folder Name",
+      "ArtworkFolderNamePlaceholder": "Enter value",
+      "ArtworkFolderNameError": "Artwork Folder Name is required",
+      "AttachmentFolderName": "Attachment Folder Name",
+      "AttachmentFolderNamePlaceholder": "Enter value",
+      "AttachmentFolderNameError": "Attachment Folder Name is required"
     },
     "Messages": {
       "Success": "Client saved successfully",

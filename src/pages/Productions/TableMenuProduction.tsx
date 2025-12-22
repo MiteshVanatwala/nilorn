@@ -141,6 +141,7 @@ const TableMenuProduction = ({
                 description={t('PD.DeleteMsg')}
                 confirmType={'DELETE'}
                 onConfirm={() => deleteProductionFunc()}
+                onClose={() => close()}
               />
             )
           }

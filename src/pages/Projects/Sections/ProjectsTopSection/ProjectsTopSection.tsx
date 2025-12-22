@@ -16,10 +16,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { GRID, SPACE } from '../../../../theme/Constants';
 import ControlWrapper from '../../../../components/Form/ControlWrapper';
-import Select from '../../../../components/Form/Select';
 import useFilterOptions from '../../../../app/hooks/useFilterOption';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { SESSION_STORAGE } from '../../../../app/utils/constant';
+import LeavePageBlocker from '../../../../components/Modal/LeavePageBlocker';
+import SelectBase from '../../../../components/Form/SelectBase';
+import { useUnsavedChanges } from '../../../../app/hooks/useUnsavedChanges';
 
 type Props = {
   setSelectedProjectCode: Dispatch<SetStateAction<string | undefined>>;
@@ -36,177 +38,340 @@ const ProjectsTopSection = ({
   const { setValue, reset } = useFormContext();
   const clientOptions = useFilterOptions('clients', true);
   const clientNo = useWatch({ name: 'clientNo' });
-  const projectId = useWatch({ name: 'code' });
+  const projectCode = useWatch({ name: 'projectCode' });
+  const code = useWatch({ name: 'code' });
   const lastModified = useWatch({ name: 'lastModified' });
   const { data: projectOptionItems } = useGetProjectsOptions(
     clientNo,
     typeof clientNo === 'string'
   );
+
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [nextClientNo, setNextClientNo] = useState('');
+  const [nextProjectCode, setNextProjectCode] = useState('');
+  const { setUnsavedChanges } = useUnsavedChanges();
 
   const projectOptions = useMemo(() => {
     return !!projectOptionItems ? (projectOptionItems as SelectOption[]) : [];
   }, [projectOptionItems]);
-
+  const [showLeavePageBlocker, setShowLeavePageBlocker] = useState(false);
   const [optionItems, setOptionItems] =
     useState<SelectOption[]>(projectOptions);
 
   const { data: projectCard } = useGetProjectCard(
     clientNo ?? '',
-    projectId ?? ''
+    projectCode ?? ''
   );
 
   useEffect(() => {
-    const storedClientNo = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
-    );
-    const storedProjectCode = sessionStorage.getItem(
-      SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
-    );
-    if (storedClientNo) {
-      setSelectedClientNo(storedClientNo);
-      setValue('clientNo', storedClientNo);
+    if (!!clientNo && !!projectCode) {
+      if (code !== projectCode) {
+        reset(
+          {
+            ...projectCard,
+            projectCode: projectCode,
+            clientNo: clientNo,
+            code: code,
+          },
+          {
+            keepDirty: false,
+            keepTouched: false,
+            keepIsValid: true,
+            keepErrors: true,
+          }
+        );
+      } else {
+        reset(
+          {
+            ...projectCard,
+            projectCode: projectCode,
+            clientNo: clientNo,
+            code: projectCode,
+          },
+          {
+            keepDirty: false,
+            keepTouched: false,
+            keepIsValid: true,
+            keepErrors: true,
+          }
+        );
+      }
+    } else {
+      reset(
+        {
+          clientNo: clientNo,
+          projectCode: projectCode,
+          code: projectCode,
+          members: [],
+          description: '',
+          teamsName: '',
+          channelName: '',
+          artWorkFolderName: '',
+          attachmentFolderName: '',
+        },
+        {
+          keepDirty: false,
+          keepTouched: false,
+          keepIsValid: true,
+          keepErrors: true,
+        }
+      );
     }
-    if (storedProjectCode) {
-      setSelectedProjectCode(storedProjectCode);
-      setValue('code', storedProjectCode);
-      setValue('project', storedProjectCode);
-    }
+  }, [clientNo, projectCode, projectCard, reset]);
+
+  useEffect(() => {
+    // const storedClientNo = sessionStorage.getItem(
+    //   SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO
+    // );
+    // const storedProjectCode = sessionStorage.getItem(
+    //   SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO
+    // );
+    // if (!!storedClientNo) {
+    //   setSelectedClientNo(storedClientNo);
+    //   setValue('clientNo', storedClientNo, { shouldDirty: false });
+    // }
+    // if (!!storedProjectCode) {
+    //   setSelectedProjectCode(storedProjectCode);
+    //   setValue('projectCode', storedProjectCode);
+    //   setValue('code', storedProjectCode);
+    // }
     setTimeout(() => {
       setIsInitialLoad(false);
-    }, 100);
+    }, 1000);
   }, []);
 
   useEffect(() => {
-    if (!!clientNo && !!projectId && !!projectCard) {
-      reset({ ...projectCard });
-    } else if (!projectId && !isInitialLoad) {
-      reset({
-        clientNo,
-        code: '',
-        description: '',
-        clientName: '',
-        members: [],
-        lastModified: '',
-        teamsName: '',
-        channelName: '',
-        artWorkFolderName: '',
-        attachmentFolderName: '',
-      });
-    }
-  }, [clientNo, projectId, projectCard]);
+    setValue(
+      'clientName',
+      clientOptions?.find(t => t.value === clientNo)?.label ?? '',
+      { shouldDirty: false }
+    );
+  }, [clientNo, clientOptions]);
 
   useEffect(() => {
     setOptionItems(projectOptions);
   }, [projectOptions]);
 
   useEffect(() => {
-    setSelectedClientNo(clientNo);
-    if (clientNo !== undefined) {
-      sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO, clientNo);
-      if (!isInitialLoad && projectId !== undefined && projectId !== '') {
-        setSelectedProjectCode('');
-        setValue('code', '');
-        setValue('project', '');
-        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+    if (!!code) {
+      if (
+        projectOptions.filter((option: any) => option.value === code).length > 0
+      ) {
+        setValue('projectCode', code, {
+          shouldDirty: false,
+        });
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, code);
+        setSelectedProjectCode(code);
       }
     }
-  }, [clientNo, projectId]);
-
-  useEffect(() => {
-    setSelectedProjectCode(projectId);
-    if (projectId !== undefined && projectId !== '') {
-      sessionStorage.setItem(
-        SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
-        projectId
-      );
-      setSelectedProjectCode(projectId);
-      setValue('code', projectId);
-      setValue('project', projectId);
-    }
-  }, [projectId]);
+  }, [code, projectOptions]);
 
   const defaultClientOption = clientOptions?.find(
     (option: any) => option.value === clientNo
   );
 
-  const defaultProjectOption = projectOptions?.find(
-    (option: any) => option.value === projectId
-  );
+  const defaultProjectOption = useMemo(() => {
+    return optionItems.find((option: any) => option.value === projectCode);
+  }, [optionItems, projectCode]);
+
+  const handleLeavePageBlocker = (accepted?: boolean) => {
+    if (accepted) {
+      sessionStorage.setItem(SESSION_STORAGE.IS_DIRTY, 'false');
+
+      // If nextProjectCode is set, it means user is changing project
+      if (nextProjectCode) {
+        setValue('projectCode', nextProjectCode, { shouldDirty: false });
+        setValue('code', nextProjectCode, { shouldDirty: false });
+        setSelectedProjectCode(nextProjectCode);
+        sessionStorage.setItem(
+          SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+          nextProjectCode
+        );
+      }
+
+      // Handle client change if nextClientNo is set
+      if (nextClientNo) {
+        setValue('clientNo', nextClientNo, { shouldDirty: false });
+        setSelectedClientNo(nextClientNo);
+        sessionStorage.setItem(
+          SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+          nextClientNo
+        );
+
+        // If changing client, clear project
+        if (nextClientNo !== clientNo) {
+          setValue('projectCode', '', { shouldDirty: false });
+          setValue('code', '', { shouldDirty: false });
+          setSelectedProjectCode('');
+          sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+        }
+      }
+
+      setUnsavedChanges(false);
+    }
+
+    // Reset next values
+    setNextClientNo('');
+    setNextProjectCode('');
+    setShowLeavePageBlocker(false);
+  };
+
+  const handleClientChange = (option: any) => {
+    if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
+      reset(
+        {
+          clientNo: option?.value,
+          projectCode: '',
+          code: '',
+          clientName:
+            clientOptions?.find(t => t.value === option?.value)?.label ?? '',
+        },
+        {
+          keepDirty: false,
+          keepTouched: false,
+          keepIsValid: true,
+          keepErrors: true,
+        }
+      );
+      setSelectedClientNo(option?.value);
+      if (!isInitialLoad) {
+        setSelectedProjectCode('');
+        sessionStorage.setItem(SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO, '');
+      }
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+        option?.value || ''
+      );
+      setUnsavedChanges(false);
+    } else {
+      setNextClientNo(option?.value);
+      setShowLeavePageBlocker(true);
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_CLIENT_NO,
+        option?.value || ''
+      );
+    }
+  };
+
+  const handleProjectChange = (option: any) => {
+    if (sessionStorage.getItem(SESSION_STORAGE.IS_DIRTY) === 'false') {
+      setValue('code', option?.value, {
+        shouldDirty: false,
+      });
+      setValue('projectCode', option?.value, {
+        shouldDirty: false,
+      });
+      setSelectedProjectCode(option?.value);
+      sessionStorage.setItem(
+        SESSION_STORAGE.PROJECT_PAGE_PROJECT_NO,
+        option?.value || ''
+      );
+    } else {
+      // Don't manually set IS_DIRTY to false here - let the LeavePageBlocker handle it
+      setNextProjectCode(option?.value);
+      setNextClientNo(''); // Reset nextClientNo since we're only changing project
+      setShowLeavePageBlocker(true);
+    }
+  };
 
   return (
-    <Grid
-      gap={{
-        base: SPACE.XXS,
-        lg: SPACE.SM,
-      }}
-      templateColumns={{
-        base: GRID.TEMPLATE_COLUMNS.base,
-        md: GRID.TEMPLATE_COLUMNS.md,
-        lg: GRID.TEMPLATE_COLUMNS.lg,
-      }}>
-      <GridItem
-        colSpan={{
-          base: 4,
-          lg: 8,
+    <>
+      <LeavePageBlocker
+        isOpen={showLeavePageBlocker}
+        closeModal={handleLeavePageBlocker}
+      />
+      <Grid
+        gap={{
+          base: SPACE.XXS,
+          lg: SPACE.SM,
+        }}
+        templateColumns={{
+          base: GRID.TEMPLATE_COLUMNS.base,
+          md: GRID.TEMPLATE_COLUMNS.md,
+          lg: GRID.TEMPLATE_COLUMNS.lg,
         }}>
-        <Grid
-          gap={{
-            base: SPACE.XXS,
-            lg: SPACE.SM,
-          }}
-          templateColumns={{
-            base: GRID.TEMPLATE_COLUMNS.base,
-            md: GRID.TEMPLATE_COLUMNS.md,
-            lg: GRID.TEMPLATE_COLUMNS.lg,
-          }}
-          pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
-          <GridItem
-            colSpan={{
-              base: 2,
-              lg: 2,
-            }}>
-            <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
-              <Select
-                isControlled
-                value={defaultClientOption}
-                placeholder={t('PD.Client')}
-                name="clientNo"
-                options={clientOptions}
-                registerOptions={{ required: true }}
-              />
-            </ControlWrapper>
-          </GridItem>
+        <GridItem
+          colSpan={{
+            base: 4,
+            lg: 8,
+          }}>
+          <Grid
+            gap={{
+              base: SPACE.XXS,
+              lg: SPACE.SM,
+            }}
+            templateColumns={{
+              base: GRID.TEMPLATE_COLUMNS.base,
+              md: GRID.TEMPLATE_COLUMNS.md,
+              lg: GRID.TEMPLATE_COLUMNS.lg,
+            }}
+            pb={{ base: SPACE.XXS, lg: SPACE.MD }}>
+            <GridItem
+              colSpan={{
+                base: 2,
+                lg: 2,
+              }}>
+              <ControlWrapper name={'client'} label={t('Menu.HypClients')}>
+                <Controller
+                  name="clientNo"
+                  render={() => (
+                    <SelectBase
+                      isSearchable
+                      isControlled
+                      name={'clientNo'}
+                      options={clientOptions}
+                      onChange={handleClientChange}
+                      value={defaultClientOption}
+                      hideSelected={false}
+                    />
+                  )}
+                />
+              </ControlWrapper>
+            </GridItem>
 
-          <GridItem
-            colSpan={{
-              base: 2,
-              lg: 2,
-            }}>
-            <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
-              <Select
-                name="code"
-                isControlled
-                value={defaultProjectOption}
-                options={optionItems}
-                registerOptions={{ required: true }}
-                isDisabled={!clientNo}
-              />
-            </ControlWrapper>
-            <Fragment />
-          </GridItem>
-        </Grid>
-      </GridItem>
+            <GridItem
+              colSpan={{
+                base: 2,
+                lg: 2,
+              }}>
+              <ControlWrapper name={'project'} label={t('Menu.HypProjects')}>
+                <Controller
+                  name="projectCode"
+                  render={() => (
+                    <SelectBase
+                      isSearchable
+                      isControlled
+                      name={'projectCode'}
+                      options={optionItems}
+                      onChange={handleProjectChange}
+                      value={
+                        defaultProjectOption
+                          ? defaultProjectOption
+                          : { value: '', label: t('Filter.Select') }
+                      }
+                      hideSelected={false}
+                      isDisabled={!clientNo}
+                    />
+                  )}
+                />
+              </ControlWrapper>
+              <Fragment />
+            </GridItem>
+          </Grid>
+        </GridItem>
 
-      <GridItem colSpan={2}>
-        <ProjectsActionBar
-          lastModified={lastModified}
-          clientNo={clientNo}
-          projectId={projectId}
-          setSelectedProjectCode={setSelectedProjectCode}
-        />
-      </GridItem>
-    </Grid>
+        <GridItem colSpan={2}>
+          {clientNo && (
+            <ProjectsActionBar
+              lastModified={lastModified}
+              clientNo={clientNo}
+              projectId={projectCode}
+              setSelectedProjectCode={setSelectedProjectCode}
+            />
+          )}
+        </GridItem>
+      </Grid>
+    </>
   );
 };
 

@@ -22,9 +22,13 @@ const ClientSourcingSection = ({
   // Quill editor modules configuration
   const modules = {
     toolbar: [
-      ['bold', 'italic', 'underline'],
+      [{ font: [] }],
+      [{ size: ['small', false, 'large'] }],
+      ['bold', 'italic', 'underline', 'strike'], // strikethrough
+      [{ color: [] }, { background: [] }], // font color and highlight
       [{ list: 'ordered' }, { list: 'bullet' }],
-      ['clean'],
+      ['link'], // insert link
+      ['clean'], // remove formatting
     ],
   };
   //end WYSIWYG editor
@@ -38,17 +42,15 @@ const ClientSourcingSection = ({
           modules={modules}
           readOnly={disableEdit}
           onKeyUp={e => {
-            setTimeout(() => {
-              setValue('requirement', requirement, {
-                shouldDirty: true,
-                shouldTouch: false,
-              });
-            }, 10);
+            setValue('requirement', requirement, {
+              shouldDirty: true,
+              shouldTouch: true,
+            });
           }}
           onChange={(newContent: any) => {
             setValue('requirement', newContent, {
               shouldDirty: false,
-              shouldTouch: true,
+              shouldTouch: false,
             });
           }}
           style={{

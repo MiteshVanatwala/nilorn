@@ -18,6 +18,7 @@ type Props = {
   moreMenuList?: JSX.Element;
   actionButtons: JSX.Element;
   isDisabled?: boolean;
+  isBulkEdit?: boolean;
 };
 
 const ActionBarTemplate = ({
@@ -26,6 +27,7 @@ const ActionBarTemplate = ({
   actionButtons,
   lastModifiedDate,
   isDisabled = false,
+  isBulkEdit = false,
 }: Props) => {
   const { t } = useTranslation();
   const formattedLastModifiedDate = lastModifiedDate
@@ -49,7 +51,7 @@ const ActionBarTemplate = ({
         }}>
         {artwork && <ArtworkButton artwork={artwork} />}
 
-        {moreMenuList && (
+        {moreMenuList && !isBulkEdit && (
           <Menu>
             <MenuButton
               as={IconButton}
@@ -70,7 +72,7 @@ const ActionBarTemplate = ({
         )}
         {actionButtons}
       </HStack>
-      {formattedLastModifiedDate && (
+      {formattedLastModifiedDate && !isBulkEdit && (
         <Text
           align={{
             base: 'left',

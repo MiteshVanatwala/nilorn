@@ -4,12 +4,15 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import QueryKeysEnum from './queryKeys';
 import {
   ApiError,
-  CreatePriceCalculationCommand,
   GetFilteredProductDevelopmentDeepWithPaginationQuery,
   PriceCalculationService,
-  UpdatePriceCalculationCommand,
+  ProductionsService,
   UpdateSalesPriceCommand,
 } from '../generate';
+import {
+  priceCalculationCreateDtos,
+  PriceCalculationUpdateDtos,
+} from '../generate/models/CreatePriceCalculationCommand';
 
 export const usePriceCalculation = (id: string) => {
   return useQuery(
@@ -31,13 +34,22 @@ export const usePatchCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: UpdatePriceCalculationCommand) =>
+    (body: PriceCalculationUpdateDtos) =>
       PriceCalculationService.patchApiPriceCalculation(body).then(
         response => response
       ),
     {
-      onSuccess: async () => {
-        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation]);
+      onSuccess: async (_, variables) => {
+        // Store information about which calculation was just updated
+        // This helps the grid components know to close inline edit for this specific calculation
+        const calculationForm = variables.priceCalculationUpdateDtos?.[0] as any;
+        const calculationId = calculationForm?.id;
+        if (calculationId) {
+          queryClient.setQueryData(['lastUpdatedCalculation'], calculationId);
+        }
+        
+        // Only invalidate specific queries, don't remove all cached data
+        queryClient.invalidateQueries([QueryKeysEnum.PriceCalculation, calculationId]);
         queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
 
         showToast({
@@ -45,7 +57,7 @@ export const usePatchCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Update'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Update'),
@@ -61,7 +73,7 @@ export const useCreateCalculation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (body: CreatePriceCalculationCommand) =>
+    (body: priceCalculationCreateDtos) =>
       PriceCalculationService.postApiPriceCalculation(body).then(
         response => response
       ),
@@ -74,7 +86,7 @@ export const useCreateCalculation = () => {
           description: t('PriceCalc.Feedback.Success.Create'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.Create'),
@@ -87,6 +99,7 @@ export const useCreateCalculation = () => {
 export const usePatchCalculationSalesPrice = () => {
   const { t } = useTranslation();
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (body: UpdateSalesPriceCommand) =>
@@ -95,12 +108,13 @@ export const usePatchCalculationSalesPrice = () => {
       ),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
         showToast({
           status: 'success',
           description: t('PriceCalc.Feedback.Success.UpdateRows'),
         });
       },
-      onError: async (err: ApiError) => {
+      onError: async () => {
         showToast({
           status: 'error',
           description: t('PriceCalc.Feedback.Error.UpdateRows'),
@@ -222,6 +236,94 @@ export const useIncludeSalesPrice = (id: string, isValid: boolean) => {
           description: t('PriceCalc.Error.UpdateIncluded'),
         });
       },
+    }
+  );
+};
+
+export const useBulkPriceCalculations = (ids: string[]) => {
+  return useQuery(
+    [QueryKeysEnum.PriceCalculation, 'bulk', ...ids],
+    async () => {
+      // Fetch all price calculations in parallel
+      const promises = ids.map(id => 
+        PriceCalculationService.getApiPriceCalculation(id).then(res => res)
+      );
+      return Promise.all(promises);
+    },
+    {
+      enabled: ids.length > 0,
+      retry: 0,
+      cacheTime: 0,
+      staleTime: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+export const useBulkProductions = (ids: string[]) => {
+  return useQuery(
+    [QueryKeysEnum.Productions, 'bulk', ...ids],
+    async () => {
+      // Fetch all productions in parallel
+      const promises = ids.map(id => 
+        ProductionsService.getApiProductions(id).then(res => res)
+      );
+      return Promise.all(promises);
+    },
+    {
+      enabled: ids.length > 0,
+      retry: 0,
+      cacheTime: 0,
+      staleTime: 0,
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+export const useBulkPriceCalculationsBatch = (ids: string[]) => {
+  // Create a stable query key by sorting the IDs
+  const stableIds = [...ids].sort();
+  const queryKey = [QueryKeysEnum.PriceCalculation, 'batch', stableIds.join(',')];
+  
+  return useQuery(
+    queryKey,
+    async () => {
+      // Use the new batch API instead of individual calls
+      return PriceCalculationService.postApiPriceCalculationBatch({ ids: stableIds });
+    },
+    {
+      enabled: stableIds.length > 0,
+      retry: 0,
+      cacheTime: 0, // Immediately remove from cache when unused
+      staleTime: 0, // Data is immediately considered stale
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true, // Always refetch on mount for fresh data
+    }
+  );
+};
+
+export const useBulkProductionsBatch = (ids: string[]) => {
+  // Create a stable query key by sorting the IDs
+  const stableIds = [...ids].sort();
+  const queryKey = [QueryKeysEnum.Productions, 'batch', stableIds.join(',')];
+  
+  return useQuery(
+    queryKey,
+    async () => {
+      // Use the new batch API instead of individual calls
+      return ProductionsService.postApiProductionsBatch({ ids: stableIds });
+    },
+    {
+      enabled: stableIds.length > 0,
+      retry: 0,
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 2 * 60 * 1000, // 2 minutes
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false, // Prevent refetch on mount if data exists
     }
   );
 };

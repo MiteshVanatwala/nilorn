@@ -16,6 +16,7 @@ type ModalContextType = {
   returnFocusOnClose?: boolean;
   preventClose: boolean;
   setPreventClose: Dispatch<SetStateAction<boolean>>;
+  setCustomCloseHandler?: Dispatch<SetStateAction<(() => void) | null>>;
 };
 
 const defaultState = {
@@ -26,6 +27,7 @@ const defaultState = {
   returnFocusOnClose: true,
   preventClose: false,
   setPreventClose: () => {},
+  setCustomCloseHandler: () => {},
 };
 
 const ModalContext = createContext<ModalContextType>(defaultState);
@@ -42,6 +44,7 @@ const ModalProvider = ({ children }: ModalProviderType) => {
   const [modalContent, setModalContent] = useState<JSX.Element | boolean>();
   const [returnFocusOnClose, setReturnFocusOnClose] = useState<boolean>();
   const [preventClose, setPreventClose] = useState<boolean>(false);
+  const [customCloseHandler, setCustomCloseHandler] = useState<(() => void) | null>(null);
 
   const handleModal = (
     content: JSX.Element | boolean = false,
@@ -58,6 +61,15 @@ const ModalProvider = ({ children }: ModalProviderType) => {
     setOpen(false);
   };
 
+  // Use custom close handler if provided, otherwise use default close
+  const handleClose = () => {
+    if (customCloseHandler) {
+      customCloseHandler();
+    } else {
+      close();
+    }
+  };
+
   return (
     <ModalContext.Provider
       value={{
@@ -68,12 +80,13 @@ const ModalProvider = ({ children }: ModalProviderType) => {
         returnFocusOnClose,
         preventClose,
         setPreventClose,
+        setCustomCloseHandler,
       }}>
       {children}
       <Modal
         isOpen={isOpen}
         closeOnEsc={!preventClose}
-        close={close}
+        close={handleClose}
         returnFocusOnClose={returnFocusOnClose}>
         <ModalBody> {modalContent}</ModalBody>
       </Modal>
