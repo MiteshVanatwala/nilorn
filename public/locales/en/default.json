@@ -301,6 +301,7 @@
     "Margin": "Margin",
     "Sales": "Sales Price",
     "Cost": "Cost",
+    "DistributionCompany": "Distribution Company",
     "InternalCommission": "Internal Commission",
     "InternalCommission_short": "IntComm",
     "IndirectCost": "Indirect Cost",

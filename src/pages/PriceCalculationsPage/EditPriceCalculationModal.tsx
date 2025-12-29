@@ -169,6 +169,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
         internalCommission: priceCalculation?.internalCommission,
         indirectCost: priceCalculation?.indirectCost,
         freightIncluded: priceCalculation?.freightIncluded,
+        distributionCompany: priceCalculation?.distributionCompanyCode,
         margin:
           margins !== null && margins.every(m => m === margins[0])
             ? margins[0]
@@ -184,7 +185,10 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
 
   function submitForm(form: FieldValues) {
     const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
-      priceCalculationUpdateDtos: [form],
+      priceCalculationUpdateDtos: [{
+        ...form,
+        distributionCompanyCode: form.distributionCompany
+      }],
     };
 
     updateCalculation(priceCalculationUpdateDto);

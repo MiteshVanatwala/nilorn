@@ -140,6 +140,7 @@ const BulkCreatePriceCalculationModal = ({
         indirectCost: form.indirectCost || null,
         freightIncluded: form.freightIncluded || null,
         margin: form.margin || 0,
+        distributionCompanyCode: form.distributionCompany || null,
       })),
     };
 

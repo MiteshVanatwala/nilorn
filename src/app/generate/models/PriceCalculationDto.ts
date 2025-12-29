@@ -16,4 +16,6 @@ export type PriceCalculationDto = {
     freightIncluded?: number | null;
     priceDtos?: Array<PriceDto> | null;
     lastModified?: string | null;
+    distributionCompanyCode?: string | null;
+    distributionCompanyName?: string | null;
 };

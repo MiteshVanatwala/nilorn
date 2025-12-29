@@ -21,4 +21,5 @@ export type PriceCalculationExtendedDto = {
     vendorName?: string | null;
     sourcingCompanyCode?: string | null;
     purchaseCurrencyCode?: string | null;
+    distributionCompanyCode?: string | null;
 };

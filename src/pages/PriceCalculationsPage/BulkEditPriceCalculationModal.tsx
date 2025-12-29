@@ -16,6 +16,7 @@ import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import IsolatedControlledModal from '../../components/Modal/IsolatedControlledModal';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import { useGetDistributionCompaniesOption } from '../../app/api/distributionCompanies';
 
 type Props = {
   calculations: any[];
@@ -121,6 +122,7 @@ const BulkEditPriceCalculationModal = ({
   const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
     useDeleteCalculation(calculations[0]?.id || '');
+  const { data: distributionCompanies } = useGetDistributionCompaniesOption();
 
   const getCommonValues = () => {
     if (!calculations.length) return null;
@@ -313,6 +315,7 @@ const BulkEditPriceCalculationModal = ({
   };
 
   function handleFormSubmit(formValues: FieldValues) {
+    console.log(formValues)
     const commonValues = getCommonValues();
     const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
       priceCalculationUpdateDtos: calculations.map(p => ({
@@ -336,6 +339,7 @@ const BulkEditPriceCalculationModal = ({
         margin: formValues.margin !== null && formValues.margin !== undefined && formValues.margin !== '' 
           ? formValues.margin 
           : p.priceDtos?.[0]?.margin,
+        distributionCompanyCode: formValues.distributionCompany,
       })),
     };
 
@@ -458,6 +462,10 @@ const BulkEditPriceCalculationModal = ({
                   internalCommission: form.watch('internalCommission'),
                   indirectCost: form.watch('indirectCost'),
                   freightIncluded: form.watch('freightIncluded'),
+                  distributionCompanyCode: form.watch('distributionCompany') || calculations[0]?.distributionCompanyCode,
+                  distributionCompanyName: distributionCompanies?.find(
+                    (dc: any) => dc.value === (form.watch('distributionCompany') || calculations[0]?.distributionCompanyCode)
+                  )?.label || calculations[0]?.distributionCompanyName,
                   priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
                     ...price,
                     margin: form.watch('margin') ?? price.margin,
