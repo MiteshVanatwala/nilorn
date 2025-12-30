@@ -34,6 +34,13 @@ const BaseValues = ({
       <>
         <VStack align="stretch" spacing={2} style={{ minWidth: '110px' }}>
           <List>
+            {
+              calculation?.distributionCompanyCode && (
+                <ListItem mt={1} fontWeight={'bold'}>
+                  {calculation?.distributionCompanyCode}
+                </ListItem>
+              )
+            }
             {calculation!.internalCommission &&
               calculation.internalCommission !== 0 && (
                 <ListItem>

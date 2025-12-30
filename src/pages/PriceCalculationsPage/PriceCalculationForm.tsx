@@ -1,8 +1,9 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Box } from '@chakra-ui/react';
 import InputField from '../../components/Form/InputField';
 import { GRID, SPACE } from '../../theme/Constants';
 import { useTranslation } from 'react-i18next';
 import Select from '../../components/Form/Select';
+import DistributionCompanySelect from '../../components/Form/DistributionCompanySelect';
 import { useGetCurrenciesFilterOption } from '../../app/api/currency';
 import { SelectOption } from '../../app/types/types';
 import { CurrencyDto, PriceCalculationDto, PriceDto } from '../../app/generate';
@@ -51,16 +52,13 @@ const PriceCalculationForm = ({
   marginPlaceholder,
 }: Props) => {
   const { t } = useTranslation();
+
   const { setValue } = useFormContext();
   let { data: currencies } = useGetCurrenciesFilterOption();
 
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
-
-  useEffect(() => {
-    setCalculationItems(calculation?.priceDtos ?? null);
-  }, [calculation]);
 
   const id = calculation?.id ?? '';
 
@@ -143,6 +141,37 @@ const PriceCalculationForm = ({
 
   return (
     <>
+      <Grid
+        templateColumns={{
+          base: GRID.TEMPLATE_COLUMNS.base,
+          md: GRID.TEMPLATE_COLUMNS.lg,
+        }}
+        gap={{
+          base: SPACE.XXS,
+          md: SPACE.MD,
+          lg: SPACE.LG,
+        }}>
+        <GridItem colStart={1} colSpan={{ base: 1, md: 1, lg: 10 }}>
+          <Box w={{ base: '100%', md: '20%' }} mb={{ base: 4, md: 6 }}>
+            <DistributionCompanySelect
+              name={'distributionCompany'}
+              label={`${t('PriceCalc.DistributionCompany')}`}
+              registerOptions={{ required: createNew }}
+              isDisabled={disableEdit}
+              defaultValue={
+                calculation?.distributionCompanyCode
+                  ? {
+                      label:
+                        calculation?.distributionCompanyName ??
+                        calculation?.distributionCompanyCode,
+                      value: calculation?.distributionCompanyCode,
+                    }
+                  : undefined
+              }
+            />
+          </Box>
+        </GridItem>
+      </Grid>
       <Grid
         templateColumns={{
           base: GRID.TEMPLATE_COLUMNS.base,
