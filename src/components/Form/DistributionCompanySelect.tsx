@@ -7,6 +7,7 @@ interface Props extends FormInputProps {
   isSourcingCompany?: boolean;
   isDisabled?: boolean;
   isControlled?: boolean;
+  placeholder?: string;
 }
 
 const DistributionCompanySelect = ({
@@ -17,6 +18,7 @@ const DistributionCompanySelect = ({
   isSourcingCompany = false,
   isDisabled = false,
   isControlled = false,
+  placeholder,
 }: Props) => {
   const { t } = useTranslation();
   const { data: options } = useGetDistributionCompaniesOption(
@@ -28,7 +30,7 @@ const DistributionCompanySelect = ({
       name={name}
       label={label ?? t('PriceCalc.distributionCompanies')}
       options={(options as any) ?? []}
-      placeholder={t('Common.Select')}
+      placeholder={placeholder ?? t('Common.Select')}
       registerOptions={registerOptions}
       defaultValue={defaultValue}
       isDisabled={isDisabled}

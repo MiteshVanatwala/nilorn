@@ -33,6 +33,7 @@ type Props = {
   indirectCostPlaceholder?: string;
   freightIncludedPlaceholder?: string;
   marginPlaceholder?: string;
+  distributionCompanyPlaceholder?: string;
 };
 
 const PriceCalculationForm = ({
@@ -50,6 +51,7 @@ const PriceCalculationForm = ({
   indirectCostPlaceholder,
   freightIncludedPlaceholder,
   marginPlaceholder,
+  distributionCompanyPlaceholder,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
@@ -160,8 +162,9 @@ const PriceCalculationForm = ({
             <DistributionCompanySelect
               name={'distributionCompany'}
               label={`${t('PriceCalc.DistributionCompany')}`}
-              registerOptions={{ required: true }}
+              registerOptions={{ required: !isBulkEdit || !distributionCompanyPlaceholder }}
               isDisabled={disableEdit}
+              placeholder={distributionCompanyPlaceholder}
               defaultValue={
                 calculation?.distributionCompanyCode
                   ? {
