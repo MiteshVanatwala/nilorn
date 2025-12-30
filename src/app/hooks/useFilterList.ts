@@ -13,7 +13,6 @@ export const allFilters: FilterInput[] = [
   { type: 'integer', name: 'finishedHeights' },
   { type: 'select', name: 'vendors' },
   { type: 'select', name: 'opComps' },
-  { type: 'select', name: 'distributionCompanies' },
   { type: 'select', name: 'sourcingCompanies' },
   { type: 'select', name: 'members' },
   { type: 'select', name: 'certificates' },

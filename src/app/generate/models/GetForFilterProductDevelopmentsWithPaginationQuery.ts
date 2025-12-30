@@ -17,7 +17,6 @@ export type GetForFilterProductDevelopmentsWithPaginationQuery = {
   finishedWidths?: string | null;
   finishedHeights?: string | null;
   sourcingCompanies?: Array<string> | null;
-  distributionCompanies?: Array<string> | null;
   vendors?: Array<string> | null;
   opComps?: Array<string> | null;
   members?: Array<string> | null;

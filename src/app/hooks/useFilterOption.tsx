@@ -8,7 +8,6 @@ import {
   useVendors,
   useClientFilterOptions,
 } from '../api/FilterInfo';
-import { useGetDistributionCompaniesOption } from '../api/distributionCompanies';
 import { useGetProjectsOptions } from '../api/Projects';
 import { useCertificateCodes } from '../api/production';
 import { ClientDto, MemberBriefDto, VendorDto } from '../generate';
@@ -60,9 +59,6 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductD
     isProductDevelopment ?? false
   );
   const { data: opComp } = useOpCompOption(name === 'opComps' ?? false);
-  const { data: distributionCompanies } = useGetDistributionCompaniesOption(
-    name === 'distributionCompanies'
-  );
   const { data: members } = useMembers(name === 'members' ?? false);
   const { data: foldingTypes } = useFoldingType(
     name === 'foldingTypes' ?? false
@@ -89,8 +85,7 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductD
     clients: clients as SelectOption[],
     statuses: statuses,
     sourcingCompanies: sourcingCompanies as SelectOption[],
-    opComps: (distributionCompanies ?? opComp) as SelectOption[],
-    distributionCompanies: distributionCompanies as SelectOption[],
+    opComps: opComp as SelectOption[],
     foldingTypes: foldingTypes as SelectOption[],
     itemCategories: itemCategories as SelectOption[],
     productGroups: productGroups as SelectOption[],
