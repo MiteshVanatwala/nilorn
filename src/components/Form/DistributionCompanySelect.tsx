@@ -28,7 +28,7 @@ const DistributionCompanySelect = ({
   return (
     <Select
       name={name}
-      label={label ?? t('PriceCalc.distributionCompanies')}
+      label={label ?? t('PriceCalc.DistributionCompany')}
       options={(options as any) ?? []}
       placeholder={placeholder ?? t('Common.Select')}
       registerOptions={registerOptions}
