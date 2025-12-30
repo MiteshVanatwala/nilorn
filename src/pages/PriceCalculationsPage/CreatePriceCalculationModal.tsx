@@ -163,7 +163,10 @@ const CreatePriceCalculationModal = ({
 
   function submitForm(form: FieldValues) {
     const priceCalculationCreateDto: priceCalculationCreateDtos = {
-      priceCalculationCreateDtos: [form],
+      priceCalculationCreateDtos: [{
+        ...form,
+        distributionCompanyCode: form.distributionCompany
+      }],
     };
 
     createCalculation(priceCalculationCreateDto);

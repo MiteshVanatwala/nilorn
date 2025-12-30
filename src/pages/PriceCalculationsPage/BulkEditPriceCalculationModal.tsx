@@ -16,6 +16,7 @@ import useDeleteModal from '../../app/hooks/useDeleteModal';
 import Form from '../../components/Form/Form';
 import IsolatedControlledModal from '../../components/Modal/IsolatedControlledModal';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import { useGetDistributionCompaniesOption } from '../../app/api/distributionCompanies';
 
 type Props = {
   calculations: any[];
@@ -121,6 +122,7 @@ const BulkEditPriceCalculationModal = ({
   const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
   const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
     useDeleteCalculation(calculations[0]?.id || '');
+  const { data: distributionCompanies } = useGetDistributionCompaniesOption();
 
   const getCommonValues = () => {
     if (!calculations.length) return null;
@@ -139,6 +141,8 @@ const BulkEditPriceCalculationModal = ({
       freightIncludedPlaceholder: null,
       margin: null,
       marginPlaceholder: null,
+      distributionCompany: null,
+      distributionCompanyPlaceholder: null,
     };
 
     // Check purchase currency consistency
@@ -221,6 +225,18 @@ const BulkEditPriceCalculationModal = ({
       commonValues.marginPlaceholder = t('PriceCalc.VariesBetweenEntries');
     }
 
+    // Check distribution company consistency
+    const firstDistributionCompany = calculations[0]?.distributionCompanyCode;
+    const allSameDistributionCompany = calculations.every(
+      calc => calc.distributionCompanyCode === firstDistributionCompany
+    );
+    if (allSameDistributionCompany && firstDistributionCompany) {
+      commonValues.distributionCompany = firstDistributionCompany;
+    } else if (!allSameDistributionCompany) {
+      commonValues.distributionCompanyPlaceholder = t('PriceCalc.VariesBetweenEntries');
+    }
+    // If allSame but firstDistributionCompany is null, both stay null (empty state)
+
     return commonValues;
   };
 
@@ -233,7 +249,7 @@ const BulkEditPriceCalculationModal = ({
         currencyRate: calculations[0]?.currencyRate || null,
       });
 
-      // Reset fields to null (except currencyCode which gets pre-filled)
+      // Reset fields to null (except currencyCode and distributionCompany which get pre-filled)
       form.reset({
         purchaseCurrency: null,
         currencyRate: null,
@@ -242,6 +258,7 @@ const BulkEditPriceCalculationModal = ({
         indirectCost: null,
         freightIncluded: null,
         margin: null,
+        distributionCompany: commonValues.distributionCompany, // Pre-fill if all same, null if varies
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -336,6 +353,10 @@ const BulkEditPriceCalculationModal = ({
         margin: formValues.margin !== null && formValues.margin !== undefined && formValues.margin !== '' 
           ? formValues.margin 
           : p.priceDtos?.[0]?.margin,
+        // If distributionCompany has value, save for all entries; if empty, keep existing value per entry
+        distributionCompanyCode: formValues.distributionCompany !== null && formValues.distributionCompany !== undefined && formValues.distributionCompany !== ''
+          ? formValues.distributionCompany
+          : p.distributionCompanyCode,
       })),
     };
 
@@ -458,6 +479,10 @@ const BulkEditPriceCalculationModal = ({
                   internalCommission: form.watch('internalCommission'),
                   indirectCost: form.watch('indirectCost'),
                   freightIncluded: form.watch('freightIncluded'),
+                  distributionCompanyCode: form.watch('distributionCompany') || (getCommonValues()?.distributionCompany ? getCommonValues()?.distributionCompany : null),
+                  distributionCompanyName: distributionCompanies?.find(
+                    (dc: any) => dc.value === (form.watch('distributionCompany') || getCommonValues()?.distributionCompany)
+                  )?.label,
                   priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
                     ...price,
                     margin: form.watch('margin') ?? price.margin,
@@ -491,6 +516,9 @@ const BulkEditPriceCalculationModal = ({
                 }
                 marginPlaceholder={
                   getCommonValues()?.marginPlaceholder
+                }
+                distributionCompanyPlaceholder={
+                  getCommonValues()?.distributionCompanyPlaceholder
                 }
               />
             </Skeleton>

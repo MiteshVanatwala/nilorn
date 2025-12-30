@@ -30,6 +30,7 @@ const REMIX_ICONS = {
     ARROW_UP_LINE: 'ri-arrow-up-line',
     ARROW_DOWN_LINE: 'ri-arrow-down-line',
     UPLOAD_2_LINE: 'ri-upload-2-line',
+    EXCEL: 'ri-file-excel-2-line',
   },
 };
 

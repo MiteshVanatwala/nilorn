@@ -11,6 +11,7 @@ export type CreatePriceCalculationCommand = {
   indirectCost?: number | null;
   freightIncluded?: number | null;
   margin?: number;
+  distributionCompanyCode?: string | null;
 };
 
 export type priceCalculationCreateDtos = {
