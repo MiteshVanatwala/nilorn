@@ -17,7 +17,8 @@ import {
   useCreateCalculation,
   usePriceCalculationDefaultValues,
 } from '../../app/api/calculation';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useMemo } from 'react';
+import { useOpCompOption } from '../../app/api/FilterInfo';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
@@ -52,6 +53,16 @@ const CreatePriceCalculationModal = ({
     undefined,
     calculation?.id ?? ''
   );
+
+  const { data: sourcingCompanies } = useOpCompOption(true, true);
+  
+  const sourcingCompanyName = useMemo(() => {
+    if (!sourcedProduction?.sourcingCompanyCode || !sourcingCompanies) return undefined;
+    const company = sourcingCompanies.find(
+      (c: any) => c.value === sourcedProduction.sourcingCompanyCode
+    );
+    return company?.label;
+  }, [sourcedProduction?.sourcingCompanyCode, sourcingCompanies]);
 
   const {
     data: defaultValues,
@@ -221,6 +232,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
+                distributionCompanyCode={!production.priceCalculations?.length ? sourcedProduction?.sourcingCompanyCode ?? undefined : undefined}
+                distributionCompanyName={!production.priceCalculations?.length ? sourcingCompanyName : undefined}
               />
             </Skeleton>
           </Form>

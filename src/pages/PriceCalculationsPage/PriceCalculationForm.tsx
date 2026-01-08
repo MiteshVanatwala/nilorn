@@ -34,6 +34,8 @@ type Props = {
   freightIncludedPlaceholder?: string;
   marginPlaceholder?: string;
   distributionCompanyPlaceholder?: string;
+  distributionCompanyCode?: string | undefined;
+  distributionCompanyName?: string | undefined | null;
 };
 
 const PriceCalculationForm = ({
@@ -52,6 +54,8 @@ const PriceCalculationForm = ({
   freightIncludedPlaceholder,
   marginPlaceholder,
   distributionCompanyPlaceholder,
+  distributionCompanyCode,
+  distributionCompanyName,
 }: Props) => {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
@@ -172,6 +176,11 @@ const PriceCalculationForm = ({
                         calculation?.distributionCompanyName ??
                         calculation?.distributionCompanyCode,
                       value: calculation?.distributionCompanyCode,
+                    }
+                  : distributionCompanyCode
+                  ? {
+                      label: distributionCompanyName ?? distributionCompanyCode,
+                      value: distributionCompanyCode,
                     }
                   : undefined
               }
