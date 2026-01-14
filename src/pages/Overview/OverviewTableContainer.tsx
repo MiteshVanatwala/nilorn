@@ -1,6 +1,6 @@
 import { usePaginationContext } from '../../app/context/PaginationProvider';
 import { useProductDevelopmentsFilter } from '../../app/api/Overview';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import OverviewTable from './OverviewTable';
 import { useTranslation } from 'react-i18next';
 import Alert from '../../components/Feedback/Alert';
@@ -15,14 +15,16 @@ function OverviewTableContainer() {
   const { t } = useTranslation();
   const initSort = getValues('sortKey');
   const { sortState, setSortState } = usePaginationContext();
+  const hasInitialized = useRef(false);
 
   const { data, isError, isLoading, isFetching } = useProductDevelopmentsFilter(
     CHUNK_SIZES[0]
   );
 
   useEffect(() => {
-    if (initSort) {
+    if (initSort && !hasInitialized.current) {
       setSortState(getSortState(initSort));
+      hasInitialized.current = true;
     }
   }, [setSortState, initSort]);
 

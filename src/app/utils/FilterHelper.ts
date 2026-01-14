@@ -128,6 +128,21 @@ export function useFormStateFilters() {
   return transformToFilterData(watch);
 }
 
+export function useFormStateFiltersDebounced(delay: number = 300) {
+  const watch = useWatch();
+  const [debouncedWatch, setDebouncedWatch] = useState(watch);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedWatch(watch);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [watch, delay]);
+
+  return transformToFilterData(debouncedWatch);
+}
+
 export function getSortValue(columnSort: ColumnSort): string {
   return `${columnSort.id}${columnSort.desc ? 'D' : 'A'}`;
 }

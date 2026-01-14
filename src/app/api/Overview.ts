@@ -4,11 +4,11 @@ import {
   GetForFilterProductDevelopmentsWithPaginationQuery,
   ProductDevelopmentsService,
 } from '../../app/generate';
-import { useFormStateFilters } from '../utils/FilterHelper';
+import { useFormStateFiltersDebounced } from '../utils/FilterHelper';
 
 export function useProductDevelopmentsFilter(pageSize: number = 25) {
   const requestBody: GetForFilterProductDevelopmentsWithPaginationQuery =
-    useFormStateFilters();
+    useFormStateFiltersDebounced(100); // Short debounce to prevent rapid calls
 
   requestBody.pageSize =
     requestBody.pageSize !== undefined ? requestBody.pageSize : pageSize;
