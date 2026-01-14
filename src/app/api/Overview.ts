@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import QueryKeysEnum from './queryKeys';
+import { useMemo } from 'react';
 import {
   GetForFilterProductDevelopmentsWithPaginationQuery,
   ProductDevelopmentsService,
@@ -12,9 +13,14 @@ export function useProductDevelopmentsFilter(pageSize: number = 25) {
 
   requestBody.pageSize =
     requestBody.pageSize !== undefined ? requestBody.pageSize : pageSize;
+    
+  const queryKey = useMemo(() => [
+    QueryKeysEnum.Overview, 
+    JSON.stringify(requestBody)
+  ], [requestBody]);
 
   return useQuery(
-    [QueryKeysEnum.Overview, JSON.stringify(requestBody)],
+    queryKey,
     () =>
       ProductDevelopmentsService.postApiProductDevelopmentsFilter(
         requestBody
@@ -25,6 +31,7 @@ export function useProductDevelopmentsFilter(pageSize: number = 25) {
       refetchOnWindowFocus: false,
       cacheTime: 1000 * 5 * 60,
       staleTime: 1000 * 5 * 60,
+      enabled: Object.keys(requestBody || {}).length > 0, // Only run when we have actual data
     }
   );
 }

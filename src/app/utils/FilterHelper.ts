@@ -1,6 +1,6 @@
 import { ColumnSort } from '@tanstack/table-core';
 import { SelectOption } from '../types/types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { FieldValues, useFormContext, useWatch } from 'react-hook-form';
 import { SortingState } from '@tanstack/table-core';
 import {
@@ -131,16 +131,22 @@ export function useFormStateFilters() {
 export function useFormStateFiltersDebounced(delay: number = 300) {
   const watch = useWatch();
   const [debouncedWatch, setDebouncedWatch] = useState(watch);
+  const watchStringified = useMemo(() => JSON.stringify(watch), [watch]);
+  const prevWatchStringified = useRef('');
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedWatch(watch);
-    }, delay);
+    // Only update if the stringified form actually changed
+    if (watchStringified !== prevWatchStringified.current) {
+      const timer = setTimeout(() => {
+        setDebouncedWatch(watch);
+        prevWatchStringified.current = watchStringified;
+      }, delay);
 
-    return () => clearTimeout(timer);
-  }, [watch, delay]);
+      return () => clearTimeout(timer);
+    }
+  }, [watchStringified, watch, delay]);
 
-  return transformToFilterData(debouncedWatch);
+  return useMemo(() => transformToFilterData(debouncedWatch), [debouncedWatch]);
 }
 
 export function getSortValue(columnSort: ColumnSort): string {

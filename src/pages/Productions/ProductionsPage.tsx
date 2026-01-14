@@ -4,9 +4,6 @@ import ContentPage from '../Templates/ContentPage';
 import ProductionsFilter from './ProductionsFilter';
 import ProductionsTableContainer from './ProductionsTableContainer';
 import FormQuerySubmit from '../../components/Form/FormQuerySubmit';
-import { useQueryClient } from 'react-query';
-import { useEffect } from 'react';
-import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryParams } from '../../app/hooks/useQueryParams';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
@@ -15,11 +12,6 @@ function ProductionsPage() {
   const params = useQueryParams();
   const form = useForm({ defaultValues: params });
   const showProduction = useAuthorizedSee('production');
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    queryClient.invalidateQueries([QueryKeysEnum.ProductDevelopmentDeep]);
-  }, [queryClient]);
 
   if (!showProduction) return <PermissionDenied />;
 
