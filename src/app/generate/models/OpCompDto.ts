@@ -7,4 +7,5 @@ export type OpCompDto = {
     name?: string | null;
     isSourcingCompany?: boolean;
     currencyCode?: string | null;
+    code?: string | null;
 };

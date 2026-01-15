@@ -14,4 +14,5 @@ export type MemberDto = {
     email?: string | null;
     username?: string | null;
     role?: Role;
+    additionalOpComps?: Array<OpCompDto> | null;
 };
