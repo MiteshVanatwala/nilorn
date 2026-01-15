@@ -75,7 +75,7 @@ export function useAuthorizedRemoveUser() {
     if (user?.role === Role.PRODUCT_DEVELOPER) {
       const hasMatchingOpComp = user.opCompCode === member.opCompCode;
       const hasMatchingAdditionalOpComp = user.additionalOpComps?.some(
-        (opComp: any) => opComp.opCompCode === member.opCompCode
+        (opComp: any) => opComp.code === member.opCompCode
       );
       
       return (
