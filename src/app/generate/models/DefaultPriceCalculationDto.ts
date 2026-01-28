@@ -12,4 +12,5 @@ export type DefaultPriceCalculationDto = {
     internalCommission?: number | null;
     indirectCost?: number | null;
     currencyRate?: number | null;
+    distributionCompanyCode?: string | null;
 };
