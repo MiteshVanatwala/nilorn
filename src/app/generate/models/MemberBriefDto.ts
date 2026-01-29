@@ -10,4 +10,5 @@ export type MemberBriefDto = {
     name?: string | null;
     role?: Role;
     opCompCode?: string | null;
+    additionalOpCompCodes?: Array<string> | null;
 };

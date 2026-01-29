@@ -73,14 +73,15 @@ export function useAuthorizedRemoveUser() {
 
   const allowedToRemoveMember = (member: MemberBriefDto) => {
     if (user?.role === Role.PRODUCT_DEVELOPER) {
-      const hasMatchingOpComp = user.opCompCode === member.opCompCode;
-      const hasMatchingAdditionalOpComp = user.additionalOpComps?.some(
-        (opComp: any) => opComp.code === member.opCompCode
-      );
+      const hasMatchingAdditionalOpComp = 
+        user.opCompCode === member.opCompCode ||
+        member.additionalOpCompCodes?.some(
+          (code: string) => code === user.opCompCode
+        );
       
       return (
         member.role === Role.PRODUCT_DEVELOPER &&
-        (hasMatchingOpComp || hasMatchingAdditionalOpComp)
+        hasMatchingAdditionalOpComp
       );
     } else if (user?.role && ROLES_ALLOWED_TO_EDIT_PD.includes(user?.role)) {
       return true;
