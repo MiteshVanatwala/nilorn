@@ -19,6 +19,7 @@ import {
 } from '../../app/api/calculation';
 import { useContext, useEffect, useRef, useMemo } from 'react';
 import { useOpCompOption } from '../../app/api/FilterInfo';
+import { useGetDistributionCompaniesOption } from '../../app/api/distributionCompanies';
 import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
@@ -55,6 +56,7 @@ const CreatePriceCalculationModal = ({
   );
 
   const { data: sourcingCompanies } = useOpCompOption(true, true);
+  const { data: distributionCompanies } = useGetDistributionCompaniesOption(true);
   
   const sourcingCompanyName = useMemo(() => {
     if (!sourcedProduction?.sourcingCompanyCode || !sourcingCompanies) return undefined;
@@ -78,6 +80,14 @@ const CreatePriceCalculationModal = ({
     calculation?.priceDtos !== null && calculation?.priceDtos !== undefined
       ? calculation?.priceDtos.map(item => item.margin)
       : null;
+
+  const distributionCompanyName = useMemo(() => {
+    if (!defaultValues?.distributionCompanyCode || !distributionCompanies) return undefined;
+    const company = distributionCompanies.find(
+      (c: any) => c.value === defaultValues.distributionCompanyCode
+    );
+    return company?.label;
+  }, [defaultValues?.distributionCompanyCode, distributionCompanies]);
 
   const form = useForm({
     mode: 'onChange',
@@ -232,8 +242,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={!production.priceCalculations?.length ? sourcedProduction?.sourcingCompanyCode ?? undefined : undefined}
-                distributionCompanyName={!production.priceCalculations?.length ? sourcingCompanyName : undefined}
+                distributionCompanyCode={defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
+                distributionCompanyName={distributionCompanyName || undefined}
               />
             </Skeleton>
           </Form>
