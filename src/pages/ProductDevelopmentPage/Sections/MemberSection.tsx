@@ -92,7 +92,12 @@ const MemberSection = forwardRef<
                 role={member?.role ?? ''}
                 disableEdit={disableEdit}
                 onRemove={
-                  allowedToRemoveMember(member)
+                  allowedToRemoveMember({
+                    ...member,
+                    additionalOpCompCodes:
+                      allMembersOptions?.find(m => m.code === member.code)
+                        ?.additionalOpCompCodes ?? [],
+                  })
                     ? () => removeMember(indexToRemove)
                     : undefined
                 }
