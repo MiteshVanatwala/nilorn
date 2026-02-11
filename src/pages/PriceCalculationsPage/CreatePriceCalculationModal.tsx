@@ -243,8 +243,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
-                distributionCompanyName={distributionCompanyName || undefined}
+                distributionCompanyCode={!production.priceCalculations?.length && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
+                distributionCompanyName={!production.priceCalculations?.length ? distributionCompanyName || undefined : undefined}
               />
             </Skeleton>
           </Form>
