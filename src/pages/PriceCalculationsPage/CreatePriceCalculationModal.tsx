@@ -186,7 +186,8 @@ const CreatePriceCalculationModal = ({
     const priceCalculationCreateDto: priceCalculationCreateDtos = {
       priceCalculationCreateDtos: [{
         ...form,
-        distributionCompanyCode: form.distributionCompany
+        distributionCompanyCode: typeof form.distributionCompany === 'object' ? form.distributionCompany?.value : form.distributionCompany,
+        margin: form.margin === '' || form.margin === null || form.margin === undefined ? 0 : form.margin
       }],
     };
 
