@@ -351,11 +351,11 @@ const BulkEditPriceCalculationModal = ({
           ? formValues.freightIncluded 
           : p.freightIncluded,
         margin: formValues.margin !== null && formValues.margin !== undefined && formValues.margin !== '' 
-          ? formValues.margin 
-          : p.priceDtos?.[0]?.margin,
+          ? formValues.margin
+          : (p.priceDtos?.[0]?.margin ?? 0),
         // If distributionCompany has value, save for all entries; if empty, keep existing value per entry
         distributionCompanyCode: formValues.distributionCompany !== null && formValues.distributionCompany !== undefined && formValues.distributionCompany !== ''
-          ? formValues.distributionCompany
+          ? (typeof formValues.distributionCompany === 'object' ? formValues.distributionCompany?.value : formValues.distributionCompany)
           : p.distributionCompanyCode,
       })),
     };

@@ -186,7 +186,8 @@ const CreatePriceCalculationModal = ({
     const priceCalculationCreateDto: priceCalculationCreateDtos = {
       priceCalculationCreateDtos: [{
         ...form,
-        distributionCompanyCode: form.distributionCompany
+        distributionCompanyCode: typeof form.distributionCompany === 'object' ? form.distributionCompany?.value : form.distributionCompany,
+        margin: form.margin === '' || form.margin === null || form.margin === undefined ? 0 : form.margin
       }],
     };
 
@@ -242,8 +243,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
-                distributionCompanyName={distributionCompanyName || undefined}
+                distributionCompanyCode={!production.priceCalculations?.length && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
+                distributionCompanyName={!production.priceCalculations?.length ? distributionCompanyName || undefined : undefined}
               />
             </Skeleton>
           </Form>

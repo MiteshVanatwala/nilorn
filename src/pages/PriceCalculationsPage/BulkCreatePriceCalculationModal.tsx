@@ -139,8 +139,8 @@ const BulkCreatePriceCalculationModal = ({
         internalCommission: form.internalCommission || null,
         indirectCost: form.indirectCost || null,
         freightIncluded: form.freightIncluded || null,
-        margin: form.margin || 0,
-        distributionCompanyCode: form.distributionCompany || null,
+        margin: form.margin === '' || form.margin === null || form.margin === undefined ? 0 : form.margin,
+        distributionCompanyCode: typeof form.distributionCompany === 'object' ? form.distributionCompany?.value : form.distributionCompany || null,
       })),
     };
 
