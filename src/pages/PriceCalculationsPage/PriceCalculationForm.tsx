@@ -149,7 +149,7 @@ const PriceCalculationForm = ({
   }, [currency?.code, setValue]);
 
   useEffect(() => {
-    if (distributionCompanyCode && !calculation?.distributionCompanyCode) {
+    if (distributionCompanyCode || calculation?.distributionCompanyCode) {
       setValue('distributionCompany', distributionCompanyCode);
     } else {
       setValue('distributionCompany', undefined);
