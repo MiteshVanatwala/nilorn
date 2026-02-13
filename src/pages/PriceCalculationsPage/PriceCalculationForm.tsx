@@ -151,6 +151,8 @@ const PriceCalculationForm = ({
   useEffect(() => {
     if (distributionCompanyCode && !calculation?.distributionCompanyCode) {
       setValue('distributionCompany', distributionCompanyCode);
+    } else {
+      setValue('distributionCompany', undefined);
     }
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue]);
   
