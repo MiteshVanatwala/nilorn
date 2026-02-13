@@ -103,6 +103,7 @@ const CreatePriceCalculationModal = ({
         margins !== null && margins.every(m => m === margins[0])
           ? margins[0]
           : null,
+      distributionCompany: undefined as string | undefined,
     },
   });
 
@@ -172,6 +173,7 @@ const CreatePriceCalculationModal = ({
         indirectCost: defaultValues?.indirectCost,
         freightIncluded: defaultValues?.freightIncluded,
         margin: defaultValues?.margin,
+        distributionCompany: !production.priceCalculations?.length && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
       });
     }
   }, [
@@ -180,6 +182,7 @@ const CreatePriceCalculationModal = ({
     isLoadedDefaultValues,
     production.currencyCode,
     production.id,
+    production.priceCalculations?.length,
   ]);
 
   function submitForm(form: FieldValues) {
@@ -234,7 +237,11 @@ const CreatePriceCalculationModal = ({
             />
             <Skeleton isLoaded={!isLoadingDefaultValues}>
               <PriceCalculationForm
-                calculation={calculation}
+                calculation={{
+                  ...calculation,
+                  distributionCompanyCode: production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
+                  distributionCompanyName: production.priceCalculations?.length === 0 && distributionCompanyName ? distributionCompanyName : undefined,
+                }}
                 currency={
                   defaultValues?.salesCurrency ??
                   calculation?.currency ??
@@ -243,8 +250,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={!production.priceCalculations?.length && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode ?? undefined : undefined}
-                distributionCompanyName={!production.priceCalculations?.length ? distributionCompanyName || undefined : undefined}
+                distributionCompanyCode={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
+                distributionCompanyName={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined}
               />
             </Skeleton>
           </Form>

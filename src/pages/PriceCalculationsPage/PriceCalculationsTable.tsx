@@ -102,7 +102,10 @@ const BulkCreateWithFreshData = ({
   const finalProductionsData = freshProductions ? 
     productionsData.map(prod => {
       const freshProd = freshProductions.find(fp => fp.id === prod.id);
-      return freshProd || prod;
+      return {
+        ...(freshProd || prod),
+        priceCalculations: freshProd?.priceCalculations?.[0] ?? prod.priceCalculations?.[0] // Assuming we want to maintain the same structure with one price calculation per production
+      };
     }) : 
     productionsData;
 
@@ -143,7 +146,11 @@ const BulkCreateWithFreshData = ({
       <CreatePriceCalculationModal
         productDevelopment={productDevelopmentsData[0]}
         production={filteredProductionsData[0]}
-        calculation={filteredCalculationsData[0]}
+        calculation={{
+          ...filteredCalculationsData[0],
+          distributionCompanyCode: !filteredCalculationsData[0] && productDevelopmentsData[0]?.distributionCompanyCode ? productDevelopmentsData[0]?.distributionCompanyCode : undefined,
+          distributionCompanyName: !filteredCalculationsData[0] && productDevelopmentsData[0]?.distributionCompanyCode ? productDevelopmentsData[0]?.distributionCompanyName : undefined,
+        }}
         sourcedProduction={sourcedProductionsData[0]}
         artwork={productDevelopmentsData[0]?.artwork}
         lastModified={filteredProductionsData[0].lastModified}
