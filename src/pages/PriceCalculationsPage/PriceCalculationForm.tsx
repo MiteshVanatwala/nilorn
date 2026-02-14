@@ -146,7 +146,20 @@ const PriceCalculationForm = ({
 
   useEffect(() => {
     const valueToSet = calculation?.distributionCompanyCode || distributionCompanyCode;
-    setValue('distributionCompany', valueToSet || '');
+    
+    // Only set value if we have one, or if it's required (not bulk edit with placeholder)
+    if (valueToSet) {
+      setValue('distributionCompany', valueToSet, { 
+        shouldValidate: false,
+        shouldDirty: false 
+      });
+    } else if (!isBulkEdit || !distributionCompanyPlaceholder) {
+      // For required fields, register with empty value to enable validation
+      setValue('distributionCompany', '', { 
+        shouldValidate: false,
+        shouldDirty: false 
+      });
+    }
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
   
   return (
