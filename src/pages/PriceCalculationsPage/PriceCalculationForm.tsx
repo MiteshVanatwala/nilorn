@@ -178,6 +178,7 @@ const PriceCalculationForm = ({
         <GridItem colStart={1} colSpan={{ base: 1, md: 1, lg: 10 }}>
           <Box w={{ base: '100%', md: '20%' }} mb={{ base: 4, md: 6 }}>
             <DistributionCompanySelect
+              key="distributionCompany"
               name={'distributionCompany'}
               label={`${t('PriceCalc.DistributionCompany')}`}
               registerOptions={{ required: !isBulkEdit || !distributionCompanyPlaceholder }}
