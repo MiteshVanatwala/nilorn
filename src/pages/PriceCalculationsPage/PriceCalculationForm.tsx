@@ -145,12 +145,9 @@ const PriceCalculationForm = ({
   }, [currency?.code, setValue]);
 
   useEffect(() => {
-    console.log(distributionCompanyCode, calculation?.distributionCompanyCode);
     const valueToSet = calculation?.distributionCompanyCode || distributionCompanyCode;
     const shouldValidateField = !isBulkEdit || !distributionCompanyPlaceholder;
-    if (valueToSet) {
-      setValue('distributionCompany', valueToSet, { shouldValidate: shouldValidateField });
-    }
+    setValue('distributionCompany', valueToSet || '');
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
   
   return (
@@ -258,7 +255,7 @@ const PriceCalculationForm = ({
         </GridItem>
         <GridItem colSpan={2}>
           <Select
-            registerOptions={{ required: !currencyCodePlaceholder && !isBulkEdit }}
+            registerOptions={{ required: !isBulkEdit || !currencyCodePlaceholder }}
             isDisabled={disableEdit}
             label={`${t('PriceCalc.SalesCurrency')}`}
             placeholder={currencyCodePlaceholder || t('Common.Select')}
