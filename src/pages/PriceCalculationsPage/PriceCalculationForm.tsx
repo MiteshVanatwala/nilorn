@@ -146,12 +146,12 @@ const PriceCalculationForm = ({
 
   useEffect(() => {
     console.log(distributionCompanyCode, calculation?.distributionCompanyCode);
-    if (distributionCompanyCode || calculation?.distributionCompanyCode) {
-      setValue('distributionCompany', distributionCompanyCode);
-    } else {
-      setValue('distributionCompany', undefined);
+    const valueToSet = calculation?.distributionCompanyCode || distributionCompanyCode;
+    const shouldValidateField = !isBulkEdit || !distributionCompanyPlaceholder;
+    if (valueToSet) {
+      setValue('distributionCompany', valueToSet, { shouldValidate: shouldValidateField });
     }
-  }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue]);
+  }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
   
   return (
     <>
