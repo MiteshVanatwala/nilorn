@@ -149,11 +149,13 @@ const PriceCalculationForm = ({
     
     // Only set value if we have one, or if it's required (not bulk edit with placeholder)
     if (valueToSet) {
+      console.log('Setting distributionCompany value to:', valueToSet);
       setValue('distributionCompany', valueToSet, { 
         shouldValidate: false,
         shouldDirty: false 
       });
     } else if (!isBulkEdit || !distributionCompanyPlaceholder) {
+      console.log('No distributionCompany code available, setting to empty string for validation');
       // For required fields, register with empty value to enable validation
       setValue('distributionCompany', '', { 
         shouldValidate: false,
