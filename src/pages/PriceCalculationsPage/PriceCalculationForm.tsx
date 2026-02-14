@@ -146,7 +146,6 @@ const PriceCalculationForm = ({
 
   useEffect(() => {
     const valueToSet = calculation?.distributionCompanyCode || distributionCompanyCode;
-    const shouldValidateField = !isBulkEdit || !distributionCompanyPlaceholder;
     setValue('distributionCompany', valueToSet || '');
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
   
