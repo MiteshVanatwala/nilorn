@@ -64,10 +64,6 @@ const PriceCalculationForm = ({
   const [calculationItems, setCalculationItems] = useState<PriceDto[] | null>(
     calculation?.priceDtos ?? null
   );
-  
-  // useEffect(() => {
-  //   setCalculationItems(calculation?.priceDtos ?? null);
-  // }, [calculation]);
 
   const id = calculation?.id ?? '';
 
@@ -149,6 +145,7 @@ const PriceCalculationForm = ({
   }, [currency?.code, setValue]);
 
   useEffect(() => {
+    console.log(distributionCompanyCode, calculation?.distributionCompanyCode);
     if (distributionCompanyCode || calculation?.distributionCompanyCode) {
       setValue('distributionCompany', distributionCompanyCode);
     } else {
