@@ -364,6 +364,23 @@ const BulkEditPriceCalculationModal = ({
   }
 
   function submitForm(formValues: FieldValues) {
+    const isBulkEdit = true;
+    const commonValues = getCommonValues();
+    const distributionCompanyPlaceholder = commonValues?.distributionCompanyPlaceholder;
+    
+    // Check if distributionCompany has a value
+    const hasValue = typeof formValues.distributionCompany === 'object' 
+      ? formValues.distributionCompany?.value 
+      : formValues.distributionCompany;
+    
+    if (!hasValue && (!isBulkEdit || !distributionCompanyPlaceholder)) {
+      form.setError('distributionCompany', {
+        type: 'required',
+        message: t('Errors.Required')
+      });
+      return;
+    }
+
     const hasCurrencyVariation = checkCurrencyVariation(formValues);
     setFormValuesForModal(formValues);
 
