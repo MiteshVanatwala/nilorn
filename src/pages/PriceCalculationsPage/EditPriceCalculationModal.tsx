@@ -183,12 +183,28 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.formState.isDirty]);
 
-  function submitForm(form: FieldValues) {
+  function submitForm(formData: FieldValues) {
+    const isBulkEdit = false;
+    const distributionCompanyPlaceholder = null;
+    
+    // Check if distributionCompany has a value
+    const hasValue = typeof formData.distributionCompany === 'object' 
+      ? formData.distributionCompany?.value 
+      : formData.distributionCompany;
+    
+    if (!hasValue && (!isBulkEdit || !distributionCompanyPlaceholder)) {
+      form.setError('distributionCompany', {
+        type: 'required',
+        message: t('Errors.Required')
+      });
+      return;
+    }
+
     const priceCalculationUpdateDto: PriceCalculationUpdateDtos = {
       priceCalculationUpdateDtos: [{
-        ...form,
-        distributionCompanyCode: typeof form.distributionCompany === 'object' ? form.distributionCompany?.value : form.distributionCompany,
-        margin: form.margin === '' || form.margin === null || form.margin === undefined ? 0 : form.margin
+        ...formData,
+        distributionCompanyCode: typeof formData.distributionCompany === 'object' ? formData.distributionCompany?.value : formData.distributionCompany,
+        margin: formData.margin === '' || formData.margin === null || formData.margin === undefined ? 0 : formData.margin
       }],
     };
 
