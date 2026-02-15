@@ -163,6 +163,19 @@ const PriceCalculationForm = ({
       });
     }
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
+  console.log(calculation?.distributionCompanyCode
+                  ? {
+                      label:
+                        calculation?.distributionCompanyName ??
+                        calculation?.distributionCompanyCode,
+                      value: calculation?.distributionCompanyCode,
+                    }
+                  : distributionCompanyCode
+                  ? {
+                      label: distributionCompanyName ?? distributionCompanyCode,
+                      value: distributionCompanyCode,
+                    }
+                  : undefined)
   
   return (
     <>
