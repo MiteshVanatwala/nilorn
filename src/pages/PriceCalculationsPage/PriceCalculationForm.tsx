@@ -148,11 +148,7 @@ const PriceCalculationForm = ({
     const valueToSet = calculation?.distributionCompanyCode || distributionCompanyCode;
     
     if (valueToSet) {
-      const labelToSet = calculation?.distributionCompanyName || distributionCompanyName || valueToSet;
-      setValue('distributionCompany', {
-        label: labelToSet,
-        value: valueToSet,
-      }, { 
+      setValue('distributionCompany', valueToSet, { 
         shouldValidate: false,
         shouldDirty: false 
       });
@@ -162,7 +158,7 @@ const PriceCalculationForm = ({
         shouldDirty: false 
       });
     }
-  }, [distributionCompanyCode, calculation?.distributionCompanyCode, calculation?.distributionCompanyName, distributionCompanyName, setValue, isBulkEdit, distributionCompanyPlaceholder]);
+  }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
   const isRequiredDistributionCompany = !isBulkEdit || !distributionCompanyPlaceholder;
   
   return (
