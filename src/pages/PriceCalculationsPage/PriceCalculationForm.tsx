@@ -163,19 +163,7 @@ const PriceCalculationForm = ({
       });
     }
   }, [distributionCompanyCode, calculation?.distributionCompanyCode, setValue, isBulkEdit, distributionCompanyPlaceholder]);
-  console.log(calculation?.distributionCompanyCode
-                  ? {
-                      label:
-                        calculation?.distributionCompanyName ??
-                        calculation?.distributionCompanyCode,
-                      value: calculation?.distributionCompanyCode,
-                    }
-                  : distributionCompanyCode
-                  ? {
-                      label: distributionCompanyName ?? distributionCompanyCode,
-                      value: distributionCompanyCode,
-                    }
-                  : undefined)
+  const isRequiredDistributionCompany = !isBulkEdit || !distributionCompanyPlaceholder;
   
   return (
     <>
@@ -196,7 +184,7 @@ const PriceCalculationForm = ({
               key="distributionCompany"
               name={'distributionCompany'}
               label={`${t('PriceCalc.DistributionCompany')}`}
-              registerOptions={{ required: !isBulkEdit || !distributionCompanyPlaceholder }}
+              registerOptions={{ required: isRequiredDistributionCompany }}
               isDisabled={disableEdit}
               placeholder={distributionCompanyPlaceholder}
               defaultValue={
