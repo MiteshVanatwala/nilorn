@@ -166,6 +166,7 @@ const CreatePriceCalculationModal = ({
 
   useEffect(() => {
     if (isLoadedDefaultValues) {
+      const shouldSetDefault = !production.priceCalculations?.length && defaultValues?.distributionCompanyCode;
       form.reset({
         productionId: production.id,
         purchaseCurrency: production.currencyCode,
@@ -175,8 +176,13 @@ const CreatePriceCalculationModal = ({
         indirectCost: defaultValues?.indirectCost,
         freightIncluded: defaultValues?.freightIncluded,
         margin: defaultValues?.margin,
-        distributionCompany: !production.priceCalculations?.length && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
-      });
+        distributionCompany: shouldSetDefault
+          ? {
+              label: distributionCompanyName ?? defaultValues.distributionCompanyCode,
+              value: defaultValues.distributionCompanyCode,
+            }
+          : null,
+      } as any);
     }
   }, [
     defaultValues,
@@ -185,6 +191,7 @@ const CreatePriceCalculationModal = ({
     production.currencyCode,
     production.id,
     production.priceCalculations?.length,
+    distributionCompanyName,
   ]);
 
   function submitForm(formData: FieldValues) {
