@@ -169,17 +169,12 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
         internalCommission: priceCalculation?.internalCommission,
         indirectCost: priceCalculation?.indirectCost,
         freightIncluded: priceCalculation?.freightIncluded,
-        distributionCompany: priceCalculation?.distributionCompanyCode
-          ? {
-              label: (priceCalculation as any)?.distributionCompanyName ?? priceCalculation?.distributionCompanyCode,
-              value: priceCalculation?.distributionCompanyCode,
-            }
-          : null,
+        distributionCompany: priceCalculation?.distributionCompanyCode,
         margin:
           margins !== null && margins.every(m => m === margins[0])
             ? margins[0]
             : null,
-      } as any);
+      });
     }
   }, [priceCalculation, form, margins]);
 

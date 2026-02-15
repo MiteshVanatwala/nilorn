@@ -23,7 +23,6 @@ interface Props<IsMulti extends boolean = false>
     ? MultiValue<SelectOption> | null
     : SelectOption | null;
   isControlled?: boolean;
-  returnFullObject?: boolean;
 }
 
 const Select = <IsMulti extends boolean = false>({
@@ -44,7 +43,6 @@ const Select = <IsMulti extends boolean = false>({
   changelog,
   value,
   isControlled = false,
-  returnFullObject = false,
 }: Props<IsMulti>) => {
   const { t } = useTranslation();
   const {
@@ -77,17 +75,17 @@ const Select = <IsMulti extends boolean = false>({
                 (isMulti && controllerValue?.length) ||
                 (!isMulti && !!controllerValue)
               }
-              isControlled={true}
+              isControlled={isControlled}
               readOnly={isDisabled}
               name={name}
-              value={isControlled ? (value || undefined) : (controllerValue || undefined)}
+              value={isControlled ? (value || undefined) : undefined}
               invisible={invisible}
               passRef={ref}
               showSelectedCount={showSelectedCount}
               onChange={
                 isMulti
                   ? onChange
-                  : (option: any, action) => onChange(returnFullObject ? option : option?.value)
+                  : (option: any, action) => onChange(option?.value)
               }
               onBlur={onBlur}
               defaultValue={defaultValue}

@@ -250,11 +250,6 @@ const BulkEditPriceCalculationModal = ({
       });
 
       // Reset fields to null (except currencyCode and distributionCompany which get pre-filled)
-      const distributionCompanyCode = commonValues.distributionCompany;
-      const distributionCompanyLabel = distributionCompanyCode
-        ? distributionCompanies?.find((dc: any) => dc.value === distributionCompanyCode)?.label
-        : null;
-
       form.reset({
         purchaseCurrency: null,
         currencyRate: null,
@@ -263,12 +258,7 @@ const BulkEditPriceCalculationModal = ({
         indirectCost: null,
         freightIncluded: null,
         margin: null,
-        distributionCompany: distributionCompanyCode
-          ? {
-              label: distributionCompanyLabel ?? distributionCompanyCode,
-              value: distributionCompanyCode,
-            }
-          : null, // Pre-fill if all same, null if varies
+        distributionCompany: commonValues.distributionCompany, // Pre-fill if all same, null if varies
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
