@@ -35,6 +35,7 @@ const DistributionCompanySelect = ({
       defaultValue={defaultValue}
       isDisabled={isDisabled}
       isControlled={isControlled}
+      returnFullObject={true}
     />
   );
 };
