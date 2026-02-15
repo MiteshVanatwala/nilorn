@@ -157,7 +157,7 @@ const PriceCalculationForm = ({
     } else if (!isBulkEdit || !distributionCompanyPlaceholder) {
       console.log('No distributionCompany code available, setting to empty string for validation');
       // For required fields, register with empty value to enable validation
-      setValue('distributionCompany', '', { 
+      setValue('distributionCompany', null, { 
         shouldValidate: false,
         shouldDirty: false 
       });
