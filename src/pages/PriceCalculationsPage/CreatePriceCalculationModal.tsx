@@ -166,7 +166,7 @@ const CreatePriceCalculationModal = ({
 
   useEffect(() => {
     if (isLoadedDefaultValues) {
-      const shouldSetDefault = !production.priceCalculations?.length && defaultValues?.distributionCompanyCode;
+      const shouldSetDefault = production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode;
       form.reset({
         productionId: production.id,
         purchaseCurrency: production.currencyCode,
@@ -275,8 +275,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
-                distributionCompanyName={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined}
+                distributionCompanyCode={production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
+                distributionCompanyName={production.priceCalculations?.length === 0 && distributionCompanyName ? distributionCompanyName : undefined}
               />
             </Skeleton>
           </Form>
