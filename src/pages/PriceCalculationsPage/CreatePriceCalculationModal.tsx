@@ -264,8 +264,8 @@ const CreatePriceCalculationModal = ({
               <PriceCalculationForm
                 calculation={{
                   ...calculation,
-                  distributionCompanyCode: production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
-                  distributionCompanyName: production.priceCalculations?.length === 0 && distributionCompanyName ? distributionCompanyName : undefined,
+                  distributionCompanyCode: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
+                  distributionCompanyName: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined,
                 }}
                 currency={
                   defaultValues?.salesCurrency ??
@@ -275,8 +275,8 @@ const CreatePriceCalculationModal = ({
                 createNew={true}
                 showChanges={showChanges}
                 productionId={production.id}
-                distributionCompanyCode={production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
-                distributionCompanyName={production.priceCalculations?.length === 0 && distributionCompanyName ? distributionCompanyName : undefined}
+                distributionCompanyCode={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
+                distributionCompanyName={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined}
               />
             </Skeleton>
           </Form>
