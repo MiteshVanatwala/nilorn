@@ -124,6 +124,16 @@ const BulkEditPriceCalculationModal = ({
     useDeleteCalculation(calculations[0]?.id || '');
   const { data: distributionCompanies } = useGetDistributionCompaniesOption();
 
+  // Helper function to safely extract primitive values from form fields that might contain SelectOption objects
+  const extractValue = (val: any): any => {
+    if (!val) return val;
+    // Handle deeply nested objects by recursively extracting
+    if (typeof val === 'object' && 'value' in val) {
+      return extractValue(val.value); // Recursive call to handle nested objects
+    }
+    return val;
+  };
+
   const getCommonValues = () => {
     if (!calculations.length) return null;
 
@@ -349,7 +359,7 @@ const BulkEditPriceCalculationModal = ({
           ? formValues.currencyRate 
           : p.currencyRate,
         currencyCode: formValues.currencyCode !== null && formValues.currencyCode !== undefined && formValues.currencyCode !== '' 
-          ? formValues.currencyCode 
+          ? extractValue(formValues.currencyCode)
           : p.currency?.code,
         internalCommission: formValues.internalCommission !== null && formValues.internalCommission !== undefined && formValues.internalCommission !== '' 
           ? formValues.internalCommission 
@@ -500,22 +510,22 @@ const BulkEditPriceCalculationModal = ({
                 key="bulk-edit"
                 calculation={{
                   ...calculations[0],
-                  purchaseCurrencyCode: form.watch('purchaseCurrency'),
+                  purchaseCurrencyCode: extractValue(form.watch('purchaseCurrency')),
                   currencyRate: form.watch('currencyRate'),
-                  currency: { code: form.watch('currencyCode') },
+                  currency: { code: extractValue(form.watch('currencyCode')) },
                   internalCommission: form.watch('internalCommission'),
                   indirectCost: form.watch('indirectCost'),
                   freightIncluded: form.watch('freightIncluded'),
-                  distributionCompanyCode: form.watch('distributionCompany') || (getCommonValues()?.distributionCompany ? getCommonValues()?.distributionCompany : null),
+                  distributionCompanyCode: extractValue(form.watch('distributionCompany')) || (getCommonValues()?.distributionCompany ? getCommonValues()?.distributionCompany : null),
                   distributionCompanyName: distributionCompanies?.find(
-                    (dc: any) => dc.value === (form.watch('distributionCompany') || getCommonValues()?.distributionCompany)
+                    (dc: any) => dc.value === (extractValue(form.watch('distributionCompany')) || getCommonValues()?.distributionCompany)
                   )?.label,
                   priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
                     ...price,
                     margin: form.watch('margin') ?? price.margin,
                   })),
                 }}
-                currency={{ code: form.watch('currencyCode') }}
+                currency={{ code: extractValue(form.watch('currencyCode')) }}
                 createNew={false}
                 disableEdit={false}
                 showChanges={false}
