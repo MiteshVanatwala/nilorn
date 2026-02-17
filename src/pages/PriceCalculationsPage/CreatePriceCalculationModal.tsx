@@ -166,7 +166,7 @@ const CreatePriceCalculationModal = ({
 
   useEffect(() => {
     if (isLoadedDefaultValues) {
-      const shouldSetDefault = production.priceCalculations?.length === 0 && defaultValues?.distributionCompanyCode;
+      const shouldSetDefault = (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode;
       form.reset({
         productionId: production.id,
         purchaseCurrency: production.currencyCode,
