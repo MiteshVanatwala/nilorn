@@ -1,5 +1,5 @@
 import { Button, Checkbox, GridItem, HStack, VStack } from '@chakra-ui/react';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { usePatchCalculationSalesPrice } from '../../../app/api/calculation';
@@ -28,8 +28,6 @@ import {
   GRID_LAYOUT_PRICE,
   GRID_LAYOUT_PRICE_DESKTOP,
   PRICE_ROW_SPAN,
-  SelectedPrices,
-  SelectedProduction,
   VENDOR_ROW_SPAN,
 } from '../PriceCalculationsTable';
 import BaseValues from './BaseValues';
@@ -43,12 +41,10 @@ type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   production: ProductionDto;
   tableMenu?: JSX.Element;
-  selectedPrices: SelectedPrices;
-  setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
-  selectedProduction: SelectedProduction;
-  setSelectedProduction: React.Dispatch<
-    React.SetStateAction<SelectedProduction>
-  >;
+  selectedPriceIds: Set<string>;
+  toggleSelectedPrice: (priceId: string) => void;
+  isProductionSelected: boolean;
+  toggleSelectedProduction: (productionId: string) => void;
 };
 
 type ExtendedPriceDto = PriceDto & {
@@ -59,10 +55,10 @@ function PriceGridRow({
   production,
   productDevelopment,
   sourcedProduction,
-  selectedPrices,
-  setSelectedPrices,
-  selectedProduction,
-  setSelectedProduction,
+  selectedPriceIds,
+  toggleSelectedPrice,
+  isProductionSelected,
+  toggleSelectedProduction,
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
@@ -78,6 +74,53 @@ function PriceGridRow({
   const hasCalculations = calculations.length > 0;
 
   const showCreateNew = !hasCalculations;
+
+  // Internal state for checkbox states to prevent re-renders - completely independent
+  const [internalProductionSelected, setInternalProductionSelected] = useState(isProductionSelected);
+  const [internalPriceSelections, setInternalPriceSelections] = useState<{[key: string]: boolean}>(() => {
+    const initial: {[key: string]: boolean} = {};
+    calculations.forEach(calc => {
+      if (calc.id) {
+        initial[calc.id] = selectedPriceIds.has(calc.id);
+      }
+    });
+    return initial;
+  });
+
+  // Only sync on data structure changes, not on every selection change
+  const calculationIds = useMemo(() => calculations.map(c => c.id).join(','), [calculations]);
+  
+  useEffect(() => {
+    // Only reset when the actual calculations change (new data loaded)
+    const newSelections: {[key: string]: boolean} = {};
+    calculations.forEach(calc => {
+      if (calc.id) {
+        newSelections[calc.id] = selectedPriceIds.has(calc.id);
+      }
+    });
+    setInternalPriceSelections(newSelections);
+    setInternalProductionSelected(isProductionSelected);
+  }, [calculationIds]); // Only depend on calculation structure changes
+
+  // Batched update mechanism
+  const pendingUpdatesRef = useRef<{prices: Set<string>, productions: Set<string>}>({ 
+    prices: new Set(), 
+    productions: new Set() 
+  });
+  const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const flushPendingUpdates = useCallback(() => {
+    const pending = pendingUpdatesRef.current;
+    
+    // Apply all pending price updates
+    pending.prices.forEach(priceId => toggleSelectedPrice(priceId));
+    
+    // Apply all pending production updates  
+    pending.productions.forEach(productionId => toggleSelectedProduction(productionId));
+    
+    // Clear pending updates
+    pendingUpdatesRef.current = { prices: new Set(), productions: new Set() };
+  }, [toggleSelectedPrice, toggleSelectedProduction]);
 
   const [formDataMap, setFormDataMap] = useState<{[calcId: string]: ExtendedPriceDto[]}>({});
   const [enableEditMap, setEnableEditMap] = useState<{[calcId: string]: boolean}>({});
@@ -241,28 +284,47 @@ function PriceGridRow({
     );
   };
 
-  const toggleSelectedPriceCheckbox = (id: string) => {
-    setSelectedPrices({
-      ...selectedPrices,
-      [`${id}`]: {
-        ...selectedPrices[`${id}`],
-        selected: !selectedPrices[`${id}`].selected,
-        productDevelopmentNo: productDevelopment?.no || '',
-      },
-    });
-  };
+  const toggleSelectedPriceCheckbox = useCallback((id: string) => {
+    // Update internal state immediately for instant UI response
+    setInternalPriceSelections(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+    
+    // Add to pending updates
+    pendingUpdatesRef.current.prices.add(id);
+    
+    // Cancel previous timeout and set new one for batching
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    updateTimeoutRef.current = setTimeout(flushPendingUpdates, 16); // ~60fps
+  }, [flushPendingUpdates]);
 
-  const toggleSelectedProductionCheckbox = (id: string) => {
-    setSelectedProduction({
-      ...selectedProduction,
-      [`${id}`]: {
-        ...selectedProduction[`${id}`],
-        selected: !selectedProduction[`${id}`].selected,
-        client: productDevelopment?.clientName || '',
-        productDevelopmentNo: productDevelopment?.no || '',
-      },
-    });
-  };
+  const toggleSelectedProductionCheckbox = useCallback((id: string) => {
+    // Update internal state immediately for instant UI response
+    setInternalProductionSelected(prev => !prev);
+    
+    // Add to pending updates
+    pendingUpdatesRef.current.productions.add(id);
+    
+    // Cancel previous timeout and set new one for batching
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    updateTimeoutRef.current = setTimeout(flushPendingUpdates, 16); // ~60fps
+  }, [flushPendingUpdates]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+        // Flush any remaining updates
+        flushPendingUpdates();
+      }
+    };
+  }, [flushPendingUpdates]);
 
   // Show create new row if no calculations exist
   if (showCreateNew) {
@@ -301,9 +363,7 @@ function PriceGridRow({
           <GridTd justifyContent={'center'}>
             <Checkbox
               key={production.id}
-              isChecked={
-                selectedProduction[`${production?.id}`]?.selected || false
-              }
+              isChecked={internalProductionSelected}
               onChange={() =>
                 toggleSelectedProductionCheckbox(production?.id || '')
               }
@@ -390,9 +450,7 @@ function PriceGridRow({
           <VStack alignItems={'center'} spacing={SPACE.XXS}>
             <Checkbox
               key={calculation.id}
-              isChecked={
-                selectedPrices[`${calculation?.id}`]?.selected || false
-              }
+              isChecked={internalPriceSelections[calculation?.id || ''] || false}
               onChange={() =>
                 toggleSelectedPriceCheckbox(calculation?.id || '')
               }
@@ -495,4 +553,14 @@ function PriceGridRow({
     </GridItem>
   );
 }
-export default PriceGridRow;
+export default memo(PriceGridRow, (prevProps, nextProps) => {
+  // Only re-render if production data or key functions change
+  return (
+    prevProps.production?.id === nextProps.production?.id &&
+    prevProps.production?.priceCalculations === nextProps.production?.priceCalculations &&
+    prevProps.isProductionSelected === nextProps.isProductionSelected &&
+    prevProps.toggleSelectedPrice === nextProps.toggleSelectedPrice &&
+    prevProps.toggleSelectedProduction === nextProps.toggleSelectedProduction &&
+    prevProps.productDevelopment?.no === nextProps.productDevelopment?.no
+  );
+});

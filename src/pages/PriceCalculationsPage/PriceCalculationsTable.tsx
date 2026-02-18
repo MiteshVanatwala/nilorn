@@ -1,6 +1,6 @@
 // PriceCalculationsTable.tsx
 import { useTranslation } from 'react-i18next';
-import { Fragment, useEffect, useState, useMemo } from 'react';
+import { Fragment, useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import {
   GridTh,
@@ -180,110 +180,153 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const { handleModal } = useModal();
   const { isLoading } = useDownloadFile();
   const filters = useFormStateFilters();
-  const [selectedPrices, setSelectedPrices] = useState<SelectedPrices>({});
-  const [selectedProduction, setSelectedProduction] =
-    useState<SelectedProduction>({});
+  const [selectedPriceIds, setSelectedPriceIds] = useState<Set<string>>(new Set());
+  const [priceMetadata, setPriceMetadata] = useState<{
+    [key: string]: { client: string; productDevelopmentNo: string };
+  }>({});
+  const [selectedProductionIds, setSelectedProductionIds] = useState<Set<string>>(new Set());
+  const [productionMetadata, setProductionMetadata] = useState<{
+    [key: string]: { client: string; productDevelopmentNo: string };
+  }>({});
   const [uniqueClients, setUniqueClients] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] =
     useState<boolean>(false);
-  const selectedCheckboxes =
-    Object.values(selectedPrices).filter(price => price.selected).length +
-    Object.values(selectedProduction).filter(production => production.selected)
-      .length;
+  
+  const selectedCheckboxes = useMemo(() => 
+    selectedPriceIds.size + selectedProductionIds.size,
+    [selectedPriceIds, selectedProductionIds]
+  );
+
+  // useEffect(() => {
+  //   // Count selected prices
+  //   const selectedPricesCount = Object.values(selectedPrices).filter(
+  //     price => price.selected
+  //   ).length;
+
+  //   // Count selected productions
+  //   const selectedProductionCount = selectedProductionIds.size;
+
+  //   const totalSelectedCount = selectedPricesCount + selectedProductionCount;
+  //   const totalItemsCount = Object.keys(selectedPrices).length + Object.keys(productionMetadata).length;
+
+  //   if (totalSelectedCount > 0) {
+  //     setSelectAll(totalItemsCount === totalSelectedCount);
+  //     setSelectAllIndeterminate(totalItemsCount !== totalSelectedCount);
+  //   } else {
+  //     setSelectAll(false);
+  //     setSelectAllIndeterminate(false);
+  //   }
+  //   getUniqueClients();
+  // }, [selectedPrices, selectedProductionIds, productionMetadata]);
+
+  // Stable callback functions to prevent re-renders - completely stable
+  const toggleSelectedPriceRef = useRef<(priceId: string) => void>();
+  const toggleSelectedProductionRef = useRef<(productionId: string) => void>();
+
+  toggleSelectedPriceRef.current = (priceId: string) => {
+    setSelectedPriceIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(priceId)) {
+        newSet.delete(priceId);
+      } else {
+        newSet.add(priceId);
+      }
+      return newSet;
+    });
+  };
+
+  toggleSelectedProductionRef.current = (productionId: string) => {
+    setSelectedProductionIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(productionId)) {
+        newSet.delete(productionId);
+      } else {
+        newSet.add(productionId);
+      }
+      return newSet;
+    });
+  };
+
+  const stableTogglePrice = useCallback((priceId: string) => {
+    toggleSelectedPriceRef.current?.(priceId);
+  }, []);
+
+  const stableToggleProduction = useCallback((productionId: string) => {
+    toggleSelectedProductionRef.current?.(productionId);
+  }, []);
 
   useEffect(() => {
-    // Count selected prices
-    let selectedPricesCount = 0;
-    for (var key in selectedPrices) {
-      if (
-        selectedPrices.hasOwnProperty(key) &&
-        selectedPrices[key]?.selected === true
-      ) {
-        selectedPricesCount++;
-      }
-    }
-
-    // Count selected productions
-    let selectedProductionCount = 0;
-    for (var key in selectedProduction) {
-      if (
-        selectedProduction.hasOwnProperty(key) &&
-        selectedProduction[key]?.selected === true
-      ) {
-        selectedProductionCount++;
-      }
-    }
-
-    const totalSelectedCount = selectedPricesCount + selectedProductionCount;
-    const totalItemsCount = Object.keys(selectedPrices).length + Object.keys(selectedProduction).length;
-
-    if (totalSelectedCount > 0) {
-      setSelectAll(totalItemsCount === totalSelectedCount);
-      setSelectAllIndeterminate(totalItemsCount !== totalSelectedCount);
-    } else {
-      setSelectAll(false);
-      setSelectAllIndeterminate(false);
-    }
-    getUniqueClients();
-  }, [selectedPrices, selectedProduction]);
-
-  useEffect(() => {
-    let selectedPriceList: SelectedPrices = {};
-    let selectedProductionList: SelectedProduction = {};
+    let priceMeta: { [key: string]: { client: string; productDevelopmentNo: string } } = {};
+    let productionMeta: { [key: string]: { client: string; productDevelopmentNo: string } } = {};
+    
     data?.forEach(p => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           const priceCalculations = production.priceCalculations || [];
           
-          // If production has price calculations, only add the price calculations to the list
+          // If production has price calculations, add the price calculations metadata
           if (priceCalculations.length > 0) {
             priceCalculations.forEach(priceCalculation => {
               if (priceCalculation?.id) {
-                selectedPriceList[`${priceCalculation.id}`] = {
-                  selected: false,
+                priceMeta[priceCalculation.id] = {
                   client: p.productDevelopmentDataDto?.clientName || '',
                   productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
                 };
               }
             });
           } else {
-            // If production has no price calculations, add the production to the list
-            selectedProductionList[`${production.id}`] = {
-              selected: false,
-              client: p.productDevelopmentDataDto?.clientName || '',
-              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-            };
+            // If production has no price calculations, add the production metadata
+            if (production.id) {
+              productionMeta[production.id] = {
+                client: p.productDevelopmentDataDto?.clientName || '',
+                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+              };
+            }
           }
         });
       });
     });
-    setSelectedProduction(selectedProductionList);
-    setSelectedPrices(selectedPriceList);
+    
+    // Clear selections when data changes to avoid stale selections
+    setSelectedPriceIds(new Set());
+    setSelectedProductionIds(new Set());
+    setPriceMetadata(priceMeta);
+    setProductionMetadata(productionMeta);
   }, [data]);
 
   const getUniqueClients = () => {
-    setUniqueClients(
-      Object.values(selectedPrices)
-        .filter(val => val.selected === true)
-        .map(val => val.client)
-        .filter((x, i, a) => a.indexOf(x) === i)
-    );
+    const priceClients = Array.from(selectedPriceIds)
+      .map(id => priceMetadata[id]?.client)
+      .filter(Boolean);
+    
+    const productionClients = Array.from(selectedProductionIds)
+      .map(id => productionMetadata[id]?.client)
+      .filter(Boolean);
+    
+    const allClients = [...priceClients, ...productionClients];
+    setUniqueClients(allClients.filter((x, i, a) => a.indexOf(x) === i));
   };
 
   const handleExportClick = async () => {
-    handleModal(<ExcelExportModalContent selectedPrices={selectedPrices} />);
+    // Convert Set to SelectedPrices format for the modal
+    const selectedPricesForExport: SelectedPrices = {};
+    Array.from(selectedPriceIds).forEach(id => {
+      const metadata = priceMetadata[id];
+      if (metadata) {
+        selectedPricesForExport[id] = {
+          selected: true,
+          ...metadata
+        };
+      }
+    });
+    handleModal(<ExcelExportModalContent selectedPrices={selectedPricesForExport} />);
   };
 
   const handleAddPriceCalculation = () => {
     // Get all selected production and price IDs
-    const selectedProductionIds = [...new Set(Object.entries(selectedProduction)
-      .filter(([_, value]) => value.selected)
-      .map(([key]) => key))];
-
-    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
-      .filter(([_, value]) => value.selected)
-      .map(([key]) => key))];
+    const selectedProductionIdsArray = Array.from(selectedProductionIds);
+    const selectedPriceIdsArray = Array.from(selectedPriceIds);
 
     // Arrays to store the calculation data (matching handleEditPriceCalculation pattern)
     const calculationsData: any[] = [];
@@ -291,13 +334,13 @@ const PriceCalculationsTable = ({ data }: Props) => {
     const productDevelopmentsData: any[] = [];
     const sourcedProductionsData: any[] = [];
 
-    if (selectedProductionIds.length > 0 || selectedPriceIds.length > 0) {
+    if (selectedProductionIdsArray.length > 0 || selectedPriceIdsArray.length > 0) {
       // Search through the data structure to find all matching productions and prices
       for (const pd of data) {
         for (const sp of pd.sourcedProductions || []) {
           // Handle selected productions
           const productions = sp.productions?.filter(
-            p => p.id && selectedProductionIds.includes(p.id)
+            p => p.id && selectedProductionIdsArray.includes(p.id)
           );
 
           if (productions && productions.length > 0) {
@@ -313,7 +356,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
           sp.productions?.forEach(production => {
             const matchingPriceCalculations =
               production.priceCalculations?.filter(
-                calc => calc.id && selectedPriceIds.includes(calc.id)
+                calc => calc.id && selectedPriceIdsArray.includes(calc.id)
               );
 
             if (
@@ -335,8 +378,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
       // Use the bulk fetch component to get fresh data from backend
       handleModal(
         <BulkCreateWithFreshData
-          selectedProductionIds={selectedProductionIds}
-          selectedPriceIds={selectedPriceIds}
+          selectedProductionIds={selectedProductionIdsArray}
+          selectedPriceIds={selectedPriceIdsArray}
           productionsData={productionsData}
           productDevelopmentsData={productDevelopmentsData}
           sourcedProductionsData={sourcedProductionsData}
@@ -347,9 +390,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
   const handleEditPriceCalculation = () => {
     // Get selected price calculation IDs
-    const selectedPriceIds = [...new Set(Object.entries(selectedPrices)
-      .filter(([_, value]) => value.selected)
-      .map(([key]) => key))];
+    const selectedPriceIdsArray = Array.from(selectedPriceIds);
 
     // Arrays to store the calculation data
     const calculationsData: any[] = [];
@@ -361,7 +402,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       for (const sp of pd.sourcedProductions || []) {
         sp.productions?.forEach((production: any) => {
           // Check selected productions
-          if (selectedProduction[production?.id]?.selected) {
+          if (production?.id && selectedProductionIds.has(production.id)) {
             const calculation = production.priceCalculations;
             if (calculation) {
               calculationsData.push(calculation);
@@ -372,7 +413,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
 
           // Check selected price calculations
           production.priceCalculations?.forEach((calc: any) => {
-            if (calc.id && selectedPriceIds.includes(calc.id)) {
+            if (calc.id && selectedPriceIdsArray.includes(calc.id)) {
               calculationsData.push(calc);
               productionsData.push(production);
               productDevelopmentsData.push(pd.productDevelopmentDataDto);
@@ -386,7 +427,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       // Use the bulk fetch hook to get fresh data from backend
       handleModal(
         <BulkEditWithFreshData
-          selectedPriceIds={selectedPriceIds}
+          selectedPriceIds={selectedPriceIdsArray}
           productionsData={productionsData}
           productDevelopmentsData={productDevelopmentsData}
         />
@@ -405,33 +446,23 @@ const PriceCalculationsTable = ({ data }: Props) => {
     const newSelectAllState = !selectAll;
     setSelectAll(newSelectAllState);
     
-    // Update selectedPrices state properly
-    setSelectedPrices(prev => {
-      const newState = { ...prev };
-      for (var key in newState) {
-        if (newState.hasOwnProperty(key)) {
-          newState[key] = {
-            ...newState[key],
-            selected: newSelectAllState,
-          };
-        }
-      }
-      return newState;
-    });
+    // Update selectedPrices state efficiently
+    if (newSelectAllState) {
+      // Select all prices
+      setSelectedPriceIds(new Set(Object.keys(priceMetadata)));
+    } else {
+      // Deselect all prices
+      setSelectedPriceIds(new Set());
+    }
     
-    // Update selectedProduction state properly
-    setSelectedProduction(prev => {
-      const newState = { ...prev };
-      for (var keyProd in newState) {
-        if (newState.hasOwnProperty(keyProd)) {
-          newState[keyProd] = {
-            ...newState[keyProd],
-            selected: newSelectAllState,
-          };
-        }
-      }
-      return newState;
-    });
+    // Update selectedProduction state efficiently
+    if (newSelectAllState) {
+      // Select all productions
+      setSelectedProductionIds(new Set(Object.keys(productionMetadata)));
+    } else {
+      // Deselect all productions
+      setSelectedProductionIds(new Set());
+    }
     
     setSelectAllIndeterminate(false);
     // getUniqueClients(); // This will be called automatically by the useEffect
@@ -442,11 +473,11 @@ const PriceCalculationsTable = ({ data }: Props) => {
       if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
         for (const sp of pd.sourcedProductions || []) {
           for (const production of sp.productions || []) {
-            if (production.id && selectedProduction[production.id]?.selected) {
+            if (production.id && selectedProductionIds.has(production.id)) {
               return true;
             }
             for (const calc of production.priceCalculations || []) {
-              if (calc.id && selectedPrices[calc.id]?.selected) {
+              if (calc.id && selectedPriceIds.has(calc.id)) {
                 return true;
               }
             }
@@ -455,21 +486,19 @@ const PriceCalculationsTable = ({ data }: Props) => {
       }
     }
     return false;
-  }, [data, selectedProduction, selectedPrices]);
+  }, [data, selectedProductionIds, selectedPriceIds]);
 
   const hasClosedPDInSelectedPrices = useMemo(() => {
-    const selectedPriceIds = Object.entries(selectedPrices)
-      .filter(([_, value]) => value.selected)
-      .map(([key]) => key);
+    const selectedPriceIdsArray = Array.from(selectedPriceIds);
     
-    if (selectedPriceIds.length <= 1) return false;
+    if (selectedPriceIdsArray.length <= 1) return false;
     
     for (const pd of data) {
       if (pd.productDevelopmentDataDto?.status && isClosed(pd.productDevelopmentDataDto.status)) {
         for (const sp of pd.sourcedProductions || []) {
           for (const production of sp.productions || []) {
             for (const calc of production.priceCalculations || []) {
-              if (calc.id && selectedPriceIds.includes(calc.id)) {
+              if (calc.id && selectedPriceIdsArray.includes(calc.id)) {
                 return true;
               }
             }
@@ -478,7 +507,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
       }
     }
     return false;
-  }, [data, selectedPrices]);
+  }, [data, selectedPriceIds]);
 
   return (
     <>
@@ -536,20 +565,14 @@ const PriceCalculationsTable = ({ data }: Props) => {
                 <GridItem>
                   <PriceCalculationPageMenu
                     disabled={
-                      !Object.values(selectedPrices)
-                        .map(val => val.selected)
-                        .some(Boolean) ||
-                      Object.values(selectedProduction)
-                        .map(val => val.selected)
-                        .some(Boolean) ||
+                      selectedPriceIds.size === 0 ||
+                      selectedProductionIds.size > 0 ||
                       isLoading ||
                       uniqueClients.length > 1
                     }
                     disableCreate={hasClosedPD}
                     enableEditCalculation={
-                      Object.values(selectedProduction).filter(
-                        production => production.selected
-                      ).length > 0 || hasClosedPDInSelectedPrices
+                      selectedProductionIds.size > 0 || hasClosedPDInSelectedPrices
                     }
                     handleExportClick={handleExportClick}
                     handleAddPriceCalculation={handleAddPriceCalculation}
@@ -566,12 +589,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
         <Fragment>
           {data.map((p, i) => (
             <PriceCalculationsTableRow
-              key={i}
+              key={`${p.productDevelopmentDataDto?.no || i}`}
               productDevelopment={p}
-              selectedPrices={selectedPrices}
-              setSelectedPrices={setSelectedPrices}
-              selectedProduction={selectedProduction}
-              setSelectedProduction={setSelectedProduction}
+              selectedPriceIds={selectedPriceIds}
+              toggleSelectedPrice={stableTogglePrice}
+              selectedProductionIds={selectedProductionIds}
+              toggleSelectedProduction={stableToggleProduction}
             />
           ))}
         </Fragment>

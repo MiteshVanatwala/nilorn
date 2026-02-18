@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import {
   GridInlineTbody,
@@ -15,26 +15,26 @@ import {
   GRID_LAYOUT_SOURCING_DESKTOP,
   PD_COL_SPAN,
   SelectedProduction,
+  SelectedPrices,
   SOURCING_COL_SPAN,
   VENDOR_ROW_SPAN,
 } from './PriceCalculationsTable';
-import { SelectedPrices } from './PriceCalculationsTable';
 import { SPACE } from '../../theme/Constants';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
-  selectedPrices: SelectedPrices;
-  setSelectedPrices: React.Dispatch<React.SetStateAction<SelectedPrices>>;
-  selectedProduction: SelectedProduction;
-  setSelectedProduction: React.Dispatch<React.SetStateAction<SelectedProduction>>;
+  selectedPriceIds: Set<string>;
+  toggleSelectedPrice: (priceId: string) => void;
+  selectedProductionIds: Set<string>;
+  toggleSelectedProduction: (productionId: string) => void;
 };
 
 const PriceCalculationsTableRow = ({
   productDevelopment: p,
-  selectedPrices,
-  setSelectedPrices,
-  selectedProduction,
-  setSelectedProduction
+  selectedPriceIds,
+  toggleSelectedPrice,
+  selectedProductionIds,
+  toggleSelectedProduction
 }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
@@ -107,10 +107,10 @@ const PriceCalculationsTableRow = ({
                           production={production}
                           sourcedProduction={s}
                           productDevelopment={p.productDevelopmentDataDto}
-                          selectedPrices={selectedPrices}
-                          setSelectedPrices={setSelectedPrices}
-                          selectedProduction={selectedProduction}
-                          setSelectedProduction={setSelectedProduction}
+                          selectedPriceIds={selectedPriceIds}
+                          toggleSelectedPrice={toggleSelectedPrice}
+                          isProductionSelected={selectedProductionIds.has(production?.id || '')}
+                          toggleSelectedProduction={toggleSelectedProduction}
                         />
                       </Fragment>
                     ))
@@ -127,4 +127,13 @@ const PriceCalculationsTableRow = ({
   );
 };
 
-export default PriceCalculationsTableRow;
+export default memo(PriceCalculationsTableRow, (prevProps, nextProps) => {
+  // Only re-render if the actual data changes, not selection state
+  return (
+    prevProps.productDevelopment === nextProps.productDevelopment &&
+    prevProps.toggleSelectedPrice === nextProps.toggleSelectedPrice &&
+    prevProps.toggleSelectedProduction === nextProps.toggleSelectedProduction
+    // Deliberately exclude selectedPriceIds and selectedProductionIds from comparison
+    // as each component manages its own internal state
+  );
+});
