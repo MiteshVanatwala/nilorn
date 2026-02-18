@@ -77,6 +77,14 @@ export function useAuthorizedRemoveUser() {
         user.opCompCode === member.opCompCode ||
         member.additionalOpCompCodes?.some(
           (code: string) => code === user.opCompCode
+        ) ||
+        user.additionalOpComps?.some(
+          (opComp) => opComp.code === member.opCompCode
+        ) ||
+        user.additionalOpComps?.some(
+          (opComp) => member.additionalOpCompCodes?.some(
+            (memberCode: string) => memberCode === opComp.code
+          )
         );
       
       return (
