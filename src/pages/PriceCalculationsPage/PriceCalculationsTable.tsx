@@ -1,6 +1,6 @@
 // PriceCalculationsTable.tsx
 import { useTranslation } from 'react-i18next';
-import { Fragment, useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { Fragment, useEffect, useState, useMemo, useCallback, useRef, startTransition } from 'react';
 import { ProductDevelopmentDeepDto } from '../../app/generate';
 import {
   GridTh,
@@ -21,6 +21,8 @@ import BulkEditPriceCalculationModal from './BulkEditPriceCalculationModal';
 import { useFormStateFilters } from '../../app/utils/FilterHelper';
 import { useBulkPriceCalculationsBatch, useBulkProductionsBatch } from '../../app/api/calculation';
 import { isClosed } from '../../app/utils/status';
+import { set } from 'react-hook-form';
+import { use } from 'i18next';
 
 const GRID_LAYOUT =
   'repeat(4, minmax(100px, 1fr)) [Vendor] minmax(100px, 1fr) [Comment] 1fr minmax(50px, 1fr) [BaseValues] minmax(100px, 1fr) repeat(8, minmax(100px, 1fr))';
@@ -92,10 +94,6 @@ const BulkCreateWithFreshData = ({
     [productionsData]
   );
   const { data: freshProductions, isLoading: productionsLoading } = useBulkProductionsBatch(allProductionIds);
-  
-  // if (calculationsLoading || productionsLoading) {
-  //   return null; // or a loading component
-  // }
 
   // Use fresh data if available, otherwise fall back to passed data
   // We need to maintain the original order and structure of productionsData
@@ -192,33 +190,12 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectAllIndeterminate, setSelectAllIndeterminate] =
     useState<boolean>(false);
+  const [selectAllTrigger, setSelectAllTrigger] = useState<number>(0);
   
   const selectedCheckboxes = useMemo(() => 
     selectedPriceIds.size + selectedProductionIds.size,
     [selectedPriceIds, selectedProductionIds]
   );
-
-  // useEffect(() => {
-  //   // Count selected prices
-  //   const selectedPricesCount = Object.values(selectedPrices).filter(
-  //     price => price.selected
-  //   ).length;
-
-  //   // Count selected productions
-  //   const selectedProductionCount = selectedProductionIds.size;
-
-  //   const totalSelectedCount = selectedPricesCount + selectedProductionCount;
-  //   const totalItemsCount = Object.keys(selectedPrices).length + Object.keys(productionMetadata).length;
-
-  //   if (totalSelectedCount > 0) {
-  //     setSelectAll(totalItemsCount === totalSelectedCount);
-  //     setSelectAllIndeterminate(totalItemsCount !== totalSelectedCount);
-  //   } else {
-  //     setSelectAll(false);
-  //     setSelectAllIndeterminate(false);
-  //   }
-  //   getUniqueClients();
-  // }, [selectedPrices, selectedProductionIds, productionMetadata]);
 
   // Stable callback functions to prevent re-renders - completely stable
   const toggleSelectedPriceRef = useRef<(priceId: string) => void>();
@@ -255,6 +232,40 @@ const PriceCalculationsTable = ({ data }: Props) => {
   const stableToggleProduction = useCallback((productionId: string) => {
     toggleSelectedProductionRef.current?.(productionId);
   }, []);
+
+
+  const updateSelectAllState = () => {
+    // this is for updating state immediately when select/deselect all is triggered, to ensure checkboxes reflect correct state without waiting for useEffect
+    if (selectAll) {
+      setSelectAll(false);
+      setSelectAllIndeterminate(false);
+    } else if (selectAllIndeterminate) {
+      setSelectAll(true);
+      setSelectAllIndeterminate(false);
+    } else {
+      setSelectAll(true);
+      setSelectAllIndeterminate(false);
+    }
+  };
+
+
+  useEffect(() => {
+    // Update sellect All indeterminate state based on current selections
+    const totalPriceIds = Object.keys(priceMetadata).length;
+    const totalProductionIds = Object.keys(productionMetadata).length;
+    const totalItems = totalPriceIds + totalProductionIds;
+    const selectedItems = selectedPriceIds.size + selectedProductionIds.size;
+    if (selectedItems === 0) {
+      setSelectAll(false);
+      setSelectAllIndeterminate(false);
+    } else if (selectedItems === totalItems) {
+      setSelectAll(true);
+      setSelectAllIndeterminate(false);
+    } else {
+      setSelectAll(false);
+      setSelectAllIndeterminate(true);
+    }
+  },  [selectedPriceIds, selectedProductionIds]);
 
   useEffect(() => {
     let priceMeta: { [key: string]: { client: string; productDevelopmentNo: string } } = {};
@@ -294,19 +305,6 @@ const PriceCalculationsTable = ({ data }: Props) => {
     setPriceMetadata(priceMeta);
     setProductionMetadata(productionMeta);
   }, [data]);
-
-  const getUniqueClients = () => {
-    const priceClients = Array.from(selectedPriceIds)
-      .map(id => priceMetadata[id]?.client)
-      .filter(Boolean);
-    
-    const productionClients = Array.from(selectedProductionIds)
-      .map(id => productionMetadata[id]?.client)
-      .filter(Boolean);
-    
-    const allClients = [...priceClients, ...productionClients];
-    setUniqueClients(allClients.filter((x, i, a) => a.indexOf(x) === i));
-  };
 
   const handleExportClick = async () => {
     // Convert Set to SelectedPrices format for the modal
@@ -443,29 +441,29 @@ const PriceCalculationsTable = ({ data }: Props) => {
   };
 
   const selectDeselectAll = () => {
-    const newSelectAllState = !selectAll;
-    setSelectAll(newSelectAllState);
+    // Check if all items are currently selected
+    const totalPriceIds = Object.keys(priceMetadata).length;
+    const totalProductionIds = Object.keys(productionMetadata).length;
+    const totalItems = totalPriceIds + totalProductionIds;
+    const selectedItems = selectedPriceIds.size + selectedProductionIds.size;
     
-    // Update selectedPrices state efficiently
-    if (newSelectAllState) {
-      // Select all prices
-      setSelectedPriceIds(new Set(Object.keys(priceMetadata)));
-    } else {
-      // Deselect all prices
-      setSelectedPriceIds(new Set());
-    }
-    
-    // Update selectedProduction state efficiently
-    if (newSelectAllState) {
-      // Select all productions
-      setSelectedProductionIds(new Set(Object.keys(productionMetadata)));
-    } else {
-      // Deselect all productions
-      setSelectedProductionIds(new Set());
-    }
-    
-    setSelectAllIndeterminate(false);
-    // getUniqueClients(); // This will be called automatically by the useEffect
+    const allSelected = totalItems > 0 && selectedItems === totalItems;
+    updateSelectAllState();
+    // Use requestAnimationFrame to defer heavy updates and keep UI responsive
+    requestAnimationFrame(() => {
+      if (allSelected) {
+        // Deselect all only if everything is currently selected
+        setSelectedPriceIds(new Set());
+        setSelectedProductionIds(new Set());
+      } else {
+        // Select all if not everything is selected
+        setSelectedPriceIds(new Set(Object.keys(priceMetadata)));
+        setSelectedProductionIds(new Set(Object.keys(productionMetadata)));
+      }
+      
+      // Trigger internal state sync in child components
+      setSelectAllTrigger(prev => prev + 1);
+    });
   };
 
   const hasClosedPD = useMemo(() => {
@@ -595,6 +593,7 @@ const PriceCalculationsTable = ({ data }: Props) => {
               toggleSelectedPrice={stableTogglePrice}
               selectedProductionIds={selectedProductionIds}
               toggleSelectedProduction={stableToggleProduction}
+              selectAllTrigger={selectAllTrigger}
             />
           ))}
         </Fragment>

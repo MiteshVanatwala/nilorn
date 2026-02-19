@@ -27,6 +27,7 @@ type Props = {
   toggleSelectedPrice: (priceId: string) => void;
   selectedProductionIds: Set<string>;
   toggleSelectedProduction: (productionId: string) => void;
+  selectAllTrigger: number;
 };
 
 const PriceCalculationsTableRow = ({
@@ -34,7 +35,8 @@ const PriceCalculationsTableRow = ({
   selectedPriceIds,
   toggleSelectedPrice,
   selectedProductionIds,
-  toggleSelectedProduction
+  toggleSelectedProduction,
+  selectAllTrigger
 }: Props) => {
   return (
     <Fragment key={p?.productDevelopmentDataDto?.no}>
@@ -111,6 +113,7 @@ const PriceCalculationsTableRow = ({
                           toggleSelectedPrice={toggleSelectedPrice}
                           isProductionSelected={selectedProductionIds.has(production?.id || '')}
                           toggleSelectedProduction={toggleSelectedProduction}
+                          selectAllTrigger={selectAllTrigger}
                         />
                       </Fragment>
                     ))
@@ -132,8 +135,7 @@ export default memo(PriceCalculationsTableRow, (prevProps, nextProps) => {
   return (
     prevProps.productDevelopment === nextProps.productDevelopment &&
     prevProps.toggleSelectedPrice === nextProps.toggleSelectedPrice &&
-    prevProps.toggleSelectedProduction === nextProps.toggleSelectedProduction
-    // Deliberately exclude selectedPriceIds and selectedProductionIds from comparison
-    // as each component manages its own internal state
+    prevProps.toggleSelectedProduction === nextProps.toggleSelectedProduction &&
+    prevProps.selectAllTrigger === nextProps.selectAllTrigger
   );
 });

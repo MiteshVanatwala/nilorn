@@ -45,6 +45,7 @@ type Props = {
   toggleSelectedPrice: (priceId: string) => void;
   isProductionSelected: boolean;
   toggleSelectedProduction: (productionId: string) => void;
+  selectAllTrigger: number;
 };
 
 type ExtendedPriceDto = PriceDto & {
@@ -59,6 +60,7 @@ function PriceGridRow({
   toggleSelectedPrice,
   isProductionSelected,
   toggleSelectedProduction,
+  selectAllTrigger,
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
@@ -75,7 +77,7 @@ function PriceGridRow({
 
   const showCreateNew = !hasCalculations;
 
-  // Internal state for checkbox states to prevent re-renders - completely independent
+  // Internal state for checkbox states - completely independent
   const [internalProductionSelected, setInternalProductionSelected] = useState(isProductionSelected);
   const [internalPriceSelections, setInternalPriceSelections] = useState<{[key: string]: boolean}>(() => {
     const initial: {[key: string]: boolean} = {};
@@ -91,7 +93,7 @@ function PriceGridRow({
   const calculationIds = useMemo(() => calculations.map(c => c.id).join(','), [calculations]);
   
   useEffect(() => {
-    // Only reset when the actual calculations change (new data loaded)
+    // Reset when calculations change (new data loaded)
     const newSelections: {[key: string]: boolean} = {};
     calculations.forEach(calc => {
       if (calc.id) {
@@ -100,7 +102,37 @@ function PriceGridRow({
     });
     setInternalPriceSelections(newSelections);
     setInternalProductionSelected(isProductionSelected);
-  }, [calculationIds]); // Only depend on calculation structure changes
+  }, [calculationIds]);
+
+  // Optimized sync for select all operations
+  useEffect(() => {
+    if (selectAllTrigger > 0) {
+      // Use requestAnimationFrame for deferred updates
+      requestAnimationFrame(() => {
+        const newSelections: {[key: string]: boolean} = {};
+        calculations.forEach(calc => {
+          if (calc.id) {
+            newSelections[calc.id] = selectedPriceIds.has(calc.id);
+          }
+        });
+        setInternalPriceSelections(newSelections);
+        setInternalProductionSelected(isProductionSelected);
+      });
+    }
+  }, [selectAllTrigger, selectedPriceIds, isProductionSelected, calculations]);
+  useEffect(() => {
+    if (selectAllTrigger > 0) {
+      // Update internal state directly based on current parent state
+      const newSelections: {[key: string]: boolean} = {};
+      calculations.forEach(calc => {
+        if (calc.id) {
+          newSelections[calc.id] = selectedPriceIds.has(calc.id);
+        }
+      });
+      setInternalPriceSelections(newSelections);
+      setInternalProductionSelected(isProductionSelected);
+    }
+  }, [selectAllTrigger, selectedPriceIds, isProductionSelected, calculations]);
 
   // Batched update mechanism
   const pendingUpdatesRef = useRef<{prices: Set<string>, productions: Set<string>}>({ 
@@ -561,6 +593,7 @@ export default memo(PriceGridRow, (prevProps, nextProps) => {
     prevProps.isProductionSelected === nextProps.isProductionSelected &&
     prevProps.toggleSelectedPrice === nextProps.toggleSelectedPrice &&
     prevProps.toggleSelectedProduction === nextProps.toggleSelectedProduction &&
-    prevProps.productDevelopment?.no === nextProps.productDevelopment?.no
+    prevProps.productDevelopment?.no === nextProps.productDevelopment?.no &&
+    prevProps.selectAllTrigger === nextProps.selectAllTrigger
   );
 });
