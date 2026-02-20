@@ -40,6 +40,7 @@ const InputSwitch = ({ option, filterByUser }: Props) => {
           name={name}
           defaultValue={findMultiDefaultValues(options, form.getValues(name))}
           options={options}
+          returnFullObject={true}
         />
       );
 
