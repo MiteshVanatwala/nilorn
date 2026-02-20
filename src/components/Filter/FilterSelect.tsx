@@ -10,9 +10,10 @@ type Props = {
   defaultValue?: MultiValue<SelectOption>;
   options: SelectOption[];
   label?: string;
+  returnFullObject?: boolean;
 };
 
-const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
+const FilterSelect: FC<Props> = ({ name, defaultValue, options, label, returnFullObject }) => {
   const { setValue, getValues } = useFormContext();
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
           name={name}
           defaultValue={defaultValue}
           options={options}
+          returnFullObject={returnFullObject}
         />
       )}
       {!defaultValue && (
@@ -54,6 +56,7 @@ const FilterSelect: FC<Props> = ({ name, defaultValue, options, label }) => {
           label={label}
           name={name}
           options={options}
+          returnFullObject={returnFullObject}
         />
       )}
     </>
