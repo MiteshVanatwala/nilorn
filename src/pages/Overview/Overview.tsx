@@ -18,6 +18,7 @@ function Overview() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    console.debug('Invalidating Overview query');
     queryClient.invalidateQueries([QueryKeysEnum.Overview]);
   }, [queryClient]);
 
