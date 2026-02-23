@@ -42,7 +42,8 @@ export function useProductDevelopmentDeepFilter(
     indirectCosts: requestBody.indirectCosts,
     includeClosed: requestBody.includeClosed,
     pageNumber: requestBody.pageNumber,
-    pageSize: requestBody.pageSize
+    pageSize: requestBody.pageSize,
+    distributionCompanies: requestBody.distributionCompanies,
   }
 
   const queryKey = useMemo(() => [

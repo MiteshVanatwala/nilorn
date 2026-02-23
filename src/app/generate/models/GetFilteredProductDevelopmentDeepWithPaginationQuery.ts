@@ -26,4 +26,5 @@ export type GetFilteredProductDevelopmentDeepWithPaginationQuery = {
     includeCalculations?: boolean;
     pageNumber?: number;
     pageSize?: number;
+    distributionCompanies?: Array<string> | null;
 };
