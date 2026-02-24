@@ -63,8 +63,8 @@ export function useProductDevelopmentDeepFilter(
       retry: 0,
       keepPreviousData: keepPreviousData,
       refetchOnWindowFocus: false,
-      cacheTime: 1000 * 20,
-      staleTime: 1000 * 20,
+      cacheTime: 0,
+      staleTime: 0,
       enabled: Object.keys(requestBody || {}).length > 0, // Only run when we have actual data
     }
   );
