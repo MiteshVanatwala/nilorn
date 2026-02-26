@@ -5,12 +5,13 @@ import {
   GridTd,
 } from '../../components/GridTable/GridTableElements';
 import PDCell from '../../components/ProductDevelopment/ProductDevelopmentCell';
-import { GridItem, Box, Tooltip, Text } from '@chakra-ui/react';
+import { Checkbox, GridItem, Box, Tooltip, Text } from '@chakra-ui/react';
 import {
   GRID_LAYOUT_PRODUCTION,
   GRID_LAYOUT_PRODUCTION_DESKTOP,
   GRID_LAYOUT_SOURCING,
   GRID_LAYOUT_SOURCING_DESKTOP,
+  SelectedPriceCalculations,
 } from './ProductionsTable';
 import { TD_STYLE, TD_STYLE_RELEASED } from '../../theme/Constants/tableGrid';
 import TableMenuContainer from '../../components/Table/TableMenuContainer';
@@ -23,13 +24,25 @@ import { SPACE } from '../../theme/Constants';
 
 type Props = {
   productDevelopment: ProductDevelopmentDeepDto;
+  selectedPriceCalculations: SelectedPriceCalculations;
+  setSelectedPriceCalculations: React.Dispatch<React.SetStateAction<SelectedPriceCalculations>>;
 };
 
-const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
+const ProductionsTableRow = ({ productDevelopment: p, selectedPriceCalculations, setSelectedPriceCalculations }: Props) => {
   const filters = useFormStateFilters();
   const isPDClosed =
     p.productDevelopmentDataDto?.status &&
     isClosed(p.productDevelopmentDataDto?.status);
+
+  const toggleSelectedPriceCalculationCheckbox = (priceCalculationId: string) => {
+    setSelectedPriceCalculations(prev => ({
+      ...prev,
+      [priceCalculationId]: {
+        ...prev[priceCalculationId],
+        selected: !prev[priceCalculationId]?.selected,
+      },
+    }));
+  };
 
   return (
     <Fragment>
@@ -72,7 +85,7 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
             )}
         </Box>
       </GridTd>
-      <GridItem colSpan={7}>
+      <GridItem colSpan={8}>
         <GridInlineTbody
           gridTemplateColumns={{
             base: GRID_LAYOUT_SOURCING,
@@ -97,8 +110,10 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                   )}
                 </>
               </GridTd>
+              {/* <GridTd justifyContent={'center'} style={TD_STYLE}>
+              </GridTd> */}
               <GridItem
-                colSpan={6}
+                colSpan={7}
                 style={s.productions?.length === 0 ? TD_STYLE : undefined}>
                 <GridInlineTbody
                   gridTemplateColumns={{
@@ -112,6 +127,8 @@ const ProductionsTableRow = ({ productDevelopment: p }: Props) => {
                       style={
                         production?.released ? TD_STYLE_RELEASED : TD_STYLE
                       }
+                      selectedPriceCalculations={selectedPriceCalculations}
+                      toggleSelectedPriceCalculationCheckbox={toggleSelectedPriceCalculationCheckbox}
                       tableMenu={
                         <TableMenuContainer
                           children={
