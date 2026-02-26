@@ -6,6 +6,7 @@ import {
   useProductGroup,
   useMembers,
   useVendors,
+  useClientFilterOptions,
 } from '../api/FilterInfo';
 import { useGetProjectsOptions } from '../api/Projects';
 import { useCertificateCodes } from '../api/production';
@@ -40,14 +41,16 @@ const mapMembersToOptions = (members?: MemberBriefDto[]) => {
   );
 };
 
-const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductDevelopment?: boolean) => {
-  const { data: clients } = useClients(
-    name === 'clients' ?? false,
-    filterByAccess
+const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductDevelopment?: boolean, filterByUser?: boolean) => {
+  const { data: clients } = useClientFilterOptions(
+    name === 'clients',
+    filterByAccess,
+    filterByUser
   );
   const { data: projects } = useGetProjectsOptions(
     undefined,
-    name === 'projects' ?? false
+    name === 'projects',
+    filterByUser
   );
   const { data: vendors } = useVendors(name === 'vendors');
   const { data: sourcingCompanies } = useOpCompOption(
@@ -78,7 +81,7 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductD
   const dataMap: Partial<Record<FilterKey, SelectOption[]>> = {
     vendors: mapVendorsToOptions(vendors),
     members: mapMembersToOptions(members),
-    clients: mapClientsToOptions(clients),
+    clients: clients as SelectOption[],
     statuses: statuses,
     sourcingCompanies: sourcingCompanies as SelectOption[],
     opComps: opComp as SelectOption[],

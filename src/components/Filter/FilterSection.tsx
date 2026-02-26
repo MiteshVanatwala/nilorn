@@ -11,9 +11,10 @@ import CreateProductDevelopment from './CreateProductDevelopment';
 type Props = {
   standardFilterKeys: FilterKey[];
   createNew?: boolean;
+  filterByUser?: boolean;
 };
 
-const FilterSection = ({ standardFilterKeys, createNew = false }: Props) => {
+const FilterSection = ({ standardFilterKeys, createNew = false, filterByUser = false }: Props) => {
   const { standardFilters, advanceFilters } = useFilterList(standardFilterKeys);
 
   return (
@@ -28,8 +29,8 @@ const FilterSection = ({ standardFilterKeys, createNew = false }: Props) => {
           base: 1,
           md: 10,
         }}>
-        <Filter hasSearch filterInputs={standardFilters} />
-        <AdvanceFilter filters={advanceFilters} />
+        <Filter hasSearch filterInputs={standardFilters} filterByUser={filterByUser} />
+        <AdvanceFilter filters={advanceFilters} filterByUser={filterByUser} />
         <ActiveFilters />
       </GridItem>
       <GridItem colSpan={2}>
