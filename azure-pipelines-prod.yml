@@ -5,6 +5,7 @@
 
 trigger:
   - main
+  - release/*
 
 variables:
   - group: Nilorn.Umbrella.UI-Prod
