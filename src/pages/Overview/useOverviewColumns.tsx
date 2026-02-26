@@ -60,8 +60,15 @@ const useOverviewColumns = () => {
       header: `${t('PD.Name')}`,
           enableSorting: true,
       
-      cell: info => <NowrapText text={info.getValue() ?? ''} />,
-    }),
+      cell: info => 
+          <Text
+            minW={'140px'}
+            maxW={'200px'}
+            variant={'span'}
+            display={'inline-block'}>
+            {info.getValue()}
+          </Text>
+     }),
     columnHelper.accessor('no', {
       header: `${t('PD.Number')}`,
       cell: info => {
@@ -107,13 +114,28 @@ const useOverviewColumns = () => {
       id: 'Client',
       header: 'Client',
       enableSorting: true,
-      cell: info => <NowrapText text={info.getValue() ?? ''} />,
+      cell: info => 
+        <Tooltip label={info.getValue()}>
+          <Text
+            maxW={'25ch'}
+            whiteSpace={'nowrap'}
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}>
+            {info.getValue()}
+          </Text>
+          </Tooltip>
     }),
     columnHelper.accessor('project', {
       id: 'Project',
       header: 'Project',
       enableSorting: true,
-      cell: info => <NowrapText text={info.getValue() ?? ''} />,
+      cell: info => 
+          <Text
+            minW={'140px'}
+            maxW={'25ch'}
+            overflow={'hidden'}>
+            {info.getValue()}
+          </Text>
     }),
        columnHelper.accessor('itemCategory', {
       header: `${t('PD.ItemCategory')}`,
