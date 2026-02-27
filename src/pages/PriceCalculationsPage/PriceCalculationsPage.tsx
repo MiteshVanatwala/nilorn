@@ -10,6 +10,7 @@ import PriceCalculationsFilter from './PriceCalculationsFilter';
 import { useQueryParams } from '../../app/hooks/useQueryParams';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 function PriceCalculationsPage() {
   const params = useQueryParams();
@@ -24,14 +25,16 @@ function PriceCalculationsPage() {
   if (!showCalculation) return <PermissionDenied />;
 
   return (
-    <ContentPage>
-      <PaginationProvider>
-        <FormQuerySubmit form={form}>
-          <PriceCalculationsFilter />
-          <PriceCalculationsTableContainer />
-        </FormQuerySubmit>
-      </PaginationProvider>
-    </ContentPage>
+    <ErrorBoundary boundaryName="PriceCalculationsPage">
+      <ContentPage>
+        <PaginationProvider>
+          <FormQuerySubmit form={form}>
+            <PriceCalculationsFilter />
+            <PriceCalculationsTableContainer />
+          </FormQuerySubmit>
+        </PaginationProvider>
+      </ContentPage>
+    </ErrorBoundary>
   );
 }
 
