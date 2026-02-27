@@ -18,8 +18,8 @@ export class ClientService {
      * @throws ApiError
      */
     public static getApiClient(
-filterByAccess: boolean = true,
-): CancelablePromise<Array<ClientDto>> {
+        filterByAccess: boolean = true,
+    ): CancelablePromise<Array<ClientDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Client/{filterByAccess}',

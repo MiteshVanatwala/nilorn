@@ -15,3 +15,4 @@ export type ProductDevelopmentVersionDto = {
     versionSpecification?: string | null;
     sourcings?: Array<string> | null;
 };
+
