@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
 import ErrorPage from '../../components/ErrorBoundary/ErrorPage';
 import { useSignOut } from '../../app/hooks/useSignOut';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 function MainApp() {
   const { t } = useTranslation();
@@ -33,7 +34,9 @@ function MainApp() {
       <Flex h={'100%'} minH={'100%'} flexDirection="column" p={0}>
         <ModalProvider>
           <NavigationHeader />
-          <Outlet />
+          <ErrorBoundary boundaryName="RouteContent">
+            <Outlet />
+          </ErrorBoundary>
         </ModalProvider>
       </Flex>
     );

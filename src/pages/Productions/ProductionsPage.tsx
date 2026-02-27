@@ -10,6 +10,7 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryParams } from '../../app/hooks/useQueryParams';
 import { useAuthorizedSee } from '../../app/Permissions/usePremissions';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 function ProductionsPage() {
   const params = useQueryParams();
@@ -24,14 +25,16 @@ function ProductionsPage() {
   if (!showProduction) return <PermissionDenied />;
 
   return (
-    <ContentPage>
-      <PaginationProvider>
-        <FormQuerySubmit form={form}>
-          <ProductionsFilter />
-          <ProductionsTableContainer />
-        </FormQuerySubmit>
-      </PaginationProvider>
-    </ContentPage>
+    <ErrorBoundary boundaryName="ProductionsPage">
+      <ContentPage>
+        <PaginationProvider>
+          <FormQuerySubmit form={form}>
+            <ProductionsFilter />
+            <ProductionsTableContainer />
+          </FormQuerySubmit>
+        </PaginationProvider>
+      </ContentPage>
+    </ErrorBoundary>
   );
 }
 

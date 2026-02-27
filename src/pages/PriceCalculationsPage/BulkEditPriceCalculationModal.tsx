@@ -1,5 +1,5 @@
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { Box, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Button, Skeleton, Text } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -17,6 +17,7 @@ import Form from '../../components/Form/Form';
 import IsolatedControlledModal from '../../components/Modal/IsolatedControlledModal';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useGetDistributionCompaniesOption } from '../../app/api/distributionCompanies';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 type Props = {
   calculations: any[];
@@ -436,74 +437,55 @@ const BulkEditPriceCalculationModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isUpdateSuccess]);
 
+  const fallbackContent = (
+    <Box p={SPACE.MD}>
+      <Text color="red.600" mb={SPACE.SM}>
+        {t('Common.UnexpectedError') ||
+          'An unexpected error occurred while editing price calculations.'}
+      </Text>
+      <Button variant="secondary" onClick={close}>
+        {t('Common.CloseModal')}
+      </Button>
+    </Box>
+  );
+
   return (
-    <>
-      {deleteModal}
-      {!showModal && !showConfirmationModal && leavePageModal}
+    <ErrorBoundary
+      boundaryName="BulkEditPriceCalculationModal"
+      fallback={fallbackContent}>
+      <>
+        {deleteModal}
+        {!showModal && !showConfirmationModal && leavePageModal}
 
-      {showModal && (
-        <IsolatedControlledModal
-          key="currencyModal"
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          title={t('PriceCalc.CurrencyVariationDetected')}
-          description={t('PriceCalc.CurrencyVariationDetectedDesc')}
-          onConfirm={() => {
-            setShowModal(false);
-            setShowConfirmationModal(true);
-          }}
-          onCancel={() => {
-            setShowModal(false);
-          }}
-        />
-      )}
+        {showModal && (
+          <IsolatedControlledModal
+            key="currencyModal"
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            title={t('PriceCalc.CurrencyVariationDetected')}
+            description={t('PriceCalc.CurrencyVariationDetectedDesc')}
+            onConfirm={() => {
+              setShowModal(false);
+              setShowConfirmationModal(true);
+            }}
+            onCancel={() => {
+              setShowModal(false);
+            }}
+          />
+        )}
 
-      {showConfirmationModal && (
-        <IsolatedControlledModal
-          key="confirmationModal"
-          isOpen={showConfirmationModal}
-          onClose={() => setShowConfirmationModal(false)}
-          title={t('PriceCalc.UdpatePriceCalculationConfirmationTitle')}
-          description={t('PriceCalc.UdpatePriceCalculationConfirmationDesc', {
-            X: calculations.length,
-          })}
-          onConfirm={() => {
-            if (formValuesForModal) {
-              handleFormSubmit(formValuesForModal);
-            }
-            setShowConfirmationModal(false);
-          }}
-          onCancel={() => {
-            setShowConfirmationModal(false);
-          }}
-        />
-      )}
-      <Box
-        ref={outsideRef}
-        mb={SPACE.LG}
-        px={SPACE.SM}
-        maxW={SIZES.CONTAINER.LG}>
-        <FormProvider {...form}>
-          <Form onSubmit={form.handleSubmit(submitForm)}>
-            <ProductDevelopmentModalTopSection
-              productDevelopment={undefined}
-              sourcingCompanyCode={undefined}
-              vendorName={undefined}
-              isBulkEdit={true}
-              totalPriceCalculations={calculations.length}
-              createNew={false}
-              actionBar={
-                <PriceCalculationActionBar
-                  handleDelete={openDeleteModal}
-                  artwork={undefined}
-                  createNew={false}
-                  lastModified={undefined}
-                  showChanges={false}
-                  disableEdit={false}
-                  setShowChanges={() => {}}
-                  isBulkEdit={true}
-                />
+        {showConfirmationModal && (
+          <IsolatedControlledModal
+            key="confirmationModal"
+            isOpen={showConfirmationModal}
+            onClose={() => setShowConfirmationModal(false)}
+            title={t('PriceCalc.UdpatePriceCalculationConfirmationTitle')}
+            description={t(
+              'PriceCalc.UdpatePriceCalculationConfirmationDesc',
+              {
+                X: calculations.length,
               }
+<<<<<<< HEAD
             />
             <Skeleton isLoaded={calculations.length > 0}>
               <PriceCalculationForm
@@ -530,44 +512,108 @@ const BulkEditPriceCalculationModal = ({
                 disableEdit={false}
                 showChanges={false}
                 productionId={calculations[0]?.productionId}
+=======
+            )}
+            onConfirm={() => {
+              if (formValuesForModal) {
+                handleFormSubmit(formValuesForModal);
+              }
+              setShowConfirmationModal(false);
+            }}
+            onCancel={() => {
+              setShowConfirmationModal(false);
+            }}
+          />
+        )}
+        <Box
+          ref={outsideRef}
+          mb={SPACE.LG}
+          px={SPACE.SM}
+          maxW={SIZES.CONTAINER.LG}>
+          <FormProvider {...form}>
+            <Form onSubmit={form.handleSubmit(submitForm)}>
+              <ProductDevelopmentModalTopSection
+                productDevelopment={undefined}
+                sourcingCompanyCode={undefined}
+                vendorName={undefined}
+>>>>>>> 0d4c12dd (Add error reporting utility and integrate into ErrorBoundary components)
                 isBulkEdit={true}
-                purchaseCurrencyPlaceholder={
-                  getCommonValues()?.purchaseCurrencyPlaceholder
-                }
-                currencyCodePlaceholder={
-                  getCommonValues()?.currencyCode === t('PriceCalc.VariesBetweenEntries') 
-                    ? getCommonValues()?.currencyCode 
-                    : undefined
-                }
-                currencyRatePlaceholder={
-                  getCommonValues()?.currencyRatePlaceholder
-                }
-                internalCommissionPlaceholder={
-                  getCommonValues()?.internalCommissionPlaceholder
-                }
-                indirectCostPlaceholder={
-                  getCommonValues()?.indirectCostPlaceholder
-                }
-                freightIncludedPlaceholder={
-                  getCommonValues()?.freightIncludedPlaceholder
-                }
-                marginPlaceholder={
-                  getCommonValues()?.marginPlaceholder
+                totalPriceCalculations={calculations.length}
+                createNew={false}
+                actionBar={
+                  <PriceCalculationActionBar
+                    handleDelete={openDeleteModal}
+                    artwork={undefined}
+                    createNew={false}
+                    lastModified={undefined}
+                    showChanges={false}
+                    disableEdit={false}
+                    setShowChanges={() => {}}
+                    isBulkEdit={true}
+                  />
                 }
                 distributionCompanyPlaceholder={
                   getCommonValues()?.distributionCompanyPlaceholder
                 }
               />
-            </Skeleton>
-          </Form>
-        </FormProvider>
-        <Box mt={SPACE.LG}>
-          <Text fontSize="sm" color="red.600" fontStyle="italic">
-            *&nbsp;{t('PriceCalc.UnchangedFieldsInstruction')}
-          </Text>
+              <Skeleton isLoaded={calculations.length > 0}>
+                <PriceCalculationForm
+                  key="bulk-edit"
+                  calculation={{
+                    ...calculations[0],
+                    purchaseCurrencyCode: form.watch('purchaseCurrency'),
+                    currencyRate: form.watch('currencyRate'),
+                    currency: { code: form.watch('currencyCode') },
+                    internalCommission: form.watch('internalCommission'),
+                    indirectCost: form.watch('indirectCost'),
+                    freightIncluded: form.watch('freightIncluded'),
+                    priceDtos: calculations[0]?.priceDtos?.map(
+                      (price: any) => ({
+                        ...price,
+                        margin: form.watch('margin') ?? price.margin,
+                      })
+                    ),
+                  }}
+                  currency={{ code: form.watch('currencyCode') }}
+                  createNew={false}
+                  disableEdit={false}
+                  showChanges={false}
+                  productionId={calculations[0]?.productionId}
+                  isBulkEdit={true}
+                  purchaseCurrencyPlaceholder={
+                    getCommonValues()?.purchaseCurrencyPlaceholder
+                  }
+                  currencyCodePlaceholder={
+                    getCommonValues()?.currencyCode ===
+                    t('PriceCalc.VariesBetweenEntries')
+                      ? getCommonValues()?.currencyCode
+                      : undefined
+                  }
+                  currencyRatePlaceholder={
+                    getCommonValues()?.currencyRatePlaceholder
+                  }
+                  internalCommissionPlaceholder={
+                    getCommonValues()?.internalCommissionPlaceholder
+                  }
+                  indirectCostPlaceholder={
+                    getCommonValues()?.indirectCostPlaceholder
+                  }
+                  freightIncludedPlaceholder={
+                    getCommonValues()?.freightIncludedPlaceholder
+                  }
+                  marginPlaceholder={getCommonValues()?.marginPlaceholder}
+                />
+              </Skeleton>
+            </Form>
+          </FormProvider>
+          <Box mt={SPACE.LG}>
+            <Text fontSize="sm" color="red.600" fontStyle="italic">
+              *&nbsp;{t('PriceCalc.UnchangedFieldsInstruction')}
+            </Text>
+          </Box>
         </Box>
-      </Box>
-    </>
+      </>
+    </ErrorBoundary>
   );
 };
 
