@@ -27,14 +27,27 @@ const ClientsPage = () => {
   const { setUnsavedChanges } = useUnsavedChanges();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  useEffect(() => {
-    setSelectedClientNo(clientNo || '');
-  }, [clientNo]);
   const form = useForm<ClientDto>({
     defaultValues: {
+      no: clientNo || '',
       requirement: '',
     },
   });
+
+  useEffect(() => {
+    setSelectedClientNo(clientNo || '');
+    // Reset initial load state when clientNo changes
+    if (clientNo) {
+      setIsInitialLoad(true);
+    }
+  }, [clientNo]);
+
+  // Initialize form with client number from URL
+  useEffect(() => {
+    if (clientNo && form) {
+      form.setValue('no', clientNo, { shouldDirty: false });
+    }
+  }, [clientNo, form]);
   const { mutate: createClient } = useCreateClientPage();
   const { data: client } = useClient(selectedClientNo ?? '');
   const hasClientCardAccess = useAuthorizedSee('client-card');
@@ -104,11 +117,15 @@ const ClientsPage = () => {
                 typeof clientNo === 'function'
                   ? clientNo(selectedClientNo)
                   : clientNo;
-              setSelectedClientNo(newValue);
-              if (newValue) {
-                navigate(`/clients/${newValue}`);
-              } else {
-                navigate('/clients');
+              
+              // Only navigate if the value actually changed
+              if (newValue !== selectedClientNo) {
+                setSelectedClientNo(newValue);
+                if (newValue) {
+                  navigate(`/clients/${newValue}`, { replace: true });
+                } else {
+                  navigate('/clients', { replace: true });
+                }
               }
             }}
             actionBar={<ClientActionBar />}
