@@ -14,3 +14,4 @@ export type ProjectCardDto = {
     members?: Array<MemberDto> | null;
     lastModified?: string | null;
 };
+

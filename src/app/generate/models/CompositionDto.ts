@@ -8,3 +8,4 @@ export type CompositionDto = {
     compositionMaterialCode?: string | null;
     quantity?: number | null;
 };
+

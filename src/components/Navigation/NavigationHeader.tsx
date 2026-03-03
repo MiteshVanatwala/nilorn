@@ -99,7 +99,7 @@ const NavigationHeader = () => {
           </GridItem>
           <GridItem>
             <HStack m={0} justifyContent={'end'} divider={<HeaderDivider />}>
-              {(showClientCard || showProjectCard) && false && <ManageDataMenu />}
+              {(showClientCard || showProjectCard) && <ManageDataMenu />}
               <UserMenu />
             </HStack>
           </GridItem>

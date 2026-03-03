@@ -17,6 +17,7 @@ export const useCreateClientPage = () => {
     {
       onSuccess: async () => {
         queryClient.invalidateQueries([QueryKeysEnum.Projects]);
+        queryClient.invalidateQueries([QueryKeysEnum.Clients]);
         showToast({
           status: 'success',
           description: t('Client.Messages.Success'),

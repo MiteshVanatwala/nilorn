@@ -18,35 +18,38 @@ import { SPACE } from '../../theme/Constants';
 import RemixIcon from '../Icon/RemixIcon';
 import ModalHeading from '../Modal/ModalHeading';
 import {
-  ExcelExportFieldKey,
-  ExcelExportFieldKeyList,
+  ProductionExcelExportFieldKey,
+  ProductionExcelExportFieldKeyList,
 } from '../../app/types/types';
 import { useDownloadFile } from '../../app/hooks/useDownloadFile';
-import { SelectedPrices } from '../../pages/PriceCalculationsPage/PriceCalculationsTable';
+import { SelectedPriceCalculations } from '../../pages/Productions/ProductionsTable';
 
 type Props = {
-  selectedPrices: SelectedPrices;
+  selectedPriceCalculations: SelectedPriceCalculations;
+  isProduction?: boolean;
 };
 
-const ExcelExportModalContent = ({ selectedPrices }: Props) => {
+const ProductionExcelExportModalContent = ({ selectedPriceCalculations, isProduction = false }: Props) => {
   const { t } = useTranslation();
   const { isLoading, downloadFile } = useDownloadFile();
   const { close } = useContext(ModalContext);
-  const [selections, setSelections] = useState<ExcelExportFieldKeyList>({
-    image: true,
-    itemNo: true,
+  const [selections, setSelections] = useState<ProductionExcelExportFieldKeyList>({
+    client: true,
     description: true,
     versionSpec: true,
+    itemCategory: true,
+    productGroup: true,
+    foldingType: true,
     finishedLength: true,
     finishedWidth: true,
+    vendor: true,
+    dieSet: true,
     certificate: true,
-    moq: true,
-    vendor: false,
-    purchasePrice: false,
+    sourcing: false,
   });
   const [fileName, setFileName] = useState<string>('UmbrellaExport');
 
-  const handleCheckboxChange = (field: ExcelExportFieldKey) => {
+  const handleCheckboxChange = (field: ProductionExcelExportFieldKey) => {
     setSelections(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
@@ -54,39 +57,40 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     close();
   };
 
-  const getUniqueClients = Object.values(selectedPrices)
-    .filter(val => val.selected === true)
-    .map(val => val.productDevelopmentNo)
-    .filter((x, i, a) => a.indexOf(x) === i).length;
+  const getUniqueClients = Object.values(selectedPriceCalculations)
+    .filter(val => val.selected === true).length;
+  
+  const getUniqueProductDevelopments = (() => {
+    const set = new Set<string>();
+    Object.values(selectedPriceCalculations)
+      .filter(val => val.selected === true)
+      .forEach(val => {
+        if (val.productDevelopmentNo) set.add(val.productDevelopmentNo);
+      });
+    return set.size;
+  })();
 
   async function onSubmit(): Promise<void> {
-    const selectedIds = Object.entries(selectedPrices)
+    const selectedIds = Object.entries(selectedPriceCalculations)
       .filter(([_, value]) => value.selected === true)
-      .map(([id]) => id);
+      .map(([id, value]) => ({ priceCalculationId: id, productionId: value.productionId }));
 
-    const excelExportOptions = selectedIds.map(id => ({
-      PriceCalculationId: id,
-      Valid: true,
-      Included: true,
-      No: true,
-      Name: true,
-      NameOfFile: fileName,
-      ThumbnailData: selections.image,
-      ItemNo: selections.itemNo,
+    const excelExportOptions = selectedIds.map(item => ({
+      PriceCalculationId: item.priceCalculationId,
+      ProductionId: item.productionId,
+      Client: selections.client,
       Description: selections.description,
       Version: selections.versionSpec,
-      Quantity: true,
-      Certificate: selections.certificate,
-      SalesPrice: true,
-      SalesCurrency: true,
-      Sourcing: true,
-      PurchaseCurrency: selections.purchasePrice,
-      PurchasePrice: selections.purchasePrice,
-      MOQ: selections.moq,
-      Vendor: selections.vendor,
-     FinishedLength: selections.finishedLength,
+      ItemCategory: selections.itemCategory,
+      ProductGroup: selections.productGroup,
+      FoldingType: selections.foldingType,
+      FinishedLength: selections.finishedLength,
       FinishedWidth: selections.finishedWidth,
-      IsProduction: false
+      Sourcing: selections.sourcing,
+      DieSet: selections.dieSet,
+      Certificate: selections.certificate,
+      Vendor: selections.vendor,
+      IsProduction: true
     }));
 
     try {
@@ -115,7 +119,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
           title={t('ExcelExport.ModalTitle')}
         />
         <Text pb={10} fontWeight={'bold'}>
-          {t('ExcelExport.ModalDesc')}
+          {t('ExcelExport.ProductionModalDesc')}
         </Text>
         <Stack spacing={2}>
           {Object.entries(selections).map(([key, value]) => (
@@ -126,14 +130,11 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
                   key={key}
                   isChecked={value}
                   onChange={() =>
-                    handleCheckboxChange(key as ExcelExportFieldKey)
+                    handleCheckboxChange(key as ProductionExcelExportFieldKey)
                   }
                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleCheckboxChange(key as ExcelExportFieldKey);
-                    }
+                    if (e.key === 'Enter')
+                      handleCheckboxChange(key as ProductionExcelExportFieldKey);
                   }}
                 />
               </GridItem>
@@ -153,7 +154,7 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
           />
         </Box>
         <Text mt={2} fontSize="sm">
-          {getUniqueClients} {t('ExcelExport.ProductDevelopmentIncluded')}
+          {isProduction ? getUniqueProductDevelopments :getUniqueClients} {t('ExcelExport.ProductDevelopmentIncluded')}
         </Text>
       </ModalBody>
       <ModalFooter justifyContent={'center'}>
@@ -178,4 +179,6 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     </form>
   );
 };
-export default ExcelExportModalContent;
+export default ProductionExcelExportModalContent;
+
+

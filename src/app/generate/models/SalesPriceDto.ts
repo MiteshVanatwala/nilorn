@@ -8,3 +8,4 @@ export type SalesPriceDto = {
     margin?: number;
     salesPrice?: number;
 };
+

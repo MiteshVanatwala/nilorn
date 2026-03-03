@@ -23,3 +23,4 @@ export type UpdateProductionCommand = {
     productionCertificates?: Array<ProductionCertificateDto> | null;
     compositions?: Array<CompositionDto> | null;
 };
+

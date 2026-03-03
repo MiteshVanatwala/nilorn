@@ -7,14 +7,15 @@ import { ProjectPageDto } from '../generate/models/ProjectPageDto';
 
 export function useGetProjectsOptions(
   clientNo?: string,
-  enable: boolean = true
+  enable: boolean = true,
+  filterByUser: boolean = false
 ) {
   return useQuery(
     [QueryKeysEnum.Projects, clientNo],
-    () => ProjectsService.getApiProjectsFilterOption(clientNo).then(res => res),
+    () => ProjectsService.getApiProjectsFilterOption(clientNo, filterByUser).then(res => res),
     {
       retry: 1,
-      enabled: enable,
+      enabled: enable
     }
   );
 }

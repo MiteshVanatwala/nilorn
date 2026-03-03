@@ -17,3 +17,4 @@ export type ProductDevelopmentDataDto = {
   versionSpecification?: string | null;
   clientRequirement?: string | null;
 };
+

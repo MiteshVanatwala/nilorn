@@ -18,8 +18,8 @@ export class ClientService {
      * @throws ApiError
      */
     public static getApiClient(
-filterByAccess: boolean = true,
-): CancelablePromise<Array<ClientDto>> {
+        filterByAccess: boolean = true,
+    ): CancelablePromise<Array<ClientDto>> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/Client/{filterByAccess}',
@@ -69,17 +69,20 @@ requestBody?: ClientDto,
 
     /**
      * @param filterByAccess 
+     * @param filterByUser 
      * @returns OptionItem Success
      * @throws ApiError
      */
     public static getApiClientFilterOption(
 filterByAccess: boolean = true,
+filterByUser: boolean = false,
 ): CancelablePromise<Array<OptionItem>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/Client/Filter/Option/{filterByAccess}',
-            path: {
+            url: '/api/Client/Filter/Option',
+            query: {
                 'filterByAccess': filterByAccess,
+                'filterByUser': filterByUser,
             },
         });
     }

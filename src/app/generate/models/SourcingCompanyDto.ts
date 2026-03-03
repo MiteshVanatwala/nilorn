@@ -9,3 +9,4 @@ export type SourcingCompanyDto = {
     isSourcingCompany?: boolean;
     currencyCode?: string | null;
 };
+
