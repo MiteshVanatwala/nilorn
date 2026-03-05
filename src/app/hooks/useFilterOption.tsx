@@ -90,7 +90,7 @@ const useFilterOptions = (name?: FilterKey, filterByAccess?: boolean, isProductD
     clients: clients as SelectOption[],
     statuses: statuses,
     sourcingCompanies: sourcingCompanies as SelectOption[],
-    opComps: (distributionCompanies ?? opComp) as SelectOption[],
+    opComps: opComp as SelectOption[],
     distributionCompanies: distributionCompanies as SelectOption[],
     foldingTypes: foldingTypes as SelectOption[],
     itemCategories: itemCategories as SelectOption[],

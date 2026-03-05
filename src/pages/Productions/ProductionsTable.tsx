@@ -36,6 +36,7 @@ export type SelectedPriceCalculations = {
     productDevelopmentNo: string;
     productionId: string;
     vendorName: string;
+    priceCalculationId?: string;
   };
 };
 
@@ -76,35 +77,25 @@ const ProductionsTable = ({ productions }: Props) => {
   }, [selectedPriceCalculations]);
 
   useEffect(() => {
-    let selectedPriceCalculationList: SelectedPriceCalculations = {};
+    const selectedPriceCalculationList: SelectedPriceCalculations = {};
     productions?.forEach(p => {
       p.sourcedProductions?.forEach(s => {
         s.productions?.forEach(production => {
           if (production?.id) {
-            // For now, use production ID as key until price calculations are available
-            if (production.priceCalculations && production.priceCalculations.length > 0) {
-              // If price calculations exist, use them
-              production.priceCalculations.forEach(priceCalculation => {
-                if (priceCalculation?.id) {
-                  selectedPriceCalculationList[`${priceCalculation.id}`] = {
-                    selected: false,
-                    client: p.productDevelopmentDataDto?.clientName || '',
-                    productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-                    productionId: production.id || '',
-                    vendorName: production.vendorName || '',
-                  };
-                }
-              });
-            } else {
-              // If no price calculations, create a temporary entry using production ID
-              selectedPriceCalculationList[`${production.id}`] = {
-                selected: false,
-                client: p.productDevelopmentDataDto?.clientName || '',
-                productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
-                productionId: production.id || '',
-                vendorName: production.vendorName || '',
-              };
-            }
+            // Always key by production.id so row checkboxes (which use production.id) match.
+            // When production has price calculations, store one priceCalculationId for export.
+            const firstPriceCalculationId =
+              production.priceCalculations?.[0]?.id;
+            selectedPriceCalculationList[production.id] = {
+              selected: false,
+              client: p.productDevelopmentDataDto?.clientName || '',
+              productDevelopmentNo: p.productDevelopmentDataDto?.no || '',
+              productionId: production.id,
+              vendorName: production.vendorName || '',
+              ...(firstPriceCalculationId && {
+                priceCalculationId: firstPriceCalculationId,
+              }),
+            };
           }
         });
       });

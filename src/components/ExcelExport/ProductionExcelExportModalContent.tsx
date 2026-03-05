@@ -73,7 +73,10 @@ const ProductionExcelExportModalContent = ({ selectedPriceCalculations, isProduc
   async function onSubmit(): Promise<void> {
     const selectedIds = Object.entries(selectedPriceCalculations)
       .filter(([_, value]) => value.selected === true)
-      .map(([id, value]) => ({ priceCalculationId: id, productionId: value.productionId }));
+      .map(([id, value]) => ({
+        priceCalculationId: value.priceCalculationId ?? id,
+        productionId: value.productionId,
+      }));
 
     const excelExportOptions = selectedIds.map(item => ({
       PriceCalculationId: item.priceCalculationId,
