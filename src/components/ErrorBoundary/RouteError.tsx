@@ -2,18 +2,12 @@ import { Button } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { isRouteErrorResponse, NavLink, useRouteError } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
-import { reportErrorToService } from '../../app/utils/errorReporting';
 
 const RouteError = () => {
   const { t } = useTranslation();
   const error = useRouteError();
 
-  if (error) {
-    reportErrorToService(error, undefined, { boundaryName: 'RouteError' });
-  }
-
   if (isRouteErrorResponse(error)) {
-    // eslint-disable-next-line no-console
     console.log('isRouteErrorResponse: ', error);
   }
 
@@ -30,4 +24,3 @@ const RouteError = () => {
 };
 
 export default RouteError;
-
