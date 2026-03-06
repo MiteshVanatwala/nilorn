@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { useProductDevelopment } from '../../app/api/productDevelopment';
 import ProductDevelopmentForm from './Sections/ProductDevelopmentForm';
 import SpinnerOverlay from '../../components/Spinner/SpinnerOverlay';
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useCurrentUser } from '../../app/api/User';
 import { ROLES_ALLOWED_TO_CREATE } from '../../app/Permissions/Permissions';
 import { useQueryClient } from 'react-query';
@@ -12,7 +12,6 @@ import { SESSION_STORAGE } from '../../app/utils/constant';
 import { useLastVisitedPD } from '../../app/hooks/useLastVisitedPD';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
 import PermissionDenied from '../PermissionDenied/PermissionDenied';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 type Props = {
   createNew: boolean;
@@ -94,24 +93,13 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return (
       <Box ref={ref}>
         <LeavePageBlocker />
-        <ErrorBoundary
-          boundaryName="ProductDevelopmentForm"
-          fallback={
-            <Box p={4}>
-              <Text color="red.600">
-                An unexpected error occurred while loading the product
-                development form. Please try refreshing the page.
-              </Text>
-            </Box>
-          }>
-          <ProductDevelopmentForm
-            no={no ?? ''}
-            scrolledPast={scrolledPast}
-            defaultValues={data}
-            createNew={createNew}
-            key={no}
-          />
-        </ErrorBoundary>
+        <ProductDevelopmentForm
+          no={no ?? ''}
+          scrolledPast={scrolledPast}
+          defaultValues={data}
+          createNew={createNew}
+          key={no}
+        />
       </Box>
     );
   }

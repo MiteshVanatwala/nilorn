@@ -6,7 +6,6 @@ import QueryKeysEnum from '../../app/api/queryKeys';
 import { useQueryClient } from 'react-query';
 import { useQueryParams } from '../../app/hooks/useQueryParams';
 import LeavePageBlocker from '../../components/Modal/LeavePageBlocker';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 const OverviewTableContainer = lazy(() => import('./OverviewTableContainer'));
 const ProductDevelopmentFilter = lazy(
   () => import('./ProductDevelopmentFilter')
@@ -24,19 +23,17 @@ function Overview() {
   }, [queryClient]);
 
   return (
-    <ErrorBoundary boundaryName="OverviewPage">
-      <PaginationProvider>
-        <LeavePageBlocker />
-        <FormQuerySubmit form={form}>
-          <Suspense>
-            <ProductDevelopmentFilter />
-          </Suspense>
-          <Suspense>
-            <OverviewTableContainer />
-          </Suspense>
-        </FormQuerySubmit>
-      </PaginationProvider>
-    </ErrorBoundary>
+    <PaginationProvider>
+      <LeavePageBlocker />
+      <FormQuerySubmit form={form}>
+        <Suspense>
+          <ProductDevelopmentFilter />
+        </Suspense>
+        <Suspense>
+          <OverviewTableContainer />
+        </Suspense>
+      </FormQuerySubmit>
+    </PaginationProvider>
   );
 }
 

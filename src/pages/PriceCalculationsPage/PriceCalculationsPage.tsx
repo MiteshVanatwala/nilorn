@@ -10,7 +10,6 @@ import PermissionDenied from '../PermissionDenied/PermissionDenied';
 import { useQueryClient } from 'react-query';
 import { useEffect } from 'react';
 import QueryKeysEnum from '../../app/api/queryKeys';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
 
 function PriceCalculationsPage() {
   const params = useQueryParams();
@@ -26,16 +25,14 @@ function PriceCalculationsPage() {
   if (!showCalculation) return <PermissionDenied />;
 
   return (
-    <ErrorBoundary boundaryName="PriceCalculationsPage">
-      <ContentPage>
-        <PaginationProvider>
-          <FormQuerySubmit form={form}>
-            <PriceCalculationsFilter />
-            <PriceCalculationsTableContainer />
-          </FormQuerySubmit>
-        </PaginationProvider>
-      </ContentPage>
-    </ErrorBoundary>
+    <ContentPage>
+      <PaginationProvider>
+        <FormQuerySubmit form={form}>
+          <PriceCalculationsFilter />
+          <PriceCalculationsTableContainer />
+        </FormQuerySubmit>
+      </PaginationProvider>
+    </ContentPage>
   );
 }
 
