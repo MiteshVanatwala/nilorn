@@ -99,8 +99,7 @@ function ProductDevelopmentPage({ createNew }: Props) {
           fallback={
             <Box p={4}>
               <Text color="red.600">
-                An unexpected error occurred while loading the product
-                development form. Please try refreshing the page.
+                An unexpected error occurred while loading the product development form. Please try refreshing the page.
               </Text>
             </Box>
           }>
