@@ -485,34 +485,6 @@ const BulkEditPriceCalculationModal = ({
               {
                 X: calculations.length,
               }
-<<<<<<< HEAD
-            />
-            <Skeleton isLoaded={calculations.length > 0}>
-              <PriceCalculationForm
-                key="bulk-edit"
-                calculation={{
-                  ...calculations[0],
-                  purchaseCurrencyCode: extractValue(form.watch('purchaseCurrency')),
-                  currencyRate: form.watch('currencyRate'),
-                  currency: { code: extractValue(form.watch('currencyCode')) },
-                  internalCommission: form.watch('internalCommission'),
-                  indirectCost: form.watch('indirectCost'),
-                  freightIncluded: form.watch('freightIncluded'),
-                  distributionCompanyCode: extractValue(form.watch('distributionCompany')) || (getCommonValues()?.distributionCompany ? getCommonValues()?.distributionCompany : null),
-                  distributionCompanyName: distributionCompanies?.find(
-                    (dc: any) => dc.value === (extractValue(form.watch('distributionCompany')) || getCommonValues()?.distributionCompany)
-                  )?.label,
-                  priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
-                    ...price,
-                    margin: form.watch('margin') ?? price.margin,
-                  })),
-                }}
-                currency={{ code: extractValue(form.watch('currencyCode')) }}
-                createNew={false}
-                disableEdit={false}
-                showChanges={false}
-                productionId={calculations[0]?.productionId}
-=======
             )}
             onConfirm={() => {
               if (formValuesForModal) {
@@ -536,9 +508,7 @@ const BulkEditPriceCalculationModal = ({
                 productDevelopment={undefined}
                 sourcingCompanyCode={undefined}
                 vendorName={undefined}
->>>>>>> 0d4c12dd (Add error reporting utility and integrate into ErrorBoundary components)
                 isBulkEdit={true}
-                totalPriceCalculations={calculations.length}
                 createNew={false}
                 actionBar={
                   <PriceCalculationActionBar
@@ -551,9 +521,6 @@ const BulkEditPriceCalculationModal = ({
                     setShowChanges={() => {}}
                     isBulkEdit={true}
                   />
-                }
-                distributionCompanyPlaceholder={
-                  getCommonValues()?.distributionCompanyPlaceholder
                 }
               />
               <Skeleton isLoaded={calculations.length > 0}>
