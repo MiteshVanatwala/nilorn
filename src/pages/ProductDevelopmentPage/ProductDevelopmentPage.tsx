@@ -93,6 +93,15 @@ function ProductDevelopmentPage({ createNew }: Props) {
     return (
       <Box ref={ref}>
         <LeavePageBlocker />
+        <ErrorBoundary
+          boundaryName="ProductDevelopmentForm"
+          fallback={
+            <Box p={4}>
+              <Text color="red.600">
+                An unexpected error occurred while loading the product development form. Please try refreshing the page.
+              </Text>
+            </Box>
+          }>
         <ProductDevelopmentForm
           no={no ?? ''}
           scrolledPast={scrolledPast}
