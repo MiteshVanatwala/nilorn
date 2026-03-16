@@ -42,6 +42,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "gen:api": "openapi --input https://udev.nilorn.com/swagger/v1/swagger.json --output ./src/app/generate",
+    "gen:api-local": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 openapi --input https://localhost:7288/swagger/v1/swagger.json --output ./src/app/generate",
     "gen:theme-typings": "chakra-cli tokens ./src/theme/theme.ts",
     "postinstall": "npm run gen:theme-typings"
   },

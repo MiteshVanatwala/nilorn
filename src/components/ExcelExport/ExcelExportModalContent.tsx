@@ -41,6 +41,8 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
     finishedWidth: true,
     certificate: true,
     moq: true,
+    distributioncompany: true,
+    sourcing: false,
     vendor: false,
     purchasePrice: false
   });
@@ -79,10 +81,11 @@ const ExcelExportModalContent = ({ selectedPrices }: Props) => {
       Certificate: selections.certificate,
       SalesPrice: true,
       SalesCurrency: true,
-      Sourcing: true,
       PurchaseCurrency: selections.purchasePrice,
       PurchasePrice: selections.purchasePrice,
       MOQ: selections.moq,
+      DistributionCompany: selections.distributioncompany,
+      Sourcing: selections.sourcing,
       Vendor: selections.vendor,
       FinishedLength: selections.finishedLength,
       FinishedWidth: selections.finishedWidth,
