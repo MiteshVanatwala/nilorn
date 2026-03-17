@@ -26,7 +26,7 @@ const ErrorPage = ({ title, messages, button }: Pros) => {
         <Box>
           <Heading variant="h1" as="h1" color={COLORS.ERROR}>
             <>
-              {title ? title : <>{t('Common.errorTitle')}</>}
+              {title ? title : <>{t('Common.ErrorTitle')}</>}
               <RemixIcon
                 component="Text"
                 icon="ALERT_LINE"
