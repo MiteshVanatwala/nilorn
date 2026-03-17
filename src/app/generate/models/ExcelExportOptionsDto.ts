@@ -16,4 +16,6 @@ export type PriceCalculationDto = {
     purchaseCurrency?: boolean | null;
     purchasePrice?: boolean | null;
     moq?: boolean | null;
+    sourcing?: boolean;
+    distributionCompany?: boolean;    
 };

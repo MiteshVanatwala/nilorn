@@ -83,7 +83,9 @@ export type ExcelExportFieldKey =
   | 'vendor'
   | 'finishedLength'
   | 'finishedWidth'
-  | 'purchasePrice';
+  | 'purchasePrice'
+  | 'sourcing'
+  | 'distributioncompany';
 export type ExcelExportFieldKeyList = Record<ExcelExportFieldKey, boolean>;
 
 export type ProductionExcelExportFieldKey =
