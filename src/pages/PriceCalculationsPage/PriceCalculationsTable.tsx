@@ -272,6 +272,8 @@ const PriceCalculationsTable = ({ data }: Props) => {
       setSelectAll(false);
       setSelectAllIndeterminate(true);
     }
+
+    getUniqueClients();
   },  [selectedPriceIds, selectedProductionIds]);
 
   useEffect(() => {
@@ -312,6 +314,19 @@ const PriceCalculationsTable = ({ data }: Props) => {
     setPriceMetadata(priceMeta);
     setProductionMetadata(productionMeta);
   }, [data]);
+
+  const getUniqueClients = () => {
+    const priceClients = Array.from(selectedPriceIds)
+      .map(id => priceMetadata[id]?.client)
+      .filter(Boolean);
+    
+    const productionClients = Array.from(selectedProductionIds)
+      .map(id => productionMetadata[id]?.client)
+      .filter(Boolean);
+    
+    const allClients = [...priceClients, ...productionClients];
+    setUniqueClients(allClients.filter((x, i, a) => a.indexOf(x) === i));
+  };
 
   const handleExportClick = async () => {
     // Convert Set to SelectedPrices format for the modal
