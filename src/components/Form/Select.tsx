@@ -7,6 +7,49 @@ import ControlWrapper from './ControlWrapper';
 import SelectBase from './SelectBase';
 import { useEffect } from 'react';
 
+// Helper function to process options and add values in parentheses for duplicates
+const processOptionsForDuplicates = (options: SelectOption[] | GroupSelectOption[]): SelectOption[] | GroupSelectOption[] => {
+  // Check if options is a GroupSelectOption[] 
+  if (options.length > 0 && 'options' in options[0]) {
+    const groupedOptions = options as GroupSelectOption[];
+    return groupedOptions.map(group => ({
+      ...group,
+      options: processSelectOptionsForDuplicates(group.options)
+    } as GroupSelectOption));
+  } else {
+    // It's a SelectOption[]
+    const selectOptions = options as SelectOption[];
+    return processSelectOptionsForDuplicates(selectOptions);
+  }
+};
+
+// Helper function to process SelectOption array for duplicates
+const processSelectOptionsForDuplicates = (options: SelectOption[]): SelectOption[] => {
+  const labelCounts: Record<string, number> = {};
+  options.forEach(option => {
+    const label = String(option.label);
+    labelCounts[label] = (labelCounts[label] || 0) + 1;
+  });
+
+  const labelOccurrences: Record<string, number> = {};
+
+  return options.map(option => {
+    const label = String(option.label);
+    
+    if (labelCounts[label] > 1) {
+      labelOccurrences[label] = (labelOccurrences[label] || 0) + 1;
+      
+      return {
+        ...option,
+        label: `${label} (${option.value})`
+      };
+    }
+    
+    return option;
+  });
+};
+
+
 interface Props<IsMulti extends boolean = false>
   extends Omit<FormInputProps, 'defaultValue'> {
   options: SelectOption[] | GroupSelectOption[];
@@ -54,8 +97,7 @@ const Select = <IsMulti extends boolean = false>({
     getValues,
     setValue,
   } = useFormContext();
-
-  // Helper function to extract primitive values from SelectOptions
+ // Helper function to extract primitive values from SelectOptions
   const extractValue = (val: any): any => {
     if (!val) return val;
     // Handle deeply nested objects by recursively extracting
@@ -112,6 +154,8 @@ const Select = <IsMulti extends boolean = false>({
     }
   }, [name, isMulti, returnFullObject, getValues, setValue]);
 
+ // Process options to handle duplicates
+  const processedOptions = processOptionsForDuplicates(options);
   return (
     <ControlWrapper
       name={name}
@@ -202,7 +246,7 @@ const Select = <IsMulti extends boolean = false>({
               }
               onBlur={onBlur}
               defaultValue={undefined}
-              options={options}
+              options={processedOptions}
               placeholder={
                 showSelectedCount && getValues(name)?.length
                   ? `${t('Filter.NumSelected', {
