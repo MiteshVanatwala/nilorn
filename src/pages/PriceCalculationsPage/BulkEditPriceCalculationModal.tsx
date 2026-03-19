@@ -382,12 +382,9 @@ const BulkEditPriceCalculationModal = ({
   const fallbackContent = (
     <Box p={SPACE.MD}>
       <Text color="red.600" mb={SPACE.SM}>
-        {t('Common.UnexpectedError') ||
+        {t('Common.ErrorTitle') ||
           'An unexpected error occurred while editing price calculations.'}
       </Text>
-      <Button variant="secondary" onClick={close}>
-        {t('Common.CloseModal')}
-      </Button>
     </Box>
   );
 
