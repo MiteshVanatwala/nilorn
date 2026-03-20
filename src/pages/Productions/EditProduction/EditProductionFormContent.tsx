@@ -49,7 +49,7 @@ const EditProductionFormContent = ({
   const { allChargeBasis } = useChargeBasisOptions();
   const [selectedVendor, setSelectedVendor] = useState<VendorDto>();
 
-  const newSelctedVendor = useWatch({ name: 'vendorId' });
+  const newSelectedVendorNo = useWatch({ name: 'vendorNo' });
   const { setValue } = useFormContext();
   const currencyCodeChangelog = useProductionsChangelog(
     'CurrencyCode',
@@ -57,15 +57,19 @@ const EditProductionFormContent = ({
   );
 
   useEffect(() => {
-    if (createNew && newSelctedVendor) {
-      setSelectedVendor(vendors?.find(co => co.id === newSelctedVendor));
-      setValue('currencyCode', selectedVendor?.currencyCode);
+    if (createNew && newSelectedVendorNo) {
+      const vendor = vendors?.find(co => co.no === newSelectedVendorNo);
+      setSelectedVendor(vendor);
+      if (vendor) {
+        setValue('vendorId', vendor.id);
+        setValue('currencyCode', vendor.currencyCode);
+      }
     } else {
       setSelectedVendor(vendors?.find(co => co.id === production?.vendorId));
     }
   }, [
     createNew,
-    newSelctedVendor,
+    newSelectedVendorNo,
     production?.vendorId,
     selectedVendor,
     setValue,
@@ -103,9 +107,9 @@ const EditProductionFormContent = ({
                         production => production.vendorId === vendor.id
                       )
                   ),
-                  true
+                  false
                 )}
-                name={'vendorId'}
+                name={'vendorNo'}
               />
             </GridItem>
           )}
