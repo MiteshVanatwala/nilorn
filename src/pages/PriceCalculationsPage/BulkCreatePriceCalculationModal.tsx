@@ -8,7 +8,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box, Button, Skeleton, Text } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -20,25 +20,41 @@ import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
 import { useTranslation } from 'react-i18next';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import BackendErrorBoundary from '../../components/ErrorBoundary/BackendErrorBoundary';
 
 type Props = {
   isLoading: boolean;
   production: ProductionDto[];
   calculation: PriceCalculationDto[] | undefined[];
+  hasLoadError?: boolean;
+  loadError?: unknown;
 };
 
 const BulkCreatePriceCalculationModal = ({
   isLoading,
   production,
   calculation,
+  hasLoadError = false,
+  loadError,
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation, isSuccess: isCreateSuccess } =
-    useCreateCalculation();
+  const {
+    mutate: createCalculation,
+    isSuccess: isCreateSuccess,
+    isError: isCreateError,
+    error: createError,
+  } = useCreateCalculation();
   const { close, setCustomCloseHandler, setPreventClose } = useContext(ModalContext);
+
+  const shouldCrash = Boolean(hasLoadError) || Boolean(isCreateError);
+  const shouldCrashRef = useRef(false);
+  shouldCrashRef.current = shouldCrash;
+
+  const errorStatus =
+    (loadError as any)?.status ?? (createError as any)?.status;
 
   const form = useForm({
     mode: 'onChange',
@@ -61,6 +77,12 @@ const BulkCreatePriceCalculationModal = ({
   // Set up the custom close handler
   useEffect(() => {
     const handleCustomClose = () => {
+      // If the ErrorBoundary fallback is active, always allow closing.
+      if (shouldCrashRef.current) {
+        close();
+        return;
+      }
+
       // Check if there are unsaved changes
       if (hasUnsavedChanges()) {
         // Show unsaved changes modal
@@ -90,6 +112,11 @@ const BulkCreatePriceCalculationModal = ({
         e.preventDefault();
         e.stopPropagation();
 
+        if (shouldCrashRef.current) {
+          close();
+          return;
+        }
+
         // Check if there are unsaved changes
         if (hasUnsavedChanges()) {
           // Show unsaved changes modal
@@ -110,8 +137,8 @@ const BulkCreatePriceCalculationModal = ({
 
   // Prevent modal from closing when form is dirty
   useEffect(() => {
-    setPreventClose(hasUnsavedChanges());
-  }, [hasUnsavedChanges, setPreventClose]);
+    setPreventClose(shouldCrash ? false : hasUnsavedChanges());
+  }, [hasUnsavedChanges, setPreventClose, shouldCrash]);
 
   useEffect(() => {
     form.reset({
@@ -160,46 +187,52 @@ const BulkCreatePriceCalculationModal = ({
   }, [close, isCreateSuccess]);
 
   return (
-    <>
-      {leavePageModal}
-      <Box
-        ref={outsideRef}
-        mb={SPACE.LG}
-        px={SPACE.SM}
-        maxW={SIZES.CONTAINER.LG}>
-        <FormProvider {...form}>
-          <Form onSubmit={form.handleSubmit(submitForm)}>
-            <ProductDevelopmentModalTopSection
-              productDevelopment={undefined}
-              sourcingCompanyCode={null}
-              vendorName={null}
-              isBulkEdit={true}
-              totalPriceCalculations={production.length}
-              createNew={true}
-              actionBar={
-                <PriceCalculationActionBar
-                  artwork={undefined}
-                  createNew={true}
-                  lastModified={undefined}
-                  showChanges={false}
-                  setShowChanges={() => {}}
-                  isBulkEdit={true}
-                />
-              }
-            />
-            <Skeleton isLoaded={!isLoading}>
-              <PriceCalculationForm
-                calculation={undefined}
-                currency={undefined}
+    <BackendErrorBoundary
+      boundaryName="BulkCreatePriceCalculationModal"
+      shouldCrash={shouldCrash}
+      errorStatus={errorStatus}
+      close={close}>
+      <>
+        {leavePageModal}
+        <Box
+          ref={outsideRef}
+          mb={SPACE.LG}
+          px={SPACE.SM}
+          maxW={SIZES.CONTAINER.LG}>
+          <FormProvider {...form}>
+            <Form onSubmit={form.handleSubmit(submitForm)}>
+              <ProductDevelopmentModalTopSection
+                productDevelopment={undefined}
+                sourcingCompanyCode={null}
+                vendorName={null}
+                isBulkEdit={true}
+                totalPriceCalculations={production.length}
                 createNew={true}
-                showChanges={false}
-                productionId={undefined}
+                actionBar={
+                  <PriceCalculationActionBar
+                    artwork={undefined}
+                    createNew={true}
+                    lastModified={undefined}
+                    showChanges={false}
+                    setShowChanges={() => {}}
+                    isBulkEdit={true}
+                  />
+                }
               />
-            </Skeleton>
-          </Form>
-        </FormProvider>
-      </Box>
-    </>
+              <Skeleton isLoaded={!isLoading}>
+                <PriceCalculationForm
+                  calculation={undefined}
+                  currency={undefined}
+                  createNew={true}
+                  showChanges={false}
+                  productionId={undefined}
+                />
+              </Skeleton>
+            </Form>
+          </FormProvider>
+        </Box>
+      </>
+    </BackendErrorBoundary>
   );
 };
 

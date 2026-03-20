@@ -3,7 +3,7 @@ import {
   ChangelogType,
   GetFilteredProductDevelopmentDeepWithPaginationQuery as ServerFilter,
 } from '../../app/generate';
-import { Box, Grid, GridItem, Skeleton } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, Skeleton, Text } from '@chakra-ui/react';
 import { GRID, SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -27,6 +27,7 @@ import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useQueryClient } from 'react-query';
+import BackendErrorBoundary from '../../components/ErrorBoundary/BackendErrorBoundary';
 
 type Props = {
   calculationId: string;
@@ -138,14 +139,25 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     data: priceCalculation,
     isLoading,
     isRefetching,
+    isError: isPriceCalculationError,
+    error: priceCalculationError,
   } = usePriceCalculation(activeCalculationId);
 
   const { productDevelopmentDataDto, sourcingCompanyCode, vendorName } =
     priceCalculation || {};
 
-  const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
-  const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
-    useDeleteCalculation(calculationId);
+  const {
+    mutate: updateCalculation,
+    isSuccess: isUpdateSuccess,
+    isError: isUpdateError,
+    error: updateError,
+  } = usePatchCalculation();
+  const {
+    mutate: deleteCalculation,
+    isSuccess: isSuccessDelete,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteCalculation(calculationId);
 
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
@@ -225,19 +237,45 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
     );
   }, [productDevelopmentDataDto?.status]);
 
+  const shouldCrash =
+    Boolean(isPriceCalculationError) ||
+    Boolean(isUpdateError) ||
+    Boolean(isDeleteError);
+
+  // When the modal is showing an error boundary fallback, disable
+  // the "unsaved changes" custom close handler so the modal X closes.
+  useEffect(() => {
+    if (!modalContext.setCustomCloseHandler) return;
+    if (shouldCrash) {
+      modalContext.setCustomCloseHandler(null);
+      if (modalContext.setPreventClose) {
+        modalContext.setPreventClose(false);
+      }
+    }
+  }, [shouldCrash, modalContext]);
+
+  const boundaryError =
+    priceCalculationError ?? updateError ?? deleteError ?? undefined;
+
+  const errorStatus = (boundaryError as any)?.status;
 
   return (
-    <>
-      {deleteModal}
-      {leavePageModal}
-      <Box
-        ref={outsideRef}
-        mb={SPACE.LG}
-        px={SPACE.SM}
-        maxW={SIZES.CONTAINER.LG}>
-        {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
-        <FormProvider {...form}>
-          <Form onSubmit={form.handleSubmit(submitForm)}>
+    <BackendErrorBoundary
+      boundaryName="EditPriceCalculationModal"
+      shouldCrash={shouldCrash}
+      errorStatus={errorStatus}
+      close={close}>
+      <>
+        {deleteModal}
+        {leavePageModal}
+        <Box
+          ref={outsideRef}
+          mb={SPACE.LG}
+          px={SPACE.SM}
+          maxW={SIZES.CONTAINER.LG}>
+          {(isLoading || isRefetching) && <SpinnerOverlay fillContainer={true} />}
+          <FormProvider {...form}>
+            <Form onSubmit={form.handleSubmit(submitForm)}>
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
@@ -266,10 +304,10 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
                 showChanges={showChanges}
                 productionId={priceCalculation?.productionId}
               />
-            </Skeleton>
-          </Form>
-        </FormProvider>
-        <ContentSection>
+              </Skeleton>
+            </Form>
+          </FormProvider>
+          <ContentSection>
           <Grid justifyContent={'space-between'} display={'flex'} py={GRID.GAP}>
             <GridItem>
               <ArrowLink
@@ -293,8 +331,9 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
             </GridItem>
           </Grid>
         </ContentSection>
-      </Box>
-    </>
+          </Box>
+      </>
+    </BackendErrorBoundary>
   );
 };
 
