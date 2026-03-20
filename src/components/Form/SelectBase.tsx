@@ -15,6 +15,53 @@ import text from '../../theme/text';
 import { SelectOption } from '../../app/types/types';
 import RemixIcon from '../Icon/RemixIcon';
 import { READ_ONLY_OPACITY } from '../../app/utils/constant';
+import { GroupSelectOption } from '../../app/utils/FilterHelper';
+
+// Helper function to process options and add values in parentheses for duplicates
+const processOptionsForDuplicates = (options: SelectOption[] | GroupSelectOption[] | undefined): SelectOption[] | GroupSelectOption[] | undefined => {
+  if (typeof options === "undefined") {
+    return options;
+  }
+  
+  // Check if options is a GroupSelectOption[] 
+  if (options.length > 0 && 'options' in options[0]) {
+    const groupedOptions = options as GroupSelectOption[];
+    return groupedOptions.map(group => ({
+      ...group,
+      options: processSelectOptionsForDuplicates(group.options)
+    } as GroupSelectOption));
+  } else {
+    // It's a SelectOption[]
+    const selectOptions = options as SelectOption[];
+    return processSelectOptionsForDuplicates(selectOptions);
+  }
+};
+
+// Helper function to process SelectOption array for duplicates
+const processSelectOptionsForDuplicates = (options: SelectOption[]): SelectOption[] => {
+  const labelCounts: Record<string, number> = {};
+  options.forEach(option => {
+    const label = String(option.label);
+    labelCounts[label] = (labelCounts[label] || 0) + 1;
+  });
+
+  const labelOccurrences: Record<string, number> = {};
+
+  return options.map(option => {
+    const label = String(option.label);
+    
+    if (labelCounts[label] > 1) {
+      labelOccurrences[label] = (labelOccurrences[label] || 0) + 1;
+      
+      return {
+        ...option,
+        label: `${label} (${option.value})`
+      };
+    }
+    
+    return option;
+  });
+};
 
 const customSelectComponents = {
   DropdownIndicator: (props: DropdownIndicatorProps) => {
@@ -136,6 +183,7 @@ const SelectBase = <IsMulti extends boolean = false>({
   const focus = dark ? COLORS.GRAY[90] : COLORS.GRAY[60];
   const hover = dark ? COLORS.GRAY[80] : COLORS.GRAY[20];
 
+
   // Handle input change to track when input is cleared
   const handleInputChange = (inputValue: string) => {
     // Track when input is actually cleared (had content before, now empty)
@@ -244,6 +292,9 @@ const SelectBase = <IsMulti extends boolean = false>({
     }
   };
 
+  // Process options to handle duplicates
+  const processedOptions = processOptionsForDuplicates(options as SelectOption[] | GroupSelectOption[] | undefined);
+
   return (
     <>
       <Tooltip
@@ -291,7 +342,7 @@ const SelectBase = <IsMulti extends boolean = false>({
             components={customComponents}
             value={isControlled ? value : undefined}
             defaultValue={defaultValue}
-            options={options}
+            options={processedOptions}
             placeholder={placeholder}
             menuPosition={'fixed'}
             styles={{ menuPortal: base => ({ ...base, zIndex: 9 }) }}
