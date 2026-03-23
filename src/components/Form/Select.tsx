@@ -54,7 +54,7 @@ const Select = <IsMulti extends boolean = false>({
     getValues,
     setValue,
   } = useFormContext();
- // Helper function to extract primitive values from SelectOptions
+  // Helper function to extract primitive values from SelectOptions
   const extractValue = (val: any): any => {
     if (!val) return val;
     // Handle deeply nested objects by recursively extracting

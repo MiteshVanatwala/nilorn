@@ -528,20 +528,22 @@ const BulkEditPriceCalculationModal = ({
                   key="bulk-edit"
                   calculation={{
                     ...calculations[0],
-                    purchaseCurrencyCode: form.watch('purchaseCurrency'),
+                  purchaseCurrencyCode: extractValue(form.watch('purchaseCurrency')),
                     currencyRate: form.watch('currencyRate'),
-                    currency: { code: form.watch('currencyCode') },
+                    currency: { code: extractValue(form.watch('currencyCode')) },
                     internalCommission: form.watch('internalCommission'),
                     indirectCost: form.watch('indirectCost'),
                     freightIncluded: form.watch('freightIncluded'),
-                    priceDtos: calculations[0]?.priceDtos?.map(
-                      (price: any) => ({
-                        ...price,
-                        margin: form.watch('margin') ?? price.margin,
-                      })
-                    ),
+                    distributionCompanyCode: extractValue(form.watch('distributionCompany')) || (getCommonValues()?.distributionCompany ? getCommonValues()?.distributionCompany : null),
+                    distributionCompanyName: distributionCompanies?.find(
+                      (dc: any) => dc.value === (extractValue(form.watch('distributionCompany')) || getCommonValues()?.distributionCompany)
+                    )?.label,
+                    priceDtos: calculations[0]?.priceDtos?.map((price: any) => ({
+                      ...price,
+                      margin: form.watch('margin') ?? price.margin,
+                    })),
                   }}
-                  currency={{ code: form.watch('currencyCode') }}
+                  currency={{ code: extractValue(form.watch('currencyCode')) }}
                   createNew={false}
                   disableEdit={false}
                   showChanges={false}
@@ -567,6 +569,9 @@ const BulkEditPriceCalculationModal = ({
                   }
                   freightIncludedPlaceholder={
                     getCommonValues()?.freightIncludedPlaceholder
+                  }
+                  distributionCompanyPlaceholder={
+                    getCommonValues()?.distributionCompanyPlaceholder
                   }
                   marginPlaceholder={getCommonValues()?.marginPlaceholder}
                 />
