@@ -4,8 +4,7 @@ import { Image, Link, VStack, Text, Tooltip } from '@chakra-ui/react';
 import TRANSITION from '../../theme/Constants/transition';
 import StatusBadge from '../../components/Status/StatusBadge';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ProductDevelopmentDataDto } from '../../app/generate';
-import useFilterOptions from '../../app/hooks/useFilterOption';
+import { ProductDevelopmentDataDto, VendorDto } from '../../app/generate';
 import { NAV_LINK } from '../../app/hooks/useModalNavigationBlocker';
 import { isClosed } from '../../app/utils/status';
 import text from '../../theme/text';
@@ -15,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
   sourcingCompanyCode?: string | null;
-  vendorName?: string | null;
+  vendor?: VendorDto | null;
   actionBar: JSX.Element;
   isBulkEdit?: boolean;
   totalPriceCalculations?: number;
@@ -24,7 +23,7 @@ type Props = {
 const ProductDevelopmentModalTopSection = ({
   productDevelopment,
   sourcingCompanyCode,
-  vendorName,
+  vendor,
   actionBar,
   isBulkEdit = false,
   totalPriceCalculations = 0,
@@ -32,7 +31,6 @@ const ProductDevelopmentModalTopSection = ({
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const vendorOptions = useFilterOptions('vendors');
 
   const { storeFilter, storeBackLink } = useStoreFilterAndNavigate();
 
@@ -105,26 +103,22 @@ const ProductDevelopmentModalTopSection = ({
                 </Heading>
                 <HStack>
                   {location.pathname.includes('productions') ? (
-                    <Text>{vendorName}</Text>
+                    <Text>{vendor?.name}</Text>
                   ) : (
                     <Link
                       as={NavLink}
                       state={NAV_LINK}
                       onClick={handleClick}
-                      to={`/productions?vendors=${
-                        vendorOptions.find(
-                          option => option.label === vendorName
-                        )?.value
-                      }&productDevelopments=${productDevelopment?.no}${
+                      to={`/productions?vendors=${vendor?.no}&productDevelopments=${productDevelopment?.no}${
                         isClosed(productDevelopment?.status!)
                           ? `&statuses=${productDevelopment?.status}`
                           : ''
                       }`}
                       fontWeight={text.variants.bodyRegular.fontWeight}>
-                      {vendorName}
+                      {vendor?.name}
                     </Link>
                   )}
-                  {vendorName && sourcingCompanyCode && <>{' - '}</>}
+                  {vendor?.name && sourcingCompanyCode && <>{' - '}</>}
                   <Text>{sourcingCompanyCode}</Text>
                 </HStack>
                 <HStack gap={SPACE.SM}>

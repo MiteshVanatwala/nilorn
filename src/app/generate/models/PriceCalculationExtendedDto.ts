@@ -19,6 +19,7 @@ export type PriceCalculationExtendedDto = {
     lastModified?: string | null;
     productDevelopmentDataDto?: ProductDevelopmentDataDto;
     vendorName?: string | null;
+    vendorNo?: string | null;
     sourcingCompanyCode?: string | null;
     purchaseCurrencyCode?: string | null;
     distributionCompanyCode?: string | null;

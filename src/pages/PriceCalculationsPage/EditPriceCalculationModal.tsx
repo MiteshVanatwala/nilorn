@@ -27,6 +27,7 @@ import ArrowLink from '../../components/Link/ArrowLink';
 import { isClosed } from '../../app/utils/status';
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useQueryClient } from 'react-query';
+import { useGetVendors } from '../../app/api/vendors';
 
 type Props = {
   calculationId: string;
@@ -55,6 +56,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
   } = useModalFormHelper(outsideRef, calculationId, isDeleteModalOpen);
   const modalContext = useContext(ModalContext);
   const queryClient = useQueryClient();
+  const { data: vendors } = useGetVendors(false);
   
   // Override the close function to also close inline edit
   const close = () => {
@@ -267,7 +269,7 @@ const EditPriceCalculationModal = ({ calculationId, filters }: Props) => {
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
-              vendorName={vendorName}
+              vendor={vendors?.find(vendor => vendor.no === priceCalculation?.vendorNo) ?? null}
               createNew={false}
               actionBar={
                 <PriceCalculationActionBar

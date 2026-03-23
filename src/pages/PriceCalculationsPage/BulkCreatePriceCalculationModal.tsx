@@ -173,7 +173,7 @@ const BulkCreatePriceCalculationModal = ({
             <ProductDevelopmentModalTopSection
               productDevelopment={undefined}
               sourcingCompanyCode={null}
-              vendorName={null}
+              vendor={null}
               isBulkEdit={true}
               totalPriceCalculations={production.length}
               createNew={true}

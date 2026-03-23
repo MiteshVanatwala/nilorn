@@ -507,7 +507,7 @@ const BulkEditPriceCalculationModal = ({
               <ProductDevelopmentModalTopSection
                 productDevelopment={undefined}
                 sourcingCompanyCode={undefined}
-                vendorName={undefined}
+                vendor={null}
                 isBulkEdit={true}
                 createNew={false}
                 actionBar={
@@ -528,7 +528,7 @@ const BulkEditPriceCalculationModal = ({
                   key="bulk-edit"
                   calculation={{
                     ...calculations[0],
-                  purchaseCurrencyCode: extractValue(form.watch('purchaseCurrency')),
+                    purchaseCurrencyCode: extractValue(form.watch('purchaseCurrency')),
                     currencyRate: form.watch('currencyRate'),
                     currency: { code: extractValue(form.watch('currencyCode')) },
                     internalCommission: form.watch('internalCommission'),
@@ -586,7 +586,7 @@ const BulkEditPriceCalculationModal = ({
         </Box>
       </>
     </ErrorBoundary>
-  );
+    );
 };
 
 export default BulkEditPriceCalculationModal;

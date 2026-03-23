@@ -162,7 +162,7 @@ const EditProduction = ({ productionId, filters }: Props) => {
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopmentDataDto}
               sourcingCompanyCode={sourcingCompanyCode}
-              vendorName={vendorName}
+              vendor={vendors?.find(vendor => vendor.id === productionExt?.vendorId) ?? null}
               createNew={false}
               actionBar={
                 <ActionBarEditProduction

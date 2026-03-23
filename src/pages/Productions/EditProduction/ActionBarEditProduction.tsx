@@ -23,7 +23,7 @@ import ActionBarTemplate from '../../../components/ActionBar/ActionBarTemplate';
 import RemixIcon from '../../../components/Icon/RemixIcon';
 import { COLORS, SIZES, SPACE } from '../../../theme/Constants';
 import { useToast } from '../../../app/hooks/useToast';
-import useFilterOptions from '../../../app/hooks/useFilterOption';
+import { useGetVendors } from '../../../app/api/vendors';
 import useStoreFilterAndNavigate from '../../../app/hooks/useStoreFilterAndNavigate';
 
 type Props = {
@@ -59,7 +59,8 @@ const ActionBarEditProduction = ({
   const { close } = useContext(ModalContext);
   const { data: user } = useCurrentUser();
   const { storeFilter } = useStoreFilterAndNavigate();
-  const vendorOptions = useFilterOptions('vendors');
+  const { data: vendors } = useGetVendors();
+  
   const showCalculationLink =
     user?.role !== Role.PRODUCT_DEVELOPER &&
     !!production?.released &&
@@ -137,9 +138,7 @@ const ActionBarEditProduction = ({
                 state={NAV_LINK}
                 onClick={storeFilter}
                 to={`/price-calculations?productDevelopments=${productDevelopmentNo}&vendors=${
-                  vendorOptions.find(
-                    option => option.label === production.vendorName
-                  )?.value
+                  vendors?.find(vendor => vendor.id === production?.vendorId)?.no
                 }${isClosed(status!) ? `&statuses=${status}` : ''}`}
                 icon={
                   <RemixIcon

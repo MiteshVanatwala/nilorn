@@ -26,6 +26,7 @@ import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
+import { useGetVendors } from '../../app/api/vendors';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -56,6 +57,7 @@ const CreatePriceCalculationModal = ({
     undefined,
     calculation?.id ?? ''
   );
+  const { data: vendors } = useGetVendors(false);
 
   const { data: sourcingCompanies } = useOpCompOption(true, true);
   const { data: distributionCompanies } = useGetDistributionCompaniesOption(true);
@@ -248,7 +250,7 @@ const CreatePriceCalculationModal = ({
             <ProductDevelopmentModalTopSection
               productDevelopment={productDevelopment}
               sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-              vendorName={production?.vendorName}
+              vendor={vendors?.find(vendor => vendor.id === production?.vendorId) ?? null}
               createNew={true}
               actionBar={
                 <PriceCalculationActionBar

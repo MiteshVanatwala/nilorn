@@ -13,7 +13,6 @@ import {
   SourcedProductionDto,
   UpdateSalesPriceCommand,
 } from '../../../app/generate';
-import useFilterOptions from '../../../app/hooks/useFilterOption';
 import { useFormStateFilters } from '../../../app/utils/FilterHelper';
 import { numToThousandSeparatedsStr } from '../../../app/utils/common';
 import CommentPopup from '../../../components/CommentPopup/CommentPopup';
@@ -35,6 +34,7 @@ import SalesPriceCalculationForm from './SalesPriceCalculationForm';
 import TableMenuCalculation from './TableMenuCalculation';
 import { isClosed } from '../../../app/utils/status';
 import useStoreFilterAndNavigate from '../../../app/hooks/useStoreFilterAndNavigate';
+import { useGetVendors } from '../../../app/api/vendors';
 
 type Props = {
   sourcedProduction: SourcedProductionDto;
@@ -64,12 +64,12 @@ function PriceGridRow({
 }: Props) {
   const { t } = useTranslation();
   const { mutate: saveSalesPrices } = usePatchCalculationSalesPrice();
-  const vendorOptions = useFilterOptions('vendors');
   const filters = useFormStateFilters();
   const queryClient = useQueryClient();
   const isPDClosed =
     productDevelopment?.status && isClosed(productDevelopment?.status);
   const { storeFilterAndNavigate } = useStoreFilterAndNavigate();
+  const { data: vendors } = useGetVendors();
 
   // Support multiple calculations - wrapped in useMemo to avoid dependency issues
   const calculations = useMemo(() => production?.priceCalculations || [], [production?.priceCalculations]);
@@ -306,8 +306,7 @@ function PriceGridRow({
   const navigateToProduction = () => {
     storeFilterAndNavigate(
       `/productions?vendors=${
-        vendorOptions.find(option => option.label === production.vendorName)
-          ?.value
+        vendors?.find(vendor => vendor.id === production?.vendorId)?.no
       }&productDevelopments=${productDevelopment?.no}${
         isPDClosed
           ? `&statuses=${filters?.statuses || productDevelopment?.status}`
