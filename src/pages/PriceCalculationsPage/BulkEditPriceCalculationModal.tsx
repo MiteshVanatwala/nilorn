@@ -509,6 +509,7 @@ const BulkEditPriceCalculationModal = ({
                 sourcingCompanyCode={undefined}
                 vendor={null}
                 isBulkEdit={true}
+                totalPriceCalculations={calculations.length}
                 createNew={false}
                 actionBar={
                   <PriceCalculationActionBar
