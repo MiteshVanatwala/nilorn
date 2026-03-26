@@ -28,7 +28,6 @@ import Form from '../../components/Form/Form';
 import BackendErrorBoundary from '../../components/ErrorBoundary/BackendErrorBoundary';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useGetVendors } from '../../app/api/vendors';
-import { useTranslation } from 'react-i18next';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
