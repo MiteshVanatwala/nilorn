@@ -226,6 +226,7 @@ const CreatePriceCalculationModal = ({
     const isBulkEdit = false;
     const distributionCompanyPlaceholder = null;
     
+    
     // Check if distributionCompany has a value
     const hasValue = typeof formData.distributionCompany === 'object' 
       ? formData.distributionCompany?.value 
