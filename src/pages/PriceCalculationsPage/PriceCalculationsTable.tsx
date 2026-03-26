@@ -60,13 +60,19 @@ const BulkEditWithFreshData = ({
   productionsData: any[]; 
   productDevelopmentsData: any[]; 
 }) => {
-  const { data: freshCalculations } = useBulkPriceCalculationsBatch(selectedPriceIds);
+  const {
+    data: freshCalculations,
+    isError: isBulkPriceCalculationsError,
+    error: bulkPriceCalculationsError,
+  } = useBulkPriceCalculationsBatch(selectedPriceIds);
   
   return (
     <BulkEditPriceCalculationModal
       calculations={freshCalculations ?? []}
       productions={productionsData}
       productDevelopments={productDevelopmentsData}
+      hasLoadError={isBulkPriceCalculationsError}
+      loadError={bulkPriceCalculationsError}
     />
   );
 };
@@ -85,7 +91,11 @@ const BulkCreateWithFreshData = ({
   productDevelopmentsData: any[];
   sourcedProductionsData: any[];
 }) => {
-  const { isLoading: calculationsLoading } = useBulkPriceCalculationsBatch(selectedPriceIds);
+  const {
+    isLoading: calculationsLoading,
+    isError: isBulkPriceCalculationsError,
+    error: bulkPriceCalculationsError,
+  } = useBulkPriceCalculationsBatch(selectedPriceIds);
   
   // Get all production IDs from productionsData (both selected productions and productions with selected prices)
   // Remove duplicates to avoid multiple API calls for the same production
@@ -93,7 +103,17 @@ const BulkCreateWithFreshData = ({
     [...new Set(productionsData.map(prod => prod.id).filter(Boolean))], 
     [productionsData]
   );
-  const { data: freshProductions, isLoading: productionsLoading } = useBulkProductionsBatch(allProductionIds);
+
+  const {
+    data: freshProductions,
+    isLoading: productionsLoading,
+    isError: isBulkProductionsError,
+    error: bulkProductionsError,
+  } = useBulkProductionsBatch(allProductionIds);
+  
+  // if (calculationsLoading || productionsLoading) {
+  //   return null; // or a loading component
+  // }
 
   // Use fresh data if available, otherwise fall back to passed data
   // We need to maintain the original order and structure of productionsData
@@ -137,6 +157,8 @@ const BulkCreateWithFreshData = ({
         isLoading={calculationsLoading || productionsLoading}
         production={filteredProductionsData}
         calculation={filteredCalculationsData}
+        hasLoadError={Boolean(isBulkPriceCalculationsError || isBulkProductionsError)}
+        loadError={bulkPriceCalculationsError ?? bulkProductionsError}
       />
     );
   } else if (filteredProductionsData.length === 1) {

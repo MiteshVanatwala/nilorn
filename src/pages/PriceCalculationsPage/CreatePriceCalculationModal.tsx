@@ -8,7 +8,7 @@ import {
   ProductionDto,
   SourcedProductionDto,
 } from '../../app/generate';
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Box, Button, Skeleton, Text } from '@chakra-ui/react';
 import { SIZES, SPACE } from '../../theme/Constants';
 import ProductDevelopmentModalTopSection from '../../components/ProductDevelopment/ProductDevelopmentModalTopSection';
 import PriceCalculationForm from './PriceCalculationForm';
@@ -25,8 +25,10 @@ import { ModalContext } from '../../app/context/ModalContext';
 import { useToggleChangelog } from '../../app/hooks/useChangelog';
 import useModalFormHelper from '../../app/hooks/useModalFormHelper';
 import Form from '../../components/Form/Form';
+import BackendErrorBoundary from '../../components/ErrorBoundary/BackendErrorBoundary';
 import { priceCalculationCreateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useGetVendors } from '../../app/api/vendors';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   productDevelopment?: ProductDevelopmentDataDto;
@@ -50,7 +52,12 @@ const CreatePriceCalculationModal = ({
   const outsideRef = useRef(null);
   const { setDirty, leavePageModal, openLeavePageModal, hasUnsavedChanges } = useModalFormHelper(outsideRef);
 
-  const { mutate: createCalculation, isSuccess: isCreateSuccess } = useCreateCalculation();
+  const {
+    mutate: createCalculation,
+    isSuccess: isCreateSuccess,
+    isError: isCreateError,
+    error: createError,
+  } = useCreateCalculation();
   const { close, setCustomCloseHandler, setPreventClose } = useContext(ModalContext);
   const { showChanges, setShowChanges } = useToggleChangelog(
     ChangelogType.PRICE_CALCULATION,
@@ -74,6 +81,8 @@ const CreatePriceCalculationModal = ({
     data: defaultValues,
     isLoading: isLoadingDefaultValues,
     isSuccess: isLoadedDefaultValues,
+    isError: isDefaultValuesError,
+    error: defaultValuesError,
   } = usePriceCalculationDefaultValues(
     productDevelopment?.no ?? '',
     sourcedProduction.sourcingCompanyCode ?? '',
@@ -92,6 +101,13 @@ const CreatePriceCalculationModal = ({
     );
     return company?.label;
   }, [defaultValues?.distributionCompanyCode, distributionCompanies]);
+
+  const shouldCrash = Boolean(isDefaultValuesError) || Boolean(isCreateError);
+  const shouldCrashRef = useRef(false);
+  shouldCrashRef.current = shouldCrash;
+
+  const boundaryError = defaultValuesError ?? createError;
+  const errorStatus = (boundaryError as any)?.status;
 
   const form = useForm({
     mode: 'onChange',
@@ -114,6 +130,12 @@ const CreatePriceCalculationModal = ({
   // Set up the custom close handler
   useEffect(() => {
     const handleCustomClose = () => {
+      // If ErrorBoundary fallback is active, always allow closing the modal.
+      if (shouldCrashRef.current) {
+        close();
+        return;
+      }
+
       // Check if there are unsaved changes
       if (hasUnsavedChanges()) {
         // Show unsaved changes modal
@@ -143,6 +165,11 @@ const CreatePriceCalculationModal = ({
         e.preventDefault();
         e.stopPropagation();
 
+        if (shouldCrashRef.current) {
+          close();
+          return;
+        }
+
         // Check if there are unsaved changes
         if (hasUnsavedChanges()) {
           // Show unsaved changes modal
@@ -163,8 +190,8 @@ const CreatePriceCalculationModal = ({
 
   // Prevent modal from closing when form is dirty
   useEffect(() => {
-    setPreventClose(hasUnsavedChanges());
-  }, [hasUnsavedChanges, setPreventClose]);
+    setPreventClose(shouldCrash ? false : hasUnsavedChanges());
+  }, [hasUnsavedChanges, setPreventClose, shouldCrash]);
 
   useEffect(() => {
     if (isLoadedDefaultValues) {
@@ -238,53 +265,59 @@ const CreatePriceCalculationModal = ({
   }, [close, isCreateSuccess]);
 
   return (
-    <>
-      {leavePageModal}
-      <Box
-        ref={outsideRef}
-        mb={SPACE.LG}
-        px={SPACE.SM}
-        maxW={SIZES.CONTAINER.LG}>
-        <FormProvider {...form}>
-          <Form onSubmit={form.handleSubmit(submitForm)}>
-            <ProductDevelopmentModalTopSection
-              productDevelopment={productDevelopment}
-              sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-              vendor={vendors?.find(vendor => vendor.id === production?.vendorId) ?? null}
-              createNew={true}
-              actionBar={
-                <PriceCalculationActionBar
-                  artwork={artwork}
-                  createNew={true}
-                  lastModified={lastModified}
-                  showChanges={showChanges}
-                  setShowChanges={(s: boolean) => setShowChanges(s)}
-                />
-              }
-            />
-            <Skeleton isLoaded={!isLoadingDefaultValues}>
-              <PriceCalculationForm
-                calculation={{
-                  ...calculation,
-                  distributionCompanyCode: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
-                  distributionCompanyName: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined,
-                }}
-                currency={
-                  defaultValues?.salesCurrency ??
-                  calculation?.currency ??
-                  undefined
-                }
+    <BackendErrorBoundary
+      boundaryName="CreatePriceCalculationModal"
+      shouldCrash={shouldCrash}
+      errorStatus={errorStatus}
+      close={close}>
+      <>
+        {leavePageModal}
+        <Box
+          ref={outsideRef}
+          mb={SPACE.LG}
+          px={SPACE.SM}
+          maxW={SIZES.CONTAINER.LG}>
+          <FormProvider {...form}>
+            <Form onSubmit={form.handleSubmit(submitForm)}>
+              <ProductDevelopmentModalTopSection
+                productDevelopment={productDevelopment}
+                sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
+                vendorName={production?.vendorName}
                 createNew={true}
-                showChanges={showChanges}
-                productionId={production.id}
-                distributionCompanyCode={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
-                distributionCompanyName={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined}
+                actionBar={
+                  <PriceCalculationActionBar
+                    artwork={artwork}
+                    createNew={true}
+                    lastModified={lastModified}
+                    showChanges={showChanges}
+                    setShowChanges={(s: boolean) => setShowChanges(s)}
+                  />
+                }
               />
-            </Skeleton>
-          </Form>
-        </FormProvider>
-      </Box>
-    </>
+              <Skeleton isLoaded={!isLoadingDefaultValues}>
+                <PriceCalculationForm
+                  calculation={{
+                    ...calculation,
+                    distributionCompanyCode: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined,
+                    distributionCompanyName: (production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined,
+                  }}
+                  currency={
+                    defaultValues?.salesCurrency ??
+                    calculation?.currency ??
+                    undefined
+                  }
+                  createNew={true}
+                  showChanges={showChanges}
+                  productionId={production.id}
+                  distributionCompanyCode={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && defaultValues?.distributionCompanyCode ? defaultValues?.distributionCompanyCode : undefined}
+                  distributionCompanyName={(production.priceCalculations === undefined || production.priceCalculations?.length === 0) && distributionCompanyName ? distributionCompanyName : undefined}
+              />
+              </Skeleton>
+            </Form>
+          </FormProvider>
+        </Box>
+      </>
+    </BackendErrorBoundary>
   );
 };
 

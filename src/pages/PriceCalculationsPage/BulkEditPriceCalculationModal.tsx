@@ -18,22 +18,28 @@ import IsolatedControlledModal from '../../components/Modal/IsolatedControlledMo
 import { PriceCalculationUpdateDtos } from '../../app/generate/models/CreatePriceCalculationCommand';
 import { useGetDistributionCompaniesOption } from '../../app/api/distributionCompanies';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundaries';
+import BackendErrorBoundary from '../../components/ErrorBoundary/BackendErrorBoundary';
 
 type Props = {
   calculations: any[];
   productions: any[];
   productDevelopments: any[];
+  hasLoadError?: boolean;
+  loadError?: unknown;
 };
 
 const BulkEditPriceCalculationModal = ({
   calculations,
   productions,
+  hasLoadError = false,
+  loadError,
 }: Props) => {
   const { t } = useTranslation();
   const outsideRef = useRef(null);
   const form = useForm({ mode: 'onChange' });
   const [showModal, setShowModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const shouldShowCrashRef = useRef(false);
   const [formValuesForModal, setFormValuesForModal] =
     useState<FieldValues | null>(null);
   const [originalValues, setOriginalValues] = useState<{
@@ -57,6 +63,13 @@ const BulkEditPriceCalculationModal = ({
   // Set up the custom close handler
   useEffect(() => {
     const handleCustomClose = () => {
+      // If the modal is currently showing the ErrorBoundary fallback,
+      // always allow closing (don't open "unsaved changes" flow).
+      if (shouldShowCrashRef.current) {
+        close();
+        return;
+      }
+
       // If any child modal is open, let them handle the close
       if (showModal || showConfirmationModal || isDeleteModalOpen) {
         return;
@@ -119,10 +132,18 @@ const BulkEditPriceCalculationModal = ({
       window.removeEventListener('keydown', handleEscKey, true);
     };
   }, [showModal, showConfirmationModal, isDeleteModalOpen, hasUnsavedChanges, openLeavePageModal, close]);
-
-  const { mutate: updateCalculation, isSuccess: isUpdateSuccess } = usePatchCalculation();
-  const { mutate: deleteCalculation, isSuccess: isSuccessDelete } =
-    useDeleteCalculation(calculations[0]?.id || '');
+  const {
+    mutate: updateCalculation,
+    isSuccess: isUpdateSuccess,
+    isError: isUpdateError,
+    error: updateError,
+  } = usePatchCalculation();
+  const {
+    mutate: deleteCalculation,
+    isSuccess: isSuccessDelete,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useDeleteCalculation(calculations[0]?.id || '');
   const { data: distributionCompanies } = useGetDistributionCompaniesOption();
 
   // Helper function to safely extract primitive values from form fields that might contain SelectOption objects
@@ -437,22 +458,33 @@ const BulkEditPriceCalculationModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close, isUpdateSuccess]);
 
-  const fallbackContent = (
-    <Box p={SPACE.MD}>
-      <Text color="red.600" mb={SPACE.SM}>
-        {t('Common.UnexpectedError') ||
-          'An unexpected error occurred while editing price calculations.'}
-      </Text>
-      <Button variant="secondary" onClick={close}>
-        {t('Common.CloseModal')}
-      </Button>
-    </Box>
-  );
+  const shouldShowCrash =
+    Boolean(hasLoadError) || Boolean(isUpdateError) || Boolean(isDeleteError);
+
+  // Keep the latest crash state for the custom close handler.
+  shouldShowCrashRef.current = shouldShowCrash;
+
+  const boundaryError =
+    loadError ?? updateError ?? deleteError ?? undefined;
+
+  const errorStatus = (boundaryError as any)?.status;
+
+  // When the modal is showing an error boundary fallback, we don't want the
+  // "unsaved changes" logic to block closing via the modal X/overlay.
+  useEffect(() => {
+    if (!setCustomCloseHandler) return;
+    if (shouldShowCrash) {
+      setCustomCloseHandler(null);
+      setPreventClose(false);
+    }
+  }, [shouldShowCrash, setCustomCloseHandler, setPreventClose]);
 
   return (
-    <ErrorBoundary
+    <BackendErrorBoundary
       boundaryName="BulkEditPriceCalculationModal"
-      fallback={fallbackContent}>
+      shouldCrash={shouldShowCrash}
+      errorStatus={errorStatus}
+      close={close}>
       <>
         {deleteModal}
         {!showModal && !showConfirmationModal && leavePageModal}
@@ -586,7 +618,7 @@ const BulkEditPriceCalculationModal = ({
           </Box>
         </Box>
       </>
-    </ErrorBoundary>
+    </BackendErrorBoundary>
     );
 };
 
