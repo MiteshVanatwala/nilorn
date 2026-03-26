@@ -282,7 +282,7 @@ const CreatePriceCalculationModal = ({
               <ProductDevelopmentModalTopSection
                 productDevelopment={productDevelopment}
                 sourcingCompanyCode={sourcedProduction?.sourcingCompanyCode}
-                vendorName={production?.vendorName}
+                vendor={vendors?.find(vendor => vendor.id === production?.vendorId) ?? null}
                 createNew={true}
                 actionBar={
                   <PriceCalculationActionBar
